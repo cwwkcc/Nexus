@@ -13,7 +13,7 @@
       "path": "./packages/ui"
     },
     {
-      "path": "./packages/db"
+      "path": "./packages/database"
     },
     {
       "path": "./packages/api"
