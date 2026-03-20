@@ -1,23 +1,56 @@
-// const { createGlobPatternsForDependencies } = require('@nx/next/tailwind');
-
-// The above utility import will not work if you are using Next.js' --turbo.
-// Instead you will have to manually add the dependent paths to be included.
-// For example
-// ../libs/buttons/**/*.{ts,tsx,js,jsx,html}',                 <--- Adding a shared lib
-// !../libs/buttons/**/*.{stories,spec}.{ts,tsx,js,jsx,html}', <--- Skip adding spec/stories files from shared lib
-
-// If you are **not** using `--turbo` you can uncomment both lines 1 & 19.
-// A discussion of the issue can be found: https://github.com/nrwl/nx/issues/26510
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './{src,pages,components,app}/**/*.{ts,tsx,js,jsx,html}',
-    '!./{src,pages,components,app}/**/*.{stories,spec}.{ts,tsx,js,jsx,html}',
-    //     ...createGlobPatternsForDependencies(__dirname)
+    './src/**/*.{ts,tsx,js,jsx,html}',
+    '!./src/**/*.{stories,spec}.{ts,tsx,js,jsx,html}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        base: '#F7F3EC',
+        surface: '#EDE8DF',
+        'surface-deep': '#E4DDD1',
+        green: {
+          DEFAULT: '#1A4A2E',
+          light: '#235C3A',
+        },
+        gold: {
+          DEFAULT: '#C9973A',
+          light: '#E8B84B',
+          pale: '#F2D98A',
+        },
+        text: {
+          dark: '#1C1A16',
+          muted: '#5C5647',
+        },
+        border: {
+          DEFAULT: '#D4C9B8',
+          light: '#E2D9CC',
+        },
+      },
+      fontFamily: {
+        display: ['Cormorant Garamond', 'Georgia', 'serif'],
+        heading: ['DM Serif Display', 'Georgia', 'serif'],
+        body: ['Source Serif 4', 'Georgia', 'serif'],
+      },
+      fontSize: {
+        'display-xl': [
+          'clamp(3rem, 8vw, 7rem)',
+          { lineHeight: '1.05', letterSpacing: '-0.03em' },
+        ],
+        'display-lg': [
+          'clamp(2.4rem, 5vw, 5rem)',
+          { lineHeight: '1.1', letterSpacing: '-0.02em' },
+        ],
+        'display-md': [
+          'clamp(1.8rem, 3.5vw, 3rem)',
+          { lineHeight: '1.15', letterSpacing: '-0.02em' },
+        ],
+      },
+      borderColor: {
+        DEFAULT: '#D4C9B8',
+      },
+    },
   },
   plugins: [],
 };
