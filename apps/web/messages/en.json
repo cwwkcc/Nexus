@@ -1,4 +1,15 @@
 {
+  "home": {
+    "hero": {
+      "eyebrow": "Est. 1873 · Mathugama, Sri Lanka",
+      "tagline": "Sri Lanka's First Central College",
+      "established": "Est. 1873",
+      "ctaExplore": "Explore the School",
+      "ctaAdmissions": "Apply for Admissions",
+      "scrollHint": "Scroll to discover"
+    }
+  },
+
   "about": {
     "hero": {
       "eyebrow": "Est. 1873 · Mathugama, Sri Lanka",
