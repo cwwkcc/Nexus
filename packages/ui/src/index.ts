@@ -1,9 +1,9 @@
-export * from './lib/ui.js';
+export * from './lib/ui';
 
 // Hooks
 
-export { useInView } from './hooks/useInView.js';
-export { useCountUp } from './hooks/useCountUp.js';
+export { useInView } from './hooks/useInView';
+export { useCountUp } from './hooks/useCountUp';
 
 // Components
 
