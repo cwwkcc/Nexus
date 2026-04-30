@@ -30,7 +30,8 @@
     "../../packages/ui/src/**/*.tsx",
     "../../apps/web/.next/types/**/*.ts",
     "../../dist/apps/web/.next/types/**/*.ts",
-    "next-env.d.ts"
+    "next-env.d.ts",
+    "index.d.ts"
   ],
   "exclude": [
     "out-tsc",
