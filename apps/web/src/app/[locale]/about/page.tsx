@@ -1,5 +1,9 @@
 'use client';
 
-export function about() {
-  return <>Hello World</>;
+export default function AboutPage() {
+  return (
+    <>
+      <h1>About</h1>
+    </>
+  );
 }
