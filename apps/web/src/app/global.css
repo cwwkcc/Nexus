@@ -4,26 +4,254 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ── Design Tokens ── */
+/* ── Google Fonts ─────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,300;1,8..60,400&family=Noto+Serif+Sinhala:wght@300;400;500;600&display=swap');
+
+/* ── Design Tokens (CSS Variables) ───────────────────────────────────────── */
 :root {
-  /* Colors */
-  --base: #f7f3ec;
-  --surface: #ede8df;
+  /* Primary Colors */
+  --color-green-base: #1a4a2e;
+  --color-green-light: #235c3a;
+  --color-gold-base: #c9973a;
+  --color-gold-light: #e8b84b;
+  --color-gold-pale: #f2d98a;
+  --color-gold-hover: #d6a645;
+  --color-gold-active: #b7852f;
+  --color-gold-glow: rgba(201, 151, 58, 0.28);
+
+  /* Surfaces */
+  --surface-base: #f7f3ec;
+  --surface-default: #ede8df;
   --surface-deep: #e4ddd1;
-  --green: #1a4a2e;
-  --green-light: #235c3a;
-  --gold: #c9973a;
-  --gold-light: #e8b84b;
-  --gold-pale: #f2d98a;
-  --text-dark: #1c1a16;
+  --surface-elevated: #f3eee6;
+  --surface-inverse: #22201b;
+
+  /* Text */
+  --text-primary: #1c1a16;
   --text-muted: #5c5647;
-  --border: #d4c9b8;
+  --text-inverse: #f5efe4;
+
+  /* Borders */
+  --border-default: #d4c9b8;
   --border-light: #e2d9cc;
+
+  /* Semantic — Success */
+  --semantic-success-base: #3f6b4b;
+  --semantic-success-surface: #e6f0e8;
+
+  /* Semantic — Error */
+  --semantic-error-base: #8a3b32;
+  --semantic-error-surface: #f6e8e5;
+
+  /* Semantic — Warning */
+  --semantic-warning-base: #b07a2b;
+  --semantic-warning-surface: #faf1de;
+
+  /* Semantic — Info */
+  --semantic-info-base: #4a6475;
+  --semantic-info-surface: #eaf0f4;
+
+  /* Overlays */
+  --overlay-light: rgba(28, 26, 22, 0.32);
+  --overlay-medium: rgba(28, 26, 22, 0.56);
+  --overlay-heavy: rgba(28, 26, 22, 0.78);
+
+  /* Gradients (whitelist — do not add outside this list) */
+  --gradient-gold-subtle: linear-gradient(
+    135deg,
+    rgba(201, 151, 58, 0.18),
+    rgba(26, 74, 46, 0)
+  );
+  --gradient-hero-deep: linear-gradient(
+    180deg,
+    rgba(26, 74, 46, 0) 0%,
+    rgba(26, 74, 46, 0.72) 100%
+  );
+  --gradient-overlay-fade: linear-gradient(
+    180deg,
+    rgba(28, 26, 22, 0) 0%,
+    rgba(28, 26, 22, 0.56) 100%
+  );
 
   /* Typography */
   --font-display: 'Cormorant Garamond', Georgia, serif;
-  --font-heading: 'DM Serif Display', Georgia, serif;
   --font-body: 'Source Serif 4', Georgia, serif;
+  --font-sinhala: 'Noto Serif Sinhala', serif;
+
+  /* Elevation */
+  --elevation-0: none;
+  --elevation-1: 0 1px 3px rgba(28, 26, 22, 0.08);
+  --elevation-2: 0 4px 12px rgba(28, 26, 22, 0.1);
+  --elevation-3: 0 8px 24px rgba(28, 26, 22, 0.12);
+  --elevation-4: 0 16px 48px rgba(28, 26, 22, 0.14);
+
+  /* Motion — Durations */
+  --motion-instant: 80ms;
+  --motion-fast: 150ms;
+  --motion-standard: 300ms;
+  --motion-gentle: 500ms;
+  --motion-slow: 800ms;
+  --motion-ceremonial: 1200ms;
+  --motion-epic: 2400ms;
+
+  /* Motion — Easing */
+  --ease-snap: cubic-bezier(0.25, 0, 0, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-ceremonial: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-ember: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ── Base Styles ──────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  /* Cream — never pure white */
+  background-color: var(--surface-base);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  /* Improved font rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--surface-base);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+/* ── Typography Base ──────────────────────────────────────────────────────── */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  line-height: 1.1;
+  color: var(--text-primary);
+}
+
+p {
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.7;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+/* ── Sinhala Typography Rules ─────────────────────────────────────────────── */
+:lang(si) {
+  font-family: var(--font-sinhala);
+  line-height: 1.8;
+  font-size: 1.12rem;
+}
+
+.sinhala,
+[data-lang='si'] {
+  font-family: var(--font-sinhala);
+  line-height: 1.8;
+}
+
+/* ── Reduced Motion ───────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: var(--motion-fast) !important;
+    /* Opacity transitions preserved — all other motion removed */
+    transform: none !important;
+  }
+}
+
+/* ── Utility Classes ──────────────────────────────────────────────────────── */
+
+/* Section padding — default rhythm */
+.section-padding {
+  padding-top: 96px; /* space-24 */
+  padding-bottom: 96px;
+}
+
+@media (max-width: 768px) {
+  .section-padding {
+    padding-top: 64px; /* space-16 */
+    padding-bottom: 64px;
+  }
+}
+
+/* Editorial sections — +1 scale step */
+.section-padding-editorial {
+  padding-top: 128px; /* space-32 */
+  padding-bottom: 128px;
+}
+
+@media (max-width: 768px) {
+  .section-padding-editorial {
+    padding-top: 96px; /* space-24 */
+    padding-bottom: 96px;
+  }
+}
+
+/* Content max width */
+.content-width {
+  max-width: 1160px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 32px;
+  padding-right: 32px;
+}
+
+@media (max-width: 640px) {
+  .content-width {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+/* Overlay helpers */
+.overlay-light {
+  background: var(--overlay-light);
+}
+.overlay-medium {
+  background: var(--overlay-medium);
+}
+.overlay-heavy {
+  background: var(--overlay-heavy);
+}
+
+/* Gradient helpers */
+.gradient-gold-subtle {
+  background: var(--gradient-gold-subtle);
+}
+.gradient-hero-deep {
+  background: var(--gradient-hero-deep);
+}
+.gradient-overlay-fade {
+  background: var(--gradient-overlay-fade);
 }
 
 /* ── Base Styles ── */
