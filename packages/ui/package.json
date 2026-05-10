@@ -13,9 +13,9 @@
     }
   },
   "peerDependencies": {
-    "tslib": "^2.8.1",
+    "framer-motion": "^12.38.0",
     "react": "^19.0.0",
-    "framer-motion": "^12.38.0"
+    "tslib": "^2.8.1"
   },
   "devDependencies": {
     "@types/react": "^19.0.0",
