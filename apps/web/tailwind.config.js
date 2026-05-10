@@ -3,6 +3,7 @@ module.exports = {
   content: [
     './src/**/*.{ts,tsx,js,jsx,html}',
     '!./src/**/*.{stories,spec}.{ts,tsx,js,jsx,html}',
+    '../../packages/ui/src/**/*.{ts,tsx}',
   ],
   theme: {
     extend: {
