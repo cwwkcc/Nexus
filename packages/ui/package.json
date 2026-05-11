@@ -20,5 +20,8 @@
   "devDependencies": {
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1"
   }
 }
