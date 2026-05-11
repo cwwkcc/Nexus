@@ -1,9 +1,12 @@
+// components/atoms/Button.tsx
 'use client';
 
 import { forwardRef } from 'react';
+import { clsx } from 'clsx';
+import { Spinner } from './Spinner';
 
 type ButtonVariant = 'primary' | 'secondary' | 'ghost';
-type ButtonSize = 'sm' | 'md';
+type ButtonSize = 'sm' | 'md' | 'lg';
 
 type Props = {
   variant?: ButtonVariant;
@@ -11,17 +14,18 @@ type Props = {
   loading?: boolean;
   disabled?: boolean;
   children: React.ReactNode;
-  onClick?: () => void;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   type?: 'button' | 'submit' | 'reset';
   className?: string;
 };
 
 const base =
-  'inline-flex items-center justify-center gap-2 font-body text-label uppercase tracking-[0.15em] rounded-sm border transition-all duration-fast ease-snap select-none';
+  'inline-flex items-center justify-center gap-space-2 font-body text-label uppercase tracking-label rounded-sm border transition-all duration-fast ease-snap select-none ' +
+  'focus-visible:outline-2 focus-visible:outline-gold-base focus-visible:outline-offset-[3px]';
 
 const variants: Record<ButtonVariant, string> = {
   primary:
-    'bg-green-base text-text-inverse border-transparent hover:bg-green-light active:bg-gold-active',
+    'bg-green-base text-text-inverse border-transparent hover:bg-green-hover active:bg-gold-active',
   secondary:
     'bg-surface-base text-text-primary border-green-base hover:border-gold-hover hover:text-gold-hover active:border-gold-active active:text-gold-active',
   ghost:
@@ -29,28 +33,10 @@ const variants: Record<ButtonVariant, string> = {
 };
 
 const sizes: Record<ButtonSize, string> = {
+  lg: 'px-space-5 py-space-4',
   md: 'px-space-4 py-space-3',
   sm: 'px-space-3 py-space-2',
 };
-
-const Spinner = () => (
-  <svg
-    className="animate-spin h-4 w-4"
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-  >
-    <circle
-      className="opacity-25"
-      cx="12"
-      cy="12"
-      r="10"
-      stroke="currentColor"
-      strokeWidth="4"
-    />
-    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
-  </svg>
-);
 
 export const Button = forwardRef<HTMLButtonElement, Props>(
   (
@@ -62,7 +48,7 @@ export const Button = forwardRef<HTMLButtonElement, Props>(
       children,
       onClick,
       type = 'button',
-      className = '',
+      className,
     },
     ref,
   ) => {
@@ -74,24 +60,18 @@ export const Button = forwardRef<HTMLButtonElement, Props>(
         type={type}
         onClick={onClick}
         disabled={isDisabled}
-        className={[
+        aria-busy={loading}
+        className={clsx(
           base,
           variants[variant],
           sizes[size],
-          isDisabled
-            ? 'opacity-40 cursor-not-allowed pointer-events-none'
-            : 'cursor-pointer',
+          isDisabled && 'opacity-40 cursor-not-allowed pointer-events-none',
+          !isDisabled && 'cursor-pointer',
           className,
-        ].join(' ')}
-      >
-        {loading ? (
-          <>
-            <Spinner />
-            {children}
-          </>
-        ) : (
-          children
         )}
+      >
+        {loading && <Spinner />}
+        {children}
       </button>
     );
   },
