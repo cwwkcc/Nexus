@@ -16,15 +16,17 @@ Components must be built in this exact order. Nothing in Tier 2 should be touche
 
 ### Tier 1 — Foundation UI (everything depends on these)
 
-Foundations → Atoms → Form System → Navigation → Base Cards → Section Header → Media Frame → System States
+Foundations → Atoms → Form System → Navigation → **Base Cards (News Card Standard + Society Card Hub)** → Section Header → Media Frame → System States
+
+**Base Cards defined:** The News Card (Standard variant) and Society Card (Hub Grid variant) are the only Tier 1 cards. They establish the visual grammar — elevation, radius, hover behavior, badge placement, and typography hierarchy — that all other card types inherit. Build these two before any other card variant.
 
 ### Tier 2 — Page Construction
 
-All page-specific sections → Filter Bar → Accordion → Timeline → Audio Player → Data Visualization → Typography Utilities
+All remaining card variants → Hero Section → Filter Bar → Accordion → Timeline → Audio Player → Data Visualization → Typography Utilities → Language Switcher
 
 ### Tier 3 — Experience and Edge Systems
 
-Admin Panel → Lightbox → Panoramic Viewer → Results Display → Cinematic Components (Loading Screen, Crest Animation)
+Admin Panel → Lightbox → Panoramic Viewer → Results Display → Cinematic Components (Loading Screen, Crest Animation) → 404 Page
 
 ---
 
@@ -61,6 +63,122 @@ Components that appear across multiple pages.
 |Closed|Hidden — hamburger icon visible|
 |Open|Full overlay using `overlay/heavy`, links in `type/h3`|
 |Submenu depth|Secondary nav level state|
+
+---
+
+### Language Switcher
+
+Single compact component. Appears in the navigation bar — right side, before or after primary CTA.
+
+|State|Visual|
+|---|---|
+|English active|`EN` in `type/label`, `color/gold/base`, active underline|
+|Sinhala active|`සිං` in `font/sinhala` `type/label`, `color/gold/base`, active underline|
+|Hover|`color/gold/hover`, `motion/fast` transition|
+
+**Behavioral rules:**
+
+- Switching language persists across navigation — stored in `localStorage` and applied on page load.
+- In bilingual content contexts (cards, news headlines), both language versions are present in the DOM. The switcher toggles which is visible, not which is fetched.
+- The Sinhala label uses `font/sinhala` — never a Latin transliteration.
+- Do not place inside the mobile menu. The language switcher must be accessible before the menu opens.
+- On mobile, position below the logo in the header bar — never inside the hamburger overlay.
+
+**Bilingual content display rules:**
+
+When a component contains bilingual content (headline, caption, card title), both versions are rendered in the markup. CSS hides the inactive language. The Sinhala version always follows Sinhala typography rules from Foundations §02.3 — minimum 1.12rem body, 1.8 line height. Never show both languages simultaneously in the same component unless it is a dedicated bilingual heading treatment (About KCC page only).
+
+---
+
+### Quick Access Portal Links
+
+Prominent entry-point component. Appears on the homepage (below hero or in the header bar on desktop) and on the homepage mobile sticky bar.
+
+|Link|Target|
+|---|---|
+|For Students|Student portal / timetable / results|
+|For Parents|Admissions / fee info / contacts|
+|For Staff|Admin panel / resources|
+|Alumni|Alumni legacy block / contact|
+
+**Visual:**
+
+- Horizontal strip, `surface/deep` background, `border/light` bottom border
+- Each link: `icon/sm` icon prefix + `type/label` uppercase label
+- Hover: `color/gold/base` text, `motion/fast`
+- Active/current context: `color/green/base` text, no background change
+
+**Rules:**
+
+- This is navigation infrastructure, not marketing. Keep it restrained — no color fills, no gradients, no elevation.
+- On mobile, rendered as a 2×2 grid below the hero, not a horizontal strip.
+- Do not duplicate links already prominent in the main navigation.
+
+---
+
+### Hero Section
+
+The most important first-impression component in the system. Every variant is a cinematic threshold — the moment a visitor understands this is not a generic school site.
+
+#### Variants
+
+**Homepage Hero**
+
+Full-viewport (`100vh`). Background: video loop or high-quality photograph. `overlay/heavy` gradient applied via `gradient/hero/deep`. School crest centered and prominent. School name in `type/display`, `text/inverse`. Tagline or motto in `type/pullquote` italic, `color/gold/base`. Primary CTA button and optional secondary CTA. Scroll indicator at bottom.
+
+**Subpage Hero**
+
+60–70vh. Background: photography or `color/green/base` solid. Page title in `type/h1`, `text/inverse`. Breadcrumb above title. No CTA required — the page itself is the destination. Crest watermark at low opacity in corner, optional.
+
+**Minimal Hero**
+
+Compact. 30–40vh or auto height. `surface/inverse` or `color/green/base` background. Page title in `type/h1`, `text/inverse`. Breadcrumb above. Used for: utility pages, contact, admissions, administration. No photography — this is infrastructure header treatment.
+
+---
+
+#### Crest Integration
+
+- Homepage Hero: Crest rendered as a centered element above the school name. Gold (`color/gold/base`). May use the crest animation assembly on first load. Approximately 120–160px on desktop, 80px on mobile.
+- Subpage Hero: Crest as a watermark — low opacity (`overlay/light`), positioned bottom-right or top-right. Does not compete with the title.
+- Minimal Hero: No crest — too ceremonial for an infrastructure context.
+
+---
+
+#### Scroll Behavior
+
+- Navigation begins transparent on all Hero variants.
+- Transition to solid nav triggers when the user scrolls past the hero threshold (approximately the hero's natural bottom edge).
+- Transition: `motion/standard` + `ease/out`. Background shifts from transparent to `surface/base` (light pages) or `surface/inverse` (admin).
+- Scroll indicator on Homepage Hero: thin animated line or chevron at bottom center. `color/gold/base`. Fades out after first scroll event.
+
+---
+
+#### CTA Placement and Hierarchy
+
+- Primary CTA: Button — Primary variant. Placed below tagline. Leads to the most important conversion action (e.g. "Explore the School" or "Apply for Admission").
+- Secondary CTA: Button — Ghost variant, `color/gold/base` border and text. Below or beside primary. Optional.
+- No more than two CTAs in a hero. If a third action is needed, it belongs in a section below the hero, not in it.
+
+---
+
+#### Background Treatment Rules
+
+|Treatment|Permitted Variants|
+|---|---|
+|Video loop|Homepage Hero only. Silent, looped, no autoplay sound. Mobile falls back to poster image.|
+|Photography|All variants. Image must be school-specific — no stock photography.|
+|`color/green/base` solid|All variants. Used when no suitable photography is available or for certain institutional contexts.|
+|`gradient/hero/deep`|Always applied over video and photography. Never used on solid color backgrounds.|
+|Rainbow gradients, glassmorphism, generic stock|Forbidden. Permanently.|
+
+---
+
+#### Motion Specification
+
+- Homepage Hero entry: `motion/ceremonial` + `ease/ceremonial`. Crest fades in first, then school name, then tagline, then CTAs — staggered 200ms per element.
+- Subpage and Minimal Hero: `motion/slow` + `ease/out` fade-in on page load.
+- Video/background: Always present immediately — no fade-in on the background itself. Only foreground elements animate in.
+- Reduced motion fallback: All elements appear immediately at full opacity. No movement.
 
 ---
 
@@ -120,6 +238,7 @@ Single variant. Contains:
 - Dot pulse: `motion/gentle` with staggered 200ms delay per dot
 - Entry: fade in at `motion/slow`
 - Exit: fade out at `motion/standard`
+- Z-index: `z/loading` — always the topmost layer
 
 **Usage:** Applied to any animation-heavy or slow-loading page before content is ready.
 
@@ -175,10 +294,11 @@ Smallest reusable units. Every component in the system is built from these.
 |State|Behavior|
 |---|---|
 |Default|Base appearance|
-|Hover|`motion/fast` — Primary darkens, Secondary/Ghost use `color/gold/hover`|
+|Hover|`motion/fast` — Primary uses `color/green/hover`, Secondary/Ghost use `color/gold/hover`|
 |Active|`color/gold/active` — pressed feel|
 |Disabled|40% opacity, no pointer cursor|
 |Loading|Spinner replaces text, same dimensions maintained|
+|Focus|`color/gold/base` outline, 2px, 3px offset — see Foundations §10.1|
 
 **Sizing:**
 
@@ -205,7 +325,7 @@ Smallest reusable units. Every component in the system is built from these.
 |State|Visual|
 |---|---|
 |Default|`border/default` border, `surface/elevated` background|
-|Focus|`color/gold/base` border, `elevation/1`|
+|Focus|`color/gold/base` border, `elevation/1`, focus ring per Foundations §10.1|
 |Error|`semantic/error/base` border, error message below|
 |Disabled|`surface/deep` background, `text/muted` text, no cursor|
 
@@ -224,7 +344,7 @@ Same states as Input Field. Min height 120px. Resize: vertical only.
 |State|Visual|
 |---|---|
 |Default|Same as Input Field|
-|Open|Dropdown panel with `elevation/2`, `surface/elevated`|
+|Open|Dropdown panel with `elevation/2`, `surface/elevated`, `z/dropdown`|
 |Error|Same as Input Field error state|
 
 ---
@@ -294,7 +414,7 @@ Transition: `motion/fast` + `ease/snap`
 
 ### Tooltip
 
-Single variant. `surface/inverse` background, `text/inverse` text. `type/caption`. `radius/sm`. `elevation/3`. Appears on hover after 300ms delay.
+Single variant. `surface/inverse` background, `text/inverse` text. `type/caption`. `radius/sm`. `elevation/3`. `z/modal`. Appears on hover after 300ms delay.
 
 ---
 
@@ -370,6 +490,8 @@ Steps variant: `type/label`, `color/green/base` for completed, `color/gold/base`
 
 ### News Card
 
+**Base Card — Tier 1.** Establishes the foundational visual grammar for all card types.
+
 |Variant|Usage|
 |---|---|
 |Featured (large)|Top of news feed — full width, large image, prominent|
@@ -380,7 +502,39 @@ Steps variant: `type/label`, `color/green/base` for completed, `color/gold/base`
 
 ---
 
+### Event Card
+
+|Variant|Usage|
+|---|---|
+|Standard|Events index — date prominent, event title, venue, time, category badge|
+|Compact|Homepage upcoming events row, sidebar — minimal, date-forward|
+|Featured|Top of events page — full width, extended description, RSVP/registration status|
+
+**All variants:** `elevation/1` at rest, `elevation/2` on hover, `radius/md`, `motion/fast`.
+
+**Date display:**
+
+- Date is the dominant visual element. Day number in `type/h2`, `color/gold/base`. Month in `type/eyebrow`. Never buried in metadata.
+- Upcoming events show relative time ("In 3 days", "Tomorrow") alongside the absolute date.
+
+**Status indicators:**
+
+|State|Visual|
+|---|---|
+|Upcoming|`semantic/info/base` badge|
+|Today|`color/gold/base` badge — "Today"|
+|Ongoing|`semantic/success/base` badge — "Happening Now"|
+|Past|`text/muted` treatment, desaturated image — archived state|
+|Registration open|`semantic/success/base` badge|
+|Registration closed|`text/muted` badge|
+
+**Key fields:** Event title, date and time, venue, organising society or department, brief description, RSVP/registration link if applicable.
+
+---
+
 ### Society Card
+
+**Base Card — Tier 1.** Peer to News Card Standard as one of the two foundational card patterns.
 
 |Variant|Usage|
 |---|---|
@@ -493,13 +647,13 @@ All video frames: `radius/md`, black letterbox fill, custom play button using `c
 |---|---|---|
 |Hover zoom|Mouse enter|Image scales 1.04, `motion/standard`|
 |Lightbox trigger|Click|See Lightbox component|
-|Focus|Tab/keyboard|Gold outline, no scale|
+|Focus|Tab/keyboard|Gold outline per Foundations §10.1, no scale|
 
 ---
 
 ### Lightbox
 
-Album navigation variant. Dark overlay (`overlay/heavy`). Full-screen image. Navigation arrows. Caption overlay. Close button. Keyboard navigation (arrow keys, escape). Mobile swipe support.
+Album navigation variant. Dark overlay (`overlay/heavy`). `z/modal`. Full-screen image. Navigation arrows. Caption overlay. Close button. Keyboard navigation (arrow keys, escape). Mobile swipe support.
 
 ---
 
@@ -530,7 +684,7 @@ Standard numbered pagination. `radius/sm`. Current page: `color/green/base`. Arr
 |---|---|
 |Default|Input with search icon prefix|
 |Active|`color/gold/base` border, expanded|
-|With results|Dropdown results panel below, `elevation/2`|
+|With results|Dropdown results panel below, `elevation/2`, `z/dropdown`|
 
 Scoped to page context only. Never site-wide. Label must clarify scope (e.g. "Search news and announcements").
 
@@ -549,7 +703,29 @@ Transition: `motion/standard` + `ease/out` height reveal. Border: `border/defaul
 
 ### Table of Contents
 
-Used on About KCC for section anchor navigation. Vertical list. Active section highlighted in `color/gold/base`. Sticky positioning on desktop. `type/label`.
+Used on About KCC for section anchor navigation. Vertical list. Active section highlighted in `color/gold/base`. Sticky positioning on desktop — `z/sticky`. `type/label`.
+
+---
+
+### Calendar / Upcoming Events
+
+Used on the homepage (compact) and Events index page (full).
+
+|Variant|Usage|
+|---|---|
+|Mini strip|Homepage — horizontal row of next 3–5 upcoming events, compact cards|
+|Month view|Events index — calendar grid, days with event indicators|
+|List view|Events index — chronological list, filterable by category|
+
+**Month view behavioral rules:**
+
+- Current day: `color/gold/base` ring indicator
+- Days with events: `color/green/base` dot below date number
+- Selected day: `color/green/base` background, `text/inverse` date
+- Past days: `text/muted`, reduced opacity
+- Event count overflow (3+ events on one day): shows "+N more" in `type/caption`
+
+**Data source:** Managed in Sanity CMS under an Events content type with: title, date/time, venue, category, description, registration URL, status. Updated without code changes.
 
 ---
 
@@ -577,7 +753,7 @@ Compact up/down/neutral indicator. Up: `semantic/success/base` arrow. Down: `sem
 |Error|`semantic/error/base` + `semantic/error/surface`|
 |Warning|`semantic/warning/base` + `semantic/warning/surface`|
 
-`elevation/1`. `radius/sm`. Auto-dismiss after 5s. Manual close button. Appears bottom-right. Entry: `motion/gentle` slide up. Exit: `motion/standard` fade.
+`elevation/1`. `z/toast`. `radius/sm`. Auto-dismiss after 5s. Manual close button. Appears bottom-right. Entry: `motion/gentle` slide up. Exit: `motion/standard` fade.
 
 ---
 
@@ -594,7 +770,7 @@ Used for file uploads, form submissions, save operations. Inline bar or spinner 
 |Confirmation|Action confirmation — two buttons, concise message|
 |Information|Content display — single close action|
 
-Backdrop: `overlay/medium`. Panel: `surface/elevated`, `elevation/3`, `radius/md`. Entry: `motion/slow` + `ease/ceremonial`. Exit: `motion/standard`.
+Backdrop: `overlay/medium`. `z/overlay` on backdrop, `z/modal` on panel. Panel: `surface/elevated`, `elevation/3`, `radius/md`. Entry: `motion/slow` + `ease/ceremonial`. Exit: `motion/standard`.
 
 ---
 
@@ -605,11 +781,70 @@ Backdrop: `overlay/medium`. Panel: `surface/elevated`, `elevation/3`, `radius/md
 |Navigation|Header nav secondary items|
 |Filter|Sorting, category selection|
 
-`surface/elevated`, `elevation/2`, `radius/md`, `border/light`. Item hover: `surface/deep`.
+`surface/elevated`, `elevation/2`, `z/dropdown`, `radius/md`, `border/light`. Item hover: `surface/deep`.
 
 ---
 
-## 08 — System States
+## 08 — Data Visualization
+
+All data rendering in the system must conform to these specifications. No ad-hoc charting libraries or inline SVG that doesn't trace to these patterns.
+
+---
+
+### Waveform Display
+
+Used exclusively in the Anthem Audio Player. Represents audio amplitude over time.
+
+**Visual:** Vertical bars, `color/gold/base`, variable height per amplitude sample. Bars not yet played: `color/gold/pale` at 60% opacity. Playhead position: thin `color/gold/base` vertical line. Bars are non-interactive — this is visualization, not a scrubbing interface. Scrubbing is handled by the progress bar below.
+
+**Fallback:** If waveform data is unavailable, render a simplified animated pulse — 5–7 bars of varying height, `motion/gentle` loop — as an ambient visual placeholder.
+
+---
+
+### CountUp Animation
+
+Used in: Stats Strip, Stat Cards. Numbers animate from 0 to their target value on first scroll into viewport.
+
+**Rules:**
+
+- Duration: 1800ms total. Ease: `ease/out` curve applied to the count progression, not CSS transition.
+- Trigger: IntersectionObserver, threshold 0.3. Fires once per page load — never re-triggers on re-scroll.
+- Number formatting: Thousand separators applied throughout animation (e.g. `1,247` not `1247`). Suffix (`+`, `%`, `Years`) appended statically — it does not animate in separately.
+- Reduced motion fallback: Jump directly to final value. No animation.
+
+---
+
+### Comparison Bar
+
+_(Defined in §07. Referenced here for completeness in the visualization inventory.)_
+
+Horizontal bar chart for academic pass rates. Single series only — not for multi-series comparison. For multi-series academic data, use the Stream Comparison Table (§10).
+
+---
+
+### Progress Arc
+
+Circular progress indicator for completion percentages. Used in: Admin Dashboard, Results summary.
+
+**Visual:** SVG circle. Track: `border/light`. Filled arc: `color/green/base`. Percentage text in center: `type/h3`, `text/primary`. `elevation/0`.
+
+**Usage note:** Only for single-metric completion. Never for multi-metric comparison.
+
+---
+
+### Data Table Rules
+
+When rendering tabular data publicly (not admin), these rules apply in addition to the Admin Data Table component:
+
+- Alternating rows: `surface/base` and `surface/default`
+- No horizontal scroll on mobile — tables must either be responsive (collapsible rows) or replaced with a card list below `breakpoint/md`
+- Numeric columns: right-aligned
+- Text columns: left-aligned
+- `type/body-sm` for all table content
+
+---
+
+## 09 — System States
 
 These must be designed before any content-heavy page is assembled. Every data-driven section needs these states.
 
@@ -627,11 +862,11 @@ Contains: Centered icon (low opacity crest motif), heading in `type/h3`, descrip
 
 |Variant|Usage|
 |---|---|
-|Card skeleton|News cards, society cards, gallery albums|
+|Card skeleton|News cards, society cards, gallery albums, event cards|
 |Table row skeleton|Admin data tables, results portal|
 |Section skeleton|Full section placeholder during load|
 
-Animation: Subtle shimmer from left to right, `color/gold/pale` at 30% opacity, `motion/gentle` loop. Not the page loading screen — this is inline content loading.
+Animation: Subtle shimmer from left to right, `color/gold/pale` at 30% opacity, `motion/gentle` loop. Not the page loading screen — this is inline content loading while the page is already interactive.
 
 ---
 
@@ -648,11 +883,11 @@ Contains: Error icon, message in `type/body-sm`, retry action. `semantic/error/s
 
 ### Offline Banner
 
-Full-width strip at top of page. `surface/inverse` background. `text/inverse`. Simple message. No dismiss — persistent while offline. Flat — `elevation/0`.
+Full-width strip at top of page. `surface/inverse` background. `text/inverse`. `z/sticky`. Simple message. No dismiss — persistent while offline. Flat — `elevation/0`.
 
 ---
 
-## 09 — Typography Utilities
+## 10 — Typography Utilities
 
 ---
 
@@ -694,7 +929,7 @@ Used for key phrases within body text. `color/gold/pale` background, `color/gold
 
 ---
 
-## 10 — Page-Specific Sections
+## 11 — Page-Specific Sections
 
 These components appear on specific pages only. They use foundation tokens but contain unique layout and behavioral logic.
 
@@ -704,19 +939,23 @@ These components appear on specific pages only. They use foundation tokens but c
 
 Four stat items: `5,000+ Students`, `200+ Staff`, `153 Years`, `200+ University Entrances Annually`.
 
-Each item: Large number in `type/display` with `color/gold/base`, label in `type/eyebrow`. CountUp animation on first scroll into view. `color/green/base` background, `text/inverse`. Full-width strip.
+Each item: Large number in `type/display` with `color/gold/base`, label in `type/eyebrow`. CountUp animation on first scroll into view — see §08 Data Visualization for CountUp specification. `color/green/base` background, `text/inverse`. Full-width strip.
 
 ---
 
 ### Principal's Message Block (Homepage, Administration)
 
-Large portrait (Image Frame — Standard), name and tenure in `type/h3`, pull quote (Quote Block — Ceremonial variant), short paragraph in `type/body`, "Read Full Message" link. Two-column layout on desktop.
+Large portrait (Image Frame — Standard), name and tenure in `type/h3`, pull quote (Quote Block — Ceremonial variant), short paragraph in `type/body`, "Read Full Message" link. Two-column layout on desktop per Layout Pattern: two-thirds / one-third.
 
 ---
 
 ### Achievement Ticker (Homepage)
 
-Slow, continuous horizontal scroll. Gold separators between items. Each item: achievement text in `type/body-sm`, year badge. Hover pauses scroll. Link to full achievements archive. Never styled like a stock ticker — elegant, not noisy.
+Slow, continuous horizontal scroll. Gold separators between items. Each item: achievement text in `type/body-sm`, year badge.
+
+**Motion specification:** Continuous CSS `animation` — duration calculated at runtime as `(total content width in px) / 50` seconds, which produces a consistent apparent speed of approximately 50px/second regardless of content length. This is an exception to the duration token system — continuous loops cannot be expressed as one-shot transition durations. See Foundations §06.3 Rule 5.
+
+Hover pauses scroll via `animation-play-state: paused`, `motion/fast` transition on opacity. Link to full achievements archive. Never styled like a stock ticker — elegant, not noisy.
 
 ---
 
@@ -755,9 +994,29 @@ Each crest symbol (Lamp, Lotus, Dharmachakra, Laurel) annotated with meaning. In
 
 ---
 
+### Crest Animation (About KCC, Ceremonial Moments)
+
+**Standalone crest animation — distinct from the Loading Screen embedding.**
+
+Used on: About KCC page header, Hero Section (Homepage), any ceremonial first-impression moment.
+
+**Assembly sequence:**
+
+1. Background atmosphere: `gradient/gold/subtle` expands softly — `motion/slow` + `ease/ember`
+2. Crest outline appears — stroke draws in clockwise, `motion/ceremonial` + `ease/in-out`
+3. Inner symbols (Lamp, Lotus, Dharmachakra, Laurel) resolve one at a time — 300ms staggered, `ease/ceremonial`
+4. Gold fill floods into the crest — `motion/ceremonial` + `ease/ember`
+5. Final state: `color/gold/glow` ambient pulse, 3-second loop, `motion/gentle` + `ease/ember`
+
+**Reduced motion fallback:** Crest appears at full opacity immediately. No assembly. Ambient pulse is a static gold color.
+
+**Usage rule:** This animation fires once per page visit. It must not fire on back-navigation or on subsequent route changes within the same session.
+
+---
+
 ### Anthem Audio Player (About KCC)
 
-Custom ceremonial audio component. Not a generic HTML5 player. Contains: waveform visualization (or subtle animated bars), play/pause, progress bar in `color/gold/base`, lyrics displayed below in `type/body`, Sinhala script in `font/sinhala`. Feels like cultural heritage, not media playback.
+Custom ceremonial audio component. Not a generic HTML5 player. Contains: Waveform Display (§08), play/pause control, progress bar in `color/gold/base`, lyrics displayed below in `type/body`, Sinhala script in `font/sinhala`. Feels like cultural heritage, not media playback.
 
 ---
 
@@ -769,7 +1028,7 @@ Short profiles or quotes from distinguished alumni across generations. Conveys i
 
 ### Stream Comparison Table (Academics)
 
-Four-column table — Science, Commerce, Arts, Technology. Rows: subjects, career paths, entry requirements, pass rates. `radius/md`. Alternating row colors using `surface/base` and `surface/default`.
+Four-column table — Science, Commerce, Arts, Technology. Rows: subjects, career paths, entry requirements, pass rates. `radius/md`. Alternating row colors using `surface/base` and `surface/default`. Responsive: collapses to a card-per-stream layout below `breakpoint/md`.
 
 ---
 
@@ -793,7 +1052,7 @@ Visual timeline of: Applications open → Submission deadline → Interview peri
 
 ### Requirements Checklist (Admissions)
 
-Printable checklist. Checkbox components. PDF-ready layout consideration.
+Printable checklist. Checkbox components. PDF-ready layout consideration — ensure no element bleeds across print page breaks.
 
 ---
 
@@ -851,7 +1110,28 @@ Anonymous submission support. Fields: Name (optional), Category (Academic/Facili
 
 ---
 
-## 11 — Admin Panel Components
+### 404 Page
+
+Not a browser default. A designed institutional moment.
+
+**Concept:** A lamp that has gone dark — the user has wandered somewhere the school has not yet lit.
+
+**Layout:**
+
+- `surface/inverse` full-page background
+- School crest centered, `color/gold/base`, at low opacity (approximately 40%) — present but dim
+- Heading: `404` in `type/display`, `color/gold/base`
+- Subheading: institutional tone, e.g. "This page has not been found" — `type/h3`, `text/inverse`
+- Short body message in `type/body`, `text/muted` — warm, not clinical
+- Single CTA: "Return to the School" — Button Ghost variant, `color/gold/base`
+
+**Motion:** Ambient only. The crest pulses gently — `motion/gentle` + `ease/ember`, indefinite loop, low amplitude. No entrance animations on the text. The page feels still, like a room where the lights haven't been turned on yet.
+
+**Reduced motion fallback:** Static layout. No pulse.
+
+---
+
+## 12 — Admin Panel Components
 
 Admin panel uses the same token system on Compact density mode.
 
@@ -864,7 +1144,7 @@ Admin panel uses the same token system on Compact density mode.
 |Expanded|Full labels + icons visible|
 |Collapsed|Icons only — tooltip on hover|
 
-`surface/inverse` background, `text/inverse`. Active item: `color/gold/base` accent. `type/label` for nav items.
+`surface/inverse` background, `text/inverse`. Active item: `color/gold/base` accent. `type/label` for nav items. `z/sticky`.
 
 ---
 
@@ -919,8 +1199,11 @@ Groups related admin form fields with a clear heading. Compact density spacing. 
 
 ### Global Status Bar
 
-Optional persistent bar at top of admin panel. Used for: ongoing uploads, save operations, background processes. `surface/inverse` background. Progress feedback component embedded.
+Optional persistent bar at top of admin panel. Used for: ongoing uploads, save operations, background processes. `surface/inverse` background. Progress feedback component embedded. `z/sticky`.
 
 ---
 
 _Nexus Design System — Components_ _C.W.W. Kannangara Central College, Mathugama_ _Maintained by Kannangara ICT Society (KITS)_ _© 2026_
+
+- add spinner component
+- 

@@ -29,10 +29,12 @@ Every color traces back to something real about KCC. No free colors are permitte
 |Token|Hex|Origin|
 |---|---|---|
 |`color/green/base`|`#1A4A2E`|The school uniform, playing fields, "Men in Green"|
-|`color/green/light`|`#235C3A`|Hover state — slightly lighter forest green|
+|`color/green/hover`|`#235C3A`|Hover state — slightly lighter forest green|
 |`color/gold/base`|`#C9973A`|The lamp of knowledge in the crest|
 |`color/gold/light`|`#E8B84B`|Highlights — shimmer of the lamp flame|
 |`color/gold/pale`|`#F2D98A`|Subtle gold tints for decorative use|
+
+**Note on naming:** `color/green/hover` follows the same behavior-semantic convention as `color/gold/hover` and `color/gold/active`. Shade descriptors (e.g. "light") are not used — every interactive state token is named for its role, not its appearance.
 
 ---
 
@@ -167,7 +169,7 @@ Typography carries the weight of 153 years. It must feel editorial and authorita
 |`font/body`|Source Serif 4|Readable, editorial, never clinical|Google Fonts|
 |`font/sinhala`|Noto Serif Sinhala|Serif-compatible Sinhala for tonal harmony|Google Fonts|
 
-**DM Serif Display is explicitly removed from the system.** Cormorant Garamond carries all heading work. Two competing display serifs weaken identity cohesion.
+**DM Serif Display is explicitly removed from the system.** Cormorant Garamond carries all heading and display work. Two competing display serifs weaken identity cohesion.
 
 ---
 
@@ -395,7 +397,9 @@ Every animation should feel like something physical happening — not a UI trans
 
 **Rule 4 — Hover is always fast** Every hover state uses `motion/fast` (150ms). Users must feel instant response. Slow hover is one of the fastest ways to make a system feel dated.
 
-**Rule 5 — Reduced motion fallback** All animations check `prefers-reduced-motion`. If reduced motion is preferred, everything falls back to opacity-only transitions at `motion/fast`. This is a system constraint, not an afterthought.
+**Rule 5 — Continuous scroll motion is exempt from duration tokens** Components that loop indefinitely (Achievement Ticker, ambient ambient background elements) cannot map to the duration token system, which describes one-shot transitions. These components define their own `animation-duration` based on total content width to maintain consistent apparent speed. The speed target is approximately 40–60px per second. Hover pauses via `animation-play-state: paused`. This is the only class of animation not governed by a duration token.
+
+**Rule 6 — Reduced motion fallback** All animations check `prefers-reduced-motion`. If reduced motion is preferred, everything falls back to opacity-only transitions at `motion/fast`. Continuous scroll components (Achievement Ticker) stop entirely. This is a system constraint, not an afterthought.
 
 ---
 
@@ -419,11 +423,236 @@ Every animation should feel like something physical happening — not a UI trans
 
 The following animations are too contextually specific to be tokens. They live as component specs, not system tokens.
 
-**About KCC Interactive Timeline** The timeline must feel like traveling through eras, not clicking cards. Requires a dedicated component specification covering: scroll behavior, parallax logic, era-specific atmospheric transitions, content choreography, and state sequencing. This component uses `motion/slow` + `ease/ceremonial` as its foundation but defines its own choreography above that.
+**About KCC Interactive Timeline** The timeline must feel like traveling through eras, not clicking cards. Requires a dedicated component specification covering: scroll behavior, parallax logic, era-specific atmospheric transitions, content choreography, and state sequencing. This component uses `motion/slow` + `ease/ceremonial` as its foundation but defines its own choreography above that. See Components document.
 
-**Loading Screen** See component specification in `_design-system-components.md`.
+**Loading Screen** See Components document.
 
-**Homepage Hero** See component specification in `_design-system-components.md`.
+**Homepage Hero** See Components document.
+
+**Crest Animation** The standalone crest assembly animation (distinct from its embedding in the Loading Screen) is a cinematic component used on the About KCC page and ceremonial moments. See Components document.
+
+---
+
+## 07 — Grid and Layout System
+
+### Core Principle
+
+The grid is not a preference — it is the invisible architecture of every page. No layout decisions are made outside these constraints. Consistent column structure is what separates a designed system from a collection of designed pages.
+
+---
+
+### 07.1 — Breakpoints
+
+|Token|Value|Target Context|
+|---|---|---|
+|`breakpoint/xs`|`480px`|Small phones|
+|`breakpoint/sm`|`640px`|Large phones, small tablets|
+|`breakpoint/md`|`768px`|Tablets|
+|`breakpoint/lg`|`1024px`|Small desktops, landscape tablets|
+|`breakpoint/xl`|`1280px`|Standard desktop|
+|`breakpoint/2xl`|`1536px`|Wide desktop|
+
+---
+
+### 07.2 — Container Widths
+
+|Token|Max Width|Usage|
+|---|---|---|
+|`container/prose`|`680px`|News articles, long-form editorial content|
+|`container/content`|`960px`|Standard page content — forms, about sections|
+|`container/wide`|`1200px`|Most page layouts — cards, galleries, general|
+|`container/full`|`100%`|Full-bleed sections — hero, footer, stats strip, announcement banner|
+
+All containers center horizontally with `margin: 0 auto`. Horizontal padding is `space/6` on mobile, `space/8` on tablet, `space/10` on desktop.
+
+---
+
+### 07.3 — Column Grid
+
+|Breakpoint|Columns|Gutter|
+|---|---|---|
+|xs (< 640px)|4|`space/4` (16px)|
+|sm (640–767px)|4|`space/4` (16px)|
+|md (768–1023px)|8|`space/6` (24px)|
+|lg (1024–1279px)|12|`space/6` (24px)|
+|xl (1280px+)|12|`space/8` (32px)|
+
+---
+
+### 07.4 — Common Layout Patterns
+
+These are the canonical layout configurations. Components should not invent new column splits.
+
+|Pattern|Desktop|Tablet|Mobile|Usage|
+|---|---|---|---|---|
+|Full width|12 col|8 col|4 col|Hero, stats strip, banners, footer|
+|Two-thirds / one-third|8 + 4 col|5 + 3 col|Stack|Principal's message, facility detail|
+|Half / half|6 + 6 col|4 + 4 col|Stack|Comparison layouts, feature pairs|
+|Three-column|4 + 4 + 4 col|Stack (2+1)|Stack|News cards, society cards, staff grid|
+|Four-column|3 + 3 + 3 + 3 col|2 + 2 col|Stack|Stats strip items, stream cards|
+|Sidebar + content|3 + 9 col|Stack|Stack|Admin panel, Table of Contents + article|
+|Centered prose|`container/prose` centered|Full width|Full width|Articles, policies, long-form content|
+
+---
+
+### 07.5 — Layout Rules
+
+**Rule 1 — No orphan columns.** Every grid layout must degrade gracefully to full-width stacking on mobile. No component should require a minimum viewport to function.
+
+**Rule 2 — Hero sections are always `container/full`.** No contained hero. The edge-to-edge treatment communicates institutional scale.
+
+**Rule 3 — Article content is always `container/prose`.** Long-form body text at full page width becomes unreadable. The prose container protects line length.
+
+**Rule 4 — Admin panel uses sidebar layout.** The `3 + 9` sidebar-content split applies to all admin views. The sidebar does not collapse to a drawer on tablet — it narrows. It collapses to a drawer only on mobile.
+
+---
+
+## 08 — Z-Index System
+
+### Core Principle
+
+Without a named z-index scale, layering becomes a guessing game of arbitrary numbers. Every element that can overlap another must reference a named tier. No free z-index values are permitted.
+
+---
+
+### 08.1 — Z-Index Scale
+
+|Token|Value|Usage|
+|---|---|---|
+|`z/base`|0|Default flow — no stacking context|
+|`z/raised`|10|Cards on hover, sticky section headers, in-flow overlapping elements|
+|`z/dropdown`|100|Dropdown menus, select panels, autocomplete results|
+|`z/sticky`|200|Sticky navigation bar|
+|`z/overlay`|300|Modal backdrops, drawer backdrops|
+|`z/modal`|400|Modal panels, drawer panels, lightbox frames|
+|`z/toast`|500|Toast notifications — must always appear above modals|
+|`z/loading`|900|Loading screen — always the topmost layer|
+
+---
+
+### 08.2 — Z-Index Rules
+
+**Rule 1 — No free values.** `z-index: 9999`, `z-index: 10001`, and similar are system failures. Every value must reference a token.
+
+**Rule 2 — Loading screen is always the ceiling.** Nothing sits above `z/loading`. The loading screen must be the last thing visible before content appears and must not be obscured by any component.
+
+**Rule 3 — Toast above modal.** Confirmation toasts triggered by modal actions must remain visible. `z/toast` is intentionally above `z/modal` for this reason.
+
+**Rule 4 — Dropdowns inside modals.** When a dropdown opens inside a modal, it inherits the modal's stacking context. Do not attempt to escape with absolute z-index values — this is a CSS stacking context issue to be resolved structurally, not numerically.
+
+---
+
+## 09 — Icon System
+
+### Core Principle
+
+Icons are functional glyphs, not decorative illustrations. They must be visually consistent with the serif, authoritative character of the system — never playful, never cartoon-like. Stroke weight and sizing must be uniform across every context.
+
+---
+
+### 09.1 — Icon Library
+
+**Primary library:** Lucide Icons. Chosen for consistent 2px stroke weight, clean geometric forms, and comprehensive coverage.
+
+**Stroke weight:** 2px at all sizes. Never adjust stroke weight per icon. Visual size variation comes from scaling only.
+
+**Fill icons:** Not used. All icons are outline/stroke variants. The system's restraint comes from line, not fill.
+
+---
+
+### 09.2 — Icon Size Scale
+
+|Token|Size|Tailwind|Usage|
+|---|---|---|---|
+|`icon/xs`|12px|`size-3`|Inline text indicators, mini badges|
+|`icon/sm`|16px|`size-4`|Button icons, form field prefixes, captions|
+|`icon/md`|20px|`size-5`|Navigation items, card actions, standard UI|
+|`icon/lg`|24px|`size-6`|Section headers, standalone icon contexts|
+|`icon/xl`|32px|`size-8`|Feature callouts, empty state illustrations|
+|`icon/2xl`|48px|`size-12`|Hero-adjacent decorative icons — rare|
+
+**Default size:** `icon/md` (20px) in all interactive UI contexts unless a specific variant specifies otherwise.
+
+---
+
+### 09.3 — Icon Color Rules
+
+Icons always inherit color from the token system. They do not introduce new colors.
+
+|Context|Token|
+|---|---|
+|Default UI icon|`text/muted`|
+|Active / selected|`color/green/base`|
+|Accent / featured|`color/gold/base`|
+|On dark surface|`text/inverse`|
+|Error state|`semantic/error/base`|
+|Success state|`semantic/success/base`|
+|Warning state|`semantic/warning/base`|
+|Disabled|`text/muted` at 40% opacity|
+
+---
+
+### 09.4 — Icon Behavioral Rules
+
+**Rule 1 — Icons never stand alone as the sole indicator.** Every icon in an interactive context (button, navigation, action) must be accompanied by either a visible label or an accessible `aria-label`. Ambiguity is an institutional failure.
+
+**Rule 2 — No decorative icon proliferation.** Icons do not appear before every list item, every heading, or every card title. Used sparingly, they guide. Used freely, they become visual noise.
+
+**Rule 3 — Crest is not an icon.** The school crest is a brand asset governed by its own usage rules. Never use it as a Lucide-style UI glyph or inline icon.
+
+**Rule 4 — Social media icons are the exception.** Platform-specific social icons (Instagram, YouTube, Facebook) should use the official SVG marks from each platform at `icon/md`. These are identity marks, not UI icons, and stroke-weight consistency does not apply to them.
+
+---
+
+## 10 — Focus and Accessibility Baseline
+
+### Core Principle
+
+Accessibility is not a retrofit. The focus ring is part of the visual identity system. It must be as deliberately designed as any hover state.
+
+---
+
+### 10.1 — Focus Ring Specification
+
+|Property|Value|Rationale|
+|---|---|---|
+|Color|`color/gold/base` (`#C9973A`)|Consistent with interactive gold system; high contrast on both cream and green|
+|Style|`solid` outline|Outline, not box-shadow — survives all background contexts|
+|Width|2px|Visible without being heavy|
+|Offset|3px|Separates ring from element edge; prevents it feeling embedded|
+|Border radius|Matches element — `radius/sm` for buttons, `radius/md` for cards|Ring conforms to the element it wraps|
+
+**Implementation:** `outline: 2px solid #C9973A; outline-offset: 3px;`
+
+**Focus-visible only:** Focus rings appear on `:focus-visible`, not `:focus`. This ensures keyboard users see rings while mouse users do not. Never suppress `:focus-visible` with `outline: none`.
+
+---
+
+### 10.2 — Contrast Requirements
+
+All text in the system must meet WCAG AA minimum (4.5:1 for body text, 3:1 for large text). The color system is designed to meet these targets. Key validated pairs:
+
+|Foreground|Background|Ratio|Level|
+|---|---|---|---|
+|`text/primary` (`#1C1A16`)|`surface/base` (`#F7F3EC`)|~16:1|AAA|
+|`text/muted` (`#5C5647`)|`surface/base` (`#F7F3EC`)|~6.5:1|AA|
+|`text/inverse` (`#F5EFE4`)|`surface/inverse` (`#22201B`)|~14:1|AAA|
+|`color/gold/base` (`#C9973A`)|`surface/inverse` (`#22201B`)|~5.2:1|AA|
+|`text/inverse` (`#F5EFE4`)|`color/green/base` (`#1A4A2E`)|~9.1:1|AAA|
+
+**Critical note:** `color/gold/base` on `surface/base` does not meet AA for body text. Gold is used for eyebrow labels, headings, and accent elements — never for body copy or small text on cream backgrounds.
+
+---
+
+### 10.3 — ARIA and Structural Rules
+
+These are system-level behavioral rules, not per-component specifications. Every component must comply.
+
+1. **Landmark structure.** Every page has exactly one `<main>`, one `<header>`, one `<footer>`. Navigation uses `<nav>` with a descriptive `aria-label`.
+2. **Heading hierarchy.** One `<h1>` per page. `<h2>` for section headings, `<h3>` for card headings and sub-sections. Never skip levels.
+3. **Image alt text.** All informational images have descriptive `alt`. Decorative images (background textures, overlay elements) use `alt=""`.
+4. **Interactive elements.** Every clickable element is either a native `<button>` or `<a>`. No `div` click handlers.
+5. **Form labels.** Every input has a visible `<label>` or `aria-labelledby`. Placeholder text is supplementary, never the sole label.
 
 ---
 
@@ -436,9 +665,12 @@ These rules govern the entire foundations layer. They are non-negotiable.
 3. **No arbitrary spacing.** Every spacing value maps to the 4px scale.
 4. **No gradients outside the whitelist.** Three approved gradients exist. Nothing else.
 5. **No decorative elevation.** Every shadow references an elevation token tied to a behavioral use case.
-6. **No arbitrary animation durations.** Every duration comes from the motion token scale.
-7. **Cream, not white.** `surface/base` (`#F7F3EC`) is the default page background. `#FFFFFF` never appears.
-8. **Gold is ceremony, not decoration.** If gold appears on every element, it has lost its meaning.
+6. **No arbitrary animation durations.** Every duration comes from the motion token scale. The one exception — continuous loop animations — is governed by Rule 5 in §06.3.
+7. **No free z-index values.** Every stacking context uses a named z-index token.
+8. **No layout outside the grid.** Every page uses the column grid and container tokens. No freehand width values.
+9. **No suppressed focus rings.** `outline: none` without a `:focus-visible` replacement is forbidden.
+10. **Cream, not white.** `surface/base` (`#F7F3EC`) is the default page background. `#FFFFFF` never appears.
+11. **Gold is ceremony, not decoration.** If gold appears on every element, it has lost its meaning.
 
 ---
 
