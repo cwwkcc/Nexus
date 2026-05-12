@@ -9,6 +9,12 @@ import {
   Input,
   Spinner,
   Textarea,
+  ToolTip,
+  EyebrowLabel,
+  FormErrorMessage,
+  FormFieldGroup,
+  InlineHelpText,
+  Tag,
 } from 'packages/ui/src';
 
 export default function Components() {
@@ -77,6 +83,60 @@ export default function Components() {
       <h3>Toggle</h3>
       <div>
         <Toggle label="Enable notifications" />
+      </div>
+
+      <h3>ToolTip</h3>
+      <div>
+        <ToolTip content="This is a tooltip">
+          <Button variant="primary" size="md">
+            Hover me
+          </Button>
+        </ToolTip>
+      </div>
+      <h3>EyebrowLabel</h3>
+      <div>
+        <EyebrowLabel>Section Title</EyebrowLabel>
+      </div>
+
+      <h3>FormErrorMessage</h3>
+      <div>
+        <FormErrorMessage>This is a form error message.</FormErrorMessage>
+      </div>
+
+      <h3>FormFeildGroup</h3>
+      <div>
+        <FormFieldGroup>
+          <Input label="First Name" />
+          <Input label="Last Name" />
+        </FormFieldGroup>
+      </div>
+
+      <h3>InlineHelpText</h3>
+      <div>
+        <InlineHelpText>In line Help Text</InlineHelpText>
+      </div>
+
+      <h3>InlineLink</h3>
+      <div>
+        <InlineHelpText>
+          Need help? <a href="#">Contact support</a>
+        </InlineHelpText>
+      </div>
+
+      <h3>Tag</h3>
+      <div>
+        <Tag label="Tag 1" />
+        <Tag label="Tag 2" />
+        <Tag label="Tag 3" />
+      </div>
+
+      <h3>ToolTip</h3>
+      <div>
+        <ToolTip content="This is a tooltip">
+          <Button variant="primary" size="md">
+            Hover me
+          </Button>
+        </ToolTip>
       </div>
     </>
   );
