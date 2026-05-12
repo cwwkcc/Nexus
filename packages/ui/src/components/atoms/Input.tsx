@@ -1,80 +1,126 @@
+// components/atoms/Input.tsx
 'use client';
 
+import { forwardRef } from 'react';
+import { clsx } from 'clsx';
+import { useFormField } from 'src/hooks/useFormField';
+
 type Props = {
-  label?: string;
-  placeholder?: string;
-  value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  label: string;
+  helperText?: string;
   error?: string;
   disabled?: boolean;
-  type?: 'text' | 'email' | 'password' | 'number' | 'tel';
-  id?: string;
+  required?: boolean;
+  placeholder?: string;
+  type?: 'text' | 'email' | 'tel' | 'password' | 'number' | 'search' | 'url';
+  value?: string;
+  defaultValue?: string;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  onBlur?: React.FocusEventHandler<HTMLInputElement>;
   name?: string;
+  autoComplete?: string;
   className?: string;
 };
 
-export function Input({
-  label,
-  placeholder,
-  value,
-  onChange,
-  error,
-  disabled = false,
-  type = 'text',
-  id,
-  name,
-  className = '',
-}: Props) {
-  return (
-    <div className={`flex flex-col gap-space-2 ${className}`}>
-      {label && (
+const inputBase =
+  'w-full font-body text-body text-text-primary bg-surface-elevated ' +
+  'border rounded-sm px-space-4 py-space-3 ' +
+  'transition-all duration-fast ease-snap ' +
+  'placeholder:text-text-muted ' +
+  'disabled:bg-surface-deep disabled:text-text-muted disabled:cursor-not-allowed ' +
+  'focus-visible:outline-2 focus-visible:outline-gold-base focus-visible:outline-offset-[3px]';
+
+const inputStates = {
+  default:
+    'border-border-default hover:border-border-default focus-visible:border-gold-base',
+  error:
+    'border-error-base focus-visible:border-error-base focus-visible:outline-error-base',
+};
+
+export const Input = forwardRef<HTMLInputElement, Props>(
+  (
+    {
+      label,
+      helperText,
+      error,
+      disabled = false,
+      required = false,
+      placeholder,
+      type = 'text',
+      value,
+      defaultValue,
+      onChange,
+      onBlur,
+      name,
+      autoComplete,
+      className,
+    },
+    ref,
+  ) => {
+    // Stable, unique IDs — never write id="username" manually in a component library.
+    // Two inputs on the same page would collide.
+    const { id, errorId, helperId, hasError, describedBy } = useFormField({
+      error,
+      helperText,
+    });
+
+    return (
+      <div className={clsx('flex flex-col gap-space-2', className)}>
+        {/* Label */}
         <label
           htmlFor={id}
-          className="font-body text-label uppercase tracking-[0.15em] text-text-primary"
+          className="font-body text-label text-text-primary uppercase tracking-label"
         >
           {label}
+          {required && (
+            <span className="ml-space-1 text-error-base" aria-hidden="true">
+              *
+            </span>
+          )}
         </label>
-      )}
 
-      <input
-        id={id}
-        name={name}
-        type={type}
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-        disabled={disabled}
-        className={[
-          'w-full font-body text-body text-text-primary placeholder:text-text-muted',
-          'px-space-4 py-space-3 rounded-sm border outline-none',
-          'transition-all duration-fast ease-snap',
-          error
-            ? 'border-semantic-error-base bg-surface-elevated'
-            : 'border-border-default bg-surface-elevated',
-          'focus:border-gold-base focus:shadow-elevation-1',
-          disabled
-            ? 'bg-surface-deep text-text-muted cursor-not-allowed opacity-60'
-            : '',
-        ].join(' ')}
-      />
+        {/* Input */}
+        <input
+          ref={ref}
+          id={id}
+          name={name}
+          type={type}
+          value={value}
+          defaultValue={defaultValue}
+          placeholder={placeholder}
+          disabled={disabled}
+          required={required}
+          autoComplete={autoComplete}
+          onChange={onChange}
+          onBlur={onBlur}
+          aria-invalid={hasError}
+          aria-describedby={describedBy}
+          className={clsx(
+            inputBase,
+            hasError ? inputStates.error : inputStates.default,
+          )}
+        />
 
-      {error && (
-        <span className="font-body text-caption text-semantic-error-base flex items-center gap-space-1">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            className="w-3 h-3 shrink-0"
+        {/* Error — takes priority over helper text */}
+        {hasError && (
+          <p
+            id={errorId}
+            className="font-body text-caption text-error-base"
+            role="alert"
           >
-            <path
-              fillRule="evenodd"
-              d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 5a1 1 0 011 1v4a1 1 0 11-2 0V8a1 1 0 011-1zm0 8a1 1 0 100 2 1 1 0 000-2z"
-              clipRule="evenodd"
-            />
-          </svg>
-          {error}
-        </span>
-      )}
-    </div>
-  );
-}
+            {error}
+          </p>
+        )}
+
+        {/* Helper text — only shown when no error */}
+        {!hasError && helperText && (
+          <p id={helperId} className="font-body text-caption text-text-muted">
+            {helperText}
+          </p>
+        )}
+      </div>
+    );
+  },
+);
+
+Input.displayName = 'Input';
