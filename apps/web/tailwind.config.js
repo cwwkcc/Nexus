@@ -7,65 +7,55 @@ module.exports = {
   ],
   theme: {
     extend: {
-      // ── Colors ──────────────────────────────────────────────
       colors: {
-        // Primary
         green: {
-          base: '#1A4A2E',
-          light: '#235C3A',
+          base: 'var(--color-green-base)',
+          hover: 'var(--color-green-hover)',
         },
         gold: {
-          base: '#C9973A',
-          light: '#E8B84B',
-          pale: '#F2D98A',
-          hover: '#D6A645',
-          active: '#B7852F',
+          base: 'var(--color-gold-base)',
+          light: 'var(--color-gold-light)',
+          pale: 'var(--color-gold-pale)',
+          hover: 'var(--color-gold-hover)',
+          active: 'var(--color-gold-active)',
+          glow: 'var(--color-gold-glow)',
         },
-
-        // Surfaces
         surface: {
-          base: '#F7F3EC',
-          default: '#EDE8DF',
-          deep: '#E4DDD1',
-          elevated: '#F3EEE6',
-          inverse: '#22201B',
+          base: 'var(--surface-base)',
+          default: 'var(--surface-default)',
+          deep: 'var(--surface-deep)',
+          elevated: 'var(--surface-elevated)',
+          inverse: 'var(--surface-inverse)',
         },
-
-        // Text
         text: {
-          primary: '#1C1A16',
-          muted: '#5C5647',
-          inverse: '#F5EFE4',
+          primary: 'var(--text-primary)',
+          muted: 'var(--text-muted)',
+          inverse: 'var(--text-inverse)',
         },
-
-        // Borders
         border: {
-          default: '#D4C9B8',
-          light: '#E2D9CC',
+          default: 'var(--border-default)',
+          light: 'var(--border-light)',
         },
-
-        // Semantic
         semantic: {
           success: {
-            base: '#3F6B4B',
-            surface: '#E6F0E8',
+            base: 'var(--semantic-success-base)',
+            surface: 'var(--semantic-success-surface)',
           },
           error: {
-            base: '#8A3B32',
-            surface: '#F6E8E5',
+            base: 'var(--semantic-error-base)',
+            surface: 'var(--semantic-error-surface)',
           },
           warning: {
-            base: '#B07A2B',
-            surface: '#FAF1DE',
+            base: 'var(--semantic-warning-base)',
+            surface: 'var(--semantic-warning-surface)',
           },
           info: {
-            base: '#4A6475',
-            surface: '#EAF0F4',
+            base: 'var(--semantic-info-base)',
+            surface: 'var(--semantic-info-surface)',
           },
         },
       },
 
-      // ── Typography ──────────────────────────────────────────
       fontFamily: {
         display: ['Cormorant Garamond', 'Georgia', 'serif'],
         body: ['Source Serif 4', 'Georgia', 'serif'],
@@ -115,8 +105,6 @@ module.exports = {
         ],
       },
 
-      // ── Spacing ─────────────────────────────────────────────
-      // 4px base unit — all values are multiples
       spacing: {
         'space-1': '4px',
         'space-2': '8px',
@@ -134,7 +122,6 @@ module.exports = {
         'space-40': '160px',
       },
 
-      // ── Border Radius ────────────────────────────────────────
       borderRadius: {
         none: '0px',
         sm: '2px',
@@ -143,7 +130,6 @@ module.exports = {
         full: '9999px',
       },
 
-      // ── Elevation (Box Shadows) ──────────────────────────────
       boxShadow: {
         'elevation-0': 'none',
         'elevation-1': '0 1px 3px rgba(28,26,22,0.08)',
@@ -152,7 +138,6 @@ module.exports = {
         'elevation-4': '0 16px 48px rgba(28,26,22,0.14)',
       },
 
-      // ── Motion (Durations) ───────────────────────────────────
       transitionDuration: {
         instant: '80ms',
         fast: '150ms',
@@ -163,18 +148,27 @@ module.exports = {
         epic: '2400ms',
       },
 
-      // ── Motion (Easing) ──────────────────────────────────────
       transitionTimingFunction: {
         snap: 'cubic-bezier(0.25, 0, 0, 1)',
-        'ease-out': 'cubic-bezier(0.0, 0, 0.2, 1)',
-        'ease-in-out': 'cubic-bezier(0.4, 0, 0.2, 1)',
+        out: 'cubic-bezier(0.0, 0, 0.2, 1)',
+        'in-out': 'cubic-bezier(0.4, 0, 0.2, 1)',
         ceremonial: 'cubic-bezier(0.16, 1, 0.3, 1)',
         ember: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
       },
 
-      // ── Max Width ────────────────────────────────────────────
       maxWidth: {
         content: '1160px',
+      },
+
+      zIndex: {
+        base: '0',
+        raised: '10',
+        dropdown: '100',
+        sticky: '200',
+        overlay: '300',
+        modal: '400',
+        toast: '500',
+        loading: '900',
       },
     },
   },
