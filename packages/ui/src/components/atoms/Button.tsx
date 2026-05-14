@@ -3,7 +3,7 @@
 
 import { forwardRef } from 'react';
 import { clsx } from 'clsx';
-import { Spinner } from './Spinner';
+import { BeatLoader } from './Spinners/BeatLoader';
 
 type ButtonVariant = 'primary' | 'secondary' | 'ghost';
 type ButtonSize = 'sm' | 'md' | 'lg';
@@ -70,7 +70,7 @@ export const Button = forwardRef<HTMLButtonElement, Props>(
           className,
         )}
       >
-        {loading && <Spinner />}
+        {loading && <BeatLoader />}
         {children}
       </button>
     );
