@@ -1,27 +1,40 @@
-// components/atoms/Button.tsx
 'use client';
 
 import { forwardRef } from 'react';
 import { clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 import { BeatLoader } from './Spinners/BeatLoader';
 
-type ButtonVariant = 'primary' | 'secondary' | 'ghost';
-type ButtonSize = 'sm' | 'md' | 'lg';
+// ─── Types ────────────────────────────────────────────────────────────────────
 
-type Props = {
+export type ButtonVariant =
+  | 'primary'
+  | 'secondary'
+  | 'ghost'
+  | 'outline'
+  | 'destructive'
+  | 'link';
+
+export type ButtonSize = 'sm' | 'md' | 'lg' | 'icon';
+
+export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: ButtonVariant;
   size?: ButtonSize;
   loading?: boolean;
-  disabled?: boolean;
-  children: React.ReactNode;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  type?: 'button' | 'submit' | 'reset';
-  className?: string;
+  loadingText?: string;
+  fullWidth?: boolean;
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
 };
 
+// ─── Style Maps ───────────────────────────────────────────────────────────────
+
 const base =
-  'inline-flex items-center justify-center gap-space-2 font-body text-label uppercase tracking-label rounded-sm border transition-all duration-fast ease-snap select-none ' +
-  'focus-visible:outline-2 focus-visible:outline-gold-base focus-visible:outline-offset-[3px]';
+  'relative inline-flex items-center justify-center gap-space-2 font-body text-label ' +
+  'uppercase tracking-label rounded-sm border whitespace-nowrap select-none ' +
+  'transition-colors transition-transform duration-fast ease-snap motion-reduce:transition-none ' +
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-base focus-visible:ring-offset-2 ' +
+  'active:scale-[0.98] motion-reduce:active:scale-100';
 
 const variants: Record<ButtonVariant, string> = {
   primary:
@@ -29,49 +42,126 @@ const variants: Record<ButtonVariant, string> = {
   secondary:
     'bg-surface-base text-text-primary border-green-base hover:border-gold-hover hover:text-gold-hover active:border-gold-active active:text-gold-active',
   ghost:
+    'bg-transparent text-gold-base border-transparent hover:border-gold-hover hover:text-gold-hover active:border-gold-active active:text-gold-active',
+  outline:
     'bg-transparent text-gold-base border-gold-base hover:border-gold-hover hover:text-gold-hover active:border-gold-active active:text-gold-active',
+  destructive:
+    'bg-red-base text-text-inverse border-transparent hover:bg-red-hover active:bg-red-active',
+  link: 'bg-transparent text-gold-base border-transparent normal-case tracking-normal underline-offset-4 hover:underline active:text-gold-active',
 };
 
 const sizes: Record<ButtonSize, string> = {
   lg: 'px-space-5 py-space-4',
   md: 'px-space-4 py-space-3',
   sm: 'px-space-3 py-space-2',
+
+  icon: 'w-10 h-10 p-0',
 };
 
-export const Button = forwardRef<HTMLButtonElement, Props>(
+const loaderSize: Record<ButtonSize, 'sm' | 'md' | 'lg'> = {
+  sm: 'sm',
+  md: 'sm',
+  lg: 'md',
+  icon: 'sm',
+};
+
+// ─── Component ────────────────────────────────────────────────────────────────
+
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       variant = 'primary',
       size = 'md',
-      loading = false,
-      disabled = false,
-      children,
-      onClick,
       type = 'button',
+      loading = false,
+      loadingText,
+      disabled = false,
+      fullWidth = false,
+      leftIcon,
+      rightIcon,
+      children,
       className,
+      onClick,
+      ...rest
     },
     ref,
   ) => {
     const isDisabled = disabled || loading;
 
+    if (
+      process.env.NODE_ENV !== 'production' &&
+      size === 'icon' &&
+      !rest['aria-label']
+    ) {
+      console.warn(
+        '[Button] size="icon" requires an aria-label for accessibility.\n' +
+          'Example: <Button size="icon" aria-label="Close menu">',
+      );
+    }
+
+    const handleClick: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+      if (isDisabled) {
+        e.preventDefault();
+        return;
+      }
+      onClick?.(e);
+    };
+
     return (
       <button
         ref={ref}
         type={type}
-        onClick={onClick}
         disabled={isDisabled}
         aria-busy={loading}
-        className={clsx(
-          base,
-          variants[variant],
-          sizes[size],
-          isDisabled && 'opacity-40 cursor-not-allowed pointer-events-none',
-          !isDisabled && 'cursor-pointer',
-          className,
+        data-variant={variant}
+        data-size={size}
+        data-loading={loading ? '' : undefined}
+        data-disabled={isDisabled ? '' : undefined}
+        data-full-width={fullWidth ? '' : undefined}
+        data-icon-only={size === 'icon' ? '' : undefined}
+        onClick={handleClick}
+        className={twMerge(
+          clsx(
+            base,
+            variants[variant],
+            sizes[size],
+            fullWidth && 'w-full',
+            isDisabled && 'opacity-40 cursor-not-allowed',
+            !isDisabled && 'cursor-pointer',
+            className,
+          ),
         )}
+        {...rest}
       >
-        {loading && <BeatLoader />}
-        {children}
+        {loading && (
+          <span className="absolute inset-0 flex items-center justify-center gap-space-2 pointer-events-none">
+            <BeatLoader size={loaderSize[size]} />
+            {loadingText && (
+              <span className="text-label font-body">{loadingText}</span>
+            )}
+          </span>
+        )}
+
+        {loading && (
+          <span className="sr-only" aria-live="polite">
+            {loadingText ?? 'Loading'}
+          </span>
+        )}
+
+        <span
+          className={clsx(
+            'inline-flex items-center gap-space-2',
+            loading && 'opacity-0',
+          )}
+        >
+          {leftIcon && (
+            <span className="shrink-0 [&>svg]:size-[1em]">{leftIcon}</span>
+          )}
+          {children}
+          {rightIcon && (
+            <span className="shrink-0 [&>svg]:size-[1em]">{rightIcon}</span>
+          )}
+        </span>
       </button>
     );
   },
