@@ -1,13 +1,25 @@
-// components/atoms/Badge.tsx
+'use client';
+
+import { forwardRef } from 'react';
 import { clsx } from 'clsx';
 
-type BadgeVariant = 'category' | 'status' | 'achievement';
-type BadgeStatus = 'draft' | 'published' | 'archived' | 'unread' | 'reviewed';
+export type BadgeStatus =
+  | 'draft'
+  | 'published'
+  | 'archived'
+  | 'unread'
+  | 'reviewed';
+export type BadgeVariant = 'category' | 'status' | 'achievement';
 
-type Props =
+export type BadgeProps =
   | { variant: 'category'; label: string; className?: string }
   | { variant: 'achievement'; label: string; className?: string }
   | { variant: 'status'; status: BadgeStatus; className?: string };
+
+const variantStyles: Record<Exclude<BadgeVariant, 'status'>, string> = {
+  category: 'bg-surface-default text-text-muted',
+  achievement: 'bg-gold-pale text-gold-active',
+};
 
 const statusStyles: Record<BadgeStatus, string> = {
   draft: 'bg-warning-surface text-warning-base',
@@ -26,39 +38,27 @@ const statusLabels: Record<BadgeStatus, string> = {
 };
 
 const base =
-  'inline-flex items-center px-space-2 py-space-1 rounded-full font-body text-caption uppercase tracking-caption select-none whitespace-nowrap';
+  'inline-flex items-center px-space-2 py-space-1 rounded-full font-body text-caption ' +
+  'uppercase tracking-caption leading-none select-none whitespace-nowrap';
 
-export function Badge(props: Props) {
-  if (props.variant === 'status') {
-    return (
-      <span className={clsx(base, statusStyles[props.status], props.className)}>
-        {statusLabels[props.status]}
-      </span>
-    );
-  }
+export const Badge = forwardRef<HTMLSpanElement, BadgeProps>((props, ref) => {
+  const isStatus = props.variant === 'status';
+  const colorClass = isStatus
+    ? statusStyles[props.status]
+    : variantStyles[props.variant];
 
-  if (props.variant === 'achievement') {
-    return (
-      <span
-        className={clsx(base, 'bg-gold-pale text-gold-active', props.className)}
-      >
-        {props.label}
-      </span>
-    );
-  }
+  const label = isStatus ? statusLabels[props.status] : props.label;
 
-  // category (default)
   return (
     <span
-      className={clsx(
-        base,
-        'bg-surface-default text-text-muted',
-        props.className,
-      )}
+      ref={ref}
+      aria-label={isStatus ? `Status: ${label}` : undefined}
+      data-variant={props.variant}
+      data-status={isStatus ? props.status : undefined}
+      className={clsx(base, colorClass, props.className)}
     >
-      {props.label}
+      {label}
     </span>
   );
-}
-
+});
 Badge.displayName = 'Badge';
