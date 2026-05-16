@@ -1,18 +1,53 @@
 // components/atoms/FormErrorMessage.tsx
+import { type ReactNode } from 'react';
 import { clsx } from 'clsx';
+
+// ─── Types ────────────────────────────────────────────────────────────────────
+
+type Variant = 'error' | 'warning' | 'success';
 
 type Props = {
   id?: string;
-  children: React.ReactNode;
+  /**
+   * Controls colour and announcement behaviour.
+   * - `error` (default) — assertive alert; interrupts screen readers immediately. Best for post-submit errors.
+   * - `warning` — polite live region; waits for a pause. Better for live typing feedback.
+   * - `success` — polite live region; used for confirmation messages.
+   */
+  variant?: Variant;
+  children: ReactNode;
   className?: string;
 };
 
-export function FormErrorMessage({ id, children, className }: Props) {
+// ─── Style maps ───────────────────────────────────────────────────────────────
+
+const variantStyles: Record<Variant, string> = {
+  error: 'text-error-base',
+  warning: 'text-warning-base',
+  success: 'text-success-base',
+};
+
+// ─── Component ────────────────────────────────────────────────────────────────
+
+export function FormErrorMessage({
+  id,
+  variant = 'error',
+  children,
+  className,
+}: Props) {
+  // `error` interrupts immediately (assertive); warning/success wait politely.
+  const isAssertive = variant === 'error';
+
   return (
     <p
       id={id}
-      role="alert"
-      className={clsx('font-body text-caption text-error-base', className)}
+      role={isAssertive ? 'alert' : undefined}
+      aria-live={isAssertive ? undefined : 'polite'}
+      className={clsx(
+        'font-body text-caption',
+        variantStyles[variant],
+        className,
+      )}
     >
       {children}
     </p>
