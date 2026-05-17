@@ -3,8 +3,10 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "@nexus/ui": "workspace:*",
     "framer-motion": "^12.38.0",
     "next": "~16.1.6",
+    "next-intl": "^4.8.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   }
