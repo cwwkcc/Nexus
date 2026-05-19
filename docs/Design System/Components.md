@@ -194,7 +194,7 @@ Single variant. Contains:
 - Social media links
 - "Built by KITS" credit link
 - Copyright line
-- Background: `surface/inverse`
+- Background: `green/base`
 - Text: `text/inverse`
 
 **Design intent:** Footer should feel like the closing page of a historical document, not a utility dump.
