@@ -93,7 +93,11 @@ module.exports = {
         ],
         label: [
           '0.75rem',
-          { lineHeight: '1.4', letterSpacing: '0.15em', fontWeight: '500' },
+          { lineHeight: '1.4', letterSpacing: '0.05em', fontWeight: '500' },
+        ],
+        'label-sm': [
+          '0.73rem',
+          { lineHeight: '1.5', letterSpacing: '0.05em', fontWeight: '500' },
         ],
         eyebrow: [
           '0.72rem',
@@ -158,6 +162,7 @@ module.exports = {
 
       maxWidth: {
         content: '1160px',
+        
       },
 
       zIndex: {

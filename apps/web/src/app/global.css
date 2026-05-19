@@ -7,8 +7,13 @@
 /* ── Design Tokens (CSS Variables) ───────────────────────────────────────── */
 :root {
   /* Primary Colors */
+
+  /* Green */
+
   --color-green-base: #1a4a2e;
   --color-green-hover: #235c3a;
+
+  /* Gold */
   --color-gold-base: #c9973a;
   --color-gold-light: #e8b84b;
   --color-gold-pale: #f2d98a;
