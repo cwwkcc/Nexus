@@ -656,6 +656,420 @@ These are system-level behavioral rules, not per-component specifications. Every
 
 ---
 
+# 11 — Responsive System
+
+> _This document extends Foundations §07 (Grid and Layout System). The breakpoint scale, container widths, and column grid are defined there. This section covers everything §07 does not: mobile-first methodology, touch targets, component-level responsive rules, and Sri Lanka–specific mobile considerations. Both documents are mandatory reading before building any component or page._
+
+---
+
+## 11.1 — Philosophy
+
+### Why mobile-first
+
+The majority of KCC's audience — students, parents, prospective families — accesses the internet primarily on a mobile phone. Sri Lanka's mobile broadband penetration far exceeds fixed-line. A site that works perfectly on a MacBook but struggles on a mid-range Android phone has failed its core audience.
+
+Mobile-first means every decision starts at the smallest viewport and adds capability upward. It does not mean building a separate mobile experience. One codebase, one design, progressive enhancement.
+
+**The governing phrase for responsive decisions:** _Would a parent standing outside the school gate, checking admissions details on a 4G connection, be able to do what they came to do?_
+
+If the answer is no, it is not shipped.
+
+---
+
+## 11.2 — Mobile-First CSS Strategy
+
+### Tailwind breakpoint usage
+
+All Tailwind responsive prefixes are min-width — they apply _at and above_ the named breakpoint. Write base styles for mobile first, then override for larger viewports.
+
+```css
+/* ✓ Correct — mobile first */
+.card { padding: 16px; }              /* base: mobile */
+.card { @apply md:p-6; }              /* tablet+ */
+.card { @apply xl:p-8; }              /* desktop+ */
+
+/* ✗ Wrong — desktop first, then shrink */
+.card { padding: 32px; }
+.card { @apply sm:p-4; }
+```
+
+### No `max-width` media queries in components
+
+Component CSS must not use Tailwind's `max-md:` or any max-width breakpoint to hide or resize things. If a component needs to behave differently below a breakpoint, rethink the structure — don't patch it with a max-width override. The one exception is the admin sidebar (`max-md:hidden` on the sidebar, `md:hidden` on the drawer trigger) — this is a structural layout exception, documented in §07.5 Rule 4.
+
+### Breakpoint reference (from §07.1)
+
+|Token|Value|Tailwind prefix|
+|---|---|---|
+|`breakpoint/xs`|480px|`xs:` (custom — add to tailwind.config)|
+|`breakpoint/sm`|640px|`sm:`|
+|`breakpoint/md`|768px|`md:`|
+|`breakpoint/lg`|1024px|`lg:`|
+|`breakpoint/xl`|1280px|`xl:`|
+|`breakpoint/2xl`|1536px|`2xl:`|
+
+**Most-used breakpoints in practice:** `md:` for layout shifts (stacking → columns), `lg:` for nav changes and sidebar activation. `sm:` and `xl:` are used sparingly — `sm:` for minor compact adjustments, `xl:` only for max-width container clamping.
+
+---
+
+## 11.3 — Touch Targets
+
+### Minimum size
+
+Every interactive element — buttons, links, form controls, icon buttons, navigation items, accordion triggers, card click areas — must have a minimum touch target of **44 × 44px**. This is the Apple HIG minimum and aligns with WCAG 2.5.5 (AAA).
+
+The visual size of an element can be smaller than 44px (e.g. a compact badge) as long as the _interactive area_ meets the minimum. Use `padding` to expand the hit area without changing the visual footprint.
+
+```css
+/* ✓ Icon button: visually 20px, touch target 44px */
+.icon-button {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ✓ Small navigation link: visually compact, touch area extended */
+.nav-link {
+  padding: 12px 16px; /* total height ≥ 44px when combined with line-height */
+}
+```
+
+### Minimum spacing between targets
+
+Adjacent interactive elements must be separated by at least **8px** of non-interactive space. Targets that are too close together cause mis-taps. Navigation items, filter tabs, and pagination buttons are the most common failure points.
+
+### Exceptions
+
+Inline text links within body copy are exempt from the 44px rule — the surrounding text provides context and the paragraph-level line-height naturally extends the tappable area.
+
+---
+
+## 11.4 — Typography on Mobile
+
+The type scale in §02.2 already uses `clamp()` for display and heading sizes — these handle mobile automatically. The following rules address what `clamp()` does not cover.
+
+### Input field font size — prevent iOS zoom
+
+Any `<input>`, `<select>`, or `<textarea>` with a font size below **16px** triggers automatic zoom on iOS Safari. This breaks layout and is jarring for users.
+
+**Rule:** All form fields use `font-size: 1rem` (16px) as a minimum. The `type/body` token (1.05rem) already satisfies this. Never reduce form field text below 1rem for compact layouts — reduce padding instead.
+
+### Body text minimum on mobile
+
+`type/body-sm` (0.92rem ≈ 14.7px) is the smallest permitted size for any readable body content. On screens below 400px, `type/caption` (0.7rem) is only permitted for metadata (dates, categories, file sizes) — never for instructional or primary content.
+
+### Sinhala on mobile
+
+Sinhala text already requires 1.12rem minimum and 1.8 line height (§02.3). These rules are non-negotiable on mobile — Sinhala letterforms are even harder to read at small sizes on low-DPI screens common in mid-range Android devices.
+
+### Line length on mobile
+
+The `container/prose` (680px) container enforces good line length on desktop. On mobile, full-width prose is unavoidable — compensate by ensuring a minimum left/right padding of `space/4` (16px) on every side. Text must never touch the screen edge.
+
+---
+
+## 11.5 — Spacing on Mobile
+
+§03.2 Rule 1 states that section padding is `space/24` (96px) on desktop and `space/16` (64px) on mobile. The full per-breakpoint reference:
+
+|Context|Mobile (< 768px)|Tablet (768–1023px)|Desktop (1024px+)|
+|---|---|---|---|
+|Section vertical padding|`space/16` (64px)|`space/20` (80px)|`space/24` (96px)|
+|Page horizontal gutter|`space/4` (16px)|`space/6` (24px)|`space/8` (32px)|
+|Card internal padding|`space/5` (20px)|`space/6` (24px)|`space/6` (24px)|
+|Form field internal padding|`space/3` v, `space/4` h|same|same|
+|Between form fields|`space/4` (16px)|`space/5` (20px)|`space/6` (24px)|
+|Between grid cards|`space/3` (12px)|`space/4` (16px)|`space/6` (24px)|
+
+**Hero sections and About KCC** follow the editorial +1 step rule from §03.2 Rule 3, applied at each breakpoint rather than only at desktop.
+
+---
+
+## 11.6 — Images on Mobile
+
+### Aspect ratios on mobile
+
+Images must never distort on mobile. All image containers must maintain their defined aspect ratios using `aspect-ratio` CSS. The standard ratios:
+
+|Context|Aspect ratio|
+|---|---|
+|News card — featured|`16/7`|
+|News card — standard|`16/9`|
+|Society card|`16/9`|
+|Event card|`4/3` (compact) or `16/9` (featured)|
+|Staff card portrait|`3/4`|
+|Gallery album cover|`4/3`|
+|Facility card|`16/9`|
+|Hero — homepage|`100vw / 100vh`|
+|Hero — subpage|`100vw / 60vh`|
+
+On mobile, `16/9` cards that span full width will be taller in absolute pixels than their desktop counterparts — this is correct behavior, not a bug. If the resulting height feels excessive, use `max-height` to cap it (e.g. `max-h-72` on a compact card).
+
+### `next/image` responsive sizes
+
+Every `<Image>` using `fill` must have a `sizes` prop that reflects its actual rendered width at each breakpoint. Without `sizes`, Next.js downloads a full-desktop image for every device.
+
+```tsx
+/* ✓ Card image — full width on mobile, 1/3 width on desktop */
+<Image
+  src={src}
+  alt={alt}
+  fill
+  sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw"
+/>
+
+/* ✓ Featured news card — always full width */
+<Image
+  src={src}
+  alt={alt}
+  fill
+  sizes="100vw"
+/>
+
+/* ✗ Missing sizes — downloads desktop image on mobile */
+<Image src={src} alt={alt} fill />
+```
+
+### Hover effects on touch devices
+
+Hover zoom on images (`group-hover:scale-[1.04]`) is a desktop behavior. On touch devices, hover states fire on tap and stay active — the image zooms but never unzooms until the user taps elsewhere. This is not a blocking issue for KCC's use case (it does not break functionality), but be aware that hover-only affordances (like the GalleryAlbumCard overlay) are invisible to touch users. The underlying `<a>` must be fully functional and labeled without relying on the hover state.
+
+---
+
+## 11.7 — Component Responsive Rules
+
+This table defines the specific responsive behaviors for every built component. "Stack" means the component switches to a single-column, full-width layout. Breakpoint listed is where the change triggers (min-width).
+
+### Global Components
+
+|Component|Mobile (< 768px)|Tablet `md:` (768px)|Desktop `lg:` (1024px)|
+|---|---|---|---|
+|**Navigation**|Hidden — hamburger trigger visible|Hidden — hamburger trigger visible|Full horizontal nav visible|
+|**Mobile Menu**|Full-screen overlay (`z/overlay`), `overlay/heavy` backdrop, links in `type/h3` with 56px touch targets, LanguageSwitcher below logo|— (not shown at md+)|—|
+|**LanguageSwitcher**|Positioned below logo in header bar, above the hamburger overlay|Remains in header bar|Right side of nav bar|
+|**Breadcrumb**|Hidden — space too limited. Consider omitting on mobile entirely|Visible|Visible|
+|**Footer**|Single column stack. Nav columns stacked vertically. Social icons centered. Crest watermark hidden|2-column nav columns|4-column nav columns + crest|
+|**AnnouncementBanner**|Full width, text wraps to 2 lines max. Dismiss button 44px tap target.|Full width|Full width|
+|**QuickAccessPortal**|2×2 grid (2 columns, 2 rows)|4-column horizontal strip|4-column horizontal strip|
+|**LoadingScreen**|Full screen — identical behavior at all sizes. Crest 80px on mobile, 120–160px on desktop|||
+|**SectionHeader**|Left-aligned. Max-width full container width|Left-aligned|Left-aligned (centered only on hero-adjacent sections)|
+
+### Atoms
+
+|Component|Mobile behavior|
+|---|---|
+|**Button**|Full-width (`w-full`) when inside a form or card footer on mobile. Never full-width in navigation or inline text contexts. `size/sm` in space-constrained contexts.|
+|**Input / Textarea / Select**|Full-width always (`w-full`). Font size minimum 1rem (see §11.4).|
+|**Checkbox / Radio / Toggle**|Touch target expanded to 44px minimum. Label tap area includes the label text, not just the control.|
+|**ProgressIndicator (steps)**|Labels hidden on mobile — show numbers only. At `md:` labels visible. At `lg:` full labels with connector lines.|
+|**FileUploadZone**|Drop zone fills container width. Instruction text collapses to 2 lines. File list items scroll vertically.|
+|**Tooltip**|Disabled on mobile — touch users cannot hover. Ensure any information conveyed by a tooltip has an alternative in the UI (visible text, label, or accessible description).|
+
+### Cards
+
+All cards follow one rule: **single column on mobile, defined grid at `md:` and above.**
+
+|Component|Mobile|Tablet `md:`|Desktop `lg:`|
+|---|---|---|---|
+|**NewsCard (standard)**|1 col, full width|2 col|3 col|
+|**NewsCard (featured)**|Full width always|Full width always|Full width always|
+|**NewsCard (compact)**|Full width list|Full width list|Full width list|
+|**EventCard**|1 col|2 col|3 col|
+|**SocietyCard**|1 col|2 col|3 col|
+|**StaffCard (principal)**|Stack: portrait on top, quote below|2-col (portrait + content)|2-col (portrait + content)|
+|**StaffCard (grid)**|2 col (compact)|3 col|4 col|
+|**AcademicStreamCard**|1 col|2 col|4 col (all 4 streams in one row)|
+|**FacilityCard**|1 col|2 col|2 or 3 col depending on context|
+|**GalleryAlbumCard**|2 col (album covers are compact)|3 col|4 col|
+|**ExtracurricularCard**|1 col|2 col|3 col|
+|**StatCard**|2 col (2×2 grid for 4 stats)|2 or 4 col|4 col|
+|**AchievementCard (archive)**|1 col|2 col|3 col|
+
+### Feedback & Navigation
+
+|Component|Mobile behavior|
+|---|---|
+|**FilterBar (category-tabs)**|Horizontal scroll with `overflow-x: auto; scrollbar-width: none`. Tabs do not wrap.|
+|**FilterBar (year-selector)**|Wraps to 2 rows if needed.|
+|**Accordion**|Full width always. No behavior change.|
+|**Toast**|Full width, bottom of screen (not bottom-right). Margin 16px from edges.|
+|**Modal**|Full-screen on mobile — `width: 100%; height: 100%; border-radius: 0`. At `md:` reverts to centered panel.|
+|**Pagination**|Show only prev/next arrows + current page number on mobile. Numbered buttons hidden. At `md:` full pagination visible.|
+|**SearchInput**|Full width. Results dropdown full width of input.|
+|**DropdownMenu**|Full width on mobile if triggered from a full-width context. Right-aligned dropdown reverts to left-aligned on small screens.|
+|**TableOfContents**|Hidden on mobile — inline sticky behavior doesn't work on small screens. Either omit or collapse into a "jump to section" dropdown at the top of the content.|
+|**Calendar (mini-strip)**|Horizontal scroll. No behavior change.|
+|**Calendar (list-view)**|Full width always. No behavior change.|
+|**Calendar (month-view)**|Cell height reduces. Day labels abbreviated to 1 letter (S/M/T/W/T/F/S). Event pills truncate more aggressively.|
+
+### Page Sections
+
+|Component|Mobile behavior|
+|---|---|
+|**StatsStrip**|2×2 grid (2 columns, 2 rows). Numbers reduce by one clamp step.|
+|**AchievementTicker**|Unchanged — continuous scroll works at all widths.|
+|**QuoteBlock (pull)**|Left border accent, full width. Padding reduces to `space/4`.|
+|**QuoteBlock (ceremonial)**|Centered, full width. Font reduces to `type/pullquote` lower bound.|
+|**Hero (homepage)**|`100vw × 100svh` (use `svh` not `vh` — iOS Safari `vh` includes browser chrome). School name drops by 1 clamp step. One CTA only — secondary CTA hidden below fold or removed.|
+|**Hero (subpage)**|`100vw × 50svh` minimum. Breadcrumb visible.|
+|**Hero (minimal)**|Auto height. Breadcrumb visible.|
+
+---
+
+## 11.8 — Navigation Mobile Specification
+
+The Navigation component has the most complex responsive behavior in the system. This section fully specifies it.
+
+### Breakpoint
+
+Navigation transitions from horizontal to mobile at `md:` (768px). Below 768px the full nav is hidden and the hamburger is shown.
+
+### Hamburger button
+
+- Position: right side of header bar, vertically centered
+- Size: 44×44px touch target
+- Visual: Lucide `Menu` icon at `icon/lg` (24px), `text/inverse` on dark surfaces, `text/primary` on light
+- Aria: `aria-label="Open navigation menu"` when closed, `aria-label="Close navigation menu"` when open
+- `aria-expanded` toggles with state
+
+### Mobile menu overlay
+
+- Opens with `motion/standard` + `ease/out` — slides in from the right or fades in full-screen
+- Background: `overlay/heavy` on the body. Menu panel: `surface/inverse`
+- Z-index: `z/overlay` (backdrop) and `z/modal` (panel)
+- Scroll lock: `body` scroll locked while menu is open (`overflow: hidden`)
+- Close triggers: hamburger button, backdrop tap, Escape key
+- Focus trap: keyboard focus must be trapped inside the open menu
+
+### Mobile menu structure
+
+```
+[School Logo — gold on dark]         [× Close button — 44px]
+─────────────────────────────────────────────────────────────
+[LanguageSwitcher]
+─────────────────────────────────────────────────────────────
+Home
+About KCC
+Academics
+Admissions
+News
+Events
+Societies
+Gallery
+Results
+Contact
+─────────────────────────────────────────────────────────────
+[Social icons row]
+```
+
+Nav links: `type/h3`, `text/inverse`, 56px minimum touch target per item. Active page: `color/gold/base`. Dividers: `border/light` at 20% opacity.
+
+### LanguageSwitcher on mobile
+
+The LanguageSwitcher appears in the header bar below the logo (above the hamburger button area) at all times on mobile — it must be accessible before the menu opens. It does not live inside the mobile overlay.
+
+---
+
+## 11.9 — Form Behavior on Mobile
+
+Forms require special attention on mobile because the system keyboard significantly changes viewport height and layout behavior.
+
+### Viewport resize on keyboard open
+
+When a virtual keyboard opens, the viewport shrinks. Forms near the bottom of the screen can be obscured. Mitigate by:
+
+1. Ensuring `<meta name="viewport" content="width=device-width, initial-scale=1">` is set (prevents scale issues)
+2. Using `scroll-padding-top` on the `<html>` element to account for sticky nav height when fields scroll into focus
+3. Never placing submit buttons at the very bottom of long forms — they may scroll off-screen when the keyboard is open
+
+### Input behavior
+
+- All inputs: `font-size: 1rem` minimum (§11.4 iOS zoom rule)
+- All inputs: `w-full` on mobile
+- Input labels: visible above the field, never as floating labels that animate on focus. Animated labels create uncertainty on touch where focus state is less obvious
+- Autocomplete: always set `autocomplete` attributes on relevant fields (email, phone, name). iOS and Android keyboards use this to offer suggestions and correct keyboard types
+- `type="email"` shows email keyboard. `type="tel"` shows numeric keyboard. `type="search"` shows search keyboard with Go/Search return key. Always use the correct input type
+
+### Multi-step forms on mobile
+
+The `ProgressIndicator` (steps variant) hides labels on mobile and shows numbers only. On mobile, each step should fill the full viewport height where possible — avoid half-visible next fields that suggest incomplete UI. The `FormSectionWrapper` stack-spaces naturally and works correctly on mobile without modification.
+
+---
+
+## 11.10 — Performance Considerations (Sri Lanka Context)
+
+A responsive system is incomplete without acknowledging network reality. Nexus must function on 4G (common) and 3G (rural coverage, school areas outside Mathugama town) connections.
+
+### Image loading
+
+- All `<Image>` components: use `loading="lazy"` for below-fold images, `loading="eager"` for the hero only
+- Hero images: provide a `blurDataURL` placeholder — prevents layout shift while image loads
+- Gallery pages: never load full-resolution images in grid view. Load thumbnails (Sanity/R2 image transforms should serve appropriately sized variants)
+- No autoplay video on mobile — hero video loop falls back to a poster image at `breakpoint/md` and below
+
+### Font loading
+
+All three fonts (Cormorant Garamond, Source Serif 4, Noto Serif Sinhala) are loaded from Google Fonts via Next.js's `next/font/google`. Use `display: 'swap'` to prevent invisible text during font load. Sinhala font only loads on pages where Sinhala content is present — do not load it globally.
+
+### Bundle discipline
+
+- No animation library (Framer Motion, etc.) is justified for this project. All animations use CSS transitions and keyframes as specified in §06. A full animation library adds 30–60KB gzipped for transitions that are achievable in CSS.
+- Lucide icons: import individually (`import { Menu } from 'lucide-react'`), never the full package barrel import.
+
+### Cumulative Layout Shift (CLS)
+
+CLS is especially damaging on slow connections where content loads in stages. Prevent it by:
+
+1. Always defining `width` and `height` (or `aspect-ratio`) on every image container before the image loads
+2. Reserving space for the AnnouncementBanner if it may appear after page load — do not inject it above the nav without pre-reserved space
+3. Loading screen covers initial paint — ensure it exits before CLS-prone content is visible
+
+---
+
+## 11.11 — Responsive Testing Checklist
+
+Before any component or page is marked complete, it must be tested at these exact viewports:
+
+|Viewport|Represents|
+|---|---|
+|**375 × 667**|iPhone SE — smallest common iOS device|
+|**390 × 844**|iPhone 14 — most common iOS size 2024–2025|
+|**412 × 915**|Samsung Galaxy A series — most common Android in Sri Lanka|
+|**768 × 1024**|iPad (portrait) — tablet context|
+|**1024 × 768**|Landscape tablet / small laptop|
+|**1280 × 800**|Standard laptop|
+|**1440 × 900**|Common desktop|
+
+Test in Chrome DevTools device mode for layout. Test on a real Android device (mid-range — Redmi, Samsung A series) for touch behavior, font rendering, and scroll performance. iOS Safari has distinct behavior for `vh`, sticky positioning, and form zooming — test on a real iPhone if available.
+
+### Checklist per viewport
+
+- [ ] No horizontal scroll at any viewport
+- [ ] No text touching screen edges (minimum 16px padding)
+- [ ] All touch targets minimum 44px
+- [ ] Navigation accessible and functional
+- [ ] Forms usable with virtual keyboard open
+- [ ] Images loading at appropriate sizes (check Network tab)
+- [ ] No layout shift on load (check CLS in Lighthouse)
+- [ ] Reduced motion preference honored (enable in OS settings)
+
+---
+
+## System Integrity Rule Addition
+
+The following rule is added to the System Integrity Rules in Foundations §11:
+
+**Rule 12 — No layout that breaks below 375px.** The system supports viewports down to 375px wide. Components that cannot function below 640px are system failures. If a component requires a minimum viewport wider than 375px to be usable, it must be redesigned, not hidden.
+
+**Rule 13 — Touch targets are non-negotiable.** A 44×44px minimum touch target applies to every interactive element on every page. Compact visual design never excuses inaccessible touch areas. Expand padding if necessary.
+
+**Rule 14 — Font size floor at form inputs is 1rem.** No exceptions. This prevents iOS Safari's automatic zoom behavior, which breaks layout and harms the user experience.
+
+---
+
+_Nexus Design System — Responsive System (§11)_ _C.W.W. Kannangara Central College, Mathugama_ _Maintained by Kannangara ICT Society (KITS)_ _© 2026_
 ## System Integrity Rules
 
 These rules govern the entire foundations layer. They are non-negotiable.
