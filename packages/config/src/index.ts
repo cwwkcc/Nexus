@@ -1,1 +1,2 @@
-export * from './lib/config.js';
+export * from './tokens/index.js';
+export { nexusPreset } from './tailwind/preset.js';
