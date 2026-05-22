@@ -2,7 +2,13 @@
   "name": "@nexus/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "prebuild": "pnpm --filter @nexus/config build && pnpm --filter @nexus/config generate:css",
+    "dev": "pnpm prebuild && pnpm --filter @nexus/web dev",
+    "build": "pnpm prebuild && pnpm --filter @nexus/web build",
+    "dev:admin": "pnpm prebuild && pnpm --filter @nexus/admin dev",
+    "build:admin": "pnpm prebuild && pnpm --filter @nexus/admin build"
+  },
   "private": true,
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1012.0",
