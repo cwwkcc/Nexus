@@ -1,4 +1,4 @@
-export function YouTubeIcon() {
+export function YoutubeIcon() {
   return (
     <svg
       width="18"
