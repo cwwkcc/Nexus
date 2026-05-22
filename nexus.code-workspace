@@ -21,6 +21,10 @@
       "path": "packages/ui",
     },
     {
+      "name": "CONFIG",
+      "path": "packages/config",
+    },
+    {
       "name": "ROOT",
       "path": ".",
     },
