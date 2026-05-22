@@ -1,0 +1,130 @@
+// packages/ui/src/components/tables/DataTable.tsx
+'use client';
+
+import { useState, useCallback } from 'react';
+import { clsx } from 'clsx';
+
+export type SortDirection = 'asc' | 'desc' | null;
+
+export interface Column<T> {
+  key: keyof T;
+  header: string;
+  sortable?: boolean;
+  render?: (value: T[keyof T], row: T) => React.ReactNode;
+  className?: string;
+}
+
+export interface DataTableProps<T> {
+  columns: Column<T>[];
+  data: T[];
+  onSort?: (key: keyof T, direction: SortDirection) => void;
+  onRowClick?: (row: T) => void;
+  emptyMessage?: string;
+  isLoading?: boolean;
+}
+
+export function DataTable<T extends Record<string, unknown>>({
+  columns,
+  data,
+  onSort,
+  onRowClick,
+  emptyMessage = 'No data found',
+  isLoading = false,
+}: DataTableProps<T>) {
+  const [sortKey, setSortKey] = useState<keyof T | null>(null);
+  const [sortDirection, setSortDirection] = useState<SortDirection>(null);
+
+  const handleSort = useCallback(
+    (key: keyof T) => {
+      if (!onSort) return;
+
+      let newDirection: SortDirection = 'asc';
+      if (sortKey === key) {
+        if (sortDirection === 'asc') newDirection = 'desc';
+        else if (sortDirection === 'desc') newDirection = null;
+      }
+
+      setSortKey(newDirection ? key : null);
+      setSortDirection(newDirection);
+      onSort(key, newDirection);
+    },
+    [sortKey, sortDirection, onSort],
+  );
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center py-12">
+        <div className="w-8 h-8 border-2 border-gold-base border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full border-collapse">
+        <thead>
+          <tr className="border-b border-border-default bg-surface-deep">
+            {columns.map((col) => (
+              <th
+                key={String(col.key)}
+                className={clsx(
+                  'px-4 py-3 text-left font-body text-label uppercase tracking-wider text-text-muted',
+                  col.sortable &&
+                    'cursor-pointer hover:text-gold-base transition-colors',
+                  col.className,
+                )}
+                onClick={() => col.sortable && handleSort(col.key)}
+              >
+                <div className="flex items-center gap-2">
+                  {col.header}
+                  {col.sortable && sortKey === col.key && (
+                    <span className="text-gold-base">
+                      {sortDirection === 'asc' ? '↑' : '↓'}
+                    </span>
+                  )}
+                </div>
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {data.length === 0 ? (
+            <tr>
+              <td
+                colSpan={columns.length}
+                className="px-4 py-12 text-center text-text-muted"
+              >
+                {emptyMessage}
+              </td>
+            </tr>
+          ) : (
+            data.map((row, idx) => (
+              <tr
+                key={idx}
+                onClick={() => onRowClick?.(row)}
+                className={clsx(
+                  'border-b border-border-light transition-colors',
+                  onRowClick && 'cursor-pointer hover:bg-surface-deep/50',
+                )}
+              >
+                {columns.map((col) => (
+                  <td
+                    key={String(col.key)}
+                    className={clsx(
+                      'px-4 py-3 font-body text-body-sm text-text-primary',
+                      col.className,
+                    )}
+                  >
+                    {col.render
+                      ? col.render(row[col.key], row)
+                      : String(row[col.key])}
+                  </td>
+                ))}
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
+    </div>
+  );
+}
