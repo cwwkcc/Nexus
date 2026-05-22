@@ -1,11 +1,9 @@
 'use client';
 
-import { forwardRef } from 'react';
+import { forwardRef, ElementType } from 'react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { BeatLoader } from './Spinners/BeatLoader';
-
-// ─── Types ────────────────────────────────────────────────────────────────────
 
 export type ButtonVariant =
   | 'primary'
@@ -17,7 +15,8 @@ export type ButtonVariant =
 
 export type ButtonSize = 'sm' | 'md' | 'lg' | 'icon';
 
-export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+type PolymorphicProps<T extends ElementType> = {
+  as?: T;
   variant?: ButtonVariant;
   size?: ButtonSize;
   loading?: boolean;
@@ -25,9 +24,9 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   fullWidth?: boolean;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
-};
-
-// ─── Style Maps ───────────────────────────────────────────────────────────────
+  children?: React.ReactNode;
+  className?: string;
+} & React.ComponentPropsWithoutRef<T>;
 
 const base =
   'relative inline-flex items-center justify-center gap-space-2 font-body text-label ' +
@@ -46,7 +45,7 @@ const variants: Record<ButtonVariant, string> = {
   outline:
     'bg-transparent text-gold-base border-gold-base hover:border-gold-hover hover:text-gold-hover active:border-gold-active active:text-gold-active',
   destructive:
-    'bg-red-base text-text-inverse border-transparent hover:bg-red-hover active:bg-red-active',
+    'bg-semantic-error-base text-text-inverse border-transparent hover:bg-semantic-error-base/80 active:bg-semantic-error-base/60',
   link: 'bg-transparent text-gold-base border-transparent normal-case tracking-normal underline-offset-4 hover:underline active:text-gold-active',
 };
 
@@ -54,7 +53,6 @@ const sizes: Record<ButtonSize, string> = {
   lg: 'px-space-5 py-space-4',
   md: 'px-space-4 py-space-3',
   sm: 'px-space-3 py-space-2',
-
   icon: 'w-10 h-10 p-0',
 };
 
@@ -65,11 +63,10 @@ const loaderSize: Record<ButtonSize, 'sm' | 'md' | 'lg'> = {
   icon: 'sm',
 };
 
-// ─── Component ────────────────────────────────────────────────────────────────
-
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  (
+export const Button = forwardRef<HTMLElement, PolymorphicProps<ElementType>>(
+  <T extends ElementType = 'button'>(
     {
+      as,
       variant = 'primary',
       size = 'md',
       type = 'button',
@@ -83,9 +80,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       className,
       onClick,
       ...rest
-    },
-    ref,
+    }: PolymorphicProps<T>,
+    ref: React.ForwardedRef<HTMLElement>,
   ) => {
+    const Component = as || 'button';
     const isDisabled = disabled || loading;
 
     if (
@@ -104,14 +102,14 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         e.preventDefault();
         return;
       }
-      onClick?.(e);
+      onClick?.(e as any);
     };
 
     return (
-      <button
-        ref={ref}
-        type={type}
-        disabled={isDisabled}
+      <Component
+        ref={ref as any}
+        type={Component === 'button' ? type : undefined}
+        disabled={Component === 'button' ? isDisabled : undefined}
         aria-busy={loading}
         data-variant={variant}
         data-size={size}
@@ -131,7 +129,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             className,
           ),
         )}
-        {...rest}
+        {...(rest as any)}
       >
         {loading && (
           <span className="absolute inset-0 flex items-center justify-center gap-space-2 pointer-events-none">
@@ -162,7 +160,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             <span className="shrink-0 [&>svg]:size-[1em]">{rightIcon}</span>
           )}
         </span>
-      </button>
+      </Component>
     );
   },
 );
