@@ -5,7 +5,7 @@ import {
   Caption,
   ImageFrame,
   Lightbox,
-  PanoramicfacilityViewer,
+  PanoramicFacilityViewer,
   VideoFrame,
 } from '@nexus/ui';
 
@@ -81,8 +81,8 @@ export default function MediaPage() {
           </p>
         </DemoSection>
 
-        <DemoSection title="PanoramicfacilityViewer">
-          <PanoramicfacilityViewer
+        <DemoSection title="PanoramicFacilityViewer">
+          <PanoramicFacilityViewer
             images={[{ src: '/images/white.jpg', alt: 'Panorama' }]}
           />
         </DemoSection>

@@ -40,7 +40,7 @@ function DemoSection({
 
 export default function FormsPage() {
   const [sliderValue, setSliderValue] = useState(50);
-  const [progressValue, setProgressValue] = useState(30);
+  const [progressValue] = useState(30);
 
   return (
     <div className="min-h-screen bg-surface-base py-12">
