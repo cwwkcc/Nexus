@@ -37,8 +37,12 @@
   --color-overlay-heavy: rgba(28,26,22,0.78);
 
   /* Spacing (4px scale) */
+  --space-0: 0px;
+  --space-0p5: 2px;
   --space-1: 4px;
+  --space-1p5: 6px;
   --space-2: 8px;
+  --space-2p5: 10px;
   --space-3: 12px;
   --space-4: 16px;
   --space-5: 20px;
@@ -207,6 +211,44 @@
   --aspect-hero: 16 / 9;
   --aspect-portrait: 3 / 4;
   --aspect-square: 1 / 1;
+
+  /* Sizing (width/height) */
+  --size-0: 0px;
+  --size-px: 1px;
+  --size-0p5: 2px;
+  --size-1: 4px;
+  --size-1p5: 6px;
+  --size-2: 8px;
+  --size-2p5: 10px;
+  --size-3: 12px;
+  --size-3p5: 14px;
+  --size-4: 16px;
+  --size-5: 20px;
+  --size-6: 24px;
+  --size-8: 32px;
+  --size-10: 40px;
+  --size-12: 48px;
+  --size-14: 56px;
+  --size-16: 64px;
+  --size-20: 80px;
+  --size-24: 96px;
+  --size-28: 112px;
+  --size-32: 128px;
+  --size-36: 144px;
+  --size-40: 160px;
+  --size-48: 192px;
+  --size-56: 224px;
+  --size-64: 256px;
+  --size-72: 288px;
+  --size-80: 320px;
+  --size-96: 384px;
+  --size-full: 100%;
+  --size-screen-w: 100vw;
+  --size-screen-h: 100vh;
+  --size-min: min-content;
+  --size-max: max-content;
+  --size-fit: fit-content;
+  --size-auto: auto;
 
   /* Whitelist gradients */
   --bg-gradient-gold-subtle: linear-gradient(135deg, rgba(201,151,58,0.18), rgba(26,74,46,0.0));
