@@ -18,7 +18,6 @@ export { InlineHelpText } from './components/atoms/InlineHelpText';
 
 // Spinners
 export { BeatLoader } from './components/atoms/Spinners/BeatLoader';
-export { BarLoader } from './components/atoms/Spinners/BarLoader';
 export { ScaleLoader } from './components/atoms/Spinners/ScaleLoader';
 
 // ============================================================================
