@@ -11,3 +11,4 @@ export * from './opacity.js';
 export * from './blur.js';
 export * from './aspectRatio.js';
 export * from './gradients.js';
+export * from './sizing.js';

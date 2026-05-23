@@ -15,6 +15,7 @@ import {
   aspectRatio,
   backgroundImage,
   fontFamily,
+  sizing, // your new sizing tokens
 } from '../tokens/index.js';
 
 export const nexusPreset: Partial<Config> = {
@@ -33,7 +34,7 @@ export const nexusPreset: Partial<Config> = {
     fontSize,
     letterSpacing,
     lineHeight,
-    spacing,
+    spacing, // for margins, paddings, gaps
     maxWidth: {
       prose: '680px',
       content: '960px',
@@ -49,7 +50,15 @@ export const nexusPreset: Partial<Config> = {
     blur,
     aspectRatio,
     backgroundImage,
-    extend: {}, // no extra extensions – everything is already replaced
+
+    extend: {
+      width: sizing,
+      height: sizing,
+      minWidth: sizing,
+      maxWidth: sizing,
+      minHeight: sizing,
+      maxHeight: sizing,
+    },
   },
   plugins: [],
 };

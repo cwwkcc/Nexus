@@ -13,6 +13,7 @@ import {
   blur,
   aspectRatio,
   backgroundImage,
+  sizing,
 } from '../dist/tokens/index.js';
 import fs from 'fs';
 import path from 'path';
@@ -121,6 +122,12 @@ function writeTokensToFile(outputPath) {
   addComment('Aspect ratios');
   for (const [key, value] of Object.entries(aspectRatio)) {
     css += `  --aspect-${key}: ${value};\n`;
+  }
+
+  // Sizing (width/height)
+  addComment('Sizing (width/height)');
+  for (const [key, value] of Object.entries(sizing)) {
+    css += `  --${key}: ${value};\n`;
   }
 
   // Gradients (whitelist)
