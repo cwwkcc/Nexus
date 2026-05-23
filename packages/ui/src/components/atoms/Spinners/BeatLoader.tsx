@@ -19,9 +19,9 @@ const sizeConfig: Record<
   BeatLoaderSize,
   { dot: string; gap: string; lift: number }
 > = {
-  sm: { dot: 'w-1.5 h-1.5', gap: 'gap-1', lift: 4 },
-  md: { dot: 'w-2 h-2', gap: 'gap-1.5', lift: 6 },
-  lg: { dot: 'w-3 h-3', gap: 'gap-2', lift: 8 },
+  sm: { dot: 'w-size-1p5 h-size-1p5', gap: 'gap-space-1', lift: 4 },
+  md: { dot: 'w-size-2 h-size-2', gap: 'gap-space-1', lift: 6 },
+  lg: { dot: 'w-size-3 h-size-3', gap: 'gap-space-2', lift: 8 },
 };
 
 const variantConfig: Record<BeatLoaderVariant, string> = {

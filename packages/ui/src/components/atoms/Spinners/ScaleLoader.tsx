@@ -7,18 +7,18 @@ type ScaleLoaderSize = 'sm' | 'md' | 'lg';
 type ScaleLoaderVariant = 'green' | 'gold' | 'muted';
 type ScaleLoaderSpeed = 'fast' | 'normal' | 'slow';
 
-type ScaleLoaderProps = {
+interface ScaleLoaderProps {
   size?: ScaleLoaderSize;
   variant?: ScaleLoaderVariant;
   speed?: ScaleLoaderSpeed;
   label?: string;
   className?: string;
-};
+}
 
 const sizeConfig: Record<ScaleLoaderSize, { bar: string; gap: string }> = {
-  sm: { bar: 'w-0.5 h-3', gap: 'gap-0.5' },
-  md: { bar: 'w-1 h-5', gap: 'gap-1' },
-  lg: { bar: 'w-1.5 h-7', gap: 'gap-1.5' },
+  sm: { bar: 'w-size-0p5 h-size-3', gap: 'gap-space-1' },
+  md: { bar: 'w-size-1 h-size-5', gap: 'gap-space-1' },
+  lg: { bar: 'w-size-1p5 h-size-6', gap: 'gap-space-2' },
 };
 
 const variantConfig: Record<ScaleLoaderVariant, string> = {
