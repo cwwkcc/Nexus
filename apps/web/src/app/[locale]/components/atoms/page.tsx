@@ -10,35 +10,19 @@ import {
   ToolTip,
   InlineHelpText,
   BeatLoader,
-  BarLoader,
   ScaleLoader,
 } from '@nexus/ui';
 
-function DemoSection({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="mb-12">
-      <h2 className="font-display text-h2 mb-4 border-b border-border-light pb-2">
-        {title}
-      </h2>
-      <div className="flex flex-wrap gap-6 items-center">{children}</div>
-    </div>
-  );
-}
+import { DemoSection } from '../_components/DemoSection';
 
 export default function AtomsPage() {
   return (
-    <div className="min-h-screen bg-surface-base py-12">
+    <div className="min-h-screen bg-surface-base py-space-12">
       <div className="content-width">
-        <h1 className="font-display text-h1 mb-4">Atoms</h1>
-        <p className="font-body text-body text-text-muted mb-12">
-          The smallest UI building blocks – buttons, badges, avatars, loaders
-          and more.
+        <h1 className="font-display text-h1 mb-space-4">Atoms</h1>
+        <p className="font-body text-body text-text-muted mb-space-12">
+          The smallest UI building blocks buttons, badges, avatars, loaders and
+          more.
         </p>
 
         <DemoSection title="Avatar">
@@ -97,23 +81,45 @@ export default function AtomsPage() {
         </DemoSection>
 
         <DemoSection title="BeatLoader">
+          {/* Size variants */}
+          <BeatLoader size="sm" />
+          <BeatLoader size="md" />
+          <BeatLoader size="lg" />
+
+          {/* Colour variants */}
           <BeatLoader variant="green" />
           <BeatLoader variant="gold" />
           <BeatLoader variant="muted" />
-          <BeatLoader size="sm" speed="fast" />
-          <BeatLoader size="lg" speed="slow" />
-        </DemoSection>
 
-        <DemoSection title="BarLoader">
-          <BarLoader variant="green" />
-          <BarLoader variant="gold" />
-          <BarLoader variant="muted" />
+          {/* Speed variants */}
+          <BeatLoader speed="fast" />
+          <BeatLoader speed="normal" />
+          <BeatLoader speed="slow" />
+
+          {/* Combined examples */}
+          <BeatLoader size="lg" variant="gold" speed="slow" />
+          <BeatLoader size="sm" variant="muted" speed="fast" />
         </DemoSection>
 
         <DemoSection title="ScaleLoader">
+          {/* Size variants */}
+          <ScaleLoader size="sm" />
+          <ScaleLoader size="md" />
+          <ScaleLoader size="lg" />
+
+          {/* Colour variants */}
           <ScaleLoader variant="green" />
           <ScaleLoader variant="gold" />
           <ScaleLoader variant="muted" />
+
+          {/* Speed variants */}
+          <ScaleLoader speed="fast" />
+          <ScaleLoader speed="normal" />
+          <ScaleLoader speed="slow" />
+
+          {/* Combined examples */}
+          <ScaleLoader size="lg" variant="gold" speed="slow" />
+          <ScaleLoader size="sm" variant="muted" speed="fast" />
         </DemoSection>
       </div>
     </div>

@@ -25,22 +25,24 @@ const categories = [
 
 export default function ComponentsIndexPage() {
   return (
-    <div className="min-h-screen bg-surface-base py-12">
-      <div className="content-width">
-        <h1 className="font-display text-h1 mb-4">Nexus Component Library</h1>
-        <p className="font-body text-body text-text-muted mb-12 max-w-2xl">
+    <div className="min-h-screen bg-surface-base py-space-24">
+      <div className="content-width overflow-hidden m-space-16">
+        <h1 className="font-display text-h1 mb-space-32">
+          Nexus Component Library
+        </h1>
+        <p className="font-body text-body text-text-muted mb-space-12 max-w-2xl">
           All 117+ components organised by category. Each page demonstrates
           every component in that category with live examples and code snippets.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-6">
           {categories.map((cat) => (
             <Link
               key={cat.slug}
               href={`/components/${cat.slug}`}
-              className="group block p-6 bg-surface-elevated border border-border-light rounded-md hover:border-gold-base transition-all"
+              className="group block p-space-6 bg-surface-elevated border border-border-light rounded-md hover:border-gold-base transition-all"
             >
-              <h2 className="font-display text-h3 mb-2 group-hover:text-gold-base transition-colors">
+              <h2 className="font-display text-h3 mb-space-2 group-hover:text-gold-base transition-colors">
                 {cat.name}
               </h2>
               <p className="font-body text-caption uppercase tracking-wide text-text-muted">
