@@ -1,9 +1,10 @@
 // packages/ui/src/components/layout/Stack.tsx
 import { clsx } from 'clsx';
 
-export type StackAlign = 'start' | 'center' | 'end' | 'stretch';
-export type StackJustify = 'start' | 'center' | 'end' | 'between' | 'around';
-export type StackSpacing = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 8 | 10 | 12;
+type StackAlign = 'start' | 'center' | 'end' | 'stretch';
+type StackJustify = 'start' | 'center' | 'end' | 'between' | 'around';
+type StackSpacing = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 8 | 10 | 12;
+type StackAs = 'div' | 'nav' | 'section' | 'ul';
 
 const spacingMap: Record<StackSpacing, string> = {
   0: 'gap-0',
@@ -33,12 +34,12 @@ const justifyMap: Record<StackJustify, string> = {
   around: 'justify-around',
 };
 
-export interface VStackProps {
+interface VStackProps {
   children: React.ReactNode;
   spacing?: StackSpacing;
   align?: StackAlign;
   className?: string;
-  as?: 'div' | 'nav' | 'section';
+  as?: StackAs;
 }
 
 export function VStack({
@@ -62,14 +63,14 @@ export function VStack({
   );
 }
 
-export interface HStackProps {
+interface HStackProps {
   children: React.ReactNode;
   spacing?: StackSpacing;
   align?: StackAlign;
   justify?: StackJustify;
   wrap?: boolean;
   className?: string;
-  as?: 'div' | 'nav' | 'ul';
+  as?: StackAs;
 }
 
 export function HStack({
