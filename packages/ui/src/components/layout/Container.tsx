@@ -1,21 +1,22 @@
 // packages/ui/src/components/layout/Container.tsx
 import { clsx } from 'clsx';
 
-export type ContainerSize = 'sm' | 'md' | 'lg' | 'full';
-export type ContainerPadding = 'none' | 'sm' | 'md' | 'lg';
+type ContainerSize = 'sm' | 'md' | 'lg' | 'full';
+type ContainerPadding = 'none' | 'sm' | 'md' | 'lg';
+type ContainerAs = 'div' | 'section' | 'article';
 
-export interface ContainerProps {
+interface ContainerProps {
   children: React.ReactNode;
   size?: ContainerSize;
   padding?: ContainerPadding;
-  as?: 'div' | 'section' | 'article';
+  as?: ContainerAs;
   className?: string;
 }
 
 const sizeMap: Record<ContainerSize, string> = {
-  sm: 'max-w-prose', // 65ch for readability
-  md: 'max-w-content', // 1160px
-  lg: 'max-w-wide', // 1440px
+  sm: 'max-w-prose',
+  md: 'max-w-content',
+  lg: 'max-w-wide',
   full: 'max-w-none',
 };
 
