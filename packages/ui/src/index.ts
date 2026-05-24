@@ -132,6 +132,7 @@ export { VideoFrame } from './components/media/VideoFrame';
 // NAVIGATION
 // ============================================================================
 export { Tabs } from './components/navigation/Tabs';
+export { NavLink } from './components/navigation/NavLink';
 
 // ============================================================================
 // SECTIONS
@@ -191,3 +192,9 @@ export { useInView } from './hooks/useInView';
 export { useLocalStorage } from './hooks/useLocalStorage';
 export { useMediaQuery } from './hooks/useMediaQuery';
 export { useScrollDirection } from './hooks/useScrollDirection';
+
+// ============================================================================
+// Utilities
+// ============================================================================
+
+export { cn } from './utilities/cn';
