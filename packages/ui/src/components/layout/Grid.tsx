@@ -1,8 +1,10 @@
 // packages/ui/src/components/layout/Grid.tsx
-import { clsx } from 'clsx';
+
+import { cn } from '../../utilities/cn';
 
 export type GridColumns = 1 | 2 | 3 | 4 | 6 | 12;
-export type GridGap = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 8 | 10 | 12;
+export type GridGap = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+export type GridAs = 'div' | 'ul';
 
 const columnsMap: Record<GridColumns, string> = {
   1: 'grid-cols-1',
@@ -21,8 +23,11 @@ const gapMap: Record<GridGap, string> = {
   4: 'gap-space-4',
   5: 'gap-space-5',
   6: 'gap-space-6',
+  7: 'gap-space-7',
   8: 'gap-space-8',
+  9: 'gap-space-9',
   10: 'gap-space-10',
+  11: 'gap-space-11',
   12: 'gap-space-12',
 };
 
@@ -30,8 +35,8 @@ export interface GridProps {
   children: React.ReactNode;
   columns?: GridColumns;
   gap?: GridGap;
+  as?: GridAs;
   className?: string;
-  as?: 'div' | 'ul';
 }
 
 export function Grid({
@@ -42,7 +47,7 @@ export function Grid({
   className,
 }: GridProps) {
   return (
-    <Tag className={clsx('grid', columnsMap[columns], gapMap[gap], className)}>
+    <Tag className={cn('grid', columnsMap[columns], gapMap[gap], className)}>
       {children}
     </Tag>
   );
@@ -58,5 +63,5 @@ export function GridItem({ children, colSpan, className }: GridItemProps) {
   const spanClass = colSpan
     ? `col-span-${colSpan} md:col-span-${Math.min(colSpan, 6)}`
     : '';
-  return <div className={clsx(spanClass, className)}>{children}</div>;
+  return <div className={cn(spanClass, className)}>{children}</div>;
 }

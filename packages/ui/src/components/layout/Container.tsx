@@ -1,5 +1,5 @@
 // packages/ui/src/components/layout/Container.tsx
-import { clsx } from 'clsx';
+import { cn } from '../../utilities/cn';
 
 type ContainerSize = 'sm' | 'md' | 'lg' | 'full';
 type ContainerPadding = 'none' | 'sm' | 'md' | 'lg';
@@ -36,12 +36,7 @@ export function Container({
 }: ContainerProps) {
   return (
     <Tag
-      className={clsx(
-        'mx-auto w-full',
-        sizeMap[size],
-        paddingMap[padding],
-        className,
-      )}
+      className={cn('mx-auto', sizeMap[size], paddingMap[padding], className)}
     >
       {children}
     </Tag>
