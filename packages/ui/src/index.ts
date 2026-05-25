@@ -94,11 +94,7 @@ export { ScrollProgressBar } from './components/global/ScrollProgressBar';
 // ============================================================================
 // ICONS
 // ============================================================================
-export { FacebookIcon } from './components/icons/FacebookIcon';
-export { GitHubIcon } from './components/icons/GitHubIcon';
-export { InstagramIcon } from './components/icons/InstagramIcon';
-export { LinkedInIcon } from './components/icons/LinkedInIcon';
-export { YoutubeIcon } from './components/icons/YoutubeIcon';
+export * from './components/icons';
 
 // ============================================================================
 // LAYOUT
