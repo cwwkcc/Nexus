@@ -5,9 +5,54 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Your custom base styles, utilities, and Sinhala overrides */
+/* ── Base Styles ── */
 @layer base {
-  /* ... */
+  html {
+    background-color: var(--base);
+    color: var(--text-dark);
+    font-family: var(--font-body);
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    font-family: var(--font-body);
+    line-height: 1.6;
+    margin: 0;
+    background-color: var(--base);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--green);
+  }
+
+  p {
+    color: var(--text-muted);
+    font-weight: 300;
+    line-height: 1.8;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  *,
+  ::before,
+  ::after {
+    box-sizing: border-box;
+    border-width: 0;
+    border-style: solid;
+  }
 }
 @layer utilities {
   /* ... */
