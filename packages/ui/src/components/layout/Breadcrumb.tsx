@@ -1,13 +1,12 @@
-import Link from 'next/link';
+import clsx from 'clsx';
+import { NavLink } from '../navigation/NavLink';
 
-// ─── Breadcrumb ───────────────────────────────────────────────────────────────
-
-export interface BreadcrumbItem {
+interface BreadcrumbItem {
   label: string;
   href?: string;
 }
 
-export interface BreadcrumbProps {
+interface BreadcrumbProps {
   items: BreadcrumbItem[];
   /** Light variant for use on dark hero backgrounds */
   onDark?: boolean;
@@ -16,34 +15,18 @@ export interface BreadcrumbProps {
 export function Breadcrumb({ items, onDark = false }: BreadcrumbProps) {
   return (
     <nav aria-label="Breadcrumb">
-      <ol
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          gap: '6px',
-          listStyle: 'none',
-          margin: 0,
-          padding: 0,
-        }}
-      >
+      <ol className="flex items-center flex-wrap gap-space-1p5 m-0 p-0 list-none">
         {items.map((item, i) => {
           const isLast = i === items.length - 1;
           return (
-            <li
-              key={i}
-              style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
-            >
+            <li key={i} className="flex items-center gap-space-1p5">
               {i > 0 && (
                 <span
                   aria-hidden="true"
-                  style={{
-                    fontFamily: 'var(--font-body)',
-                    fontSize: '0.6rem',
-                    color: onDark
-                      ? 'rgba(255,255,255,0.3)'
-                      : 'var(--text-muted)',
-                  }}
+                  className={clsx(
+                    'font-body text-xs',
+                    onDark ? 'text-text-inverse/30' : 'text-text-muted',
+                  )}
                 >
                   ›
                 </span>
@@ -51,49 +34,27 @@ export function Breadcrumb({ items, onDark = false }: BreadcrumbProps) {
               {isLast || !item.href ? (
                 <span
                   aria-current={isLast ? 'page' : undefined}
-                  style={{
-                    fontFamily: 'var(--font-body)',
-                    fontSize: '0.68rem',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.12em',
-                    color: isLast
+                  className={clsx(
+                    'font-body text-caption uppercase tracking-caption',
+                    isLast
                       ? onDark
-                        ? 'rgba(255,255,255,0.85)'
-                        : 'var(--text-primary)'
+                        ? 'text-text-inverse/85'
+                        : 'text-text-primary'
                       : onDark
-                        ? 'rgba(255,255,255,0.45)'
-                        : 'var(--text-muted)',
-                  }}
+                        ? 'text-text-inverse/45'
+                        : 'text-text-muted',
+                  )}
                 >
                   {item.label}
                 </span>
               ) : (
-                <Link
+                <NavLink
                   href={item.href}
-                  style={{
-                    fontFamily: 'var(--font-body)',
-                    fontSize: '0.68rem',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.12em',
-                    color: onDark
-                      ? 'rgba(255,255,255,0.45)'
-                      : 'var(--text-muted)',
-                    textDecoration: 'none',
-                    transition: 'color 0.15s ease',
-                  }}
-                  onMouseEnter={(e) =>
-                    ((e.currentTarget as HTMLElement).style.color = onDark
-                      ? 'rgba(255,255,255,0.85)'
-                      : 'var(--color-gold-base)')
-                  }
-                  onMouseLeave={(e) =>
-                    ((e.currentTarget as HTMLElement).style.color = onDark
-                      ? 'rgba(255,255,255,0.45)'
-                      : 'var(--text-muted)')
-                  }
+                  onDark={onDark}
+                  className="font-body text-caption uppercase tracking-caption"
                 >
                   {item.label}
-                </Link>
+                </NavLink>
               )}
             </li>
           );
