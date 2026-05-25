@@ -29,7 +29,7 @@ export function SchoolLogo({
         height={px}
         viewBox="0 0 180.81596 238.82889"
         aria-hidden="true"
-        className="fill-gold-base shrink-0"
+        className="fill-gold-base shrink-0 m-space-2"
         xmlns="http://www.w3.org/2000/svg"
       >
         <g transform="translate(-8.4153016,-19.870294)">
