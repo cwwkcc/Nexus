@@ -1,25 +1,30 @@
 // components/atoms/EyebrowLabel.tsx
-import { type ElementType, type ReactNode } from 'react';
-import { clsx } from 'clsx';
+import { type ElementType, type ReactNode, forwardRef } from 'react';
+import { cn } from '../../utilities/cn';
 
-type Props = {
+type EyebrowLabelProps = {
   children: ReactNode;
-  /** Render as a different element when semantics require it — e.g. `legend` inside a fieldset. Defaults to `span`. */
   as?: ElementType;
+  'aria-hidden'?: boolean;
   className?: string;
 };
 
-export function EyebrowLabel({ children, as: Tag = 'span', className }: Props) {
-  return (
+export const EyebrowLabel = forwardRef<HTMLElement, EyebrowLabelProps>(
+  (
+    { children, as: Tag = 'span', 'aria-hidden': ariaHidden, className },
+    ref,
+  ) => (
     <Tag
-      className={clsx(
+      ref={ref}
+      aria-hidden={ariaHidden}
+      className={cn(
         'font-body text-eyebrow uppercase tracking-eyebrow text-gold-base select-none',
         className,
       )}
     >
       {children}
     </Tag>
-  );
-}
+  ),
+);
 
 EyebrowLabel.displayName = 'EyebrowLabel';
