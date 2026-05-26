@@ -49,7 +49,7 @@ interface StackProps {
 
 export function VStack({
   children,
-  spacing = 4,
+  spacing = 1,
   align = 'start',
   className,
   as: Tag = 'div',
