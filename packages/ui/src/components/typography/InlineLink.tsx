@@ -1,60 +1,58 @@
-// components/atoms/InlineLink.tsx
 import Link from 'next/link';
-import { clsx } from 'clsx';
+import { forwardRef, type ComponentPropsWithoutRef } from 'react';
+import { cn } from '../../utilities/cn';
 
-type Props = {
+type InlineLinkProps = {
   href: string;
   children: React.ReactNode;
+  /** Force external link behaviour (target="_blank", rel="noopener noreferrer") */
   external?: boolean;
+  /** Prefetch the linked page (Next.js only, ignored for external). Default true. */
+  prefetch?: boolean;
   className?: string;
-};
+} & Omit<ComponentPropsWithoutRef<'a'>, 'href' | 'children' | 'target' | 'rel'>;
 
-const styles = clsx(
-  'font-body text-gold-base underline underline-offset-2',
-  'transition-colors duration-fast ease-snap',
-  'hover:text-gold-hover visited:text-gold-active',
-  'focus-visible:outline-2 focus-visible:outline-gold-base focus-visible:outline-offset-[3px]',
-);
+const inlineLinkStyles =
+  'font-body text-gold-base underline underline-offset-2 ' +
+  'transition-colors duration-fast ease-snap ' +
+  'hover:text-gold-hover visited:text-gold-active ' +
+  'focus-visible:outline-2 focus-visible:outline-gold-base focus-visible:outline-offset-[3px]';
 
-export function InlineLink({
-  href,
-  children,
-  external = false,
-  className,
-}: Props) {
-  if (external) {
+export const InlineLink = forwardRef<HTMLAnchorElement, InlineLinkProps>(
+  (
+    { href, children, external = false, prefetch = true, className, ...rest },
+    ref,
+  ) => {
+    if (external) {
+      return (
+        <a
+          ref={ref}
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={cn(inlineLinkStyles, className)}
+          {...rest}
+        >
+          {children}
+          <span className="sr-only" aria-hidden="false">
+            (opens in new tab)
+          </span>
+        </a>
+      );
+    }
+
     return (
-      <a
+      <Link
         href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={clsx(styles, className)}
+        prefetch={prefetch}
+        className={cn(inlineLinkStyles, className)}
+        ref={ref}
+        {...rest}
       >
         {children}
-        <svg
-          className="inline-block ml-space-1 w-3 h-3 shrink-0"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          aria-hidden="true"
-        >
-          <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
-          <polyline points="15 3 21 3 21 9" />
-          <line x1="10" y1="14" x2="21" y2="3" />
-        </svg>
-        {/* Screen readers announce this, sighted users don't see it */}
-        <span className="sr-only">(opens in new tab)</span>
-      </a>
+      </Link>
     );
-  }
-
-  return (
-    <Link href={href} className={clsx(styles, className)}>
-      {children}
-    </Link>
-  );
-}
+  },
+);
 
 InlineLink.displayName = 'InlineLink';
