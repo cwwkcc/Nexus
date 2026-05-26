@@ -1,41 +1,44 @@
 'use client';
 
-import { clsx } from 'clsx';
-import { PortableText, PortableTextComponents } from '@portabletext/react';
+import { PortableText, type PortableTextComponents } from '@portabletext/react';
+import { cn } from '../../utilities/cn';
 import { ImageFrame } from '../media/ImageFrame';
-import { InlineLink } from '../typography/InlineLink';
-import { QuoteBlock } from '../typography/QuoteBlock';
+import { InlineLink } from './InlineLink';
+import { QuoteBlock } from './QuoteBlock';
 
-// For use with Sanity CMS portable text
 export interface RichTextRendererProps {
-  value: any; // PortableText block array
+  value: any;
   className?: string;
 }
 
 const components: PortableTextComponents = {
   block: {
     normal: ({ children }) => (
-      <p className="font-body text-body text-text-primary mb-4 leading-relaxed">
+      <p className="font-body text-body text-text-primary mb-space-4 leading-relaxed">
         {children}
       </p>
     ),
     h2: ({ children }) => (
-      <h2 className="font-display text-h2 mt-8 mb-4 text-text-primary">
+      <h2 className="font-display text-h2 mt-space-8 mb-space-4 text-text-primary">
         {children}
       </h2>
     ),
     h3: ({ children }) => (
-      <h3 className="font-display text-h3 mt-6 mb-3 text-text-primary">
+      <h3 className="font-display text-h3 mt-space-6 mb-space-3 text-text-primary">
         {children}
       </h3>
     ),
     h4: ({ children }) => (
-      <h4 className="font-display text-xl font-medium mt-4 mb-2 text-text-primary">
+      <h4 className="font-display text-h3 mt-space-4 mb-space-2 text-text-primary">
+        {/* Using text-h3 as fallback; consider adding text-h4 token */}
         {children}
       </h4>
     ),
     blockquote: ({ children }) => (
-      <QuoteBlock variant="pull-quote" quote={children as string} />
+      <QuoteBlock
+        variant="pull-quote"
+        quote={typeof children === 'string' ? children : ''}
+      />
     ),
   },
   marks: {
@@ -51,10 +54,14 @@ const components: PortableTextComponents = {
   },
   list: {
     bullet: ({ children }) => (
-      <ul className="list-disc pl-6 mb-4 space-y-1">{children}</ul>
+      <ul className="flex flex-col gap-space-1 list-disc pl-space-6 mb-space-4">
+        {children}
+      </ul>
     ),
     number: ({ children }) => (
-      <ol className="list-decimal pl-6 mb-4 space-y-1">{children}</ol>
+      <ol className="flex flex-col gap-space-1 list-decimal pl-space-6 mb-space-4">
+        {children}
+      </ol>
     ),
   },
   listItem: {
@@ -67,7 +74,7 @@ const components: PortableTextComponents = {
   },
   types: {
     image: ({ value }) => (
-      <figure className="my-6">
+      <figure className="my-space-6">
         <ImageFrame
           src={value.asset?.url}
           alt={value.alt || ''}
@@ -75,7 +82,7 @@ const components: PortableTextComponents = {
           variant="standard"
         />
         {value.caption && (
-          <figcaption className="text-center text-caption text-text-muted mt-2">
+          <figcaption className="text-center font-body text-caption text-text-muted mt-space-2">
             {value.caption}
           </figcaption>
         )}
@@ -87,12 +94,7 @@ const components: PortableTextComponents = {
 export function RichTextRenderer({ value, className }: RichTextRendererProps) {
   if (!value) return null;
   return (
-    <div
-      className={clsx(
-        'prose prose-lg max-w-none prose-headings:font-display prose-p:font-body prose-p:text-text-primary prose-a:text-gold-base prose-a:underline prose-strong:text-text-primary',
-        className,
-      )}
-    >
+    <div className={cn('max-w-none', className)}>
       <PortableText value={value} components={components} />
     </div>
   );
