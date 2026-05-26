@@ -3,7 +3,6 @@
 // ============================================================================
 // ACCESSIBILITY
 // ============================================================================
-export { SkipToContent } from './components/accessibility/SkipToContent';
 
 // ============================================================================
 // ATOMS
@@ -118,11 +117,11 @@ export { SchoolLogo } from './components/logos/SchoolLogo';
 // ============================================================================
 // MEDIA
 // ============================================================================
-export { Caption } from './components/media/Caption';
 export { ImageFrame } from './components/media/ImageFrame';
 export { Lightbox } from './components/media/Lightbox';
 export { PanoramicFacilityViewer } from './components/media/PanoramicFacilityViewer'; // typo? rename later
 export { VideoFrame } from './components/media/VideoFrame';
+export { Caption } from './components/media/Caption';
 
 // ============================================================================
 // NAVIGATION
@@ -154,17 +153,18 @@ export { OfflineBanner } from './components/system/OfflineBanner';
 // ============================================================================
 // TYPOGRAPHY
 // ============================================================================
-export { BilingualHeading } from './components/typography/BilingualHeading';
 export { EyebrowLabel } from './components/typography/EyebrowLabel';
+export { Heading } from './components/typography/Heading';
 export { InlineLink } from './components/typography/InlineLink';
 export { QuoteBlock } from './components/typography/QuoteBlock';
+export { RichTextRenderer } from './components/typography/RichTextRenderer';
 export { SectionHeader } from './components/typography/SectionHeader';
+export { Text } from './components/typography/Text';
 
 // ============================================================================
 // UTILITIES
 // ============================================================================
 export { CountdownTimer } from './components/utilities/CountdownTimer';
-export { RichTextRenderer } from './components/utilities/RichTextRenderer';
 
 // ============================================================================
 // VISUALIZATION
