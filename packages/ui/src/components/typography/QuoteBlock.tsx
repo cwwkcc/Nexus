@@ -1,103 +1,67 @@
-// ════════════════════════════════════════════════════════════
-// QUOTE BLOCK
-// ════════════════════════════════════════════════════════════
+import { forwardRef } from 'react';
+import { cn } from '../../utilities/cn';
 
-export type QuoteBlockVariant = 'pull-quote' | 'ceremonial';
+type QuoteBlockVariant = 'pull-quote' | 'ceremonial';
 
-export interface QuoteBlockProps {
+interface QuoteBlockProps {
   variant?: QuoteBlockVariant;
   quote: string;
   attribution?: string;
   className?: string;
+  /** Optional URL source for the quote (adds cite attribute to blockquote) */
+  cite?: string;
 }
 
-export function QuoteBlock({
-  variant = 'pull-quote',
-  quote,
-  attribution,
-  className,
-}: QuoteBlockProps) {
+export const QuoteBlock = forwardRef<
+  HTMLDivElement | HTMLElement,
+  QuoteBlockProps
+>(({ variant = 'pull-quote', quote, attribution, className, cite }, ref) => {
   if (variant === 'ceremonial') {
     return (
-      <div style={{ textAlign: 'center', padding: '40px 24px' }}>
-        <p
-          style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(1.3rem, 2.5vw, 2rem)',
-            fontStyle: 'italic',
-            color: 'var(--color-gold-base)',
-            lineHeight: 1.4,
-            letterSpacing: '0.02em',
-            maxWidth: '680px',
-            margin: '0 auto',
-          }}
-        >
-          &ldquo;{quote}&rdquo;
-        </p>
+      <figure
+        ref={ref as any}
+        className={cn(
+          'text-center py-space-6 px-space-10 mx-auto max-w-prose',
+          className,
+        )}
+      >
+        <blockquote className="m-0">
+          <p className="font-display text-pullquote italic text-text-primary">
+            &ldquo;{quote}&rdquo;
+          </p>
+        </blockquote>
         {attribution && (
           <>
-            <div
-              style={{
-                width: '32px',
-                height: '1px',
-                background: 'var(--color-gold-base)',
-                margin: '20px auto',
-              }}
-            />
-            <p
-              style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: '0.72rem',
-                textTransform: 'uppercase',
-                letterSpacing: '0.2em',
-                color: 'var(--text-muted)',
-              }}
-            >
+            <div className="w-size-8 h-size-px bg-gold-base my-space-5 mx-auto" />
+            <figcaption className="font-body text-caption uppercase tracking-caption text-text-muted">
               {attribution}
-            </p>
+            </figcaption>
           </>
         )}
-      </div>
+      </figure>
     );
   }
 
   // Pull quote (default)
   return (
     <blockquote
-      style={{
-        margin: 0,
-        padding: '4px 0 4px 24px',
-        borderLeft: '3px solid var(--color-gold-base)',
-      }}
+      ref={ref as any}
+      cite={cite}
+      className={cn(
+        'm-0 py-space-1 pl-space-6 border-l-2 border-gold-base',
+        className,
+      )}
     >
-      <p
-        style={{
-          fontFamily: 'var(--font-display)',
-          fontSize: 'clamp(1.1rem, 2vw, 1.45rem)',
-          fontStyle: 'italic',
-          color: 'var(--text-muted)',
-          lineHeight: 1.55,
-          letterSpacing: '0.01em',
-        }}
-      >
+      <p className="font-display text-pullquote italic text-text-muted leading-relaxed tracking-wide">
         &ldquo;{quote}&rdquo;
       </p>
       {attribution && (
-        <cite
-          style={{
-            display: 'block',
-            marginTop: '12px',
-            fontFamily: 'var(--font-body)',
-            fontSize: '0.68rem',
-            textTransform: 'uppercase',
-            letterSpacing: '0.15em',
-            color: 'var(--color-gold-base)',
-            fontStyle: 'normal',
-          }}
-        >
+        <cite className="block mt-space-3 font-body text-caption uppercase tracking-caption text-gold-base not-italic">
           {attribution}
         </cite>
       )}
     </blockquote>
   );
-}
+});
+
+QuoteBlock.displayName = 'QuoteBlock';
