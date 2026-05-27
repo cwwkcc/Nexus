@@ -1,29 +1,36 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { cn } from '../../utilities/cn';
+import { NavLink } from '../navigation/NavLink';
+import { HStack } from './Stack';
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+type NavVariant = 'transparent-overlay' | 'solid';
 
-export type NavVariant = 'transparent-overlay' | 'solid';
-
-export interface NavLink {
+interface NavLink {
   label: string;
   href: string;
   children?: NavLink[];
 }
 
-export interface NavigationProps {
-  /** Force a solid background regardless of scroll. Use on inner pages. */
+interface NavigationProps {
   variant?: NavVariant;
-  links?: NavLink[];
+  links?: NavLink;
   /** Hero bottom offset in px — triggers solid state transition */
   heroHeight?: number;
   locale?: string;
 }
 
-// ─── Defaults ─────────────────────────────────────────────────────────────────
+interface NavDropdownProps {
+  children: NavLink;
+  isSolid: string;
+}
+interface NavItemProps {
+  link: NavLink;
+  isSolid: boolean;
+  isActive: boolean;
+}
 
 const DEFAULT_LINKS: NavLink[] = [
   { label: 'About', href: '/about' },
@@ -42,15 +49,7 @@ const DEFAULT_LINKS: NavLink[] = [
   { label: 'Contact', href: '/contact' },
 ];
 
-// ─── Dropdown menu ────────────────────────────────────────────────────────────
-
-function NavDropdown({
-  children,
-  isSolid,
-}: {
-  children: NavLink[];
-  isSolid: boolean;
-}) {
+function NavDropdown({ children, isSolid }: NavDropdownProps) {
   return (
     <div
       className="absolute top-full left-0 min-w-[180px] py-2"
@@ -62,55 +61,27 @@ function NavDropdown({
       }}
     >
       {children.map((child) => (
-        <Link
+        <NavLink
           key={child.href}
           href={child.href}
-          style={{
-            display: 'block',
-            padding: '10px 20px',
-            fontFamily: 'var(--font-body)',
-            fontSize: '0.72rem',
-            textTransform: 'uppercase',
-            letterSpacing: '0.15em',
-            color: 'var(--text-primary)',
-            textDecoration: 'none',
-            transition: 'color 0.15s ease, background 0.15s ease',
-          }}
-          onMouseEnter={(e) => {
-            (e.target as HTMLElement).style.color = 'var(--color-gold-base)';
-            (e.target as HTMLElement).style.background = 'var(--surface-deep)';
-          }}
-          onMouseLeave={(e) => {
-            (e.target as HTMLElement).style.color = 'var(--text-primary)';
-            (e.target as HTMLElement).style.background = 'transparent';
-          }}
+          className="px-space-5 py-space-10 font-body text-body uppercase text-text-primary hover:text-gold-base"
         >
           {child.label}
-        </Link>
+        </NavLink>
       ))}
     </div>
   );
 }
 
-// ─── Nav item ─────────────────────────────────────────────────────────────────
-
-function NavItem({
-  link,
-  isSolid,
-  isActive,
-}: {
-  link: NavLink;
-  isSolid: boolean;
-  isActive: boolean;
-}) {
+function NavItem({ link, isSolid, isActive }: NavItemProps) {
   const [open, setOpen] = useState(false);
   const hasChildren = !!link.children?.length;
 
   const textColor = isActive
-    ? 'var(--color-gold-base)'
+    ? 'text-gold-base'
     : isSolid
-      ? 'var(--text-primary)'
-      : 'rgba(255,255,255,0.88)';
+      ? 'text-text-primary'
+      : 'text-text-inverse';
 
   return (
     <div
@@ -118,50 +89,21 @@ function NavItem({
       onMouseEnter={() => hasChildren && setOpen(true)}
       onMouseLeave={() => hasChildren && setOpen(false)}
     >
-      <Link
-        href={link.href}
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '4px',
-          fontFamily: 'var(--font-body)',
-          fontSize: '0.72rem',
-          textTransform: 'uppercase',
-          letterSpacing: '0.15em',
-          color: textColor,
-          textDecoration: 'none',
-          padding: '8px 0',
-          transition: 'color 0.2s ease',
-          position: 'relative',
-        }}
-        onMouseEnter={(e) => {
-          if (!isActive)
-            (e.currentTarget as HTMLElement).style.color =
-              'var(--color-gold-base)';
-        }}
-        onMouseLeave={(e) => {
-          if (!isActive)
-            (e.currentTarget as HTMLElement).style.color = textColor;
-        }}
+      <HStack
+        align="center"
+        spacing={3}
+        className={cn(
+          'uppercase font-body px-space-8 hover:text-gold-base',
+          textColor,
+        )}
       >
-        {link.label}
-        {hasChildren && (
-          <span style={{ fontSize: '0.55rem', opacity: 0.7 }}>▾</span>
-        )}
-        {/* Active underline */}
-        {isActive && (
-          <span
-            style={{
-              position: 'absolute',
-              bottom: 0,
-              left: 0,
-              right: 0,
-              height: '1px',
-              background: 'var(--color-gold-base)',
-            }}
-          />
-        )}
-      </Link>
+        <NavLink href={link.href}>
+          {link.label}
+          {hasChildren && <span className="text-body">▾</span>}
+          {/* Active underline */}
+          {isActive && <span className="bg-gold-base" />}
+        </NavLink>
+      </HStack>
 
       {hasChildren && open && (
         <NavDropdown children={link.children!} isSolid={isSolid} />
@@ -203,7 +145,7 @@ export function LanguageSwitcher({
                 /
               </span>
             )}
-            <Link
+            <NavLink
               href={`/${lang.code}`}
               style={{
                 fontFamily:
@@ -226,7 +168,7 @@ export function LanguageSwitcher({
               }}
             >
               {lang.label}
-            </Link>
+            </NavLink>
           </span>
         );
       })}
@@ -315,7 +257,7 @@ function MobileMenu({
         <nav className="flex flex-col gap-1 flex-1">
           {links.map((link) => (
             <div key={link.href}>
-              <Link
+              <NavLink
                 href={link.href}
                 onClick={onClose}
                 style={{
@@ -339,10 +281,10 @@ function MobileMenu({
                 }}
               >
                 {link.label}
-              </Link>
+              </NavLink>
               {/* Sub-links */}
               {link.children?.map((child) => (
-                <Link
+                <NavLink
                   key={child.href}
                   href={child.href}
                   onClick={onClose}
@@ -359,7 +301,7 @@ function MobileMenu({
                   }}
                 >
                   — {child.label}
-                </Link>
+                </NavLink>
               ))}
             </div>
           ))}
@@ -442,7 +384,7 @@ export function Navigation({
           }}
         >
           {/* Logo */}
-          <Link
+          <NavLink
             href="/"
             style={{ textDecoration: 'none', flexShrink: 0 }}
             aria-label="C.W.W. Kannangara Central College — Home"
@@ -497,7 +439,7 @@ export function Navigation({
                 </p>
               </div>
             </div>
-          </Link>
+          </NavLink>
 
           {/* Desktop nav links */}
           <nav
@@ -519,7 +461,7 @@ export function Navigation({
           {/* Right side */}
           <div className="hidden md:flex items-center gap-6 ml-auto">
             <LanguageSwitcher locale={locale} isSolid={isSolid} />
-            <Link
+            <NavLink
               href="/admissions"
               style={{
                 fontFamily: 'var(--font-body)',
@@ -535,7 +477,7 @@ export function Navigation({
               }}
             >
               Apply
-            </Link>
+            </NavLink>
           </div>
 
           {/* Mobile hamburger */}
