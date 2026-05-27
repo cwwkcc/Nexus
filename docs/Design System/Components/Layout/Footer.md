@@ -41,8 +41,8 @@ The Footer is the institutional grounding of every page. It closes the document 
 │  "Wisdom is All Wealth"                                            │
 ├────────────────────────────────────────────────────────────────────┤
 │  Contact info    │ Nav Col 1 │ Nav Col 2 │ Nav Col 3 │ Nav Col 4   │
-├────────────────────────────────────────────────────────────────────┤
-│                     [Facebook] [Instagram] [YouTube] ...           │
+|                  |─────────────────────────────────────────────────┤
+│                  |  [Facebook] [Instagram] [YouTube] ...           │
 ├────────────────────────────────────────────────────────────────────┤
 │  © 2026 ...                              Built by KITS · Privacy   │
 └────────────────────────────────────────────────────────────────────┘
@@ -51,14 +51,13 @@ The Footer is the institutional grounding of every page. It closes the document 
 **Tablet (2 columns, 3 rows):**
 ```
 ┌─────────────────────────┬─────────────────────────────────────────┐
-│ Logo                    │ Nav Col 1   Nav Col 2   Nav Col 3   Nav Col 4 │
+│ Logo                    │ Nav Col 1   Nav Col 2   Nav Col 3       │
 │ C.W.W. Kannangara...    │                                         │
-│ "Wisdom is All Wealth"  │                                         │
+│ "Wisdom is All Wealth"  │                Nav Col 4                │
 │ Contact info            │                                         │
-├─────────────────────────┼─────────────────────────────────────────┤
+|                         |─────────────────────────────────────────┤
 │                         │              [Social Icons]             │
 ├─────────────────────────┼─────────────────────────────────────────┤
-│                         │                                         │
 │  © 2026 ...             │    Built by KITS · Privacy              │
 └─────────────────────────┴─────────────────────────────────────────┘
 ```
