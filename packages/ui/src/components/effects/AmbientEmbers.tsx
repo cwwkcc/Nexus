@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useId } from 'react';
+import { useReducedMotion } from 'framer-motion';
 import { clsx } from 'clsx';
 
 export interface AmbientEmbersProps {
@@ -9,7 +10,7 @@ export interface AmbientEmbersProps {
 }
 
 interface Ember {
-  id: number;
+  id: string;
   x: number;
   y: number;
   size: number;
@@ -19,10 +20,15 @@ interface Ember {
 
 export function AmbientEmbers({ count = 20, className }: AmbientEmbersProps) {
   const [embers, setEmbers] = useState<Ember[]>([]);
+  const prefersReduced = useReducedMotion();
+  const idPrefix = useId();
 
   useEffect(() => {
+    // Skip generating particles if reduced motion is preferred
+    if (prefersReduced) return;
+
     const newEmbers = Array.from({ length: count }).map((_, i) => ({
-      id: i,
+      id: `${idPrefix}-${i}`,
       x: Math.random() * 100,
       y: Math.random() * 100,
       size: 2 + Math.random() * 6,
@@ -30,10 +36,25 @@ export function AmbientEmbers({ count = 20, className }: AmbientEmbersProps) {
       delay: Math.random() * 5,
     }));
     setEmbers(newEmbers);
-  }, [count]);
+  }, [count, prefersReduced, idPrefix]);
+
+  // Reduced motion fallback: static faint gold texture
+  if (prefersReduced) {
+    return (
+      <div
+        aria-hidden="true"
+        className={clsx(
+          'absolute inset-0 pointer-events-none',
+          'bg-gradient-radial-gold opacity-30',
+          className,
+        )}
+      />
+    );
+  }
 
   return (
     <div
+      aria-hidden="true"
       className={clsx(
         'absolute inset-0 pointer-events-none overflow-hidden',
         className,
@@ -42,7 +63,11 @@ export function AmbientEmbers({ count = 20, className }: AmbientEmbersProps) {
       {embers.map((ember) => (
         <div
           key={ember.id}
-          className="absolute rounded-full bg-gold-base/40"
+          className={clsx(
+            'absolute rounded-full',
+            // Use currentColor trick – parent sets text colour, then bg-current with opacity
+            'text-gold-base bg-current/40',
+          )}
           style={{
             left: `${ember.x}%`,
             top: `${ember.y}%`,
