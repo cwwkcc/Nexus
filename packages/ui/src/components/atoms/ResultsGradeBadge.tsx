@@ -19,7 +19,7 @@ export function ResultsGradeBadge({ grade, className }: ResultGradeBadgeProps) {
   return (
     <span
       className={clsx(
-        'inline-flex items-center justify-center w-8 h-8 rounded-full font-body text-sm font-semibold',
+        'inline-flex items-center justify-center w-size-8 h-size-8 rounded-full font-body text-sm font-semibold',
         gradeStyles[normalized] || 'bg-surface-default text-text-muted',
         className,
       )}

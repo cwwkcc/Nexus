@@ -1,20 +1,17 @@
 'use client';
 
 import { forwardRef } from 'react';
-import { clsx } from 'clsx';
+import { cn } from '../../utilities/cn';
 
-export type BadgeStatus =
-  | 'draft'
-  | 'published'
-  | 'archived'
-  | 'unread'
-  | 'reviewed';
-export type BadgeVariant = 'category' | 'status' | 'achievement';
+type BadgeStatus = 'draft' | 'published' | 'archived' | 'unread' | 'reviewed';
+type BadgeVariant = 'category' | 'status' | 'achievement';
 
-export type BadgeProps =
-  | { variant: 'category'; label: string; className?: string }
-  | { variant: 'achievement'; label: string; className?: string }
-  | { variant: 'status'; status: BadgeStatus; className?: string };
+interface BadgeProps {
+  variant: BadgeVariant;
+  status: BadgeStatus;
+  lable: string;
+  className: string;
+}
 
 const variantStyles: Record<Exclude<BadgeVariant, 'status'>, string> = {
   category: 'bg-surface-default text-text-muted',
@@ -55,7 +52,7 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>((props, ref) => {
       aria-label={isStatus ? `Status: ${label}` : undefined}
       data-variant={props.variant}
       data-status={isStatus ? props.status : undefined}
-      className={clsx(base, colorClass, props.className)}
+      className={cn(base, colorClass, props.className)}
     >
       {label}
     </span>

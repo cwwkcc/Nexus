@@ -3,23 +3,25 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { clsx } from 'clsx';
+import { cn } from '../../utilities/cn';
 
-export interface AvatarProps {
+type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+type AvatarVariant = 'green' | 'gold' | 'muted';
+interface AvatarProps {
   src?: string | null;
   name: string;
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-  variant?: 'green' | 'gold' | 'muted';
+  size?: AvatarSize;
+  variant?: AvatarVariant;
   className?: string;
   onError?: () => void;
 }
 
 const sizeMap = {
-  xs: 'w-6 h-6 text-xs',
-  sm: 'w-8 h-8 text-xs',
-  md: 'w-12 h-12 text-sm',
-  lg: 'w-16 h-16 text-base',
-  xl: 'w-24 h-24 text-lg',
+  xs: 'w-size-6 h-size-6 text-xs',
+  sm: 'w-size-8 h-size-8 text-xs',
+  md: 'w-size-12 h-size-12 text-sm',
+  lg: 'w-size-16 h-size-16 text-base',
+  xl: 'w-size-24 h-size-24 text-lg',
 };
 
 const variantMap = {
@@ -50,7 +52,7 @@ export function Avatar({
   if (src && !hasError) {
     return (
       <div
-        className={clsx(
+        className={cn(
           'relative rounded-full overflow-hidden flex-shrink-0',
           sizeMap[size],
           className,
@@ -69,7 +71,7 @@ export function Avatar({
 
   return (
     <div
-      className={clsx(
+      className={cn(
         'rounded-full flex items-center justify-center font-display font-medium flex-shrink-0',
         sizeMap[size],
         variantMap[variant],
