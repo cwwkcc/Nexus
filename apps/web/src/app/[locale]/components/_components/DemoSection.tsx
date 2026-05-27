@@ -92,7 +92,9 @@ export function DemoSection({
       </div>
 
       {/* Children container */}
-      <div className="flex flex-wrap gap-space-6 items-center">{children}</div>
+      <div className="flex flex-wrap gap-space-6 items-center w-size-full">
+        {children}
+      </div>
     </div>
   );
 }
