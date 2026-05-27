@@ -1,9 +1,20 @@
 // packages/ui/src/components/feedback/Alert.tsx
-import { clsx } from 'clsx';
+import { cn } from '../../utilities/cn';
+import { ReactNode } from 'react';
+import { InfoIcon, SuccessIcon, WarningIcon, ErrorIcon } from '../icons';
+import { Heading } from '../typography/Heading';
+import { Container } from '../layout/Container';
+import { HStack } from '../layout/Stack';
+type AlertVariant = 'info' | 'success' | 'warning' | 'error';
 
-export type AlertVariant = 'info' | 'success' | 'warning' | 'error';
+interface AlertVariantStyles {
+  background: string;
+  border: string;
+  text: string;
+  icon: ReactNode;
+}
 
-export interface AlertProps {
+interface AlertProps {
   variant?: AlertVariant;
   title?: string;
   children: React.ReactNode;
@@ -11,33 +22,30 @@ export interface AlertProps {
   className?: string;
 }
 
-const variantStyles: Record<
-  AlertVariant,
-  { bg: string; border: string; text: string; icon: string }
-> = {
+const variantStyles: Record<AlertVariant, AlertVariantStyles> = {
   info: {
-    bg: 'bg-semantic-info-surface',
+    background: 'bg-semantic-info-surface',
     border: 'border-semantic-info-base',
     text: 'text-semantic-info-base',
-    icon: 'ℹ',
+    icon: <InfoIcon />,
   },
   success: {
-    bg: 'bg-semantic-success-surface',
+    background: 'bg-semantic-success-surface',
     border: 'border-semantic-success-base',
     text: 'text-semantic-success-base',
-    icon: '✓',
+    icon: <SuccessIcon />,
   },
   warning: {
-    bg: 'bg-semantic-warning-surface',
+    background: 'bg-semantic-warning-surface',
     border: 'border-semantic-warning-base',
     text: 'text-semantic-warning-base',
-    icon: '⚠',
+    icon: <WarningIcon />,
   },
   error: {
-    bg: 'bg-semantic-error-surface',
+    background: 'bg-semantic-error-surface',
     border: 'border-semantic-error-base',
     text: 'text-semantic-error-base',
-    icon: '✕',
+    icon: <ErrorIcon />,
   },
 };
 
@@ -53,30 +61,26 @@ export function Alert({
   return (
     <div
       role="alert"
-      className={clsx(
-        'p-4 border-l-4 rounded-r-md',
-        styles.bg,
+      className={cn(
+        'p-space-4 border-l-4 rounded-r-md',
+        styles.background,
         styles.border,
         className,
       )}
     >
-      <div className="flex gap-3">
-        <span className={clsx('flex-shrink-0 text-lg', styles.text)}>
+      <HStack>
+        <span className={cn('flex-shrink-0 text-lg', styles.text)}>
           {icon || styles.icon}
         </span>
-        <div>
-          {title && (
-            <h4
-              className={clsx('font-display font-semibold mb-1', styles.text)}
-            >
-              {title}
-            </h4>
-          )}
-          <div className={clsx('font-body text-sm', styles.text)}>
-            {children}
-          </div>
-        </div>
-      </div>
+        {title && (
+          <Heading
+            className={cn('font-display font-semibold mb-1', styles.text)}
+          >
+            {title}
+          </Heading>
+        )}
+        <div className={cn('font-body text-sm', styles.text)}>{children}</div>
+      </HStack>
     </div>
   );
 }
