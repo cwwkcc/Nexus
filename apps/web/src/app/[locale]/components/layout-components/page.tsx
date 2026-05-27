@@ -266,8 +266,8 @@ export default function LayoutComponentsPage() {
             </div>
           </div>
         </DemoSection>
-        {/* Divider */}
 
+        {/* Divider */}
         <DemoSection title="Divider – All Options">
           <div className="space-y-8 w-size-full">
             {/* Horizontal dividers */}
@@ -415,16 +415,241 @@ export default function LayoutComponentsPage() {
           </Drawer>
         </DemoSection>
 
+        {/* Footer */}
         <DemoSection title="Footer">
           <Footer />
         </DemoSection>
 
-        <DemoSection title="Grid">
-          <Grid columns={3} gap={4}>
-            <div className="bg-surface-deep p-space-4">1</div>
-            <div className="bg-surface-deep p-space-4">2</div>
-            <div className="bg-surface-deep p-space-4">3</div>
-          </Grid>
+        {/* Grid */}
+        <DemoSection title="Grid – All Options">
+          <div className="space-y-12 w-size-full">
+            {/* Column variants */}
+            <div>
+              <h3 className="font-display text-h3 mb-space-4 text-gold-base">
+                Grid Columns (responsive)
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-6">
+                {([1, 2, 3, 4, 6, 12] as const).map((cols) => (
+                  <div key={cols}>
+                    <div className="font-body text-label mb-space-2 pl-space-3 border-l-2 border-gold-base bg-surface-default/50 py-space-1">
+                      columns={cols}
+                    </div>
+                    <Grid
+                      columns={cols}
+                      gap={4}
+                      className="bg-surface-deep p-space-4 rounded-lg"
+                    >
+                      {Array.from({ length: cols }).map((_, i) => (
+                        <div
+                          key={i}
+                          className="bg-surface-default p-space-3 text-center text-text-muted text-sm rounded"
+                        >
+                          Item {i + 1}
+                        </div>
+                      ))}
+                    </Grid>
+                  </div>
+                ))}
+              </div>
+              <p className="font-body text-caption text-text-muted mt-space-4">
+                Note: Columns adapt responsively – e.g., `3` becomes 1 column on
+                mobile, 2 on tablet, 3 on desktop.
+              </p>
+            </div>
+
+            {/* Gap variants */}
+            <div>
+              <h3 className="font-display text-h3 mb-space-4 text-gold-base mt-space-8">
+                Grid Gap (spacing tokens)
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-6">
+                {([0, 2, 4, 6, 8, 12] as const).map((gap) => (
+                  <div key={gap}>
+                    <div className="font-body text-label mb-space-2 pl-space-3 border-l-2 border-gold-base bg-surface-default/50 py-space-1">
+                      gap={gap}
+                    </div>
+                    <Grid
+                      columns={3}
+                      gap={gap}
+                      className="bg-surface-deep p-space-4 rounded-lg"
+                    >
+                      <div className="bg-surface-default p-space-2 text-center text-xs rounded">
+                        A
+                      </div>
+                      <div className="bg-surface-default p-space-2 text-center text-xs rounded">
+                        B
+                      </div>
+                      <div className="bg-surface-default p-space-2 text-center text-xs rounded">
+                        C
+                      </div>
+                    </Grid>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* GridItem colSpan */}
+            <div>
+              <h3 className="font-display text-h3 mb-space-4 text-gold-base mt-space-8">
+                GridItem colSpan (12‑column grid)
+              </h3>
+              <div className="font-body text-label mb-space-2 pl-space-3 border-l-2 border-gold-base bg-surface-default/50 py-space-1">
+                columns=12 with different colSpan values
+              </div>
+              <Grid
+                columns={12}
+                gap={4}
+                className="bg-surface-deep p-space-4 rounded-lg"
+              >
+                <GridItem colSpan={3}>
+                  <div className="bg-surface-default p-space-3 text-center text-text-muted text-sm rounded">
+                    colSpan=3
+                  </div>
+                </GridItem>
+                <GridItem colSpan={6}>
+                  <div className="bg-surface-default p-space-3 text-center text-text-muted text-sm rounded">
+                    colSpan=6
+                  </div>
+                </GridItem>
+                <GridItem colSpan={3}>
+                  <div className="bg-surface-default p-space-3 text-center text-text-muted text-sm rounded">
+                    colSpan=3
+                  </div>
+                </GridItem>
+                <GridItem colSpan={4}>
+                  <div className="bg-surface-default p-space-3 text-center text-text-muted text-sm rounded">
+                    colSpan=4
+                  </div>
+                </GridItem>
+                <GridItem colSpan={8}>
+                  <div className="bg-surface-default p-space-3 text-center text-text-muted text-sm rounded">
+                    colSpan=8
+                  </div>
+                </GridItem>
+              </Grid>
+              <p className="font-body text-caption text-text-muted mt-space-2">
+                On mobile, colSpan caps at 6 (full width in 6‑column grid). On
+                desktop, full 12‑column grid applies.
+              </p>
+            </div>
+
+            {/* Semantic 'as' prop */}
+            <div>
+              <h3 className="font-display text-h3 mb-space-4 text-gold-base mt-space-8">
+                Semantic HTML with `as`
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-space-6">
+                <div>
+                  <div className="font-body text-label mb-space-2 pl-space-3 border-l-2 border-gold-base bg-surface-default/50 py-space-1">
+                    as="ul"
+                  </div>
+                  <Grid
+                    as="ul"
+                    columns={2}
+                    gap={4}
+                    className="bg-surface-deep p-space-4 rounded-lg list-none"
+                  >
+                    <li className="bg-surface-default p-space-2 text-center rounded">
+                      List item 1
+                    </li>
+                    <li className="bg-surface-default p-space-2 text-center rounded">
+                      List item 2
+                    </li>
+                  </Grid>
+                </div>
+                <div>
+                  <div className="font-body text-label mb-space-2 pl-space-3 border-l-2 border-gold-base bg-surface-default/50 py-space-1">
+                    as="div" (default)
+                  </div>
+                  <Grid
+                    columns={2}
+                    gap={4}
+                    className="bg-surface-deep p-space-4 rounded-lg"
+                  >
+                    <div className="bg-surface-default p-space-2 text-center rounded">
+                      Div child 1
+                    </div>
+                    <div className="bg-surface-default p-space-2 text-center rounded">
+                      Div child 2
+                    </div>
+                  </Grid>
+                </div>
+              </div>
+            </div>
+
+            {/* Custom styling */}
+            <div>
+              <h3 className="font-display text-h3 mb-space-4 text-gold-base mt-space-8">
+                Custom Styling via className
+              </h3>
+              <div>
+                <div className="font-body text-label mb-space-2 pl-space-3 border-l-2 border-gold-base bg-surface-default/50 py-space-1">
+                  Custom background, border, shadow on Grid itself
+                </div>
+                <Grid
+                  columns={3}
+                  gap={6}
+                  className="bg-gold-pale border border-gold-base rounded-lg shadow-elevation-2 p-space-6"
+                >
+                  <div className="bg-surface-default p-space-3 text-center rounded">
+                    Styled grid item 1
+                  </div>
+                  <div className="bg-surface-default p-space-3 text-center rounded">
+                    Styled grid item 2
+                  </div>
+                  <div className="bg-surface-default p-space-3 text-center rounded">
+                    Styled grid item 3
+                  </div>
+                </Grid>
+              </div>
+            </div>
+
+            {/* Real‑world usage example */}
+            <div>
+              <h3 className="font-display text-h3 mb-space-4 text-gold-base mt-space-8">
+                Real‑world usage: News card grid
+              </h3>
+              <div className="font-body text-label mb-space-2 pl-space-3 border-l-2 border-gold-base bg-surface-default/50 py-space-1">
+                3‑column responsive card grid
+              </div>
+              <Grid columns={3} gap={6}>
+                {[1, 2, 3, 4, 5, 6].map((i) => (
+                  <GridItem key={i} colSpan={1}>
+                    <div className="bg-surface-elevated border border-border-light rounded-md p-space-4 h-full">
+                      <div className="h-32 bg-surface-deep rounded-md mb-space-3" />
+                      <h4 className="font-display text-h4 mb-space-2">
+                        Card {i}
+                      </h4>
+                      <p className="font-body text-body-sm text-text-muted">
+                        This card would contain actual content like news,
+                        events, or society previews.
+                      </p>
+                    </div>
+                  </GridItem>
+                ))}
+              </Grid>
+              <p className="font-body text-caption text-text-muted mt-space-4">
+                The grid automatically stacks on mobile (1 column), becomes 2
+                columns on tablet, and 3 columns on desktop.
+              </p>
+            </div>
+
+            {/* Reference note */}
+            <div className="text-center mt-space-8 p-space-4 bg-surface-default/30 rounded-lg border border-border-light">
+              <p className="font-body text-caption text-text-muted">
+                Grid is the foundation for all card grids, form layouts, and
+                multi‑column content. Use{' '}
+                <code className="bg-surface-deep px-space-1 py-space-0p5 rounded-sm">
+                  Grid
+                </code>{' '}
+                with{' '}
+                <code className="bg-surface-deep px-space-1 py-space-0p5 rounded-sm">
+                  GridItem
+                </code>{' '}
+                for responsive, token‑based layouts.
+              </p>
+            </div>
+          </div>
         </DemoSection>
 
         <DemoSection title="Hero">
