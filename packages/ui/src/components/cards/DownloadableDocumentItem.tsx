@@ -1,11 +1,12 @@
 'use client';
 
-import { clsx } from 'clsx';
+import { cn } from '../../utilities/cn';
 import { Button } from '../atoms/Button';
 
+type FileTypes = 'pdf' | 'doc' | 'xls' | 'zip';
 export interface DownloadableDocumentItemProps {
   title: string;
-  fileType: 'pdf' | 'doc' | 'xls' | 'zip';
+  fileType: FileTypes;
   fileSize: string; // e.g., "2.4 MB"
   url: string;
   description?: string;
@@ -81,7 +82,7 @@ export function DownloadableDocumentItem({
 }: DownloadableDocumentItemProps) {
   return (
     <div
-      className={clsx(
+      className={cn(
         'flex items-start gap-4 p-4 bg-surface-default border border-border-light rounded-md',
         className,
       )}

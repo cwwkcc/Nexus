@@ -1,6 +1,14 @@
-import Link from 'next/link';
-export interface AcademicStreamCardProps {
-  stream: 'science' | 'commerce' | 'arts' | 'technology';
+import { cn } from '../../utilities/cn';
+import { EyebrowLabel } from '../typography/EyebrowLabel';
+import { Heading } from '../typography/Heading';
+import { Text } from '../typography/Text';
+import { Tag } from '../atoms/Tag';
+import { NavLink } from '../navigation/NavLink';
+
+type Streams = 'science' | 'commerce' | 'arts' | 'technology';
+
+interface AcademicStreamCardProps {
+  stream: Streams;
   name: string;
   description: string;
   careerPaths: string[];
@@ -8,13 +16,6 @@ export interface AcademicStreamCardProps {
   subjectCount?: number;
   className?: string;
 }
-
-const STREAM_ICONS: Record<AcademicStreamCardProps['stream'], string> = {
-  science: '⚗',
-  commerce: '◎',
-  arts: '◈',
-  technology: '⌬',
-};
 
 export function AcademicStreamCard({
   stream,
@@ -26,150 +27,72 @@ export function AcademicStreamCard({
   className,
 }: AcademicStreamCardProps) {
   return (
-    <Link
-      href={href}
-      style={{ textDecoration: 'none', display: 'block' }}
-      className="group"
-    >
+    <NavLink href={href} className="group block no-underline h-full">
       <div
-        className={className}
-        style={{
-          position: 'relative',
-          height: '100%',
-          background: 'var(--surface-elevated)',
-          border: '1px solid var(--border-light)',
-          padding: '28px 24px 24px',
-          overflow: 'hidden',
-          boxShadow: '0 2px 8px rgba(28,26,22,0.04)',
-          transition: 'box-shadow 0.25s ease, transform 0.25s ease',
-        }}
-        onMouseEnter={(e) => {
-          (e.currentTarget as HTMLElement).style.boxShadow =
-            '0 8px 32px rgba(28,26,22,0.10)';
-          (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
-        }}
-        onMouseLeave={(e) => {
-          (e.currentTarget as HTMLElement).style.boxShadow =
-            '0 2px 8px rgba(28,26,22,0.04)';
-          (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-        }}
+        className={cn(
+          // Base layout
+          'relative h-full overflow-hidden',
+          // Surface & border
+          'bg-surface-elevated border border-border-light',
+          // Spacing — pt-space-7 (28px) top, px/pb-space-6 (24px) sides/bottom
+          'pt-space-7 px-space-6 pb-space-6',
+          // Elevation & motion
+          'shadow-elevation-1',
+          'transition-[box-shadow,transform] duration-standard ease-out',
+          'group-hover:shadow-elevation-3 group-hover:-translate-y-[2px]',
+          className,
+        )}
       >
-        {/* Green left accent that reveals on hover */}
+        {/* Green left accent bar — fades in on hover */}
         <div
-          className="group-hover:opacity-100"
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '3px',
-            height: '100%',
-            background: 'var(--color-green-base)',
-            opacity: 0,
-            transition: 'opacity 0.25s ease',
-          }}
+          aria-hidden="true"
+          className="absolute inset-y-0 left-0 w-[3px] bg-green-base opacity-0 transition-opacity duration-standard group-hover:opacity-100"
         />
 
-        {/* Icon */}
-        <div
-          style={{
-            width: '44px',
-            height: '44px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            background: 'var(--surface-deep)',
-            border: '1px solid var(--border-light)',
-            marginBottom: '16px',
-            fontSize: '1.25rem',
-            color: 'var(--color-green-base)',
-          }}
-        >
-          {STREAM_ICONS[stream]}
-        </div>
+        {/* "A/L Stream · N subjects" eyebrow */}
+        <EyebrowLabel as="p" className="mb-space-1p5">
+          A/L Stream{subjectCount ? ` · ${subjectCount} subjects` : ''}
+        </EyebrowLabel>
 
-        <p
-          style={{
-            fontFamily: 'var(--font-body)',
-            fontSize: '0.68rem',
-            textTransform: 'uppercase',
-            letterSpacing: '0.15em',
-            color: 'var(--color-gold-base)',
-            marginBottom: '6px',
-          }}
-        >
-          A/L Stream
-          {subjectCount ? ` · ${subjectCount} subjects` : ''}
-        </p>
-
-        <h3
-          style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: '1.4rem',
-            fontWeight: 500,
-            color: 'var(--text-primary)',
-            marginBottom: '10px',
-            transition: 'color 0.2s ease',
-          }}
-          className="group-hover:text-[var(--color-gold-active)]"
+        {/* Stream name */}
+        <Heading
+          level="h3"
+          color="primary"
+          className="mb-space-2p5 transition-colors duration-fast ease-snap group-hover:text-gold-active"
         >
           {name}
-        </h3>
+        </Heading>
 
-        <p
-          style={{
-            fontFamily: 'var(--font-body)',
-            fontSize: '0.875rem',
-            color: 'var(--text-muted)',
-            lineHeight: 1.65,
-            marginBottom: '18px',
-          }}
+        {/* Description */}
+        <Text
+          variant="body-sm"
+          color="muted"
+          className="mb-space-4 leading-[1.65]"
         >
           {description}
-        </p>
+        </Text>
 
         {/* Career path tags */}
-        <div
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: '6px',
-            marginBottom: '20px',
-          }}
-        >
+        <div className="mb-space-5 flex flex-wrap gap-space-1p5">
           {careerPaths.map((path) => (
-            <span
+            <Tag
               key={path}
-              style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: '0.65rem',
-                textTransform: 'uppercase',
-                letterSpacing: '0.1em',
-                padding: '4px 10px',
-                background: 'var(--surface-deep)',
-                color: 'var(--text-muted)',
-                border: '1px solid var(--border-light)',
-                borderRadius: '999px',
-              }}
-            >
-              {path}
-            </span>
+              label={path}
+              className="border border-border-light bg-surface-deep"
+            />
           ))}
         </div>
 
-        <span
-          style={{
-            fontFamily: 'var(--font-body)',
-            fontSize: '0.68rem',
-            textTransform: 'uppercase',
-            letterSpacing: '0.15em',
-            color: 'var(--color-gold-base)',
-            transition: 'letter-spacing 0.2s ease',
-          }}
-          className="group-hover:tracking-widest"
+        {/* CTA — span only, outer <Link> is the interactive element */}
+        <Text
+          as="span"
+          variant="label"
+          color="gold"
+          className="transition-[letter-spacing] duration-standard ease-out group-hover:tracking-eyebrow"
         >
           Explore stream →
-        </span>
+        </Text>
       </div>
-    </Link>
+    </NavLink>
   );
 }

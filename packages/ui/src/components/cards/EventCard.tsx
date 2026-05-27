@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { InlineLink } from '../typography/InlineLink';
 import Image from 'next/image';
 import { Badge } from '../atoms/Badge';
 
@@ -190,7 +190,7 @@ function EventCardStandard({
   const isPast = status === 'past';
 
   return (
-    <Link
+    <InlineLink
       href={href}
       style={{ textDecoration: 'none', display: 'block' }}
       className="group"
@@ -305,7 +305,7 @@ function EventCardStandard({
           </div>
         </div>
       </div>
-    </Link>
+    </InlineLink>
   );
 }
 
@@ -323,7 +323,7 @@ function EventCardCompact({
   const isPast = status === 'past';
 
   return (
-    <Link
+    <InlineLink
       href={href}
       style={{
         textDecoration: 'none',
@@ -379,7 +379,7 @@ function EventCardCompact({
           )}
         </div>
       </div>
-    </Link>
+    </InlineLink>
   );
 }
 
@@ -558,7 +558,7 @@ function EventCardFeatured({
         )}
 
         <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-          <Link
+          <InlineLink
             href={href}
             style={{
               fontFamily: 'var(--font-body)',
@@ -573,9 +573,9 @@ function EventCardFeatured({
             }}
           >
             View Details
-          </Link>
+          </InlineLink>
           {registrationHref && status === 'registration-open' && (
-            <Link
+            <InlineLink
               href={registrationHref}
               style={{
                 fontFamily: 'var(--font-body)',
@@ -591,7 +591,7 @@ function EventCardFeatured({
               }}
             >
               Register
-            </Link>
+            </InlineLink>
           )}
         </div>
       </div>

@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Badge } from '../atoms/Badge';
-export type AchievementCardVariant = 'ticker-item' | 'archive-post';
 
-export interface AchievementCardProps {
+type AchievementCardVariant = 'ticker-item' | 'archive-post';
+
+interface AchievementCardProps {
   variant?: AchievementCardVariant;
   title: string;
   year: string;
