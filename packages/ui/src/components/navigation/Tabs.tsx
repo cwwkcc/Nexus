@@ -4,18 +4,19 @@
 import { useState } from 'react';
 import { clsx } from 'clsx';
 
-export interface TabItem {
+type TabVariant = 'line' | 'pills';
+interface TabItem {
   id: string;
   label: string;
   content: React.ReactNode;
   badge?: number;
 }
 
-export interface TabsProps {
+interface TabsProps {
   tabs: TabItem[];
   defaultTabId?: string;
   onChange?: (tabId: string) => void;
-  variant?: 'line' | 'pills';
+  variant?: TabVariant;
   className?: string;
 }
 
