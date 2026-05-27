@@ -1,9 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { clsx } from 'clsx';
+import { useEffect, useState, useRef } from 'react';
+import { cn } from '../../utilities/cn';
 
-export interface CountdownTimerProps {
+interface CountdownTimerProps {
   targetDate: Date | string;
   onComplete?: () => void;
   className?: string;
@@ -40,11 +40,12 @@ export function CountdownTimer({
     calculateTimeLeft(target),
   );
   const [isComplete, setIsComplete] = useState(false);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (isComplete) return;
 
-    const timer = setInterval(() => {
+    intervalRef.current = setInterval(() => {
       const updated = calculateTimeLeft(target);
       setTimeLeft(updated);
       if (
@@ -55,11 +56,13 @@ export function CountdownTimer({
       ) {
         setIsComplete(true);
         onComplete?.();
-        clearInterval(timer);
+        if (intervalRef.current) clearInterval(intervalRef.current);
       }
     }, 1000);
 
-    return () => clearInterval(timer);
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
   }, [target, onComplete, isComplete]);
 
   const units = [
@@ -70,15 +73,19 @@ export function CountdownTimer({
   ];
 
   return (
-    <div className={clsx('flex gap-4 justify-center', className)}>
+    <div
+      className={cn('flex gap-space-4 justify-center', className)}
+      aria-live="polite"
+      aria-label="Countdown timer"
+    >
       {units.map((unit) => (
         <div key={unit.label} className="text-center">
-          <div className="bg-surface-elevated border border-border-light rounded-lg px-4 py-3 min-w-[70px]">
-            <span className="font-display text-3xl font-semibold text-gold-base">
+          <div className="bg-surface-elevated border border-border-light rounded-lg px-space-4 py-space-3 min-w-size-16">
+            <span className="font-display text-h2 font-semibold text-gold-base">
               {unit.value.toString().padStart(2, '0')}
             </span>
           </div>
-          <span className="font-body text-caption uppercase text-text-muted mt-2 block">
+          <span className="font-body text-caption uppercase text-text-muted mt-space-2 block">
             {unit.label}
           </span>
         </div>
@@ -86,3 +93,5 @@ export function CountdownTimer({
     </div>
   );
 }
+
+CountdownTimer.displayName = 'CountdownTimer';
