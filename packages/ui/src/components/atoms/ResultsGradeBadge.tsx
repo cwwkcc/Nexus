@@ -1,6 +1,6 @@
-import { clsx } from 'clsx';
+import { cn } from '../../utilities/cn';
 
-export interface ResultGradeBadgeProps {
+interface ResultGradeBadgeProps {
   grade: string;
   className?: string;
 }
@@ -18,8 +18,8 @@ export function ResultsGradeBadge({ grade, className }: ResultGradeBadgeProps) {
   const normalized = grade.toUpperCase();
   return (
     <span
-      className={clsx(
-        'inline-flex items-center justify-center w-size-8 h-size-8 rounded-full font-body text-sm font-semibold',
+      className={cn(
+        'inline-flex items-center justify-center w-size-8 h-size-8 rounded-full font-body text-sm font-semibold capitalise',
         gradeStyles[normalized] || 'bg-surface-default text-text-muted',
         className,
       )}
