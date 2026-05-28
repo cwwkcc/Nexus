@@ -1,8 +1,7 @@
-// components/atoms/Radio.tsx
 'use client';
 
 import { forwardRef, useId } from 'react';
-import { clsx } from 'clsx';
+import { cn } from '../../utilities/cn';
 
 type Props = {
   label: string;
@@ -10,8 +9,8 @@ type Props = {
   defaultChecked?: boolean;
   disabled?: boolean;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
-  name?: string; // Radio buttons share a name to form a group
-  value: string; // Required — radio always needs a value
+  name?: string;
+  value: string;
   className?: string;
 };
 
@@ -34,7 +33,7 @@ export const Radio = forwardRef<HTMLInputElement, Props>(
     return (
       <label
         htmlFor={id}
-        className={clsx(
+        className={cn(
           'inline-flex items-center gap-space-3 cursor-pointer select-none',
           disabled && 'opacity-40 cursor-not-allowed',
           className,
@@ -50,7 +49,7 @@ export const Radio = forwardRef<HTMLInputElement, Props>(
           defaultChecked={defaultChecked}
           disabled={disabled}
           onChange={onChange}
-          className={clsx(
+          className={cn(
             'appearance-none w-4 h-4 rounded-full border border-border-default bg-surface-elevated shrink-0',
             'transition-all duration-fast ease-snap',
             'checked:border-green-base checked:bg-green-base',
