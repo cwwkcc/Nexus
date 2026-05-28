@@ -7,6 +7,7 @@ import { cn } from '../../utilities/cn';
 
 type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 type AvatarVariant = 'green' | 'gold' | 'muted';
+
 interface AvatarProps {
   src?: string | null;
   name: string;
@@ -31,6 +32,7 @@ const variantMap = {
 };
 
 function getInitials(name: string): string {
+  if (!name.trim()) return '?';
   return name
     .split(' ')
     .map((part) => part[0])
@@ -49,6 +51,7 @@ export function Avatar({
 }: AvatarProps) {
   const [hasError, setHasError] = useState(false);
 
+  // Show image if src exists and no error occurred
   if (src && !hasError) {
     return (
       <div
@@ -63,21 +66,26 @@ export function Avatar({
           alt={name}
           fill
           className="object-cover"
-          onError={() => setHasError(true)}
+          onError={() => {
+            setHasError(true);
+            onError?.();
+          }}
         />
       </div>
     );
   }
 
+  // Fallback to initials
   return (
     <div
+      role="img"
+      aria-label={`Avatar for ${name}`}
       className={cn(
         'rounded-full flex items-center justify-center font-display font-medium flex-shrink-0',
         sizeMap[size],
         variantMap[variant],
         className,
       )}
-      aria-label={`Avatar for ${name}`}
     >
       {getInitials(name)}
     </div>
