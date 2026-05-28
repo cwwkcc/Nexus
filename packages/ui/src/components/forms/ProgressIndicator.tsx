@@ -1,3 +1,5 @@
+import { cn } from '../../utilities/cn';
+
 export interface ProgressStep {
   id: string;
   label: string;
@@ -7,15 +9,10 @@ export type ProgressIndicatorVariant = 'steps' | 'bar';
 
 export interface ProgressIndicatorProps {
   variant?: ProgressIndicatorVariant;
-  /** Steps variant: array of step definitions */
   steps?: ProgressStep[];
-  /** Steps variant: 0-based index of the active step */
   activeStep?: number;
-  /** Bar variant: 0–100 */
   value?: number;
-  /** Bar variant: label shown above the bar */
   label?: string;
-  /** Bar variant: whether to show the percentage */
   showPercentage?: boolean;
 }
 
@@ -32,37 +29,14 @@ export function ProgressIndicator({
     return (
       <div>
         {(label || showPercentage) && (
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'baseline',
-              marginBottom: '8px',
-            }}
-          >
+          <div className="flex justify-between items-baseline mb-space-2">
             {label && (
-              <span
-                style={{
-                  fontFamily: 'var(--font-body)',
-                  fontSize: '0.72rem',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.12em',
-                  color: 'var(--text-muted)',
-                }}
-              >
+              <span className="font-body text-caption uppercase tracking-caption text-text-muted">
                 {label}
               </span>
             )}
             {showPercentage && (
-              <span
-                style={{
-                  fontFamily: 'var(--font-body)',
-                  fontSize: '0.72rem',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.1em',
-                  color: 'var(--color-gold-base)',
-                }}
-              >
+              <span className="font-body text-caption uppercase tracking-caption text-gold-base">
                 {pct}%
               </span>
             )}
@@ -74,40 +48,20 @@ export function ProgressIndicator({
           aria-valuemin={0}
           aria-valuemax={100}
           aria-label={label ?? 'Progress'}
-          style={{
-            height: '4px',
-            background: 'var(--border-light)',
-            borderRadius: '2px',
-            overflow: 'hidden',
-          }}
+          className="h-1 bg-border-light rounded-sm overflow-hidden"
         >
           <div
-            style={{
-              height: '100%',
-              width: `${pct}%`,
-              background: 'var(--color-green-base)',
-              borderRadius: '2px',
-              transition: 'width 0.4s ease',
-            }}
+            className="h-full bg-green-base rounded-sm transition-all duration-gentle"
+            style={{ width: `${pct}%` }}
           />
         </div>
       </div>
     );
   }
 
-  // Steps variant
   return (
     <nav aria-label="Progress steps">
-      <ol
-        style={{
-          display: 'flex',
-          alignItems: 'flex-start',
-          gap: 0,
-          listStyle: 'none',
-          padding: 0,
-          margin: 0,
-        }}
-      >
+      <ol className="flex items-start gap-0 list-none p-0 m-0">
         {steps.map((step, idx) => {
           const isCompleted = idx < activeStep;
           const isActive = idx === activeStep;
@@ -117,90 +71,46 @@ export function ProgressIndicator({
             <li
               key={step.id}
               aria-current={isActive ? 'step' : undefined}
-              style={{
-                flex: isLast ? 'none' : 1,
-                display: 'flex',
-                alignItems: 'center',
-              }}
+              className={cn(
+                isLast ? 'flex-none' : 'flex-1',
+                'flex items-center',
+              )}
             >
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: '8px',
-                }}
-              >
-                {/* Circle */}
+              <div className="flex flex-col items-center gap-space-2">
                 <div
-                  style={{
-                    width: '32px',
-                    height: '32px',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontFamily: 'var(--font-body)',
-                    fontSize: '0.75rem',
-                    fontWeight: 600,
-                    flexShrink: 0,
-                    transition: 'all 0.2s ease',
-                    ...(isCompleted
-                      ? {
-                          background: 'var(--color-green-base)',
-                          color: '#fff',
-                          border: '2px solid var(--color-green-base)',
-                        }
+                  className={cn(
+                    'w-8 h-8 rounded-full flex items-center justify-center',
+                    'font-body text-sm font-semibold transition-all duration-fast',
+                    isCompleted
+                      ? 'bg-green-base text-text-inverse border-2 border-green-base'
                       : isActive
-                        ? {
-                            background: 'transparent',
-                            color: 'var(--color-gold-base)',
-                            border: '2px solid var(--color-gold-base)',
-                          }
-                        : {
-                            background: 'transparent',
-                            color: 'var(--text-muted)',
-                            border: '2px solid var(--border-default)',
-                          }),
-                  }}
+                        ? 'bg-transparent text-gold-base border-2 border-gold-base'
+                        : 'bg-transparent text-text-muted border-2 border-border-default',
+                  )}
                 >
                   {isCompleted ? '✓' : idx + 1}
                 </div>
-                {/* Label */}
                 <span
-                  style={{
-                    fontFamily: 'var(--font-body)',
-                    fontSize: '0.68rem',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.1em',
-                    textAlign: 'center',
-                    whiteSpace: 'nowrap',
-                    color: isCompleted
-                      ? 'var(--color-green-base)'
+                  className={cn(
+                    'font-body text-caption uppercase tracking-caption text-center whitespace-nowrap',
+                    isCompleted
+                      ? 'text-green-base'
                       : isActive
-                        ? 'var(--color-gold-base)'
-                        : 'var(--text-muted)',
-                    transition: 'color 0.2s ease',
-                  }}
+                        ? 'text-gold-base'
+                        : 'text-text-muted',
+                  )}
                 >
                   {step.label}
                 </span>
               </div>
-
-              {/* Connector line */}
               {!isLast && (
                 <div
                   aria-hidden="true"
-                  style={{
-                    flex: 1,
-                    height: '2px',
-                    marginBottom: '26px', // aligns with the circle center
-                    background: isCompleted
-                      ? 'var(--color-green-base)'
-                      : 'var(--border-light)',
-                    transition: 'background 0.3s ease',
-                    minWidth: '24px',
-                  }}
+                  className={cn(
+                    'flex-1 h-0.5 mb-[26px] transition-colors duration-gentle',
+                    isCompleted ? 'bg-green-base' : 'bg-border-light',
+                  )}
+                  style={{ minWidth: '24px' }}
                 />
               )}
             </li>
