@@ -1,4 +1,6 @@
 import { useEffect } from 'react';
+import { cn } from '../../utilities/cn';
+
 export type ModalVariant = 'confirmation' | 'information';
 
 export interface ModalProps {
@@ -7,11 +9,8 @@ export interface ModalProps {
   onClose: () => void;
   title: string;
   description?: string;
-  /** Confirmation variant: primary action label */
   confirmLabel?: string;
-  /** Confirmation variant: primary action callback */
   onConfirm?: () => void;
-  /** Whether the primary action is destructive */
   destructive?: boolean;
   children?: React.ReactNode;
 }
@@ -27,7 +26,6 @@ export function Modal({
   destructive = false,
   children,
 }: ModalProps) {
-  // Lock body scroll
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
     return () => {
@@ -35,7 +33,6 @@ export function Modal({
     };
   }, [open]);
 
-  // Escape key
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && open) onClose();
@@ -46,144 +43,76 @@ export function Modal({
 
   return (
     <>
-      {/* Backdrop */}
       <div
         onClick={onClose}
         aria-hidden="true"
-        style={{
-          position: 'fixed',
-          inset: 0,
-          background: 'rgba(28,26,22,0.56)',
-          zIndex: 80,
-          opacity: open ? 1 : 0,
-          pointerEvents: open ? 'auto' : 'none',
-          transition: 'opacity 0.25s ease',
-        }}
+        className={cn(
+          'fixed inset-0 bg-overlay-medium z-80',
+          'transition-opacity duration-standard ease-out',
+          open
+            ? 'opacity-100 pointer-events-auto'
+            : 'opacity-0 pointer-events-none',
+        )}
       />
-
-      {/* Panel */}
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-title"
-        style={{
-          position: 'fixed',
-          top: '50%',
-          left: '50%',
-          zIndex: 90,
-          transform: open
-            ? 'translate(-50%, -50%) scale(1)'
-            : 'translate(-50%, -48%) scale(0.97)',
-          opacity: open ? 1 : 0,
-          pointerEvents: open ? 'auto' : 'none',
-          transition:
-            'transform 0.3s cubic-bezier(0.16,1,0.3,1), opacity 0.25s ease',
-          width: 'min(520px, calc(100vw - 32px))',
-          background: 'var(--surface-elevated)',
-          boxShadow: '0 16px 60px rgba(28,26,22,0.18)',
-        }}
+        className={cn(
+          'fixed top-1/2 left-1/2 z-90 w-[min(520px,calc(100vw-32px))]',
+          'bg-surface-elevated shadow-elevation-3',
+          'transition-all duration-standard ease-out',
+          open
+            ? 'opacity-100 scale-100 -translate-x-1/2 -translate-y-1/2'
+            : 'opacity-0 scale-97 -translate-x-1/2 -translate-y-[48%] pointer-events-none',
+        )}
       >
-        {/* Top accent line */}
         <div
-          style={{
-            height: '3px',
-            background: destructive
-              ? 'var(--semantic-error-base, #8A3B32)'
-              : 'var(--color-gold-base)',
-          }}
+          className={cn(
+            'h-1',
+            destructive ? 'bg-semantic-error-base' : 'bg-gold-base',
+          )}
         />
-
-        <div style={{ padding: '32px 36px 36px' }}>
+        <div className="p-space-8 pb-space-9">
           <h2
             id="modal-title"
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: '1.6rem',
-              fontWeight: 500,
-              color: 'var(--text-primary)',
-              lineHeight: 1.2,
-              marginBottom: '12px',
-            }}
+            className="font-display text-h3 font-medium text-text-primary mb-space-3"
           >
             {title}
           </h2>
-
           {description && (
-            <p
-              style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: '0.95rem',
-                color: 'var(--text-muted)',
-                lineHeight: 1.7,
-                marginBottom: children ? '20px' : '28px',
-              }}
-            >
+            <p className="font-body text-body text-text-muted leading-relaxed mb-space-5">
               {description}
             </p>
           )}
-
-          {children && <div style={{ marginBottom: '28px' }}>{children}</div>}
-
-          {/* Actions */}
-          <div
-            style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}
-          >
+          {children && <div className="mb-space-7">{children}</div>}
+          <div className="flex justify-end gap-space-3">
             <button
               onClick={onClose}
-              style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: '0.72rem',
-                textTransform: 'uppercase',
-                letterSpacing: '0.15em',
-                padding: '10px 24px',
-                border: '1px solid var(--border-default)',
-                background: 'transparent',
-                color: 'var(--text-muted)',
-                cursor: 'pointer',
-                transition: 'border-color 0.15s ease, color 0.15s ease',
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.borderColor =
-                  'var(--text-muted)';
-                (e.currentTarget as HTMLElement).style.color =
-                  'var(--text-primary)';
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.borderColor =
-                  'var(--border-default)';
-                (e.currentTarget as HTMLElement).style.color =
-                  'var(--text-muted)';
-              }}
+              className={cn(
+                'px-space-6 py-space-2.5',
+                'font-body text-caption uppercase tracking-caption',
+                'border border-border-default bg-transparent text-text-muted',
+                'transition-colors duration-fast',
+                'hover:border-text-muted hover:text-text-primary',
+                'focus-visible:outline-2 focus-visible:outline-gold-base focus-visible:outline-offset-2',
+              )}
             >
               {variant === 'information' ? 'Close' : 'Cancel'}
             </button>
-
             {variant === 'confirmation' && (
               <button
                 onClick={() => {
                   onConfirm?.();
                   onClose();
                 }}
-                style={{
-                  fontFamily: 'var(--font-body)',
-                  fontSize: '0.72rem',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.15em',
-                  padding: '10px 24px',
-                  border: 'none',
-                  background: destructive
-                    ? 'var(--semantic-error-base, #8A3B32)'
-                    : 'var(--color-green-base)',
-                  color: '#fff',
-                  cursor: 'pointer',
-                  transition: 'opacity 0.15s ease',
-                }}
-                onMouseEnter={(e) =>
-                  ((e.currentTarget as HTMLElement).style.opacity = '0.85')
-                }
-                onMouseLeave={(e) =>
-                  ((e.currentTarget as HTMLElement).style.opacity = '1')
-                }
+                className={cn(
+                  'px-space-6 py-space-2.5',
+                  'font-body text-caption uppercase tracking-caption text-text-inverse',
+                  'transition-opacity duration-fast',
+                  destructive ? 'bg-semantic-error-base' : 'bg-green-base',
+                  'hover:opacity-85 focus-visible:outline-2 focus-visible:outline-gold-base focus-visible:outline-offset-2',
+                )}
               >
                 {confirmLabel}
               </button>
