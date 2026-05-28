@@ -16,16 +16,17 @@ interface NavLink {
 
 interface NavigationProps {
   variant?: NavVariant;
-  links?: NavLink;
+  links?: NavLink[]; // FIX: was `NavLink` (single object) — must be NavLink[]
   /** Hero bottom offset in px — triggers solid state transition */
   heroHeight?: number;
   locale?: string;
 }
 
 interface NavDropdownProps {
-  children: NavLink;
-  isSolid: string;
+  children: NavLink[];
+  isSolid: boolean; // FIX: was `string` — must be boolean to match NavItemProps
 }
+
 interface NavItemProps {
   link: NavLink;
   isSolid: boolean;
@@ -100,7 +101,6 @@ function NavItem({ link, isSolid, isActive }: NavItemProps) {
         <NavLink href={link.href}>
           {link.label}
           {hasChildren && <span className="text-body">▾</span>}
-          {/* Active underline */}
           {isActive && <span className="bg-gold-base" />}
         </NavLink>
       </HStack>
@@ -159,7 +159,7 @@ export function LanguageSwitcher({
                   : isSolid
                     ? 'var(--text-muted)'
                     : 'rgba(255,255,255,0.55)',
-                textDecoration: isActive ? 'none' : 'none',
+                textDecoration: 'none',
                 borderBottom: isActive
                   ? '1px solid var(--color-gold-base)'
                   : '1px solid transparent',
@@ -189,7 +189,6 @@ function MobileMenu({
   onClose: () => void;
   locale: string;
 }) {
-  // Lock body scroll when open
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
     return () => {
@@ -282,7 +281,6 @@ function MobileMenu({
               >
                 {link.label}
               </NavLink>
-              {/* Sub-links */}
               {link.children?.map((child) => (
                 <NavLink
                   key={child.href}
@@ -390,7 +388,6 @@ export function Navigation({
             aria-label="C.W.W. Kannangara Central College — Home"
           >
             <div className="flex items-center gap-3">
-              {/* Crest placeholder — replace with <Image> + real SVG */}
               <div
                 style={{
                   width: '32px',
@@ -414,9 +411,7 @@ export function Navigation({
                     fontSize: '0.62rem',
                     textTransform: 'uppercase',
                     letterSpacing: '0.18em',
-                    color: isSolid
-                      ? 'var(--color-gold-base)'
-                      : 'var(--color-gold-base)',
+                    color: 'var(--color-gold-base)',
                     lineHeight: 1,
                     marginBottom: '2px',
                   }}
