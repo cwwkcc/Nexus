@@ -1,0 +1,26 @@
+{
+  "contact": {
+    "hero": {
+      "eyebrow": "Get in Touch",
+      "title": "Contact Us"
+    },
+    "departments": {
+      "title": "Department Contacts"
+    },
+    "generalEnquiry": {
+      "title": "General Enquiry"
+    },
+    "feedback": {
+      "title": "Feedback & Complaints"
+    },
+    "officeHours": {
+      "title": "Office Hours"
+    },
+    "emergency": {
+      "title": "Emergency Contacts"
+    },
+    "transport": {
+      "title": "Transport & Directions"
+    }
+  }
+}
