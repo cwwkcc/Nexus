@@ -2,23 +2,7 @@
 'use client';
 
 import { useState } from 'react';
-import {
-  Accordion,
-  Alert,
-  Calendar,
-  DropdownMenu,
-  EmptyState,
-  ErrorState,
-  FilterBar,
-  LoadingSkeleton,
-  MobileMenu,
-  Modal,
-  Pagination,
-  SearchInput,
-  ShareSheet,
-  TableOfContents,
-  Toast,
-} from '@nexus/ui';
+import { Alert, Modal, Toast } from '@nexus/ui';
 
 function DemoSection({
   title,
@@ -28,201 +12,116 @@ function DemoSection({
   children: React.ReactNode;
 }) {
   return (
-    <div className="mb-12">
-      <h2 className="font-display text-h2 mb-4 border-b border-border-light pb-2">
+    <div className="mb-space-16">
+      <h2 className="font-display text-h2 mb-space-6 pb-space-2 border-b border-border-light">
         {title}
       </h2>
-      <div className="flex flex-wrap gap-6 items-start">{children}</div>
+      <div className="flex flex-wrap gap-space-8 items-start">{children}</div>
     </div>
   );
 }
 
 export default function FeedbackPage() {
   const [toastVisible, setToastVisible] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [shareOpen, setShareOpen] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [filterValue, setFilterValue] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [calendarEvents] = useState([
-    {
-      id: '1',
-      title: 'Sports Day',
-      date: '2026-06-10',
-      status: 'upcoming' as const,
-    },
-  ]);
+  const [toastType, setToastType] = useState<'success' | 'error' | 'warning'>(
+    'success',
+  );
+  const [infoModalOpen, setInfoModalOpen] = useState(false);
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
 
-  const handleSearch = async (q: string) => {
-    return [{ id: '1', label: `Result for "${q}"`, href: '/search' }];
+  const showToast = (type: 'success' | 'error' | 'warning') => {
+    setToastType(type);
+    setToastVisible(true);
   };
 
   return (
-    <div className="min-h-screen bg-surface-base py-12">
+    <div className="min-h-screen bg-surface-base py-space-12">
       <div className="content-width">
-        <h1 className="font-display text-h1 mb-4">Feedback & Navigation</h1>
-        <p className="font-body text-body text-text-muted mb-12">
-          Modals, toasts, accordions, filters, and user feedback components.
+        <h1 className="font-display text-h1 mb-space-4">Feedback Components</h1>
+        <p className="font-body text-body text-text-muted mb-space-12">
+          Alert, Modal, and Toast – user feedback and overlay components.
         </p>
 
-        <DemoSection title="Accordion">
-          <Accordion
-            items={[
-              {
-                id: '1',
-                question: 'What is KCC?',
-                answer: 'A leading central college in Sri Lanka.',
-              },
-              {
-                id: '2',
-                question: 'How to apply?',
-                answer: 'Visit the admissions page.',
-              },
-            ]}
-          />
-        </DemoSection>
-
-        <DemoSection title="Alert">
+        {/* Alert */}
+        <DemoSection title="Alert – All Variants">
           <Alert variant="info" title="Information">
-            This is an info alert.
+            This is an informational alert. Use for general messages.
           </Alert>
           <Alert variant="success">Success! Your action was completed.</Alert>
-          <Alert variant="warning">Warning: Please check your input.</Alert>
+          <Alert variant="warning">Warning: Please review your input.</Alert>
           <Alert variant="error">Error: Something went wrong.</Alert>
         </DemoSection>
 
-        <DemoSection title="Calendar (List View)">
-          <Calendar variant="list-view" events={calendarEvents} />
-        </DemoSection>
-
-        <DemoSection title="DropdownMenu">
-          <DropdownMenu
-            trigger={<span>Options ▾</span>}
-            items={[
-              { id: '1', label: 'Edit', onClick: () => alert('Edit') },
-              { id: '2', label: 'Delete', onClick: () => alert('Delete') },
-            ]}
-          />
-        </DemoSection>
-
-        <DemoSection title="EmptyState">
-          <EmptyState
-            heading="No results"
-            description="Try adjusting your filters."
-          />
-        </DemoSection>
-
-        <DemoSection title="ErrorState">
-          <ErrorState
-            variant="inline"
-            message="Failed to load data."
-            onRetry={() => alert('Retry')}
-          />
-        </DemoSection>
-
-        <DemoSection title="FilterBar">
-          <FilterBar
-            variant="category-tabs"
-            allLabel="All"
-            value={filterValue}
-            onChange={setFilterValue}
-            options={[
-              { value: 'news', label: 'News', count: 12 },
-              { value: 'events', label: 'Events', count: 5 },
-            ]}
-          />
-        </DemoSection>
-
-        <DemoSection title="LoadingSkeleton">
-          <LoadingSkeleton variant="card" count={2} />
-        </DemoSection>
-
-        <DemoSection title="MobileMenu (Trigger)">
+        {/* Modal */}
+        <DemoSection title="Modal – Information & Confirmation">
           <button
-            onClick={() => setMobileMenuOpen(true)}
-            className="px-4 py-2 bg-green-base text-white rounded"
+            onClick={() => setInfoModalOpen(true)}
+            className="px-space-4 py-space-2 bg-green-base text-text-inverse rounded-sm"
           >
-            Open Mobile Menu
+            Open Information Modal
           </button>
-          <MobileMenu
-            items={[
-              { label: 'Home', href: '/' },
-              { label: 'About', href: '/about' },
-              {
-                label: 'Academics',
-                href: '/academics',
-                children: [{ label: 'Science', href: '/science' }],
-              },
-            ]}
-            isOpen={mobileMenuOpen}
-            onClose={() => setMobileMenuOpen(false)}
-          />
-        </DemoSection>
-
-        <DemoSection title="Modal">
           <button
-            onClick={() => setModalOpen(true)}
-            className="px-4 py-2 bg-green-base text-white rounded"
+            onClick={() => setConfirmModalOpen(true)}
+            className="px-space-4 py-space-2 bg-semantic-error-base text-text-inverse rounded-sm"
           >
-            Open Modal
+            Open Confirmation Modal
           </button>
+
           <Modal
-            open={modalOpen}
-            onClose={() => setModalOpen(false)}
+            open={infoModalOpen}
+            onClose={() => setInfoModalOpen(false)}
             variant="information"
-            title="Modal Title"
-            description="This is a modal dialog."
+            title="Information"
+            description="This is an information modal. It can contain any content. Click outside or press Escape to close."
+          />
+
+          <Modal
+            open={confirmModalOpen}
+            onClose={() => setConfirmModalOpen(false)}
+            variant="confirmation"
+            title="Delete Item"
+            description="Are you sure you want to delete this item? This action cannot be undone."
+            destructive
+            confirmLabel="Delete"
+            onConfirm={() => alert('Item deleted')}
           />
         </DemoSection>
 
-        <DemoSection title="Pagination">
-          <Pagination
-            totalPages={10}
-            currentPage={currentPage}
-            onPageChange={setCurrentPage}
-          />
-        </DemoSection>
+        {/* Toast */}
+        <DemoSection title="Toast – All Variants">
+          <div className="flex gap-space-4">
+            <button
+              onClick={() => showToast('success')}
+              className="px-space-4 py-space-2 bg-semantic-success-base text-text-inverse rounded-sm"
+            >
+              Success Toast
+            </button>
+            <button
+              onClick={() => showToast('error')}
+              className="px-space-4 py-space-2 bg-semantic-error-base text-text-inverse rounded-sm"
+            >
+              Error Toast
+            </button>
+            <button
+              onClick={() => showToast('warning')}
+              className="px-space-4 py-space-2 bg-semantic-warning-base text-text-inverse rounded-sm"
+            >
+              Warning Toast
+            </button>
+          </div>
 
-        <DemoSection title="SearchInput">
-          <SearchInput scopeLabel="Search news" onSearch={handleSearch} />
-        </DemoSection>
-
-        <DemoSection title="ShareSheet">
-          <button
-            onClick={() => setShareOpen(true)}
-            className="px-4 py-2 bg-green-base text-white rounded"
-          >
-            Open Share
-          </button>
-          <ShareSheet
-            isOpen={shareOpen}
-            onClose={() => setShareOpen(false)}
-            title="Share this page"
-            url="https://cwwkcc.lk"
-          />
-        </DemoSection>
-
-        <DemoSection title="TableOfContents">
-          <TableOfContents
-            sections={[
-              { id: 'sec1', label: 'Introduction' },
-              { id: 'sec2', label: 'Details' },
-            ]}
-          />
-        </DemoSection>
-
-        <DemoSection title="Toast">
-          <button
-            onClick={() => setToastVisible(true)}
-            className="px-4 py-2 bg-green-base text-white rounded"
-          >
-            Show Toast
-          </button>
           <Toast
-            variant="success"
-            message="Action completed!"
+            variant={toastType}
+            message={
+              toastType === 'success'
+                ? 'Operation completed successfully!'
+                : toastType === 'error'
+                  ? 'Failed to save. Please try again.'
+                  : 'Your session will expire soon.'
+            }
             visible={toastVisible}
             onDismiss={() => setToastVisible(false)}
+            duration={4000}
           />
         </DemoSection>
       </div>
