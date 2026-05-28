@@ -1,7 +1,7 @@
-// packages/ui/src/components/feedback/Accordion.tsx
+// packages/ui/src/components/navigation/Accordion.tsx
 'use client';
 
-import { useState, useId } from 'react';
+import { useState } from 'react';
 import { cn } from '../../utilities/cn';
 
 export interface AccordionItem {
@@ -26,7 +26,8 @@ function AccordionSingle({
   isOpen: boolean;
   onToggle: () => void;
 }) {
-  const id = useId();
+  // FIX: removed `const id = useId()` — it was declared but never used.
+  // IDs are correctly derived from item.id directly.
   const buttonId = `accordion-button-${item.id}`;
   const panelId = `accordion-panel-${item.id}`;
 
@@ -47,11 +48,7 @@ function AccordionSingle({
         )}
       >
         <span
-          className={cn(
-            'font-body text-body font-medium',
-            'text-text-primary',
-            'group-hover:text-gold-base', // Optional if you want hover on text
-          )}
+          className={cn('font-body text-body font-medium', 'text-text-primary')}
         >
           {item.question}
         </span>
@@ -68,28 +65,31 @@ function AccordionSingle({
         </span>
       </button>
 
+      {/*
+        FIX: replaced `maxHeight: isOpen ? '1000px' : '0'` with CSS grid trick.
+        The old approach caused uneven animation speed — fast for short content,
+        sluggish for long. grid-template-rows: '1fr' / '0fr' animates to the
+        actual content height with consistent speed regardless of length.
+      */}
       <div
         id={panelId}
         role="region"
         aria-labelledby={buttonId}
-        className={cn(
-          'overflow-hidden transition-all duration-standard ease-out',
-          'motion-reduce:transition-none',
-        )}
-        style={{
-          maxHeight: isOpen ? '1000px' : '0',
-        }}
+        className="grid transition-[grid-template-rows] duration-standard ease-out motion-reduce:transition-none"
+        style={{ gridTemplateRows: isOpen ? '1fr' : '0fr' }}
       >
-        <div className="pb-space-5">
-          <p
-            className={cn(
-              'font-body text-body-sm',
-              'text-text-muted',
-              'leading-relaxed',
-            )}
-          >
-            {item.answer}
-          </p>
+        <div className="overflow-hidden">
+          <div className="pb-space-5">
+            <p
+              className={cn(
+                'font-body text-body-sm',
+                'text-text-muted',
+                'leading-relaxed',
+              )}
+            >
+              {item.answer}
+            </p>
+          </div>
         </div>
       </div>
     </div>
