@@ -1,94 +1,114 @@
-// apps/web/src/app/[locale]/components/visualization/page.tsx
 'use client';
 
 import {
   ComparisonBar,
   DataTable,
-  ProcessSteps,
   ProgressArc,
   ResultsDisplay,
   StreamComparisonTable,
   StudentJourneyFlow,
   TimetableGrid,
 } from '@nexus/ui';
-
-function DemoSection({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="mb-12">
-      <h2 className="font-display text-h2 mb-4 border-b border-border-light pb-2">
-        {title}
-      </h2>
-      <div className="flex flex-wrap gap-6 items-start">{children}</div>
-    </div>
-  );
-}
+import { DemoSection } from '../_components/DemoSection';
 
 export default function VisualizationPage() {
   const sampleColumns = [
     { key: 'name', header: 'Name', sortable: true },
-    { key: 'grade', header: 'Grade' },
+    { key: 'grade', header: 'Grade', sortable: true },
+    { key: 'attendance', header: 'Attendance (%)' },
   ];
-  const sampleData = [{ name: 'John Doe', grade: 'A' }];
-
-  const sampleSteps = [
-    { id: '1', number: 1, title: 'Step 1', description: 'First step' },
-    { id: '2', number: 2, title: 'Step 2', description: 'Second step' },
-  ];
-
-  const sampleSubjects = [
-    { name: 'Mathematics', grade: 'A' },
-    { name: 'Science', grade: 'B' },
+  const sampleData = [
+    { name: 'Kusal Perera', grade: 'A', attendance: 95 },
+    { name: 'Nimal Silva', grade: 'B', attendance: 82 },
+    { name: 'Amali Fernando', grade: 'A', attendance: 98 },
   ];
 
   const sampleStreams = [
     {
       id: 'science',
       name: 'Science',
-      subjects: ['Physics', 'Chemistry'],
-      careerPaths: ['Doctor', 'Engineer'],
-      entryRequirements: 'High marks',
-      passRate: 98,
+      subjects: ['Physics', 'Chemistry', 'Biology', 'Combined Maths'],
+      careerPaths: ['Doctor', 'Engineer', 'Researcher'],
+      entryRequirements: 'High marks in Science & Maths',
+      passRate: 96,
+    },
+    {
+      id: 'commerce',
+      name: 'Commerce',
+      subjects: ['Accounting', 'Economics', 'Business Studies'],
+      careerPaths: ['Accountant', 'Banker', 'Entrepreneur'],
+      entryRequirements: 'Credit pass in Maths',
+      passRate: 92,
     },
   ];
 
-  const sampleJourneyNodes = [
-    { id: '1', label: 'Grade 10', position: { x: 100, y: 100 } },
-    { id: '2', label: 'Grade 11', position: { x: 300, y: 100 } },
+  const sampleSubjects = [
+    { name: 'Mathematics', grade: 'A' },
+    { name: 'Physics', grade: 'A' },
+    { name: 'Chemistry', grade: 'B' },
   ];
-  const sampleEdges = [{ from: '1', to: '2' }];
+
+  const sampleJourneyNodes = [
+    { id: 'grade10', label: 'Grade 10', position: { x: 100, y: 100 } },
+    { id: 'grade11', label: 'Grade 11', position: { x: 300, y: 100 } },
+    { id: 'al', label: 'A/L', position: { x: 500, y: 100 } },
+  ];
+  const sampleEdges = [
+    { from: 'grade10', to: 'grade11' },
+    { from: 'grade11', to: 'al' },
+  ];
 
   const sampleTimetable = [
-    { period: '1', time: '8:00-9:00', monday: 'Math', tuesday: 'Science' },
+    {
+      period: '1',
+      time: '8:00-9:00',
+      monday: 'Math',
+      tuesday: 'Science',
+      wednesday: 'English',
+      thursday: 'History',
+      friday: 'ICT',
+    },
+    {
+      period: '2',
+      time: '9:00-10:00',
+      monday: 'Science',
+      tuesday: 'Math',
+      wednesday: 'ICT',
+      thursday: 'English',
+      friday: 'Science',
+    },
   ];
 
   return (
-    <div className="min-h-screen bg-surface-base py-12">
+    <div className="min-h-screen bg-surface-base py-space-12">
       <div className="content-width">
-        <h1 className="font-display text-h1 mb-4">Data Visualization</h1>
-        <p className="font-body text-body text-text-muted mb-12">
-          Charts, tables, timetables, results displays and flow diagrams.
+        <h1 className="font-display text-h1 mb-space-4">Data Visualization</h1>
+        <p className="font-body text-body text-text-muted mb-space-12">
+          Charts, tables, comparison bars, progress arcs, and flow diagrams.
         </p>
 
         <DemoSection title="ComparisonBar">
           <ComparisonBar label="Pass Rate" value={85} targetValue={90} />
+          <ComparisonBar
+            label="Attendance"
+            value={72}
+            size="lg"
+            className="w-64"
+          />
+        </DemoSection>
+
+        <DemoSection title="ProgressArc">
+          <ProgressArc
+            value={75}
+            size={100}
+            variant="green"
+            label="Completion"
+          />
+          <ProgressArc value={45} size={100} variant="gold" showPercentage />
         </DemoSection>
 
         <DemoSection title="DataTable">
           <DataTable columns={sampleColumns} data={sampleData} />
-        </DemoSection>
-
-        <DemoSection title="ProcessSteps">
-          <ProcessSteps steps={sampleSteps} />
-        </DemoSection>
-
-        <DemoSection title="ProgressArc">
-          <ProgressArc value={75} size={100} />
         </DemoSection>
 
         <DemoSection title="ResultsDisplay">
@@ -98,6 +118,7 @@ export default function VisualizationPage() {
             examType="OL"
             year={2025}
             subjects={sampleSubjects}
+            pdfUrl="/results/sample.pdf"
           />
         </DemoSection>
 
