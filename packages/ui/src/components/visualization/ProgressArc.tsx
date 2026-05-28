@@ -2,11 +2,11 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { clsx } from 'clsx';
+import { cn } from '../../utilities/cn';
 
 export interface ProgressArcProps {
-  value: number; // 0-100
-  size?: number; // diameter in pixels
+  value: number;
+  size?: number;
   strokeWidth?: number;
   showPercentage?: boolean;
   label?: string;
@@ -16,14 +16,8 @@ export interface ProgressArcProps {
 }
 
 const variantColors = {
-  green: {
-    stroke: 'var(--color-green-base)',
-    track: 'var(--border-light)',
-  },
-  gold: {
-    stroke: 'var(--color-gold-base)',
-    track: 'var(--border-light)',
-  },
+  green: { stroke: 'var(--color-green-base)', track: 'var(--border-light)' },
+  gold: { stroke: 'var(--color-gold-base)', track: 'var(--border-light)' },
 };
 
 export function ProgressArc({
@@ -62,7 +56,6 @@ export function ProgressArc({
             setProgress(value * eased);
             if (p < 1) requestAnimationFrame(animateProgress);
           };
-
           requestAnimationFrame(animateProgress);
           observer.disconnect();
         }
@@ -83,7 +76,7 @@ export function ProgressArc({
   return (
     <div
       ref={ref}
-      className={clsx('flex flex-col items-center justify-center', className)}
+      className={cn('flex flex-col items-center justify-center', className)}
     >
       <div className="relative" style={{ width: size, height: size }}>
         <svg
@@ -92,7 +85,6 @@ export function ProgressArc({
           viewBox={`0 0 ${size} ${size}`}
           className="transform -rotate-90"
         >
-          {/* Track circle */}
           <circle
             cx={size / 2}
             cy={size / 2}
@@ -101,7 +93,6 @@ export function ProgressArc({
             stroke={colors.track}
             strokeWidth={strokeWidth}
           />
-          {/* Progress circle */}
           <circle
             cx={size / 2}
             cy={size / 2}
@@ -117,11 +108,11 @@ export function ProgressArc({
         </svg>
         {showPercentage && (
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="font-display text-2xl font-semibold text-text-primary">
+            <span className="font-display text-h2 font-semibold text-text-primary">
               {displayValue}%
             </span>
             {label && (
-              <span className="font-body text-caption uppercase tracking-wide text-text-muted">
+              <span className="font-body text-caption uppercase tracking-caption text-text-muted">
                 {label}
               </span>
             )}
