@@ -1,0 +1,18 @@
+{
+  "gallery": {
+    "hero": {
+      "eyebrow": "Moments in Time",
+      "title": "Gallery"
+    },
+    "albums": {
+      "title": "Featured Albums"
+    },
+    "filter": {
+      "all": "All",
+      "events": "Events",
+      "sports": "Sports",
+      "academic": "Academic",
+      "cultural": "Cultural"
+    }
+  }
+}
