@@ -1,8 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { cn } from '../../utilities/cn';
 import { Badge } from '../atoms/Badge';
-
-// ─── Types ────────────────────────────────────────────────────────────────────
 
 export type NewsCardVariant = 'featured' | 'standard' | 'compact';
 
@@ -19,8 +18,7 @@ export interface NewsCardProps {
   className?: string;
 }
 
-// ─── Featured variant ─────────────────────────────────────────────────────────
-
+// Featured variant
 function NewsCardFeatured({
   title,
   excerpt,
@@ -31,128 +29,48 @@ function NewsCardFeatured({
   imageAlt,
 }: NewsCardProps) {
   return (
-    <Link
-      href={href}
-      style={{ textDecoration: 'none', display: 'block' }}
-      className="group"
-    >
+    <Link href={href} className="group block no-underline">
       <div
-        style={{
-          position: 'relative',
-          overflow: 'hidden',
-          background: 'var(--surface-elevated)',
-          border: '1px solid var(--border-light)',
-          boxShadow: '0 2px 12px rgba(28,26,22,0.06)',
-          transition: 'box-shadow 0.25s ease, transform 0.25s ease',
-        }}
-        onMouseEnter={(e) => {
-          (e.currentTarget as HTMLElement).style.boxShadow =
-            '0 8px 32px rgba(28,26,22,0.12)';
-          (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
-        }}
-        onMouseLeave={(e) => {
-          (e.currentTarget as HTMLElement).style.boxShadow =
-            '0 2px 12px rgba(28,26,22,0.06)';
-          (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-        }}
+        className={cn(
+          'bg-surface-elevated border border-border-light overflow-hidden',
+          'shadow-elevation-1 transition-all duration-gentle',
+          'group-hover:shadow-elevation-3 group-hover:-translate-y-0.5',
+        )}
       >
-        {/* Image */}
-        <div
-          style={{
-            position: 'relative',
-            width: '100%',
-            aspectRatio: '16/7',
-            overflow: 'hidden',
-            background: 'var(--color-green-base)',
-          }}
-        >
+        <div className="relative aspect-[16/7] overflow-hidden bg-green-base">
           {imageSrc ? (
             <Image
               src={imageSrc}
               alt={imageAlt ?? title}
               fill
-              style={{
-                objectFit: 'cover',
-                transition: 'transform 0.5s ease',
-              }}
-              className="group-hover:scale-[1.03]"
+              className="object-cover transition-transform duration-gentle group-hover:scale-[1.03]"
             />
           ) : (
-            <div
-              style={{
-                position: 'absolute',
-                inset: 0,
-                background:
-                  'linear-gradient(135deg, var(--color-green-base) 0%, #0d2e1a 100%)',
-              }}
-            />
+            <div className="absolute inset-0 bg-gradient-to-br from-green-base to-green-hover" />
           )}
-          {/* Gradient overlay */}
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              background:
-                'linear-gradient(180deg, rgba(28,26,22,0) 30%, rgba(28,26,22,0.72) 100%)',
-            }}
-          />
-
-          {/* Category badge on image */}
-          <div style={{ position: 'absolute', top: '20px', left: '20px' }}>
+          <div className="absolute inset-0 bg-gradient-to-t from-overlay-medium to-transparent" />
+          <div className="absolute top-space-5 left-space-5">
             <Badge variant="category" label={category} />
           </div>
         </div>
-
-        {/* Content */}
-        <div style={{ padding: '28px 32px 32px' }}>
-          <div
-            className="flex items-center gap-4 mb-4"
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: '0.7rem',
-              textTransform: 'uppercase',
-              letterSpacing: '0.15em',
-              color: 'var(--text-muted)',
-            }}
-          >
+        <div className="p-space-7 md:p-space-8">
+          <div className="flex items-center gap-space-4 mb-space-4 font-body text-caption uppercase tracking-caption text-text-muted">
             <span>{date}</span>
           </div>
           <h3
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(1.5rem, 2.5vw, 2rem)',
-              fontWeight: 500,
-              color: 'var(--text-primary)',
-              lineHeight: 1.2,
-              marginBottom: '12px',
-              transition: 'color 0.2s ease',
-            }}
-            className="group-hover:text-[var(--color-gold-active)]"
+            className={cn(
+              'font-display text-[clamp(1.5rem,2.5vw,2rem)] font-medium text-text-primary mb-space-3',
+              'transition-colors duration-fast group-hover:text-gold-active',
+            )}
           >
             {title}
           </h3>
           {excerpt && (
-            <p
-              style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: '1rem',
-                color: 'var(--text-muted)',
-                lineHeight: 1.75,
-                marginBottom: '20px',
-              }}
-            >
+            <p className="font-body text-body text-text-muted leading-relaxed mb-space-5">
               {excerpt}
             </p>
           )}
-          <span
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: '0.7rem',
-              textTransform: 'uppercase',
-              letterSpacing: '0.15em',
-              color: 'var(--color-gold-base)',
-            }}
-          >
+          <span className="font-body text-caption uppercase tracking-caption text-gold-base">
             Read more →
           </span>
         </div>
@@ -161,8 +79,7 @@ function NewsCardFeatured({
   );
 }
 
-// ─── Standard variant ─────────────────────────────────────────────────────────
-
+// Standard variant
 function NewsCardStandard({
   title,
   excerpt,
@@ -173,137 +90,47 @@ function NewsCardStandard({
   imageAlt,
 }: NewsCardProps) {
   return (
-    <Link
-      href={href}
-      style={{
-        textDecoration: 'none',
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100%',
-      }}
-      className="group"
-    >
+    <Link href={href} className="group block no-underline h-full">
       <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          height: '100%',
-          background: 'var(--surface-elevated)',
-          border: '1px solid var(--border-light)',
-          overflow: 'hidden',
-          boxShadow: '0 2px 8px rgba(28,26,22,0.04)',
-          transition: 'box-shadow 0.25s ease, transform 0.25s ease',
-        }}
-        onMouseEnter={(e) => {
-          (e.currentTarget as HTMLElement).style.boxShadow =
-            '0 6px 24px rgba(28,26,22,0.10)';
-          (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
-        }}
-        onMouseLeave={(e) => {
-          (e.currentTarget as HTMLElement).style.boxShadow =
-            '0 2px 8px rgba(28,26,22,0.04)';
-          (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-        }}
+        className={cn(
+          'flex flex-col h-full bg-surface-elevated border border-border-light overflow-hidden',
+          'shadow-elevation-1 transition-all duration-gentle',
+          'group-hover:shadow-elevation-3 group-hover:-translate-y-0.5',
+        )}
       >
-        {/* Cover image */}
-        <div
-          style={{
-            position: 'relative',
-            width: '100%',
-            aspectRatio: '16/9',
-            overflow: 'hidden',
-            background: 'var(--color-green-base)',
-            flexShrink: 0,
-          }}
-        >
+        <div className="relative aspect-[16/9] overflow-hidden bg-green-base flex-shrink-0">
           {imageSrc ? (
             <Image
               src={imageSrc}
               alt={imageAlt ?? title}
               fill
-              style={{ objectFit: 'cover', transition: 'transform 0.45s ease' }}
-              className="group-hover:scale-[1.04]"
+              className="object-cover transition-transform duration-gentle group-hover:scale-[1.04]"
             />
           ) : (
-            <div
-              style={{
-                position: 'absolute',
-                inset: 0,
-                background:
-                  'linear-gradient(135deg, var(--color-green-base) 0%, #0d2e1a 100%)',
-              }}
-            />
+            <div className="absolute inset-0 bg-gradient-to-br from-green-base to-green-hover" />
           )}
-
-          {/* Category badge */}
-          <div style={{ position: 'absolute', top: '12px', left: '12px' }}>
+          <div className="absolute top-space-3 left-space-3">
             <Badge variant="category" label={category} />
           </div>
         </div>
-
-        {/* Content */}
-        <div
-          style={{
-            padding: '20px 22px 24px',
-            display: 'flex',
-            flexDirection: 'column',
-            flex: 1,
-          }}
-        >
-          <p
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: '0.68rem',
-              textTransform: 'uppercase',
-              letterSpacing: '0.15em',
-              color: 'var(--text-muted)',
-              marginBottom: '10px',
-            }}
-          >
+        <div className="p-space-5 flex flex-col flex-1">
+          <p className="font-body text-caption uppercase tracking-caption text-text-muted mb-space-2.5">
             {date}
           </p>
           <h3
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: '1.2rem',
-              fontWeight: 500,
-              color: 'var(--text-primary)',
-              lineHeight: 1.25,
-              marginBottom: '10px',
-              transition: 'color 0.2s ease',
-              flex: 'none',
-            }}
+            className={cn(
+              'font-display text-h3 font-medium text-text-primary mb-space-2.5',
+              'transition-colors duration-fast group-hover:text-gold-active',
+            )}
           >
             {title}
           </h3>
           {excerpt && (
-            <p
-              style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: '0.88rem',
-                color: 'var(--text-muted)',
-                lineHeight: 1.7,
-                flex: 1,
-                marginBottom: '16px',
-                display: '-webkit-box',
-                WebkitLineClamp: 3,
-                WebkitBoxOrient: 'vertical',
-                overflow: 'hidden',
-              }}
-            >
+            <p className="font-body text-body-sm text-text-muted leading-relaxed line-clamp-3 mb-space-4 flex-1">
               {excerpt}
             </p>
           )}
-          <span
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: '0.68rem',
-              textTransform: 'uppercase',
-              letterSpacing: '0.15em',
-              color: 'var(--color-gold-base)',
-              marginTop: 'auto',
-            }}
-          >
+          <span className="font-body text-caption uppercase tracking-caption text-gold-base mt-auto">
             Read more →
           </span>
         </div>
@@ -312,8 +139,7 @@ function NewsCardStandard({
   );
 }
 
-// ─── Compact variant ──────────────────────────────────────────────────────────
-
+// Compact variant
 function NewsCardCompact({
   title,
   category,
@@ -323,84 +149,31 @@ function NewsCardCompact({
   imageAlt,
 }: NewsCardProps) {
   return (
-    <Link
-      href={href}
-      style={{ textDecoration: 'none', display: 'block' }}
-      className="group"
-    >
-      <div
-        className="flex gap-4"
-        style={{
-          padding: '14px 0',
-          borderBottom: '1px solid var(--border-light)',
-          transition: 'opacity 0.2s ease',
-        }}
-        onMouseEnter={(e) =>
-          ((e.currentTarget as HTMLElement).style.opacity = '0.8')
-        }
-        onMouseLeave={(e) =>
-          ((e.currentTarget as HTMLElement).style.opacity = '1')
-        }
-      >
-        {/* Thumbnail */}
-        <div
-          style={{
-            position: 'relative',
-            width: '72px',
-            height: '56px',
-            flexShrink: 0,
-            overflow: 'hidden',
-            background: 'var(--color-green-base)',
-          }}
-        >
+    <Link href={href} className="group block no-underline">
+      <div className="flex gap-space-4 py-space-3.5 border-b border-border-light transition-opacity duration-fast group-hover:opacity-80">
+        <div className="relative w-[72px] h-14 flex-shrink-0 overflow-hidden bg-green-base">
           {imageSrc ? (
             <Image
               src={imageSrc}
               alt={imageAlt ?? title}
               fill
-              style={{ objectFit: 'cover' }}
+              className="object-cover"
             />
           ) : (
-            <div
-              style={{
-                position: 'absolute',
-                inset: 0,
-                background:
-                  'linear-gradient(135deg, var(--color-green-base), #0d2e1a)',
-              }}
-            />
+            <div className="absolute inset-0 bg-gradient-to-br from-green-base to-green-hover" />
           )}
         </div>
-
-        {/* Text */}
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div
-            className="flex items-center gap-3 mb-2"
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: '0.62rem',
-              textTransform: 'uppercase',
-              letterSpacing: '0.15em',
-              color: 'var(--text-muted)',
-            }}
-          >
-            <span style={{ color: 'var(--color-gold-base)' }}>{category}</span>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-space-2 mb-space-2 font-body text-caption uppercase tracking-caption text-text-muted">
+            <span className="text-gold-base">{category}</span>
             <span>·</span>
             <span>{date}</span>
           </div>
           <h4
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: '0.88rem',
-              fontWeight: 500,
-              color: 'var(--text-primary)',
-              lineHeight: 1.35,
-              display: '-webkit-box',
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: 'vertical',
-              overflow: 'hidden',
-              transition: 'color 0.2s ease',
-            }}
+            className={cn(
+              'font-body text-body-sm font-medium text-text-primary line-clamp-2',
+              'transition-colors duration-fast group-hover:text-gold-active',
+            )}
           >
             {title}
           </h4>
@@ -410,12 +183,8 @@ function NewsCardCompact({
   );
 }
 
-// ─── Main export ──────────────────────────────────────────────────────────────
-
 export function NewsCard({ variant = 'standard', ...props }: NewsCardProps) {
-  if (variant === 'featured')
-    return <NewsCardFeatured {...props} variant={variant} />;
-  if (variant === 'compact')
-    return <NewsCardCompact {...props} variant={variant} />;
-  return <NewsCardStandard {...props} variant={variant} />;
+  if (variant === 'featured') return <NewsCardFeatured {...props} />;
+  if (variant === 'compact') return <NewsCardCompact {...props} />;
+  return <NewsCardStandard {...props} />;
 }
