@@ -1,16 +1,11 @@
-// packages/ui/src/components/media/PanoramicFacilityViewer.tsx
 'use client';
 
 import { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
-import { clsx } from 'clsx';
+import { cn } from '../../utilities/cn';
 
 export interface PanoramicFacilityViewerProps {
-  images: {
-    src: string;
-    alt: string;
-    label?: string;
-  }[];
+  images: { src: string; alt: string; label?: string }[];
   defaultIndex?: number;
   className?: string;
 }
@@ -47,14 +42,12 @@ export function PanoramicFacilityViewer({
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDragging) return;
     const newPanX = e.clientX - startX;
-    // Limit pan to 50% of image width
     const maxPan = 100;
     setPanX(Math.min(maxPan, Math.max(-maxPan, newPanX)));
   };
 
   const handleMouseUp = () => {
     setIsDragging(false);
-    // Snap back or change image if pan threshold exceeded
     if (Math.abs(panX) > 50) {
       if (panX > 0) prev();
       else next();
@@ -63,7 +56,6 @@ export function PanoramicFacilityViewer({
     }
   };
 
-  // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowLeft') prev();
@@ -74,8 +66,7 @@ export function PanoramicFacilityViewer({
   }, []);
 
   return (
-    <div className={clsx('relative overflow-hidden rounded-lg', className)}>
-      {/* Main viewer */}
+    <div className={cn('relative overflow-hidden rounded-lg', className)}>
       <div
         ref={containerRef}
         className="relative aspect-[16/9] bg-surface-deep cursor-grab active:cursor-grabbing overflow-hidden"
@@ -96,34 +87,27 @@ export function PanoramicFacilityViewer({
             draggable={false}
           />
         </div>
-
-        {/* Gradient overlays for depth */}
         <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-overlay-medium to-transparent pointer-events-none" />
         <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-overlay-medium to-transparent pointer-events-none" />
-
-        {/* Label */}
         {currentImage.label && (
-          <div className="absolute bottom-4 left-4 bg-surface-inverse/80 text-text-inverse px-3 py-1 rounded-full font-body text-sm">
+          <div className="absolute bottom-space-4 left-space-4 bg-surface-inverse/80 text-text-inverse px-space-3 py-space-1 rounded-full font-body text-body-sm">
             {currentImage.label}
           </div>
         )}
-
-        {/* Drag hint */}
         {!isDragging && (
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-surface-inverse/60 text-text-inverse px-3 py-1 rounded-full font-body text-caption opacity-0 hover:opacity-100 transition-opacity pointer-events-none">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-surface-inverse/60 text-text-inverse px-space-3 py-space-1 rounded-full font-body text-caption opacity-0 hover:opacity-100 transition-opacity pointer-events-none">
             Drag to explore
           </div>
         )}
       </div>
 
-      {/* Thumbnails */}
       {totalImages > 1 && (
-        <div className="flex gap-2 mt-3 overflow-x-auto pb-2">
+        <div className="flex gap-space-2 mt-space-3 overflow-x-auto pb-space-2">
           {images.map((img, idx) => (
             <button
               key={idx}
               onClick={() => setCurrentIndex(idx)}
-              className={clsx(
+              className={cn(
                 'relative w-20 h-12 flex-shrink-0 rounded-md overflow-hidden transition-all',
                 idx === currentIndex && 'ring-2 ring-gold-base',
               )}
@@ -139,31 +123,26 @@ export function PanoramicFacilityViewer({
         </div>
       )}
 
-      {/* Navigation arrows */}
       {totalImages > 1 && (
         <>
           <button
             onClick={prev}
-            className="absolute left-4 top-1/2 -translate-y-1/2 bg-surface-elevated/80 rounded-full p-2 hover:bg-gold-base transition-colors"
+            className="absolute left-space-4 top-1/2 -translate-y-1/2 bg-surface-elevated/80 rounded-full p-space-2 hover:bg-gold-base transition-colors"
             aria-label="Previous"
           >
             ←
           </button>
           <button
             onClick={next}
-            className="absolute right-4 top-1/2 -translate-y-1/2 bg-surface-elevated/80 rounded-full p-2 hover:bg-gold-base transition-colors"
+            className="absolute right-space-4 top-1/2 -translate-y-1/2 bg-surface-elevated/80 rounded-full p-space-2 hover:bg-gold-base transition-colors"
             aria-label="Next"
           >
             →
           </button>
+          <div className="absolute bottom-space-4 right-space-4 bg-surface-inverse/80 text-text-inverse px-space-2 py-space-1 rounded-full font-body text-caption">
+            {currentIndex + 1} / {totalImages}
+          </div>
         </>
-      )}
-
-      {/* Counter */}
-      {totalImages > 1 && (
-        <div className="absolute bottom-4 right-4 bg-surface-inverse/80 text-text-inverse px-2 py-1 rounded-full font-body text-caption">
-          {currentIndex + 1} / {totalImages}
-        </div>
       )}
     </div>
   );
