@@ -1,0 +1,38 @@
+{
+  "home": {
+    "hero": {
+      "eyebrow": "Est. 1873 · Mathugama, Sri Lanka",
+      "tagline": "Sri Lanka's First Central College",
+      "established": "Est. 1873",
+      "ctaExplore": "Explore the School",
+      "ctaAdmissions": "Apply for Admissions",
+      "scrollHint": "Scroll to discover"
+    },
+    "stats": {
+      "students": "Students",
+      "staff": "Staff",
+      "years": "Years",
+      "universityEntrances": "University Entrances Annually"
+    },
+    "principal": {
+      "title": "Principal's Message",
+      "readFull": "Read Full Message"
+    },
+    "news": {
+      "title": "Latest News",
+      "viewAll": "All News →"
+    },
+    "academicStreams": {
+      "title": "Academic Streams"
+    },
+    "lifeAtKCC": {
+      "title": "Life at KCC"
+    },
+    "achievements": {
+      "title": "Achievement Ticker"
+    },
+    "societies": {
+      "title": "Societies"
+    }
+  }
+}
