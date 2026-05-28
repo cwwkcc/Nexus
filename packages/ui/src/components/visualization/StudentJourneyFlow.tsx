@@ -2,7 +2,7 @@
 'use client';
 
 import { useState } from 'react';
-import { clsx } from 'clsx';
+import { cn } from '../../utilities/cn';
 
 export interface JourneyNode {
   id: string;
@@ -50,24 +50,34 @@ export function StudentJourneyFlow({
   };
 
   return (
-    <div className={clsx('relative overflow-x-auto py-8', className)}>
+    <div className={cn('relative overflow-x-auto py-space-8', className)}>
       <svg
         viewBox="0 0 1000 400"
         className="w-full min-w-[800px] h-auto"
         style={{ background: 'var(--surface-base)' }}
       >
-        {/* Draw edges */}
+        <defs>
+          <marker
+            id="arrowhead"
+            markerWidth="10"
+            markerHeight="7"
+            refX="8"
+            refY="3.5"
+            orient="auto"
+          >
+            <polygon points="0 0, 10 3.5, 0 7" fill="var(--color-gold-base)" />
+          </marker>
+        </defs>
+
         {edges.map((edge, idx) => {
           const fromNode = nodes.find((n) => n.id === edge.from);
           const toNode = nodes.find((n) => n.id === edge.to);
           if (!fromNode || !toNode) return null;
-
           const isHighlightedEdge =
             hoveredNode === edge.from ||
             hoveredNode === edge.to ||
             selectedNode === edge.from ||
             selectedNode === edge.to;
-
           return (
             <g key={idx}>
               <line
@@ -98,24 +108,9 @@ export function StudentJourneyFlow({
           );
         })}
 
-        <defs>
-          <marker
-            id="arrowhead"
-            markerWidth="10"
-            markerHeight="7"
-            refX="8"
-            refY="3.5"
-            orient="auto"
-          >
-            <polygon points="0 0, 10 3.5, 0 7" fill="var(--color-gold-base)" />
-          </marker>
-        </defs>
-
-        {/* Draw nodes */}
         {nodes.map((node) => {
           const isHighlightedNode = isHighlighted(node.id);
           const isSelected = selectedNode === node.id;
-
           return (
             <g
               key={node.id}
@@ -150,7 +145,7 @@ export function StudentJourneyFlow({
                 x={0}
                 y={-5}
                 textAnchor="middle"
-                className={clsx(
+                className={cn(
                   'font-display text-sm fill-text-primary font-medium',
                   isSelected && 'fill-gold-base',
                 )}
@@ -193,21 +188,20 @@ export function StudentJourneyFlow({
         })}
       </svg>
 
-      {/* Legend */}
-      <div className="flex justify-center gap-6 mt-8 text-center">
-        <div className="flex items-center gap-2">
+      <div className="flex justify-center gap-space-6 mt-space-8 text-center">
+        <div className="flex items-center gap-space-2">
           <div className="w-3 h-3 rounded-full bg-green-base" />
           <span className="font-body text-caption text-text-muted">
             Core Path
           </span>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-space-2">
           <div className="w-3 h-3 rounded-full bg-gold-base" />
           <span className="font-body text-caption text-text-muted">
             Selected
           </span>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-space-2">
           <div className="w-6 h-0.5 bg-border-light" />
           <span className="font-body text-caption text-text-muted">
             Optional Path
