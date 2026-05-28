@@ -1,42 +1,23 @@
-export const milestones = [
-  { id: 'founding', year: '1873' },
-  { id: 'recognition', year: '1901' },
-  { id: 'movement', year: '1932' },
-  { id: 'freeEducation', year: '1944' },
-  { id: 'scouts', year: '1952' },
-  { id: 'excellence', year: '1980s' },
-  { id: 'kits', year: '2010' },
-  { id: 'nexus', year: '2026' },
-] as const;
-
-export const crestSymbols = [
-  { id: 'lamp' },
-  { id: 'lotus' },
-  { id: 'dharmachakra' },
-  { id: 'laurel' },
-] as const;
-
-export const values = [
-  { id: 'wisdom', latin: 'Sapientia' },
-  { id: 'integrity', latin: 'Integritas' },
-  { id: 'excellence', latin: 'Excellentia' },
-  { id: 'service', latin: 'Servitium' },
-] as const;
+// apps/web/src/data/about.ts
+// Static, non‑localizable data – numbers, image paths, fallback IDs.
+// All text moved to messages/en/about.json
 
 export const stats = [
-  { id: 'founded', target: 1873, suffix: '' },
-  { id: 'students', target: 5000, suffix: '+' },
-  { id: 'staff', target: 200, suffix: '+' },
-  { id: 'years', target: 153, suffix: '' },
-] as const;
+  { id: 'founded', target: 1873, suffix: '', labelKey: 'stats.founded' },
+  { id: 'students', target: 5000, suffix: '+', labelKey: 'stats.students' },
+  { id: 'staff', target: 200, suffix: '+', labelKey: 'stats.staff' },
+  { id: 'years', target: 153, suffix: '', labelKey: 'stats.years' },
+];
 
-export const keystones = [
-  { id: 'pioneer' },
-  { id: 'legacy' },
-  { id: 'motto' },
-  { id: 'headHeartHand' },
-  { id: 'virtues' },
-  { id: 'academic' },
-  { id: 'menInGreen' },
-  { id: 'service' },
-] as const;
+// For carousel or timeline, if you need image paths (still static)
+export const timelineImageMap: Record<string, string> = {
+  founding: '/images/history/1873.jpg',
+  recognition: '/images/history/1901.jpg',
+  // ... others
+};
+
+// Alumni profile images (if not in CMS)
+export const alumniImages: Record<string, string> = {
+  '1': '/images/alumni/dr-silva.jpg',
+  '2': '/images/alumni/mr-perera.jpg',
+};
