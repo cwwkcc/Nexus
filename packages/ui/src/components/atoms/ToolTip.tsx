@@ -2,14 +2,14 @@
 'use client';
 
 import { useState, useRef, useId, useEffect } from 'react';
-import { clsx } from 'clsx';
+import { cn } from '../../utilities/cn';
 
 type Position = 'top' | 'bottom' | 'left' | 'right';
 
-type Props = {
+type TooltipProps = {
   content: string;
   position?: Position;
-  children: React.ReactElement;
+  children: React.ReactNode; // ✅ now accepts any renderable content
   className?: string;
 };
 
@@ -34,12 +34,11 @@ export function ToolTip({
   position = 'top',
   children,
   className,
-}: Props) {
+}: TooltipProps) {
   const [visible, setVisible] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const tooltipId = useId();
 
-  // Clean up timer on unmount
   useEffect(() => {
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
@@ -63,15 +62,14 @@ export function ToolTip({
       onFocus={show}
       onBlur={hide}
     >
-      {/* Clones the child and injects aria-describedby */}
       {visible && (
         <span
           id={tooltipId}
           role="tooltip"
-          className={clsx(
+          className={cn(
             'absolute z-modal w-max max-w-[200px] px-space-3 py-space-2',
             'bg-surface-inverse text-text-inverse font-body text-caption rounded-sm',
-            'pointer-events-none animate-in fade-in duration-fast',
+            'pointer-events-none',
             positionStyles[position],
             className,
           )}
@@ -79,7 +77,7 @@ export function ToolTip({
           {content}
           {/* Arrow */}
           <span
-            className={clsx('absolute w-0 h-0 border-4', arrowStyles[position])}
+            className={cn('absolute w-0 h-0 border-4', arrowStyles[position])}
             aria-hidden="true"
           />
         </span>
@@ -95,4 +93,4 @@ export function ToolTip({
   );
 }
 
-ToolTip.displayName = 'ToolTip';
+ToolTip.displayName = 'Tooltip';
