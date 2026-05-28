@@ -118,7 +118,7 @@ export { SchoolLogo } from './components/logos/SchoolLogo';
 // MEDIA
 // ============================================================================
 export { ImageFrame } from './components/media/ImageFrame';
-export { Lightbox } from './components/media/Lightbox';
+export { Lightbox, type LightboxImage } from './components/media/Lightbox';
 export { PanoramicFacilityViewer } from './components/media/PanoramicFacilityViewer'; // typo? rename later
 export { VideoFrame } from './components/media/VideoFrame';
 export { Caption } from './components/media/Caption';
