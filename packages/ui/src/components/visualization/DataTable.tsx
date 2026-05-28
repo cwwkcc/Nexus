@@ -1,8 +1,8 @@
-// packages/ui/src/components/tables/DataTable.tsx
+// packages/ui/src/components/visualization/DataTable.tsx
 'use client';
 
 import { useState, useCallback } from 'react';
-import { clsx } from 'clsx';
+import { cn } from '../../utilities/cn';
 
 export type SortDirection = 'asc' | 'desc' | null;
 
@@ -37,13 +37,11 @@ export function DataTable<T extends Record<string, unknown>>({
   const handleSort = useCallback(
     (key: keyof T) => {
       if (!onSort) return;
-
       let newDirection: SortDirection = 'asc';
       if (sortKey === key) {
         if (sortDirection === 'asc') newDirection = 'desc';
         else if (sortDirection === 'desc') newDirection = null;
       }
-
       setSortKey(newDirection ? key : null);
       setSortDirection(newDirection);
       onSort(key, newDirection);
@@ -53,7 +51,7 @@ export function DataTable<T extends Record<string, unknown>>({
 
   if (isLoading) {
     return (
-      <div className="flex justify-center py-12">
+      <div className="flex justify-center py-space-12">
         <div className="w-8 h-8 border-2 border-gold-base border-t-transparent rounded-full animate-spin" />
       </div>
     );
@@ -67,15 +65,15 @@ export function DataTable<T extends Record<string, unknown>>({
             {columns.map((col) => (
               <th
                 key={String(col.key)}
-                className={clsx(
-                  'px-4 py-3 text-left font-body text-label uppercase tracking-wider text-text-muted',
+                className={cn(
+                  'px-space-4 py-space-3 text-left font-body text-label uppercase tracking-wider text-text-muted',
                   col.sortable &&
                     'cursor-pointer hover:text-gold-base transition-colors',
                   col.className,
                 )}
                 onClick={() => col.sortable && handleSort(col.key)}
               >
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-space-2">
                   {col.header}
                   {col.sortable && sortKey === col.key && (
                     <span className="text-gold-base">
@@ -92,7 +90,7 @@ export function DataTable<T extends Record<string, unknown>>({
             <tr>
               <td
                 colSpan={columns.length}
-                className="px-4 py-12 text-center text-text-muted"
+                className="px-space-4 py-space-12 text-center text-text-muted"
               >
                 {emptyMessage}
               </td>
@@ -102,7 +100,7 @@ export function DataTable<T extends Record<string, unknown>>({
               <tr
                 key={idx}
                 onClick={() => onRowClick?.(row)}
-                className={clsx(
+                className={cn(
                   'border-b border-border-light transition-colors',
                   onRowClick && 'cursor-pointer hover:bg-surface-deep/50',
                 )}
@@ -110,8 +108,8 @@ export function DataTable<T extends Record<string, unknown>>({
                 {columns.map((col) => (
                   <td
                     key={String(col.key)}
-                    className={clsx(
-                      'px-4 py-3 font-body text-body-sm text-text-primary',
+                    className={cn(
+                      'px-space-4 py-space-3 font-body text-body-sm text-text-primary',
                       col.className,
                     )}
                   >
