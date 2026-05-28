@@ -1,11 +1,10 @@
 'use client';
 
-import { forwardRef, ElementType } from 'react';
-import { clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge';
+import { forwardRef, ComponentPropsWithoutRef } from 'react';
+import { cn } from '../../utilities/cn';
 import { BeatLoader } from './Spinners/BeatLoader';
 
-export type ButtonVariant =
+type ButtonVariant =
   | 'primary'
   | 'secondary'
   | 'ghost'
@@ -13,10 +12,9 @@ export type ButtonVariant =
   | 'destructive'
   | 'link';
 
-export type ButtonSize = 'sm' | 'md' | 'lg' | 'icon';
+type ButtonSize = 'sm' | 'md' | 'lg' | 'icon';
 
-type PolymorphicProps<T extends ElementType> = {
-  as?: T;
+interface ButtonProps extends ComponentPropsWithoutRef<'button'> {
   variant?: ButtonVariant;
   size?: ButtonSize;
   loading?: boolean;
@@ -24,9 +22,9 @@ type PolymorphicProps<T extends ElementType> = {
   fullWidth?: boolean;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
-  children?: React.ReactNode;
-  className?: string;
-} & React.ComponentPropsWithoutRef<T>;
+  // Optional: allow rendering as 'a' for links (no generic needed, just use href)
+  href?: string;
+}
 
 const base =
   'relative inline-flex items-center justify-center gap-space-2 font-body text-label ' +
@@ -53,7 +51,7 @@ const sizes: Record<ButtonSize, string> = {
   lg: 'px-space-5 py-space-4',
   md: 'px-space-4 py-space-3',
   sm: 'px-space-3 py-space-2',
-  icon: 'w-10 h-10 p-0',
+  icon: 'w-size-10 h-size-10 p-0',
 };
 
 const loaderSize: Record<ButtonSize, 'sm' | 'md' | 'lg'> = {
@@ -63,10 +61,9 @@ const loaderSize: Record<ButtonSize, 'sm' | 'md' | 'lg'> = {
   icon: 'sm',
 };
 
-export const Button = forwardRef<HTMLElement, PolymorphicProps<ElementType>>(
-  <T extends ElementType = 'button'>(
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  (
     {
-      as,
       variant = 'primary',
       size = 'md',
       type = 'button',
@@ -79,21 +76,66 @@ export const Button = forwardRef<HTMLElement, PolymorphicProps<ElementType>>(
       children,
       className,
       onClick,
+      href,
       ...rest
-    }: PolymorphicProps<T>,
-    ref: React.ForwardedRef<HTMLElement>,
+    },
+    ref,
   ) => {
-    const Component = as || 'button';
     const isDisabled = disabled || loading;
 
-    if (
-      process.env.NODE_ENV !== 'production' &&
-      size === 'icon' &&
-      !rest['aria-label']
-    ) {
-      console.warn(
-        '[Button] size="icon" requires an aria-label for accessibility.\n' +
-          'Example: <Button size="icon" aria-label="Close menu">',
+    // If href is provided, render as an <a> tag instead of button
+    if (href) {
+      return (
+        <a
+          ref={ref as any}
+          href={href}
+          aria-busy={loading}
+          data-variant={variant}
+          data-size={size}
+          data-loading={loading ? '' : undefined}
+          data-disabled={isDisabled ? '' : undefined}
+          data-full-width={fullWidth ? '' : undefined}
+          data-icon-only={size === 'icon' ? '' : undefined}
+          className={cn(
+            base,
+            variants[variant],
+            sizes[size],
+            fullWidth && 'w-full',
+            isDisabled && 'opacity-40 cursor-not-allowed pointer-events-none',
+            !isDisabled && 'cursor-pointer',
+            className,
+          )}
+          {...rest}
+        >
+          {/* same content as button case */}
+          {loading && (
+            <span className="absolute inset-0 flex items-center justify-center gap-space-2 pointer-events-none">
+              <BeatLoader size={loaderSize[size]} />
+              {loadingText && (
+                <span className="text-label font-body">{loadingText}</span>
+              )}
+            </span>
+          )}
+          {loading && (
+            <span className="sr-only" aria-live="polite">
+              {loadingText ?? 'Loading'}
+            </span>
+          )}
+          <span
+            className={cn(
+              'inline-flex items-center gap-space-2',
+              loading && 'opacity-0',
+            )}
+          >
+            {leftIcon && (
+              <span className="shrink-0 [&>svg]:size-[1em]">{leftIcon}</span>
+            )}
+            {children}
+            {rightIcon && (
+              <span className="shrink-0 [&>svg]:size-[1em]">{rightIcon}</span>
+            )}
+          </span>
+        </a>
       );
     }
 
@@ -102,14 +144,21 @@ export const Button = forwardRef<HTMLElement, PolymorphicProps<ElementType>>(
         e.preventDefault();
         return;
       }
-      onClick?.(e as any);
+      onClick?.(e);
     };
 
+    if (size === 'icon' && !rest['aria-label']) {
+      console.warn(
+        '[Button] size="icon" requires an aria-label for accessibility.\n' +
+          'Example: <Button size="icon" aria-label="Close menu">',
+      );
+    }
+
     return (
-      <Component
-        ref={ref as any}
-        type={Component === 'button' ? type : undefined}
-        disabled={Component === 'button' ? isDisabled : undefined}
+      <button
+        ref={ref}
+        type={type}
+        disabled={isDisabled}
         aria-busy={loading}
         data-variant={variant}
         data-size={size}
@@ -118,18 +167,16 @@ export const Button = forwardRef<HTMLElement, PolymorphicProps<ElementType>>(
         data-full-width={fullWidth ? '' : undefined}
         data-icon-only={size === 'icon' ? '' : undefined}
         onClick={handleClick}
-        className={twMerge(
-          clsx(
-            base,
-            variants[variant],
-            sizes[size],
-            fullWidth && 'w-full',
-            isDisabled && 'opacity-40 cursor-not-allowed',
-            !isDisabled && 'cursor-pointer',
-            className,
-          ),
+        className={cn(
+          base,
+          variants[variant],
+          sizes[size],
+          fullWidth && 'w-full',
+          isDisabled && 'opacity-40 cursor-not-allowed',
+          !isDisabled && 'cursor-pointer',
+          className,
         )}
-        {...(rest as any)}
+        {...rest}
       >
         {loading && (
           <span className="absolute inset-0 flex items-center justify-center gap-space-2 pointer-events-none">
@@ -147,7 +194,7 @@ export const Button = forwardRef<HTMLElement, PolymorphicProps<ElementType>>(
         )}
 
         <span
-          className={clsx(
+          className={cn(
             'inline-flex items-center gap-space-2',
             loading && 'opacity-0',
           )}
@@ -160,7 +207,7 @@ export const Button = forwardRef<HTMLElement, PolymorphicProps<ElementType>>(
             <span className="shrink-0 [&>svg]:size-[1em]">{rightIcon}</span>
           )}
         </span>
-      </Component>
+      </button>
     );
   },
 );
