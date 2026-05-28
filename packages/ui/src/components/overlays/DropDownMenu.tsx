@@ -2,6 +2,7 @@
 'use client';
 
 import { useEffect, useRef, useState, useId, useCallback } from 'react';
+import { useRouter } from 'next/navigation'; // FIX: import Next.js router
 import { cn } from '../../utilities/cn';
 
 export type DropdownMenuVariant = 'navigation' | 'filter';
@@ -34,6 +35,7 @@ export function DropdownMenu({
   const triggerRef = useRef<HTMLButtonElement>(null);
   const menuId = useId();
   const triggerId = useId();
+  const router = useRouter(); // FIX: use Next.js router for client-side navigation
 
   const closeMenu = useCallback(() => {
     setOpen(false);
@@ -43,6 +45,7 @@ export function DropdownMenu({
 
   const handleItemClick = (item: DropdownMenuItem) => {
     if (item.onClick) item.onClick();
+    if (item.href) router.push(item.href); // FIX: router.push instead of window.location.href
     closeMenu();
   };
 
@@ -68,7 +71,7 @@ export function DropdownMenu({
         if (activeIndex >= 0 && items[activeIndex]) {
           const item = items[activeIndex];
           if (item.href) {
-            window.location.href = item.href;
+            router.push(item.href); // FIX: was `window.location.href = item.href`
           } else if (item.onClick) {
             item.onClick();
           }
@@ -118,36 +121,17 @@ export function DropdownMenu({
     variant === 'navigation' && [
       'font-body text-label uppercase tracking-label',
       'text-text-muted',
-      'hover:text-gold-base',
+      'hover:text-text-primary',
     ],
   );
 
-  const chevronClasses = cn(
-    'text-gold-base text-xs transition-transform duration-standard ease-out',
-    open && 'rotate-180',
-  );
-
   const menuClasses = cn(
-    'absolute z-dropdown min-w-[180px] py-space-2 mt-space-1',
-    'bg-surface-elevated border border-border-light rounded-md',
+    'absolute z-dropdown min-w-[160px] py-space-1',
+    'bg-surface-elevated border border-border-light',
     'shadow-elevation-2',
-    'animate-in fade-in zoom-in-95 duration-standard ease-out',
     align === 'right' ? 'right-0' : 'left-0',
-    // Reduced motion fallback
-    'motion-reduce:animate-none',
+    'top-full mt-space-1',
   );
-
-  const itemClasses = (isActive: boolean) =>
-    cn(
-      'block w-full text-left px-space-5 py-space-2',
-      'font-body text-body-sm',
-      'transition-all duration-fast ease-snap',
-      'cursor-pointer',
-      'focus-visible:outline-2 focus-visible:outline-gold-base focus-visible:outline-offset-[-2px]',
-      isActive
-        ? 'bg-surface-deep text-gold-base'
-        : 'text-text-primary hover:bg-surface-deep hover:text-gold-base',
-    );
 
   return (
     <div
@@ -159,15 +143,21 @@ export function DropdownMenu({
         ref={triggerRef}
         id={triggerId}
         type="button"
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => setOpen((prev) => !prev)}
         aria-haspopup="menu"
         aria-expanded={open}
-        aria-controls={menuId}
+        aria-controls={open ? menuId : undefined}
         className={triggerClasses}
       >
         {trigger}
-        <span aria-hidden="true" className={chevronClasses}>
-          ▾
+        <span
+          aria-hidden="true"
+          className={cn(
+            'transition-transform duration-fast',
+            open ? 'rotate-180' : 'rotate-0',
+          )}
+        >
+          ∨
         </span>
       </button>
 
@@ -178,36 +168,24 @@ export function DropdownMenu({
           aria-labelledby={triggerId}
           className={menuClasses}
         >
-          {items.map((item, idx) => {
-            const isActive = idx === activeIndex;
-            const commonProps = {
-              role: 'menuitem',
-              tabIndex: -1,
-              className: itemClasses(isActive),
-              onMouseEnter: () => setActiveIndex(idx),
-              onMouseLeave: () => setActiveIndex(-1),
-              onClick: () => handleItemClick(item),
-              onKeyDown: (e: React.KeyboardEvent) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  handleItemClick(item);
-                }
-              },
-            };
-
-            if (item.href) {
-              return (
-                <li key={item.id} role="none">
-                  <a href={item.href} {...commonProps}>
-                    {item.label}
-                  </a>
-                </li>
-              );
-            }
-
+          {items.map((item, index) => {
+            const isActive = index === activeIndex;
             return (
               <li key={item.id} role="none">
-                <button type="button" {...commonProps}>
+                <button
+                  role="menuitem"
+                  tabIndex={-1}
+                  onClick={() => handleItemClick(item)}
+                  className={cn(
+                    'w-full text-left px-space-4 py-space-2p5',
+                    'font-body text-label uppercase tracking-label',
+                    'transition-colors duration-fast',
+                    'focus:outline-none',
+                    isActive
+                      ? 'bg-surface-deep text-gold-base'
+                      : 'text-text-primary hover:bg-surface-default hover:text-gold-base',
+                  )}
+                >
                   {item.label}
                 </button>
               </li>
