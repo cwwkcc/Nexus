@@ -1,9 +1,10 @@
 import { useState, useRef, useCallback } from 'react';
+import { cn } from '../../utilities/cn';
+
 export interface FileUploadZoneProps {
   accept?: string;
   multiple?: boolean;
   maxSizeMb?: number;
-  /** Called whenever the accepted file list changes */
   onChange?: (files: File[]) => void;
   label?: string;
   hint?: string;
@@ -78,21 +79,11 @@ export function FileUploadZone({
   return (
     <div>
       {label && (
-        <p
-          style={{
-            fontFamily: 'var(--font-body)',
-            fontSize: '0.72rem',
-            textTransform: 'uppercase',
-            letterSpacing: '0.12em',
-            color: 'var(--text-primary)',
-            marginBottom: '8px',
-          }}
-        >
+        <p className="font-body text-label uppercase tracking-caption text-text-primary mb-space-2">
           {label}
         </p>
       )}
 
-      {/* Drop zone */}
       <div
         role="button"
         tabIndex={disabled ? -1 : 0}
@@ -105,86 +96,36 @@ export function FileUploadZone({
         onDragOver={onDragOver}
         onDragLeave={onDragLeave}
         onDrop={onDrop}
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '8px',
-          padding: '36px 24px',
-          border: `2px dashed ${
-            error
-              ? 'var(--semantic-error-base)'
-              : isDragging
-                ? 'var(--color-gold-base)'
-                : 'var(--border-default)'
-          }`,
-          background: isDragging
-            ? 'var(--color-gold-pale)'
-            : error
-              ? 'var(--semantic-error-surface)'
-              : 'var(--surface-elevated)',
-          cursor: disabled ? 'not-allowed' : 'pointer',
-          opacity: disabled ? 0.5 : 1,
-          transition: 'all 0.2s ease',
-          outline: 'none',
-        }}
-        onFocus={(e) => {
-          if (!disabled)
-            e.currentTarget.style.outline = '2px solid var(--color-gold-base)';
-        }}
-        onBlur={(e) => {
-          e.currentTarget.style.outline = 'none';
-        }}
+        className={cn(
+          'flex flex-col items-center justify-center gap-space-2 p-space-9',
+          'border-2 border-dashed transition-all duration-fast',
+          error
+            ? 'border-semantic-error-base bg-semantic-error-surface'
+            : isDragging
+              ? 'border-gold-base bg-gold-pale'
+              : 'border-border-default bg-surface-elevated',
+          disabled && 'opacity-50 cursor-not-allowed',
+          !disabled && 'cursor-pointer',
+          'focus-visible:outline-2 focus-visible:outline-gold-base focus-visible:outline-offset-2',
+        )}
       >
         <span
           aria-hidden="true"
-          style={{
-            fontSize: '1.75rem',
-            color: 'var(--color-gold-base)',
-            lineHeight: 1,
-          }}
+          className="text-gold-base text-[1.75rem] leading-none"
         >
           ↑
         </span>
-        <span
-          style={{
-            fontFamily: 'var(--font-body)',
-            fontSize: '0.875rem',
-            color: 'var(--text-primary)',
-            textAlign: 'center',
-          }}
-        >
+        <span className="font-body text-body-sm text-text-primary text-center">
           Drag &amp; drop{multiple ? ' files' : ' a file'} here, or{' '}
-          <span
-            style={{
-              color: 'var(--color-gold-base)',
-              textDecoration: 'underline',
-            }}
-          >
-            browse
-          </span>
+          <span className="text-gold-base underline">browse</span>
         </span>
         {hint && (
-          <span
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: '0.72rem',
-              color: 'var(--text-muted)',
-              textAlign: 'center',
-            }}
-          >
+          <span className="font-body text-caption text-text-muted text-center">
             {hint}
           </span>
         )}
         {maxSizeMb && (
-          <span
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: '0.68rem',
-              color: 'var(--text-muted)',
-            }}
-          >
+          <span className="font-body text-caption text-text-muted">
             Max {maxSizeMb} MB
           </span>
         )}
@@ -196,113 +137,44 @@ export function FileUploadZone({
         accept={accept}
         multiple={multiple}
         disabled={disabled}
-        style={{ display: 'none' }}
+        className="hidden"
         onChange={(e) => processFiles(e.target.files)}
       />
 
-      {/* Error */}
       {error && (
         <p
           role="alert"
-          style={{
-            fontFamily: 'var(--font-body)',
-            fontSize: '0.78rem',
-            color: 'var(--semantic-error-base)',
-            marginTop: '6px',
-          }}
+          className="font-body text-caption text-semantic-error-base mt-space-1.5"
         >
           {error}
         </p>
       )}
 
-      {/* File list */}
       {files.length > 0 && (
-        <ul
-          style={{
-            listStyle: 'none',
-            padding: 0,
-            margin: '10px 0 0',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '6px',
-          }}
-        >
+        <ul className="list-none p-0 m-0 mt-space-2.5 flex flex-col gap-space-1.5">
           {files.map((file, idx) => (
             <li
               key={`${file.name}-${idx}`}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                gap: '12px',
-                padding: '10px 14px',
-                background: 'var(--surface-default)',
-                border: '1px solid var(--border-light)',
-              }}
+              className="flex items-center justify-between gap-space-3 p-space-2.5 bg-surface-default border border-border-light"
             >
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '10px',
-                  minWidth: 0,
-                }}
-              >
+              <div className="flex items-center gap-space-2.5 min-w-0">
                 <span
                   aria-hidden="true"
-                  style={{
-                    fontSize: '0.9rem',
-                    color: 'var(--semantic-success-base)',
-                    flexShrink: 0,
-                  }}
+                  className="text-semantic-success-base text-sm flex-shrink-0"
                 >
                   ✓
                 </span>
-                <span
-                  style={{
-                    fontFamily: 'var(--font-body)',
-                    fontSize: '0.875rem',
-                    color: 'var(--text-primary)',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
+                <span className="font-body text-body-sm text-text-primary truncate">
                   {file.name}
                 </span>
-                <span
-                  style={{
-                    fontFamily: 'var(--font-body)',
-                    fontSize: '0.72rem',
-                    color: 'var(--text-muted)',
-                    flexShrink: 0,
-                  }}
-                >
+                <span className="font-body text-caption text-text-muted flex-shrink-0">
                   {formatBytes(file.size)}
                 </span>
               </div>
               <button
                 onClick={() => removeFile(idx)}
                 aria-label={`Remove ${file.name}`}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  color: 'var(--text-muted)',
-                  fontSize: '1rem',
-                  lineHeight: 1,
-                  padding: '2px 4px',
-                  flexShrink: 0,
-                  transition: 'color 0.15s ease',
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.color =
-                    'var(--semantic-error-base)';
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.color =
-                    'var(--text-muted)';
-                }}
+                className="bg-transparent border-none cursor-pointer text-text-muted text-base p-1 leading-none transition-colors duration-fast hover:text-semantic-error-base"
               >
                 ×
               </button>
