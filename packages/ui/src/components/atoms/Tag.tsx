@@ -1,16 +1,15 @@
 // components/atoms/Tag.tsx
 'use client';
 
-import { clsx } from 'clsx';
-
-type Props = {
+import { cn } from '../../utilities/cn';
+interface TagProps {
   label: string;
   active?: boolean;
   onClick?: () => void;
   className?: string;
-};
+}
 
-export function Tag({ label, active = false, onClick, className }: Props) {
+export function Tag({ label, active = false, onClick, className }: TagProps) {
   const isInteractive = Boolean(onClick);
 
   return (
@@ -25,7 +24,7 @@ export function Tag({ label, active = false, onClick, className }: Props) {
             }
           : undefined
       }
-      className={clsx(
+      className={cn(
         'inline-flex items-center px-space-3 py-space-2 rounded-full font-body text-caption select-none whitespace-nowrap',
         'transition-all duration-fast ease-snap',
         active
