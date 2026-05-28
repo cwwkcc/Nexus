@@ -29,7 +29,6 @@ Every page on Nexus serves a specific emotional and functional purpose. No page 
 /en/extracurriculars         → Extracurriculars
 /en/societies                → Societies Hub
 /en/societies/[slug]         → Individual society page
-/en/societies/kits           → KITS dedicated page
 /en/gallery                  → Gallery
 /en/contact                  → Contact
 ```
