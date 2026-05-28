@@ -1,6 +1,7 @@
 'use client';
 
 import { useCountUp } from '../../hooks/useCountUp';
+import { cn } from '../../utilities/cn';
 
 export type StatCardVariant = 'single' | 'with-trend';
 export type TrendDirection = 'up' | 'down' | 'neutral';
@@ -25,48 +26,23 @@ function TrendIndicator({
   value?: string;
   label?: string;
 }) {
-  const config: Record<TrendDirection, { symbol: string; color: string }> = {
-    up: { symbol: '↑', color: 'var(--semantic-success-base)' },
-    down: { symbol: '↓', color: 'var(--semantic-error-base)' },
-    neutral: { symbol: '—', color: 'var(--text-muted)' },
+  const config = {
+    up: { symbol: '↑', color: 'text-semantic-success-base' },
+    down: { symbol: '↓', color: 'text-semantic-error-base' },
+    neutral: { symbol: '—', color: 'text-text-muted' },
   };
   const { symbol, color } = config[direction];
 
   return (
-    <div
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: '4px',
-        padding: '3px 8px',
-        background: 'var(--surface-deep)',
-        border: '1px solid var(--border-light)',
-        borderRadius: '999px',
-      }}
-    >
-      <span style={{ fontSize: '0.7rem', color, lineHeight: 1 }}>{symbol}</span>
+    <div className="inline-flex items-center gap-space-1 px-space-2 py-space-0.5 bg-surface-deep border border-border-light rounded-full">
+      <span className={cn('text-sm leading-none', color)}>{symbol}</span>
       {value && (
-        <span
-          style={{
-            fontFamily: 'var(--font-body)',
-            fontSize: '0.68rem',
-            color,
-            fontWeight: 600,
-          }}
-        >
+        <span className={cn('font-body text-caption font-semibold', color)}>
           {value}
         </span>
       )}
       {label && (
-        <span
-          style={{
-            fontFamily: 'var(--font-body)',
-            fontSize: '0.65rem',
-            color: 'var(--text-muted)',
-            textTransform: 'uppercase',
-            letterSpacing: '0.08em',
-          }}
-        >
+        <span className="font-body text-caption uppercase tracking-caption text-text-muted">
           {label}
         </span>
       )}
@@ -89,62 +65,30 @@ export function StatCard({
   return (
     <div
       ref={ref as React.RefObject<HTMLDivElement>}
-      className={className}
-      style={{
-        padding: '28px 24px',
-        background: 'var(--surface-elevated)',
-        border: '1px solid var(--border-light)',
-        boxShadow: '0 2px 8px rgba(28,26,22,0.04)',
-      }}
+      className={cn(
+        'p-space-7 bg-surface-elevated border border-border-light',
+        'shadow-elevation-1',
+        className,
+      )}
     >
-      <p
-        style={{
-          fontFamily: 'var(--font-body)',
-          fontSize: '0.65rem',
-          textTransform: 'uppercase',
-          letterSpacing: '0.15em',
-          color: 'var(--text-muted)',
-          marginBottom: '12px',
-        }}
-      >
+      <p className="font-body text-caption uppercase tracking-caption text-text-muted mb-space-3">
         {label}
       </p>
-
       <div
-        style={{
-          display: 'flex',
-          alignItems: 'baseline',
-          gap: '4px',
-          marginBottom: variant === 'with-trend' && trend ? '12px' : 0,
-        }}
+        className={cn(
+          'flex items-baseline gap-space-1',
+          variant === 'with-trend' && trend && 'mb-space-3',
+        )}
       >
-        <span
-          style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(2rem, 4vw, 2.8rem)',
-            fontWeight: 500,
-            color: 'var(--color-gold-base)',
-            lineHeight: 1,
-          }}
-        >
+        <span className="font-display text-[clamp(2rem,4vw,2.8rem)] font-medium text-gold-base leading-none">
           {count.toLocaleString()}
         </span>
         {suffix && (
-          <span
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(1rem, 2vw, 1.4rem)',
-              fontWeight: 500,
-              color: 'var(--color-gold-base)',
-              opacity: 0.7,
-              lineHeight: 1,
-            }}
-          >
+          <span className="font-display text-[clamp(1rem,2vw,1.4rem)] font-medium text-gold-base/70 leading-none">
             {suffix}
           </span>
         )}
       </div>
-
       {variant === 'with-trend' && trend && (
         <TrendIndicator
           direction={trend}
