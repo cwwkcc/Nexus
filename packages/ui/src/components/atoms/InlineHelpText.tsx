@@ -1,6 +1,6 @@
 // components/atoms/InlineHelpText.tsx
-import { clsx } from 'clsx';
-
+import { cn } from '../../utilities/cn';
+import { Text } from '../typography/Text';
 type Tone = 'default' | 'success' | 'error';
 
 type Props = {
@@ -23,12 +23,12 @@ export function InlineHelpText({
   className,
 }: Props) {
   return (
-    <p
+    <Text
       id={id}
-      className={clsx('font-body text-caption', tones[tone], className)}
+      className={cn('font-body text-caption', tones[tone], className)}
     >
       {children}
-    </p>
+    </Text>
   );
 }
 
