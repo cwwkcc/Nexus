@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import { createPortal } from 'react-dom';
+import { cn } from '../../utilities/cn';
 
 export interface LightboxImage {
   src: string;
@@ -63,11 +64,10 @@ export function Lightbox({
   const currentImage = images[currentIndex];
 
   return createPortal(
-    <div className="fixed inset-0 z-[400] bg-overlay-heavy flex items-center justify-center">
-      {/* Close button */}
+    <div className="fixed inset-0 z-modal bg-overlay-heavy flex items-center justify-center">
       <button
         onClick={onClose}
-        className="absolute top-4 right-4 text-text-inverse hover:text-gold-base transition-colors z-10 p-2"
+        className="absolute top-space-4 right-space-4 text-text-inverse hover:text-gold-base transition-colors z-10 p-space-2"
         aria-label="Close lightbox"
       >
         <svg
@@ -82,12 +82,11 @@ export function Lightbox({
         </svg>
       </button>
 
-      {/* Navigation arrows */}
       {images.length > 1 && (
         <>
           <button
             onClick={goPrev}
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-text-inverse hover:text-gold-base transition-colors p-2"
+            className="absolute left-space-4 top-1/2 -translate-y-1/2 text-text-inverse hover:text-gold-base transition-colors p-space-2"
             aria-label="Previous image"
           >
             <svg
@@ -103,7 +102,7 @@ export function Lightbox({
           </button>
           <button
             onClick={goNext}
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-text-inverse hover:text-gold-base transition-colors p-2"
+            className="absolute right-space-4 top-1/2 -translate-y-1/2 text-text-inverse hover:text-gold-base transition-colors p-space-2"
             aria-label="Next image"
           >
             <svg
@@ -120,7 +119,6 @@ export function Lightbox({
         </>
       )}
 
-      {/* Image container */}
       <div className="max-w-[90vw] max-h-[85vh] relative">
         <img
           src={currentImage.src}
@@ -128,15 +126,14 @@ export function Lightbox({
           className="max-w-full max-h-[85vh] object-contain"
         />
         {currentImage.caption && (
-          <div className="absolute bottom-0 left-0 right-0 bg-overlay-medium text-text-inverse p-3 text-center">
-            <p className="font-body text-sm">{currentImage.caption}</p>
+          <div className="absolute bottom-0 left-0 right-0 bg-overlay-medium text-text-inverse p-space-3 text-center">
+            <p className="font-body text-body-sm">{currentImage.caption}</p>
           </div>
         )}
       </div>
 
-      {/* Counter */}
       {images.length > 1 && (
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-surface-inverse/80 text-text-inverse px-3 py-1 rounded-full font-body text-caption">
+        <div className="absolute bottom-space-4 left-1/2 -translate-x-1/2 bg-surface-inverse/80 text-text-inverse px-space-3 py-space-1 rounded-full font-body text-caption">
           {currentIndex + 1} / {images.length}
         </div>
       )}
