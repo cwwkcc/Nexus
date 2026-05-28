@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { clsx } from 'clsx';
+import { cn } from '../../utilities/cn';
 import { Button } from '../atoms/Button';
 
 export type VideoFrameAspectRatio = '16/9' | '21/9' | '4/3';
@@ -65,7 +65,7 @@ export function VideoFrame({
   if (isEmbed) {
     return (
       <div
-        className={clsx(
+        className={cn(
           'relative w-full overflow-hidden rounded-md',
           aspectRatioMap[aspectRatio],
           className,
@@ -84,7 +84,7 @@ export function VideoFrame({
 
   return (
     <div
-      className={clsx(
+      className={cn(
         'relative w-full overflow-hidden rounded-md bg-surface-deep',
         aspectRatioMap[aspectRatio],
         className,
