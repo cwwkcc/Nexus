@@ -1,8 +1,9 @@
+// packages/ui/src/components/effects/AmbientEmbers.tsx
 'use client';
 
 import { useEffect, useState, useId } from 'react';
 import { useReducedMotion } from 'framer-motion';
-import { clsx } from 'clsx';
+import { cn } from '../../utilities/cn';
 
 export interface AmbientEmbersProps {
   count?: number;
@@ -18,13 +19,46 @@ interface Ember {
   delay: number;
 }
 
+// Global styles for keyframes – injected once
+let stylesInjected = false;
+const injectStyles = () => {
+  if (typeof document === 'undefined' || stylesInjected) return;
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes kcc-ember-rise {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 0;
+      }
+      20% {
+        opacity: 0.6;
+      }
+      80% {
+        opacity: 0.4;
+      }
+      100% {
+        transform: translateY(-100px) scale(0.5);
+        opacity: 0;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .kcc-ember {
+        animation: none !important;
+        opacity: 0.15 !important;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+  stylesInjected = true;
+};
+
 export function AmbientEmbers({ count = 20, className }: AmbientEmbersProps) {
   const [embers, setEmbers] = useState<Ember[]>([]);
   const prefersReduced = useReducedMotion();
   const idPrefix = useId();
 
   useEffect(() => {
-    // Skip generating particles if reduced motion is preferred
+    injectStyles();
     if (prefersReduced) return;
 
     const newEmbers = Array.from({ length: count }).map((_, i) => ({
@@ -38,14 +72,13 @@ export function AmbientEmbers({ count = 20, className }: AmbientEmbersProps) {
     setEmbers(newEmbers);
   }, [count, prefersReduced, idPrefix]);
 
-  // Reduced motion fallback: static faint gold texture
   if (prefersReduced) {
     return (
       <div
         aria-hidden="true"
-        className={clsx(
+        className={cn(
           'absolute inset-0 pointer-events-none',
-          'bg-gradient-radial-gold opacity-30',
+          'bg-gradient-radial-gold opacity-15',
           className,
         )}
       />
@@ -55,7 +88,7 @@ export function AmbientEmbers({ count = 20, className }: AmbientEmbersProps) {
   return (
     <div
       aria-hidden="true"
-      className={clsx(
+      className={cn(
         'absolute inset-0 pointer-events-none overflow-hidden',
         className,
       )}
@@ -63,11 +96,7 @@ export function AmbientEmbers({ count = 20, className }: AmbientEmbersProps) {
       {embers.map((ember) => (
         <div
           key={ember.id}
-          className={clsx(
-            'absolute rounded-full',
-            // Use currentColor trick – parent sets text colour, then bg-current with opacity
-            'text-gold-base bg-current/40',
-          )}
+          className="absolute rounded-full text-gold-base bg-current/40 kcc-ember"
           style={{
             left: `${ember.x}%`,
             top: `${ember.y}%`,
@@ -75,28 +104,9 @@ export function AmbientEmbers({ count = 20, className }: AmbientEmbersProps) {
             height: `${ember.size}px`,
             animation: `kcc-ember-rise ${ember.duration}s ease-in-out infinite`,
             animationDelay: `${ember.delay}s`,
-            opacity: 0,
           }}
         />
       ))}
-      <style>{`
-        @keyframes kcc-ember-rise {
-          0% {
-            transform: translateY(0) scale(1);
-            opacity: 0;
-          }
-          20% {
-            opacity: 0.6;
-          }
-          80% {
-            opacity: 0.4;
-          }
-          100% {
-            transform: translateY(-100px) scale(0.5);
-            opacity: 0;
-          }
-        }
-      `}</style>
     </div>
   );
 }
