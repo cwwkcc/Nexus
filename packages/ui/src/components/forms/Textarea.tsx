@@ -1,8 +1,7 @@
-// components/atoms/Textarea.tsx
 'use client';
 
 import { forwardRef } from 'react';
-import { clsx } from 'clsx';
+import { cn } from '../../utilities/cn';
 import { useFormField } from '../../hooks/useFormField';
 
 type Props = {
@@ -29,13 +28,6 @@ const textareaBase =
   'disabled:bg-surface-deep disabled:text-text-muted disabled:cursor-not-allowed ' +
   'focus-visible:outline-2 focus-visible:outline-gold-base focus-visible:outline-offset-[3px]';
 
-const textareaStates = {
-  default:
-    'border-border-default hover:border-border-default focus-visible:border-gold-base',
-  error:
-    'border-error-base focus-visible:border-error-base focus-visible:outline-error-base',
-};
-
 export const Textarea = forwardRef<HTMLTextAreaElement, Props>(
   (
     {
@@ -61,19 +53,21 @@ export const Textarea = forwardRef<HTMLTextAreaElement, Props>(
     });
 
     return (
-      <div className={clsx('flex flex-col gap-space-2', className)}>
+      <div className={cn('flex flex-col gap-space-2', className)}>
         <label
           htmlFor={id}
           className="font-body text-label text-text-primary uppercase tracking-label"
         >
           {label}
           {required && (
-            <span className="ml-space-1 text-error-base" aria-hidden="true">
+            <span
+              className="ml-space-1 text-semantic-error-base"
+              aria-hidden="true"
+            >
               *
             </span>
           )}
         </label>
-
         <textarea
           ref={ref}
           id={id}
@@ -88,22 +82,22 @@ export const Textarea = forwardRef<HTMLTextAreaElement, Props>(
           onBlur={onBlur}
           aria-invalid={hasError}
           aria-describedby={describedBy}
-          className={clsx(
+          className={cn(
             textareaBase,
-            hasError ? textareaStates.error : textareaStates.default,
+            hasError
+              ? 'border-semantic-error-base focus-visible:border-semantic-error-base focus-visible:outline-semantic-error-base'
+              : 'border-border-default hover:border-border-default focus-visible:border-gold-base',
           )}
         />
-
         {hasError && (
           <p
             id={errorId}
-            className="font-body text-caption text-error-base"
+            className="font-body text-caption text-semantic-error-base"
             role="alert"
           >
             {error}
           </p>
         )}
-
         {!hasError && helperText && (
           <p id={helperId} className="font-body text-caption text-text-muted">
             {helperText}
