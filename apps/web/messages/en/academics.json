@@ -1,0 +1,25 @@
+{
+  "academics": {
+    "hero": {
+      "eyebrow": "Academic Excellence",
+      "title": "Academics at",
+      "titleEm": "KCC",
+      "subtitle": "Rigorous, holistic education in the tradition of Dr. Kannangara."
+    },
+    "streams": {
+      "science": "Science",
+      "commerce": "Commerce",
+      "arts": "Arts",
+      "technology": "Technology"
+    },
+    "comparisonTable": {
+      "title": "Stream Comparison"
+    },
+    "studentJourney": {
+      "title": "Student Journey"
+    },
+    "performance": {
+      "title": "Performance Statistics"
+    }
+  }
+}
