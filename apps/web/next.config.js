@@ -1,16 +1,13 @@
-//@ts-check
+// apps/web/next.config.js
 const { composePlugins, withNx } = require('@nx/next');
 const createNextIntlPlugin = require('next-intl/plugin');
 
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
-/**
- * @type {import('@nx/next/plugins/with-nx').WithNxOptions}
- **/
+
+/** @type {import('@nx/next/plugins/with-nx').WithNxOptions} */
 const nextConfig = {
   nx: {},
   transpilePackages: ['@nexus/ui'],
 };
 
-const plugins = [withNx, withNextIntl];
-
-module.exports = composePlugins(...plugins)(nextConfig);
+module.exports = composePlugins(withNx, withNextIntl)(nextConfig);
