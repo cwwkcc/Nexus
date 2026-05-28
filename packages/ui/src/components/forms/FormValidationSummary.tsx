@@ -1,7 +1,7 @@
+import { cn } from '../../utilities/cn';
+
 export interface FormValidationSummaryProps {
-  /** Pass `null` or `undefined` when there are no errors — component renders nothing. */
   errors?: string[] | null;
-  /** Pass a success message to show the success state. */
   successMessage?: string | null;
 }
 
@@ -14,36 +14,19 @@ export function FormValidationSummary({
       <div
         role="status"
         aria-live="polite"
-        style={{
-          display: 'flex',
-          alignItems: 'flex-start',
-          gap: '12px',
-          padding: '16px 20px',
-          background: 'var(--semantic-success-surface)',
-          border: '1px solid var(--semantic-success-base)',
-          borderLeft: '3px solid var(--semantic-success-base)',
-        }}
+        className={cn(
+          'flex items-start gap-space-3 p-space-5',
+          'bg-semantic-success-surface border border-semantic-success-base',
+          'border-l-[3px] border-l-semantic-success-base',
+        )}
       >
         <span
           aria-hidden="true"
-          style={{
-            fontSize: '1rem',
-            lineHeight: 1,
-            marginTop: '1px',
-            color: 'var(--semantic-success-base)',
-            flexShrink: 0,
-          }}
+          className="text-semantic-success-base text-base leading-none mt-0.5"
         >
           ✓
         </span>
-        <p
-          style={{
-            fontFamily: 'var(--font-body)',
-            fontSize: '0.875rem',
-            color: 'var(--semantic-success-base)',
-            lineHeight: 1.5,
-          }}
-        >
+        <p className="font-body text-body-sm text-semantic-success-base leading-relaxed">
           {successMessage}
         </p>
       </div>
@@ -56,53 +39,23 @@ export function FormValidationSummary({
     <div
       role="alert"
       aria-live="assertive"
-      style={{
-        padding: '16px 20px',
-        background: 'var(--semantic-error-surface)',
-        border: '1px solid var(--semantic-error-base)',
-        borderLeft: '3px solid var(--semantic-error-base)',
-      }}
+      className={cn(
+        'p-space-5',
+        'bg-semantic-error-surface border border-semantic-error-base',
+        'border-l-[3px] border-l-semantic-error-base',
+      )}
     >
-      <p
-        style={{
-          fontFamily: 'var(--font-body)',
-          fontSize: '0.72rem',
-          textTransform: 'uppercase',
-          letterSpacing: '0.12em',
-          color: 'var(--semantic-error-base)',
-          marginBottom: '10px',
-        }}
-      >
+      <p className="font-body text-caption uppercase tracking-caption text-semantic-error-base mb-space-2.5">
         Please fix {errors.length} {errors.length === 1 ? 'error' : 'errors'}{' '}
         before continuing
       </p>
-      <ul
-        style={{
-          listStyle: 'none',
-          padding: 0,
-          margin: 0,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '6px',
-        }}
-      >
+      <ul className="list-none p-0 m-0 flex flex-col gap-space-1.5">
         {errors.map((error, idx) => (
           <li
             key={idx}
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: '0.875rem',
-              color: 'var(--semantic-error-base)',
-              lineHeight: 1.5,
-              display: 'flex',
-              alignItems: 'baseline',
-              gap: '8px',
-            }}
+            className="flex items-baseline gap-space-2 font-body text-body-sm text-semantic-error-base"
           >
-            <span
-              aria-hidden="true"
-              style={{ flexShrink: 0, fontSize: '0.6rem' }}
-            >
+            <span aria-hidden="true" className="text-xs flex-shrink-0">
               ●
             </span>
             {error}
