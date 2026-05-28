@@ -1,8 +1,9 @@
-import { InlineLink } from '../typography/InlineLink';
-import Image from 'next/image';
-import { Badge } from '../atoms/Badge';
+'use client';
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+import Link from 'next/link';
+import Image from 'next/image';
+import { cn } from '../../utilities/cn';
+import { Badge } from '../atoms/Badge';
 
 export type EventStatus =
   | 'upcoming'
@@ -18,9 +19,7 @@ export interface EventCardProps {
   variant?: EventCardVariant;
   title: string;
   description?: string;
-  /** ISO date string or pre-formatted date */
   date: string;
-  /** e.g. "9:00 AM" */
   time?: string;
   venue?: string;
   category?: string;
@@ -28,142 +27,102 @@ export interface EventCardProps {
   href: string;
   imageSrc?: string;
   imageAlt?: string;
-  /** e.g. "In 3 days" */
   relativeTime?: string;
   registrationHref?: string;
 }
 
-// ─── Status badge map ─────────────────────────────────────────────────────────
-
-const STATUS_LABELS: Record<EventStatus, string> = {
-  upcoming: 'Upcoming',
-  today: 'Today',
-  ongoing: 'Happening Now',
-  past: 'Past',
-  'registration-open': 'Registration Open',
-  'registration-closed': 'Registration Closed',
+const STATUS_CONFIG: Record<
+  EventStatus,
+  { label: string; bg: string; text: string; dot?: string }
+> = {
+  upcoming: {
+    label: 'Upcoming',
+    bg: 'bg-semantic-info-surface',
+    text: 'text-semantic-info-base',
+  },
+  today: {
+    label: 'Today',
+    bg: 'bg-gold-pale',
+    text: 'text-gold-active',
+  },
+  ongoing: {
+    label: 'Happening Now',
+    bg: 'bg-semantic-success-surface',
+    text: 'text-semantic-success-base',
+    dot: 'bg-semantic-success-base',
+  },
+  past: {
+    label: 'Past',
+    bg: 'bg-surface-deep',
+    text: 'text-text-muted',
+  },
+  'registration-open': {
+    label: 'Registration Open',
+    bg: 'bg-semantic-success-surface',
+    text: 'text-semantic-success-base',
+  },
+  'registration-closed': {
+    label: 'Registration Closed',
+    bg: 'bg-surface-deep',
+    text: 'text-text-muted',
+  },
 };
 
 function EventStatusBadge({ status }: { status: EventStatus }) {
-  const colorMap: Record<EventStatus, { bg: string; text: string }> = {
-    upcoming: {
-      bg: 'var(--semantic-info-surface, #EAF0F4)',
-      text: 'var(--semantic-info-base, #4A6475)',
-    },
-    today: {
-      bg: 'var(--color-gold-pale, #F2D98A)',
-      text: 'var(--color-gold-active, #B7852F)',
-    },
-    ongoing: {
-      bg: 'var(--semantic-success-surface, #E6F0E8)',
-      text: 'var(--semantic-success-base, #3F6B4B)',
-    },
-    past: { bg: 'var(--surface-deep)', text: 'var(--text-muted)' },
-    'registration-open': {
-      bg: 'var(--semantic-success-surface, #E6F0E8)',
-      text: 'var(--semantic-success-base, #3F6B4B)',
-    },
-    'registration-closed': {
-      bg: 'var(--surface-deep)',
-      text: 'var(--text-muted)',
-    },
-  };
-
-  const c = colorMap[status];
-
+  const config = STATUS_CONFIG[status];
   return (
     <span
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: '5px',
-        padding: '3px 10px',
-        borderRadius: '999px',
-        background: c.bg,
-        color: c.text,
-        fontFamily: 'var(--font-body)',
-        fontSize: '0.62rem',
-        textTransform: 'uppercase',
-        letterSpacing: '0.12em',
-        lineHeight: 1,
-      }}
+      className={cn(
+        'inline-flex items-center gap-space-1 px-space-2.5 py-space-1 rounded-full',
+        'font-body text-caption uppercase tracking-caption',
+        config.bg,
+        config.text,
+      )}
     >
-      {status === 'ongoing' && (
+      {config.dot && (
         <span
-          style={{
-            width: '5px',
-            height: '5px',
-            borderRadius: '50%',
-            background: c.text,
-            display: 'inline-block',
-          }}
+          className={cn('w-1.5 h-1.5 rounded-full', config.dot)}
+          aria-hidden="true"
         />
       )}
-      {STATUS_LABELS[status]}
+      {config.label}
     </span>
   );
 }
 
-// ─── Date block ───────────────────────────────────────────────────────────────
-
-function DateBlock({
-  date,
-  isPast = false,
-}: {
-  date: string;
-  isPast?: boolean;
-}) {
-  // Try to parse for day/month display
-  let day = '';
+function DateBlock({ date, isPast }: { date: string; isPast?: boolean }) {
+  let day = date;
   let month = '';
-
   try {
     const d = new Date(date);
     if (!isNaN(d.getTime())) {
       day = d.getDate().toString();
       month = d.toLocaleString('default', { month: 'short' }).toUpperCase();
-    } else {
-      // Pre-formatted — just show as-is
-      day = date;
     }
   } catch {
-    day = date;
+    // keep as is
   }
-
   return (
     <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minWidth: '56px',
-        padding: '10px 12px',
-        background: isPast ? 'var(--surface-deep)' : 'var(--color-green-base)',
-        flexShrink: 0,
-      }}
+      className={cn(
+        'flex flex-col items-center justify-center min-w-[56px] px-space-3 py-space-2.5',
+        isPast ? 'bg-surface-deep' : 'bg-green-base',
+      )}
     >
       <span
-        style={{
-          fontFamily: 'var(--font-display)',
-          fontSize: '1.75rem',
-          fontWeight: 500,
-          color: isPast ? 'var(--text-muted)' : 'var(--color-gold-base)',
-          lineHeight: 1,
-        }}
+        className={cn(
+          'font-display text-[1.75rem] font-medium leading-none',
+          isPast ? 'text-text-muted' : 'text-gold-base',
+        )}
       >
         {day}
       </span>
       {month && (
         <span
-          style={{
-            fontFamily: 'var(--font-body)',
-            fontSize: '0.55rem',
-            textTransform: 'uppercase',
-            letterSpacing: '0.15em',
-            color: isPast ? 'var(--text-muted)' : 'rgba(255,255,255,0.6)',
-            marginTop: '3px',
-          }}
+          className={cn(
+            'font-body text-[0.55rem] uppercase tracking-[0.15em] mt-space-0.5',
+            isPast ? 'text-text-muted' : 'text-text-inverse/60',
+          )}
         >
           {month}
         </span>
@@ -172,8 +131,7 @@ function DateBlock({
   );
 }
 
-// ─── Standard variant ─────────────────────────────────────────────────────────
-
+// Standard variant
 function EventCardStandard({
   title,
   description,
@@ -188,129 +146,64 @@ function EventCardStandard({
   relativeTime,
 }: EventCardProps) {
   const isPast = status === 'past';
-
   return (
-    <InlineLink
-      href={href}
-      style={{ textDecoration: 'none', display: 'block' }}
-      className="group"
-    >
+    <Link href={href} className="group block no-underline">
       <div
-        style={{
-          background: 'var(--surface-elevated)',
-          border: '1px solid var(--border-light)',
-          overflow: 'hidden',
-          opacity: isPast ? 0.7 : 1,
-          boxShadow: '0 2px 8px rgba(28,26,22,0.04)',
-          transition: 'box-shadow 0.25s ease, transform 0.25s ease',
-        }}
-        onMouseEnter={(e) => {
-          (e.currentTarget as HTMLElement).style.boxShadow =
-            '0 6px 24px rgba(28,26,22,0.10)';
-          (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
-        }}
-        onMouseLeave={(e) => {
-          (e.currentTarget as HTMLElement).style.boxShadow =
-            '0 2px 8px rgba(28,26,22,0.04)';
-          (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-        }}
+        className={cn(
+          'bg-surface-elevated border border-border-light overflow-hidden',
+          'shadow-elevation-1 transition-all duration-gentle',
+          'group-hover:shadow-elevation-3 group-hover:-translate-y-0.5',
+          isPast && 'opacity-70',
+        )}
       >
-        {/* Image */}
         {imageSrc && (
-          <div
-            style={{
-              position: 'relative',
-              width: '100%',
-              aspectRatio: '16/7',
-              overflow: 'hidden',
-              background: 'var(--color-green-base)',
-            }}
-          >
+          <div className="relative aspect-[16/7] overflow-hidden bg-green-base">
             <Image
               src={imageSrc}
               alt={imageAlt ?? title}
               fill
-              style={{
-                objectFit: 'cover',
-                filter: isPast ? 'grayscale(0.4) saturate(0.7)' : 'none',
-                transition: 'transform 0.45s ease',
-              }}
-              className="group-hover:scale-[1.03]"
+              className={cn(
+                'object-cover transition-transform duration-gentle group-hover:scale-[1.03]',
+                isPast && 'grayscale-[0.4] saturate-[0.7]',
+              )}
             />
           </div>
         )}
-
-        {/* Content */}
-        <div
-          style={{ padding: '20px 22px 24px', display: 'flex', gap: '16px' }}
-        >
+        <div className="p-space-5 flex gap-space-4">
           <DateBlock date={date} isPast={isPast} />
-
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div className="flex flex-wrap items-center gap-2 mb-3">
-              {status && <EventStatusBadge status={status} />}
+          <div className="flex-1 min-w-0">
+            <div className="flex flex-wrap items-center gap-space-2 mb-space-3">
+              <EventStatusBadge status={status} />
               {category && <Badge variant="category" label={category} />}
             </div>
-
             <h3
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: '1.2rem',
-                fontWeight: 500,
-                color: 'var(--text-primary)',
-                lineHeight: 1.2,
-                marginBottom: '8px',
-                transition: 'color 0.2s ease',
-              }}
+              className={cn(
+                'font-display text-h3 font-medium text-text-primary mb-space-2',
+                'transition-colors duration-fast group-hover:text-gold-active',
+              )}
             >
               {title}
             </h3>
-
             {description && (
-              <p
-                style={{
-                  fontFamily: 'var(--font-body)',
-                  fontSize: '0.88rem',
-                  color: 'var(--text-muted)',
-                  lineHeight: 1.65,
-                  marginBottom: '10px',
-                  display: '-webkit-box',
-                  WebkitLineClamp: 2,
-                  WebkitBoxOrient: 'vertical',
-                  overflow: 'hidden',
-                }}
-              >
+              <p className="font-body text-body-sm text-text-muted line-clamp-2 mb-space-2.5">
                 {description}
               </p>
             )}
-
-            <div
-              className="flex flex-wrap gap-4"
-              style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: '0.68rem',
-                color: 'var(--text-muted)',
-                textTransform: 'uppercase',
-                letterSpacing: '0.1em',
-              }}
-            >
+            <div className="flex flex-wrap gap-space-4 font-body text-caption uppercase tracking-caption text-text-muted">
               {time && <span>⏱ {time}</span>}
               {venue && <span>📍 {venue}</span>}
               {relativeTime && (
-                <span style={{ color: 'var(--color-gold-base)' }}>
-                  {relativeTime}
-                </span>
+                <span className="text-gold-base">{relativeTime}</span>
               )}
             </div>
           </div>
         </div>
       </div>
-    </InlineLink>
+    </Link>
   );
 }
 
-// ─── Compact variant ──────────────────────────────────────────────────────────
-
+// Compact variant
 function EventCardCompact({
   title,
   date,
@@ -321,70 +214,39 @@ function EventCardCompact({
   relativeTime,
 }: EventCardProps) {
   const isPast = status === 'past';
-
   return (
-    <InlineLink
+    <Link
       href={href}
-      style={{
-        textDecoration: 'none',
-        display: 'flex',
-        gap: '12px',
-        alignItems: 'flex-start',
-      }}
-      className="group"
+      className="group flex gap-space-3 items-start no-underline"
     >
       <DateBlock date={date} isPast={isPast} />
-
-      <div
-        style={{
-          flex: 1,
-          paddingBottom: '14px',
-          borderBottom: '1px solid var(--border-light)',
-        }}
-      >
-        <div className="flex items-center gap-2 mb-2">
-          {status && status !== 'past' && <EventStatusBadge status={status} />}
-        </div>
+      <div className="flex-1 pb-space-3.5 border-b border-border-light">
+        {status !== 'past' && (
+          <div className="mb-space-2">
+            <EventStatusBadge status={status} />
+          </div>
+        )}
         <p
-          style={{
-            fontFamily: 'var(--font-body)',
-            fontSize: '0.9rem',
-            fontWeight: 500,
-            color: 'var(--text-primary)',
-            lineHeight: 1.3,
-            marginBottom: '5px',
-            transition: 'color 0.2s ease',
-          }}
+          className={cn(
+            'font-body font-medium text-text-primary mb-space-1.5',
+            'transition-colors duration-fast group-hover:text-gold-active',
+          )}
         >
           {title}
         </p>
-        <div
-          style={{
-            fontFamily: 'var(--font-body)',
-            fontSize: '0.65rem',
-            color: 'var(--text-muted)',
-            textTransform: 'uppercase',
-            letterSpacing: '0.1em',
-            display: 'flex',
-            gap: '10px',
-            flexWrap: 'wrap',
-          }}
-        >
+        <div className="flex flex-wrap gap-space-2.5 font-body text-caption uppercase tracking-caption text-text-muted">
           {time && <span>{time}</span>}
           {venue && <span>{venue}</span>}
           {relativeTime && (
-            <span style={{ color: 'var(--color-gold-base)' }}>
-              {relativeTime}
-            </span>
+            <span className="text-gold-base">{relativeTime}</span>
           )}
         </div>
       </div>
-    </InlineLink>
+    </Link>
   );
 }
 
-// ─── Featured variant ─────────────────────────────────────────────────────────
-
+// Featured variant
 function EventCardFeatured({
   title,
   description,
@@ -400,198 +262,77 @@ function EventCardFeatured({
   registrationHref,
 }: EventCardProps) {
   const isPast = status === 'past';
-
   return (
-    <div
-      style={{
-        background: 'var(--surface-elevated)',
-        border: '1px solid var(--border-light)',
-        overflow: 'hidden',
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
-      }}
-    >
-      {/* Left — image */}
-      <div
-        style={{
-          position: 'relative',
-          minHeight: '360px',
-          background: 'var(--color-green-base)',
-        }}
-      >
+    <div className="grid grid-cols-1 md:grid-cols-2 bg-surface-elevated border border-border-light overflow-hidden">
+      <div className="relative min-h-[360px] bg-green-base">
         {imageSrc ? (
           <Image
             src={imageSrc}
             alt={imageAlt ?? title}
             fill
-            style={{
-              objectFit: 'cover',
-              filter: isPast ? 'grayscale(0.4) saturate(0.7)' : 'none',
-            }}
+            className={cn(
+              'object-cover',
+              isPast && 'grayscale-[0.4] saturate-[0.7]',
+            )}
           />
         ) : (
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              background:
-                'linear-gradient(135deg, var(--color-green-base) 0%, #0d2e1a 100%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            {/* Large date display on image */}
-            <div style={{ textAlign: 'center' }}>
-              <p
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: '6rem',
-                  fontWeight: 500,
-                  color: 'var(--color-gold-base)',
-                  lineHeight: 1,
-                  opacity: 0.4,
-                }}
-              >
-                {date.split('-')[2] ?? date}
-              </p>
-            </div>
+          <div className="absolute inset-0 bg-gradient-to-br from-green-base to-green-hover flex items-center justify-center">
+            <span className="font-display text-6xl text-gold-base/40">
+              {date.split('-')[2] ?? date}
+            </span>
           </div>
         )}
-        {/* Gradient */}
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background:
-              'linear-gradient(to right, rgba(28,26,22,0) 60%, rgba(28,26,22,0.25) 100%)',
-          }}
-        />
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent to-overlay-light" />
       </div>
-
-      {/* Right — content */}
-      <div
-        style={{
-          padding: '40px 44px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          gap: '20px',
-        }}
-      >
-        <div className="flex flex-wrap items-center gap-2">
-          {status && <EventStatusBadge status={status} />}
+      <div className="p-space-10 md:p-space-11 flex flex-col justify-center gap-space-5">
+        <div className="flex flex-wrap items-center gap-space-2">
+          <EventStatusBadge status={status} />
           {category && <Badge variant="category" label={category} />}
         </div>
-
-        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px' }}>
+        <div className="flex items-start gap-space-4">
           <DateBlock date={date} isPast={isPast} />
           <div>
             {time && (
-              <p
-                style={{
-                  fontFamily: 'var(--font-body)',
-                  fontSize: '0.68rem',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.12em',
-                  color: 'var(--text-muted)',
-                  marginBottom: '4px',
-                }}
-              >
+              <p className="font-body text-caption uppercase tracking-caption text-text-muted mb-space-1">
                 {time}
               </p>
             )}
             {relativeTime && (
-              <p
-                style={{
-                  fontFamily: 'var(--font-body)',
-                  fontSize: '0.75rem',
-                  color: 'var(--color-gold-base)',
-                  fontWeight: 500,
-                }}
-              >
+              <p className="font-body text-body-sm text-gold-base font-medium">
                 {relativeTime}
               </p>
             )}
           </div>
         </div>
-
         <div>
-          <h2
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(1.4rem, 2.5vw, 2rem)',
-              fontWeight: 500,
-              color: 'var(--text-primary)',
-              lineHeight: 1.15,
-              marginBottom: '12px',
-            }}
-          >
+          <h2 className="font-display text-[clamp(1.4rem,2.5vw,2rem)] font-medium text-text-primary mb-space-3">
             {title}
           </h2>
           {description && (
-            <p
-              style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: '0.95rem',
-                color: 'var(--text-muted)',
-                lineHeight: 1.75,
-              }}
-            >
+            <p className="font-body text-body text-text-muted leading-relaxed">
               {description}
             </p>
           )}
         </div>
-
         {venue && (
-          <p
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: '0.72rem',
-              textTransform: 'uppercase',
-              letterSpacing: '0.12em',
-              color: 'var(--text-muted)',
-            }}
-          >
+          <p className="font-body text-caption uppercase tracking-caption text-text-muted">
             📍 {venue}
           </p>
         )}
-
-        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-          <InlineLink
+        <div className="flex flex-wrap gap-space-3">
+          <Link
             href={href}
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: '0.7rem',
-              textTransform: 'uppercase',
-              letterSpacing: '0.15em',
-              padding: '10px 24px',
-              background: 'var(--color-green-base)',
-              color: '#fff',
-              textDecoration: 'none',
-              display: 'inline-block',
-            }}
+            className="inline-block px-space-6 py-space-2.5 bg-green-base text-text-inverse font-body text-caption uppercase tracking-caption"
           >
             View Details
-          </InlineLink>
+          </Link>
           {registrationHref && status === 'registration-open' && (
-            <InlineLink
+            <Link
               href={registrationHref}
-              style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: '0.7rem',
-                textTransform: 'uppercase',
-                letterSpacing: '0.15em',
-                padding: '10px 24px',
-                border: '1px solid var(--color-gold-base)',
-                color: 'var(--color-gold-base)',
-                textDecoration: 'none',
-                display: 'inline-block',
-                transition: 'background 0.2s ease, color 0.2s ease',
-              }}
+              className="inline-block px-space-6 py-space-2.5 border border-gold-base text-gold-base font-body text-caption uppercase tracking-caption hover:bg-gold-base hover:text-green-base transition-colors"
             >
               Register
-            </InlineLink>
+            </Link>
           )}
         </div>
       </div>
@@ -599,12 +340,8 @@ function EventCardFeatured({
   );
 }
 
-// ─── Main export ──────────────────────────────────────────────────────────────
-
 export function EventCard({ variant = 'standard', ...props }: EventCardProps) {
-  if (variant === 'featured')
-    return <EventCardFeatured {...props} variant={variant} />;
-  if (variant === 'compact')
-    return <EventCardCompact {...props} variant={variant} />;
-  return <EventCardStandard {...props} variant={variant} />;
+  if (variant === 'featured') return <EventCardFeatured {...props} />;
+  if (variant === 'compact') return <EventCardCompact {...props} />;
+  return <EventCardStandard {...props} />;
 }
