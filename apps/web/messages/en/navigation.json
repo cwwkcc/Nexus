@@ -1,0 +1,18 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About KCC",
+    "administration": "Administration",
+    "academics": "Academics",
+    "admissions": "Admissions",
+    "news": "News",
+    "events": "Events",
+    "societies": "Societies",
+    "gallery": "Gallery",
+    "facilities": "Facilities",
+    "extracurriculars": "Extracurriculars",
+    "contact": "Contact",
+    "results": "Results Portal",
+    "apply": "Apply"
+  }
+}
