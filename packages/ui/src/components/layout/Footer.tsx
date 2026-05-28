@@ -93,6 +93,17 @@ const DEFAULT_SOCIAL_LINKS: SocialLink[] = [
   },
 ];
 
+// FIX: extracted contact items as a typed constant; each is now an <li> inside
+// a single <ul>, not a separate <ul> per item (invalid HTML).
+const CONTACT_LINES: { label: string; isLink?: boolean; href?: string }[] = [
+  { label: 'Mathugama' },
+  { label: 'Kalutara District' },
+  { label: 'Western Province' },
+  { label: 'Sri Lanka' },
+  { label: '+94 123 456 789', isLink: true, href: 'tel:+94123456789' },
+  { label: 'info@cwwkcc.lk', isLink: true, href: 'mailto:info@cwwkcc.lk' },
+];
+
 export function Footer({
   columns = DEFAULT_COLUMNS,
   socialLinks = DEFAULT_SOCIAL_LINKS,
@@ -103,7 +114,7 @@ export function Footer({
   return (
     <footer className="bg-green-base text-text-inverse w-full min-w-0">
       <Container size="full" padding="md" className="pt-space-8 pb-space-8">
-        {/* Row 1: Logo + school name + motto – always left-aligned */}
+        {/* Row 1: Logo + school name + motto */}
         {variant === 'full' && (
           <VStack align="center" className="mb-space-4">
             <SchoolLogo variant="crest-only" size="xl" />
@@ -111,12 +122,12 @@ export function Footer({
               C.W.W. Kannangara Central College
             </h2>
             <p className="font-body text-body-sm italic text-text-inverse">
-              “Wisdom is All Wealth”
+              "Wisdom is All Wealth"
             </p>
           </VStack>
         )}
 
-        <Grid className="gap-x-space-8 gap-y-space-12 my-space-12 lg:grid-cols-5  lg:mb-space-16">
+        <Grid className="gap-x-space-8 gap-y-space-12 my-space-12 lg:grid-cols-5 lg:mb-space-16">
           {/* Contact info */}
           <GridItem>
             <VStack spacing={3} align="center">
@@ -124,24 +135,14 @@ export function Footer({
                 <h3 className="text-body font-body uppercase text-gold-base text-center">
                   Contact Us
                 </h3>
-                <VStack align="center">
-                  {[
-                    { label: 'Mathugama' },
-                    { label: 'Kalutara District' },
-                    { label: 'Western Province' },
-                    { label: 'Sri Lanka' },
-                    {
-                      label: '+94 123 456 789',
-                      isLink: true,
-                      href: 'tel:+94123456789',
-                    },
-                    {
-                      label: 'info@cwwkcc.lk',
-                      isLink: true,
-                      href: 'mailto:info@cwwkcc.lk',
-                    },
-                  ].map((item) => (
-                    <ul
+                {/*
+                  FIX: was mapping each line to its own <ul> element, which is
+                  invalid HTML (bare text directly inside <ul>, and a <ul> per
+                  item instead of per list). Now a single <ul> with <li> items.
+                */}
+                <ul className="list-none p-0 m-0 flex flex-col items-center gap-space-1">
+                  {CONTACT_LINES.map((item) => (
+                    <li
                       key={item.label}
                       className="font-body text-label-sm uppercase text-center"
                     >
@@ -155,20 +156,21 @@ export function Footer({
                       ) : (
                         item.label
                       )}
-                    </ul>
+                    </li>
                   ))}
-                </VStack>
+                </ul>
               </address>
             </VStack>
           </GridItem>
-          {/* NavLinks */}
+
+          {/* NavLink columns */}
           {columns.map((col) => (
             <GridItem key={col.heading}>
               <VStack spacing={3} align="center">
                 <h3 className="text-body font-body uppercase text-gold-base text-center">
                   {col.heading}
                 </h3>
-                <VStack as="ul" align="center">
+                <ul className="list-none p-0 m-0 flex flex-col items-center gap-space-1">
                   {col.links.map((link) => (
                     <li key={link.href}>
                       <NavLink
@@ -179,13 +181,13 @@ export function Footer({
                       </NavLink>
                     </li>
                   ))}
-                </VStack>
+                </ul>
               </VStack>
             </GridItem>
           ))}
         </Grid>
 
-        {/*  Social icons */}
+        {/* Social icons */}
         <HStack justify="center" className="mb-space-8">
           {socialLinks.map((link) => (
             <a
@@ -202,6 +204,7 @@ export function Footer({
         </HStack>
 
         <Divider accentVariant="gold-accent" />
+
         {/* Copyright bar */}
         <HStack
           wrap
