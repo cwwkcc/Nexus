@@ -1,8 +1,7 @@
-// packages/ui/src/components/forms/Slider.tsx
 'use client';
 
 import { useRef, useState } from 'react';
-import { clsx } from 'clsx';
+import { cn } from '../../utilities/cn';
 
 export interface SliderProps {
   label?: string;
@@ -56,11 +55,11 @@ export function Slider({
   };
 
   return (
-    <div className={clsx('w-full', className)}>
+    <div className={cn('w-full', className)}>
       {(label || showValue) && (
-        <div className="flex justify-between items-center mb-2">
+        <div className="flex justify-between items-center mb-space-2">
           {label && (
-            <label className="font-body text-label uppercase tracking-wide text-text-primary">
+            <label className="font-body text-label uppercase tracking-label text-text-primary">
               {label}
             </label>
           )}
@@ -72,12 +71,11 @@ export function Slider({
           )}
         </div>
       )}
-
       <div
         ref={sliderRef}
-        className={clsx(
-          'relative w-full h-2 rounded-full bg-surface-deep cursor-pointer',
-          disabled && 'opacity-40 cursor-not-allowed',
+        className={cn(
+          'relative w-full h-2 rounded-full bg-surface-deep',
+          disabled ? 'cursor-not-allowed opacity-40' : 'cursor-pointer',
         )}
         onClick={(e) => {
           if (disabled) return;
@@ -101,17 +99,16 @@ export function Slider({
           aria-valuenow={currentValue}
           aria-disabled={disabled}
           onKeyDown={handleKeyDown}
-          className={clsx(
-            'absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-white shadow-elevation-2 cursor-pointer',
+          className={cn(
+            'absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-white shadow-elevation-2',
             'focus-visible:outline-2 focus-visible:outline-gold-base focus-visible:outline-offset-2',
-            disabled && 'cursor-not-allowed',
+            disabled ? 'cursor-not-allowed' : 'cursor-pointer',
           )}
           style={{ left: `calc(${percentage}% - 8px)` }}
         />
       </div>
-
       {showMarks && (
-        <div className="flex justify-between mt-2 px-1">
+        <div className="flex justify-between mt-space-2 px-1">
           {Array.from({ length: 5 }).map((_, i) => (
             <span key={i} className="font-body text-caption text-text-muted">
               {min + (i * (max - min)) / 4}
