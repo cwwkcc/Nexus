@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { clsx } from 'clsx';
+import { cn } from '../../utilities/cn';
 
 export type ImageFrameAspectRatio =
   | '16/9'
@@ -41,6 +41,12 @@ const overlayMap = {
   heavy: 'bg-overlay-heavy',
 };
 
+const variantClasses: Record<ImageFrameVariant, string> = {
+  standard: 'rounded-md shadow-elevation-1',
+  featured: 'rounded-md shadow-elevation-2',
+  'full-bleed': 'rounded-none shadow-none',
+};
+
 export function ImageFrame({
   src,
   alt,
@@ -55,15 +61,12 @@ export function ImageFrame({
 }: ImageFrameProps) {
   const [error, setError] = useState(false);
 
-  const borderRadius = variant === 'full-bleed' ? 'rounded-none' : 'rounded-md';
-  const shadow = variant === 'standard' ? 'shadow-elevation-1' : 'shadow-none';
-
   return (
     <figure
-      className={clsx('overflow-hidden', borderRadius, shadow, className)}
+      className={cn('overflow-hidden', variantClasses[variant], className)}
     >
       <div
-        className={clsx(
+        className={cn(
           'relative w-full overflow-hidden bg-surface-deep',
           aspectRatioMap[aspectRatio],
         )}
@@ -73,7 +76,7 @@ export function ImageFrame({
             src={src}
             alt={alt}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+            className="object-cover transition-transform duration-gentle group-hover:scale-[1.04]"
             sizes={sizes}
             priority={priority}
             onError={() => setError(true)}
@@ -85,23 +88,22 @@ export function ImageFrame({
             </span>
           </div>
         )}
-
         {overlay && (
           <div
-            className={clsx(
+            className={cn(
               'absolute inset-0 pointer-events-none',
               overlayMap[overlay],
             )}
           />
         )}
-
         {cornerBadge && (
-          <div className="absolute top-3 left-3 z-10">{cornerBadge}</div>
+          <div className="absolute top-space-3 left-space-3 z-10">
+            {cornerBadge}
+          </div>
         )}
       </div>
-
       {caption && (
-        <figcaption className="mt-2 font-body text-caption text-text-muted text-center">
+        <figcaption className="mt-space-2 font-body text-caption text-text-muted text-center">
           {caption}
         </figcaption>
       )}
