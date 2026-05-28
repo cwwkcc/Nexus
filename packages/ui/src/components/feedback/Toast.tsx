@@ -1,4 +1,6 @@
 import { useEffect } from 'react';
+import { cn } from '../../utilities/cn';
+
 export type ToastVariant = 'success' | 'error' | 'warning';
 
 export interface ToastProps {
@@ -6,7 +8,6 @@ export interface ToastProps {
   message: string;
   visible: boolean;
   onDismiss: () => void;
-  /** Auto-dismiss duration in ms. Default 5000. */
   duration?: number;
 }
 
@@ -15,21 +16,21 @@ const TOAST_STYLES: Record<
   { bg: string; border: string; text: string; icon: string }
 > = {
   success: {
-    bg: 'var(--semantic-success-surface, #E6F0E8)',
-    border: 'var(--semantic-success-base, #3F6B4B)',
-    text: 'var(--semantic-success-base, #3F6B4B)',
+    bg: 'bg-semantic-success-surface',
+    border: 'border-semantic-success-base',
+    text: 'text-semantic-success-base',
     icon: '✓',
   },
   error: {
-    bg: 'var(--semantic-error-surface, #F6E8E5)',
-    border: 'var(--semantic-error-base, #8A3B32)',
-    text: 'var(--semantic-error-base, #8A3B32)',
+    bg: 'bg-semantic-error-surface',
+    border: 'border-semantic-error-base',
+    text: 'text-semantic-error-base',
     icon: '✕',
   },
   warning: {
-    bg: 'var(--semantic-warning-surface, #FAF1DE)',
-    border: 'var(--semantic-warning-base, #B07A2B)',
-    text: 'var(--semantic-warning-base, #B07A2B)',
+    bg: 'bg-semantic-warning-surface',
+    border: 'border-semantic-warning-base',
+    text: 'text-semantic-warning-base',
     icon: '!',
   },
 };
@@ -54,79 +55,40 @@ export function Toast({
       role="status"
       aria-live="polite"
       aria-atomic="true"
-      style={{
-        position: 'fixed',
-        bottom: '24px',
-        right: '24px',
-        zIndex: 9000,
-        display: 'flex',
-        alignItems: 'center',
-        gap: '12px',
-        padding: '14px 18px',
-        background: s.bg,
-        border: `1px solid ${s.border}`,
-        boxShadow: '0 4px 20px rgba(28,26,22,0.10)',
-        minWidth: '280px',
-        maxWidth: '400px',
-        transform: visible ? 'translateY(0)' : 'translateY(24px)',
-        opacity: visible ? 1 : 0,
-        pointerEvents: visible ? 'auto' : 'none',
-        transition: 'transform 0.3s ease, opacity 0.3s ease',
-      }}
+      className={cn(
+        'fixed bottom-space-6 right-space-6 z-toast',
+        'flex items-center gap-space-3 p-space-3.5',
+        'min-w-[280px] max-w-[400px]',
+        s.bg,
+        s.border,
+        'border shadow-elevation-2',
+        'transition-all duration-gentle ease-out',
+        visible
+          ? 'translate-y-0 opacity-100 pointer-events-auto'
+          : 'translate-y-6 opacity-0 pointer-events-none',
+      )}
     >
-      {/* Icon */}
       <span
         aria-hidden="true"
-        style={{
-          width: '22px',
-          height: '22px',
-          borderRadius: '50%',
-          border: `1.5px solid ${s.border}`,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          color: s.text,
-          fontSize: '0.7rem',
-          fontWeight: 700,
-          flexShrink: 0,
-        }}
+        className={cn(
+          'w-5 h-5 rounded-full border-[1.5px] border-current',
+          'flex items-center justify-center',
+          s.text,
+          'text-xs font-bold flex-shrink-0',
+        )}
       >
         {s.icon}
       </span>
-
-      <p
-        style={{
-          fontFamily: 'var(--font-body)',
-          fontSize: '0.85rem',
-          color: s.text,
-          lineHeight: 1.4,
-          flex: 1,
-        }}
-      >
-        {message}
-      </p>
-
+      <p className={cn('font-body text-body-sm flex-1', s.text)}>{message}</p>
       <button
         onClick={onDismiss}
         aria-label="Dismiss notification"
-        style={{
-          background: 'transparent',
-          border: 'none',
-          cursor: 'pointer',
-          color: s.text,
-          opacity: 0.5,
-          fontSize: '0.8rem',
-          padding: '2px',
-          lineHeight: 1,
-          transition: 'opacity 0.15s ease',
-          flexShrink: 0,
-        }}
-        onMouseEnter={(e) =>
-          ((e.currentTarget as HTMLElement).style.opacity = '1')
-        }
-        onMouseLeave={(e) =>
-          ((e.currentTarget as HTMLElement).style.opacity = '0.5')
-        }
+        className={cn(
+          'bg-transparent border-none cursor-pointer',
+          s.text,
+          'opacity-50 text-sm p-0.5 leading-none',
+          'transition-opacity duration-fast hover:opacity-100',
+        )}
       >
         ✕
       </button>
