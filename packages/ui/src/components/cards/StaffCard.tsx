@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-
-// ─── Types ────────────────────────────────────────────────────────────────────
+import { cn } from '../../utilities/cn';
 
 export type StaffCardVariant = 'principal' | 'grid' | 'compact';
 
@@ -9,19 +8,15 @@ export interface StaffCardProps {
   variant?: StaffCardVariant;
   name: string;
   title: string;
-  /** e.g. "Principal since 2019" */
   tenure?: string;
-  /** Pull quote — required for principal variant */
   quote?: string;
   imageSrc?: string;
   imageAlt?: string;
-  /** Optional portfolio/subject area */
   portfolio?: string;
   href?: string;
 }
 
-// ─── Principal (large) ────────────────────────────────────────────────────────
-
+// Principal variant
 function StaffCardPrincipal({
   name,
   title,
@@ -32,168 +27,50 @@ function StaffCardPrincipal({
   href,
 }: StaffCardProps) {
   return (
-    <div
-      className="grid grid-cols-1 md:grid-cols-12 gap-0"
-      style={{
-        background: 'var(--surface-elevated)',
-        border: '1px solid var(--border-light)',
-        overflow: 'hidden',
-      }}
-    >
-      {/* Portrait */}
-      <div
-        className="md:col-span-4"
-        style={{
-          position: 'relative',
-          minHeight: '420px',
-          background: 'var(--color-green-base)',
-        }}
-      >
+    <div className="grid grid-cols-1 md:grid-cols-12 bg-surface-elevated border border-border-light overflow-hidden">
+      <div className="md:col-span-4 relative min-h-[420px] bg-green-base">
         {imageSrc ? (
           <Image
             src={imageSrc}
             alt={imageAlt ?? name}
             fill
-            style={{ objectFit: 'cover', objectPosition: 'top center' }}
+            className="object-cover object-top"
           />
         ) : (
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              background:
-                'linear-gradient(160deg, var(--color-green-base) 0%, #0d2e1a 100%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <span
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: '7rem',
-                fontStyle: 'italic',
-                color: 'rgba(201,151,58,0.25)',
-                fontWeight: 300,
-                userSelect: 'none',
-              }}
-            >
+          <div className="absolute inset-0 bg-gradient-to-br from-green-base to-green-hover flex items-center justify-center">
+            <span className="font-display text-7xl italic text-gold-base/25">
               {name.charAt(0)}
             </span>
           </div>
         )}
-        {/* Bottom gradient */}
-        <div
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: '40%',
-            background:
-              'linear-gradient(to top, rgba(28,26,22,0.55), transparent)',
-          }}
-        />
+        <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-overlay-medium to-transparent" />
       </div>
-
-      {/* Content */}
-      <div
-        className="md:col-span-8"
-        style={{
-          padding: '44px 52px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          gap: '20px',
-        }}
-      >
+      <div className="md:col-span-8 p-space-11 flex flex-col justify-center gap-space-5">
         <div>
-          <p
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: '0.65rem',
-              textTransform: 'uppercase',
-              letterSpacing: '0.22em',
-              color: 'var(--color-gold-base)',
-              marginBottom: '10px',
-            }}
-          >
+          <p className="font-body text-caption uppercase tracking-[0.22em] text-gold-base mb-space-2.5">
             {title}
           </p>
-          <h2
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)',
-              fontWeight: 500,
-              color: 'var(--text-primary)',
-              lineHeight: 1.1,
-              marginBottom: '6px',
-            }}
-          >
+          <h2 className="font-display text-[clamp(1.8rem,3.5vw,2.8rem)] font-medium text-text-primary mb-space-1.5">
             {name}
           </h2>
           {tenure && (
-            <p
-              style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: '0.72rem',
-                textTransform: 'uppercase',
-                letterSpacing: '0.12em',
-                color: 'var(--text-muted)',
-              }}
-            >
+            <p className="font-body text-caption uppercase tracking-caption text-text-muted">
               {tenure}
             </p>
           )}
         </div>
-
-        {/* Decorative rule */}
-        <div
-          style={{
-            width: '36px',
-            height: '2px',
-            background: 'var(--color-gold-base)',
-          }}
-        />
-
-        {/* Pull quote */}
+        <div className="w-9 h-0.5 bg-gold-base" />
         {quote && (
-          <blockquote
-            style={{
-              margin: 0,
-              paddingLeft: '20px',
-              borderLeft: '3px solid var(--color-gold-base)',
-            }}
-          >
-            <p
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(1.1rem, 2vw, 1.5rem)',
-                fontStyle: 'italic',
-                color: 'var(--text-primary)',
-                lineHeight: 1.5,
-              }}
-            >
+          <blockquote className="m-0 pl-space-5 border-l-[3px] border-gold-base">
+            <p className="font-display text-[clamp(1.1rem,2vw,1.5rem)] italic text-text-primary">
               &ldquo;{quote}&rdquo;
             </p>
           </blockquote>
         )}
-
         {href && (
           <Link
             href={href}
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: '0.7rem',
-              textTransform: 'uppercase',
-              letterSpacing: '0.15em',
-              color: 'var(--color-gold-base)',
-              textDecoration: 'none',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              marginTop: '4px',
-            }}
+            className="font-body text-caption uppercase tracking-caption text-gold-base inline-flex items-center gap-space-1.5 mt-space-1"
           >
             Read Full Message →
           </Link>
@@ -203,8 +80,7 @@ function StaffCardPrincipal({
   );
 }
 
-// ─── Grid variant ─────────────────────────────────────────────────────────────
-
+// Grid variant
 function StaffCardGrid({
   name,
   title,
@@ -214,120 +90,36 @@ function StaffCardGrid({
   imageAlt,
 }: StaffCardProps) {
   return (
-    <div
-      style={{
-        background: 'var(--surface-elevated)',
-        border: '1px solid var(--border-light)',
-        overflow: 'hidden',
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-    >
-      {/* Photo */}
-      <div
-        style={{
-          position: 'relative',
-          width: '100%',
-          aspectRatio: '3/4',
-          background: 'var(--color-green-base)',
-          overflow: 'hidden',
-        }}
-      >
+    <div className="bg-surface-elevated border border-border-light overflow-hidden flex flex-col">
+      <div className="relative aspect-[3/4] bg-green-base overflow-hidden">
         {imageSrc ? (
           <Image
             src={imageSrc}
             alt={imageAlt ?? name}
             fill
-            style={{ objectFit: 'cover', objectPosition: 'top center' }}
+            className="object-cover object-top"
           />
         ) : (
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              background:
-                'linear-gradient(160deg, var(--color-green-base) 0%, #0d2e1a 100%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <span
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: '4rem',
-                fontStyle: 'italic',
-                color: 'rgba(201,151,58,0.3)',
-                fontWeight: 300,
-              }}
-            >
+          <div className="absolute inset-0 bg-gradient-to-br from-green-base to-green-hover flex items-center justify-center">
+            <span className="font-display text-4xl italic text-gold-base/30">
               {name.charAt(0)}
             </span>
           </div>
         )}
-        {/* Gradient */}
-        <div
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: '30%',
-            background:
-              'linear-gradient(to top, rgba(28,26,22,0.4), transparent)',
-          }}
-        />
+        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-overlay-light to-transparent" />
       </div>
-
-      {/* Info */}
-      <div style={{ padding: '16px 18px 20px' }}>
-        <h4
-          style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: '1.1rem',
-            fontWeight: 500,
-            color: 'var(--text-primary)',
-            lineHeight: 1.2,
-            marginBottom: '4px',
-          }}
-        >
+      <div className="p-space-4 pb-space-5">
+        <h4 className="font-display text-h3 font-medium text-text-primary mb-space-1">
           {name}
         </h4>
-        <p
-          style={{
-            fontFamily: 'var(--font-body)',
-            fontSize: '0.7rem',
-            textTransform: 'uppercase',
-            letterSpacing: '0.1em',
-            color: 'var(--color-gold-base)',
-            marginBottom: '4px',
-          }}
-        >
+        <p className="font-body text-caption uppercase tracking-caption text-gold-base mb-space-1">
           {title}
         </p>
         {portfolio && (
-          <p
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: '0.72rem',
-              color: 'var(--text-muted)',
-            }}
-          >
-            {portfolio}
-          </p>
+          <p className="font-body text-body-sm text-text-muted">{portfolio}</p>
         )}
         {tenure && (
-          <p
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: '0.65rem',
-              textTransform: 'uppercase',
-              letterSpacing: '0.1em',
-              color: 'var(--text-muted)',
-              marginTop: '6px',
-              opacity: 0.7,
-            }}
-          >
+          <p className="font-body text-caption uppercase tracking-caption text-text-muted mt-space-1.5 opacity-70">
             {tenure}
           </p>
         )}
@@ -336,87 +128,31 @@ function StaffCardGrid({
   );
 }
 
-// ─── Compact variant ──────────────────────────────────────────────────────────
-
+// Compact variant
 function StaffCardCompact({ name, title, imageSrc, imageAlt }: StaffCardProps) {
   return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '14px',
-        padding: '14px 16px',
-        background: 'var(--surface-elevated)',
-        border: '1px solid var(--border-light)',
-      }}
-    >
-      {/* Photo circle */}
-      <div
-        style={{
-          position: 'relative',
-          width: '52px',
-          height: '52px',
-          borderRadius: '50%',
-          overflow: 'hidden',
-          background: 'var(--color-green-base)',
-          flexShrink: 0,
-          border: '2px solid var(--border-light)',
-        }}
-      >
+    <div className="flex items-center gap-space-3.5 p-space-3.5 bg-surface-elevated border border-border-light">
+      <div className="relative w-[52px] h-[52px] rounded-full overflow-hidden bg-green-base border-2 border-border-light flex-shrink-0">
         {imageSrc ? (
           <Image
             src={imageSrc}
             alt={imageAlt ?? name}
             fill
-            style={{ objectFit: 'cover', objectPosition: 'top center' }}
+            className="object-cover object-top"
           />
         ) : (
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <span
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: '1.4rem',
-                fontStyle: 'italic',
-                color: 'rgba(201,151,58,0.5)',
-              }}
-            >
+          <div className="absolute inset-0 flex items-center justify-center">
+            <span className="font-display text-2xl italic text-gold-base/50">
               {name.charAt(0)}
             </span>
           </div>
         )}
       </div>
-
-      {/* Text */}
       <div>
-        <p
-          style={{
-            fontFamily: 'var(--font-body)',
-            fontSize: '0.9rem',
-            fontWeight: 500,
-            color: 'var(--text-primary)',
-            lineHeight: 1.2,
-            marginBottom: '3px',
-          }}
-        >
+        <p className="font-body font-medium text-text-primary mb-space-0.5">
           {name}
         </p>
-        <p
-          style={{
-            fontFamily: 'var(--font-body)',
-            fontSize: '0.65rem',
-            textTransform: 'uppercase',
-            letterSpacing: '0.1em',
-            color: 'var(--color-gold-base)',
-          }}
-        >
+        <p className="font-body text-caption uppercase tracking-caption text-gold-base">
           {title}
         </p>
       </div>
@@ -424,12 +160,8 @@ function StaffCardCompact({ name, title, imageSrc, imageAlt }: StaffCardProps) {
   );
 }
 
-// ─── Main export ──────────────────────────────────────────────────────────────
-
 export function StaffCard({ variant = 'grid', ...props }: StaffCardProps) {
-  if (variant === 'principal')
-    return <StaffCardPrincipal {...props} variant={variant} />;
-  if (variant === 'compact')
-    return <StaffCardCompact {...props} variant={variant} />;
-  return <StaffCardGrid {...props} variant={variant} />;
+  if (variant === 'principal') return <StaffCardPrincipal {...props} />;
+  if (variant === 'compact') return <StaffCardCompact {...props} />;
+  return <StaffCardGrid {...props} />;
 }
