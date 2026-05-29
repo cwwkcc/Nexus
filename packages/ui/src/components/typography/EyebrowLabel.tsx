@@ -18,7 +18,7 @@ export const EyebrowLabel = forwardRef<HTMLElement, EyebrowLabelProps>(
       ref={ref}
       aria-hidden={ariaHidden}
       className={cn(
-        'font-body text-eyebrow uppercase tracking-eyebrow text-gold-base select-none',
+        'font-body uppercase text-gold-base text-eyebrow select-none',
         className,
       )}
     >
