@@ -1,8 +1,7 @@
-import { clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge';
+import { cn } from '../../utilities/cn';
 
 type Axis = 'horizontal' | 'vertical';
-type DividerAccentVariant = 'gold-accent' | 'gold-accent-short' | 'muted';
+type DividerAccentVariant = 'gold-accent' | 'gold-accent-narrow' | 'muted';
 
 interface DividerProps {
   accentVariant?: DividerAccentVariant;
@@ -10,14 +9,21 @@ interface DividerProps {
   className?: string;
 }
 
-const axisStyles: Record<Axis, string> = {
-  horizontal: 'w-size-full h-size-0p5',
-  vertical: 'h-size-full w-size-0p5',
+// Width and height are kept separate so gold-accent-narrow can
+// override width without fighting the axis class in twMerge.
+const axisWidth: Record<Axis, string> = {
+  horizontal: 'w-size-full',
+  vertical: 'w-size-0p5',
+};
+
+const axisHeight: Record<Axis, string> = {
+  horizontal: 'h-size-0p5',
+  vertical: 'h-size-full',
 };
 
 const colorStyles: Record<DividerAccentVariant, string> = {
   'gold-accent': 'bg-gold-base',
-  'gold-accent-short': 'bg-gold-base w-size-20 mx-auto',
+  'gold-accent-narrow': 'bg-gold-base w-size-8', // overrides w-size-full via cn
   muted: 'bg-border-light',
 };
 
@@ -31,19 +37,15 @@ export function Divider({
   accentVariant = 'muted',
   className,
 }: DividerProps) {
-  const AxisStyles =
-    axis === 'horizontal' ? axisStyles.horizontal : axisStyles.vertical;
-
   return (
     <div
-      className={twMerge(
-        clsx(
-          'border-none rounded-full',
-          AxisStyles,
-          colorStyles[accentVariant],
-          marginStyles[axis],
-          className,
-        ),
+      className={cn(
+        'border-none rounded-full',
+        axisWidth[axis],
+        axisHeight[axis],
+        marginStyles[axis],
+        colorStyles[accentVariant],
+        className,
       )}
       role="separator"
       aria-orientation={axis}
