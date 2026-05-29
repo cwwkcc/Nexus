@@ -3,11 +3,13 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "prebuild": "pnpm --filter @nexus/config build && pnpm --filter @nexus/config generate:css",
-    "dev": "pnpm prebuild && pnpm --filter @nexus/web dev",
-    "build": "pnpm prebuild && pnpm --filter @nexus/web build",
+    "prebuild": "pnpm --filter @nexus/config build && pnpm --filter @nexus/config generate",
+    "dev": "pnpm prebuild && pnpm --filter @nexus/web dev && pnpm --filter @nexus/admin dev",
+    "build": "pnpm prebuild && pnpm --filter @nexus/web build && pnpm --filter @nexus/admin build",
     "dev:admin": "pnpm prebuild && pnpm --filter @nexus/admin dev",
-    "build:admin": "pnpm prebuild && pnpm --filter @nexus/admin build"
+    "build:admin": "pnpm prebuild && pnpm --filter @nexus/admin build",
+    "dev:web": "pnpm prebuild && pnpm --filter @nexus/web dev",
+    "build:web": "pnpm prebuild && pnpm --filter @nexus/web build"
   },
   "private": true,
   "dependencies": {
