@@ -89,6 +89,10 @@ export { LanguageSwitcher } from './components/global/languageSwitcher';
 export { MapEmbed } from './components/global/MapEmbed';
 export { MasonryGrid } from './components/global/MasonryGrid';
 export { ScrollProgressBar } from './components/global/ScrollProgressBar';
+export {
+  CrestDiagram,
+  type CrestSymbol,
+} from './components/global/CrestDiagram';
 
 // ============================================================================
 // ICONS
