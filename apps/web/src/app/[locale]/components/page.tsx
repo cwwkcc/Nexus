@@ -21,6 +21,7 @@ const categories = [
   { slug: 'typography', name: 'Typography', count: 5 },
   { slug: 'utilities', name: 'Utilities', count: 2 },
   { slug: 'visualization', name: 'Data Visualization', count: 8 },
+  { slug: 'test', name: 'Test', count: 1 },
 ];
 
 export default function ComponentsIndexPage() {
