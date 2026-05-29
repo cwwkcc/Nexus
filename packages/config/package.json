@@ -13,7 +13,9 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "generate:css": "pnpm build && node scripts/generate-css-vars.js"
+    "generate:css-vars": "node scripts/generate-css-vars.js",
+    "generate:cn": "node scripts/generate-cn-groups.js",
+    "generate": "npm run generate:css-vars && npm run generate:cn"
   },
   "dependencies": {
     "tailwindcss": "^3.4.0"
