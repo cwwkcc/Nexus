@@ -2,11 +2,10 @@
 
 import { useState } from 'react';
 import { cn } from '../../utilities/cn';
-
 import { EyebrowLabel } from '../typography/EyebrowLabel';
 import { Text } from '../typography/Text';
 import { SchoolLogo } from '../logos/SchoolLogo';
-import { Container } from '../layout/Container';
+import { SvgDebugGrid } from '../dev/SvgDebugGrid';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -16,114 +15,97 @@ type HotspotPosition =
   | 'top-left'
   | 'bottom-left';
 
-interface CrestSymbol {
+export interface CrestSymbol {
   id: string;
   name: string;
   meaning: string;
   position: HotspotPosition;
 }
 
-interface CrestDiagramProps {
+export interface CrestDiagramProps {
   symbols: CrestSymbol[];
+  /** Show SvgDebugGrid overlay — dev only */
+  debug?: boolean;
   className?: string;
 }
 
-// ─── Layout config ────────────────────────────────────────────────────────────
+// ─── Layout config ─────────────────────────────────────────────────────────────
+//
+// All coordinates are in the SVG viewBox (0 0 480 420).
+// The container uses aspect-[480/420] + w-full so the two
+// coordinate systems (CSS % and SVG viewBox) scale together.
+//
+// CSS percentage ↔ SVG unit:
+//   x% = svgX / 480 * 100
+//   y% = svgY / 420 * 100
+//
+// SchoolLogo size="xl" = 240px + m-space-2 (8px) margin → ~256px card.
+// Card center in SVG coords: (240, 210).
+// Card edges (approx): left=112, right=368, top=82, bottom=338.
+// Dots sit 7px outside each edge — accounted for in LINE_POINTS.
 
+// Dot positions are relative to the card div (percentage of card size).
 const DOT_POSITIONS: Record<HotspotPosition, string> = {
-  'top-right': 'top-[10%] -right-[7px]',
-  'bottom-right': 'bottom-[20%] -right-[7px]',
-  'top-left': 'top-[20%] -left-[7px]',
-  'bottom-left': 'bottom-[10%] -left-[7px]',
+  'top-right': 'top-[15%] -right-[7px]',
+  'bottom-right': 'bottom-[15%] -right-[7px]',
+  'top-left': 'top-[15%] -left-[7px]',
+  'bottom-left': 'bottom-[15%] -left-[7px]',
 };
 
+// Label positions are % of the outer container.
 const LABEL_POSITIONS: Record<HotspotPosition, string> = {
-  'top-right': 'top-[7%] right-[4%]',
-  'bottom-right': 'bottom-[7%] right-[4%]',
-  'top-left': 'top-[3%] left-[4%] ',
-  'bottom-left': 'bottom-[12%] left-[4%]',
+  'top-right': 'top-[7%] right-[4%] text-left',
+  'bottom-right': 'bottom-[7%] right-[4%] text-left',
+  'top-left': 'top-[3%] left-[4%] text-left',
+  'bottom-left': 'bottom-[12%] left-[4%] text-left',
 };
 
+// SVG polyline points: label anchor → right-angle bend → card edge dot.
 const LINE_POINTS: Record<HotspotPosition, string> = {
-  'top-right': '390,110  390,162 311,162',
-  'top-left': '60,80   60,175  170,175',
-  'bottom-right': '390,320 390,245 310,245',
-  'bottom-left': '90,300  90,258  170,258',
+  'top-right': '390,52   390,162  318,162',
+  'top-left': '60,26    60,175   162,175',
+  'bottom-right': '390,338  390,258  318,258',
+  'bottom-left': '90,302   90,258   162,258',
 };
 
-export function CrestDiagram({ symbols, className }: CrestDiagramProps) {
+// ─── Component ────────────────────────────────────────────────────────────────
+
+export function CrestDiagram({
+  symbols,
+  debug = false,
+  className,
+}: CrestDiagramProps) {
   const [activeId, setActiveId] = useState<string | null>(null);
 
   const toggle = (id: string) =>
     setActiveId((prev) => (prev === id ? null : id));
 
   return (
-    <Container
-      size="full"
-      padding="lg"
+    <div
       className={cn(
-        'relative select-none bg-surface-base h-size-200 ',
+        // aspect-[480/420] + w-full keeps the SVG viewBox and CSS %
+        // positions in sync at every container width
+        'relative select-none w-full aspect-[480/420]',
         className,
       )}
     >
-      {/* ── Center crest card ────────────────────────────────────────────── */}
-
-      <div
-        className={cn(
-          'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
-          'rounded-md bg-surface-elevated border-border-md border-solid border-border-light shadow-elevation-3 ',
-        )}
-      >
-        <SchoolLogo size="xl" />
-        {/* Hotspot dots on card edges */}
-        {symbols.map((symbol) => {
-          const isActive = activeId === symbol.id;
-          return (
-            <div
-              key={symbol.id}
-              aria-label={`Highlight ${symbol.name}`}
-              className={cn(
-                'absolute z-overlay',
-                DOT_POSITIONS[symbol.position],
-                'w-size-5 h-size-5 rounded-full cursor-pointer',
-                'border border-solid transition-all duration-fast',
-                isActive
-                  ? 'bg-gold-base border-gold-base shadow-elevation-3'
-                  : 'bg-surface-base border-border-default hover:border-gold-base',
-              )}
-            ></div>
-          );
-        })}
-      </div>
-      {/* SVG connector lines */}
+      {/* ── SVG: connector lines + optional debug grid ──────────────────── */}
       <svg
         viewBox="0 0 480 420"
+        // preserveAspectRatio="none" fills the container exactly so SVG
+        // coords map linearly to container pixels — required for alignment
+        preserveAspectRatio="none"
         className="absolute top-space-0 left-space-0 w-full h-full pointer-events-none z-base"
         aria-hidden
       >
-        {Array.from({ length: 49 }).map((_, i) => (
-          <line
-            key={`v-${i}`}
-            x1={i * 10}
-            y1="0"
-            x2={i * 10}
-            y2="420"
-            stroke="#ddd"
-            strokeWidth="0.5"
-          />
-        ))}
-
-        {Array.from({ length: 43 }).map((_, i) => (
-          <line
-            key={`h-${i}`}
-            x1="0"
-            y1={i * 10}
-            x2="480"
-            y2={i * 10}
-            stroke="#ddd"
-            strokeWidth="0.5"
-          />
-        ))}
+        <SvgDebugGrid
+          width={480}
+          height={420}
+          step={10}
+          majorEvery={5}
+          showLabels
+          show={debug}
+        />
 
         {symbols.map((symbol) => {
           const isActive = activeId === symbol.id;
@@ -132,37 +114,78 @@ export function CrestDiagram({ symbols, className }: CrestDiagramProps) {
               key={symbol.id}
               points={LINE_POINTS[symbol.position]}
               fill="none"
-              stroke={isActive ? 'var(--color-gold-base)' : 'currentColor'}
-              strokeWidth="1"
+              stroke={
+                isActive
+                  ? 'var(--color-gold-base)'
+                  : 'var(--color-border-default)'
+              }
+              strokeWidth="1.5"
               strokeDasharray={isActive ? '0' : '4 3'}
-              style={{ transition: 'stroke 0.2s, stroke-dasharray 0.2s' }}
-              className="text-green-base"
+              style={{ transition: 'stroke 0.25s, stroke-dasharray 0.25s' }}
             />
           );
         })}
       </svg>
-      {/* ── Label blocks ────────────────────────────────────────────────── */}
+
+      {/* ── Center crest card ────────────────────────────────────────────── */}
+      <div
+        className={cn(
+          'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-raised',
+          'rounded-md bg-surface-elevated',
+          'border-border-sm border-solid border-border-light',
+          'shadow-elevation-3',
+        )}
+      >
+        <SchoolLogo variant="crest-only" size="xl" />
+
+        {/* Hotspot dots — sit on the card edges, toggle the active symbol */}
+        {symbols.map((symbol) => {
+          const isActive = activeId === symbol.id;
+          return (
+            <button
+              key={symbol.id}
+              onClick={() => toggle(symbol.id)}
+              aria-pressed={isActive}
+              aria-label={`Highlight ${symbol.name}`}
+              className={cn(
+                'absolute z-overlay cursor-pointer',
+                DOT_POSITIONS[symbol.position],
+                'w-size-5 h-size-5 rounded-full',
+                'border-border-sm border-solid transition-all duration-fast',
+                isActive
+                  ? 'bg-gold-base border-gold-base shadow-elevation-3'
+                  : 'bg-surface-base border-border-default hover:border-gold-base',
+              )}
+            />
+          );
+        })}
+      </div>
+
+      {/* ── Label blocks ─────────────────────────────────────────────────── */}
       {symbols.map((symbol) => {
         const isActive = activeId === symbol.id;
         const isDimmed = activeId !== null && !isActive;
 
         return (
-          <div
+          <button
             key={symbol.id}
             onClick={() => toggle(symbol.id)}
             aria-pressed={isActive}
             aria-label={symbol.name}
             className={cn(
-              'absolute max-w-size-72 text-left cursor-pointer',
-              'bg-green-base border border-border-md rounded-md p-space-2',
+              // max-w-[28%] scales with container so labels
+              // never crowd the center card at any width
+              'absolute max-w-[28%] text-left cursor-pointer',
+              'bg-surface-elevated',
+              'border-border-sm border-solid border-border-light',
+              'rounded-md p-space-2',
               'transition-opacity duration-fast z-dropdown',
-              isDimmed ? 'opacity-50' : 'opacity-80',
+              isDimmed ? 'opacity-30' : 'opacity-100',
               LABEL_POSITIONS[symbol.position],
             )}
           >
             <EyebrowLabel
               className={cn(
-                'z-overlay',
                 'transition-colors duration-fast block',
                 isActive ? 'text-gold-base' : 'text-text-muted',
               )}
@@ -176,9 +199,9 @@ export function CrestDiagram({ symbols, className }: CrestDiagramProps) {
             >
               {symbol.meaning}
             </Text>
-          </div>
+          </button>
         );
       })}
-    </Container>
+    </div>
   );
 }
