@@ -9,7 +9,7 @@ export interface AlumniProfile {
   id: string;
   name: string;
   graduationYear: number;
-  role: string;
+  position: string;
   quote: string;
   portraitSrc?: string;
   portraitAlt?: string;
@@ -112,7 +112,7 @@ export function AlumniLegacyBlock({
 
           <p className="font-display text-h3 mb-2">{currentAlumnus.name}</p>
           <p className="font-body text-body-sm text-text-muted">
-            {currentAlumnus.role} · Class of {currentAlumnus.graduationYear}
+            {currentAlumnus.position} · Class of {currentAlumnus.graduationYear}
           </p>
         </div>
 
