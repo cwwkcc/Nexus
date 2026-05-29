@@ -26,35 +26,29 @@
       "eyebrow": "Our Story",
       "heading": "The school that",
       "headingEm": "changed a nation.",
-      "p1": "In 1873, a school was founded in Mathugama that would, within a century, help reshape the entire educational landscape of Sri Lanka. C.W.W. Kannangara Central College began as a beacon of opportunity in the Southern Province — the very first Central College in the country.",
-      "p2": "Our name honours Dr. C.W.W. Kannangara, the \"Father of Free Education\" in Sri Lanka, who fought tirelessly to ensure that no child would be denied the right to learn because of poverty. His 1944 Free Education Bill transformed this nation. Our school carries that legacy forward.",
-      "p3": "Today, with over 5,000 students, more than 200 dedicated teachers, and a vibrant community of societies and extracurricular programmes, we remain what we have always been: a place where futures are built, character is forged, and excellence is not aspired to — it is expected.",
+      "paragraph": "In 1873, a school was founded in Mathugama that would, within a century, help reshape the entire educational landscape of Sri Lanka. C.W.W. Kannangara Central College began as a beacon of opportunity in the Southern Province — the very first Central College in the country. Our name honours Dr. C.W.W. Kannangara, the \"Father of Free Education\" in Sri Lanka, who fought tirelessly to ensure that no child would be denied the right to learn because of poverty. His 1944 Free Education Bill transformed this nation. Our school carries that legacy forward. Today, with over 5,000 students, more than 200 dedicated teachers, and a vibrant community of societies and extracurricular programmes, we remain what we have always been: a place where futures are built, character is forged, and excellence is not aspired to — it is expected.",
       "quote": "Education is not a privilege of the few. It is the birthright of every child born in this country.",
-      "quoteAuthor": "— Dr. C.W.W. Kannangara"
+      "quoteAuthor": "~ Dr. C.W.W. Kannangara"
     },
-    "kannangara": {
+    "aboutKannangara": {
       "eyebrow": "Our Namesake",
-      "heading1": "Dr. C.W.W.",
-      "heading2": "Kannangara",
-      "role": "Minister of Education · Father of Free Education",
-      "portraitDates": "1884 – 1969",
-      "portraitCaption": "Dr. C.W.W. Kannangara",
-      "portraitCaptionEm": "Father of Free Education",
-      "p1": "Cyril Wimalasiri Wijesinghe Kannangara was born in 1884 in Randombe, Hikkaduwa, and would go on to become the most transformative figure in Sri Lankan educational history. As Minister of Education from 1931, he championed a radical idea: that birth and wealth should not determine whether a child received an education.",
-      "p2": "His Central College system — of which this institution is the original, established in 1941 — created pathways to secondary education for children across the island. A defining moment came in 1903, when Kannangara led the British Empire list in Mathematics at Cambridge Senior exams, proving that rural-born students could excel at the highest level.",
-      "p3": "We carry his name not merely as a label, but as a commitment. Every student who passes through these gates benefits from the vision he fought for. We do not take that lightly.",
-      "quote": "Education is not a privilege of the few. It is the birthright of every child born in this country."
+      "name": "Dr. C.W.W. Kannangara",
+      "position": "Minister of Education · Father of Free Education",
+      "portraitAlt": "Dr. C.W.W. Kannangara portrait",
+      "portraitCaption": "Dr. C.W.W. Kannangara (1884–1969)",
+      "paragraph": "Cyril Wimalasiri Wijesinghe Kannangara was born in 1884 in Randombe, Hikkaduwa, and would go on to become the most transformative figure in Sri Lankan educational history. As Minister of Education from 1931, he championed a radical idea: that birth and wealth should not determine whether a child received an education. His Central College system — of which this institution is the original, established in 1941 — created pathways to secondary education for children across the island. A defining moment came in 1903, when Kannangara led the British Empire list in Mathematics at Cambridge Senior exams, proving that rural-born students could excel at the highest level. We carry his name not merely as a label, but as a commitment. Every student who passes through these gates benefits from the vision he fought for. We do not take that lightly.",
+      "quote": "Education is not a privilege of the few. It is the birthright of every child born in this country.",
+      "attribution": "~ Dr. C.W.W. Kannangara"
     },
     "timeline": {
       "eyebrow": "153 Years of History",
       "heading": "Milestones",
-      "hint": "Drag to explore →",
       "milestones": [
         {
           "id": "founding",
           "year": "1873",
           "title": "The First Central College",
-          "description": "C.W.W. Kannangara Central College is established as a vernacular school in Mathugama, serving the indigenous population of the Kalutara District.",
+          "desc": "C.W.W. Kannangara Central College is established as a vernacular school in Mathugama, serving the indigenous population of the Kalutara District.",
           "era": "early"
         },
         {
@@ -108,13 +102,15 @@
         }
       ]
     },
-    "vmv": {
+    "ethos": {
+      "mottoEyebrow": "Our Motto",
+      "motto": "Wisdom is All Wealth",
       "visionEyebrow": "Our Vision",
       "visionText": "To be a nationally recognised institution of academic and human excellence — producing graduates who lead with wisdom, serve with integrity, and advance Sri Lanka with every endeavour.",
       "missionEyebrow": "Our Mission",
-      "missionText": "To provide every student with a rigorous, holistic education in the tradition of Dr. Kannangara — accessible to all, demanding of each, and dedicated to the fullest development of every young person in our care.",
-      "motto": "Panna Naranam Ratanam",
-      "mottoTranslation": "Wisdom is All Wealth",
+      "missionText": "To provide every student with a rigorous, holistic education in the tradition of Dr. Kannangara — accessible to all, demanding of each, and dedicated to the fullest development of every young person in our care."
+    },
+    "values": {
       "valuesEyebrow": "Core Values",
       "values": {
         "wisdom": {
@@ -142,27 +138,31 @@
     "crest": {
       "eyebrow": "Heraldry & Meaning",
       "heading": "The Crest Explained",
-      "intro": "Every element of the school crest was chosen deliberately. Nothing is decorative for its own sake — each symbol carries meaning rooted in Sri Lankan heritage and the values of this institution.",
+      "intro": "Every element of the school crest was chosen deliberately. Nothing is decorative for its own sake each symbol carries meaning rooted in Sri Lankan heritage and the values of this institution.",
       "symbols": [
         {
           "id": "lamp",
           "name": "The Lamp of Knowledge",
-          "meaning": "The oil lamp — Pahana — represents the light of education driving away the darkness of ignorance. It is the school's most sacred symbol, the reason gold runs through everything we do."
+          "meaning": "The oil lamp — Pahana — represents the light of education driving away the darkness of ignorance. It is the school's most sacred symbol, the reason gold runs through everything we do.",
+          "position": "top-right"
         },
         {
           "id": "lotus",
           "name": "The Lotus",
-          "meaning": "Rising from murky water to bloom in perfect form, the lotus symbolises the potential within every student — regardless of circumstance — to achieve purity and excellence."
+          "meaning": "Rising from murky water to bloom in perfect form, the lotus symbolises the potential within every student — regardless of circumstance — to achieve purity and excellence.",
+          "position": "top-left"
         },
         {
           "id": "dharmachakra",
           "name": "The Dharmachakra",
-          "meaning": "The wheel of the dharma represents truth, righteousness, and the cyclical pursuit of wisdom. It reminds us that learning is never finished."
+          "meaning": "The wheel of the dharma represents truth, righteousness, and the cyclical pursuit of wisdom. It reminds us that learning is never finished.",
+          "position": "bottom-left"
         },
         {
           "id": "laurel",
           "name": "The Laurel",
-          "meaning": "The laurel wreath encircling the crest signifies achievement, honour, and the recognition of excellence in academic, sporting, and cultural endeavour."
+          "meaning": "The laurel wreath encircling the crest signifies achievement, honour, and the recognition of excellence in academic, sporting, and cultural endeavour.",
+          "position": "bottom-right"
         }
       ]
     },
@@ -192,6 +192,21 @@
         }
       ]
     },
+    "legacy": {
+      "spirit": {
+        "eyebrow": "Spirit of Kannangara",
+        "heading": "what it means to be a Kannangarian",
+        "paragraph": "The spirit of Kannangara is not about academic achievement alone. It is about carrying the torch of free education, the belief that every child deserves a chance, and the obligation to give back. Kannangarians are found in every corner of Sri Lanka and the world – doctors, engineers, teachers, entrepreneurs – but they all share one thing: the understanding that wisdom is all wealth.",
+        "quote": "Once a Kannangarian, always a Kannangarian",
+        "attribution": "~ School Proverb"
+      },
+      "heritage": {
+        "eyebrow": "Physical Heritage",
+        "heading": "The Campus Through Time",
+        "caption": "mono hari danna oni. but hithanna tharam brain power ekak na dam. at least ai try karannawath..."
+      }
+    },
+
     "anthem": {
       "eyebrow": "Our Anthem",
       "heading": "The School Song",
@@ -200,6 +215,11 @@
       "playerTitle": "KCC School Anthem",
       "playerSubtitle": "Performed by KCC School Choir",
       "lyrics": "ශ්‍රීයෙන දින දින වැජඹේ මතුගම\nමැදි මහ විදුහල් මාතා පෙම්බර\nසිසුනට සැම දින විදුරැස පතුරන\nඔබෙ නම සමරමු සැමදා……….//\nකඳු මුදුනින් සිප එන සිහිලැල්  \nරන් මිණි මුතු පිරි දිය සුනිමල්………….//  \nකළු ගංගා රාණී සිරි දුව ගේ  \nආසිරි නිති ලබනා  \nඹබවේ පෙම්බර විදුහල් මාතා………//\nශ්‍රීයෙන දින දින …………………………………….."
+    },
+    "closing": {
+      "heading": "The light continues.",
+      "body": "Since 1873, every student who has passed through these gates has carried forward a belief that Dr. Kannangara gave this nation: that wisdom, not wealth, is the measure of a life well lived. One hundred and fifty-three years on, that belief is still the first thing taught here — and the last thing forgotten.",
+      "rule": "Wisdom is All Wealth · Est. 1873 · Mathugama, Sri Lanka"
     }
   }
 }
