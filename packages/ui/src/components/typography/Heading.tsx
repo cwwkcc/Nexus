@@ -56,8 +56,8 @@ export const Heading = forwardRef<HTMLElement, HeadingProps>(
         ref={ref}
         className={cn(
           'font-display',
-          levelSizeMap[level],
           colorClasses[color],
+          levelSizeMap[level],
           className,
         )}
         {...rest}
