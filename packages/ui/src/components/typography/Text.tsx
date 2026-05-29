@@ -60,12 +60,7 @@ export const Text = forwardRef<HTMLElement, TextProps>(
     return (
       <Tag
         ref={ref}
-        className={cn(
-          'font-body',
-          variantClasses[variant],
-          colorClasses[color],
-          className,
-        )}
+        className={cn(variantClasses[variant], colorClasses[color], className)}
         {...rest}
       >
         {children}
