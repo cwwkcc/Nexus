@@ -139,7 +139,10 @@ export { NavLink } from './components/navigation/NavLink';
 export { AchievementTicker } from './components/sections/AchievementTicker';
 export { AdmissionsProcessSteps } from './components/sections/AdmissionsProcessSteps';
 export { AdmissionsKeyDatesTimeline } from './components/sections/AdmissionsKeyDatesTimeline';
-export { AlumniLegacyBlock } from './components/sections/AlumniLegacyBlock';
+export {
+  AlumniLegacyBlock,
+  type AlumniProfile,
+} from './components/sections/AlumniLegacyBlock';
 export { AudioPlayer } from './components/sections/AudioPlayer';
 export { LifeAtKCCPhotoStrip } from './components/sections/LifeAtKCCPhotoStrip';
 export { PrincipalMessage } from './components/sections/PrincipalMessage';
@@ -198,3 +201,9 @@ export { useScrollDirection } from './hooks/useScrollDirection';
 // ============================================================================
 
 export { cn } from './utilities/cn';
+
+// ============================================================================
+// Dev
+// ============================================================================
+
+export { SvgDebugGrid } from './components/dev/SvgDebugGrid';
