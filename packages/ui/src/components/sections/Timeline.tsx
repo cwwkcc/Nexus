@@ -1,10 +1,14 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { clsx } from 'clsx';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { cn } from '../../utilities/cn';
 import { useInView } from '../../hooks/useInView';
+import { ImageFrame } from '../media/ImageFrame';
+import { EyebrowLabel } from '../typography/EyebrowLabel';
+import { Heading } from '../typography/Heading';
+import { Text } from '../typography/Text';
 
-export interface TimelineEvent {
+interface TimelineEvent {
   id: string;
   year: string;
   title: string;
@@ -14,124 +18,215 @@ export interface TimelineEvent {
   era?: 'early' | 'mid' | 'modern';
 }
 
-export interface TimelineProps {
+interface TimelineProps {
   events: TimelineEvent[];
   className?: string;
 }
 
-const eraStyles = {
-  early: 'sepia-[0.6] contrast-[1.1]',
-  mid: 'sepia-[0.2] contrast-[1.05]',
+const eraImageClasses: Record<'early' | 'mid' | 'modern', string> = {
+  early: 'sepia-[0.7] contrast-[1.1] brightness-[0.95]',
+  mid: 'sepia-[0.3] contrast-[1.05]',
   modern: 'sepia-0 contrast-100',
 };
+
+// ─── Component ────────────────────────────────────────────────────────────────
 
 export function Timeline({ events, className }: TimelineProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  useEffect(() => {
+  // ── Scroll tracking ──────────────────────────────────────────────────────
+
+  const handleScroll = useCallback(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    const handleScroll = () => {
-      const scrollLeft = container.scrollLeft;
-      const itemWidth = container.children[0]?.clientWidth || 0;
-      const newIndex = Math.round(scrollLeft / itemWidth);
-      if (
-        newIndex !== activeIndex &&
-        newIndex >= 0 &&
-        newIndex < events.length
-      ) {
-        setActiveIndex(newIndex);
-      }
-    };
+    // Use first child width as the snap unit
+    const itemWidth =
+      (container.firstElementChild as HTMLElement)?.offsetWidth ?? 0;
+    if (itemWidth === 0) return;
 
-    container.addEventListener('scroll', handleScroll, { passive: true });
-    return () => container.removeEventListener('scroll', handleScroll);
+    const newIndex = Math.round(container.scrollLeft / itemWidth);
+    const clamped = Math.max(0, Math.min(newIndex, events.length - 1));
+    if (clamped !== activeIndex) setActiveIndex(clamped);
   }, [activeIndex, events.length]);
 
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    container.addEventListener('scroll', handleScroll, { passive: true });
+    return () => container.removeEventListener('scroll', handleScroll);
+  }, [handleScroll]);
+
+  // ── Nav buttons ──────────────────────────────────────────────────────────
+
+  const scrollTo = useCallback((index: number) => {
+    const container = containerRef.current;
+    if (!container) return;
+    const itemWidth =
+      (container.firstElementChild as HTMLElement)?.offsetWidth ?? 0;
+    container.scrollTo({ left: index * itemWidth, behavior: 'smooth' });
+  }, []);
+
+  const canPrev = activeIndex > 0;
+  const canNext = activeIndex < events.length - 1;
+
+  // ── Entrance animation ───────────────────────────────────────────────────
+
   const { ref: inViewRef, isInView } = useInView<HTMLDivElement>({
-    threshold: 0.2,
+    threshold: 0.15,
     triggerOnce: true,
   });
 
+  // ─── Render ───────────────────────────────────────────────────────────────
+
   return (
-    <div ref={inViewRef} className={clsx('relative', className)}>
-      {/* Era indicator */}
-      <div className="absolute top-0 left-0 right-0 h-1 bg-border-light z-10">
+    <div ref={inViewRef} className={cn('relative', className)}>
+      {/* Progress bar */}
+      <div
+        className="absolute top-space-0 left-space-0 right-space-0 h-size-px bg-border-light z-raised"
+        role="progressbar"
+        aria-valuenow={activeIndex + 1}
+        aria-valuemin={1}
+        aria-valuemax={events.length}
+        aria-label={`Event ${activeIndex + 1} of ${events.length}`}
+      >
         <div
-          className="h-full bg-gold-base transition-all duration-300"
+          className="h-full bg-gold-base transition-all duration-standard"
           style={{ width: `${((activeIndex + 1) / events.length) * 100}%` }}
         />
       </div>
 
-      {/* Horizontal scroll container */}
+      {/* Scroll container */}
       <div
         ref={containerRef}
-        className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-8 pt-12"
+        className="flex overflow-x-auto snap-x snap-mandatory pt-space-10 pb-space-8"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
-        {events.map((event, idx) => (
-          <div
-            key={event.id}
-            className="snap-start shrink-0 w-full md:w-[85%] lg:w-[70%] px-6 transition-opacity duration-500"
-            style={{
-              opacity: isInView ? 1 : 0,
-              transform: isInView ? 'translateY(0)' : 'translateY(24px)',
-              transition: `opacity 0.5s ease-out ${idx * 0.1}s, transform 0.5s ease-out ${idx * 0.1}s`,
-            }}
-          >
-            <div className="grid md:grid-cols-2 gap-8 items-center">
-              {/* Image side */}
-              <div
-                className={clsx(
-                  'rounded-lg overflow-hidden transition-all duration-700',
-                  eraStyles[event.era || 'modern'],
-                )}
-              >
-                {event.imageSrc ? (
-                  <img
-                    src={event.imageSrc}
-                    alt={event.imageAlt || event.title}
-                    className="w-full h-auto object-cover aspect-[4/3]"
-                  />
-                ) : (
-                  <div className="aspect-[4/3] bg-surface-deep flex items-center justify-center">
-                    <span className="font-display text-6xl text-gold-base/30">
-                      {event.year}
-                    </span>
-                  </div>
-                )}
-              </div>
+        {events.map((event, idx) => {
+          const isActive = idx === activeIndex;
+          const era = event.era ?? 'modern';
 
-              {/* Text side */}
-              <div>
-                <span className="font-body text-eyebrow uppercase tracking-wider text-gold-base">
-                  {event.year}
-                </span>
-                <h3 className="font-display text-h3 mt-2 text-text-primary">
-                  {event.title}
-                </h3>
-                <p className="font-body text-body text-text-muted mt-4 leading-relaxed">
-                  {event.description}
-                </p>
+          return (
+            <div
+              key={event.id}
+              aria-hidden={!isActive}
+              className="snap-start shrink-0 w-full md:w-[85%] lg:w-[70%] px-space-6"
+              style={{
+                opacity: isInView ? 1 : 0,
+                transform: isInView ? 'translateY(0)' : 'translateY(24px)',
+                transition: `opacity 0.5s ease-out ${idx * 0.08}s, transform 0.5s ease-out ${idx * 0.08}s`,
+              }}
+            >
+              <div className="grid md:grid-cols-2 gap-space-8 items-center">
+                {/* Image */}
+                <div
+                  className={cn(
+                    'transition-all duration-slow',
+                    eraImageClasses[era],
+                  )}
+                >
+                  {event.imageSrc ? (
+                    <ImageFrame
+                      src={event.imageSrc}
+                      alt={event.imageAlt ?? event.title}
+                      aspectRatio="4/3"
+                      variant="featured"
+                    />
+                  ) : (
+                    // Placeholder when no image — shows the year in gold
+                    <div className="aspect-[4/3] rounded-md bg-surface-deep flex items-center justify-center shadow-elevation-1">
+                      <span className="font-display text-h1 text-gold-base/20 select-none">
+                        {event.year}
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Text */}
+                <div className="flex flex-col gap-space-3">
+                  <EyebrowLabel>{event.year}</EyebrowLabel>
+                  <Heading level="h3">{event.title}</Heading>
+                  <Text variant="body" color="muted">
+                    {event.description}
+                  </Text>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
-      {/* Scroll hint */}
-      <div className="text-center mt-4">
-        <span className="font-body text-caption text-text-muted uppercase tracking-wider">
-          ← Drag to explore →
-        </span>
+      {/* Navigation */}
+      <div className="flex items-center justify-between mt-space-4 px-space-6">
+        {/* Prev / Next buttons */}
+        <div className="flex gap-space-2">
+          <button
+            onClick={() => scrollTo(activeIndex - 1)}
+            disabled={!canPrev}
+            aria-label="Previous event"
+            className={cn(
+              'w-size-10 h-size-10 rounded-full border-solid flex items-center justify-center',
+              'border-border-md border-border-default',
+              'font-body text-body-sm text-text-primary',
+              'transition-all duration-fast',
+              canPrev
+                ? 'hover:border-gold-base hover:text-gold-base cursor-pointer'
+                : 'opacity-30 cursor-not-allowed',
+            )}
+          >
+            ←
+          </button>
+          <button
+            onClick={() => scrollTo(activeIndex + 1)}
+            disabled={!canNext}
+            aria-label="Next event"
+            className={cn(
+              'w-size-10 h-size-10 rounded-full border-solid flex items-center justify-center',
+              'border-border-md border-border-default',
+              'font-body text-body-sm text-text-primary',
+              'transition-all duration-fast',
+              canNext
+                ? 'hover:border-gold-base hover:text-gold-base cursor-pointer'
+                : 'opacity-30 cursor-not-allowed',
+            )}
+          >
+            →
+          </button>
+        </div>
+
+        {/* Dot indicators */}
+        <div
+          className="flex gap-space-2 items-center"
+          role="tablist"
+          aria-label="Timeline events"
+        >
+          {events.map((event, idx) => (
+            <button
+              key={event.id}
+              role="tab"
+              aria-selected={idx === activeIndex}
+              aria-label={`Go to ${event.year}: ${event.title}`}
+              onClick={() => scrollTo(idx)}
+              className={cn(
+                'rounded-full transition-all duration-fast cursor-pointer',
+                idx === activeIndex
+                  ? 'w-size-4 h-size-2 bg-gold-base'
+                  : 'w-size-2 h-size-2 bg-border-default hover:bg-gold-base/50',
+              )}
+            />
+          ))}
+        </div>
+
+        {/* Counter */}
+        <Text variant="caption" color="muted">
+          {String(activeIndex + 1).padStart(2, '0')} /{' '}
+          {String(events.length).padStart(2, '0')}
+        </Text>
       </div>
 
       <style>{`
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
+        .snap-mandatory::-webkit-scrollbar { display: none; }
       `}</style>
     </div>
   );
