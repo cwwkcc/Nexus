@@ -21,10 +21,10 @@ const sizeMap: Record<ContainerSize, string> = {
 };
 
 const paddingMap: Record<ContainerPadding, string> = {
-  none: 'px-0',
-  sm: 'px-space-4 sm:px-space-6',
-  md: 'px-space-6 md:px-space-8 lg:px-space-10',
-  lg: 'px-space-8 md:px-space-12 lg:px-space-16',
+  none: 'p-space-0',
+  sm: 'p-space-4 sm:p-space-6',
+  md: 'p-space-6 md:p-space-8 lg:p-space-10',
+  lg: 'p-space-8 md:p-space-12 lg:p-space-16',
 };
 
 export function Container({
