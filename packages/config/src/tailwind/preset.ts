@@ -15,7 +15,8 @@ import {
   aspectRatio,
   backgroundImage,
   fontFamily,
-  sizing, // your new sizing tokens
+  sizing,
+  borderWidth,
 } from '../tokens/index.js';
 
 export const nexusPreset: Partial<Config> = {
@@ -58,6 +59,7 @@ export const nexusPreset: Partial<Config> = {
       maxWidth: sizing,
       minHeight: sizing,
       maxHeight: sizing,
+      borderWidth,
     },
   },
   plugins: [],
