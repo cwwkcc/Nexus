@@ -167,28 +167,35 @@
       ]
     },
     "alumni": {
+      "eyebrow": "Generations of Excellence",
       "heading": "Alumni Legacy",
       "profiles": [
         {
           "id": "1",
           "name": "Dr. A. Silva",
-          "graduationYear": 1990,
-          "role": "Professor of Medicine",
-          "quote": "KCC taught me that education is the great equalizer. I carry that lesson into every lecture I give."
+          "graduationYear": "1990",
+          "position": "Professor of Medicine",
+          "quote": "KCC taught me that education is the great equalizer. I carry that lesson into every lecture I give.",
+          "portraitSrc": "/images/ironman.jpg",
+          "portraitAlt": "ironman"
         },
         {
           "id": "2",
           "name": "Mr. N. Perera",
-          "graduationYear": 1985,
-          "role": "Civil Engineer",
-          "quote": "The discipline I learned as a Scout at KCC still guides my work building bridges across Sri Lanka."
+          "graduationYear": "1985",
+          "position": "Civil Engineer",
+          "quote": "The discipline I learned as a Scout at KCC still guides my work building bridges across Sri Lanka.",
+          "portraitSrc": "/images/ironman.jpg",
+          "portraitAlt": "ironman"
         },
         {
           "id": "3",
           "name": "Ms. D. Fernando",
-          "graduationYear": 2015,
-          "role": "Software Engineer at Google",
-          "quote": "KITS was my launchpad. Building Nexus feels like coming home."
+          "graduationYear": "2015",
+          "position": "Software Engineer at Google",
+          "quote": "KITS was my launchpad. Building Nexus feels like coming home.",
+          "portraitSrc": "/images/ironman.jpg",
+          "portraitAlt": "ironman"
         }
       ]
     },
@@ -210,11 +217,11 @@
     "anthem": {
       "eyebrow": "Our Anthem",
       "heading": "The School Song",
-      "p1": "For over a century, generations of students have sung the school anthem at assemblies, prize-givings, and on the day they graduated. Its words carry the school's values — the pursuit of knowledge, the call to service, the bond of fellowship.",
-      "p2": "The anthem is performed by the school choir and the Boys Brass Band at all major ceremonies. It is the sound of this institution.",
+      "paragraph": "For over a century, generations of students have sung the school anthem at assemblies, prize-givings, and on the day they graduated. Its words carry the school's values — the pursuit of knowledge, the call to service, the bond of fellowship. The anthem is performed by the school choir and the Boys Brass Band at all major ceremonies. It is the sound of this institution.",
       "playerTitle": "KCC School Anthem",
       "playerSubtitle": "Performed by KCC School Choir",
-      "lyrics": "ශ්‍රීයෙන දින දින වැජඹේ මතුගම\nමැදි මහ විදුහල් මාතා පෙම්බර\nසිසුනට සැම දින විදුරැස පතුරන\nඔබෙ නම සමරමු සැමදා……….//\nකඳු මුදුනින් සිප එන සිහිලැල්  \nරන් මිණි මුතු පිරි දිය සුනිමල්………….//  \nකළු ගංගා රාණී සිරි දුව ගේ  \nආසිරි නිති ලබනා  \nඹබවේ පෙම්බර විදුහල් මාතා………//\nශ්‍රීයෙන දින දින …………………………………….."
+      "lyrics": "ශ්‍රීයෙන දින දින වැජඹේ මතුගම\nමැදි මහ විදුහල් මාතා පෙම්බර\nසිසුනට සැම දින විදුරැස පතුරන\nඔබෙ නම සමරමු සැමදා……….//\nකඳු මුදුනින් සිප එන සිහිලැල්  \nරන් මිණි මුතු පිරි දිය සුනිමල්………….//  \nකළු ගංගා රාණී සිරි දුව ගේ  \nආසිරි නිති ලබනා  \nඹබවේ පෙම්බර විදුහල් මාතා………//\nශ්‍රීයෙන දින දින ……………………………………..",
+      "anthemSrc": "/audio/anthem.mp3"
     },
     "closing": {
       "heading": "The light continues.",
