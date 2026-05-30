@@ -4,7 +4,12 @@ import { Container, SectionHeader, AudioPlayer, Text } from '@nexus/ui';
 export default function AlumniLegacy() {
   const t = useTranslations('about.anthem');
   return (
-    <Container size="md" padding="md" as="section" className="py-space-16">
+    <Container
+      size="full"
+      padding="md"
+      as="section"
+      className="bg-surface-base rounded-md m-space-6 md:m-space-12 lg:m-space-16"
+    >
       <SectionHeader
         eyebrow={t('eyebrow')}
         title={t('heading')}

@@ -24,7 +24,7 @@ export default function Legacy() {
       as="section"
       className="bg-surface-base rounded-lg m-space-6 md:m-space-12 lg:m-space-16"
     >
-      <Grid columns={1} gap={12} className="md:grid-cols-2 xl:grid-cols-3">
+      <Grid columns={1} gap={12} className="lg:grid-cols-2 xl:grid-cols-3">
         <GridItem>
           <VStack spacing={6}>
             <EyebrowLabel>{t('spirit.eyebrow')}</EyebrowLabel>

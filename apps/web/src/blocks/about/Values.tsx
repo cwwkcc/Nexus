@@ -31,7 +31,7 @@ export default function Values() {
       <Grid
         columns={1}
         gap={8}
-        className="mt-space-4 md:grid-cols-2 lg:grid-cols-4"
+        className="mt-space-10 md:grid-cols-2 lg:grid-cols-4"
       >
         {values.map((value) => (
           <GridItem key={value.english}>

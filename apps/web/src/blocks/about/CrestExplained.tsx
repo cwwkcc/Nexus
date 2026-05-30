@@ -39,11 +39,15 @@ export function CrestExplained() {
       />
 
       {/* ── Mobile: crest + 2×2 symbol grid ──────────────────────────── */}
-      <div className="md:hidden">
-        <div className="flex justify-center mb-space-10">
-          <SchoolLogo size="xl"></SchoolLogo>
-        </div>
-        <Grid columns={2} gap={6}>
+      <Container className="lg:hidden">
+        <Container
+          size="full"
+          padding="none"
+          className="w-size-screen-w-40 mb-space-10"
+        >
+          <SchoolLogo></SchoolLogo>
+        </Container>
+        <Grid columns={1} gap={6} className="xs:grid-cols-2">
           {symbols.map((symbol) => (
             <GridItem key={symbol.id}>
               <VStack spacing={2}>
@@ -57,11 +61,12 @@ export function CrestExplained() {
             </GridItem>
           ))}
         </Grid>
-      </div>
+      </Container>
 
       {/* ── Desktop: annotated hotspot diagram ────────────────────────── */}
-
-      <CrestDiagram symbols={symbols} />
+      <div className="hidden lg:block">
+        <CrestDiagram symbols={symbols} />
+      </div>
     </Container>
   );
 }

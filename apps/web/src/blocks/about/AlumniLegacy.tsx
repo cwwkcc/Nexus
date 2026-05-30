@@ -15,7 +15,12 @@ export default function AlumniLegacy() {
     : [];
 
   return (
-    <Container size="lg" padding="md" as="section" className="py-space-16">
+    <Container
+      size="lg"
+      padding="md"
+      as="section"
+      className="bg-surface-base rounded-md m-space-6 md:m-space-12 lg:m-space-16"
+    >
       <SectionHeader
         eyebrow={t('eyebrow')}
         title={t('heading')}

@@ -9,7 +9,7 @@ export default function Ethos() {
       as="section"
       className="bg-surface-base rounded-lg m-space-6 md:m-space-12 lg:m-space-16"
     >
-      <VStack>
+      <VStack spacing={6}>
         <VStack spacing={4}>
           <EyebrowLabel>{t('visionEyebrow')}</EyebrowLabel>
           <QuoteBlock variant="pull-quote" quote={t('visionText')} />
