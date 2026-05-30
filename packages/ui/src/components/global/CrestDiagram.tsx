@@ -1,19 +1,20 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
+import { motion } from 'framer-motion';
 import { cn } from '../../utilities/cn';
 import { EyebrowLabel } from '../typography/EyebrowLabel';
 import { Text } from '../typography/Text';
 import { SchoolLogo } from '../logos/SchoolLogo';
 import { SvgDebugGrid } from '../dev/SvgDebugGrid';
-
-// ─── Types ────────────────────────────────────────────────────────────────────
+import { Container } from '../layout/Container';
 
 type HotspotPosition =
   | 'top-right'
   | 'bottom-right'
   | 'top-left'
   | 'bottom-left';
+type DiagramVariant = 'ambient' | 'hold' | 'click';
 
 export interface CrestSymbol {
   id: string;
@@ -24,178 +25,260 @@ export interface CrestSymbol {
 
 export interface CrestDiagramProps {
   symbols: CrestSymbol[];
-  /** Show SvgDebugGrid overlay — dev only */
+  variant?: DiagramVariant; // 👈 'ambient' | 'hold' | 'click'
   debug?: boolean;
   className?: string;
 }
 
-// ─── Layout config ─────────────────────────────────────────────────────────────
-//
-// All coordinates are in the SVG viewBox (0 0 480 420).
-// The container uses aspect-[480/420] + w-full so the two
-// coordinate systems (CSS % and SVG viewBox) scale together.
-//
-// CSS percentage ↔ SVG unit:
-//   x% = svgX / 480 * 100
-//   y% = svgY / 420 * 100
-//
-// SchoolLogo size="xl" = 240px + m-space-2 (8px) margin → ~256px card.
-// Card center in SVG coords: (240, 210).
-// Card edges (approx): left=112, right=368, top=82, bottom=338.
-// Dots sit 7px outside each edge — accounted for in LINE_POINTS.
-
-// Dot positions are relative to the card div (percentage of card size).
 const DOT_POSITIONS: Record<HotspotPosition, string> = {
-  'top-right': 'top-[15%] -right-[7px]',
-  'bottom-right': 'bottom-[15%] -right-[7px]',
-  'top-left': 'top-[15%] -left-[7px]',
-  'bottom-left': 'bottom-[15%] -left-[7px]',
+  'top-right': 'top-[20%] -right-[11px]',
+  'bottom-right': 'bottom-[10%] -right-[11px]',
+  'top-left': 'top-[10%] -left-[11px]',
+  'bottom-left': 'bottom-[20%] -left-[11px]',
 };
 
-// Label positions are % of the outer container.
 const LABEL_POSITIONS: Record<HotspotPosition, string> = {
-  'top-right': 'top-[7%] right-[4%] text-left',
-  'bottom-right': 'bottom-[7%] right-[4%] text-left',
-  'top-left': 'top-[3%] left-[4%] text-left',
-  'bottom-left': 'bottom-[12%] left-[4%] text-left',
+  'top-right': 'top-[5%] right-[2%]',
+  'bottom-right': 'bottom-[7%] right-[2%]',
+  'top-left': 'top-[3%] left-[2%]',
+  'bottom-left': 'bottom-[12%] left-[2%]',
 };
-
-// SVG polyline points: label anchor → right-angle bend → card edge dot.
-const LINE_POINTS: Record<HotspotPosition, string> = {
-  'top-right': '390,52   390,162  318,162',
-  'top-left': '60,26    60,175   162,175',
-  'bottom-right': '390,338  390,258  318,258',
-  'bottom-left': '90,302   90,258   162,258',
-};
-
-// ─── Component ────────────────────────────────────────────────────────────────
 
 export function CrestDiagram({
   symbols,
-  debug = false,
+  variant = 'ambient',
   className,
+  debug,
 }: CrestDiagramProps) {
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
 
-  const toggle = (id: string) =>
-    setActiveId((prev) => (prev === id ? null : id));
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [lines, setLines] = useState<Record<string, string>>({});
+
+  // ── Unified Interaction Handlers ──
+  const handlePointerEnter = (id: string) => {
+    if (variant === 'ambient') {
+      setActiveId(id);
+    } else {
+      setHoveredId(id);
+    }
+  };
+
+  const handlePointerLeave = () => {
+    if (variant === 'ambient') {
+      setActiveId(null);
+    } else if (variant === 'hold') {
+      setHoveredId(null);
+      setActiveId(null);
+    } else {
+      setHoveredId(null);
+    }
+  };
+
+  const handlePointerDown = (id: string) => {
+    if (variant === 'hold') setActiveId(id);
+  };
+
+  const handlePointerUp = () => {
+    if (variant === 'hold') setActiveId(null);
+  };
+
+  const handleClick = (id: string) => {
+    if (variant === 'click') {
+      setActiveId((prev) => (prev === id ? null : id));
+    }
+  };
+
+  // ── Responsive Line Path Calculations ──
+  const calculateLines = useCallback(() => {
+    if (!containerRef.current) return;
+    const container = containerRef.current.getBoundingClientRect();
+    const newLines: Record<string, string> = {};
+
+    symbols.forEach((symbol) => {
+      const dot = containerRef.current?.querySelector(
+        `[data-dot="${symbol.id}"]`,
+      );
+      const label = containerRef.current?.querySelector(
+        `[data-label="${symbol.id}"]`,
+      );
+      if (!dot || !label) return;
+
+      const dotRect = dot.getBoundingClientRect();
+      const labelRect = label.getBoundingClientRect();
+
+      const dotX = dotRect.left - container.left + dotRect.width / 2;
+      const dotY = dotRect.top - container.top + dotRect.height / 2;
+      const isLeft = symbol.position.includes('left');
+      const labelX = isLeft
+        ? labelRect.right - container.left
+        : labelRect.left - container.left;
+      const labelY = labelRect.top - container.top + 24;
+      const midX = labelX + (dotX - labelX) / 2;
+
+      newLines[symbol.id] =
+        `${labelX},${labelY} ${midX},${labelY} ${midX},${dotY} ${dotX},${dotY}`;
+    });
+    setLines(newLines);
+  }, [symbols]);
+
+  useEffect(() => {
+    calculateLines();
+    const container = containerRef.current;
+    if (!container) return;
+    const observer = new ResizeObserver(() => calculateLines());
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, [calculateLines]);
 
   return (
     <div
+      ref={containerRef}
       className={cn(
-        // aspect-[480/420] + w-full keeps the SVG viewBox and CSS %
-        // positions in sync at every container width
-        'relative select-none w-full aspect-[480/420]',
+        'relative select-none w-size-screen-80 aspect-[190/100]',
+        'my-space-2 bg-green-light/80 rounded-md overflow-hidden',
         className,
       )}
     >
-      {/* ── SVG: connector lines + optional debug grid ──────────────────── */}
+      {/* ── SVG Connector Network ── */}
       <svg
-        viewBox="0 0 480 420"
-        // preserveAspectRatio="none" fills the container exactly so SVG
-        // coords map linearly to container pixels — required for alignment
-        preserveAspectRatio="none"
-        className="absolute top-space-0 left-space-0 w-full h-full pointer-events-none z-base"
+        className="absolute inset-space-0 w-full h-full pointer-events-none z-base"
         aria-hidden
       >
-        <SvgDebugGrid
-          width={480}
-          height={420}
-          step={10}
-          majorEvery={5}
-          showLabels
-          show={debug}
-        />
+        {debug && (
+          <SvgDebugGrid
+            width={containerRef.current?.clientWidth || 190}
+            height={containerRef.current?.clientHeight || 100}
+            step={5}
+            majorEvery={5}
+            showLabels
+            show={true}
+          />
+        )}
 
         {symbols.map((symbol) => {
           const isActive = activeId === symbol.id;
+          const isHovered = hoveredId === symbol.id;
+          const points = lines[symbol.id];
+          if (!points) return null;
+
+          // Ambient state tracks continuous flow, others flow only on target hover
+          const shouldAnimate =
+            variant === 'ambient' || (isHovered && !isActive);
+
           return (
-            <polyline
+            <motion.polyline
               key={symbol.id}
-              points={LINE_POINTS[symbol.position]}
-              fill="none"
-              stroke={
+              points={points}
+              className={cn(
+                'fill-none transition-colors duration-300 ease-out',
                 isActive
-                  ? 'var(--color-gold-base)'
-                  : 'var(--color-border-default)'
+                  ? 'stroke-gold-base'
+                  : isHovered && variant !== 'ambient'
+                    ? 'stroke-gold-base/60'
+                    : 'stroke-border-default opacity-40',
+              )}
+              strokeWidth={isActive ? 1.5 : 1}
+              strokeDasharray={isActive && variant !== 'ambient' ? '0' : '4 4'}
+              strokeLinejoin="round"
+              animate={
+                shouldAnimate
+                  ? { strokeDashoffset: [0, -16] }
+                  : { strokeDashoffset: 0 }
               }
-              strokeWidth="1.5"
-              strokeDasharray={isActive ? '0' : '4 3'}
-              style={{ transition: 'stroke 0.25s, stroke-dasharray 0.25s' }}
+              transition={{
+                repeat: Infinity,
+                duration: variant === 'ambient' ? 1.2 : 1,
+                ease: 'linear',
+              }}
             />
           );
         })}
       </svg>
 
-      {/* ── Center crest card ────────────────────────────────────────────── */}
-      <div
+      {/* ── Center Crest Card ── */}
+      <Container
+        padding="none"
         className={cn(
+          'w-size-screen-w-20 aspect-[1/1.2]',
           'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-raised',
-          'rounded-md bg-surface-elevated',
-          'border-border-sm border-solid border-border-light',
-          'shadow-elevation-3',
+          'rounded-md bg-surface-elevated border-border-sm border-solid border-border-light shadow-elevation-3',
+          'flex items-center justify-center',
         )}
       >
-        <SchoolLogo variant="crest-only" size="xl" />
-
-        {/* Hotspot dots — sit on the card edges, toggle the active symbol */}
+        <SchoolLogo />
         {symbols.map((symbol) => {
           const isActive = activeId === symbol.id;
+          const isHovered = hoveredId === symbol.id;
+
           return (
             <button
               key={symbol.id}
-              onClick={() => toggle(symbol.id)}
-              aria-pressed={isActive}
-              aria-label={`Highlight ${symbol.name}`}
+              data-dot={symbol.id}
+              onClick={() => handleClick(symbol.id)}
+              onPointerDown={() => handlePointerDown(symbol.id)}
+              onPointerUp={handlePointerUp}
+              onPointerEnter={() => handlePointerEnter(symbol.id)}
+              onPointerLeave={handlePointerLeave}
               className={cn(
-                'absolute z-overlay cursor-pointer',
+                'absolute z-overlay cursor-pointer w-size-5 h-size-5 rounded-full border-border-sm border-solid transition-all duration-300',
                 DOT_POSITIONS[symbol.position],
-                'w-size-5 h-size-5 rounded-full',
-                'border-border-sm border-solid transition-all duration-fast',
                 isActive
-                  ? 'bg-gold-base border-gold-base shadow-elevation-3'
-                  : 'bg-surface-base border-border-default hover:border-gold-base',
+                  ? variant === 'ambient'
+                    ? 'bg-gold-base border-gold-base ring-4 ring-gold-base/30 scale-125 shadow-md'
+                    : 'bg-gold-base border-gold-base ring-4 ring-gold-base/30 scale-110'
+                  : isHovered && variant !== 'ambient'
+                    ? 'bg-surface-elevated border-gold-base scale-125 shadow-md'
+                    : 'bg-surface-base border-border-default hover:border-gold-base',
               )}
             />
           );
         })}
-      </div>
+      </Container>
 
-      {/* ── Label blocks ─────────────────────────────────────────────────── */}
+      {/* ── Context Labels ── */}
       {symbols.map((symbol) => {
         const isActive = activeId === symbol.id;
-        const isDimmed = activeId !== null && !isActive;
+        const isHovered = hoveredId === symbol.id;
+
+        // Soften dimming logic for standard click behaviors to look natural during multi-hover
+        const isDimmed =
+          activeId !== null && !isActive && (variant !== 'click' || !isHovered);
+        const isHighlighted = isActive || (variant !== 'ambient' && isHovered);
 
         return (
           <button
             key={symbol.id}
-            onClick={() => toggle(symbol.id)}
-            aria-pressed={isActive}
-            aria-label={symbol.name}
+            data-label={symbol.id}
+            onClick={() => handleClick(symbol.id)}
+            onPointerDown={() => handlePointerDown(symbol.id)}
+            onPointerUp={handlePointerUp}
+            onPointerEnter={() => handlePointerEnter(symbol.id)}
+            onPointerLeave={handlePointerLeave}
             className={cn(
-              // max-w-[28%] scales with container so labels
-              // never crowd the center card at any width
-              'absolute max-w-[28%] text-left cursor-pointer',
-              'bg-surface-elevated',
-              'border-border-sm border-solid border-border-light',
-              'rounded-md p-space-2',
-              'transition-opacity duration-fast z-dropdown',
-              isDimmed ? 'opacity-30' : 'opacity-100',
+              'absolute w-size-screen-w-20 text-center cursor-pointer bg-surface-elevated border-border-sm border-solid transition-all duration-300 z-dropdown rounded-md p-space-1p5',
+              isDimmed
+                ? 'opacity-20 scale-95 grayscale'
+                : 'opacity-100 scale-100',
+              isHighlighted
+                ? 'border-gold-base shadow-lg -translate-y-1'
+                : 'border-border-light shadow-sm',
               LABEL_POSITIONS[symbol.position],
             )}
           >
             <EyebrowLabel
               className={cn(
                 'transition-colors duration-fast block',
-                isActive ? 'text-gold-base' : 'text-text-muted',
+                isHighlighted ? 'text-gold-base' : 'text-text-muted',
               )}
             >
               {symbol.name}
             </EyebrowLabel>
             <Text
               variant="body-sm"
-              color={isActive ? 'gold' : 'muted'}
-              className="mt-space-1 normal-case tracking-normal"
+              color={isHighlighted ? 'gold' : 'muted'}
+              className="mt-space-1 normal-case tracking-normal transition-colors duration-fast"
             >
               {symbol.meaning}
             </Text>
