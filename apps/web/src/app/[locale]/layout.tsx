@@ -19,7 +19,7 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     <html lang={locale}>
-      <body>
+      <body className="min-w-size-96">
         <NextIntlClientProvider messages={messages}>
           {children}
         </NextIntlClientProvider>
