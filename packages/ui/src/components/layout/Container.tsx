@@ -1,5 +1,6 @@
 // packages/ui/src/components/layout/Container.tsx
 import { cn } from '../../utilities/cn';
+import { forwardRef } from 'react';
 
 type ContainerSize = 'sm' | 'md' | 'lg' | 'full';
 type ContainerPadding = 'none' | 'sm' | 'md' | 'lg';
@@ -27,18 +28,19 @@ const paddingMap: Record<ContainerPadding, string> = {
   lg: 'p-space-8 md:p-space-12 lg:p-space-16',
 };
 
-export function Container({
-  children,
-  size = 'md',
-  padding = 'md',
-  as: Tag = 'div',
-  className,
-}: ContainerProps) {
-  return (
-    <Tag
-      className={cn('mx-auto', sizeMap[size], paddingMap[padding], className)}
-    >
-      {children}
-    </Tag>
-  );
-}
+export const Container = forwardRef<HTMLDivElement, ContainerProps>(
+  (
+    { children, size = 'md', padding = 'md', as: Tag = 'div', className },
+    ref,
+  ) => {
+    return (
+      <Tag
+        ref={ref}
+        className={cn('mx-auto', sizeMap[size], paddingMap[padding], className)}
+      >
+        {children}
+      </Tag>
+    );
+  },
+);
+Container.displayName = 'Container';
