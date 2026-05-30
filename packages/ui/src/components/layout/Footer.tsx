@@ -14,6 +14,8 @@ import {
   LinkedInIcon,
 } from '../icons';
 import { Divider } from './Divider';
+import { Heading } from '../typography/Heading';
+import { Text } from '../typography/Text';
 
 interface FooterColumn {
   heading: string;
@@ -25,12 +27,10 @@ interface SocialLink {
   href: string;
   icon: React.ReactNode;
 }
-type FooterVariants = 'compact' | 'full';
 
-export interface FooterProps {
+interface FooterProps {
   columns?: FooterColumn[];
   socialLinks?: SocialLink[];
-  variant?: FooterVariants;
 }
 
 const DEFAULT_COLUMNS: FooterColumn[] = [
@@ -93,9 +93,11 @@ const DEFAULT_SOCIAL_LINKS: SocialLink[] = [
   },
 ];
 
-// FIX: extracted contact items as a typed constant; each is now an <li> inside
-// a single <ul>, not a separate <ul> per item (invalid HTML).
-const CONTACT_LINES: { label: string; isLink?: boolean; href?: string }[] = [
+const CONTACT_LINES: {
+  label: string;
+  isLink?: boolean;
+  href?: string;
+}[] = [
   { label: 'Mathugama' },
   { label: 'Kalutara District' },
   { label: 'Western Province' },
@@ -107,129 +109,152 @@ const CONTACT_LINES: { label: string; isLink?: boolean; href?: string }[] = [
 export function Footer({
   columns = DEFAULT_COLUMNS,
   socialLinks = DEFAULT_SOCIAL_LINKS,
-  variant = 'full',
 }: FooterProps) {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-green-base text-text-inverse w-full min-w-0">
-      <Container size="full" padding="md" className="pt-space-8 pb-space-8">
-        {/* Row 1: Logo + school name + motto */}
-        {variant === 'full' && (
-          <VStack align="center" className="mb-space-4">
-            <SchoolLogo variant="crest-only" size="xl" />
-            <h2 className="font-body text-body uppercase text-text-inverse">
-              C.W.W. Kannangara Central College
-            </h2>
-            <p className="font-body text-body-sm italic text-text-inverse">
-              "Wisdom is All Wealth"
-            </p>
-          </VStack>
-        )}
-
-        <Grid className="gap-x-space-8 gap-y-space-12 my-space-12 lg:grid-cols-5 lg:mb-space-16">
-          {/* Contact info */}
-          <GridItem>
-            <VStack spacing={3} align="center">
-              <address>
-                <h3 className="text-body font-body uppercase text-gold-base text-center">
-                  Contact Us
-                </h3>
-                {/*
-                  FIX: was mapping each line to its own <ul> element, which is
-                  invalid HTML (bare text directly inside <ul>, and a <ul> per
-                  item instead of per list). Now a single <ul> with <li> items.
-                */}
-                <ul className="list-none p-0 m-0 flex flex-col items-center gap-space-1">
-                  {CONTACT_LINES.map((item) => (
-                    <li
-                      key={item.label}
-                      className="font-body text-label-sm uppercase text-center"
-                    >
-                      {item.isLink ? (
-                        <a
-                          href={item.href}
-                          className="hover:text-gold-base transition-colors duration-fast"
-                        >
-                          {item.label}
-                        </a>
-                      ) : (
-                        item.label
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </address>
-            </VStack>
-          </GridItem>
-
-          {/* NavLink columns */}
-          {columns.map((col) => (
-            <GridItem key={col.heading}>
-              <VStack spacing={3} align="center">
-                <h3 className="text-body font-body uppercase text-gold-base text-center">
-                  {col.heading}
-                </h3>
-                <ul className="list-none p-0 m-0 flex flex-col items-center gap-space-1">
-                  {col.links.map((link) => (
-                    <li key={link.href}>
-                      <NavLink
-                        href={link.href}
-                        className="font-body text-label-sm uppercase"
-                      >
-                        {link.label}
-                      </NavLink>
-                    </li>
-                  ))}
-                </ul>
+    <footer className="bg-green-base rounded-t-lg ">
+      <Container size="full" padding="sm" className="md:pb-space-2">
+        <Grid columns={1} className="sm:grid-cols-5 lg:grid-cols-7 ">
+          <GridItem className="sm:col-span-3">
+            <GridItem>
+              {/*  Logo + school name + motto */}
+              <VStack align="center" className="mb-space-4">
+                <Container
+                  size="full"
+                  padding="md"
+                  className=" w-size-60 md:w-size-68 lg:w-size-92"
+                >
+                  <SchoolLogo />
+                </Container>
+                <Heading level="h4" color="gold" className="text-center">
+                  C.W.W. Kannangara Central College
+                </Heading>
+                <Text className="text-center" color="inverse">
+                  "Wisdom is All Wealth"
+                </Text>
               </VStack>
             </GridItem>
-          ))}
+            {/* Contact info */}
+            <GridItem alignSelf="center">
+              <VStack spacing={3} align="center">
+                <address>
+                  <Heading
+                    level="h6"
+                    color="gold"
+                    className="mb-space-3 text-center"
+                  >
+                    Contact Us
+                  </Heading>
+
+                  <VStack as="ul" align="center" spacing={0}>
+                    {CONTACT_LINES.map((item) => (
+                      <li key={item.label}>
+                        {item.isLink ? (
+                          <a href={item.href}>
+                            <Text
+                              variant="body-sm"
+                              color="primary"
+                              className="hover:text-gold-base transition-colors duration-fast"
+                            >
+                              {item.label}
+                            </Text>
+                          </a>
+                        ) : (
+                          <Text variant="body-sm" color="primary">
+                            {item.label}
+                          </Text>
+                        )}
+                      </li>
+                    ))}
+                  </VStack>
+                </address>
+              </VStack>
+            </GridItem>
+          </GridItem>
+
+          <Grid
+            columns={1}
+            gapX={10}
+            className="sm:grid-cols-2 lg:grid-cols-4 sm:col-span-2 lg:col-span-4"
+          >
+            {/* NavLink columns */}
+            {columns.map((col) => (
+              <GridItem
+                key={col.heading}
+                alignSelf="center"
+                className="lg:my-space-40"
+              >
+                <VStack spacing={3} align="center">
+                  <Heading level="h6" color="gold" className="mt-space-3">
+                    {col.heading}
+                  </Heading>
+                  <ul className="list-none flex flex-col items-center gap-space-1">
+                    {col.links.map((link) => (
+                      <li key={link.href}>
+                        <NavLink href={link.href}>
+                          <Text
+                            variant="caption"
+                            color="primary"
+                            className="hover:text-gold-base transition-colors duration-fast"
+                          >
+                            {link.label}
+                          </Text>
+                        </NavLink>
+                      </li>
+                    ))}
+                  </ul>
+                </VStack>
+              </GridItem>
+            ))}
+            <GridItem className="sm:col-span-2 lg:col-span-4 mt-space-3">
+              {/* Social icons */}
+              <HStack justify="center" className="mb-space-8">
+                {socialLinks.map((link) => (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-text-inverse hover:text-gold-base transition-colors duration-fast"
+                    aria-label={link.label}
+                  >
+                    {link.icon}
+                  </a>
+                ))}
+              </HStack>
+            </GridItem>
+          </Grid>
         </Grid>
 
-        {/* Social icons */}
-        <HStack justify="center" className="mb-space-8">
-          {socialLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-text-inverse hover:text-gold-base transition-colors duration-fast"
-              aria-label={link.label}
-            >
-              {link.icon}
-            </a>
-          ))}
-        </HStack>
-
-        <Divider accentVariant="gold-accent" />
+        <Divider accentVariant="gold-accent" className=" my-space-2" />
 
         {/* Copyright bar */}
-        <HStack
-          wrap
-          className="font-body uppercase text-center text-caption"
-          justify="between"
-        >
-          <p>
+        <VStack wrap align="center" className="lg:flex-row lg:justify-between">
+          <Text variant="caption" className="text-center">
             © {currentYear} C.W.W. Kannangara Central College. All rights
             reserved.
-          </p>
-          <HStack spacing={1} justify="between" align="center">
-            <NavLink href="/privacy-policy" className="text-text-inverse">
-              Privacy Policy
+          </Text>
+
+          <HStack spacing={1} justify="between">
+            <NavLink href="/privacy-policy">
+              <Text variant="caption">Privacy Policy</Text>
             </NavLink>
-            <NavLink href="/terms" className="text-text-inverse">
-              <span className="px-space-5 text-pullquote">·</span>
-              Terms
-              <span className="px-space-5 text-pullquote">·</span>
+            <Text className="px-space-2">·</Text>
+            <NavLink href="/terms">
+              <Text variant="caption">Terms</Text>
             </NavLink>
-            <NavLink href="/societies/kits" className="text-text-inverse">
-              Built by
-              <span className="text-gold-base">&nbsp; KITS</span>
+            <Text className="px-space-2">·</Text>
+            <NavLink href="/societies/kits">
+              <Text variant="caption">
+                Built by
+                <span className="text-gold-base hover:text-gold-light">
+                  &nbsp; KITS
+                </span>
+              </Text>
             </NavLink>
           </HStack>
-        </HStack>
+        </VStack>
       </Container>
     </footer>
   );
