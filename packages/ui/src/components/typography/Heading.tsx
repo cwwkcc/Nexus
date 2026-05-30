@@ -47,7 +47,7 @@ const colorClasses: Record<HeadingColor, string> = {
 
 export const Heading = forwardRef<HTMLElement, HeadingProps>(
   (
-    { level = 'h1', color = 'primary', as, className, children, ...rest },
+    { level = 'h2', color = 'primary', as, className, children, ...rest },
     ref,
   ) => {
     const Tag = as || level;
