@@ -1,35 +1,24 @@
 // packages/ui/src/components/logos/SchoolLogo.tsx
+import { cn } from '../../utilities/cn';
 type SchoolLogoVariant = 'crest-only' | 'lockup';
-type SchoolLogoSize = 'sm' | 'md' | 'lg' | 'xl';
 
 interface SchoolLogoProps {
   variant?: SchoolLogoVariant;
-  size?: SchoolLogoSize;
   className?: string;
 }
 
-const sizes: Record<SchoolLogoSize, number> = {
-  sm: 32,
-  md: 48,
-  lg: 160,
-  xl: 240,
-};
-
 export function SchoolLogo({
   variant = 'crest-only',
-  size = 'lg',
   className,
 }: SchoolLogoProps) {
-  const px = sizes[size];
-
   return (
-    <div className={`flex items-center gap-3 ${className ?? ''}`}>
+    <div className="w-full">
       <svg
-        width={px}
-        height={px}
+        width="80%"
+        height="80%"
         viewBox="0 0 180.81596 238.82889"
         aria-hidden="true"
-        className="fill-gold-base shrink-0 m-space-2"
+        className={cn('fill-gold-base shrink-0 m-auto', className)}
         xmlns="http://www.w3.org/2000/svg"
       >
         <g transform="translate(-8.4153016,-19.870294)">
