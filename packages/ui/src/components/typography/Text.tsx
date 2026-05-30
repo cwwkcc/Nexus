@@ -24,6 +24,7 @@ interface TextProps extends ComponentPropsWithoutRef<'p'> {
   color?: TextColor;
   /** HTML element to render (default 'p') */
   as?: ElementType;
+  className?: string;
 }
 
 const variantClasses: Record<TextVariant, string> = {
