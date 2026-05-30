@@ -143,7 +143,7 @@ export {
   AlumniLegacyBlock,
   type AlumniProfile,
 } from './components/sections/AlumniLegacyBlock';
-export { AudioPlayer } from './components/sections/AudioPlayer';
+export { AudioPlayer } from './components/media/AudioPlayer';
 export { LifeAtKCCPhotoStrip } from './components/sections/LifeAtKCCPhotoStrip';
 export { PrincipalMessage } from './components/sections/PrincipalMessage';
 export { StatsStrip } from './components/sections/StatsStrip';
