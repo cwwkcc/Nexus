@@ -31,6 +31,18 @@ export const fontSize = {
     'clamp(1.55rem, 2vw, 1.94rem)',
     { lineHeight: '1.15', letterSpacing: '0', fontWeight: '500' },
   ],
+  // H5: small section heading
+  h5: [
+    'clamp(1.25rem, 1.6vw, 1.55rem)',
+
+    { lineHeight: '1.2', letterSpacing: '0', fontWeight: '500' },
+  ],
+  // H6: utility heading
+  h6: [
+    'clamp(1rem, 1.25vw, 1.25rem)',
+
+    { lineHeight: '1.3', letterSpacing: '0', fontWeight: '500' },
+  ],
   // Pullquote: featured quote/testimonial
   pullquote: [
     'clamp(1.35rem, 2.2vw, 1.6rem)',
