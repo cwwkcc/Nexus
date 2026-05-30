@@ -25,12 +25,12 @@ export function SvgDebugGrid({
   width = 480,
   height = 420,
   step = 10,
-  color = 'var(--color-border-default)',
-  strokeWidth = 0.5,
-  opacity = 0.7,
+  color = 'var(--color-text-primary)',
+  strokeWidth = 0.1,
+  opacity = 1,
   majorEvery = 5,
-  showLabels = false,
-  show = false,
+  showLabels = true,
+  show = true,
 }: SvgDebugGridProps) {
   if (!show) return null;
 
@@ -88,7 +88,7 @@ export function SvgDebugGrid({
                   key={`label-${x}-${y}`}
                   x={x + 2}
                   y={y - 2}
-                  fontSize={6}
+                  fontSize={2}
                   fill={color}
                   fontFamily="monospace"
                 >
