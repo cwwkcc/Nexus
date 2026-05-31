@@ -17,11 +17,11 @@ export const primitives = {
   // Neutral / Surfaces
   neutral: {
     0: '#FFFFFF',
-    100: '#F7F3EC', // surface base
-    200: '#EDE8DF', // surface default
-    300: '#E4DDD1', // surface deep
-    400: '#F3EEE6', // surface elevated
-    900: '#22201B', // surface inverse
+    100: '#E6F2EA', // surface base (Fresh, clear light green tint)
+    200: '#D1E6D9', // surface default (Distinct green for secondary backgrounds)
+    300: '#BEE0C9', // surface deep (Rich pastel green for sidebars or footers)
+    400: '#F0F7F2', // surface elevated (Brightest, almost-white green for floating cards/modals)
+    900: '#0F2918', // surface inverse (Deep forest-black, perfectly matching the green theme)
     ink: '#1C1A16', // text primary
     stone: '#5C5647', // text muted
     cream: '#F5EFE4', // text inverse (approx)
