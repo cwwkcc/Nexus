@@ -146,7 +146,7 @@ export {
 export { AudioPlayer } from './components/media/AudioPlayer';
 export { LifeAtKCCPhotoStrip } from './components/sections/LifeAtKCCPhotoStrip';
 export { PrincipalMessage } from './components/sections/PrincipalMessage';
-export { StatsStrip } from './components/sections/StatsStrip';
+export { StatsStrip, type StatItem } from './components/sections/StatsStrip';
 export { Timeline } from './components/sections/Timeline';
 
 // ============================================================================

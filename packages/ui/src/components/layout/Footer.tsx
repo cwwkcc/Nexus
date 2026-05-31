@@ -113,7 +113,7 @@ export function Footer({
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-green-base rounded-t-lg ">
+    <footer className="bg-surface-base rounded-t-lg ">
       <Container size="full" padding="sm" className="md:pb-space-2">
         <Grid columns={1} className="sm:grid-cols-5 lg:grid-cols-7 ">
           <GridItem className="sm:col-span-3">
@@ -216,7 +216,7 @@ export function Footer({
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-text-inverse hover:text-gold-base transition-colors duration-fast"
+                    className="text-text-primary hover:text-gold-base transition-colors duration-fast"
                     aria-label={link.label}
                   >
                     {link.icon}
