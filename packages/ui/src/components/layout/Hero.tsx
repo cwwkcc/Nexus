@@ -1,6 +1,19 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import Image from 'next/image';
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+  AnimatePresence,
+} from 'framer-motion';
+import { cn } from '../../utilities/cn';
+import { NavLink } from '../navigation/NavLink';
+import { Heading } from '../typography/Heading';
+import { Text } from '../typography/Text';
+import { Button } from '../atoms/Button';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -8,146 +21,88 @@ export type HeroVariant = 'homepage' | 'subpage' | 'minimal';
 
 export interface HeroProps {
   variant?: HeroVariant;
-  /** Primary heading */
   heading: string;
-  /** Optional subheading or subtitle */
   subheading?: string;
-  /** Eyebrow label above the heading */
   eyebrow?: string;
-  /** Background image src */
   imageSrc?: string;
   imageAlt?: string;
-  /** Breadcrumb items for subpage/minimal variants */
+  videoSrc?: string; // optional video background (MP4)
+  videoPosterSrc?: string; // poster image for video
   breadcrumb?: { label: string; href?: string }[];
-  /** Show animated scroll indicator (homepage only) */
   showScrollIndicator?: boolean;
-  /** Optional children (e.g. a CTA button) */
   children?: React.ReactNode;
+  /** Enable parallax effect on background image (default: false) */
+  parallax?: boolean;
+  /** Overlay opacity (0–1) – defaults are set per variant */
+  overlayOpacity?: number;
   className?: string;
+  onLoad?: () => void;
 }
 
-// ─── Scroll Indicator (homepage bottom chevron) ───────────────────────────────
+// ─── Scroll Indicator ─────────────────────────────────────────────────────────
 
-function ScrollIndicator() {
+const ScrollIndicator = () => {
+  const prefersReduced = useReducedMotion();
+
   return (
-    <div
+    <motion.div
       aria-hidden="true"
-      style={{
-        position: 'absolute',
-        bottom: '40px',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: '6px',
-        cursor: 'default',
-      }}
+      className="absolute bottom-space-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-space-1p5 cursor-default z-10"
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.8, duration: 0.6 }}
     >
-      <style>{`
-        @keyframes kcc-scroll-bounce {
-          0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.6; }
-          50%       { transform: translateX(-50%) translateY(8px); opacity: 1; }
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .kcc-scroll-indicator { animation: none !important; opacity: 0.5 !important; }
-        }
-      `}</style>
-      <div
-        style={{
-          width: '1px',
-          height: '32px',
-          background: 'rgba(201,151,58,0.45)',
-        }}
-      />
-      <svg
-        className="kcc-scroll-indicator"
-        width="14"
-        height="8"
-        viewBox="0 0 14 8"
-        fill="none"
-        style={{
-          position: 'absolute',
-          bottom: '-40px',
-          left: '50%',
-          animation: 'kcc-scroll-bounce 2s ease-in-out infinite',
-          opacity: 0.6,
-        }}
+      <div className="w-px h-8 bg-gold-base/40" />
+      <motion.div
+        animate={prefersReduced ? {} : { y: [0, 8, 0], opacity: [0.5, 1, 0.5] }}
+        transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
       >
-        <path
-          d="M1 1L7 7L13 1"
-          stroke="var(--color-gold-base)"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    </div>
+        <svg
+          width="14"
+          height="8"
+          viewBox="0 0 14 8"
+          fill="none"
+          className="text-gold-base"
+        >
+          <path
+            d="M1 1L7 7L13 1"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </motion.div>
+    </motion.div>
   );
-}
+};
 
-// ─── Breadcrumb strip ─────────────────────────────────────────────────────────
+// ─── Breadcrumb Component ─────────────────────────────────────────────────────
 
-function HeroBreadcrumb({
-  items,
-}: {
-  items: { label: string; href?: string }[];
-}) {
+const HeroBreadcrumb = ({ items }: { items: HeroProps['breadcrumb'] }) => {
+  if (!items?.length) return null;
+
   return (
-    <nav aria-label="Breadcrumb" style={{ marginBottom: '20px' }}>
-      <ol
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          listStyle: 'none',
-          padding: 0,
-          margin: 0,
-          flexWrap: 'wrap',
-        }}
-      >
+    <nav aria-label="Breadcrumb" className="mb-space-5">
+      <ol className="flex flex-wrap items-center gap-space-2 list-none p-0 m-0">
         {items.map((item, idx) => {
           const isLast = idx === items.length - 1;
           return (
-            <li
-              key={idx}
-              style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
-            >
+            <li key={idx} className="flex items-center gap-space-2">
               {item.href && !isLast ? (
-                <a
+                <NavLink
                   href={item.href}
-                  style={{
-                    fontFamily: 'var(--font-body)',
-                    fontSize: '0.68rem',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.15em',
-                    color: 'rgba(245,239,228,0.6)',
-                    textDecoration: 'none',
-                    transition: 'color 0.15s ease',
-                  }}
-                  onMouseEnter={(e) =>
-                    ((e.currentTarget as HTMLElement).style.color =
-                      'var(--color-gold-base)')
-                  }
-                  onMouseLeave={(e) =>
-                    ((e.currentTarget as HTMLElement).style.color =
-                      'rgba(245,239,228,0.6)')
-                  }
+                  className="font-body text-caption uppercase tracking-caption text-text-inverse/60 hover:text-gold-base transition-colors duration-fast"
                 >
                   {item.label}
-                </a>
+                </NavLink>
               ) : (
                 <span
                   aria-current={isLast ? 'page' : undefined}
-                  style={{
-                    fontFamily: 'var(--font-body)',
-                    fontSize: '0.68rem',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.15em',
-                    color: isLast
-                      ? 'var(--color-gold-base)'
-                      : 'rgba(245,239,228,0.6)',
-                  }}
+                  className={cn(
+                    'font-body text-caption uppercase tracking-caption',
+                    isLast ? 'text-gold-base' : 'text-text-inverse/60',
+                  )}
                 >
                   {item.label}
                 </span>
@@ -155,11 +110,7 @@ function HeroBreadcrumb({
               {!isLast && (
                 <span
                   aria-hidden="true"
-                  style={{
-                    color: 'rgba(245,239,228,0.3)',
-                    fontSize: '0.6rem',
-                    letterSpacing: 0,
-                  }}
+                  className="text-text-inverse/30 text-xs"
                 >
                   /
                 </span>
@@ -170,9 +121,9 @@ function HeroBreadcrumb({
       </ol>
     </nav>
   );
-}
+};
 
-// ─── Main Hero component ───────────────────────────────────────────────────────
+// ─── Main Hero Component ──────────────────────────────────────────────────────
 
 export function Hero({
   variant = 'homepage',
@@ -180,226 +131,209 @@ export function Hero({
   subheading,
   eyebrow,
   imageSrc,
-  imageAlt,
+  imageAlt = '',
+  videoSrc,
+  videoPosterSrc,
   breadcrumb,
   showScrollIndicator = true,
   children,
+  parallax = false,
+  overlayOpacity,
   className,
+  onLoad,
 }: HeroProps) {
-  const [mounted, setMounted] = useState(false);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const heroRef = useRef<HTMLElement>(null);
+  const prefersReduced = useReducedMotion();
 
+  // Parallax scroll effect (only if enabled and not reduced motion)
+  const { scrollY } = useScroll();
+  const yOffset = useTransform(scrollY, (value) =>
+    parallax && !prefersReduced ? value * 0.5 : 0,
+  );
+
+  // Variant-specific styles (using design tokens via Tailwind)
+  const heightClass = {
+    homepage: 'h-screen min-h-[640px]',
+    subpage: 'h-[65vh] min-h-[380px]',
+    minimal: 'h-[36vh] min-h-[220px]',
+  }[variant];
+
+  const contentPadding = variant === 'homepage' ? 'text-center' : 'text-left';
+  const maxWidthClass =
+    variant === 'homepage' ? 'max-w-prose' : 'max-w-content';
+
+  // Overlay gradient – mapped from design system tokens
+  const getOverlayGradient = () => {
+    if (overlayOpacity !== undefined) {
+      return `linear-gradient(to bottom, rgba(28,26,22,${overlayOpacity * 0.8}), rgba(26,74,46,${overlayOpacity}))`;
+    }
+    const gradients: Record<HeroVariant, string> = {
+      homepage:
+        'linear-gradient(to bottom, rgba(28,26,22,0.55), rgba(26,74,46,0.72), rgba(28,26,22,0.82))',
+      subpage:
+        'linear-gradient(to bottom, rgba(28,26,22,0.5), rgba(26,74,46,0.78))',
+      minimal: 'rgba(26,74,46,0.88)',
+    };
+    return gradients[variant];
+  };
+
+  // Framer Motion variants for staggered children
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1, delayChildren: 0.2 },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 24 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+    },
+  };
+
+  // Handle load completion
   useEffect(() => {
-    const t = requestAnimationFrame(() => setMounted(true));
-    return () => cancelAnimationFrame(t);
-  }, []);
-
-  const heightMap: Record<HeroVariant, string> = {
-    homepage: '100vh',
-    subpage: '65vh',
-    minimal: '36vh',
-  };
-
-  const minHeightMap: Record<HeroVariant, string> = {
-    homepage: '640px',
-    subpage: '380px',
-    minimal: '220px',
-  };
-
-  const overlayMap: Record<HeroVariant, string> = {
-    homepage:
-      'linear-gradient(to bottom, rgba(28,26,22,0.55) 0%, rgba(26,74,46,0.72) 50%, rgba(28,26,22,0.82) 100%)',
-    subpage:
-      'linear-gradient(to bottom, rgba(28,26,22,0.5) 0%, rgba(26,74,46,0.78) 100%)',
-    minimal: 'rgba(26,74,46,0.88)',
-  };
-
-  const paddingMap: Record<HeroVariant, string> = {
-    homepage: '0 24px',
-    subpage: '0 24px',
-    minimal: '0 24px',
-  };
-
-  const headingSize: Record<HeroVariant, string> = {
-    homepage: 'clamp(2.8rem, 6vw, 5.5rem)',
-    subpage: 'clamp(2rem, 4vw, 3.5rem)',
-    minimal: 'clamp(1.6rem, 3vw, 2.5rem)',
-  };
+    if ((!imageSrc || isImageLoaded) && (!videoSrc || isVideoLoaded)) {
+      onLoad?.();
+    }
+  }, [isImageLoaded, isVideoLoaded, imageSrc, videoSrc, onLoad]);
 
   return (
     <section
       ref={heroRef}
-      className={className}
-      style={{
-        position: 'relative',
-        height: heightMap[variant],
-        minHeight: minHeightMap[variant],
-        background: 'var(--color-green-base)',
-        display: 'flex',
-        alignItems: 'center',
-        overflow: 'hidden',
-      }}
-    >
-      <style>{`
-        @keyframes kcc-hero-fade-up {
-          from { opacity: 0; transform: translateY(24px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .kcc-hero-content > * { animation: none !important; opacity: 1 !important; transform: none !important; }
-        }
-      `}</style>
-
-      {/* Background image */}
-      {imageSrc && (
-        <div
-          aria-hidden="true"
-          style={{
-            position: 'absolute',
-            inset: 0,
-            backgroundImage: `url(${imageSrc})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            // Ken Burns on homepage
-            ...(variant === 'homepage' && mounted
-              ? {
-                  animation: 'kcc-ken-burns 20s ease-in-out infinite alternate',
-                }
-              : {}),
-          }}
-        />
+      className={cn(
+        'relative flex items-center overflow-hidden bg-green-base',
+        heightClass,
+        className,
       )}
-
-      {/* Overlay */}
-      <div
-        aria-hidden="true"
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: overlayMap[variant],
-        }}
-      />
-
-      {/* Content */}
-      <div
-        className="kcc-hero-content"
-        style={{
-          position: 'relative',
-          zIndex: 1,
-          width: '100%',
-          maxWidth: '1160px',
-          margin: '0 auto',
-          padding: paddingMap[variant],
-          ...(variant === 'homepage'
-            ? { textAlign: 'center' }
-            : { textAlign: 'left' }),
-        }}
-      >
-        {/* Breadcrumb — subpage/minimal */}
-        {breadcrumb && breadcrumb.length > 0 && (
-          <div
-            style={{
-              opacity: mounted ? 1 : 0,
-              animation: mounted
-                ? 'kcc-hero-fade-up 0.6s var(--ease-out, cubic-bezier(0,0,0.2,1)) both'
-                : 'none',
-              animationDelay: '0ms',
-            }}
+      aria-label={eyebrow || 'Hero section'}
+    >
+      {/* Background media */}
+      <div className="absolute inset-0 w-full h-full overflow-hidden">
+        {videoSrc ? (
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            poster={videoPosterSrc}
+            className="absolute inset-0 w-full h-full object-cover"
+            onLoadedData={() => setIsVideoLoaded(true)}
           >
-            <HeroBreadcrumb items={breadcrumb} />
-          </div>
+            <source src={videoSrc} type="video/mp4" />
+          </video>
+        ) : imageSrc ? (
+          <motion.div
+            style={parallax && !prefersReduced ? { y: yOffset } : undefined}
+            className="w-full h-full"
+          >
+            <Image
+              src={imageSrc}
+              alt={imageAlt}
+              fill
+              priority
+              className="object-cover"
+              onLoadingComplete={() => setIsImageLoaded(true)}
+              sizes="100vw"
+            />
+          </motion.div>
+        ) : null}
+
+        {/* Ken Burns animation for homepage images (only if not video) */}
+        {!videoSrc && variant === 'homepage' && !prefersReduced && (
+          <motion.div
+            className="absolute inset-0"
+            animate={{ scale: [1, 1.06] }}
+            transition={{
+              duration: 20,
+              repeat: Infinity,
+              repeatType: 'reverse',
+              ease: 'linear',
+            }}
+          />
         )}
 
-        {/* Eyebrow */}
-        {eyebrow && (
-          <p
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: '0.68rem',
-              textTransform: 'uppercase',
-              letterSpacing: '0.25em',
-              color: 'var(--color-gold-base)',
-              marginBottom: '16px',
-              opacity: mounted ? 1 : 0,
-              animation: mounted
-                ? 'kcc-hero-fade-up 0.6s var(--ease-out, cubic-bezier(0,0,0.2,1)) both'
-                : 'none',
-              animationDelay: '60ms',
-            }}
-          >
-            {eyebrow}
-          </p>
-        )}
-
-        {/* Heading */}
-        <h1
-          style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: headingSize[variant],
-            fontWeight: 500,
-            color: 'var(--text-inverse)',
-            lineHeight: 1.05,
-            letterSpacing: '-0.01em',
-            marginBottom: subheading ? '20px' : children ? '32px' : 0,
-            opacity: mounted ? 1 : 0,
-            animation: mounted
-              ? 'kcc-hero-fade-up 0.7s var(--ease-out, cubic-bezier(0,0,0.2,1)) both'
-              : 'none',
-            animationDelay: '120ms',
-          }}
-        >
-          {heading}
-        </h1>
-
-        {/* Subheading */}
-        {subheading && (
-          <p
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: 'clamp(1rem, 1.5vw, 1.2rem)',
-              fontWeight: 300,
-              color: 'rgba(245,239,228,0.75)',
-              lineHeight: 1.6,
-              maxWidth: variant === 'homepage' ? '540px' : '680px',
-              margin: variant === 'homepage' ? '0 auto' : undefined,
-              marginBottom: children ? '32px' : 0,
-              opacity: mounted ? 1 : 0,
-              animation: mounted
-                ? 'kcc-hero-fade-up 0.7s var(--ease-out, cubic-bezier(0,0,0.2,1)) both'
-                : 'none',
-              animationDelay: '200ms',
-            }}
-          >
-            {subheading}
-          </p>
-        )}
-
-        {/* Children slot */}
-        {children && (
-          <div
-            style={{
-              opacity: mounted ? 1 : 0,
-              animation: mounted
-                ? 'kcc-hero-fade-up 0.7s var(--ease-out, cubic-bezier(0,0,0.2,1)) both'
-                : 'none',
-              animationDelay: '280ms',
-            }}
-          >
-            {children}
-          </div>
-        )}
+        {/* Overlay */}
+        <div
+          className="absolute inset-0"
+          style={{ background: getOverlayGradient() }}
+        />
       </div>
 
-      {/* Scroll indicator — homepage only */}
-      {variant === 'homepage' && showScrollIndicator && <ScrollIndicator />}
+      {/* Content */}
+      <div className="relative z-10 w-full max-w-wide mx-auto px-space-6 md:px-space-8 lg:px-space-10">
+        <motion.div
+          className={cn('mx-auto', contentPadding, maxWidthClass)}
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          {/* Breadcrumb */}
+          {breadcrumb && breadcrumb.length > 0 && (
+            <motion.div variants={itemVariants}>
+              <HeroBreadcrumb items={breadcrumb} />
+            </motion.div>
+          )}
 
-      <style>{`
-        @keyframes kcc-ken-burns {
-          from { transform: scale(1); }
-          to   { transform: scale(1.06); }
-        }
-      `}</style>
+          {/* Eyebrow */}
+          {eyebrow && (
+            <motion.p
+              variants={itemVariants}
+              className="font-body text-eyebrow uppercase tracking-eyebrow text-gold-base mb-space-4"
+            >
+              {eyebrow}
+            </motion.p>
+          )}
+
+          {/* Heading */}
+          <motion.div variants={itemVariants}>
+            <Heading
+              level="h1"
+              color="inverse"
+              className={cn(
+                'font-display font-medium leading-[1.05] tracking-[-0.01em]',
+                variant === 'homepage' && 'text-[clamp(2.8rem,6vw,5.5rem)]',
+                variant === 'subpage' && 'text-[clamp(2rem,4vw,3.5rem)]',
+                variant === 'minimal' && 'text-[clamp(1.6rem,3vw,2.5rem)]',
+              )}
+            >
+              {heading}
+            </Heading>
+          </motion.div>
+
+          {/* Subheading */}
+          {subheading && (
+            <motion.div variants={itemVariants}>
+              <Text
+                variant="body"
+                color="inverse"
+                className={cn(
+                  'mt-space-5 text-[clamp(1rem,1.5vw,1.2rem)] text-text-inverse/75',
+                  variant === 'homepage' && 'mx-auto max-w-prose',
+                )}
+              >
+                {subheading}
+              </Text>
+            </motion.div>
+          )}
+
+          {/* Children (CTAs, etc.) */}
+          {children && (
+            <motion.div variants={itemVariants} className="mt-space-8">
+              {children}
+            </motion.div>
+          )}
+        </motion.div>
+      </div>
+
+      {/* Scroll indicator */}
+      {variant === 'homepage' && showScrollIndicator && <ScrollIndicator />}
     </section>
   );
 }
