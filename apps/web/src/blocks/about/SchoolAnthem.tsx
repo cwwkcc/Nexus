@@ -1,8 +1,9 @@
 import { useTranslations } from 'next-intl';
 import { Container, SectionHeader, AudioPlayer, Text } from '@nexus/ui';
 
-export default function AlumniLegacy() {
+export default function SchoolAnthem() {
   const t = useTranslations('about.anthem');
+
   return (
     <Container
       size="full"
@@ -17,13 +18,18 @@ export default function AlumniLegacy() {
         withAccentRule
         className="mb-space-12"
       />
-      <Text>{t('paragraph')}</Text>
+
+      {/* Added mb-space-8 to create separation between the intro text and the audio player UI */}
+      <Text className="mb-space-8 text-center max-w-prose mx-auto">
+        {t('paragraph')}
+      </Text>
+
       <AudioPlayer
         src={t('anthemSrc')}
         title={t('playerTitle')}
         subtitle={t('playerSubtitle')}
         lyrics={t('lyrics')}
-        lyricsSinhala={t('lyrics')}
+        lyricsSinhala={t('lyricsSinhala')}
       />
     </Container>
   );

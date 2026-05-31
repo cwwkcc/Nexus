@@ -1,7 +1,10 @@
 'use client';
-import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
+import { motion, useAnimationFrame, AnimatePresence } from 'framer-motion';
+import { cn } from '../../utilities/cn';
 import { Button } from '../atoms/Button';
+import { Heading } from '../typography/Heading';
+import { Text } from '../typography/Text';
 
 export interface AudioPlayerProps {
   src: string;
@@ -23,35 +26,118 @@ export function AudioPlayer({
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const audioRef = useRef<HTMLAudioElement>(null);
+  const [showLyrics, setShowLyrics] = useState(false);
 
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const analyserRef = useRef<AnalyserNode | null>(null);
+  const dataArrayRef = useRef<Uint8Array | null>(null);
+  const barsRef = useRef<(HTMLDivElement | null)[]>([]);
+
+  // 1. Audio Lifecycle & Event Sync Setup
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
     const handleTimeUpdate = () => setCurrentTime(audio.currentTime);
     const handleDurationChange = () => setDuration(audio.duration);
-    const handleEnded = () => setIsPlaying(false);
+
+    // Sync React state directly with DOM audio events
+    const handlePlay = () => setIsPlaying(true);
+    const handlePause = () => setIsPlaying(false);
+
+    // Reset state completely when track ends
+    const handleEnded = () => {
+      setIsPlaying(false);
+      setCurrentTime(0);
+    };
 
     audio.addEventListener('timeupdate', handleTimeUpdate);
     audio.addEventListener('durationchange', handleDurationChange);
+    audio.addEventListener('play', handlePlay);
+    audio.addEventListener('pause', handlePause);
     audio.addEventListener('ended', handleEnded);
 
     return () => {
       audio.removeEventListener('timeupdate', handleTimeUpdate);
       audio.removeEventListener('durationchange', handleDurationChange);
+      audio.removeEventListener('play', handlePlay);
+      audio.removeEventListener('pause', handlePause);
       audio.removeEventListener('ended', handleEnded);
     };
   }, []);
 
+  // 2. AudioContext Cleanup
+  useEffect(() => {
+    return () => {
+      if (
+        audioContextRef.current &&
+        audioContextRef.current.state !== 'closed'
+      ) {
+        audioContextRef.current
+          .close()
+          .catch((err) => console.error('Error closing AudioContext', err));
+      }
+    };
+  }, []);
+
+  const initAudioVisualizer = () => {
+    if (!audioContextRef.current && audioRef.current) {
+      try {
+        const AudioContext =
+          window.AudioContext || (window as any).webkitAudioContext;
+        const audioCtx = new AudioContext();
+        const analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 128;
+
+        const source = audioCtx.createMediaElementSource(audioRef.current);
+        source.connect(analyser);
+        analyser.connect(audioCtx.destination);
+
+        audioContextRef.current = audioCtx;
+        analyserRef.current = analyser;
+        dataArrayRef.current = new Uint8Array(analyser.frequencyBinCount);
+      } catch (error) {
+        console.warn(
+          'Web Audio API initialized failed. Bars will remain static.',
+          error,
+        );
+      }
+    }
+  };
+
+  // 3. Playback Controls
   const togglePlay = () => {
     if (audioRef.current) {
+      if (!audioContextRef.current) initAudioVisualizer();
+      if (audioContextRef.current?.state === 'suspended')
+        audioContextRef.current.resume();
+
       if (isPlaying) {
         audioRef.current.pause();
       } else {
-        audioRef.current.play();
+        // Safely handle play() Promise
+        audioRef.current
+          .play()
+          .catch((err) => console.error('Playback failed', err));
       }
-      setIsPlaying(!isPlaying);
+    }
+  };
+
+  const handleRewind = () => {
+    if (audioRef.current) {
+      const newTime = Math.max(0, audioRef.current.currentTime - 10);
+      audioRef.current.currentTime = newTime;
+      setCurrentTime(newTime);
+    }
+  };
+
+  // New Feature: Forward 10s
+  const handleForward = () => {
+    if (audioRef.current) {
+      const newTime = Math.min(duration, audioRef.current.currentTime + 10);
+      audioRef.current.currentTime = newTime;
+      setCurrentTime(newTime);
     }
   };
 
@@ -63,60 +149,89 @@ export function AudioPlayer({
     }
   };
 
+  useAnimationFrame(() => {
+    if (isPlaying && analyserRef.current && dataArrayRef.current) {
+      // TypeScript DOM mismatch correctly typed
+      analyserRef.current.getByteFrequencyData(dataArrayRef.current);
+
+      barsRef.current.forEach((bar, i) => {
+        if (bar && dataArrayRef.current) {
+          const dataIndex = Math.floor(i * (dataArrayRef.current.length / 40));
+          const value = dataArrayRef.current[dataIndex];
+          const height = 20 + (value / 255) * 60;
+          bar.style.height = `${height}px`;
+          bar.style.opacity = `${0.3 + (value / 255) * 0.7}`;
+        }
+      });
+    } else if (!isPlaying) {
+      barsRef.current.forEach((bar) => {
+        if (bar) {
+          bar.style.height = '20px';
+          bar.style.opacity = '0.3';
+        }
+      });
+    }
+  });
+
   const formatTime = (secs: number) => {
+    if (isNaN(secs)) return '0:00';
     const minutes = Math.floor(secs / 60);
     const seconds = Math.floor(secs % 60);
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   };
 
+  const progressPercentage = (currentTime / (duration || 1)) * 100;
+
   return (
     <div
-      className={clsx(
-        'bg-surface-elevated border border-border-light rounded-lg overflow-hidden',
+      className={cn(
+        'bg-surface-elevated border border-border-light rounded-xl overflow-hidden shadow-elevation-2',
         className,
       )}
     >
-      <audio ref={audioRef} src={src} preload="metadata" />
+      <audio
+        ref={audioRef}
+        src={src}
+        preload="metadata"
+        crossOrigin="anonymous"
+      />
 
-      {/* Waveform visualization (simplified animated bars) */}
-      <div className="bg-surface-deep p-6 flex items-center justify-center gap-1 h-32">
-        {Array.from({ length: 40 }).map((_, i) => {
-          const isActive = isPlaying && (currentTime / duration) * 40 > i;
-          return (
-            <div
-              key={i}
-              className="w-1.5 bg-gold-base rounded-full transition-all duration-150"
-              style={{
-                height: `${20 + Math.sin(i * 0.5) * 15}px`,
-                opacity: isActive ? 0.8 : 0.3,
-                animation: isPlaying
-                  ? `waveform-pulse ${0.8 + i * 0.03}s ease-in-out infinite`
-                  : 'none',
-              }}
-            />
-          );
-        })}
+      {/* Visualizer Header */}
+      <div className="bg-surface-deep flex items-end justify-center gap-1 h-40 pb-6 px-6">
+        {Array.from({ length: 40 }).map((_, i) => (
+          <div
+            key={i}
+            // Safely assign refs to avoid Strict Mode memory leaks
+            ref={(el) => {
+              if (el) barsRef.current[i] = el;
+            }}
+            className="w-1.5 bg-gold-base rounded-full transition-colors duration-fast"
+            style={{ height: '20px', opacity: 0.3 }}
+          />
+        ))}
       </div>
 
-      {/* Controls */}
-      <div className="p-6">
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <h3 className="font-display text-h3">{title}</h3>
+      {/* Main Controls Section */}
+      <div className="p-space-6">
+        <div className="flex items-center justify-between mb-space-6">
+          <div className="flex-1 pr-4">
+            <Heading level="h3" className="mb-space-1">
+              {title}
+            </Heading>
             {subtitle && (
-              <p className="font-body text-body-sm text-text-muted">
+              <Text variant="body-sm" color="muted">
                 {subtitle}
-              </p>
+              </Text>
             )}
           </div>
-          <Button
-            onClick={togglePlay}
-            variant="primary"
-            size="lg"
-            className="rounded-full w-14 h-14 p-0"
-            aria-label={isPlaying ? 'Pause' : 'Play'}
-          >
-            {isPlaying ? (
+
+          <div className="flex items-center gap-space-2">
+            <a
+              href={src}
+              download={title}
+              className="p-space-3 text-text-muted hover:text-gold-base transition-colors rounded-full hover:bg-surface-deep"
+              aria-label="Download Track"
+            >
               <svg
                 width="20"
                 height="20"
@@ -124,11 +239,20 @@ export function AudioPlayer({
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
-                <rect x="6" y="4" width="4" height="16" />
-                <rect x="14" y="4" width="4" height="16" />
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
               </svg>
-            ) : (
+            </a>
+
+            <button
+              onClick={handleRewind}
+              className="p-space-3 text-text-muted hover:text-gold-base transition-colors rounded-full hover:bg-surface-deep"
+              aria-label="Rewind 10 Seconds"
+            >
               <svg
                 width="20"
                 height="20"
@@ -136,62 +260,163 @@ export function AudioPlayer({
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
-                <polygon points="5 3 19 12 5 21 5 3" fill="currentColor" />
+                <polygon points="11 19 2 12 11 5 11 19" />
+                <polygon points="22 19 13 12 22 5 22 19" />
               </svg>
-            )}
-          </Button>
+            </button>
+
+            <Button
+              onClick={togglePlay}
+              variant="primary"
+              size="icon"
+              className="rounded-full shadow-elevation-1 transition-transform hover:scale-105 active:scale-95 !w-14 !h-14"
+              aria-label={isPlaying ? 'Pause' : 'Play'}
+            >
+              {isPlaying ? (
+                <svg
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  stroke="currentColor"
+                  strokeWidth="1"
+                >
+                  <rect x="6" y="4" width="4" height="16" />
+                  <rect x="14" y="4" width="4" height="16" />
+                </svg>
+              ) : (
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="ml-1"
+                  stroke="currentColor"
+                  strokeWidth="1"
+                >
+                  <polygon points="5 3 19 12 5 21 5 3" />
+                </svg>
+              )}
+            </Button>
+
+            <button
+              onClick={handleForward}
+              className="p-space-3 text-text-muted hover:text-gold-base transition-colors rounded-full hover:bg-surface-deep"
+              aria-label="Forward 10 Seconds"
+            >
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polygon points="13 19 22 12 13 5 13 19" />
+                <polygon points="2 19 11 12 2 5 2 19" />
+              </svg>
+            </button>
+          </div>
         </div>
 
-        {/* Progress bar */}
-        <div className="mb-4">
-          <input
-            type="range"
-            min={0}
-            max={duration || 0}
-            value={currentTime}
-            onChange={handleSeek}
-            className="w-full h-1 bg-border-light rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-gold-base"
-          />
-          <div className="flex justify-between mt-2">
-            <span className="font-body text-caption text-text-muted">
+        {/* Progress Bar Scrubbing UI */}
+        <div className="mb-space-4">
+          <div className="relative w-full flex items-center h-space-6 group">
+            <div className="absolute w-full h-1.5 bg-border-light rounded-full overflow-hidden pointer-events-none">
+              <div
+                className="h-full bg-gold-base transition-all duration-instant ease-out"
+                style={{ width: `${progressPercentage}%` }}
+              />
+            </div>
+
+            <input
+              type="range"
+              min={0}
+              max={duration || 0}
+              step="0.1"
+              value={currentTime}
+              onChange={handleSeek}
+              className="absolute w-full h-full opacity-0 cursor-pointer z-10"
+              aria-label="Seek progress bar"
+            />
+
+            <motion.div
+              className="absolute h-3 w-3 bg-gold-base rounded-full shadow-elevation-1 z-0 pointer-events-none group-hover:scale-150 transition-transform"
+              style={{ left: `calc(${progressPercentage}% - 6px)` }}
+            />
+          </div>
+
+          <div className="flex justify-between mt-space-1 px-1">
+            <Text variant="caption" color="muted">
               {formatTime(currentTime)}
-            </span>
-            <span className="font-body text-caption text-text-muted">
+            </Text>
+            <Text variant="caption" color="muted">
               {formatTime(duration)}
-            </span>
+            </Text>
           </div>
         </div>
 
-        {/* Lyrics */}
+        {/* Lyrics Section */}
         {(lyrics || lyricsSinhala) && (
-          <div className="mt-6 pt-6 border-t border-border-light">
-            <p className="font-body text-label uppercase tracking-wider text-gold-base mb-3">
-              Lyrics
-            </p>
-            {lyrics && (
-              <p className="font-body text-body-sm text-text-primary whitespace-pre-line">
-                {lyrics}
-              </p>
-            )}
-            {lyricsSinhala && (
-              <p
-                className="font-sinhala text-body text-text-primary mt-3 whitespace-pre-line"
-                style={{ fontSize: '1.12rem', lineHeight: 1.8 }}
+          <div className="mt-space-4 flex flex-col items-center">
+            <button
+              onClick={() => setShowLyrics(!showLyrics)}
+              className="text-gold-base uppercase tracking-label text-label-sm font-label py-space-2 px-space-4 rounded-full hover:bg-gold-glow transition-colors flex items-center gap-space-2"
+            >
+              {showLyrics ? 'Hide Lyrics' : 'View Lyrics'}
+              <motion.svg
+                animate={{ rotate: showLyrics ? 180 : 0 }}
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
               >
-                {lyricsSinhala}
-              </p>
-            )}
+                <polyline points="6 9 12 15 18 9" />
+              </motion.svg>
+            </button>
+
+            <AnimatePresence>
+              {showLyrics && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.3, ease: 'easeInOut' }}
+                  className="overflow-hidden w-full"
+                >
+                  <div className="pt-space-6 pb-space-2 mt-space-4 border-t border-border-light">
+                    {lyrics && (
+                      <Text
+                        variant="body-sm"
+                        color="primary"
+                        className="whitespace-pre-line mb-space-4"
+                      >
+                        {lyrics}
+                      </Text>
+                    )}
+                    {lyricsSinhala && (
+                      <Text
+                        variant="body"
+                        color="primary"
+                        className="font-sinhala whitespace-pre-line leading-relaxed"
+                      >
+                        {lyricsSinhala}
+                      </Text>
+                    )}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         )}
       </div>
-
-      <style>{`
-        @keyframes waveform-pulse {
-          0%, 100% { transform: scaleY(1); opacity: 0.3; }
-          50% { transform: scaleY(1.5); opacity: 0.8; }
-        }
-      `}</style>
     </div>
   );
 }
