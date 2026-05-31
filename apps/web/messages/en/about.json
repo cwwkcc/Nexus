@@ -11,15 +11,34 @@
         "id": "founded",
         "target": 1873,
         "suffix": "",
-        "label": "Year Founded"
+        "label": "Founded",
+        "description": "Sri Lanka's first Central College",
+        "tooltip": "Established in 1873 — the oldest Central College in the country",
+        "disableCountUp": true
       },
-      { "id": "students", "target": 5000, "suffix": "+", "label": "Students" },
-      { "id": "staff", "target": 200, "suffix": "+", "label": "Staff Members" },
+      {
+        "id": "students",
+        "target": 5000,
+        "suffix": "+",
+        "label": "Students",
+        "description": "Current student population",
+        "tooltip": "Over 5,000 students from Grade 1 to A/L"
+      },
+      {
+        "id": "staff",
+        "target": 200,
+        "suffix": "+",
+        "label": "Staff Members",
+        "description": "Dedicated teachers & support",
+        "tooltip": "Includes academic and administrative staff"
+      },
       {
         "id": "years",
         "target": 153,
         "suffix": "",
-        "label": "Years of Excellence"
+        "label": "Years of Excellence",
+        "description": "Since 1873",
+        "tooltip": "153 years of shaping young minds"
       }
     ],
     "story": {
@@ -221,7 +240,8 @@
       "playerTitle": "KCC School Anthem",
       "playerSubtitle": "Performed by KCC School Choir",
       "lyrics": "ශ්‍රීයෙන දින දින වැජඹේ මතුගම\nමැදි මහ විදුහල් මාතා පෙම්බර\nසිසුනට සැම දින විදුරැස පතුරන\nඔබෙ නම සමරමු සැමදා……….//\nකඳු මුදුනින් සිප එන සිහිලැල්  \nරන් මිණි මුතු පිරි දිය සුනිමල්………….//  \nකළු ගංගා රාණී සිරි දුව ගේ  \nආසිරි නිති ලබනා  \nඹබවේ පෙම්බර විදුහල් මාතා………//\nශ්‍රීයෙන දින දින ……………………………………..",
-      "anthemSrc": "/audio/anthem.mp3"
+      "lyricsSinhala": "ශ්‍රීයෙන දින දින වැජඹේ මතුගම\nමැදි මහ විදුහල් මාතා පෙම්බර\nසිසුනට සැම දින විදුරැස පතුරන\nඔබෙ නම සමරමු සැමදා……….//\nකඳු මුදුනින් සිප එන සිහිලැල්  \nරන් මිණි මුතු පිරි දිය සුනිමල්………….//  \nකළු ගංගා රාණී සිරි දුව ගේ  \nආසිරි නිති ලබනා  \nඹබවේ පෙම්බර විදුහල් මාතා………//\nශ්‍රීයෙන දින දින ……………………………………..",
+      "anthemSrc": "/media/anthem.mp3"
     },
     "closing": {
       "heading": "The light continues.",
