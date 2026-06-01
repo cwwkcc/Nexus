@@ -19,7 +19,8 @@
     font-family: var(--font-body);
     line-height: 1.6;
     margin: 0;
-    background-color: var(--base);
+    background-color: var(--color-surface-base);
+    color: var(--text);
   }
 
   h1,
