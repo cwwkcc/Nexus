@@ -1,5 +1,31 @@
-# Add files here to ignore them from prettier formatting
-/dist
-/coverage
-/.nx/cache
-/.nx/workspace-data
+# Dependencies
+node_modules
+
+# Build outputs
+dist
+build
+out
+out-tsc
+.next
+storybook-static
+
+# Nx
+.nx/cache
+.nx/workspace-data
+
+# Coverage
+coverage
+
+# Cache
+.cache
+.parcel-cache
+.turbo
+
+# Generated files
+*.tsbuildinfo
+
+# Vercel
+.vercel
+
+# Logs
+*.log
