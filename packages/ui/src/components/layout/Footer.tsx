@@ -113,7 +113,7 @@ export function Footer({
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-surface-base rounded-t-lg ">
+    <footer className="bg-surface-inverse rounded-t-lg ">
       <Container size="full" padding="sm" className="md:pb-space-2">
         <Grid columns={1} className="sm:grid-cols-5 lg:grid-cols-7 ">
           <GridItem className="sm:col-span-3">

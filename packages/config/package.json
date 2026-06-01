@@ -17,9 +17,7 @@
     "generate:cn": "node scripts/generate-cn-groups.js",
     "generate": "npm run generate:css-vars && npm run generate:cn"
   },
-  "dependencies": {
-    "tailwindcss": "^3.4.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "typescript": "~5.9.2"
   }
