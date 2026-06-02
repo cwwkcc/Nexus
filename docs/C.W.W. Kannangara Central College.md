@@ -33,7 +33,7 @@ The name is never shortened in formal contexts. In informal and community use, t
 
 ### The Motto
 
-> **"Wisdom is All Wealth"** _සු​ඛෝ පඤ්ඤාය පඨිලාභෝ — Panna Naranam Ratanam_
+> **"Wisdom is All Wealth"** _සු​ඛෝ පඤ්ඤාය පඨිලාභෝ 
 
 This is not a slogan. It is a declaration of values. In a country where rural families had been denied access to quality education for generations, this motto asserted that knowledge — not land, not money, not status — is the truest form of wealth. Every student who passes through these gates inherits that assertion.
 
