@@ -39,6 +39,6 @@
       "@nexus/config": ["packages/config/src/index.ts"]
     },
 
-    "ignoreDeprecations": "6.0"
+    "ignoreDeprecations": "5.0"
   }
 }
