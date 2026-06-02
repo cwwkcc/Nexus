@@ -1,691 +1,614 @@
-**C.W.W. Kannangara Central College, Mathugama** _Maintained by Kannangara ICT Society (KITS)_
+
+# Nexus – Page Specifications
+
+**C.W.W. Kannangara Central College, Mathugama**  
+*Maintained by Kannangara ICT Society (KITS)*
 
 ---
 
 ## Philosophy
 
-Every page on Nexus serves a specific emotional and functional purpose. No page exists for its own sake. Each section within a page earns its place by serving a specific type of visitor — parent, student, alumni, or community member.
+Every page on Nexus serves a specific emotional and functional purpose. No page exists for its own sake. Each section within a page earns its place by serving a distinct visitor type – parent, student, alumni, or community member.
 
 **The three visitor types every page must serve:**
 
-- **Parent** — evaluating the school for their child. Needs trust, clarity, and operational information.
-- **Student** — curious about life at KCC. Needs belonging, inspiration, and identity.
-- **Alumni / Community** — reconnecting or engaging. Needs pride, continuity, and relevance.
+| Visitor | Primary need |
+|---------|--------------|
+| **Parent** | Evaluating the school for their child. Needs trust, clarity, and operational information. |
+| **Student** | Curious about life at KCC. Needs belonging, inspiration, and identity. |
+| **Alumni / Community** | Reconnecting or engaging. Needs pride, continuity, and relevance. |
 
 ---
 
 ## Route Structure
 
 ```
-/en                          → Homepage
-/en/about                    → About KCC
-/en/administration           → Administration
-/en/academics                → Academics
-/en/admissions               → Admissions
-/en/news                     → News & Announcements
-/en/news/[slug]              → Full article page
-/en/results                  → Results Portal
-/en/facilities               → Facilities
-/en/extracurriculars         → Extracurriculars
-/en/societies                → Societies Hub
-/en/societies/[slug]         → Individual society page
-/en/gallery                  → Gallery
-/en/contact                  → Contact
+/en                    → Homepage
+/en/about              → About KCC
+/en/administration     → Administration
+/en/academics          → Academics
+/en/admissions         → Admissions
+/en/news               → News & Announcements
+/en/news/[slug]        → Full article page
+/en/results            → Results Portal
+/en/facilities         → Facilities
+/en/extracurriculars   → Extracurriculars
+/en/societies          → Societies Hub
+/en/societies/[slug]   → Individual society page
+/en/gallery            → Gallery
+/en/contact            → Contact
 ```
 
-All routes are prefixed with locale (`/en`, `/si`, `/ta`). English is the launch locale.
+All routes are prefixed with locale (`/en`, `/si`, `/ta`). English is the launch locale; Sinhala and Tamil infrastructure are ready.
 
 ---
 
-## 01 — Homepage (`/en`)
+## Design System Integration
 
-### Purpose
+All pages must follow the **[Foundations](./Foundations.md)** and use components from `@nexus/ui`. Key principles applied to every page:
 
-The entire school in one scroll. Every section earns its place. Three visitor types must all find a reason to continue scrolling.
+- **Forest theme** – background gradient (radial white at top, darkening on scroll), glass panels, no backdrop‑filter.
+- **Motion** – respectful of reduced motion; page transitions fade to dark and back.
+- **Accessibility** – WCAG AA, focus rings, keyboard navigation, touch targets ≥44px.
+- **Responsive** – mobile‑first, breakpoints at 768px, 1024px, 1280px.
 
-### Emotional Rhythm
+---
 
-Identity → Proof → Authority → Activity → Structure → Humanity → Prestige → Culture → Grounding
+## Standard Hero Requirements
+
+All pages use the `Hero` component from `@nexus/ui`. The following fields are available; each page specifies which are used.
+
+```typescript
+interface HeroProps {
+  variant: 'homepage' | 'subpage' | 'minimal';
+  heading: string;
+  subheading?: string;
+  eyebrow?: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  videoSrc?: string;
+  breadcrumb?: { label: string; href?: string }[];
+  showScrollIndicator?: boolean;
+  children?: React.ReactNode;
+  parallax?: boolean;
+  overlayOpacity?: number;
+}
+```
+
+---
+
+## Sitemap Priority (for `sitemap.xml`)
+
+| Route | Priority | Change frequency |
+|-------|----------|------------------|
+| `/` (Home) | `1.0` | weekly |
+| `/about` | `0.9` | monthly |
+| `/academics` | `0.9` | monthly |
+| `/admissions` | `0.9` | weekly (during intake) |
+| `/news` | `0.8` | daily |
+| `/societies/*` (individual society) | `0.7` | monthly |
+| `/gallery` | `0.6` | monthly |
+| `/contact` | `0.5` | yearly |
+
+---
+
+## Page Status Tracking
+
+| Page | Status | Owner | Target completion |
+|------|--------|-------|-------------------|
+| Home | Complete | Administration + KITS | v1.0 |
+| About | Complete | Administration | v1.0 |
+| Administration | Planned | Administration | v1.1 |
+| Academics | Planned | Academic Section Heads | v1.1 |
+| Admissions | Planned | Admissions Office | v1.0 |
+| News | Planned (CMS) | Editorial Team | v1.0 |
+| Results | Planned (secure) | Examinations Office | v1.1 |
+| Facilities | Planned | Administration | v1.1 |
+| Extracurriculars | Planned | Sports / Cultural units | v1.2 |
+| Societies Hub | Planned | Society Advisor + Student Committee | v1.1 |
+| Gallery | Planned | Media Unit | v1.2 |
+| Contact | Complete | Administration | v1.0 |
+
+---
+
+## 01 – Homepage (`/en`)
+
+**Purpose:** The entire school in one scroll. Each section earns its place; three visitor types must all find a reason to continue scrolling.
+
+**Emotional rhythm:** Identity → Proof → Authority → Activity → Structure → Humanity → Prestige → Environment → Culture → Grounding
+
+**Owner:** Administration + KITS
+
+**SEO metadata:**
+- Title pattern: `C.W.W. Kannangara Central College – Mathugama, Sri Lanka`
+- Description: `Sri Lanka's first Central College — 153 years of shaping the minds that shaped a nation.`
+- Open Graph image: Hero background or crest + school building
+
+**Data sources:** Sanity CMS (principal message, news, societies preview, stats), static assets (images, anthem). Revalidation: ISR every hour for news, on‑demand for others.
+
+**i18n keys:** `home.hero`, `home.stats`, `home.principal`, `home.news`, `home.academicStreams`, `home.lifeAtKCC`, `home.achievements`, `home.societies`
+
+**Loading / empty / error states:**
+- Loading: Skeleton screens for news grid, society preview, stats (count‑up waits for visibility).
+- Empty: "No news at the moment. Check back soon." for news; society preview hides if no societies.
+- Error: `ErrorState` with retry for CMS‑fetched sections.
 
 ### Section Map
 
----
-
-#### Hero
-
-**Purpose:** Establish emotional tone, prestige, and symbolism before a single fact is read. **Content:** Minimal. School identity — visual and typographic only. No CTA. **Design mandate:** Cinematic and restrained. Users must _feel_ KCC before learning about it. **Background:** `color/green/base` **Animation:** Full suite — `motion/ceremonial` permitted. See loading screen concept for animation language. **Status:** TBD — concept not yet finalised. Return to this after all other pages are complete.
-
----
-
-#### Stats Strip
-
-**Purpose:** Psychological stabilizer after cinematic hero. Immediately answers "is this institution significant?" **Content:**
-
-- `5,000+` Students
-- `200+` Staff
-- `153` Years
-- `200+` University Entrances Annually
-
-**Design:** Clean, elegant, compact, confident. CountUp animation on first scroll into view. **Background:** `color/green/base` **Components:** `Stats Strip` → 4× `Stat Card (single metric)` **Data source:** Static — `apps/web/src/data/home.ts`
+| Section | Component | Content / Data | Visitor focus |
+|---------|-----------|----------------|----------------|
+| Hero | `Hero` (homepage variant) | Eyebrow, tagline, CTA buttons, optional video background | All |
+| Stats Strip | `StatsStrip` | Students, staff, years, university entrances (auto‑counting) | Parents, alumni |
+| Principal's Message | `PrincipalMessage` | Portrait, name, tenure, quote, full message link | Parents, community |
+| Latest News | `NewsCard` (featured + standard) | Latest 3 news items from CMS, linked to `/news` | All |
+| Academic Streams | `AcademicStreamCard` (grid of 4) | Science, Commerce, Arts, Technology – name, description, career paths | Students, parents |
+| Life at KCC | `LifeAtKCCPhotoStrip` | Horizontal scroll of photos (sports, events, performances, academic) | Students, parents |
+| Campus Showcase | `PanoramicFacilityViewer` or `FacilityPreviewStrip` | Highlights of main building, library, swimming pool, sports ground | Parents, alumni |
+| Achievement Ticker | `AchievementTicker` | Marquee of recent achievements (e.g., “Gold Medal – SLIIT Codefest”) | Alumni, parents |
+| Societies Preview | `SocietyCard` (hub‑grid, 3–4 featured) | Society name, tagline, category, image | Students, alumni |
+| Footer | `Footer` | Contact, links, social icons, copyright, built‑by KITS | All |
 
 ---
 
-#### Principal's Message
+## 02 – About KCC (`/en/about`)
 
-**Purpose:** Humanise the institution. Authority through a real human face. **Content:** Principal portrait, name, tenure, pull quote, short paragraph, "Read Full Message" link to `/en/administration`. **Design:** Two-column desktop layout. Large portrait left, text right. Pull quote in Cormorant italic. **Background:** `surface/base` **Components:** `Principal's Message Block` **Data source:** Sanity CMS — staff profiles
+**Purpose:** Establish heritage, mission, and the story of Dr. Kannangara. Build emotional connection and institutional trust.
 
----
+**Owner:** Administration
 
-#### Latest News
+**SEO metadata:**
+- Title pattern: `About C.W.W. Kannangara Central College – History, Mission, Values`
+- Description: `Sri Lanka's first Central College — 153 years of shaping the minds that shaped a nation. Meet our founder, explore our timeline, and understand our ethos.`
+- Open Graph image: Crest or Dr. Kannangara portrait.
 
-**Purpose:** Prove the school is alive and active. Parents check this regularly. **Content:** Three most recent news articles from CMS. Category badge, headline, date, excerpt per card. "All News →" link. **Design:** Editorial card layout. Dynamic, fresh. Never a boring blog grid. **Background:** `surface/default` **Components:** 3× `News Card (standard)`, `Section Header` **Data source:** Sanity CMS — news articles
+**i18n keys:** `about.hero`, `about.stats`, `about.story`, `about.aboutKannangara`, `about.timeline`, `about.ethos`, `about.values`, `about.crest`, `about.alumni`, `about.legacy`, `about.anthem`, `about.closing`
 
----
-
-#### Academic Streams
-
-**Purpose:** Navigation aid for parents evaluating which stream suits their child. **Content:** Four cards — Science, Commerce, Arts, Technology. Icon, one-line description, link to `/en/academics`. **Design:** Strong grid. Disciplined, precise typography. Less cinematic — communicates academic rigour. **Background:** `surface/base` **Components:** 4× `Academic Stream Card`, `Section Header` **Data source:** Static — `apps/web/src/data/home.ts`
-
----
-
-#### Life at KCC
-
-**Purpose:** Visual proof of the Head, Heart, Hand philosophy. Emotional warmth. Shows the school is alive. **Content:** Curated campus photography — Sports, Events, Performances, Academic. Not a gallery link — a curated emotional glimpse. **Design:** Horizontal scroll mobile, arrow navigation desktop. Wider spacing. Softer transitions. Photography-forward. **Background:** `surface/default` **Components:** `Life at KCC Photo Strip` **Data source:** Sanity CMS — curated homepage gallery selection
-
----
-
-#### Achievement Ticker
-
-**Purpose:** Continuous institutional prestige. Never stops moving. **Content:** O/L results, A/L university entrances, Grade 5 scholarships, Scout awards, sports wins, competition results. Link to full achievements archive. **Design:** Slow, elegant horizontal scroll. Gold separators. Hover pauses scroll. Never a stock ticker. **Background:** `surface/base` **Components:** `Achievement Ticker`, multiple `Achievement Card (ticker item)` **Data source:** Sanity CMS — achievements
-
----
-
-#### Societies Preview
-
-**Purpose:** Communicate that KCC is not a monolith. Culture, individuality, opportunity. **Content:** Row of society cards — Scouts, Cadets, Science, Sports, Drama, Bands, KITS. Links to `/en/societies`. **Design:** Each card has personality. KITS visually featured. **Background:** `surface/default` **Components:** `Societies Preview Row`, multiple `Society Card (hub grid)`, `Society Card (featured — KITS)` **Data source:** Sanity CMS — societies
-
----
-
-#### Footer
-
-**Purpose:** Institutional grounding. The closing page of a historical document. **Content:** Crest watermark (low opacity), school name, founding year, motto, address, phone, email, quick nav columns, social links, "Built by KITS" credit, copyright. **Background:** `surface/inverse` **Components:** `Footer` **Data source:** Static + site settings (admin panel)
-
----
-
-## 02 — About KCC (`/en/about`)
-
-### Purpose
-
-The soul of the entire website. Not "About Us" — institutional mythology. The most emotionally powerful page on the site.
-
-### Pacing Note
-
-This page breathes slower than all others. Spacing at +1 scale step throughout. Longer spacing. More atmospheric transitions. Less information density. Users must feel time.
+**Loading / empty / error states:** Mostly static; only alumni profiles come from CMS. If CMS fails, hide carousel and show a fallback message.
 
 ### Section Map
 
----
-
-#### Hero
-
-**Content:** Eyebrow — "Est. 1873 · Mathugama, Sri Lanka". Heading — large typographic treatment. Subtitle — one sentence establishing historical gravity. **Background:** `color/green/base` **Animation:** Full suite.
-
----
-
-#### Founding Narrative (1873 → Present)
-
-**Purpose:** Establish age, continuity, and historical gravity immediately. **Content:** The story from 1873 to 2026. Not a list — prose with pull quotes. **Design:** Archival and living simultaneously. Generous spacing. **Components:** `Quote Block (pull quote)`, `Rich Text Renderer`
-
----
-
-#### Dr. Kannangara and the Free Education Act
-
-**Purpose:** Expand KCC from a school to a national educational movement. Reverential, transformative, ideological. **Content:** Portrait, biography, the Free Education Act story. Not a résumé — a story of conviction. **Design:** Large portrait, text flows beside it. Ceremonial quote treatment for key statements. **Components:** `Staff/Person Card (principal large variant)`, `Quote Block (ceremonial)` **Data source:** Static — content hardcoded
+| Section | Component | Content / Data | Notes |
+|---------|-----------|----------------|-------|
+| Hero | `Hero` (subpage variant) | Eyebrow, title, subtitle, breadcrumb | Glass overlay, optional background image |
+| Stats Strip | `StatsStrip` | Founded, students, staff, years – static stats | Count‑up animation on scroll |
+| Founding Narrative | `OurStory` (custom block) | Paragraph, quote (Dr. Kannangara) | Uses `QuoteBlock` |
+| Dr. Kannangara | `OurNameSake` (custom block) | Portrait, biography, quote | Two‑column layout |
+| Interactive Timeline | `Timeline` | Milestones from 1873 to present with era‑based image treatments | Scroll‑snap horizontal |
+| Vision, Mission, Values | `Ethos` + `Values` (custom blocks) | Vision, mission, motto, core values (Wisdom, Integrity, Excellence, Service) | Use `QuoteBlock`, `Grid` |
+| Crest Explained | `CrestDiagram` | Interactive annotated crest with hotspots (Lamp, Lotus, Dharmachakra, Laurel) | Mobile fallback to grid |
+| Alumni Legacy | `AlumniLegacyBlock` | Carousel of alumni quotes, optional portrait, graduation year, position | Filter by year |
+| Spirit of Kannangara / Physical Heritage | `Legacy` (custom block) | Text + heritage photo grid | Two‑column on desktop |
+| School Anthem | `AudioPlayer` | Audio player with visualiser, lyrics (English + Sinhala), download link | Ceremonial |
+| Closing Statement | `ClosingStatement` (custom block) | Final reflective paragraph, gold rule, motto | Centred, minimal |
 
 ---
 
-#### Interactive Timeline
+## 03 – Administration (`/en/administration`)
 
-**Purpose:** Make 153 years of history spatially tangible. Users travel through eras. **Content:** Key milestones from 1873 to 2026. Each milestone: year, title, description, archival image. **Design:** Horizontal scroll. Era-specific atmospheric transitions. Earlier eras: sepia tone, textured. Modern eras: cleaner, more vibrant. Feels like traveling through history, not clicking cards. **Animation:** Component-level specification — uses `motion/slow` + `ease/ceremonial` as foundation. Custom choreography above token level. **Components:** `Interactive Timeline` (component-level spec) **Data source:** Static — `apps/web/src/data/about.ts` (milestones array)
+**Purpose:** Human faces build trust. Hierarchy communicates legitimacy.
 
----
+**Owner:** Administration
 
-#### Vision, Mission, Core Values
+**SEO metadata:**
+- Title pattern: `Administration – C.W.W. Kannangara Central College`
+- Description: `Meet our principal, deputy principals, assistant principals, and head prefects.`
+- Open Graph image: Group photo of administration team.
 
-**Purpose:** Institutional identity. Not bullet points — typographic statements. **Content:** Vision statement, Mission statement, Motto (Pali + translation), Three Core Values (Truth, Courage, Discipline), Three Pillars (Head, Heart, Hand). **Design:** Typographically treated. Each statement given space. Cormorant italic for the motto. **Components:** `Quote Block (ceremonial)`, `Section Header` **Data source:** Static + `messages/en.json`
+**Data source:** Sanity CMS – staff profiles with ordering (principal first, then deputies, assistants, head prefects). Revalidate on‑demand.
 
----
+**Loading / empty / error states:**
+- Loading: Staff card skeletons.
+- Empty: “Staff profiles being updated. Please check back soon.”
+- Error: `ErrorState` with retry.
 
-#### The Crest Explained
-
-**Purpose:** Make symbols intentional and philosophical. Most institutions waste their symbols. **Content:** Full crest image. Each symbol annotated: Lamp, Lotus, Dharmachakra, Laurel. **Design:** Interactive — hover/tap reveals annotation. Animated connection lines. Gold accent throughout. **Components:** `Crest Explainer` **Data source:** Static — `apps/web/src/data/about.ts` (crestSymbols array)
-
----
-
-#### Alumni Legacy
-
-**Purpose:** Convey institutional continuity across generations. "This institution shaped real lives." **Content:** Short profiles or quotes from distinguished alumni. Not full biographies — enough to communicate legacy. **Design:** Restrained, archival. Not a grid of headshots. **Components:** `Alumni Legacy Block` **Data source:** Sanity CMS — alumni profiles
-
----
-
-#### Spirit of Kannangara
-
-**Purpose:** Answer what it _feels_ like to belong here. Traditions, mindset, atmosphere. **Content:** What defines a Kannangarian. The values lived daily. The traditions that persist. **Design:** Atmospheric. Slower pace. Photography and type working together. **Components:** `Quote Block (pull quote)`, `Image Frame (featured)` **Data source:** Static + `messages/en.json`
-
----
-
-#### Physical Heritage
-
-**Purpose:** Make history physically real through places and archival photography. **Content:** Old building photographs, archival campus images, historical grounds. Evolution of the campus. **Design:** Full-bleed imagery. Sepia treatment on archival photos. Captions with years. **Components:** `Image Frame (full bleed)`, `Caption System` **Data source:** Sanity CMS — heritage gallery
-
----
-
-#### School Anthem
-
-**Purpose:** Sensory memory. Cultural heritage, not media playback. **Content:** Custom audio player, anthem lyrics in Sinhala, attribution. **Design:** Ceremonial. Not a generic HTML5 player. Subtle waveform or animated bars. Progress bar in `color/gold/base`. Lyrics in `font/sinhala`. **Components:** `Anthem Audio Player` **Data source:** Static — audio file in Cloudflare R2, lyrics in `messages/en.json`
-
----
-
-#### Closing Statement
-
-**Purpose:** End with legacy continuing forward, not nostalgia alone. **Content:** Forward-looking statement. Modern student imagery. Continuation of the light/lamp metaphor. **Design:** `color/green/base` background. Bookend matching the hero. Ceremonial tone. **Components:** `Quote Block (ceremonial)`, `Image Frame`
-
----
-
-## 03 — Administration (`/en/administration`)
-
-### Purpose
-
-Human faces build trust. Hierarchy communicates legitimacy.
+**i18n keys:** `administration.hero`, `administration.institutional`, `administration.principal`, `administration.deputyPrincipals`, `administration.assistantPrincipals`, `administration.headPrefects`, `administration.sds`
 
 ### Section Map
 
----
-
-#### Institutional Statement
-
-**Content:** Short statement of administrative philosophy. Not a wall of text — one or two sentences. **Components:** `Section Header`
-
----
-
-#### Principal
-
-**Content:** Large portrait, name, title, tenure ("Principal since [year]"), message excerpt, link to full message. **Design:** Dominant, anchoring. Principal is the symbolic center of administration. **Components:** `Staff/Person Card (principal large)` **Data source:** Sanity CMS — staff profiles
+| Section | Component | Content / Data |
+|---------|-----------|----------------|
+| Hero | `Hero` (subpage) | Eyebrow, title, subtitle, breadcrumb |
+| Institutional Statement | `Text` (centred, short) | One‑sentence philosophy of administration |
+| Principal | `StaffCard` (principal variant) | Portrait, name, title, tenure, quote, full message link |
+| Deputy Principals | `StaffCard` (grid variant, 2‑3) | Portrait, name, title, portfolio, tenure |
+| Assistant Principals | `StaffCard` (grid variant, up to 6) | Portrait, name, title, portfolio |
+| Head Prefects (Current Year) | `StaffCard` (compact variant, 2‑3) | Name, title, portrait (optional) |
+| School Development Society | `Text` + `Button` | Description, contact, link to SDS page |
 
 ---
 
-#### Deputy Principals
+## 04 – Academics (`/en/academics`)
 
-**Content:** Photo grid. Name, role, portfolio, tenure per person. **Design:** Professional photo grid. Compact but dignified. **Components:** Multiple `Staff/Person Card (grid)` **Data source:** Sanity CMS — staff profiles
+**Purpose:** Demonstrate academic rigour and success. Reassure parents and inspire students.
 
----
+**Owner:** Academic Section Heads
 
-#### Assistant Principals
+**SEO metadata:**
+- Title pattern: `Academic Programmes – Science, Commerce, Arts, Technology`
+- Description: `Explore our A/L streams, subject offerings, career pathways, and outstanding examination results.`
+- Open Graph image: Students in lab or classroom.
 
-**Content:** Same structure as Deputy Principals. **Components:** Multiple `Staff/Person Card (grid)` **Data source:** Sanity CMS — staff profiles
+**Data sources:** Sanity CMS (streams, statistics), static comparison data. Revalidate daily.
 
----
+**Loading / empty / error states:**
+- Loading: Card skeletons for streams, table skeleton.
+- Empty: “Stream details are being updated. Please contact academic office.”
+- Error: `ErrorState` with retry.
 
-#### Head Prefects (Current Year)
-
-**Content:** Current academic year head prefects. Photo, name, role. **Design:** Slightly lighter visual weight than staff — student leadership, not administrative authority. **Components:** Multiple `Staff/Person Card (compact)` **Data source:** Sanity CMS — staff profiles (prefects category)
-
----
-
-#### School Development Society
-
-**Purpose:** Visually separated from core administration — community governance, not institutional hierarchy. **Content:** President, Secretary, Treasurer. Names and roles. **Design:** Softer card style. Distinct subsection. **Components:** `Section Header`, multiple `Staff/Person Card (compact)` **Data source:** Sanity CMS — staff profiles (SDS category)
-
----
-
-## 04 — Academics (`/en/academics`)
-
-### Purpose
-
-For prospective students and parents evaluating streams. Turns the page from informational to directional.
+**i18n keys:** `academics.hero`, `academics.streams`, `academics.comparisonTable`, `academics.studentJourney`, `academics.performance`
 
 ### Section Map
 
----
-
-#### Academic Culture Intro
-
-**Content:** What learning feels like at KCC. Not just what students study — the philosophy behind it. **Components:** `Section Header`, `Quote Block (pull quote)`
-
----
-
-#### Four Stream Sections
-
-Repeat for: Science, Commerce, Arts, Technology. **Content per stream:** Stream name, subjects list, career paths, entry requirements. **Design:** Strong visual identity per stream while maintaining system consistency. **Components:** 4× `Academic Stream Card`, expandable subject lists
+| Section | Component | Content / Data |
+|---------|-----------|----------------|
+| Hero | `Hero` (subpage) | Eyebrow, title, subtitle, breadcrumb |
+| Academic Culture Intro | `Text` (short) | Brief statement on holistic education (Head, Heart, Hand) |
+| Four Stream Sections | `AcademicStreamCard` (grid of 4) | Science, Commerce, Arts, Technology – each with subjects, career paths, entry requirements |
+| Stream Comparison Table | `StreamComparisonTable` | Responsive table comparing streams (subjects, career paths, pass rates) |
+| Student Journey Flow | `StudentJourneyFlow` | Diagram from Grade 6 to A/L, showing streams and transitions |
+| Performance Statistics | `StatsStrip` + `ProgressArc` | Pass rates, university entrances, district ranking |
+| Real Outcomes | `AchievementCard` (archive‑post) | Testimonials or notable alumni outcomes (optional) |
 
 ---
 
-#### Stream Comparison Table
+## 05 – Admissions (`/en/admissions`)
 
-**Content:** Side-by-side comparison — Science, Commerce, Arts, Technology. Rows: subjects, career paths, entry requirements, pass rates. **Components:** `Stream Comparison Table` **Data source:** Static
+**Purpose:** Guide parents through application process, build trust with transparency, capture enquiries.
 
----
+**Owner:** Admissions Office
 
-#### Student Journey Flow
+**SEO metadata:**
+- Title pattern: `Admissions – Apply to C.W.W. Kannangara Central College`
+- Description: `Applications for Grade 1 and other classes. Process steps, key dates, requirements, and enquiry form.`
+- Open Graph image: School entrance or students in uniform.
 
-**Content:** Visual flow diagram — progression pathways, subject combinations, future opportunities. **Purpose:** Shows where each stream leads. Directional, not just descriptive. **Components:** `Student Journey Flow` **Data source:** Static
+**Data sources:** Static content (process steps, dates, FAQ), CMS for documents, form submissions to Resend. Revalidate on‑demand for dates.
 
----
+**Loading / empty / error states:** Mostly static; form submission errors displayed inline. If CMS documents fail, hide downloadable documents section and show fallback message.
 
-#### Performance Statistics
-
-**Content:** O/L pass rate (latest year), A/L university entrance count, Grade 5 Scholarship count. **Components:** `Stat Card (single metric)`, `Comparison Bar` **Data source:** Database — results statistics
-
----
-
-#### Real Outcomes
-
-**Content:** Top achievers, university placements, competition results, Olympiad participation. **Purpose:** Academic prestige felt emotionally, not just statistically. **Components:** `Achievement Card (archive post)` **Data source:** Sanity CMS — achievements (academic category)
-
----
-
-## 05 — Admissions (`/en/admissions`)
-
-### Purpose
-
-Highest operational importance. Must reduce confusion, anxiety, and repetitive office calls. Clarity and trust above all else. No heavy animations.
+**i18n keys:** `admissions.hero`, `admissions.processSteps`, `admissions.keyDates`, `admissions.requirements`, `admissions.faq`, `admissions.enquiryForm`
 
 ### Section Map
 
----
-
-#### Admissions Process Steps
-
-**Content:** Step-by-step Grade 1 admissions process. Numbered. **Components:** `Admissions Process Steps` **Data source:** Static + `messages/en.json`
-
----
-
-#### Key Dates Timeline
-
-**Content:** Applications open → Submission deadline → Interview period → Selection release. **Design:** Visual timeline. Reduces cognitive load. **Components:** `Admissions Key Dates Timeline` **Data source:** Sanity CMS — updated annually without code changes
-
----
-
-#### Requirements Checklist
-
-**Content:** All required documents and criteria. Printable. **Components:** `Requirements Checklist` **Data source:** Static + `messages/en.json`
+| Section | Component | Content / Data |
+|---------|-----------|----------------|
+| Hero | `Hero` (subpage) | Eyebrow, title, subtitle, breadcrumb |
+| Admissions Process Steps | `AdmissionsProcessSteps` | 4–5 steps (Apply Online → Interview → Documents → Acceptance) |
+| Key Dates Timeline | `AdmissionsKeyDatesTimeline` | Vertical timeline with dates (applications open, deadline, interview dates) |
+| Requirements Checklist | `RequirementsChecklist` | Printable checklist of required documents, with required/optional indicators |
+| Downloadable Documents | `DownloadableDocumentItem` (list) | Application form, prospectus, fee structure (PDFs from R2) |
+| FAQ | `Accordion` | Common questions (age limits, scholarships, transport) |
+| Enquiry Form | `ContactForm` (or custom) | Name, email, phone, message → Resend to admissions office |
+| Dedicated Admissions Contact | `Text` + `InlineLink` | Phone, email, office hours |
+| Transport and Accessibility | `Text` + `MapEmbed` | School transport routes, accessibility features |
 
 ---
 
-#### Downloadable Documents
+## 06 – News and Announcements (`/en/news`)
 
-**Content:** Application forms, ministry circulars, instruction PDFs. **Components:** Multiple `Downloadable Document Item` **Data source:** Cloudflare R2 — document uploads via admin panel
+**Purpose:** Keep community informed about achievements, events, and notices. Build currency and trust.
 
----
+**Owner:** Editorial Team (selected staff + KITS)
 
-#### FAQ
+**SEO metadata:**
+- Title pattern: `News – C.W.W. Kannangara Central College`
+- Description: `Latest announcements, academic achievements, sports victories, and upcoming events.`
+- Open Graph image: School logo or featured article image.
 
-**Content:** 8–10 most common parent questions. Expandable. **Components:** Multiple `Accordion/FAQ` **Data source:** Sanity CMS — FAQ entries
+**Data source:** Sanity CMS (news posts, categories, featured flag). Revalidate every hour (ISR). Static generation for individual posts.
 
----
+**Search strategy:** Title + excerpt + body (via CMS text search). Implement with `SearchInput` component.
 
-#### Enquiry Form
+**Loading / empty / error states:**
+- Loading: Skeleton cards grid (6 items).
+- Empty: “No news published yet. Check back later.”
+- Error: `ErrorState` with retry.
 
-**Content:** Parent name, child name, date of birth, grade applying for, phone, email, message. **Behaviour:** Submit → Resend email to admissions office + stored in database. **Components:** `Form Section Wrapper`, multiple `Form Field Group`, `Button (primary)` **Data destination:** PostgreSQL + Resend
-
----
-
-#### Dedicated Admissions Contact
-
-**Content:** Admissions office name, dedicated phone, dedicated email, office hours. Specific — not generic school contact. **Components:** `Contact Table` **Data source:** Site settings (admin panel)
-
----
-
-#### Transport and Accessibility
-
-**Content:** Nearest transport links, landmarks, parking information. **Components:** `Rich Text Renderer` **Data source:** Static + `messages/en.json`
-
----
-
-## 06 — News and Announcements (`/en/news`)
-
-### Purpose
-
-Prove the school is active. Parents check this regularly. Must never feel like a WordPress school blog.
+**i18n keys:** `news.hero`, `news.filter`, `news.search`
 
 ### Section Map
 
----
-
-#### Announcement Banner
-
-**Content:** Active announcement if one exists. Warning/Info variant. **Behaviour:** Managed in admin panel with expiry date. Auto-hides when expired. Dismissible. **Components:** `Announcement Banner` **Data source:** Database — announcements table
-
----
-
-#### Featured Article
-
-**Content:** Most recent or manually pinned article. Large format. **Components:** `News Card (featured large)` **Data source:** Sanity CMS
+| Section | Component | Content / Data |
+|---------|-----------|----------------|
+| Announcement Banner | `AnnouncementBanner` (optional, dismissible) | Urgent notice (e.g., “School reopens 5 May”) – controlled by CMS flag |
+| Featured Article | `NewsCard` (featured variant) | Latest post with `featured = true`, large image, excerpt |
+| Filter Bar | `FilterBar` (category tabs) | Categories: All, Academic, Sports, Events, Achievements |
+| Search Input | `SearchInput` | Client‑side search on title + excerpt; results link to full article |
+| News Feed | `NewsCard` (standard variant) – paginated grid | 6–12 posts per page, with infinite scroll or pagination |
+| Full Article Page (`/en/news/[slug]`) | `RichTextRenderer` | Portable Text from Sanity; includes heading, body, images, captions, share buttons |
 
 ---
 
-#### Filter Bar
+## 07 – Results Portal (`/en/results`)
 
-**Content:** Category tabs — Academic · Sports · Events · Achievements. Optional search (news-scoped only). **Components:** `Filter Bar (category tabs)`, `Search Input`
+**Purpose:** Allow students and parents to securely access exam results. High‑traffic resilience (results day).
 
----
+**Owner:** Examinations Office
 
-#### News Feed
+**SEO metadata:** Use `noindex` on search pages; index only landing page with descriptive title: `Results Portal – C.W.W. Kannangara Central College`
 
-**Content:** Filterable grid of all articles. Cover image, category badge, headline, date, excerpt per card. **Components:** Multiple `News Card (standard)`, `Pagination` **Data source:** Sanity CMS — news articles
+**Data source:** PostgreSQL (exam records), PDFs stored in Cloudflare R2. Authentication optional (via index number + date of birth). No public login.
 
----
+**Loading / empty / error states:**
+- Loading: Spinner inside search button.
+- Empty (search returns no results): “No results found. Please check your index number and exam type.”
+- Error: “Failed to retrieve results. Please try again later or contact the examinations office.”
 
-#### Full Article Pages (`/en/news/[slug]`)
+**i18n keys:** `results.hero`, `results.search`, `results.examTypes`
 
-**Content:** Hero image, headline, date, category, body (rich text), related posts. **Design:** Editorial dignity. Not a narrow blog post. Pull quotes for important statements. **Components:** `Image Frame (featured)`, `Rich Text Renderer`, `Quote Block (pull quote)`, multiple `News Card (compact)` for related **Data source:** Sanity CMS
-
----
-
-## 07 — Results Portal (`/en/results`)
-
-### Purpose
-
-Pure utility. Infrastructure, not experience. Must be lightning fast. Students and parents bookmark this forever.
-
-### Design Mandate
-
-No atmosphere. No cinematic effects. No scroll reveals. `motion/fast` interactions only. Mobile-first. Every element exists only to serve the search function.
+**Design mandate:** Minimalist, fast, secure. No decorative elements. Results display must be printable.
 
 ### Section Map
 
----
-
-#### Results Search Block
-
-**Content:** Index number input, exam type selector (O/L / A/L / Scholarship), year selector. **Design:** Crystal-clear input UX. Large unambiguous labels. Users must immediately understand what to type and in what format. **Components:** `Results Search Block`
-
----
-
-#### Results Display Card
-
-**Content:** Student name, index number, exam type, year, subject results table, PDF download button, official seal/watermark. **Design:** Flat — `elevation/0`. Optimised for mobile-first. **Components:** `Results Display Card` **Data source:** Database + Cloudflare R2 (PDFs)
+| Section | Component | Content / Data |
+|---------|-----------|----------------|
+| Hero | `Hero` (minimal variant) | Eyebrow, title, subtitle – no background image, just forest gradient |
+| Results Search Block | `Select` (exam type) + `Input` (index number) + `Button` (search) | Form submission → server action → return result or error |
+| Results Display Card | `ResultsDisplay` | Student name, index number, exam type, year, subject grades, download PDF button |
+| Past Results Archive | `Accordion` (by year) | Links to PDFs of past years’ results (summary statistics, not individual) |
 
 ---
 
-#### Past Results Archive
+## 08 – Facilities (`/en/facilities`)
 
-**Content:** List of all available results by year and exam type. Download links. **Components:** `Data Table`, multiple `Downloadable Document Item` **Data source:** Database + Cloudflare R2
+**Purpose:** Trust‑building for parents evaluating the school. Every facility must feel like a *space*, not a bullet point.
 
----
+**Owner:** Administration
 
-## 08 — Facilities (`/en/facilities`)
+**SEO metadata:**
+- Title pattern: `Facilities – Campus, Labs, Library, Sports Grounds, Swimming Pool`
+- Description: `Explore our modern amenities – science labs, ICT labs, auditorium, swimming pool, library, and sports grounds.`
+- Open Graph image: Panoramic of main building or swimming pool.
 
-### Purpose
+**Data source:** CMS (facility name, description, features, images, schedule). Revalidate daily.
 
-Trust-building for parents evaluating the school. Every facility must feel like a _space_, not a bullet point.
+**Loading / empty / error states:**
+- Loading: Card skeletons for each facility.
+- Empty: “Facility details are being updated. Please contact administration.”
+- Error: `ErrorState` with retry.
 
-### Design Note
+**Search strategy:** Facility name + description (client‑side filter). Not a primary search target but nice to have.
 
-Real photography is non-negotiable. Cinematic, clean, naturally lit, consistent colour grading.
+**i18n keys:** `facilities.hero`, plus each facility name (e.g., `facilities.mainBuilding`)
 
 ### Section Map
 
-One section per facility. Repeat structure for each:
+One section per facility, repeated. Use `FacilityCard` (standard or schedule variant).
+
+| Facility | Special treatment |
+|----------|-------------------|
+| Main Building and Grounds | Standard card |
+| Science Laboratories | Standard card |
+| ICT Laboratories | Standard card |
+| Auditorium | Standard card |
+| Sports Grounds and Stadium | Standard card |
+| Swimming Pool | `FacilityCard` (schedule variant) + `PanoramicFacilityViewer` |
+| Library | Standard card |
+
+Each card includes: hero image, name, description, key features list, capacity/stats where relevant, link to detail page (optional).
 
 ---
 
-#### Per Facility Structure
+## 09 – Extracurriculars (`/en/extracurriculars`)
 
-**Facilities covered:** Main Building and Grounds · Science Laboratories · ICT Laboratories · Auditorium · Sports Grounds and Stadium · Swimming Pool · Library
+**Purpose:** Whole‑child development – Head, Heart, Hand made visible.
 
-**Content per facility:**
+**Owner:** Sports / Cultural units
 
-- Large hero image
-- Facility name
-- Short atmospheric description
-- Key features list
-- Capacity/stats where relevant
+**SEO metadata:**
+- Title pattern: `Extracurriculars – Sports, Performing Arts, Scouts, Cadets`
+- Description: `Beyond the classroom – develop character, leadership, and teamwork through our vibrant extracurricular programmes.`
+- Open Graph image: Action shot from sports or scouts.
 
-**Components:** `Facility Card (with photo)`, `Section Header`, `Image Frame (featured)`, `Rich Text Renderer` **Data source:** Sanity CMS — facility pages
+**Data source:** CMS (extracurricular activity profiles). Revalidate daily.
 
----
+**Loading / empty / error states:**
+- Loading: Card skeletons for each activity.
+- Empty: “Extracurricular details are being updated. Please contact the sports or cultural unit.”
+- Error: `ErrorState` with retry.
 
-#### Swimming Pool — Special Treatment
-
-**Purpose:** Serves both students and the wider community. Most practically used section. **Additional content:** Pool schedule module (not a PDF), today's session highlighted, public access hours distinct from training sessions, booking/contact info. **Components:** `Facility Card (schedule variant)`, `Pool Schedule Table` **Data source:** Database — pool schedules (managed in admin panel)
-
----
-
-#### Panoramic Facility Viewer
-
-**Content:** Panoramic images with subtle hover exploration and micro-parallax. **Design:** Not Google Street View — a curated spatial impression. Elevates facilities from description to experience. **Components:** `Panoramic Facility Viewer` **Data source:** Cloudflare R2 — panoramic images uploaded via admin panel
-
----
-
-## 09 — Extracurriculars (`/en/extracurriculars`)
-
-### Purpose
-
-Whole-child development narrative. Head, Heart, Hand made visible.
-
-### Design Note
-
-Each category has a distinct visual personality while maintaining overall system consistency. Sports should not feel identical to Drama.
+**i18n keys:** `extracurriculars.hero`, `extracurriculars.sports`, `extracurriculars.performingArts`, `extracurriculars.scouts`, `extracurriculars.cadets`
 
 ### Section Map
 
----
-
-#### Sports Section
-
-**Covers:** Cricket · Athletics · Football · Netball · Swimming · Table Tennis · Badminton · Chess **Content per activity:** Photo, description, recent achievements, teacher in charge, student quote, active season indicator. **Design:** Bold imagery, energy-forward. Distinct from performing arts. **Components:** Multiple `Extracurricular Card (sport)`, `Video Embed Block` **Data source:** Sanity CMS — extracurricular pages
-
----
-
-#### Performing Arts Section
-
-**Covers:** Boys Brass Band · Western Bands · Fine Arts · Drama **Content per activity:** Same structure as sports. **Design:** Softer, atmospheric, wider spacing. **Components:** Multiple `Extracurricular Card (performing arts)`, `Video Embed Block` **Data source:** Sanity CMS
+| Category | Component | Notes |
+|----------|-----------|-------|
+| Hero | `Hero` (subpage) | Eyebrow, title, subtitle, breadcrumb |
+| Sports | `ExtracurricularCard` (sport variant) + `LifeAtKCCPhotoStrip` | Cricket, athletics, volleyball, etc. |
+| Performing Arts | `ExtracurricularCard` (performing‑arts variant) | Western band, Eastern band, drama, etc. |
+| Scouts | `ExtracurricularCard` (leadership variant) | History, President’s Award winners, teacher in charge |
+| National Cadet Corps | `ExtracurricularCard` (leadership variant) | Annual camps, achievements |
 
 ---
 
-#### Scouts Section
+## 10 – Societies Hub (`/en/societies`)
 
-**Content:** Founded 1952 by Hilary Silva. 35+ President's Scout Award winners. History, current membership, how to join, achievements, teacher in charge, student quote. **Design:** Structured, disciplined. **Components:** `Extracurricular Card (leadership)`, `Video Embed Block` **Data source:** Sanity CMS
+**Purpose:** Showcase student‑led organisations. Encourage participation and belonging.
 
----
+**Owner:** Society Advisor + Student Committee
 
-#### National Cadet Corps Section
+**SEO metadata:**
+- Hub page title: `Societies – Clubs & Organisations at C.W.W. Kannangara Central College`
+- Hub description: `Discover your passion – academic, cultural, sports, and technology societies. Join, participate, lead.`
+- Individual society page title: `{Society Name} – C.W.W. Kannangara Central College`
+- Open Graph image: Society banner or group photo.
 
-**Content:** Same structure as Scouts. **Components:** `Extracurricular Card (leadership)` **Data source:** Sanity CMS
+**Data source:** CMS (society profiles – name, tagline, category, founding year, member count, leadership, gallery). Revalidate daily.
 
----
+**Search strategy:** Society name + category + tagline (client‑side filter on hub).
 
-## 10 — Societies Hub (`/en/societies`)
+**Loading / empty / error states:**
+- Loading: Skeleton cards for society grid.
+- Empty: “No societies have been added yet. Check back soon.”
+- Error: `ErrorState` with retry.
 
-### Purpose
-
-Every student society has a home. Discovery, diversity, individuality within institutional structure.
-
-### Design Note
-
-Hub should feel more energetic and diverse than the rest of the site — more colour variation, more expressive imagery, richer motion, stronger personality. This section represents student individuality.
+**i18n keys:** `societies.hero`, `societies.hub`
 
 ### Hub Page Section Map
 
----
-
-#### Hub Grid
-
-**Content:** All societies — Scouts, Cadets, Science Society, Sports Clubs, Drama, Fine Arts, Bands, KITS, and any others added via admin panel. **Design:** KITS card visually featured. Each card: badge, name, tagline, link. **Components:** Multiple `Society Card (hub grid)`, `Society Card (featured — KITS)` **Data source:** Sanity CMS — societies
-
----
+| Section | Component | Content |
+|---------|-----------|---------|
+| Hero | `Hero` (subpage) | Eyebrow, title, subtitle, breadcrumb |
+| Society Grid | `SocietyCard` (hub‑grid variant) | All societies, filterable by category (Academic, Sports, Arts, Technology) |
+| Featured Society | `SocietyCard` (featured variant) | KITS – highlighted at top or bottom of grid |
 
 ### Individual Society Pages (`/en/societies/[slug]`)
 
----
+Mandatory sections (canonical order):
 
-#### Per Society Structure
+| Section | Component | Content / Data |
+|---------|-----------|----------------|
+| Banner | `SocietyBanner` | Full‑width image, society name, founding year |
+| About | `Text` (rich) | Purpose, activities, meeting schedule |
+| Leadership | `StaffCard` (grid variant) | Current committee – photo, name, role, tenure |
+| Membership | `StatCard` (single) | Number of active members + how to join |
+| Achievements | `AchievementCard` (ticker‑item or archive‑post) | Notable wins, awards, records |
+| Recent Events | `EventCard` (compact or standard) | Last 3 events with photos and recap |
+| Gallery | `MasonryGrid` + `Lightbox` | Photo grid from society events |
+| How to Join | `Text` + `Button` (link to form or contact) | Process, contact person |
 
-|Section|Content|
-|---|---|
-|Banner|Full-width banner image, society name, founding year|
-|About|What this society does, who it is for|
-|Leadership|Current committee — photo, name, role, tenure|
-|Membership|How many active members, how to join|
-|Achievements|Notable wins, awards, records|
-|Recent Events|Last 3 events with photos and recap|
-|Gallery|Photo grid from society events|
-|How to Join|Process, contact person|
-
-**Components:** `Image Frame (full bleed)`, `Staff/Person Card (compact)` for leadership, `Gallery Album Card`, `Video Embed Block` **Data source:** Sanity CMS — society pages, all managed via admin panel
+**KITS page special treatment:** Featured society card on hub, dedicated page with additional emphasis on tech achievements and Nexus.
 
 ---
 
-### KITS Page (`/en/societies/kits`)
+## 11 – Gallery (`/en/gallery`)
 
-**Special treatment — premium featured.**
+**Purpose:** Visual storytelling of school life. Celebratory and archival.
 
-|Section|Content|
-|---|---|
-|Hero|Cinematic — distinct from other societies|
-|Overview + Mission|KITS purpose and role in KCC's digital identity|
-|Featured Projects|Nexus, Paideon, and other KITS projects|
-|Leadership|Current KITS committee|
-|Achievements|Competition wins, recognitions|
-|External Links|Deep links to standalone KITS site|
+**Owner:** Media Unit
 
-**Design:** More technical, more modern in feel — while still respecting the institutional design system. **Data source:** Sanity CMS + static content
+**SEO metadata:**
+- Title pattern: `Gallery – Moments at C.W.W. Kannangara Central College`
+- Description: `Explore our photo albums – prize givings, sports meets, cultural events, and everyday school life.`
+- Open Graph image: Featured album cover.
 
----
+**Data source:** CMS for albums (title, year, cover, photo count, photos in R2). Instagram embed widget for recent/casual photos (no API dependency). Revalidate daily for albums.
 
-## 11 — Gallery (`/en/gallery`)
+**Search strategy:** Album title + year + category (client‑side filter on grid).
 
-### Purpose
+**Loading / empty / error states:**
+- Loading: Skeleton cards for album grid.
+- Empty: “No albums have been added yet. Check back later.”
+- Error: `ErrorState` with retry.
 
-Visual proof of school life. Archival and prestigious, not a Facebook dump.
-
-### Design Note
-
-Memory pacing — albums first, photos within. Progressive reveal. Each album feels intentional.
+**i18n keys:** `gallery.hero`, `gallery.albums`, `gallery.filter`
 
 ### Section Map
 
----
-
-#### Featured Albums Grid
-
-**Albums include:** Annual Prize Giving · Pasdun Cricket Battle · Science Exhibition · Cultural Day · Founder's Celebration · Sports Day · and others. **Content per album:** Cover image, event title, year, photo count, category badge. **Components:** Multiple `Gallery Album Card` **Data source:** Sanity CMS — gallery albums
-
----
-
-#### Filter Bar
-
-**Content:** Category filter (Sports / Events / Academic / Cultural / Societies), Year selector. **Components:** `Filter Bar (category tabs + year selector)`
+| Section | Component | Content |
+|---------|-----------|---------|
+| Hero | `Hero` (subpage) | Eyebrow, title, subtitle, breadcrumb |
+| Featured Albums Grid | `GalleryAlbumCard` (grid) | Curated albums, filterable by category (Events, Sports, Academic, Cultural) |
+| Filter Bar | `FilterBar` (category tabs) | All, Events, Sports, Academic, Cultural |
+| Photo Grid | `MasonryGrid` + `ImageFrame` | Thumbnails from selected album, clicking opens `Lightbox` |
+| Lightbox | `Lightbox` | Full‑screen image viewer with captions and navigation |
+| Video Section | `VideoFrame` (embed) | YouTube playlist embed of school event videos (optional) |
 
 ---
 
-#### Photo Grid
+## 12 – Contact (`/en/contact`)
 
-**Content:** Responsive masonry grid within selected album/filter. **Design:** Progressive load. Not a dump. **Components:** `Image Frame (standard)`, `Caption System (overlay)` **Data source:** Sanity CMS / Cloudflare R2
+**Purpose:** Provide clear, accessible contact information for all stakeholders. Encourage enquiries and feedback.
 
----
+**Owner:** Administration
 
-#### Lightbox
+**SEO metadata:**
+- Title pattern: `Contact Us – C.W.W. Kannangara Central College`
+- Description: `Get in touch with our departments, send a general enquiry, provide feedback, or find directions to our campus.`
+- Open Graph image: Map or school entrance.
 
-**Behaviour:** Full-screen image on click. Album navigation. Caption overlay. Keyboard and swipe support. **Components:** `Lightbox`
+**Data source:** Static content (department contacts, office hours, transport) + form submissions via Resend. Revalidate on‑demand for emergency contacts.
 
----
+**Loading / empty / error states:** Forms show inline validation and submission errors. Static content is always present.
 
-#### Video Section
-
-**Content:** Curated video clips — max 1–3 per category. Event recaps, performances, sports moments. **Design:** Feels curated, not a YouTube feed. **Components:** `Video Frame (16:9)`, `Caption System` **Data source:** Sanity CMS — curated video links
-
----
-
-## 12 — Contact (`/en/contact`)
-
-### Purpose
-
-Pure utility. Reduce friction. Every design decision serves the person trying to reach the school.
+**i18n keys:** `contact.hero`, `contact.departments`, `contact.generalEnquiry`, `contact.feedback`, `contact.officeHours`, `contact.emergency`, `contact.transport`
 
 ### Section Map
 
----
-
-#### Department Contacts Table
-
-**Content:** All contacts — Principal's Office, General, Admissions, Academics, Sports, ICT, Primary, Fax, Pool. Role, name, phone, email per row. **Components:** `Contact Table` **Data source:** Site settings (admin panel)
-
----
-
-#### Google Maps Embed
-
-**Content:** School location map. Nearby landmarks note. **Design:** Elegantly integrated — not a raw iframe. Framed in `surface/default` with `border/default`. **Components:** `Map Embed Block`
+| Section | Component | Content |
+|---------|-----------|---------|
+| Hero | `Hero` (subpage) | Eyebrow, title, subtitle, breadcrumb |
+| Department Contacts Table | `DataTable` | Department name, phone, email, extension |
+| Google Maps Embed | `MapEmbed` | Location of school, optional nearby note |
+| General Enquiry Form | `ContactForm` | Name, email, subject, message → sent to info@cwwkcc.lk |
+| Feedback and Complaints Form | `FeedbackForm` | Name (optional), category, message, anonymous toggle → sent to principal's office |
+| Office Hours and Emergency Contacts | `Text` + `InlineLink` | Timings, emergency numbers, after‑hours protocol |
+| Transport and Directions | `Text` | Bus routes, train station, parking, accessibility |
 
 ---
 
-#### General Enquiry Form
+## 13 – 404 Page
 
-**Content:** Name, email, subject, message. Submit → Resend email + database storage. **Components:** `Form Section Wrapper`, multiple `Form Field Group`, `Button (primary)` **Data destination:** PostgreSQL + Resend
+**Purpose:** Dignified interruption – consistent with identity, not a gimmick.
 
----
+**Owner:** KITS (no content updates needed)
 
-#### Feedback and Complaints Form
+**SEO metadata:** Noindex. Title: `Page Not Found – C.W.W. Kannangara Central College`
 
-**Content:** Name (optional — anonymous allowed), Category (Academic / Facilities / Administration / General), Message. Clear anonymity indication. **Behaviour:** Submit → Resend to designated email + stored in database with no required PII. **Components:** `Form Section Wrapper`, multiple `Form Field Group`, `Toggle Switch` (anonymous), `Button (primary)` **Data destination:** PostgreSQL + Resend
+**Component:** `NotFoundPage` (already implemented)
 
----
+**Content:**  
+- Crest animation plays on arrival (`CrestAnimation` inside page)  
+- Animated 404 heading (`useCountUp`)  
+- Eyebrow: "Page not found"  
+- Friendly message: "The path appears to have faded."  
+- Ambient embers (`AmbientEmbers`) rising  
+- Return to homepage button (`Button` as link)  
+- Quick links grid
 
-#### Office Hours and Emergency Contacts
-
-**Content:** Office hours table. Emergency/priority contacts clearly separated. **Components:** `Contact Table` **Data source:** Site settings (admin panel)
-
----
-
-#### Transport and Directions
-
-**Content:** Nearest bus routes, landmarks, parking information. **Components:** `Rich Text Renderer` **Data source:** Static + `messages/en.json`
-
----
-
-## 13 — 404 Page
-
-### Purpose
-
-Dignified interruption. Not a gimmick. Consistent with the site's identity language.
-
-### Content
-
-- Crest centered — loading screen animation plays on arrival
-- `type/h2` — "Page Not Found"
-- `type/body-sm` — "The path appears to have faded."
-- Ambient embers rising
-- Homepage return link — `Button (ghost)`
-
-### Design
-
-Same animation language as the loading screen. Continuous subtle embers. Slow glow pulse. No humor, no quirky messages. The school's 153-year identity does not break on a 404.
-
-**Background:** `color/green/base` **Animation:** Ambient only — embers, slow pulse. No `motion/ceremonial` or above.
+**Background:** Forest gradient (matching theme), no glass panels – just the forest.
 
 ---
 
-## CMS Content Ownership Map
+## CMS Content Models Reference
 
-|Content Type|Managed By|System|
-|---|---|---|
-|News articles|KITS admins|Sanity CMS|
-|Gallery albums + photos|KITS admins|Sanity CMS + Cloudflare R2|
-|Society pages + events|KITS admins|Sanity CMS|
-|Staff profiles|KITS admins|Sanity CMS|
-|Announcements|KITS admins|Database (admin panel)|
-|Alumni profiles|KITS admins|Sanity CMS|
-|FAQ entries|KITS admins|Sanity CMS|
-|Results PDFs|KITS admins|Cloudflare R2 (admin panel)|
-|Pool schedule|KITS admins|Database (admin panel)|
-|Facility photos|KITS admins|Sanity CMS + Cloudflare R2|
-|Downloadable documents|KITS admins|Cloudflare R2 (admin panel)|
-|Key dates (admissions)|KITS admins|Sanity CMS|
-|Site settings + contacts|KITS admins|Database (admin panel)|
-|Page copy (static)|Developers|`messages/en.json`|
-|Structural data|Developers|`apps/web/src/data/*.ts`|
+The following content types must be defined in Sanity to support the pages above:
+
+| Content type | Used on pages |
+|--------------|---------------|
+| `newsArticle` | Home, News |
+| `society` | Home, Societies Hub, Society detail |
+| `staffProfile` | Administration, Society detail (leadership), About (alumni optional) |
+| `achievement` | Home, About (alumni), Society detail |
+| `facility` | Facilities |
+| `extracurricular` | Extracurriculars |
+| `galleryAlbum` | Gallery |
+| `announcementBanner` | Home, News (optional) |
+
+Each content type must include appropriate fields (title, slug, body (portable text), images, categories, dates, relationships). Detailed schemas are documented separately.
 
 ---
 
-_Nexus Design System — Page Specifications_ _C.W.W. Kannangara Central College, Mathugama_ _Maintained by Kannangara ICT Society (KITS)_ _© 2026_
+## Dynamic Content & Data Fetching Notes
+
+| Page | Data source | Revalidation strategy |
+|------|-------------|----------------------|
+| Home | Sanity CMS (principal message, news, societies) + static | ISR 1 hour, on‑demand for updates |
+| About | Static (i18n) + CMS for alumni profiles | Static (build‑time) |
+| Administration | CMS (staff profiles) | On‑demand |
+| Academics | CMS (streams, stats) + static | Daily |
+| Admissions | Static + CMS (documents) | On‑demand for dates |
+| News | CMS | ISR 1 hour |
+| Results | PostgreSQL + R2 | Real‑time (secure) |
+| Facilities | CMS | Daily |
+| Extracurriculars | CMS | Daily |
+| Societies | CMS | Daily |
+| Gallery | CMS + R2 | Daily |
+| Contact | Static + form handler | N/A |
+
+---
+
+## Figma / Penpot Wireframes
+
+Placeholder links to design mockups (to be added once available):
+
+- [Homepage wireframe](#)  
+- [About page wireframe](#)  
+- [Admissions process](#)  
+- [Results portal](#)  
+- [Society page template](#)
+
+---
+
+*C.W.W. Kannangara Central College – Est. 1873 – Wisdom is All Wealth*
+`
