@@ -15,6 +15,8 @@ import {
   blur,
   sizing,
   borderWidth,
+  fontFamily, // ← added
+  transformScale, // ← added
 } from '../dist/tokens/index.js';
 import fs from 'fs';
 import path from 'path';
@@ -24,10 +26,6 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-/**
- * Flattens a nested object into dot-separated key paths.
- * e.g. { gold: { base: '#...' } } → ['gold-base']
- */
 function flattenKeys(obj, prefix = '') {
   const keys = [];
   for (const [key, value] of Object.entries(obj)) {
@@ -56,6 +54,10 @@ function renderList(name, items) {
 const fontSizeKeys = Object.keys(fontSize);
 const fontSizeClasses = toClassList(fontSizeKeys, 'text');
 
+// Font family — font-*
+const fontFamilyKeys = Object.keys(fontFamily);
+const fontFamilyClasses = toClassList(fontFamilyKeys, 'font');
+
 // Letter spacing — tracking-*
 const trackingKeys = Object.keys(letterSpacing);
 const trackingClasses = toClassList(trackingKeys, 'tracking');
@@ -63,6 +65,10 @@ const trackingClasses = toClassList(trackingKeys, 'tracking');
 // Line height — leading-*
 const leadingKeys = Object.keys(lineHeight);
 const leadingClasses = toClassList(leadingKeys, 'leading');
+
+// Transform scale — scale-*
+const scaleKeys = Object.keys(transformScale);
+const scaleClasses = toClassList(scaleKeys, 'scale');
 
 // Sizing — w-*, h-*, min-w-*, max-w-*, min-h-*, max-h-*
 const sizingKeys = Object.keys(sizing);
@@ -148,12 +154,16 @@ import { extendTailwindMerge } from 'tailwind-merge';
 
 // ─── Font Size ────────────────────────────────────────────────────────────────
 ${renderList('fontSizeClasses', fontSizeClasses)}
+// ─── Font Family ──────────────────────────────────────────────────────────────
+${renderList('fontFamilyClasses', fontFamilyClasses)}
 // ─── Text Color ───────────────────────────────────────────────────────────────
 ${renderList('textColorClasses', textColorClasses)}
 // ─── Letter Spacing ───────────────────────────────────────────────────────────
 ${renderList('trackingClasses', trackingClasses)}
 // ─── Line Height ──────────────────────────────────────────────────────────────
 ${renderList('leadingClasses', leadingClasses)}
+// ─── Transform Scale ──────────────────────────────────────────────────────────
+${renderList('scaleClasses', scaleClasses)}
 // ─── Sizing: Width ────────────────────────────────────────────────────────────
 ${renderList('wClasses', wClasses)}
 // ─── Sizing: Height ───────────────────────────────────────────────────────────
@@ -211,9 +221,11 @@ const customTwMerge = extendTailwindMerge({
   extend: {
     classGroups: {
       'font-size':    fontSizeClasses,
+      'font-family':  fontFamilyClasses,
       'text-color':   textColorClasses,
       tracking:       trackingClasses,
       leading:        leadingClasses,
+      scale:          scaleClasses,
       w:              wClasses,
       h:              hClasses,
       'min-w':        minWClasses,

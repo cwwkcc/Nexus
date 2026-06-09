@@ -14,6 +14,10 @@ import {
   aspectRatio,
   backgroundImage,
   sizing,
+  fontFamily,
+  transformScale,
+  glass,
+  focusRing,
 } from '../dist/tokens/index.js';
 import fs from 'fs';
 import path from 'path';
@@ -21,12 +25,6 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-/**
- * Recursively flattens an object into CSS variable declarations.
- * @param {object} obj - The object to flatten.
- * @param {string} prefix - The CSS variable prefix (e.g., 'color').
- * @returns {string} CSS variable declarations.
- */
 function flattenObject(obj, prefix) {
   let css = '';
   for (const [key, value] of Object.entries(obj)) {
@@ -78,7 +76,7 @@ function writeTokensToFile(outputPath) {
     css += `  --line-height-${key}: ${value};\n`;
   }
 
-  // Motion
+  // Motion – Durations
   addComment('Motion – Durations');
   for (const [key, value] of Object.entries(transitionDuration)) {
     css += `  --duration-${key}: ${value};\n`;
@@ -136,13 +134,36 @@ function writeTokensToFile(outputPath) {
     css += `  --bg-${key}: ${value};\n`;
   }
 
+  // Font families
+  addComment('Font families');
+  for (const [key, value] of Object.entries(fontFamily)) {
+    css += `  --font-family-${key}: ${value.join(', ')};\n`;
+  }
+
+  // Transform scales
+  addComment('Transform scales');
+  for (const [key, value] of Object.entries(transformScale)) {
+    css += `  --${key}: ${value};\n`;
+  }
+
+  // Glass tokens
+  addComment('Glass tokens');
+  for (const [key, value] of Object.entries(glass)) {
+    css += `  --${key}: ${value};\n`;
+  }
+
+  // Focus ring tokens
+  addComment('Focus ring');
+  for (const [key, value] of Object.entries(focusRing)) {
+    css += `  --${key}: ${value};\n`;
+  }
+
   css += `}\n`;
 
   fs.writeFileSync(outputPath, css, 'utf8');
   console.log(`✅ Generated ${outputPath}`);
 }
 
-// Paths to each app's src/app folder
 const webPath = path.resolve(__dirname, '../../../apps/web/src/app/tokens.css');
 const adminPath = path.resolve(
   __dirname,
