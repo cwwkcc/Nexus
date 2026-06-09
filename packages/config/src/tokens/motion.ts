@@ -15,3 +15,8 @@ export const transitionTimingFunction = {
   ceremonial: 'cubic-bezier(0.16, 1, 0.3, 1)',
   ember: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
 } satisfies Record<string, string>;
+
+export const transformScale = {
+  'scale-press': '0.98',
+  'scale-card-hover': '1.02',
+} satisfies Record<string, string>;

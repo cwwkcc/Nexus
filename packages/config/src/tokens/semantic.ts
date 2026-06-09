@@ -1,4 +1,3 @@
-// packages/config/src/tokens/semantic.ts
 import { primitives } from './primitives.js';
 
 export const semantic = {
@@ -21,6 +20,9 @@ export const semantic = {
     deep: primitives.neutral[300],
     elevated: primitives.neutral[400],
     inverse: primitives.neutral[900],
+    hover: primitives.neutral[200], // = default
+    active: primitives.neutral[300], // = deep
+    disabled: primitives.neutral[100], // = base
   },
   text: {
     primary: primitives.neutral.ink,
@@ -38,4 +40,8 @@ export const semantic = {
     info: primitives.info,
   },
   overlay: primitives.overlay,
+  opacity: {
+    disabled: '0.5',
+    loading: '0.6',
+  },
 } as const;

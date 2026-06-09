@@ -157,6 +157,12 @@ export const sizing = {
   'size-max': 'max-content',
   'size-fit': 'fit-content',
   'size-auto': 'auto',
+
+  // Icon sizes
+  'icon-sm': '16px',
+  'icon-md': '20px',
+  'icon-lg': '24px',
+  'icon-xl': '32px',
 } satisfies Record<string, string>;
 
 export const borderWidth = {
