@@ -12,3 +12,5 @@ export * from './blur.js';
 export * from './aspectRatio.js';
 export * from './gradients.js';
 export * from './sizing.js';
+export * from './glass.js';
+export * from './focus.js';
