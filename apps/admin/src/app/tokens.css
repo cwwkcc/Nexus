@@ -19,8 +19,11 @@
   --color-surface-deep: #BEE0C9;
   --color-surface-elevated: #F0F7F2;
   --color-surface-inverse: #0F2918;
+  --color-surface-hover: #D1E6D9;
+  --color-surface-active: #BEE0C9;
+  --color-surface-disabled: #E6F2EA;
   --color-text-primary: #1C1A16;
-  --color-text-muted: #5C5647;
+  --color-text-muted: #4A5C4D;
   --color-text-inverse: #F5EFE4;
   --color-border-default: #D4C9B8;
   --color-border-light: #E2D9CC;
@@ -35,6 +38,8 @@
   --color-overlay-light: rgba(28,26,22,0.32);
   --color-overlay-medium: rgba(28,26,22,0.56);
   --color-overlay-heavy: rgba(28,26,22,0.78);
+  --color-opacity-disabled: 0.5;
+  --color-opacity-loading: 0.6;
 
   /* Spacing (4px scale) */
   --space-0: 0px;
@@ -390,10 +395,37 @@
   --size-max: max-content;
   --size-fit: fit-content;
   --size-auto: auto;
+  --icon-sm: 16px;
+  --icon-md: 20px;
+  --icon-lg: 24px;
+  --icon-xl: 32px;
 
   /* Whitelist gradients */
   --bg-gradient-gold-subtle: linear-gradient(135deg, rgba(201,151,58,0.18), rgba(26,74,46,0.0));
   --bg-gradient-hero-deep: linear-gradient(180deg, rgba(26,74,46,0.0) 0%, rgba(26,74,46,0.72) 100%);
   --bg-gradient-overlay-fade: linear-gradient(180deg, rgba(28,26,22,0.0) 0%, rgba(28,26,22,0.56) 100%);
   --bg-gradient-radial-gold: radial-gradient(circle at center, rgba(201,151,58,0.18), transparent 70%);
+
+  /* Font families */
+  --font-family-display: Cormorant Garamond, Georgia, serif;
+  --font-family-body: Inter, system-ui, -apple-system, sans-serif;
+  --font-family-quote: Cormorant Upright, Cormorant Garamond, serif;
+  --font-family-mono: IBM Plex Mono, Menlo, monospace;
+  --font-family-sinhala-display: Maname, Noto Serif Sinhala, serif;
+  --font-family-sinhala-body: Noto Serif Sinhala, serif;
+
+  /* Transform scales */
+  --scale-press: 0.98;
+  --scale-card-hover: 1.02;
+
+  /* Glass tokens */
+  --glass-surface-light: rgba(255,255,255,0.85);
+  --glass-surface-medium: rgba(255,255,255,0.7);
+  --glass-border: #E2D9CC;
+  --glass-shadow: 0 8px 20px rgba(28,26,22,0.12);
+
+  /* Focus ring */
+  --focus-ring-color: #C9973A;
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
 }
