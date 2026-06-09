@@ -17,6 +17,9 @@ import {
   fontFamily,
   sizing,
   borderWidth,
+  transformScale,
+  glass,
+  focusRing,
 } from '../tokens/index.js';
 
 export const nexusPreset: Partial<Config> = {
@@ -29,13 +32,12 @@ export const nexusPreset: Partial<Config> = {
       xl: '1280px',
       '2xl': '1536px',
     },
-    // Replace Tailwind defaults completely
     colors,
     fontFamily,
     fontSize,
     letterSpacing,
     lineHeight,
-    spacing, // for margins, paddings, gaps
+    spacing,
     maxWidth: {
       prose: '680px',
       content: '960px',
@@ -60,6 +62,9 @@ export const nexusPreset: Partial<Config> = {
       minHeight: sizing,
       maxHeight: sizing,
       borderWidth,
+      scale: transformScale,
+      ...glass,
+      ...focusRing,
     },
   },
   plugins: [],
