@@ -8,19 +8,19 @@
 /* ── Base Styles ── */
 @layer base {
   html {
-    background-color: var(--base);
-    color: var(--text-dark);
-    font-family: var(--font-body);
+    background-color: var(--color-surface-base);
+    color: var(--color-text-primary);
+    font-family: var(--font-family-body);
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
   }
 
   body {
-    font-family: var(--font-body);
+    font-family: var(--font-family-body);
     line-height: 1.6;
     margin: 0;
     background-color: var(--color-surface-base);
-    color: var(--text);
+    color: var(--color-text-primary);
   }
 
   h1,
@@ -29,15 +29,15 @@
   h4,
   h5,
   h6 {
-    font-family: var(--font-display);
+    font-family: var(--font-family-display);
     font-weight: 500;
     line-height: 1.15;
     letter-spacing: -0.02em;
-    color: var(--green);
+    color: var(--color-green-base);
   }
 
   p {
-    color: var(--text-muted);
+    color: var(--color-text-muted);
     font-weight: 300;
     line-height: 1.8;
   }
