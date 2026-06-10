@@ -1,7 +1,6 @@
 'use client';
 
-import { clsx } from 'clsx';
-import { Button } from '@nexus/ui';
+import { Button, cn } from '@nexus/ui';
 
 export interface DemoSectionProps {
   /** Section title */
@@ -32,16 +31,16 @@ export function DemoSection({
   const isCenter = align === 'center';
 
   return (
-    <div className={clsx('mb-space-16', className)}>
+    <div className={cn('mb-space-16', className)}>
       {/* Header */}
-      <div className={clsx('mb-space-8', isCenter && 'text-center')}>
+      <div className={cn('mb-space-8', isCenter && 'text-center')}>
         {/* Title */}
         <h2 className="font-display text-h2 text-text-primary">{title}</h2>
 
         {/* Accent rule (optional) */}
         {withAccentRule && (
           <div
-            className={clsx(
+            className={cn(
               'w-size-12 h-size-0-5 bg-gold-base mt-space-4',
               isCenter && 'mx-auto',
             )}
@@ -51,7 +50,7 @@ export function DemoSection({
         {/* Description (optional) */}
         {description && (
           <p
-            className={clsx(
+            className={cn(
               'font-body text-body text-text-muted mt-space-4 max-w-prose',
               isCenter && 'mx-auto',
             )}
@@ -62,15 +61,11 @@ export function DemoSection({
 
         {/* View Code button (optional) */}
         {sourceHref && (
-          <div
-            className={clsx('mt-space-6', isCenter && 'flex justify-center')}
-          >
+          <div className={cn('mt-space-6', isCenter && 'flex justify-center')}>
             <Button
-              as="a"
               href={sourceHref}
               variant="ghost"
               size="sm"
-              target="_blank"
               leftIcon={
                 <svg
                   width="14"
@@ -92,7 +87,9 @@ export function DemoSection({
       </div>
 
       {/* Children container */}
-      <div className="flex flex-wrap gap-space-6 items-center w-size-full">
+      <div
+        className={cn('flex flex-wrap gap-space-6 items-center w-size-full')}
+      >
         {children}
       </div>
     </div>
