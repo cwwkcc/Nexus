@@ -79,7 +79,7 @@ export default function SpacingPage() {
             <div className="relative flex-1 h-size-8 bg-surface-default rounded-sm overflow-hidden">
               <div
                 className="absolute inset-y-0 left-0 bg-gold-base"
-                style={{ width: `var(--${token})` }}
+                style={{ width: `var(--${token})`, maxWidth: '100%' }}
               />
             </div>
             <div className="w-size-32 shrink-0 font-mono text-caption text-text-muted text-right">
