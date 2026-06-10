@@ -18,7 +18,7 @@ import {
   sizing,
   borderWidth,
   transformScale,
-} from '../tokens/index.js';
+} from '../tokens/index';
 
 export const nexusPreset: Partial<Config> = {
   theme: {

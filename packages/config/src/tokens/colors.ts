@@ -1,4 +1,4 @@
-import { semantic } from './semantic.js';
+import { semantic } from './semantic';
 
 export const colors = {
   transparent: 'transparent',

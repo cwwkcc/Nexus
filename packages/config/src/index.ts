@@ -1,2 +1,2 @@
-export * from './tokens/index.js';
-export { nexusPreset } from './tailwind/preset.js';
+export * from './tokens/index';
+export { nexusPreset } from './tailwind/preset';

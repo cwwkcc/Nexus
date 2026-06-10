@@ -1,4 +1,4 @@
-import { primitives } from './primitives.js';
+import { primitives } from './primitives';
 
 export const semantic = {
   green: {
