@@ -17,7 +17,7 @@ import {
   borderWidth,
   fontFamily, // ← added
   transformScale, // ← added
-} from '../dist/tokens/index.js';
+} from '../src/tokens/index.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';

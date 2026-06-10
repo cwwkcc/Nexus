@@ -5,20 +5,23 @@
   "type": "module",
   "exports": {
     ".": {
+      "require": "./dist/index.js",
       "import": "./dist/index.js",
+      "default": "./dist/index.js",
       "types": "./dist/index.d.ts"
     }
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
+    "dev": "tsc --watch",
     "build": "tsc",
-    "generate:css-vars": "node scripts/generate-css-vars.js",
-    "generate:cn": "node scripts/generate-cn-groups.js",
+    "generate:css-vars": "tsx scripts/generate-css-vars.js",
+    "generate:cn": "tsx scripts/generate-cn-groups.js",
     "generate": "npm run generate:css-vars && npm run generate:cn"
   },
-  "dependencies": {},
   "devDependencies": {
+    "tsx": "^4.22.4",
     "typescript": "~5.9.2"
   }
 }
