@@ -1,3 +1,4 @@
+'use client';
 import { useState, useEffect, useRef, useId } from 'react';
 export interface SearchResult {
   id: string;
