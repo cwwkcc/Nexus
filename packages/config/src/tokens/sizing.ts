@@ -153,6 +153,7 @@ export const sizing = {
   'size-pct-100': '100%',
 
   // ── Semantic ──────────────────────────────────────────────────────────────
+  'size-full': '100%', // fixes w-size-full, h-size-full etc.
   'size-min': 'min-content',
   'size-max': 'max-content',
   'size-fit': 'fit-content',

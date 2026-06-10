@@ -1,4 +1,9 @@
 export const spacing = {
+  // Bare '0' is required so Tailwind core utilities (p-0, m-0, gap-0,
+  // inset-0, top-0, etc.) continue to work when this object fully replaces
+  // the default spacing scale.
+  '0': '0px',
+
   'space-0': '0px',
   'space-0p5': '2px',
   'space-1': '4px',

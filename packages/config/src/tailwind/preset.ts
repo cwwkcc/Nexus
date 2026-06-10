@@ -18,8 +18,6 @@ import {
   sizing,
   borderWidth,
   transformScale,
-  glass,
-  focusRing,
 } from '../tokens/index.js';
 
 export const nexusPreset: Partial<Config> = {
@@ -63,8 +61,10 @@ export const nexusPreset: Partial<Config> = {
       maxHeight: sizing,
       borderWidth,
       scale: transformScale,
-      ...glass,
-      ...focusRing,
+      // glass and focusRing tokens live in tokens.css as CSS custom properties
+      // and are consumed via var(--glass-*) / var(--focus-ring-*) directly.
+      // Spreading them into extend generates no Tailwind utilities (they are
+      // not valid theme category keys) so they were removed from here.
     },
   },
   plugins: [],
