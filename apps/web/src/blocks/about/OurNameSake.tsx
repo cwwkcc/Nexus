@@ -18,7 +18,7 @@ export default function OurNameSake() {
       size="full"
       padding="lg"
       as="section"
-      className="bg-surface-base rounded-lg m-space-6 md:m-space-12 lg:m-space-16"
+      className="glass-panel rounded-lg m-space-6 md:m-space-12 lg:m-space-16"
     >
       <Grid
         columns={1}

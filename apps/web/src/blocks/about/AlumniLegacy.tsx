@@ -19,7 +19,7 @@ export default function AlumniLegacy() {
       size="lg"
       padding="md"
       as="section"
-      className="bg-surface-base rounded-md m-space-6 md:m-space-12 lg:m-space-16"
+      className="m-space-6 md:m-space-12 lg:m-space-16"
     >
       <SectionHeader
         eyebrow={t('eyebrow')}

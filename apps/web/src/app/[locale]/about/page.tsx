@@ -21,7 +21,7 @@ export default function AboutPage() {
   const t = useTranslations('about');
 
   return (
-    <main className="bg-surface-deep">
+    <>
       {/* Hero Section */}
       <AboutHero />
       {/* StatsStrip */}
@@ -46,6 +46,6 @@ export default function AboutPage() {
       <ClosingStatement />
       {/* Footer */}
       <Footer />
-    </main>
+    </>
   );
 }

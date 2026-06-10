@@ -7,7 +7,7 @@ export default function Ethos() {
       size="full"
       padding="md"
       as="section"
-      className="bg-surface-base rounded-lg m-space-6 md:m-space-12 lg:m-space-16"
+      className="glass-panel rounded-lg m-space-6 md:m-space-12 lg:m-space-16"
     >
       <VStack spacing={6}>
         <VStack spacing={4}>
