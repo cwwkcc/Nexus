@@ -1,8 +1,5 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
-import { Footer } from '@nexus/ui';
-
 // In apps/web/src/app/[locale]/about/page.tsx
 import AboutHero from '../../../blocks/about/AboutHero';
 import AboutStatsStrip from '../../../blocks/about/AboutStatsStrip';
@@ -18,12 +15,10 @@ import AlumniLegacy from '../../../blocks/about/AlumniLegacy';
 import SchoolAnthem from '../../../blocks/about/SchoolAnthem';
 
 export default function AboutPage() {
-  const t = useTranslations('about');
-
   return (
     <>
       {/* Hero Section */}
-      <AboutHero />
+      {/* <AboutHero /> */}
       {/* StatsStrip */}
       <AboutStatsStrip />
       {/* Founding narrative + Kannangara */}
@@ -44,8 +39,6 @@ export default function AboutPage() {
       <SchoolAnthem />
       {/* Closing Statement */}
       <ClosingStatement />
-      {/* Footer */}
-      <Footer />
     </>
   );
 }
