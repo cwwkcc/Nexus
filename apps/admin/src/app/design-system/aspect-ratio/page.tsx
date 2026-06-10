@@ -176,7 +176,6 @@ export default function AspectRatioPage() {
               <ImageFrame
                 src="/images/ironman.jpg"
                 alt={`Aspect ratio demo — ${ratio}`}
-                aspectRatio={aspectRatio}
                 className="w-size-64"
               />
               <p className="font-body text-caption text-text-muted mt-space-2">

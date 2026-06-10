@@ -197,16 +197,16 @@ export default function TypographyPage() {
               <p className="font-body text-eyebrow text-text-muted mb-space-1 tracking-extended">
                 sinhala-display
               </p>
-              <p className="font-sinhala-display text-sinhala-h1">
-                සී. ඩබ්. ඩබ්. කන්නන්ගර මහ​තා
+              <p className="font-sinhala-display text-sinhala-h1 mb-space-10">
+                මුහුදු මංකොල්ලකරුවන් පිළිබඳ සාමාන්‍ය ඉතිහාසය
               </p>
             </div>
             <div>
-              <p className="font-body text-eyebrow text-text-muted mb-space-1 tracking-extended">
+              <p className="font-body text-eyebrow text-text-muted tracking-extended">
                 sinhala-h2
               </p>
-              <p className="font-sinhala-display text-sinhala-h2">
-                ශ්‍රී ලංකාවේ ප්‍රථම ම​ධ්‍ය විද්‍යාලය
+              <p className="font-sinhala-display text-sinhala-h2 mb-space-1">
+                චරිතාපදාන ද්වාරය
               </p>
             </div>
             <div>
@@ -214,18 +214,14 @@ export default function TypographyPage() {
                 sinhala-body
               </p>
               <p className="font-sinhala-body text-sinhala-body">
-                විද්‍යාලය 1950 දී ස්ථාපිත කරන ලදී. කන්නන්ගර මහතාගේ දැක්ම රට
-                වෙනස් කළේය.
+                චරිතාපදානයක් යනු, යමෙකුගේ ජීවිතය පිළිබඳ සවිස්තරාත්මක සටහනක් හෝ
+                විස්තරයක් හෝ වෙයි. ප්‍රධාන තතු (අධ්‍යාපනය, කර්මාන්ත, සබැඳියාවන්
+                සහ, මරණය) ලැයිස්තුවකට වඩා වැඩිමනත් තොරතුරු සපයන චරිතාපදානයක්
+                විසින්, මෙම සිද්ධීන් තුල පරික්ෂ්‍යමානයාගේ පළපුරුද්ද විදහා
+                දක්වයි.
               </p>
             </div>
-            <div>
-              <p className="font-body text-eyebrow text-text-muted mb-space-1 tracking-extended">
-                sinhala-body
-              </p>
-              <p className="font-sinhala-body text-sinhala-body">
-                Noto Serif Sinhala – ශිෂ්‍ය ශිෂ්‍යාවන් සහ ගුරුවරුන්
-              </p>
-            </div>
+            <div></div>
           </div>
         </div>
       </div>
