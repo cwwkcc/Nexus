@@ -8,7 +8,7 @@ export default function OurStory() {
       size="full"
       padding="md"
       as="section"
-      className="glass-panel rounded-lg m-space-6 md:m-space-12 lg:m-space-16"
+      className="m-space-6 md:m-space-12 lg:m-space-16"
     >
       <VStack spacing={6}>
         <SectionHeader

@@ -25,7 +25,7 @@ export default function Values() {
       size="full"
       padding="lg"
       as="section"
-      className="glass-panel rounded-lg m-space-6 md:m-space-12 lg:m-space-16"
+      className=" m-space-6 md:m-space-12 lg:m-space-16"
     >
       <EyebrowLabel>{t('valuesEyebrow')}</EyebrowLabel>
       <Grid

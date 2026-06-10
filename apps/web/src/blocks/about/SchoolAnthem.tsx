@@ -9,7 +9,7 @@ export default function SchoolAnthem() {
       size="full"
       padding="md"
       as="section"
-      className="glass-panel rounded-md m-space-6 md:m-space-12 lg:m-space-16"
+      className="m-space-6 md:m-space-12 lg:m-space-16"
     >
       <SectionHeader
         eyebrow={t('eyebrow')}
