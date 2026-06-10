@@ -27,6 +27,16 @@ const fontSizeClasses = [
   'text-sinhala-body',
 ];
 
+// ─── Font Family ──────────────────────────────────────────────────────────────
+const fontFamilyClasses = [
+  'font-display',
+  'font-body',
+  'font-quote',
+  'font-mono',
+  'font-sinhala-display',
+  'font-sinhala-body',
+];
+
 // ─── Text Color ───────────────────────────────────────────────────────────────
 const textColorClasses = [
   'text-transparent',
@@ -45,6 +55,9 @@ const textColorClasses = [
   'text-surface-deep',
   'text-surface-elevated',
   'text-surface-inverse',
+  'text-surface-hover',
+  'text-surface-active',
+  'text-surface-disabled',
   'text-text-primary',
   'text-text-muted',
   'text-text-inverse',
@@ -61,6 +74,8 @@ const textColorClasses = [
   'text-overlay-light',
   'text-overlay-medium',
   'text-overlay-heavy',
+  'text-opacity-disabled',
+  'text-opacity-loading',
 ];
 
 // ─── Letter Spacing ───────────────────────────────────────────────────────────
@@ -95,6 +110,12 @@ const leadingClasses = [
   'leading-label-sm',
   'leading-eyebrow',
   'leading-caption',
+];
+
+// ─── Transform Scale ──────────────────────────────────────────────────────────
+const scaleClasses = [
+  'scale-scale-press',
+  'scale-scale-card-hover',
 ];
 
 // ─── Sizing: Width ────────────────────────────────────────────────────────────
@@ -235,6 +256,10 @@ const wClasses = [
   'w-size-max',
   'w-size-fit',
   'w-size-auto',
+  'w-icon-sm',
+  'w-icon-md',
+  'w-icon-lg',
+  'w-icon-xl',
 ];
 
 // ─── Sizing: Height ───────────────────────────────────────────────────────────
@@ -375,6 +400,10 @@ const hClasses = [
   'h-size-max',
   'h-size-fit',
   'h-size-auto',
+  'h-icon-sm',
+  'h-icon-md',
+  'h-icon-lg',
+  'h-icon-xl',
 ];
 
 // ─── Sizing: Min/Max Width ────────────────────────────────────────────────────
@@ -515,6 +544,10 @@ const minWClasses = [
   'min-w-size-max',
   'min-w-size-fit',
   'min-w-size-auto',
+  'min-w-icon-sm',
+  'min-w-icon-md',
+  'min-w-icon-lg',
+  'min-w-icon-xl',
 ];
 
 const maxWClasses = [
@@ -654,6 +687,10 @@ const maxWClasses = [
   'max-w-size-max',
   'max-w-size-fit',
   'max-w-size-auto',
+  'max-w-icon-sm',
+  'max-w-icon-md',
+  'max-w-icon-lg',
+  'max-w-icon-xl',
 ];
 
 // ─── Sizing: Min/Max Height ───────────────────────────────────────────────────
@@ -794,6 +831,10 @@ const minHClasses = [
   'min-h-size-max',
   'min-h-size-fit',
   'min-h-size-auto',
+  'min-h-icon-sm',
+  'min-h-icon-md',
+  'min-h-icon-lg',
+  'min-h-icon-xl',
 ];
 
 const maxHClasses = [
@@ -933,6 +974,10 @@ const maxHClasses = [
   'max-h-size-max',
   'max-h-size-fit',
   'max-h-size-auto',
+  'max-h-icon-sm',
+  'max-h-icon-md',
+  'max-h-icon-lg',
+  'max-h-icon-xl',
 ];
 
 // ─── Spacing: Padding ─────────────────────────────────────────────────────────
@@ -1954,6 +1999,9 @@ const borderColorClasses = [
   'border-surface-deep',
   'border-surface-elevated',
   'border-surface-inverse',
+  'border-surface-hover',
+  'border-surface-active',
+  'border-surface-disabled',
   'border-text-primary',
   'border-text-muted',
   'border-text-inverse',
@@ -1970,6 +2018,8 @@ const borderColorClasses = [
   'border-overlay-light',
   'border-overlay-medium',
   'border-overlay-heavy',
+  'border-opacity-disabled',
+  'border-opacity-loading',
 ];
 
 // ─── Background Color ─────────────────────────────────────────────────────────
@@ -1990,6 +2040,9 @@ const bgColorClasses = [
   'bg-surface-deep',
   'bg-surface-elevated',
   'bg-surface-inverse',
+  'bg-surface-hover',
+  'bg-surface-active',
+  'bg-surface-disabled',
   'bg-text-primary',
   'bg-text-muted',
   'bg-text-inverse',
@@ -2006,6 +2059,8 @@ const bgColorClasses = [
   'bg-overlay-light',
   'bg-overlay-medium',
   'bg-overlay-heavy',
+  'bg-opacity-disabled',
+  'bg-opacity-loading',
 ];
 
 // ─── Border Radius ────────────────────────────────────────────────────────────
@@ -2070,9 +2125,11 @@ const customTwMerge = extendTailwindMerge({
   extend: {
     classGroups: {
       'font-size':    fontSizeClasses,
+      'font-family':  fontFamilyClasses,
       'text-color':   textColorClasses,
       tracking:       trackingClasses,
       leading:        leadingClasses,
+      scale:          scaleClasses,
       w:              wClasses,
       h:              hClasses,
       'min-w':        minWClasses,

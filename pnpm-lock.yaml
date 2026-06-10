@@ -199,9 +199,6 @@ importers:
       react-hook-form:
         specifier: ^7.49.0
         version: 7.77.0(react@19.2.4)
-      tailwind-merge:
-        specifier: ^1.14.0
-        version: 1.14.0
     devDependencies:
       '@types/react':
         specifier: ^19.0.0
@@ -224,6 +221,9 @@ importers:
       react-dom:
         specifier: ^19.0.0
         version: 19.2.4(react@19.2.4)
+      tailwind-merge:
+        specifier: ^3.6.0
+        version: 3.6.0
 
 packages:
 
@@ -7247,8 +7247,8 @@ packages:
     resolution: {integrity: sha512-gAQ9qrUN/UCypHtGFbbe7Rc/f9bzO88IwrG8TDo/aMKAApKyD6E3W4Cm0EfhfBb6Z6SKt59tTCTfD+n1xmAvMg==}
     engines: {node: '>=16.0.0'}
 
-  tailwind-merge@1.14.0:
-    resolution: {integrity: sha512-3mFKyCo/MBcgyOTlrY8T7odzZFx+w+qKSMAmdFzRvqBfLlSigU6TZnlFHK0lkMwj9Bj8OYU+9yW9lmGuS0QEnQ==}
+  tailwind-merge@3.6.0:
+    resolution: {integrity: sha512-uxL7qAVQriqRQPAyK3pj66VqskWqoZ37PW94jwOTwNfq/z9oyu1V+eqrZqtR2+fCiXdYOZe/Modt8GtvqNzu+w==}
 
   tailwindcss@3.4.3:
     resolution: {integrity: sha512-U7sxQk/n397Bmx4JHbJx/iSOOv5G+II3f1kpLpY2QeUv5DcPdcTsYLlusZfq1NthHS1c1cZoyFmmkex1rzke0A==}
@@ -16215,7 +16215,7 @@ snapshots:
 
   sync-message-port@1.2.0: {}
 
-  tailwind-merge@1.14.0: {}
+  tailwind-merge@3.6.0: {}
 
   tailwindcss@3.4.3:
     dependencies:
