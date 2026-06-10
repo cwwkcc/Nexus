@@ -1,7 +1,6 @@
 // packages/ui/src/components/layout/Footer.tsx
 
 import { NavLink } from '../navigation/NavLink';
-import { InlineLink } from '../typography/InlineLink';
 import { Container } from './Container';
 import { Grid, GridItem } from './Grid';
 import { VStack, HStack } from './Stack';
@@ -113,7 +112,7 @@ export function Footer({
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-surface-inverse rounded-t-lg ">
+    <footer className=" bg-surface-inverse rounded-t-lg ">
       <Container size="full" padding="sm" className="md:pb-space-2">
         <Grid columns={1} className="sm:grid-cols-5 lg:grid-cols-7 ">
           <GridItem className="sm:col-span-3">
@@ -154,14 +153,14 @@ export function Footer({
                           <a href={item.href}>
                             <Text
                               variant="body-sm"
-                              color="primary"
+                              color="inverse"
                               className="hover:text-gold-base transition-colors duration-fast"
                             >
                               {item.label}
                             </Text>
                           </a>
                         ) : (
-                          <Text variant="body-sm" color="primary">
+                          <Text variant="body-sm" color="inverse">
                             {item.label}
                           </Text>
                         )}
@@ -195,7 +194,7 @@ export function Footer({
                         <NavLink href={link.href}>
                           <Text
                             variant="caption"
-                            color="primary"
+                            color="inverse"
                             className="hover:text-gold-base transition-colors duration-fast"
                           >
                             {link.label}

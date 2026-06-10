@@ -419,10 +419,11 @@
   --scale-card-hover: 1.02;
 
   /* Glass tokens */
-  --glass-surface-light: rgba(255,255,255,0.85);
-  --glass-surface-medium: rgba(255,255,255,0.7);
-  --glass-border: #E2D9CC;
-  --glass-shadow: 0 8px 20px rgba(28,26,22,0.12);
+  --glass-surface-light: rgba(255,255,255,0.3);
+  --glass-surface-medium: rgba(255,255,255,0.2);
+  --glass-backdrop-blur: blur(12px);
+  --glass-border: 1px solid rgba(255,255,255,0.2);
+  --glass-shadow: 0 8px 32px rgba(0,0,0,0.1);
 
   /* Focus ring */
   --focus-ring-color: #C9973A;

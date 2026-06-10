@@ -8,9 +8,6 @@
 /* ── Base Styles ── */
 @layer base {
   html {
-    background-color: var(--color-surface-base);
-    color: var(--color-text-primary);
-    font-family: var(--font-family-body);
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
   }
@@ -19,7 +16,7 @@
     font-family: var(--font-family-body);
     line-height: 1.6;
     margin: 0;
-    background-color: var(--color-surface-base);
+    background: var(--bg-gradient-hero-deep);
     color: var(--color-text-primary);
   }
 
@@ -56,5 +53,16 @@
   }
 }
 @layer utilities {
-  /* ... */
+  .glass-panel {
+    background: var(--glass-surface-light);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+  }
+
+  /* Optional: heavier glass for modals/hero */
+  .glass-panel-heavy {
+    background: var(--glass-surface-medium);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+  }
 }
