@@ -8,7 +8,6 @@
   },
   "scripts": {
     "prebuild": "pnpm --filter @nexus/config build && pnpm --filter @nexus/config generate",
-    "dev": "pnpm prebuild && pnpm --filter @nexus/web dev && pnpm --filter @nexus/admin dev",
     "build": "pnpm prebuild && pnpm --filter @nexus/web build && pnpm --filter @nexus/admin build",
     "dev:web": "pnpm prebuild && pnpm --filter @nexus/web dev",
     "build:web": "pnpm prebuild && pnpm --filter @nexus/web build",
@@ -29,7 +28,7 @@
     "@sanity/image-url": "^2.0.3",
     "@trpc/client": "^11.13.4",
     "@trpc/server": "^11.13.4",
-    "next": "~16.1.6",
+    "next": "~16.2.9",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "zod": "^4.3.6"
