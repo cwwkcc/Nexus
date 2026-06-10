@@ -114,8 +114,8 @@ const leadingClasses = [
 
 // ─── Transform Scale ──────────────────────────────────────────────────────────
 const scaleClasses = [
-  'scale-scale-press',
-  'scale-scale-card-hover',
+  'scale-press',
+  'scale-card-hover',
 ];
 
 // ─── Sizing: Width ────────────────────────────────────────────────────────────
@@ -252,6 +252,7 @@ const wClasses = [
   'w-size-pct-90',
   'w-size-pct-95',
   'w-size-pct-100',
+  'w-size-full',
   'w-size-min',
   'w-size-max',
   'w-size-fit',
@@ -396,6 +397,7 @@ const hClasses = [
   'h-size-pct-90',
   'h-size-pct-95',
   'h-size-pct-100',
+  'h-size-full',
   'h-size-min',
   'h-size-max',
   'h-size-fit',
@@ -540,6 +542,7 @@ const minWClasses = [
   'min-w-size-pct-90',
   'min-w-size-pct-95',
   'min-w-size-pct-100',
+  'min-w-size-full',
   'min-w-size-min',
   'min-w-size-max',
   'min-w-size-fit',
@@ -683,6 +686,7 @@ const maxWClasses = [
   'max-w-size-pct-90',
   'max-w-size-pct-95',
   'max-w-size-pct-100',
+  'max-w-size-full',
   'max-w-size-min',
   'max-w-size-max',
   'max-w-size-fit',
@@ -827,6 +831,7 @@ const minHClasses = [
   'min-h-size-pct-90',
   'min-h-size-pct-95',
   'min-h-size-pct-100',
+  'min-h-size-full',
   'min-h-size-min',
   'min-h-size-max',
   'min-h-size-fit',
@@ -970,6 +975,7 @@ const maxHClasses = [
   'max-h-size-pct-90',
   'max-h-size-pct-95',
   'max-h-size-pct-100',
+  'max-h-size-full',
   'max-h-size-min',
   'max-h-size-max',
   'max-h-size-fit',
@@ -982,6 +988,7 @@ const maxHClasses = [
 
 // ─── Spacing: Padding ─────────────────────────────────────────────────────────
 const pClasses = [
+  'p-0',
   'p-space-0',
   'p-space-0p5',
   'p-space-1',
@@ -1029,6 +1036,7 @@ const pClasses = [
 ];
 
 const pxClasses = [
+  'px-0',
   'px-space-0',
   'px-space-0p5',
   'px-space-1',
@@ -1076,6 +1084,7 @@ const pxClasses = [
 ];
 
 const pyClasses = [
+  'py-0',
   'py-space-0',
   'py-space-0p5',
   'py-space-1',
@@ -1123,6 +1132,7 @@ const pyClasses = [
 ];
 
 const ptClasses = [
+  'pt-0',
   'pt-space-0',
   'pt-space-0p5',
   'pt-space-1',
@@ -1170,6 +1180,7 @@ const ptClasses = [
 ];
 
 const prClasses = [
+  'pr-0',
   'pr-space-0',
   'pr-space-0p5',
   'pr-space-1',
@@ -1217,6 +1228,7 @@ const prClasses = [
 ];
 
 const pbClasses = [
+  'pb-0',
   'pb-space-0',
   'pb-space-0p5',
   'pb-space-1',
@@ -1264,6 +1276,7 @@ const pbClasses = [
 ];
 
 const plClasses = [
+  'pl-0',
   'pl-space-0',
   'pl-space-0p5',
   'pl-space-1',
@@ -1312,6 +1325,7 @@ const plClasses = [
 
 // ─── Spacing: Margin ──────────────────────────────────────────────────────────
 const mClasses = [
+  'm-0',
   'm-space-0',
   'm-space-0p5',
   'm-space-1',
@@ -1359,6 +1373,7 @@ const mClasses = [
 ];
 
 const mxClasses = [
+  'mx-0',
   'mx-space-0',
   'mx-space-0p5',
   'mx-space-1',
@@ -1406,6 +1421,7 @@ const mxClasses = [
 ];
 
 const myClasses = [
+  'my-0',
   'my-space-0',
   'my-space-0p5',
   'my-space-1',
@@ -1453,6 +1469,7 @@ const myClasses = [
 ];
 
 const mtClasses = [
+  'mt-0',
   'mt-space-0',
   'mt-space-0p5',
   'mt-space-1',
@@ -1500,6 +1517,7 @@ const mtClasses = [
 ];
 
 const mrClasses = [
+  'mr-0',
   'mr-space-0',
   'mr-space-0p5',
   'mr-space-1',
@@ -1547,6 +1565,7 @@ const mrClasses = [
 ];
 
 const mbClasses = [
+  'mb-0',
   'mb-space-0',
   'mb-space-0p5',
   'mb-space-1',
@@ -1594,6 +1613,7 @@ const mbClasses = [
 ];
 
 const mlClasses = [
+  'ml-0',
   'ml-space-0',
   'ml-space-0p5',
   'ml-space-1',
@@ -1642,6 +1662,7 @@ const mlClasses = [
 
 // ─── Spacing: Gap ─────────────────────────────────────────────────────────────
 const gapClasses = [
+  'gap-0',
   'gap-space-0',
   'gap-space-0p5',
   'gap-space-1',
@@ -1689,6 +1710,7 @@ const gapClasses = [
 ];
 
 const gapXClasses = [
+  'gap-x-0',
   'gap-x-space-0',
   'gap-x-space-0p5',
   'gap-x-space-1',
@@ -1736,6 +1758,7 @@ const gapXClasses = [
 ];
 
 const gapYClasses = [
+  'gap-y-0',
   'gap-y-space-0',
   'gap-y-space-0p5',
   'gap-y-space-1',
@@ -1784,6 +1807,7 @@ const gapYClasses = [
 
 // ─── Spacing: Inset (top/right/bottom/left) ───────────────────────────────────
 const topClasses = [
+  'top-0',
   'top-space-0',
   'top-space-0p5',
   'top-space-1',
@@ -1831,6 +1855,7 @@ const topClasses = [
 ];
 
 const rightClasses = [
+  'right-0',
   'right-space-0',
   'right-space-0p5',
   'right-space-1',
@@ -1878,6 +1903,7 @@ const rightClasses = [
 ];
 
 const bottomClasses = [
+  'bottom-0',
   'bottom-space-0',
   'bottom-space-0p5',
   'bottom-space-1',
@@ -1925,6 +1951,7 @@ const bottomClasses = [
 ];
 
 const leftClasses = [
+  'left-0',
   'left-space-0',
   'left-space-0p5',
   'left-space-1',
