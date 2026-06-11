@@ -18,7 +18,7 @@ export default function AboutPage() {
   return (
     <>
       {/* Hero Section */}
-      {/* <AboutHero /> */}
+      <AboutHero />
       {/* StatsStrip */}
       <AboutStatsStrip />
       {/* Founding narrative + Kannangara */}
