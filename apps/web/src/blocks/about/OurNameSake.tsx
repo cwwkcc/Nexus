@@ -26,7 +26,7 @@ export default function OurNameSake() {
         alignItems="start"
         className="md:grid-cols-2 xl:grid-cols-3"
       >
-        {/* ── Left: Portrait ───────────────────────────────────────────── */}
+        {/* ──  Portrait ───────────────────────────────────────────── */}
         <GridItem alignSelf="center">
           <ImageFrame
             src="/images/ironman.jpg"
@@ -35,6 +35,7 @@ export default function OurNameSake() {
             variant="featured"
             frameColor="gold"
             frameWidth="border-2xl"
+            size="full"
           />
           {t('portraitCaption') && (
             <Text
@@ -47,7 +48,7 @@ export default function OurNameSake() {
           )}
         </GridItem>
 
-        {/* ── Right: Content ────────────────────────────────────────────── */}
+        {/* ──  Content ────────────────────────────────────────────── */}
         <GridItem className="xl:col-span-2">
           <SectionHeader
             eyebrow={t('eyebrow')}

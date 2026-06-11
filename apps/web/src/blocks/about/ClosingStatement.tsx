@@ -1,7 +1,13 @@
 //web/src/app/[locale]/components/test/page.tsx
 'use client';
 import { useTranslations } from 'next-intl';
-import { Container, Heading, Text, EyebrowLabel } from '@nexus/ui';
+import {
+  Container,
+  Heading,
+  Text,
+  EyebrowLabel,
+  SectionHeader,
+} from '@nexus/ui';
 
 export default function TimeLine() {
   const t = useTranslations('about.closing');
@@ -13,14 +19,22 @@ export default function TimeLine() {
         as="section"
         className="m-space-6 md:m-space-12 lg:m-space-16"
       >
-        <EyebrowLabel>Closing Statement</EyebrowLabel>
-        <Heading level="h2" color="gold" className="my-space-4">
-          {t('heading')}
-        </Heading>
-        <Text variant="body" color="primary">
+        <SectionHeader
+          eyebrow={t('eyebrow')}
+          title={t('heading')}
+          align="center"
+          withAccentRule
+          className="mb-space-12"
+        />
+        <Text variant="body" color="primary" align="center">
           {t('body')}
         </Text>
-        <Text variant="caption" color="muted" className="mt-space-2">
+        <Text
+          variant="caption"
+          color="muted"
+          className="mt-space-2"
+          align="center"
+        >
           {t('rule')}
         </Text>
       </Container>

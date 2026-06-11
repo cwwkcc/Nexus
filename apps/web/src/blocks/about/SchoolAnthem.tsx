@@ -28,7 +28,6 @@ export default function SchoolAnthem() {
         src={t('anthemSrc')}
         title={t('playerTitle')}
         subtitle={t('playerSubtitle')}
-        lyrics={t('lyrics')}
         lyricsSinhala={t('lyricsSinhala')}
       />
     </Container>

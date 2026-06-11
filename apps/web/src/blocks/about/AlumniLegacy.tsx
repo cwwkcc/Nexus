@@ -15,18 +15,13 @@ export default function AlumniLegacy() {
     : [];
 
   return (
-    <Container
-      size="lg"
-      padding="md"
-      as="section"
-      className="m-space-6 md:m-space-12 lg:m-space-16"
-    >
+    <Container size="lg" padding="md" as="section">
       <SectionHeader
         eyebrow={t('eyebrow')}
         title={t('heading')}
         align="center"
         withAccentRule
-        className="mb-space-12"
+        className="mb-space-2"
       />
       <AlumniLegacyBlock alumni={profiles} />{' '}
     </Container>

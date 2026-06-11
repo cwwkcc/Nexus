@@ -27,7 +27,9 @@ export default function Legacy() {
       <Grid columns={1} gap={12} className="lg:grid-cols-2 xl:grid-cols-3">
         <GridItem>
           <VStack spacing={6}>
-            <EyebrowLabel>{t('spirit.eyebrow')}</EyebrowLabel>
+            <EyebrowLabel className="mb-space-2">
+              {t('spirit.eyebrow')}
+            </EyebrowLabel>
             <Heading level="h3">{t('spirit.heading')}</Heading>
             <Text variant="body" color="muted">
               {t('spirit.paragraph')}
@@ -41,8 +43,12 @@ export default function Legacy() {
         </GridItem>
         <GridItem className="xl:col-span-2">
           <Grid>
-            <EyebrowLabel>{t('heritage.eyebrow')}</EyebrowLabel>
-            <Heading level="h3">{t('heritage.heading')}</Heading>
+            <EyebrowLabel className="mb-space-4">
+              {t('heritage.eyebrow')}
+            </EyebrowLabel>
+            <Heading level="h3" className="mb-space-4">
+              {t('heritage.heading')}
+            </Heading>
 
             <Grid columns={2} gap={2}>
               {heritageImages.map((img) => (
