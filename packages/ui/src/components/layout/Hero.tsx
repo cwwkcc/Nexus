@@ -7,13 +7,11 @@ import {
   useReducedMotion,
   useScroll,
   useTransform,
-  AnimatePresence,
 } from 'framer-motion';
 import { cn } from '../../utilities/cn';
 import { NavLink } from '../navigation/NavLink';
 import { Heading } from '../typography/Heading';
 import { Text } from '../typography/Text';
-import { Button } from '../atoms/Button';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -324,11 +322,7 @@ export function Hero({
           )}
 
           {/* Children (CTAs, etc.) */}
-          {children && (
-            <motion.div variants={itemVariants} className="mt-space-8">
-              {children}
-            </motion.div>
-          )}
+          {children && <motion.div>{children}</motion.div>}
         </motion.div>
       </div>
 

@@ -2,10 +2,11 @@
 'use client';
 
 import { useState } from 'react';
-import { clsx } from 'clsx';
-import Image from 'next/image';
+import { cn } from '../../utilities/cn';
+import { ImageFrame } from '../media/ImageFrame';
+import { Container } from '../layout/Container';
 
-export interface AlumniProfile {
+interface AlumniProfile {
   id: string;
   name: string;
   graduationYear: number;
@@ -15,7 +16,7 @@ export interface AlumniProfile {
   portraitAlt?: string;
 }
 
-export interface AlumniLegacyBlockProps {
+interface AlumniLegacyBlockProps {
   alumni: AlumniProfile[];
   className?: string;
 }
@@ -51,13 +52,13 @@ export function AlumniLegacyBlock({
   if (filteredAlumni.length === 0) return null;
 
   return (
-    <div className={clsx('py-12', className)}>
+    <Container>
       {/* Year filter */}
-      <div className="flex justify-center gap-2 mb-8 flex-wrap">
+      <div className="flex justify-center gap-space-2 mb-space-8 flex-wrap">
         <button
           onClick={() => setSelectedYear('all')}
-          className={clsx(
-            'px-3 py-1 font-body text-sm rounded-full transition-all',
+          className={cn(
+            'px-space-3 py-space-1 font-body text-sm rounded-full transition-all',
             selectedYear === 'all'
               ? 'bg-green-base text-text-inverse'
               : 'bg-surface-default text-text-muted hover:bg-surface-deep',
@@ -69,8 +70,8 @@ export function AlumniLegacyBlock({
           <button
             key={year}
             onClick={() => setSelectedYear(year)}
-            className={clsx(
-              'px-3 py-1 font-body text-sm rounded-full transition-all',
+            className={cn(
+              'px-space-3 py-space-1 font-body text-sm rounded-full transition-all',
               selectedYear === year
                 ? 'bg-green-base text-text-inverse'
                 : 'bg-surface-default text-text-muted hover:bg-surface-deep',
@@ -82,10 +83,10 @@ export function AlumniLegacyBlock({
       </div>
 
       {/* Quote carousel */}
-      <div className="relative max-w-3xl mx-auto">
+      <div className="relative mx-auto">
         <button
           onClick={prev}
-          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 bg-surface-elevated rounded-full p-2 shadow-elevation-1 hover:bg-gold-base transition-colors"
+          className="absolute left-space-0 top-space-40 -translate-y-1/2 -translate-x-12 bg-surface-elevated rounded-full p-space-2 shadow-elevation-1 hover:bg-gold-base transition-colors"
           aria-label="Previous alumnus"
         >
           ←
@@ -93,24 +94,27 @@ export function AlumniLegacyBlock({
 
         <div className="text-center">
           {currentAlumnus.portraitSrc && (
-            <div className="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden">
-              <Image
-                src={currentAlumnus.portraitSrc}
-                alt={currentAlumnus.portraitAlt || currentAlumnus.name}
-                width={96}
-                height={96}
-                className="object-cover"
-              />
-            </div>
+            <ImageFrame
+              src={currentAlumnus.portraitSrc}
+              alt={currentAlumnus.portraitAlt || currentAlumnus.name}
+              aspectRatio="3/4"
+              variant="featured"
+              frameColor="gold"
+              frameWidth="border-md"
+              size="lg"
+              className="m-space-4 mx-auto"
+            ></ImageFrame>
           )}
 
-          <div className="w-12 h-0.5 bg-gold-base mx-auto mb-6" />
+          <div className="w-size-12 h-size-0p5 bg-gold-base mx-auto mb-space-6" />
 
-          <blockquote className="font-display text-pullquote italic text-text-primary mb-6">
+          <blockquote className="font-display text-pullquote italic text-text-primary mb-space-6">
             &ldquo;{currentAlumnus.quote}&rdquo;
           </blockquote>
 
-          <p className="font-display text-h3 mb-2">{currentAlumnus.name}</p>
+          <p className="font-display text-h3 mb-space-2">
+            {currentAlumnus.name}
+          </p>
           <p className="font-body text-body-sm text-text-muted">
             {currentAlumnus.position} · Class of {currentAlumnus.graduationYear}
           </p>
@@ -118,7 +122,7 @@ export function AlumniLegacyBlock({
 
         <button
           onClick={next}
-          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 bg-surface-elevated rounded-full p-2 shadow-elevation-1 hover:bg-gold-base transition-colors"
+          className="absolute right-space-0 top-space-40 -translate-y-1/2 translate-x-12 bg-surface-elevated rounded-full p-space-2 shadow-elevation-1 hover:bg-gold-base transition-colors"
           aria-label="Next alumnus"
         >
           →
@@ -126,19 +130,21 @@ export function AlumniLegacyBlock({
       </div>
 
       {/* Dots indicator */}
-      <div className="flex justify-center gap-2 mt-8">
+      <div className="flex justify-center gap-space-2 mt-space-8">
         {filteredAlumni.map((_, idx) => (
           <button
             key={idx}
             onClick={() => setActiveIndex(idx)}
-            className={clsx(
-              'w-2 h-2 rounded-full transition-all',
-              idx === activeIndex ? 'w-4 bg-gold-base' : 'bg-border-default',
+            className={cn(
+              'w-size-2 h-size-2 rounded-full transition-all',
+              idx === activeIndex
+                ? 'w-size-4 bg-gold-base'
+                : 'bg-border-default',
             )}
             aria-label={`Go to slide ${idx + 1}`}
           />
         ))}
       </div>
-    </div>
+    </Container>
   );
 }

@@ -6,7 +6,7 @@ import {
 import { cn } from '../../utilities/cn';
 
 type TextVariant = 'body' | 'body-sm' | 'caption' | 'label' | 'label-sm';
-
+type TextAlign = 'left' | 'center' | 'right';
 type TextColor =
   | 'primary' // text-text-primary
   | 'muted' // text-text-muted
@@ -24,6 +24,7 @@ interface TextProps extends ComponentPropsWithoutRef<'p'> {
   color?: TextColor;
   /** HTML element to render (default 'p') */
   as?: ElementType;
+  align?: TextAlign;
   className?: string;
 }
 
@@ -52,6 +53,7 @@ export const Text = forwardRef<HTMLElement, TextProps>(
       variant = 'body',
       color = 'primary',
       as: Tag = 'p',
+      align,
       className,
       children,
       ...rest
@@ -61,7 +63,12 @@ export const Text = forwardRef<HTMLElement, TextProps>(
     return (
       <Tag
         ref={ref}
-        className={cn(variantClasses[variant], colorClasses[color], className)}
+        className={cn(
+          variantClasses[variant],
+          colorClasses[color],
+          align ? `text-${align}` : undefined,
+          className,
+        )}
         {...rest}
       >
         {children}

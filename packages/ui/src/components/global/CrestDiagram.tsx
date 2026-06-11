@@ -137,7 +137,7 @@ export function CrestDiagram({
       ref={containerRef}
       className={cn(
         'relative select-none w-size-screen-80 aspect-[190/100]',
-        'my-space-2 bg-green-light/80 rounded-md overflow-hidden',
+        'my-space-2 bg-surface-active rounded-md overflow-hidden',
         className,
       )}
     >
@@ -177,9 +177,9 @@ export function CrestDiagram({
                   ? 'stroke-gold-base'
                   : isHovered && variant !== 'ambient'
                     ? 'stroke-gold-base/60'
-                    : 'stroke-border-default opacity-40',
+                    : 'stroke-border-default',
               )}
-              strokeWidth={isActive ? 1.5 : 1}
+              strokeWidth={isActive ? 2.5 : 3}
               strokeDasharray={isActive && variant !== 'ambient' ? '0' : '4 4'}
               strokeLinejoin="round"
               animate={
