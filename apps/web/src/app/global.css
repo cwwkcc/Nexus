@@ -10,13 +10,28 @@
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+    min-height: 100%;
+    background-color: var(--color-surface-default);
+  }
+
+  html::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(var(--color-surface-deep) 0%, transparent 70%),
+      radial-gradient(var(--color-surface-deep) 0%, transparent 60%);
+    filter: blur(48px);
+    transform: scale(1.1);
   }
 
   body {
     font-family: var(--font-family-body);
     line-height: 1.6;
     margin: 0;
-    background: var(--bg-gradient-hero-deep);
+    min-height: 100vh;
+    background: transparent;
     color: var(--color-text-primary);
   }
 
@@ -52,6 +67,7 @@
     border-style: solid;
   }
 }
+
 @layer utilities {
   .glass-panel {
     background: var(--glass-surface-light);
@@ -59,7 +75,6 @@
     box-shadow: var(--glass-shadow);
   }
 
-  /* Optional: heavier glass for modals/hero */
   .glass-panel-heavy {
     background: var(--glass-surface-medium);
     border: 1px solid var(--glass-border);
