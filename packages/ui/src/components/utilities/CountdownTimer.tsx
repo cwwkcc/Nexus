@@ -2,43 +2,63 @@
 
 import { useEffect, useState, useRef } from 'react';
 import { cn } from '../../utilities/cn';
+import { Container } from '../layout/Container';
 
-interface CountdownTimerProps {
-  targetDate: Date | string;
-  onComplete?: () => void;
-  className?: string;
-}
-
-interface TimeLeft {
+interface TimeLeftProps {
   days: number;
   hours: number;
   minutes: number;
   seconds: number;
 }
 
-function calculateTimeLeft(target: Date): TimeLeft {
+function calculateTimeLeft(target: Date): TimeLeftProps {
   const difference = +target - +new Date();
+
   if (difference <= 0) {
-    return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+    return {
+      days: 0,
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+    };
   }
+
   return {
     days: Math.floor(difference / (1000 * 60 * 60 * 24)),
     hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-    minutes: Math.floor((difference / 1000 / 60) % 60),
+    minutes: Math.floor((difference / (1000 * 60)) % 60),
     seconds: Math.floor((difference / 1000) % 60),
   };
 }
 
+type CountdownTimerSize = 'small' | 'medium' | 'large';
+
+const sizeMap: Record<CountdownTimerSize, string> = {
+  small: 'text-h3',
+  medium: 'text-h2',
+  large: 'text-h1',
+};
+
+interface CountdownTimerProps {
+  targetDate: Date | string;
+  size?: CountdownTimerSize;
+  onComplete?: () => void;
+  className?: string;
+}
+
 export function CountdownTimer({
   targetDate,
+  size = 'medium',
   onComplete,
   className,
 }: CountdownTimerProps) {
   const target =
     typeof targetDate === 'string' ? new Date(targetDate) : targetDate;
-  const [timeLeft, setTimeLeft] = useState<TimeLeft>(() =>
+
+  const [timeLeft, setTimeLeft] = useState<TimeLeftProps>(() =>
     calculateTimeLeft(target),
   );
+
   const [isComplete, setIsComplete] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -47,7 +67,9 @@ export function CountdownTimer({
 
     intervalRef.current = setInterval(() => {
       const updated = calculateTimeLeft(target);
+
       setTimeLeft(updated);
+
       if (
         updated.days === 0 &&
         updated.hours === 0 &&
@@ -56,12 +78,17 @@ export function CountdownTimer({
       ) {
         setIsComplete(true);
         onComplete?.();
-        if (intervalRef.current) clearInterval(intervalRef.current);
+
+        if (intervalRef.current) {
+          clearInterval(intervalRef.current);
+        }
       }
     }, 1000);
 
     return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
     };
   }, [target, onComplete, isComplete]);
 
@@ -73,24 +100,32 @@ export function CountdownTimer({
   ];
 
   return (
-    <div
-      className={cn('flex gap-space-4 justify-center', className)}
+    <Container
+      size="full"
+      padding="none"
+      className={cn('flex flex-wrap justify-center gap-space-4', className)}
       aria-live="polite"
       aria-label="Countdown timer"
     >
       {units.map((unit) => (
         <div key={unit.label} className="text-center">
-          <div className="bg-surface-elevated border border-border-light rounded-lg px-space-4 py-space-3 min-w-size-16">
-            <span className="font-display text-h2 font-semibold text-gold-base">
+          <div className="flex h-size-24 w-size-24 items-center justify-center rounded-lg border border-border-light bg-surface-elevated">
+            <span
+              className={cn(
+                'tabular-nums font-body text-gold-base',
+                sizeMap[size],
+              )}
+            >
               {unit.value.toString().padStart(2, '0')}
             </span>
           </div>
-          <span className="font-body text-caption uppercase text-text-muted mt-space-2 block">
+
+          <span className="mt-space-2 block font-body text-caption uppercase text-text-muted">
             {unit.label}
           </span>
         </div>
       ))}
-    </div>
+    </Container>
   );
 }
 
