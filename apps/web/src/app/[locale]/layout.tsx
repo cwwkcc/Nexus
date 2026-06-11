@@ -2,6 +2,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '../../i18n/routing';
+import { cn } from '@nexus/ui';
 import '../global.css';
 import {
   Cormorant_Garamond,
@@ -11,6 +12,7 @@ import {
   Maname,
   Noto_Serif_Sinhala,
 } from 'next/font/google';
+import { Footer } from '@nexus/ui';
 
 const cormorantGaramond = Cormorant_Garamond({
   subsets: ['latin'],
@@ -57,11 +59,20 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <html lang={locale}>
       <body
-        className={`min-w-size-96 ${cormorantGaramond.variable} ${cormorantUpright.variable} ${inter.variable} ${ibmPlexMono.variable} ${maname.variable} ${notoSerifSinhala.variable}`}
+        className={cn(
+          'min-w-size-96',
+          cormorantGaramond.variable,
+          cormorantUpright.variable,
+          inter.variable,
+          ibmPlexMono.variable,
+          maname.variable,
+          notoSerifSinhala.variable,
+        )}
       >
         <NextIntlClientProvider messages={messages}>
           {children}
         </NextIntlClientProvider>
+        <Footer />
       </body>
     </html>
   );
