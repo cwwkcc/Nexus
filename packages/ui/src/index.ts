@@ -1,7 +1,7 @@
 // packages/ui/src/index.ts
 
 // ============================================================================
-// ACCESSIBILITY
+// ACCESSIBILITY (to be built — VisuallyHidden, SkipToContent)
 // ============================================================================
 
 // ============================================================================
@@ -10,14 +10,23 @@
 export { Avatar } from './components/atoms/Avatar';
 export { Badge } from './components/atoms/Badge';
 export { Button } from './components/atoms/Button';
+export { InlineHelpText } from './components/atoms/InlineHelpText';
 export { ResultsGradeBadge } from './components/atoms/ResultsGradeBadge';
 export { Tag } from './components/atoms/Tag';
-export { ToolTip } from './components/atoms/ToolTip';
-export { InlineHelpText } from './components/atoms/InlineHelpText';
 
 // Spinners
 export { BeatLoader } from './components/atoms/Spinners/BeatLoader';
 export { ScaleLoader } from './components/atoms/Spinners/ScaleLoader';
+
+// ============================================================================
+// BRAND
+// ============================================================================
+export { CrestAnimation } from './components/brand/CrestAnimation';
+export {
+  CrestDiagram,
+  type CrestSymbol,
+} from './components/brand/CrestDiagram';
+export { SchoolLogo } from './components/brand/SchoolLogo';
 
 // ============================================================================
 // CARDS
@@ -36,6 +45,11 @@ export { StaffCard } from './components/cards/StaffCard';
 export { StatCard } from './components/cards/StatCard';
 
 // ============================================================================
+// DEV
+// ============================================================================
+export { SvgDebugGrid } from './components/dev/SvgDebugGrid';
+
+// ============================================================================
 // EFFECTS
 // ============================================================================
 export { AmbientEmbers } from './components/effects/AmbientEmbers';
@@ -43,25 +57,14 @@ export { AmbientEmbers } from './components/effects/AmbientEmbers';
 // ============================================================================
 // FEEDBACK
 // ============================================================================
-export { Accordion } from './components/navigation/Accordion';
 export { Alert } from './components/feedback/Alert';
-export { Calendar } from './components/navigation/Calendar';
-export { DropdownMenu } from './components/overlays/DropDownMenu';
-export { EmptyState } from './components/system/EmptyState';
-export { ErrorState } from './components/system/ErrorState';
-export { FilterBar } from './components/navigation/FilterBar';
-export { LoadingSkeleton } from './components/system/LoadingSkeleton';
-export { MobileMenu } from './components/global/MobileMenu';
 export { Modal } from './components/feedback/Modal';
-export { Pagination } from './components/navigation/Pagination';
-export { SearchInput } from './components/navigation/SearchInput';
-export { ShareSheet } from './components/global/ShareSheet';
-export { TableOfContents } from './components/navigation/TableOfContents';
 export { Toast } from './components/feedback/Toast';
 
 // ============================================================================
 // FORMS
 // ============================================================================
+export { Calendar } from './components/forms/Calendar';
 export { Checkbox } from './components/forms/Checkbox';
 export { ContactForm } from './components/forms/ContactForm';
 export { FeedbackForm } from './components/forms/FeedbackForm';
@@ -80,21 +83,6 @@ export { Textarea } from './components/forms/Textarea';
 export { Toggle } from './components/forms/Toggle';
 
 // ============================================================================
-// GLOBAL
-// ============================================================================
-export { AnnouncementBanner } from './components/global/AnnouncementBanner';
-export { BackToTopButton } from './components/global/BackToTopButton';
-export { CrestAnimation } from './components/global/CrestAnimation';
-export { LanguageSwitcher } from './components/global/languageSwitcher';
-export { MapEmbed } from './components/global/MapEmbed';
-export { MasonryGrid } from './components/global/MasonryGrid';
-export { ScrollProgressBar } from './components/global/ScrollProgressBar';
-export {
-  CrestDiagram,
-  type CrestSymbol,
-} from './components/global/CrestDiagram';
-
-// ============================================================================
 // ICONS
 // ============================================================================
 export * from './components/icons';
@@ -102,58 +90,70 @@ export * from './components/icons';
 // ============================================================================
 // LAYOUT
 // ============================================================================
-export { Breadcrumb } from './components/layout/Breadcrumb';
 export { Container } from './components/layout/Container';
 export { Divider } from './components/layout/Divider';
-export { Drawer } from './components/layout/Drawer';
 export { Footer } from './components/layout/Footer';
 export { Grid, GridItem } from './components/layout/Grid';
 export { Hero } from './components/layout/Hero';
+export { MasonryGrid } from './components/layout/MasonryGrid';
 export { Navigation } from './components/layout/Navigation';
-export { QuickAccessPortal } from './components/layout/QuickAccessPortal';
 export { VStack, HStack } from './components/layout/Stack';
-
-// ============================================================================
-// LOGOS
-// ============================================================================
-export { SchoolLogo } from './components/logos/SchoolLogo';
 
 // ============================================================================
 // MEDIA
 // ============================================================================
+export { AudioPlayer } from './components/media/AudioPlayer';
+export { Caption } from './components/media/Caption';
 export { ImageFrame } from './components/media/ImageFrame';
 export { Lightbox, type LightboxImage } from './components/media/Lightbox';
-export { PanoramicFacilityViewer } from './components/media/PanoramicFacilityViewer'; // typo? rename later
+export { MapEmbed } from './components/media/MapEmbed';
+export { PanoramicFacilityViewer } from './components/media/PanoramicFacilityViewer';
 export { VideoFrame } from './components/media/VideoFrame';
-export { Caption } from './components/media/Caption';
 
 // ============================================================================
 // NAVIGATION
 // ============================================================================
-export { Tabs } from './components/navigation/Tabs';
+export { Accordion } from './components/navigation/Accordion';
+export { Breadcrumb } from './components/navigation/Breadcrumb';
+export { FilterBar } from './components/navigation/FilterBar';
+export { LanguageSwitcher } from './components/navigation/LanguageSwitcher';
+export { MobileMenu } from './components/navigation/MobileMenu';
 export { NavLink } from './components/navigation/NavLink';
+export { Pagination } from './components/navigation/Pagination';
+export { SearchInput } from './components/navigation/SearchInput';
+export { TableOfContents } from './components/navigation/TableOfContents';
+export { Tabs } from './components/navigation/Tabs';
+
+// ============================================================================
+// OVERLAYS
+// ============================================================================
+export { Drawer } from './components/overlays/Drawer';
+export { DropdownMenu } from './components/overlays/DropDownMenu';
+export { ShareSheet } from './components/overlays/ShareSheet';
+export { ToolTip } from './components/overlays/ToolTip';
 
 // ============================================================================
 // SECTIONS
 // ============================================================================
 export { AchievementTicker } from './components/sections/AchievementTicker';
-export { AdmissionsProcessSteps } from './components/sections/AdmissionsProcessSteps';
 export { AdmissionsKeyDatesTimeline } from './components/sections/AdmissionsKeyDatesTimeline';
-export {
-  AlumniLegacyBlock,
-  type AlumniProfile,
-} from './components/sections/AlumniLegacyBlock';
-export { AudioPlayer } from './components/media/AudioPlayer';
+export { AdmissionsProcessSteps } from './components/sections/AdmissionsProcessSteps';
+export { AlumniLegacyBlock } from './components/sections/AlumniLegacyBlock';
 export { LifeAtKCCPhotoStrip } from './components/sections/LifeAtKCCPhotoStrip';
 export { PrincipalMessage } from './components/sections/PrincipalMessage';
+export { SectionSlider } from './components/sections/SectionSlider';
 export { StatsStrip, type StatItem } from './components/sections/StatsStrip';
 export { Timeline } from './components/sections/Timeline';
 
 // ============================================================================
 // SYSTEM
 // ============================================================================
+export { AnnouncementBanner } from './components/system/AnnouncementBanner';
 export { CookieConsentBanner } from './components/system/CookieConsentBanner';
+export { EmptyState } from './components/system/EmptyState';
+export { ErrorState } from './components/system/ErrorState';
 export { LoadingScreen } from './components/system/LoadingScreen';
+export { LoadingSkeleton } from './components/system/LoadingSkeleton';
 export { NotFoundPage } from './components/system/NotFound';
 export { OfflineBanner } from './components/system/OfflineBanner';
 
@@ -171,7 +171,9 @@ export { Text } from './components/typography/Text';
 // ============================================================================
 // UTILITIES
 // ============================================================================
+export { BackToTopButton } from './components/utilities/BackToTopButton';
 export { CountdownTimer } from './components/utilities/CountdownTimer';
+export { ScrollProgressBar } from './components/utilities/ScrollProgressBar';
 
 // ============================================================================
 // VISUALIZATION
@@ -186,7 +188,7 @@ export { StudentJourneyFlow } from './components/visualization/StudentJourneyFlo
 export { TimetableGrid } from './components/visualization/TimetableGrid';
 
 // ============================================================================
-// HOOKS (optional – re-export if needed)
+// HOOKS
 // ============================================================================
 export { useActiveSection } from './hooks/useActiveSection';
 export { useCountUp } from './hooks/useCountUp';
@@ -197,13 +199,6 @@ export { useMediaQuery } from './hooks/useMediaQuery';
 export { useScrollDirection } from './hooks/useScrollDirection';
 
 // ============================================================================
-// Utilities
+// UTILITIES (cn)
 // ============================================================================
-
 export { cn } from './utilities/cn';
-
-// ============================================================================
-// Dev
-// ============================================================================
-
-export { SvgDebugGrid } from './components/dev/SvgDebugGrid';
