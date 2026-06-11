@@ -5,8 +5,9 @@ import { cn } from '../../utilities/cn';
 import { Button } from '../atoms/Button';
 import { Heading } from '../typography/Heading';
 import { Text } from '../typography/Text';
+import { Container } from '../layout/Container';
 
-export interface AudioPlayerProps {
+interface AudioPlayerProps {
   src: string;
   title: string;
   subtitle?: string;
@@ -183,9 +184,9 @@ export function AudioPlayer({
   const progressPercentage = (currentTime / (duration || 1)) * 100;
 
   return (
-    <div
+    <Container
       className={cn(
-        'bg-surface-elevated border border-border-light rounded-xl overflow-hidden shadow-elevation-2',
+        'bg-surface-base border border-border-light rounded-md overflow-hidden shadow-elevation-2',
         className,
       )}
     >
@@ -197,24 +198,22 @@ export function AudioPlayer({
       />
 
       {/* Visualizer Header */}
-      <div className="bg-surface-deep flex items-end justify-center gap-1 h-40 pb-6 px-6">
+      <Container className="bg-surface-active rounded-md border border-border-light flex items-center justify-center gap-space-1 h-size-40 pb-space-6 px-space-6">
         {Array.from({ length: 40 }).map((_, i) => (
           <div
             key={i}
-            // Safely assign refs to avoid Strict Mode memory leaks
             ref={(el) => {
               if (el) barsRef.current[i] = el;
             }}
-            className="w-1.5 bg-gold-base rounded-full transition-colors duration-fast"
-            style={{ height: '20px', opacity: 0.3 }}
+            className="w-size-1p5 bg-gold-base rounded-full transition-colors duration-fast "
           />
         ))}
-      </div>
+      </Container>
 
       {/* Main Controls Section */}
-      <div className="p-space-6">
+      <Container className="p-space-6">
         <div className="flex items-center justify-between mb-space-6">
-          <div className="flex-1 pr-4">
+          <div className="flex-1 pr-space-4">
             <Heading level="h3" className="mb-space-1">
               {title}
             </Heading>
@@ -325,9 +324,9 @@ export function AudioPlayer({
         </div>
 
         {/* Progress Bar Scrubbing UI */}
-        <div className="mb-space-4">
-          <div className="relative w-full flex items-center h-space-6 group">
-            <div className="absolute w-full h-1.5 bg-border-light rounded-full overflow-hidden pointer-events-none">
+        <Container className="mb-space-4">
+          <div className="relative w-full flex items-center h-size-6 group">
+            <div className="absolute w-full h-size-1p5 bg-border-light rounded-full overflow-hidden pointer-events-none">
               <div
                 className="h-full bg-gold-base transition-all duration-instant ease-out"
                 style={{ width: `${progressPercentage}%` }}
@@ -346,7 +345,7 @@ export function AudioPlayer({
             />
 
             <motion.div
-              className="absolute h-3 w-3 bg-gold-base rounded-full shadow-elevation-1 z-0 pointer-events-none group-hover:scale-150 transition-transform"
+              className="absolute h-size-3 w-size-3 bg-gold-base rounded-full shadow-elevation-1 z-0 pointer-events-none group-hover:scale-150 transition-transform"
               style={{ left: `calc(${progressPercentage}% - 6px)` }}
             />
           </div>
@@ -359,11 +358,11 @@ export function AudioPlayer({
               {formatTime(duration)}
             </Text>
           </div>
-        </div>
+        </Container>
 
         {/* Lyrics Section */}
         {(lyrics || lyricsSinhala) && (
-          <div className="mt-space-4 flex flex-col items-center">
+          <Container className="mt-space-4 flex flex-col items-center">
             <button
               onClick={() => setShowLyrics(!showLyrics)}
               className="text-gold-base uppercase tracking-label text-label-sm font-label py-space-2 px-space-4 rounded-full hover:bg-gold-glow transition-colors flex items-center gap-space-2"
@@ -391,10 +390,10 @@ export function AudioPlayer({
                   transition={{ duration: 0.3, ease: 'easeInOut' }}
                   className="overflow-hidden w-full"
                 >
-                  <div className="pt-space-6 pb-space-2 mt-space-4 border-t border-border-light">
+                  <Container className="border-t border-border-light mt-space-4 ">
                     {lyrics && (
                       <Text
-                        variant="body-sm"
+                        variant="body"
                         color="primary"
                         className="whitespace-pre-line mb-space-4"
                       >
@@ -403,20 +402,19 @@ export function AudioPlayer({
                     )}
                     {lyricsSinhala && (
                       <Text
-                        variant="body"
                         color="primary"
-                        className="font-sinhala whitespace-pre-line leading-relaxed"
+                        className="font-sinhala-body text-sinhala-body whitespace-pre-line"
                       >
                         {lyricsSinhala}
                       </Text>
                     )}
-                  </div>
+                  </Container>
                 </motion.div>
               )}
             </AnimatePresence>
-          </div>
+          </Container>
         )}
-      </div>
-    </div>
+      </Container>
+    </Container>
   );
 }

@@ -24,6 +24,8 @@ type FrameWidth =
   | 'border-xl'
   | 'border-2xl';
 
+type ImageFrameSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
+
 interface ImageFrameProps {
   src: string;
   alt: string;
@@ -34,13 +36,21 @@ interface ImageFrameProps {
   cornerBadge?: React.ReactNode;
   className?: string;
   priority?: boolean;
-  sizes?: string;
+  size?: ImageFrameSize;
   frameColor?: ImageFrameColor;
   frameWidth?: FrameWidth;
 }
 
 // ─── Maps ─────────────────────────────────────────────────────────────────────
 
+const sizeWidthMap: Record<ImageFrameSize, string> = {
+  xs: 'w-size-32',
+  sm: 'w-size-48',
+  md: 'w-size-64',
+  lg: 'w-size-96',
+  xl: 'w-size-128',
+  full: 'w-full',
+};
 const aspectRatioMap: Record<ImageFrameAspectRatio, string> = {
   '16/9': 'aspect-[16/9]',
   '4/3': 'aspect-[4/3]',
@@ -99,7 +109,7 @@ export function ImageFrame({
   cornerBadge,
   className,
   priority = false,
-  sizes,
+  size = 'full',
   frameWidth = 'border-sm',
   frameColor,
 }: ImageFrameProps) {
@@ -110,6 +120,7 @@ export function ImageFrame({
     <figure
       className={cn(
         'w-full overflow-hidden',
+        sizeWidthMap[size],
         variantClasses[variant],
         variantShadow[variant],
         hasFrame && [
@@ -137,7 +148,7 @@ export function ImageFrame({
               'object-cover z-base',
               'transition-transform duration-gentle group-hover:scale-[1.04]',
             )}
-            sizes={sizes}
+            sizes={size}
             priority={priority}
             onError={() => setError(true)}
           />
@@ -178,7 +189,7 @@ export function ImageFrame({
       </div>
 
       {caption && (
-        <figcaption className="mt-space-2 font-body text-caption text-text-muted text-center">
+        <figcaption className="mt-space-2 font-body text-caption text-text-muted text-center italic">
           {caption}
         </figcaption>
       )}
