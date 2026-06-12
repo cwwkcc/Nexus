@@ -11,19 +11,20 @@
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
     min-height: 100%;
-    background-color: var(--color-surface-default);
-  }
-
-  html::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    z-index: -1;
+    /*
+     * Fixed gradient — the "world" behind the glass.
+     * Stays put as the user scrolls, creating depth.
+     */
     background:
-      radial-gradient(var(--color-surface-deep) 0%, transparent 70%),
-      radial-gradient(var(--color-surface-deep) 0%, transparent 60%);
-    filter: blur(48px);
-    transform: scale(1.1);
+      radial-gradient(
+        140% 140% at 0% 0%,
+        #8EB69B 0%,
+        #235347 25%,
+        #163832 50%,
+        #0B2B26 75%,
+        #051F20 100%
+      );
+    background-attachment: fixed;
   }
 
   body {
@@ -31,21 +32,21 @@
     line-height: 1.6;
     margin: 0;
     min-height: 100vh;
-    background: transparent;
+    /*
+     * The glass layer — the entire site lives inside this semi-transparent
+     * dark green sheet, letting the gradient bleed through.
+     * No backdrop-filter needed; the transparency does the work.
+     */
+    background: var(--color-surface-glass);
     color: var(--color-text-primary);
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
+  h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-family-display);
     font-weight: 500;
     line-height: 1.15;
     letter-spacing: -0.02em;
-    color: var(--color-green-base);
+    color: var(--color-text-heading);
   }
 
   p {
@@ -68,16 +69,45 @@
   }
 }
 
+/* ── Glass Utilities ── */
 @layer utilities {
+
+  /*
+   * Subtle glass — a barely-there panel. Good for nav items,
+   * secondary sections, or any element that needs slight separation.
+   */
   .glass-panel {
-    background: var(--glass-surface-light);
+    background: var(--glass-surface-subtle);
     border: 1px solid var(--glass-border);
+    border-top-color: var(--glass-border-highlight);
+    border-left-color: var(--glass-border-highlight);
+    border-radius: var(--radius-lg);
     box-shadow: var(--glass-shadow);
   }
 
+  /*
+   * Heavy glass — more opaque, stronger visual presence.
+   * Good for modals, drawers, primary cards.
+   */
   .glass-panel-heavy {
     background: var(--glass-surface-medium);
     border: 1px solid var(--glass-border);
-    box-shadow: var(--glass-shadow);
+    border-top-color: var(--glass-border-highlight);
+    border-left-color: var(--glass-border-highlight);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--glass-shadow-heavy);
+  }
+
+  /*
+   * Card glass — the "notes for today" reference style.
+   * The definitive text-block glass look.
+   */
+  .glass-card {
+    background: var(--glass-surface-card);
+    border: 1px solid var(--glass-border);
+    border-top-color: var(--glass-border-highlight);
+    border-left-color: var(--glass-border-highlight);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--glass-shadow-heavy);
   }
 }
