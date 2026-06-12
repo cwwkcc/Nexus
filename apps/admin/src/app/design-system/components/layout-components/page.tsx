@@ -11,7 +11,6 @@ import {
   GridItem,
   Hero,
   Navigation,
-  QuickAccessPortal,
   VStack,
   HStack,
 } from '@nexus/ui';
@@ -664,9 +663,7 @@ export default function LayoutComponentsPage() {
           <Navigation variant="solid" />
         </DemoSection>
 
-        <DemoSection title="QuickAccessPortal">
-          <QuickAccessPortal />
-        </DemoSection>
+        <DemoSection title="QuickAccessPortal"></DemoSection>
 
         <DemoSection title="VStack & HStack – All Options">
           <div className="space-y-8 w-size-full">
