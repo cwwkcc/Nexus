@@ -142,8 +142,8 @@ export default function IconsPage() {
                 Facebook
               </h3>
               <div className="flex flex-wrap gap-space-6 items-center">
-                <FacebookWhite size="lg" className="text-text-primary" />
-                <FacebookColor size="lg" />
+                <FacebookWhite size="" className="w-size-16 h-size-16 text-text-primary" />
+                <FacebookColor size="" className="w-size-16 h-size-16" />
               </div>
             </div>
 
@@ -153,13 +153,12 @@ export default function IconsPage() {
                 LinkedIn
               </h3>
               <div className="flex flex-wrap gap-space-6 items-center">
-                <LinkedInBlack size="lg" className="text-text-primary" />
-                <LinkedInColor size="lg" />
+                <LinkedInBlack size="" className="w-size-16 h-size-16 text-text-primary" />
+                <LinkedInColor size="" className="w-size-16 h-size-16" />
                 <LinkedInWhite
-                  size="lg"
-                  className="bg-surface-inverse p-space-1 rounded"
+                  size="" className="w-size-16 h-size-16 bg-surface-inverse p-space-1 rounded"
                 />
-                <LinkedInInlineColor size="lg" />
+                <LinkedInInlineColor size="" className="w-size-16 h-size-16" />
               </div>
             </div>
 
@@ -169,17 +168,15 @@ export default function IconsPage() {
                 WhatsApp
               </h3>
               <div className="flex flex-wrap gap-space-6 items-center">
-                <WhatsAppGlyphBlack size="lg" className="text-text-primary" />
-                <WhatsAppGlyphGreen size="lg" />
+                <WhatsAppGlyphBlack size="" className="w-size-16 h-size-16 text-text-primary" />
+                <WhatsAppGlyphGreen size="" className="w-size-16 h-size-16" />
                 <WhatsAppGlyphWhite
-                  size="lg"
-                  className="bg-surface-inverse p-space-1 rounded"
+                  size="" className="w-size-16 h-size-16 bg-surface-inverse p-space-1 rounded"
                 />
-                <WhatsAppStackedBlack size="lg" className="text-text-primary" />
-                <WhatsAppStackedGreen size="lg" />
+                <WhatsAppStackedBlack size="" className="w-size-16 h-size-16 text-text-primary" />
+                <WhatsAppStackedGreen size="" className="w-size-16 h-size-16" />
                 <WhatsAppStackedWhite
-                  size="lg"
-                  className="bg-surface-inverse p-space-1 rounded"
+                  size="" className="w-size-16 h-size-16 bg-surface-inverse p-space-1 rounded"
                 />
               </div>
             </div>
@@ -190,18 +187,16 @@ export default function IconsPage() {
                 YouTube
               </h3>
               <div className="flex flex-wrap gap-space-6 items-center">
-                <YouTubeInlineBlack size="lg" className="text-text-primary" />
-                <YouTubeInlineColor size="lg" />
+                <YouTubeInlineBlack size="" className="w-size-16 h-size-16 text-text-primary" />
+                <YouTubeInlineColor size="" className="w-size-16 h-size-16" />
                 <YouTubeInlineWhite
-                  size="lg"
-                  className="bg-surface-inverse p-space-1 rounded"
+                  size="" className="w-size-16 h-size-16 bg-surface-inverse p-space-1 rounded"
                 />
                 <YouTubeWhite
-                  size="lg"
-                  className="bg-surface-inverse p-space-1 rounded"
+                  size="" className="w-size-16 h-size-16 bg-surface-inverse p-space-1 rounded"
                 />
-                <YouTubeBlack size="lg" className="text-text-primary" />
-                <YouTubeColor size="lg" />
+                <YouTubeBlack size="" className="w-size-16 h-size-16 text-text-primary" />
+                <YouTubeColor size="" className="w-size-16 h-size-16" />
               </div>
             </div>
 
@@ -212,17 +207,14 @@ export default function IconsPage() {
               </h3>
               <div className="flex flex-wrap gap-space-6 items-center">
                 <GitHubInvertocatBlack
-                  size="lg"
-                  className="text-text-primary"
+                  size="" className="w-size-16 h-size-16 text-text-primary"
                 />
                 <GitHubInvertocatWhite
-                  size="lg"
-                  className="bg-surface-inverse p-space-1 rounded"
+                  size="" className="w-size-16 h-size-16 bg-surface-inverse p-space-1 rounded"
                 />
-                <GitHubLockupBlack size="lg" className="text-text-primary" />
+                <GitHubLockupBlack size="" className="w-size-16 h-size-16 text-text-primary" />
                 <GitHubLockupWhite
-                  size="lg"
-                  className="bg-surface-inverse p-space-1 rounded"
+                  size="" className="w-size-16 h-size-16 bg-surface-inverse p-space-1 rounded"
                 />
               </div>
             </div>
@@ -233,12 +225,11 @@ export default function IconsPage() {
                 Instagram
               </h3>
               <div className="flex flex-wrap gap-space-6 items-center">
-                <InstagramGlyphBlack size="lg" className="text-text-primary" />
+                <InstagramGlyphBlack size="" className="w-size-16 h-size-16 text-text-primary" />
                 <InstagramGlyphWhite
-                  size="lg"
-                  className="bg-surface-inverse p-space-1 rounded"
+                  size="" className="w-size-16 h-size-16 bg-surface-inverse p-space-1 rounded"
                 />
-                <InstagramGlyphGradient size="lg" />
+                <InstagramGlyphGradient size="" className="w-size-16 h-size-16" />
               </div>
             </div>
           </div>
