@@ -21,12 +21,12 @@ export { ScaleLoader } from './components/atoms/Spinners/ScaleLoader';
 // ============================================================================
 // BRAND
 // ============================================================================
-export { CrestAnimation } from './components/brand/CrestAnimation';
+export { CrestAnimation } from './components/icons/brand/CrestAnimation';
 export {
   CrestDiagram,
   type CrestSymbol,
-} from './components/brand/CrestDiagram';
-export { SchoolLogo } from './components/brand/SchoolLogo';
+} from './components/icons/brand/CrestDiagram';
+export { SchoolLogo } from './components/icons/brand/SchoolLogo';
 
 // ============================================================================
 // CARDS

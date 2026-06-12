@@ -4,7 +4,7 @@ import { ReactNode } from 'react';
 import { cn } from '../../utilities/cn';
 import { Container } from '../layout/Container';
 import { Text } from '../typography/Text';
-import { ToolTip } from '../atoms/ToolTip';
+import { ToolTip } from '../overlays/ToolTip';
 import {
   useCountUp,
   type UseCountUpOptions,

@@ -4,13 +4,13 @@ import { NavLink } from '../navigation/NavLink';
 import { Container } from './Container';
 import { Grid, GridItem } from './Grid';
 import { VStack, HStack } from './Stack';
-import { SchoolLogo } from '../logos/SchoolLogo';
+import { SchoolLogo } from '../icons/brand/SchoolLogo';
 import {
-  FacebookIcon,
-  InstagramIcon,
-  YoutubeIcon,
-  GitHubIcon,
-  LinkedInIcon,
+  FacebookColor,
+  InstagramGlyphGradient,
+  YouTubeColor,
+  GitHubInvertocatBlack,
+  LinkedInColor,
 } from '../icons';
 import { Divider } from './Divider';
 import { Heading } from '../typography/Heading';
@@ -72,23 +72,27 @@ const DEFAULT_SOCIAL_LINKS: SocialLink[] = [
   {
     label: 'Facebook',
     href: 'https://facebook.com/cwwkcc',
-    icon: <FacebookIcon />,
+    icon: <FacebookColor />,
   },
   {
     label: 'Instagram',
     href: 'https://instagram.com/cwwkcc',
-    icon: <InstagramIcon />,
+    icon: <InstagramGlyphGradient />,
   },
   {
     label: 'YouTube',
     href: 'https://youtube.com/@cwwkcc',
-    icon: <YoutubeIcon />,
+    icon: <YouTubeColor />,
   },
-  { label: 'GitHub', href: 'https://github.com/cwwkcc', icon: <GitHubIcon /> },
+  {
+    label: 'GitHub',
+    href: 'https://github.com/cwwkcc',
+    icon: <GitHubInvertocatBlack />,
+  },
   {
     label: 'LinkedIn',
     href: 'https://linkedin.com/school/cwwkcc',
-    icon: <LinkedInIcon />,
+    icon: <LinkedInColor />,
   },
 ];
 
