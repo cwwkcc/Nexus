@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { cn } from '../../utilities/cn';
-import { InfoIcon, SuccessIcon, WarningIcon, ErrorIcon } from '../icons';
+import { Icon } from '../icons';
 
 type AlertVariant = 'info' | 'success' | 'warning' | 'error';
 
@@ -20,25 +20,25 @@ const variantStyles: Record<
     bg: 'bg-semantic-info-surface',
     border: 'border-semantic-info-base',
     text: 'text-semantic-info-base',
-    icon: <InfoIcon />,
+    icon: <Icon name="info" />,
   },
   success: {
     bg: 'bg-semantic-success-surface',
     border: 'border-semantic-success-base',
     text: 'text-semantic-success-base',
-    icon: <SuccessIcon />,
+    icon: <Icon name="check-circle" />,
   },
   warning: {
     bg: 'bg-semantic-warning-surface',
     border: 'border-semantic-warning-base',
     text: 'text-semantic-warning-base',
-    icon: <WarningIcon />,
+    icon: <Icon name="alert-triangle" />,
   },
   error: {
     bg: 'bg-semantic-error-surface',
     border: 'border-semantic-error-base',
     text: 'text-semantic-error-base',
-    icon: <ErrorIcon />,
+    icon: <Icon name="x-circle" />,
   },
 };
 

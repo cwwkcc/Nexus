@@ -1,10 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { SchoolLogo } from '../logos/SchoolLogo';
+import { SchoolLogo } from '../icons/brand/SchoolLogo';
 import { NavLink } from '../navigation/NavLink';
 import { EyebrowLabel } from '../typography/EyebrowLabel';
-import { InlineLink } from '../typography/InlineLink';
 import { Text } from '../typography/Text';
 import { Heading } from '../typography/Heading';
 

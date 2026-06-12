@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { motion, useReducedMotion, AnimatePresence } from 'framer-motion';
-import { SchoolLogo } from '../logos/SchoolLogo';
+import { SchoolLogo } from '../icons/brand/SchoolLogo';
 
 export interface LoadingScreenProps {
   /** Control visibility externally — fade out when content is ready */
