@@ -116,7 +116,7 @@ export function Footer({
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className=" bg-surface-inverse/80 rounded-t-lg  ">
+    <footer className=" bg-surface-base rounded-t-lg  ">
       <Container size="full" padding="sm" className="md:pb-space-2">
         <Grid columns={1} className="sm:grid-cols-5 lg:grid-cols-7 ">
           <GridItem className="sm:col-span-3">
@@ -133,7 +133,7 @@ export function Footer({
                 <Heading level="h4" color="gold" className="text-center">
                   C.W.W. Kannangara Central College
                 </Heading>
-                <Text className="text-center" color="inverse">
+                <Text className="text-center" color="primary">
                   "Wisdom is All Wealth"
                 </Text>
               </VStack>
@@ -157,14 +157,14 @@ export function Footer({
                           <a href={item.href}>
                             <Text
                               variant="body-sm"
-                              color="inverse"
+                              color="primary"
                               className="hover:text-gold-base transition-colors duration-fast"
                             >
                               {item.label}
                             </Text>
                           </a>
                         ) : (
-                          <Text variant="body-sm" color="inverse">
+                          <Text variant="body-sm" color="primary">
                             {item.label}
                           </Text>
                         )}
@@ -198,7 +198,7 @@ export function Footer({
                         <NavLink href={link.href}>
                           <Text
                             variant="caption"
-                            color="inverse"
+                            color="primary"
                             className="hover:text-gold-base transition-colors duration-fast"
                           >
                             {link.label}
