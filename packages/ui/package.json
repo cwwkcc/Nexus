@@ -15,9 +15,11 @@
   "dependencies": {
     "@hookform/resolvers": "^3.4.0",
     "@portabletext/react": "^3.0.0",
+    "lucide-react": "^1.17.0",
     "react-hook-form": "^7.49.0"
   },
   "devDependencies": {
+    "@svgr/cli": "^8.1.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "clsx": "^2.1.1",
