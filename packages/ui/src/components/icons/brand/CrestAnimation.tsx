@@ -1,199 +1,212 @@
 'use client';
 
-import { motion, useReducedMotion, type Variants } from 'framer-motion';
+import { memo, useEffect } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { cn } from '../../../utilities/cn';
 import { SchoolLogo } from './SchoolLogo';
 
-type CrestSize = 'sm' | 'md' | '';
-export interface CrestAnimationProps {
-  children: React.ReactNode;
-  size?: 'sm' | 'md' | 'lg';
-  animateOnMount?: boolean;
-  onComplete?: () => void;
-  className?: string;
-}
-
-// ─── Size map ─────────────────────────────────────────────────────────────────
-
+// -----------------------------------------------------------------------------
+// Size map
+// -----------------------------------------------------------------------------
 const sizeMap = {
   sm: 'w-size-24 h-size-24',
   md: 'w-size-32 h-size-32',
   lg: 'w-size-48 h-size-48',
+} as const;
+
+type CrestSize = keyof typeof sizeMap;
+
+export interface CrestAnimationProps {
+  size?: CrestSize;
+  /**
+   * 'hero'    — fade-in, single gold sweep, settles into faint glow.
+   * 'loading' — continuous breathing glow, static crest.
+   */
+  variant?: 'hero' | 'loading';
+  /** Play the intro animation on mount (default: true) */
+  animateOnMount?: boolean;
+  /**
+   * Called once the intro sequence finishes.
+   * Only relevant for 'hero' variant; fires after the entrance
+   * transition (600 ms) via a timer — not onAnimationComplete —
+   * so it isn't re-triggered by subsequent child animations.
+   */
+  onComplete?: () => void;
+  className?: string;
+}
+
+// -----------------------------------------------------------------------------
+// Hero variant: fade-in → single sweep → settles to faint idle glow
+// -----------------------------------------------------------------------------
+const HeroAnimation = ({
+  size,
+  onComplete,
+}: {
+  size: CrestSize;
+  onComplete?: () => void;
+}) => {
+  const reduced = useReducedMotion();
+
+  // Fire onComplete after the entrance duration (600 ms).
+  // Timer-based so it never re-fires when child animations tick.
+  useEffect(() => {
+    if (!onComplete) return;
+    const timer = setTimeout(onComplete, 600);
+    return () => clearTimeout(timer);
+  }, [onComplete]);
+
+  if (reduced) {
+    return (
+      <div className={cn('relative', sizeMap[size])}>
+        <SchoolLogo variant="crest-only" className="w-full h-full" />
+      </div>
+    );
+  }
+
+  return (
+    <motion.div
+      className={cn('relative', sizeMap[size])}
+      initial={{ opacity: 0, scale: 0.92 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+    >
+      {/* Crest logo */}
+      <SchoolLogo
+        variant="crest-only"
+        className="w-full h-full relative z-raised"
+      />
+
+      {/*
+        Diagonal gold sweep — fires once, no repeat.
+        w-full h-full so it always covers the crest regardless of size.
+        overflow-hidden on the wrapper clips it cleanly.
+      */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-20">
+        <motion.div
+          className="absolute w-full h-full bg-gradient-to-br from-transparent via-gold-base/40 to-transparent blur-md"
+          style={{ transform: 'rotate(45deg) scale(2)' }}
+          initial={{ x: '-100%', y: '-100%', opacity: 0 }}
+          animate={{
+            x: ['-100%', '100%'],
+            y: ['-100%', '100%'],
+            opacity: [0, 1, 0],
+          }}
+          transition={{
+            duration: 1.6,
+            ease: [0.4, 0, 0.2, 1],
+            times: [0, 0.35, 1],
+            // No repeat — sweep fires once and the crest settles.
+          }}
+        />
+      </div>
+
+      {/*
+        Idle glow — delayed until after the entrance (0.6s).
+        Fades to opacity-20 and holds; no loop.
+        bg-gold-base/20 = valid token (opacity 20 is in the scale).
+        blur-lg = largest valid blur token (16px).
+      */}
+      <motion.div
+        className="absolute inset-0 rounded-full bg-gold-base/20 pointer-events-none z-0 blur-lg"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: [0, 0.5, 0.2] }}
+        transition={{
+          duration: 2.0,
+          delay: 0.6,
+          ease: 'easeOut',
+          times: [0, 0.4, 1],
+          // No repeat — glow fades in and holds at a steady value.
+        }}
+      />
+    </motion.div>
+  );
 };
 
-const logoSizeMap: Record<'sm' | 'md' | 'lg', 'md' | 'lg' | 'xl'> = {
-  sm: 'md',
-  md: 'lg',
-  lg: 'xl',
+// -----------------------------------------------------------------------------
+// Loading variant: continuous breathing glow, static crest
+// -----------------------------------------------------------------------------
+const LoadingAnimation = ({ size }: { size: CrestSize }) => {
+  const reduced = useReducedMotion();
+
+  if (reduced) {
+    return (
+      <div className={cn('relative', sizeMap[size])}>
+        <SchoolLogo variant="crest-only" className="w-full h-full" />
+      </div>
+    );
+  }
+
+  return (
+    <div className={cn('relative', sizeMap[size])}>
+      {/*
+        Outer breathing glow.
+        bg-gold-base/20 — valid.  blur-lg — largest valid blur token.
+      */}
+      <motion.div
+        className="absolute inset-0 rounded-full bg-gold-base/20 blur-lg pointer-events-none"
+        animate={{
+          scale: [0.85, 1.15, 0.85],
+          opacity: [0.2, 0.6, 0.2],
+        }}
+        transition={{
+          duration: 2.8,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
+      />
+
+      {/* Crest — stays still throughout */}
+      <SchoolLogo
+        variant="crest-only"
+        className="w-full h-full relative z-raised"
+      />
+
+      {/*
+        Inner pulse — slightly offset phase for organic feel.
+        bg-gold-base/10 — valid.  blur-sm — valid token (4px).
+      */}
+      <motion.div
+        className="absolute inset-0 rounded-full bg-gold-base/10 pointer-events-none blur-sm"
+        animate={{
+          scale: [0.95, 1.05, 0.95],
+          opacity: [0.1, 0.3, 0.1],
+        }}
+        transition={{
+          duration: 2.2,
+          repeat: Infinity,
+          ease: 'easeInOut',
+          delay: 0.3,
+        }}
+      />
+    </div>
+  );
 };
 
-// ─── Animation variants ───────────────────────────────────────────────────────
-
-/**
- * Outer wrapper — fades and lifts in on mount.
- */
-const wrapperVariants: Variants = {
-  hidden: { opacity: 0, scale: 0.92 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
-  },
-};
-
-/**
- * Ring that draws around the crest.
- * Uses pathLength so the SVG circle "draws" itself.
- */
-const ringVariants: Variants = {
-  hidden: { pathLength: 0, opacity: 0 },
-  visible: {
-    pathLength: 1,
-    opacity: 1,
-    transition: {
-      pathLength: { duration: 1.2, ease: 'easeInOut', delay: 0.2 },
-      opacity: { duration: 0.1, delay: 0.2 },
-    },
-  },
-};
-
-/**
- * Gold glow flood — fades in after ring draws.
- */
-const floodVariants: Variants = {
-  hidden: { opacity: 0, scale: 0.85 },
-  visible: {
-    opacity: 0.25,
-    scale: 1,
-    transition: { duration: 0.6, ease: 'easeOut', delay: 1.3 },
-  },
-};
-
-/**
- * Continuous pulse glow — starts after flood.
- */
-const pulseVariants: Variants = {
-  rest: {
-    boxShadow: '0 0 0px 0px rgba(201,151,58,0)',
-    scale: 1,
-  },
-  pulse: {
-    boxShadow: [
-      '0 0 0px 0px rgba(201,151,58,0)',
-      '0 0 18px 8px rgba(201,151,58,0.22)',
-      '0 0 0px 0px rgba(201,151,58,0)',
-    ],
-    scale: [1, 1.025, 1],
-    transition: {
-      duration: 3,
-      repeat: Infinity,
-      ease: 'easeInOut',
-      delay: 1.9,
-    },
-  },
-};
-
-/**
- * Shine sweep across the crest.
- */
-const shineVariants: Variants = {
-  hidden: { x: '-180%', opacity: 0 },
-  visible: {
-    x: ['−180%', '180%'],
-    opacity: [0, 0.55, 0],
-    transition: {
-      duration: 2.4,
-      ease: 'easeInOut',
-      delay: 1.4,
-      times: [0, 0.3, 1],
-    },
-  },
-};
-
-// ─── Component ────────────────────────────────────────────────────────────────
-
-export function CrestAnimation({
+// -----------------------------------------------------------------------------
+// Main component
+// -----------------------------------------------------------------------------
+export const CrestAnimation = memo(function CrestAnimation({
   size = 'md',
+  variant = 'hero',
   animateOnMount = true,
   onComplete,
   className,
 }: CrestAnimationProps) {
-  const reduced = useReducedMotion();
-
-  // When reduced motion is preferred or animateOnMount is false,
-  // skip straight to the resting pulse — no drawing sequence.
-  const shouldAnimate = animateOnMount && !reduced;
+  if (!animateOnMount) {
+    return (
+      <div className={cn('relative', sizeMap[size], className)}>
+        <SchoolLogo variant="crest-only" className="w-full h-full" />
+      </div>
+    );
+  }
 
   return (
-    <motion.div
-      className={cn('relative', sizeMap[size], className)}
-      variants={wrapperVariants}
-      initial={shouldAnimate ? 'hidden' : 'visible'}
-      animate="visible"
-      onAnimationComplete={() => {
-        if (shouldAnimate) onComplete?.();
-      }}
-    >
-      {/* ── Base crest logo ─────────────────────────────────────────────── */}
-      <SchoolLogo variant="crest-only" className="w-full h-full" />
-
-      {/* ── SVG draw ring ───────────────────────────────────────────────── */}
-      {shouldAnimate && (
-        <svg
-          className="absolute top-space-0 left-space-0 w-full h-full pointer-events-none"
-          viewBox="0 0 100 100"
-          aria-hidden
-        >
-          <motion.circle
-            cx="50"
-            cy="50"
-            r="48"
-            fill="none"
-            stroke="var(--color-gold-base)"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            // Start at top (rotate -90deg so draw begins at 12 o'clock)
-            style={{ rotate: -90, originX: '50%', originY: '50%' }}
-            variants={ringVariants}
-            initial="hidden"
-            animate="visible"
-          />
-        </svg>
+    <div className={cn(className)}>
+      {variant === 'hero' ? (
+        <HeroAnimation size={size} onComplete={onComplete} />
+      ) : (
+        <LoadingAnimation size={size} />
       )}
-
-      {/* ── Gold flood overlay ──────────────────────────────────────────── */}
-      <motion.div
-        className="absolute top-space-0 right-space-0 bottom-space-0 left-space-0 rounded-full bg-gold-base pointer-events-none"
-        variants={floodVariants}
-        initial="hidden"
-        animate="visible"
-      />
-
-      {/* ── Continuous pulse glow ───────────────────────────────────────── */}
-      <motion.div
-        className="absolute top-space-0 right-space-0 bottom-space-0 left-space-0 rounded-full pointer-events-none"
-        variants={pulseVariants}
-        initial="rest"
-        animate={reduced ? 'rest' : 'pulse'}
-      />
-
-      {/* ── Shine sweep ─────────────────────────────────────────────────── */}
-      {shouldAnimate && (
-        <motion.div
-          className="absolute top-space-0 left-space-0 pointer-events-none"
-          aria-hidden
-          variants={shineVariants}
-          initial="hidden"
-          animate="visible"
-          style={{
-            width: '35%',
-            height: '100%',
-            background:
-              'linear-gradient(90deg, transparent, rgba(232,184,75,0.45), transparent)',
-            transform: 'skewX(-15deg)',
-          }}
-        />
-      )}
-    </motion.div>
+    </div>
   );
-}
+});
