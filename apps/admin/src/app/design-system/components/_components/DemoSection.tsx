@@ -1,21 +1,16 @@
 'use client';
 
-import { Button, cn } from '@nexus/ui';
+import { Button, cn, Icon } from '@nexus/ui';
 
 export interface DemoSectionProps {
-  /** Section title */
   title: string;
-  /** Optional description below title */
   description?: string;
-  /** Children (demo components) */
   children: React.ReactNode;
-  /** Alignment of header content */
   align?: 'left' | 'center';
-  /** Show gold decorative rule below title */
   withAccentRule?: boolean;
-  /** Link to source code (e.g., GitHub) – shows a "View Code" button */
   sourceHref?: string;
-  /** Additional CSS classes */
+  layout?: 'flex' | 'grid';
+  columns?: number;
   className?: string;
 }
 
@@ -26,28 +21,34 @@ export function DemoSection({
   align = 'left',
   withAccentRule = false,
   sourceHref,
+  layout = 'flex',
+  columns = 3,
   className,
 }: DemoSectionProps) {
   const isCenter = align === 'center';
+
+  const gridColumns = {
+    1: 'grid-cols-1',
+    2: 'grid-cols-1 md:grid-cols-2',
+    3: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+    4: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4',
+  }[Math.min(columns, 4)];
 
   return (
     <div className={cn('mb-space-16', className)}>
       {/* Header */}
       <div className={cn('mb-space-8', isCenter && 'text-center')}>
-        {/* Title */}
         <h2 className="font-display text-h2 text-text-primary">{title}</h2>
 
-        {/* Accent rule (optional) */}
         {withAccentRule && (
           <div
             className={cn(
-              'w-size-12 h-size-0-5 bg-gold-base mt-space-4',
+              'w-size-12 h-size-0p5 bg-gold-base mt-space-4',
               isCenter && 'mx-auto',
             )}
           />
         )}
 
-        {/* Description (optional) */}
         {description && (
           <p
             className={cn(
@@ -59,26 +60,13 @@ export function DemoSection({
           </p>
         )}
 
-        {/* View Code button (optional) */}
         {sourceHref && (
           <div className={cn('mt-space-6', isCenter && 'flex justify-center')}>
             <Button
               href={sourceHref}
               variant="ghost"
               size="sm"
-              leftIcon={
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-                </svg>
-              }
+              leftIcon={<Icon name="code" size="sm" />}
             >
               View Code
             </Button>
@@ -87,11 +75,15 @@ export function DemoSection({
       </div>
 
       {/* Children container */}
-      <div
-        className={cn('flex flex-wrap gap-space-6 items-center w-size-full')}
-      >
-        {children}
-      </div>
+      {layout === 'flex' ? (
+        <div className="flex flex-wrap gap-space-6 items-start w-size-full">
+          {children}
+        </div>
+      ) : (
+        <div className={cn('grid gap-space-6 w-size-full', gridColumns)}>
+          {children}
+        </div>
+      )}
     </div>
   );
 }
