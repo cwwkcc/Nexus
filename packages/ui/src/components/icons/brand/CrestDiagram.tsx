@@ -24,7 +24,7 @@ export interface CrestSymbol {
 }
 
 export interface CrestDiagramProps {
-  symbols: CrestSymbol[];
+  symbols?: CrestSymbol[];
   variant?: DiagramVariant; // 👈 'ambient' | 'hold' | 'click'
   debug?: boolean;
   className?: string;
@@ -44,8 +44,39 @@ const LABEL_POSITIONS: Record<HotspotPosition, string> = {
   'bottom-left': 'bottom-[12%] left-[2%]',
 };
 
+const DEFAULT_SYMBOLS: CrestSymbol[] = [
+  {
+    id: 'lamp',
+    name: 'The Lamp of Knowledge',
+    meaning:
+      'The oil lamp — Pahana — represents the light of education driving away the darkness of ignorance.',
+    position: 'top-right',
+  },
+  {
+    id: 'lotus',
+    name: 'The Lotus',
+    meaning:
+      'Rising from murky water to bloom in perfect form, the lotus symbolises the potential within every student — regardless of circumstance — to achieve purity and excellence.',
+    position: 'top-left',
+  },
+  {
+    id: 'dharmachakra',
+    name: 'The Dharmachakra',
+    meaning:
+      'The wheel of the dharma represents truth, righteousness, and the cyclical pursuit of wisdom. It reminds us that learning is never finished.',
+    position: 'bottom-left',
+  },
+  {
+    id: 'laurel',
+    name: 'The Laurel',
+    meaning:
+      'The laurel wreath encircling the crest signifies achievement, honour, and the recognition of excellence in academic, sporting, and cultural endeavour.',
+    position: 'bottom-right',
+  },
+];
+
 export function CrestDiagram({
-  symbols,
+  symbols = DEFAULT_SYMBOLS,
   variant = 'ambient',
   className,
   debug,

@@ -57,6 +57,7 @@ import {
   Camera,
   Music,
   Flag,
+  Code,
 } from 'lucide-react';
 
 export const iconRegistry = {
@@ -117,6 +118,7 @@ export const iconRegistry = {
   camera: Camera,
   music: Music,
   flag: Flag,
+  code: Code,
 } as const;
 
 export type IconName = keyof typeof iconRegistry;
