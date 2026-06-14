@@ -2,6 +2,8 @@
 'use client';
 
 import { cn } from '../../utilities/cn';
+import { Button } from '../atoms/Button';
+import { Text } from '../typography/Text';
 
 export type ErrorStateVariant = 'inline' | 'section';
 
@@ -45,33 +47,22 @@ export function ErrorState({
         </div>
       )}
 
-      <p
-        className={cn(
-          'font-body text-body-sm',
-          'text-semantic-error-base',
-          'leading-relaxed',
-        )}
-      >
+      <Text variant="body-sm" color="error" className="leading-relaxed">
         {message}
-      </p>
+      </Text>
 
       {onRetry && (
-        <button
-          type="button"
+        <Button
           onClick={onRetry}
+          variant="outline"
+          size="sm"
           className={cn(
-            'font-body text-caption uppercase tracking-caption',
-            'px-space-5 py-space-2',
-            'border border-semantic-error-base',
-            'bg-transparent text-semantic-error-base',
-            'cursor-pointer',
-            'transition-all duration-fast ease-snap',
+            'border-semantic-error-base text-semantic-error-base',
             'hover:bg-semantic-error-base hover:text-text-inverse',
-            'focus-visible:outline-2 focus-visible:outline-gold-base focus-visible:outline-offset-[3px]',
           )}
         >
           Try Again
-        </button>
+        </Button>
       )}
     </div>
   );
