@@ -1,57 +1,59 @@
+# Component Reference
+
 ## Table of Contents
 
-1. [Shared UI Library — `packages/ui`](#1-shared-ui-library--packagesui)
-    - [Atoms](#atoms)
-    - [Brand](#brand)
-    - [Cards](#cards)
-    - [Effects](#effects)
-    - [Feedback](#feedback)
-    - [Forms](#forms)
-    - [Icons](#icons)
-    - [Layout](#layout)
-    - [Media](#media)
-    - [Navigation Components](#navigation-components)
-    - [Overlays](#overlays)
-    - [Sections](#sections)
-    - [System](#system)
-    - [Typography](#typography)
-    - [Utilities](#utilities)
-    - [Visualization](#visualization)
-2. [Hooks — `packages/ui/src/hooks`](#2-hooks--packagesui-src-hooks)
-3. [Page Blocks — `apps/web/src/blocks`](#3-page-blocks--appswebsrcblocks)
-    - [Home](#home-blocks)
-    - [About](#about-blocks)
-    - [Academics](#academics-blocks)
-    - [Admissions](#admissions-blocks)
-    - [News](#news-blocks)
-    - [Events](#events-blocks)
-    - [Societies](#societies-blocks)
-    - [Facilities](#facilities-blocks)
-    - [Extracurriculars](#extracurriculars-blocks)
-    - [Gallery](#gallery-blocks)
-    - [Contact](#contact-blocks)
-    - [Results](#results-blocks)
-    - [Administration](#administration-blocks)
-4. [Web App Pages — `apps/web/src/app/[locale]`](#4-web-app-pages)
+1. [Shared UI Library — `packages/ui`](#1-shared-ui-library--packagesui)
+   - [Atoms](#atoms)
+   - [Brand](#brand)
+   - [Cards](#cards)
+   - [Effects](#effects)
+   - [Feedback](#feedback)
+   - [Forms](#forms)
+   - [Icons](#icons)
+   - [Layout](#layout)
+   - [Media](#media)
+   - [Navigation Components](#navigation-components)
+   - [Overlays](#overlays)
+   - [Sections](#sections)
+   - [System](#system)
+   - [Typography](#typography)
+   - [Utilities](#utilities)
+   - [Visualization](#visualization)
+2. [Hooks — `packages/ui/src/hooks`](#2-hooks--packagesuisrchooks)
+3. [Page Blocks — `apps/web/src/blocks`](#3-page-blocks--appswebsrcblocks)
+   - [Home Blocks](#home-blocks)
+   - [About Blocks](#about-blocks)
+   - [Academics Blocks](#academics-blocks)
+   - [Admissions Blocks](#admissions-blocks)
+   - [News Blocks](#news-blocks)
+   - [Events Blocks](#events-blocks)
+   - [Societies Blocks](#societies-blocks)
+   - [Facilities Blocks](#facilities-blocks)
+   - [Extracurriculars Blocks](#extracurriculars-blocks)
+   - [Gallery Blocks](#gallery-blocks)
+   - [Contact Blocks](#contact-blocks)
+   - [Results Blocks](#results-blocks)
+   - [Administration Blocks](#administration-blocks)
+4. [Web App Pages — `apps/web/src/app/[locale]`](#4-web-app-pages)
 5. [Admin App — UI Components](#5-admin-app--ui-components)
 6. [Admin App — Pages](#6-admin-app--pages)
 7. [Accessibility & Infrastructure](#7-accessibility--infrastructure)
 
 ---
 
-## 1. Shared UI Library — `packages/ui`
+## 1. Shared UI Library — `packages/ui`
 
 ### Atoms
 
 |Status|Component|Notes|
 |---|---|---|
-|✅|`BeatLoader`|3-dot bounce loader. Sizes: `sm/md/lg`. Variants: `green/gold/muted`. Respects `prefers-reduced-motion`.|
-|✅|`ScaleLoader`|5-bar wave loader. Same API as BeatLoader.|
-|✅|`Avatar`|Circular avatar with image + initials fallback. Sizes: `xs/sm/md/lg/xl`.|
-|✅|`Badge`|Inline label. Variants: `category`, `status` (draft/published/archived/unread/reviewed), `achievement`.|
-|✅|`Button`|Primary action element — variants, sizes, loading state, icon slots.|
+|✅|`BeatLoader`|3‑dot bounce loader. Sizes: `sm/md/lg`. Variants: `green/gold/muted`. Respects `prefers-reduced-motion`.|
+|✅|`ScaleLoader`|5‑bar wave loader. Same API as BeatLoader.|
+|✅|`Avatar`|Circular avatar with image + initials fallback. Sizes: `xs/sm/md/lg/xl`.|
+|✅|`Badge`|Inline label. Variants: `category`, `status` (draft/published/archived/unread/reviewed), `achievement`.|
+|✅|`Button`|Primary action element — variants, sizes, loading state, icon slots, `href` for links.|
 |✅|`InlineHelpText`|Helper text below form fields.|
-|✅|`ResultsGradeBadge`|Colour-coded exam grade pill (A/B/C/S/F) for Results Portal.|
+|✅|`ResultsGradeBadge`|Colour‑coded exam grade pill (A/B/C/S/F) for Results Portal.|
 |✅|`Tag`|Pill label for subjects, career paths, categories.|
 
 ---
@@ -62,7 +64,7 @@
 |---|---|---|
 |✅|`CrestAnimation`|Animated KCC crest — hero/splash use. Framer Motion.|
 |✅|`CrestDiagram`|Static annotated crest diagram with element labels (About page).|
-|✅|`SchoolLogo`|KCC logo. Variants: `mark` (crest only) · `lockup` (crest + name).|
+|✅|`SchoolLogo`|KCC logo. Variants: `crest‑only`, `wordmark‑only`, `lockup`, `horizontal`, `stacked`.|
 
 ---
 
@@ -71,19 +73,19 @@
 |Status|Component|Notes|
 |---|---|---|
 |✅|`AcademicStreamCard`|Science/Commerce/Arts/Technology. Name, description, career path tags, subject count, href.|
-|✅|`AchievementCard`|Variants: `ticker-item` (inline ticker) · `archive-post` (full card with image).|
+|✅|`AchievementCard`|Variants: `ticker‑item` (inline ticker) · `archive‑post` (full card with image).|
 |✅|`DownloadableDocumentItem`|File row: title, type (pdf/doc/xls/zip), size, download button.|
-|✅|`EventCard`|Date, title, location, category badge, optional image.|
-|✅|`ExtracurricularCard`|Sports/performing arts/scouts/cadets. Teacher-in-charge, achievements, student quote.|
-|✅|`FacilityCard`|Variants: `standard` · `schedule` (with embedded timetable). Features list.|
+|✅|`EventCard`|Variants: `standard` · `compact` · `featured`. Date, title, location, category badge, optional image.|
+|✅|`ExtracurricularCard`|Sports/performing‑arts/leadership. Teacher‑in‑charge, achievements, student quote.|
+|✅|`FacilityCard`|Variants: `standard` · `schedule` (with embedded timetable). Features list.|
 |✅|`GalleryAlbumCard`|Cover image, photo count overlay, category badge, year, hover CTA.|
-|✅|`NewsCard`|Headline, date, category badge, excerpt, hero image, href.|
-|✅|`SocietyBanner`|Wide featured-society banner (used for KITS spotlight).|
-|✅|`SocietyCard`|Compact society grid card.|
-|✅|`StaffCard`|Portrait (3:4 aspect), name, designation, department, optional contact.|
-|✅|`StatCard`|Single KPI metric with animated count-up.|
-|🔨|`AlumniCard`|Notable alumni: portrait, name, year, achievement summary.|
-|🔨|`TestimonialCard`|Student/parent/alumni quote card for use across site.|
+|✅|`NewsCard`|Variants: `standard` · `compact` · `featured`. Headline, date, category badge, excerpt, hero image, href.|
+|✅|`SocietyBanner`|Wide featured‑society banner (used for KITS spotlight).|
+|✅|`SocietyCard`|Variants: `hub‑grid` · `featured`. Compact society grid card.|
+|✅|`StaffCard`|Variants: `principal` · `grid` · `compact`. Portrait, name, designation, department, optional contact.|
+|✅|`StatCard`|Single KPI metric with animated count‑up; optional trend indicator.|
+|⭐|`AlumniCard`|Notable alumni: portrait, name, year, achievement summary.|
+|⭐|`TestimonialCard`|Student/parent/alumni quote card for use across site.|
 |⭐|`MiniEventCard`|Compact event row for sidebars or society detail pages.|
 |⭐|`RelatedArticleCard`|Minimal news card for "Related" sections (image, title, date only).|
 
@@ -95,7 +97,7 @@
 |---|---|---|
 |✅|`AmbientEmbers`|Floating particle animation for hero backgrounds. Framer Motion.|
 |⭐|`HeroVideoBackground`|Muted autoplay video layer for hero sections.|
-|⭐|`ParallaxLayer`|CSS-transform parallax scroll wrapper.|
+|⭐|`ParallaxLayer`|CSS‑transform parallax scroll wrapper.|
 
 ---
 
@@ -103,10 +105,10 @@
 
 |Status|Component|Notes|
 |---|---|---|
-|✅|`Alert`|Inline alert: `info / success / warning / error`. Dismissible.|
-|✅|`Modal`|Accessible dialog. Focus-trapped. Backdrop dismiss.|
-|✅|`Toast`|Ephemeral notification stack.|
-|🔨|`ConfirmDialog`|Destructive action confirmation prompt (wraps Modal with OK/Cancel).|
+|✅|`Alert`|Inline alert: `info / success / warning / error`. Dismissible.|
+|✅|`Modal`|Accessible dialog. Focus‑trapped. Backdrop dismiss. Variants: `information` · `confirmation`.|
+|✅|`Toast`|Ephemeral notification stack. Variants: `success / error / warning`.|
+|⭐|`ConfirmDialog`|Destructive action confirmation prompt (wraps Modal with OK/Cancel).|
 
 ---
 
@@ -114,24 +116,24 @@
 
 |Status|Component|Notes|
 |---|---|---|
-|✅|`Calendar`|Date-picker calendar widget.|
+|✅|`Calendar`|Variants: `mini‑strip` · `month‑view` · `list‑view`. Date‑picker calendar widget.|
 |✅|`Checkbox`|Styled checkbox with label + help text.|
 |✅|`ContactForm`|Full general enquiry form: name, email, subject, message.|
 |✅|`FeedbackForm`|Feedback & complaints with category select.|
-|✅|`FileUploadZone`|Drag-and-drop upload area for admissions documents.|
-|✅|`FormErrorMessage`|Per-field error text.|
-|✅|`FormFieldGroup`|Label + input + help text + error wrapper.|
+|✅|`FileUploadZone`|Drag‑and‑drop upload area for admissions documents.|
+|✅|`FormErrorMessage`|Per‑field error text.|
+|✅|`FormFieldGroup`|Groups labels, inputs, help text, and errors.|
 |✅|`FormSectionWrapper`|Groups related fields under a heading inside a form.|
-|✅|`FormValidationSummary`|Top-of-form error list.|
-|✅|`Input`|Text / email / tel / number input.|
-|✅|`ProgressIndicator`|Multi-step form stepper (admissions flow).|
+|✅|`FormValidationSummary`|Top‑of‑form error list.|
+|✅|`Input`|Text / email / tel / number / search / url input.|
+|✅|`ProgressIndicator`|Variants: `bar` · `steps`. Multi‑step form stepper (admissions flow).|
 |✅|`Radio`|Styled radio button group.|
 |✅|`RequirementsChecklist`|Interactive admissions requirements checklist.|
-|✅|`Select`|Styled dropdown.|
-|✅|`Slider`|Range slider.|
-|✅|`Textarea`|Multi-line text.|
-|✅|`Toggle`|On/off switch.|
-|🔨|`SearchForm`|Standalone search form: input + submit. Used in Results Portal.|
+|✅|`Select`|Styled dropdown with options.|
+|✅|`Slider`|Range slider with optional value display.|
+|✅|`Textarea`|Multi‑line text with resize.|
+|✅|`Toggle`|On/off switch (role="switch").|
+|⭐|`SearchForm`|Standalone search form: input + submit. Used in Results Portal.|
 |⭐|`DateRangePicker`|Start + end date selector (events filter, alumni search).|
 |⭐|`PhoneInput`|Formatted phone number input with Sri Lanka country code default.|
 
@@ -141,29 +143,14 @@
 
 |Status|Component|Notes|
 |---|---|---|
-|✅|`Documents`|File/document icon.|
-|✅|`ErrorIcon`|Error state icon.|
-|✅|`SuccessIcon`|Success state icon.|
-|✅|`WarningIcon`|Warning state icon.|
-|✅|`InfoIcon`|Info state icon.|
-|✅|`FacebookIcon`|Social.|
-|✅|`GitHubIcon`|Social (KITS).|
-|✅|`InstagramIcon`|Social.|
-|✅|`LinkedInIcon`|Social.|
-|✅|`YoutubeIcon`|Social.|
-|🔨|`ChevronIcon`|Generic directional arrow (carousel, accordion).|
-|🔨|`CloseIcon`|X close button for modals, drawers, banners.|
-|🔨|`SearchIcon`|Magnifier for search inputs.|
-|🔨|`MenuIcon`|Hamburger for mobile nav toggle.|
-|🔨|`DownloadIcon`|For download buttons.|
-|🔨|`CalendarIcon`|For date fields and event cards.|
-|🔨|`LocationIcon`|For event venue / map directions.|
-|🔨|`PhoneIcon`|For contact section.|
-|🔨|`MailIcon`|For contact section.|
-|🔨|`ExternalLinkIcon`|For links that open in a new tab.|
-|⭐|`WhatsAppIcon`|Sri Lanka context — common contact channel.|
-|⭐|`TikTokIcon`|Social (student audience).|
-|⭐|`XIcon`|(formerly Twitter) Social.|
+|✅|`Icon`|Typed Lucide icon component with size tokens (`xs`–`xl`).|
+|✅|`FacebookColor` / `FacebookWhite`|Social icons.|
+|✅|`GitHubInvertocat*` / `GitHubLockup*`|GitHub variants.|
+|✅|`InstagramGlyph*`|Instagram variants (black, white, gradient).|
+|✅|`LinkedIn*`|LinkedIn variants (black, white, colour, inline colour).|
+|✅|`WhatsApp*`|WhatsApp variants (glyph, stacked, green/black/white).|
+|✅|`YouTube*`|YouTube variants (inline, colour, black, white).|
+|✅|`CrestAnimation`, `CrestDiagram`, `SchoolLogo`|Brand icons (see Brand section).|
 
 ---
 
@@ -171,19 +158,19 @@
 
 |Status|Component|Notes|
 |---|---|---|
-|✅|`Container`|Max-width centred wrapper with horizontal padding.|
-|✅|`Divider`|`<hr>` with optional label.|
-|✅|`Footer`|Site-wide: logo, nav links, social icons, copyright, "Built by KITS".|
-|✅|`Grid`|CSS Grid wrapper with column/gap presets.|
-|✅|`Hero`|Full-viewport / tall hero section wrapper with bg image/video support.|
-|✅|`MasonryGrid`|Variable-height masonry layout (gallery).|
-|✅|`Navigation`|Top nav bar: logo, nav links, language switcher, CTA.|
-|✅|`QuickAccessPortal`|Floating quick-access dock (Results, Apply).|
-|✅|`Stack`|Vertical/horizontal flex stack with gap presets.|
-|🔨|`PageLayout`|Standard page wrapper: `<Navigation>` + `{children}` + `<Footer>`.|
-|🔨|`SectionWrapper`|Section with consistent top/bottom padding and optional `id`.|
+|✅|`Container`|Max‑width centred wrapper with responsive padding.|
+|✅|`Divider`|Horizontal/vertical separator with gold accent variants.|
+|✅|`Footer`|Site‑wide footer: logo, nav links, social icons, copyright, "Built by KITS".|
+|✅|`Grid` / `GridItem`|CSS Grid wrapper with column/gap presets and responsive span utilities.|
+|✅|`Hero`|Full‑viewport / tall hero section wrapper with bg image/video support. Variants: `homepage`, `subpage`, `minimal`.|
+|✅|`MasonryGrid`|Variable‑height masonry layout (gallery).|
+|✅|`Navigation`|Top nav bar: logo, nav links, language switcher, CTA. Responsive mobile menu.|
+|✅|`QuickAccessPortal`|Floating quick‑access dock (Results, Apply, etc.).|
+|✅|`VStack` / `HStack`|Vertical/horizontal flex stack with gap presets.|
+|🔨|`PageLayout`|Standard page wrapper: `<Navigation>` + `{children}` + `<Footer>`.|
+|🔨|`SectionWrapper`|Section with consistent top/bottom padding and optional `id`.|
 |🔨|`TwoColumnLayout`|Main content + sidebar layout (news article, society detail).|
-|⭐|`StickyAside`|Sticky sidebar for TableOfContents on long-form pages.|
+|⭐|`StickyAside`|Sticky sidebar for TableOfContents on long‑form pages.|
 
 ---
 
@@ -191,16 +178,16 @@
 
 |Status|Component|Notes|
 |---|---|---|
-|✅|`AudioPlayer`|Inline audio player — school anthem.|
-|✅|`Caption`|Image/video caption with optional credit line.|
-|✅|`ImageFrame`|Aspect ratio enforced image container with loading state.|
-|✅|`Lightbox`|Full-screen image overlay with prev/next.|
-|✅|`MapEmbed`|Google Maps embed.|
-|✅|`PanoramicFacilityViewer`|360° / wide panoramic viewer for campus facilities.|
-|✅|`VideoFrame`|YouTube / Vimeo embed with aspect ratio enforcement.|
-|🔨|`OptimizedImage`|`next/image` wrapper with blur placeholder and Sanity CDN URL handling.|
+|✅|`AudioPlayer`|Inline audio player — school anthem with visualiser and lyrics.|
+|✅|`Caption`|Image/video caption with optional credit line. Variants: `inline`, `overlay`.|
+|✅|`ImageFrame`|Aspect‑ratio‑enforced image container with loading state, overlay, corner badge.|
+|✅|`Lightbox`|Full‑screen image overlay with prev/next navigation and caption.|
+|✅|`MapEmbed`|Google Maps / OpenStreetMap embed with optional nearby note.|
+|✅|`PanoramicFacilityViewer`|360° / wide panoramic viewer for campus facilities (draggable).|
+|✅|`VideoFrame`|YouTube / Vimeo embed with aspect ratio enforcement; optional poster for direct MP4.|
+|🔨|`OptimizedImage`|`next/image` wrapper with blur placeholder and Sanity CDN URL handling.|
 |⭐|`BeforeAfterSlider`|Before/after drag slider (campus renovation comparisons).|
-|⭐|`ImageCarousel`|Auto-playing image carousel with dot indicators.|
+|⭐|`ImageCarousel`|Auto‑playing image carousel with dot indicators.|
 
 ---
 
@@ -209,16 +196,16 @@
 |Status|Component|Notes|
 |---|---|---|
 |✅|`Accordion`|Expand/collapse for FAQ sections.|
-|✅|`Breadcrumb`|Hierarchical page path with home.|
-|✅|`FilterBar`|Horizontal pill/tab filter row (news, gallery, events).|
+|✅|`Breadcrumb`|Hierarchical page path with home link.|
+|✅|`FilterBar`|Horizontal pill/tab filter row (news, gallery, events). Variants: `category‑tabs`, `year‑selector`.|
 |✅|`LanguageSwitcher`|EN / සිං / தமி locale toggle.|
-|✅|`MobileMenu`|Full-screen mobile nav overlay.|
-|✅|`NavLink`|Internal/external link with active state.|
-|✅|`Pagination`|Page number controls.|
-|✅|`SearchInput`|Search bar with icon, placeholder, clear.|
-|✅|`TableOfContents`|Sticky in-page section jump links.|
-|✅|`Tabs`|Horizontal tab group for content panels.|
-|🔨|`DropdownNav`|Mega-menu or grouped dropdown for desktop nav.|
+|✅|`MobileMenu`|Full‑screen mobile nav overlay.|
+|✅|`NavLink`|Internal/external link with active state (supports `onDark`, prefetch).|
+|✅|`Pagination`|Page number controls with ellipsis and sibling count.|
+|✅|`SearchInput`|Search bar with icon, placeholder, clear, and dropdown results.|
+|✅|`TableOfContents`|Sticky in‑page section jump links.|
+|✅|`Tabs`|Horizontal tab group for content panels. Variants: `line`, `pills`.|
+|⭐|`DropdownNav`|Mega‑menu or grouped dropdown for desktop nav.|
 |⭐|`CommandPalette`|Cmd+K style global search/navigation palette.|
 
 ---
@@ -227,11 +214,11 @@
 
 |Status|Component|Notes|
 |---|---|---|
-|✅|`Drawer`|Side-panel overlay (slide in from right/left).|
-|✅|`DropDownMenu`|Contextual dropdown triggered by a button.|
-|✅|`ShareSheet`|Share panel: URL copy + social share links.|
-|✅|`ToolTip`|Hover/focus tooltip.|
-|🔨|`AnnouncementPopup`|Modal that appears on first visit for important notices (exams, events).|
+|✅|`Drawer`|Side‑panel overlay (slide in from right/left). Supports persistent mode.|
+|✅|`DropDownMenu`|Contextual dropdown triggered by a button (navigation or filter variant).|
+|✅|`ShareSheet`|Share panel: URL copy + social share links (WhatsApp, Facebook, copy).|
+|✅|`ToolTip`|Hover/focus tooltip (position: top/bottom/left/right).|
+|⭐|`AnnouncementPopup`|Modal that appears on first visit for important notices (exams, events).|
 
 ---
 
@@ -239,16 +226,16 @@
 
 |Status|Component|Notes|
 |---|---|---|
-|✅|`AchievementTicker`|Horizontal auto-scrolling achievement ticker.|
-|✅|`AdmissionsKeyDatesTimeline`|Horizontal/vertical timeline of admissions key dates.|
+|✅|`AchievementTicker`|Horizontal auto‑scrolling achievement ticker.|
+|✅|`AdmissionsKeyDatesTimeline`|Vertical timeline of admissions key dates.|
 |✅|`AdmissionsProcessSteps`|"How to Apply" step sequence with icons.|
-|✅|`AlumniLegacyBlock`|Featured notable alumni grid/highlight block.|
-|✅|`LifeAtKCCPhotoStrip`|Horizontal scrollable campus life photo strip.|
+|✅|`AlumniLegacyBlock`|Featured notable alumni grid/highlight block with carousel.|
+|✅|`LifeAtKCCPhotoStrip`|Horizontal scrollable campus life photo strip with category filters.|
 |✅|`PrincipalMessage`|Principal portrait + pull quote + "Read Full Message" CTA.|
-|✅|`SectionSlider`|Carousel/slider wrapper for rotating section content.|
-|✅|`StatsStrip`|Full-width horizontal strip with key school stats.|
+|✅|`SectionSlider`|Carousel/slider wrapper for rotating section content (supports slides or scrollable strip).|
+|✅|`StatsStrip`|Full‑width horizontal strip with key school stats (auto‑counting).|
 |✅|`Timeline`|Generic vertical/horizontal timeline component.|
-|🔨|`CTABanner`|Full-width call-to-action banner (Apply Now, Contact Us). Used across multiple pages.|
+|🔨|`CTABanner`|Full‑width call‑to‑action banner (Apply Now, Contact Us). Used across multiple pages.|
 |🔨|`LatestNewsSummary`|"Latest News" preview strip showing 3 recent NewsCards + View All link.|
 |🔨|`UpcomingEventsStrip`|Horizontal strip of the next 3 upcoming events.|
 |🔨|`SocietiesPreviewStrip`|Horizontal preview of SocietyCards with "View All" CTA.|
@@ -261,15 +248,15 @@
 
 |Status|Component|Notes|
 |---|---|---|
-|✅|`AnnouncementBanner`|Dismissible top-of-page announcement strip.|
+|✅|`AnnouncementBanner`|Dismissible top‑of‑page announcement strip.|
 |✅|`CookieConsentBanner`|Cookie consent footer bar.|
 |✅|`EmptyState`|Empty list/search with illustration and message.|
-|✅|`ErrorState`|Section/page-level error with retry.|
-|✅|`LoadingScreen`|Full-viewport loading (initial / route transitions).|
-|✅|`LoadingSkeleton`|Shimmer placeholder skeleton.|
-|✅|`NotFound`|404 component with back-to-home nav.|
+|✅|`ErrorState`|Section/page‑level error with retry. Variants: `inline` / `section`.|
+|✅|`LoadingScreen`|Full‑viewport loading (initial / route transitions). Animated crest.|
+|✅|`LoadingSkeleton`|Shimmer placeholder skeleton. Variants: `card`, `table‑row`, `section`.|
+|✅|`NotFoundPage`|404 component with back‑to‑home navigation and animated 404 count‑up.|
 |✅|`OfflineBanner`|Banner when user loses network.|
-|🔨|`MaintenancePage`|Full-page maintenance mode screen.|
+|⭐|`MaintenancePage`|Full‑page maintenance mode screen.|
 |⭐|`UpdateAvailableBanner`|PWA "new version available" banner with reload prompt.|
 
 ---
@@ -278,14 +265,14 @@
 
 |Status|Component|Notes|
 |---|---|---|
-|✅|`EyebrowLabel`|All-caps small label above headings.|
-|✅|`Heading`|`h1–h6` mapped to design-system type scale.|
-|✅|`InlineLink`|Styled anchor for body copy.|
-|✅|`QuoteBlock`|Styled `<blockquote>` (principal message, testimonials).|
-|✅|`RichTextRenderer`|Renders Sanity portable text / MDX with token-matched typography.|
-|✅|`SectionHeader`|Eyebrow + Heading + optional subtitle combo.|
-|✅|`Text`|Body copy, captions, labels — mapped to type scale.|
-|🔨|`HighlightedText`|Inline text with gold/green highlight mark for hero callouts.|
+|✅|`EyebrowLabel`|All‑caps small label above headings.|
+|✅|`Heading`|`h1–h6` mapped to design‑system type scale with colour tokens.|
+|✅|`InlineLink`|Styled anchor for body copy (supports external links with new‑tab hint).|
+|✅|`QuoteBlock`|Styled `<blockquote>`. Variants: `pull‑quote`, `ceremonial`.|
+|✅|`RichTextRenderer`|Renders Sanity portable text / MDX with token‑matched typography.|
+|✅|`SectionHeader`|Eyebrow + Heading + optional subtitle combo. Variants: `eyebrow-title`, `eyebrow-title-description`.|
+|✅|`Text`|Body copy, captions, labels — mapped to type scale with colour tokens.|
+|⭐|`HighlightedText`|Inline text with gold/green highlight mark for hero callouts.|
 |⭐|`KannadaScriptDisplay`|Sinhala / Tamil typeface showcase wrapper for i18n testing.|
 
 ---
@@ -294,12 +281,12 @@
 
 |Status|Component|Notes|
 |---|---|---|
-|✅|`BackToTopButton`|Floating scroll-to-top after scrolling down.|
-|✅|`CountdownTimer`|Live countdown to event/deadline.|
-|✅|`ScrollProgressBar`|Thin page-top progress bar showing scroll depth.|
-|🔨|`PrintButton`|Triggers browser print (Results Portal, timetables).|
-|🔨|`CopyToClipboardButton`|Copies text to clipboard (URL sharing, index number).|
-|⭐|`FloatingCTA`|Floating bottom-right "Apply Now" / "Contact Us" button on mobile.|
+|✅|`BackToTopButton`|Floating scroll‑to‑top after scrolling down.|
+|✅|`CountdownTimer`|Live countdown to event/deadline (supports days/hours/minutes/seconds).|
+|✅|`ScrollProgressBar`|Thin page‑top progress bar showing scroll depth.|
+|⭐|`PrintButton`|Triggers browser print (Results Portal, timetables).|
+|⭐|`CopyToClipboardButton`|Copies text to clipboard (URL sharing, index number).|
+|⭐|`FloatingCTA`|Floating bottom‑right "Apply Now" / "Contact Us" button on mobile.|
 |⭐|`KeyboardShortcutHint`|Small UI hint showing keyboard shortcuts (Cmd+K, Esc).|
 
 ---
@@ -310,34 +297,34 @@
 |---|---|---|
 |✅|`ComparisonBar`|Horizontal bar comparing two values (e.g. pass rates).|
 |✅|`DataTable`|Sortable/filterable table with pagination.|
-|✅|`ProcessSteps`|Numbered/icon step sequence (admissions, how to apply).|
+|✅|`ProcessSteps`|Numbered step sequence (admissions, how to apply).|
 |✅|`ProgressArc`|Circular arc progress for performance stats.|
-|✅|`ResultsDisplay`|Formatted exam result output card.|
-|✅|`StreamComparisonTable`|Side-by-side A/L stream comparison (subjects, careers, requirements).|
-|✅|`StudentJourneyFlow`|Visual flow: Grade 1 → O/L → A/L → University.|
+|✅|`ResultsDisplay`|Formatted exam result output card (subjects + grades + PDF download).|
+|✅|`StreamComparisonTable`|Side‑by‑side A/L stream comparison (subjects, careers, requirements).|
+|✅|`StudentJourneyFlow`|Visual flow: Grade 10 → Grade 11 → A/L (interactive diagram).|
 |✅|`TimetableGrid`|Weekly timetable display grid.|
-|🔨|`PassRateChart`|Bar/line chart for historical O/L and A/L pass rates.|
-|🔨|`UniversityEntranceChart`|Yearly university entrance count chart.|
+|⭐|`PassRateChart`|Bar/line chart for historical O/L and A/L pass rates.|
+|⭐|`UniversityEntranceChart`|Yearly university entrance count chart.|
 |⭐|`SubjectPopularityBar`|Horizontal bar chart of subject enrolment by stream.|
 
 ---
 
-## 2. Hooks — `packages/ui/src/hooks`
+## 2. Hooks — `packages/ui/src/hooks`
 
 |Status|Hook|Description|
 |---|---|---|
 |✅|`useActiveSection`|Tracks which page section is in viewport (TableOfContents).|
 |✅|`useCountUp`|Animates a number from 0 to target. Supports easing, pause/resume, delay.|
-|✅|`useFormField`|Field state: value, touched, error, onChange, onBlur.|
-|✅|`useInView`|Returns `true` when element enters viewport.|
+|✅|`useFormField`|Generates IDs and described‑by attributes for form fields.|
+|✅|`useInView`|Returns `true` when element enters viewport (IntersectionObserver).|
 |✅|`useLocalStorage`|Persistent state via localStorage (cookie consent, locale pref).|
 |✅|`useMediaQuery`|Reactive CSS media query matcher.|
-|✅|`useScrollDirection`|Returns `'up'` or `'down'` for nav hide/show.|
-|🔨|`useDebounce`|Debounces a value. Used in SearchInput and admin filtering.|
-|🔨|`useClickOutside`|Fires callback when click outside a ref element (dropdowns, modals).|
-|🔨|`useOnlineStatus`|Boolean `isOnline` — drives OfflineBanner.|
-|🔨|`useCopyToClipboard`|Copy text, returns `{ copied, copy }`.|
-|🔨|`usePagination`|Page number, offset, limit calculations.|
+|✅|`useScrollDirection`|Returns `'up'` or `'down'` for nav hide/show.|
+|⭐|`useDebounce`|Debounces a value. Used in SearchInput and admin filtering.|
+|⭐|`useClickOutside`|Fires callback when click outside a ref element (dropdowns, modals).|
+|⭐|`useOnlineStatus`|Boolean `isOnline` — drives OfflineBanner.|
+|⭐|`useCopyToClipboard`|Copy text, returns `{ copied, copy }`.|
+|⭐|`usePagination`|Page number, offset, limit calculations.|
 |⭐|`useThrottle`|Throttles a value or function call (scroll events).|
 |⭐|`usePrevious`|Returns the previous render's value.|
 |⭐|`useResizeObserver`|Observes element dimension changes.|
@@ -345,9 +332,9 @@
 
 ---
 
-## 3. Page Blocks — `apps/web/src/blocks`
+## 3. Page Blocks — `apps/web/src/blocks`
 
-> Each folder = one page's sections. Files are composed from `packages/ui` primitives + page-specific data.
+> Each folder corresponds to a page’s sections. Files are composed from `packages/ui` primitives + page‑specific data.
 
 ---
 
@@ -357,13 +344,13 @@
 
 |Status|Block|Description|
 |---|---|---|
-|🔨|`HomeHero`|Full-viewport hero: carousel panels (6 images), CrestAnimation, AmbientEmbers, tagline, established year, dual CTAs ("Explore" + "Apply").|
-|🔨|`HomeStatsStrip`|Wraps `StatsStrip` with live counts: students, staff, years, university entrances.|
-|🔨|`HomePrincipalMessage`|Wraps `PrincipalMessage` section with Sanity data.|
+|🔨|`HomeHero`|Full‑viewport hero: carousel panels, CrestAnimation, AmbientEmbers, tagline, established year, dual CTAs ("Explore" + "Apply").|
+|🔨|`HomeStatsStrip`|Wraps `StatsStrip` with live counts: students, staff, years, university entrances.|
+|🔨|`HomePrincipalMessage`|Wraps `PrincipalMessage` section with Sanity data.|
 |🔨|`HomeLatestNews`|SectionHeader + NewsCard grid (3 latest) + "All News →" link.|
-|🔨|`HomeAcademicStreams`|SectionHeader + 4x AcademicStreamCard grid.|
+|🔨|`HomeAcademicStreams`|SectionHeader + 4× AcademicStreamCard grid.|
 |🔨|`HomeLifeAtKCC`|SectionHeader + LifeAtKCCPhotoStrip.|
-|🔨|`HomeAchievementTicker`|SectionHeader + AchievementTicker (auto-scrolling).|
+|🔨|`HomeAchievementTicker`|SectionHeader + AchievementTicker (auto‑scrolling).|
 |🔨|`HomeSocietiesPreview`|SectionHeader + 4 SocietyCard grid + "All Societies →".|
 |🔨|`HomeUpcomingEvents`|SectionHeader + 3 EventCard row + "View All Events →".|
 |🔨|`HomeQuickLinks`|QuickAccessPortal visible block: Results Portal, Apply, Contact, Gallery.|
@@ -373,11 +360,11 @@
 
 ### About Blocks
 
-`apps/web/src/blocks/about/` — **All 12 blocks exist.**
+`apps/web/src/blocks/about/` — **All 12 blocks built.**
 
 |Status|Block|Description|
 |---|---|---|
-|✅|`AboutHero`|Full-viewport hero: CrestAnimation, school name, established year, tagline.|
+|✅|`AboutHero`|Full‑viewport hero: CrestAnimation, school name, established year, tagline.|
 |✅|`OurStory`|School origin narrative from 1873. RichText + archival imagery.|
 |✅|`OurNameSake`|Dr. C.W.W. Kannangara biography: portrait, life story, education legacy.|
 |✅|`CrestExplained`|CrestDiagram with annotated copy for each element.|
@@ -401,11 +388,11 @@
 |🔨|`AcademicsHero`|Hero: eyebrow "Academic Excellence", title, subtitle.|
 |🔨|`AcademicsCurriculumOverview`|O/L (Grade 6–11) and A/L (Grade 12–13) structure overview.|
 |🔨|`AcademicsStreamsGrid`|4× AcademicStreamCard: Science / Commerce / Arts / Technology.|
-|🔨|`AcademicsStreamDetail`|Per-stream deep dive: subjects, career paths, requirements, entry criteria.|
+|🔨|`AcademicsStreamDetail`|Per‑stream deep dive: subjects, career paths, requirements, entry criteria.|
 |🔨|`AcademicsComparisonSection`|Wraps StreamComparisonTable with heading and context copy.|
 |🔨|`AcademicsStudentJourneySection`|Wraps StudentJourneyFlow with explanatory text.|
 |🔨|`AcademicsPerformanceSection`|Historical O/L & A/L pass rates, university entrance stats. Uses PassRateChart + ProgressArc.|
-|🔨|`AcademicsSubjectList`|Per-stream subject grid with Tag pills.|
+|🔨|`AcademicsSubjectList`|Per‑stream subject grid with Tag pills.|
 |⭐|`AcademicsTeachingPhilosophy`|Short section on the school's academic approach.|
 
 ---
@@ -417,7 +404,7 @@
 |Status|Block|Description|
 |---|---|---|
 |🔨|`AdmissionsHero`|Hero: eyebrow "Join the Legacy", title "Admissions".|
-|🔨|`AdmissionsOverview`|Grade-level entry points: Grade 1 / Grade 6 / Other. Links to relevant sub-sections.|
+|🔨|`AdmissionsOverview`|Grade‑level entry points: Grade 1 / Grade 6 / Other. Links to relevant sub‑sections.|
 |🔨|`AdmissionsProcessSection`|Wraps AdmissionsProcessSteps with section heading.|
 |🔨|`AdmissionsKeyDatesSection`|Wraps AdmissionsKeyDatesTimeline.|
 |🔨|`AdmissionsRequirementsSection`|Wraps RequirementsChecklist — per grade level.|
@@ -439,9 +426,9 @@
 |🔨|`NewsFilterSearchBar`|FilterBar (All / Academic / Sports / Events / Achievements) + SearchInput.|
 |🔨|`NewsGrid`|Responsive NewsCard grid — 3 col desktop, 2 tablet, 1 mobile.|
 |🔨|`NewsPagination`|Pagination controls below grid.|
-|🔨|`ArticleHero`|Single-article hero: large image, title, category badge, date, read time.|
+|🔨|`ArticleHero`|Single‑article hero: large image, title, category badge, date, read time.|
 |🔨|`ArticleMeta`|Inline author, date, category, read time. Appears below hero.|
-|🔨|`ArticleBody`|RichTextRenderer in a `max-w-prose` two-column layout with optional sidebar.|
+|🔨|`ArticleBody`|RichTextRenderer in a `max‑w‑prose` two‑column layout with optional sidebar.|
 |🔨|`ArticleShareSection`|ShareSheet + CopyToClipboardButton.|
 |🔨|`ArticleRelated`|"More from KCC" — 3× RelatedArticleCard.|
 
@@ -479,9 +466,9 @@
 |🔨|`SocietyAboutSection`|About section with RichTextRenderer.|
 |🔨|`SocietyActivitiesSection`|Regular activities / projects grid.|
 |🔨|`SocietyTeamSection`|Advisor StaffCard + student leader Avatar list.|
-|🔨|`SocietyGallerySection`|GalleryAlbumCard grid (society-specific albums).|
+|🔨|`SocietyGallerySection`|GalleryAlbumCard grid (society‑specific albums).|
 |🔨|`SocietyEventsSection`|Upcoming EventCard list for the society.|
-|⭐|`SocietyJoinForm`|Inline expression-of-interest form.|
+|⭐|`SocietyJoinForm`|Inline expression‑of‑interest form.|
 
 ---
 
@@ -556,7 +543,7 @@
 |🔨|`ResultsSearchSection`|SearchForm: index number Input + exam type Select (O/L, A/L, Scholarship) + year Select + Search Button.|
 |🔨|`ResultsOutputSection`|Conditionally rendered ResultsDisplay after search. Alert for not found.|
 |🔨|`ResultsDownloadsSection`|DownloadableDocumentItem list for official result circulars.|
-|⭐|`ResultsAggregateStatsSection`|School-wide aggregate stats: top scorers, district rank, pass rate chart.|
+|⭐|`ResultsAggregateStatsSection`|School‑wide aggregate stats: top scorers, district rank, pass rate chart.|
 
 ---
 
@@ -570,7 +557,7 @@
 |🔨|`PrincipalProfileSection`|Large featured StaffCard for principal with extended bio.|
 |🔨|`DeputyPrincipalsSection`|StaffCard grid for deputy principals.|
 |🔨|`DepartmentHeadsSection`|StaffCard grid for HODs per department.|
-|🔨|`SchoolStructureSection`|Org chart or text-based authority structure.|
+|🔨|`SchoolStructureSection`|Org chart or text‑based authority structure.|
 |⭐|`AdvisoryBoardSection`|School development advisory board members.|
 
 ---
@@ -581,27 +568,27 @@
 
 |Status|Route|Notes|
 |---|---|---|
-|🔨|`/`|**Home** — HomeHero, StatsStrip, PrincipalMessage, LatestNews, AcademicStreams, LifeAtKCC, Ticker, Societies.|
-|✅|`/about`|**About KCC** — All 12 blocks built.|
-|🔨|`/academics`|**Academics** — All academics blocks.|
-|🔨|`/admissions`|**Admissions** — All admissions blocks.|
-|🔨|`/news`|**News Listing** — Hero, FilterSearch, FeaturedArticle, Grid, Pagination.|
-|🔨|`/news/[slug]`|**News Article** — ArticleHero, Meta, Body, Share, Related.|
-|🔨|`/events`|**Events Listing** — Hero, NextHighlight, FilterBar, Grid, Pagination.|
-|🔨|`/events/[slug]`|**Event Detail** — DetailHero, Body, Meta, Share, Related.|
-|🔨|`/societies`|**Societies Hub** — Hero, Featured (KITS), Hub grid.|
-|🔨|`/societies/[slug]`|**Society Detail** — All society detail blocks.|
-|🔨|`/facilities`|**Facilities** — Hero, Grid, Spotlight, MapSection.|
-|🔨|`/extracurriculars`|**Extracurriculars** — Hero + 4 category sections + Achievements.|
-|🔨|`/gallery`|**Gallery Hub** — Hero, FilterSection, AlbumsGrid.|
-|🔨|`/gallery/[album]`|**Album View** — AlbumHero, MasonrySection, RelatedSection.|
-|🔨|`/contact`|**Contact** — Hero, Departments, Enquiry form, Feedback form, Hours, Emergency, Map.|
-|🔨|`/results`|**Results Portal** — Hero, SearchSection, OutputSection, Downloads.|
-|🔨|`/administration`|**Administration** — Hero, Principal profile, Deputies, HODs.|
-|⭐|`/achievements`|**Achievements Archive** — Full archive of AchievementCard posts.|
-|⭐|`/alumni`|**Alumni** — AlumniCard grid, submission form, legacy stories.|
-|⭐|`/privacy-policy`|**Privacy Policy** — RichTextRenderer on Sanity doc.|
-|⭐|`/terms`|**Terms** — RichTextRenderer on Sanity doc.|
+|🔨|`/`|**Home** — HomeHero, StatsStrip, PrincipalMessage, LatestNews, AcademicStreams, LifeAtKCC, Ticker, Societies.|
+|✅|`/about`|**About KCC** — All 12 blocks built.|
+|🔨|`/academics`|**Academics** — All academics blocks.|
+|🔨|`/admissions`|**Admissions** — All admissions blocks.|
+|🔨|`/news`|**News Listing** — Hero, FilterSearch, FeaturedArticle, Grid, Pagination.|
+|🔨|`/news/[slug]`|**News Article** — ArticleHero, Meta, Body, Share, Related.|
+|🔨|`/events`|**Events Listing** — Hero, NextHighlight, FilterBar, Grid, Pagination.|
+|🔨|`/events/[slug]`|**Event Detail** — DetailHero, Body, Meta, Share, Related.|
+|🔨|`/societies`|**Societies Hub** — Hero, Featured (KITS), Hub grid.|
+|🔨|`/societies/[slug]`|**Society Detail** — All society detail blocks.|
+|🔨|`/facilities`|**Facilities** — Hero, Grid, Spotlight, MapSection.|
+|🔨|`/extracurriculars`|**Extracurriculars** — Hero + 4 category sections + Achievements.|
+|🔨|`/gallery`|**Gallery Hub** — Hero, FilterSection, AlbumsGrid.|
+|🔨|`/gallery/[album]`|**Album View** — AlbumHero, MasonrySection, RelatedSection.|
+|🔨|`/contact`|**Contact** — Hero, Departments, Enquiry form, Feedback form, Hours, Emergency, Map.|
+|🔨|`/results`|**Results Portal** — Hero, SearchSection, OutputSection, Downloads.|
+|🔨|`/administration`|**Administration** — Hero, Principal profile, Deputies, HODs.|
+|⭐|`/achievements`|**Achievements Archive** — Full archive of AchievementCard posts.|
+|⭐|`/alumni`|**Alumni** — AlumniCard grid, submission form, legacy stories.|
+|⭐|`/privacy-policy`|**Privacy Policy** — RichTextRenderer on Sanity doc.|
+|⭐|`/terms`|**Terms** — RichTextRenderer on Sanity doc.|
 
 ---
 
@@ -609,34 +596,34 @@
 
 `apps/admin/src/components/`
 
-> These are admin-specific — not in `packages/ui`. Not needed by the public web app.
+> These are admin‑specific — not in `packages/ui`. Not needed by the public web app.
 
 |Status|Component|Notes|
 |---|---|---|
-|🔨|`AdminLayout`|Root layout: `AdminSidebar` + `AdminTopBar` + `{children}`.|
+|🔨|`AdminLayout`|Root layout: `AdminSidebar` + `AdminTopBar` + `{children}`.|
 |🔨|`AdminSidebar`|Left nav with section groups: Content, Media, Settings. Collapsible.|
 |🔨|`AdminTopBar`|Top bar: breadcrumb, notification bell, user avatar + dropdown.|
-|🔨|`AdminPageHeader`|Page-level header: title + primary action button (e.g. "New Article").|
+|🔨|`AdminPageHeader`|Page‑level header: title + primary action button (e.g. "New Article").|
 |🔨|`AdminStatCard`|Dashboard KPI card: icon, metric, label, trend indicator.|
-|🔨|`AdminDataTable`|Extended DataTable with: row checkboxes, actions column, bulk-select, inline status badge.|
+|🔨|`AdminDataTable`|Extended DataTable with: row checkboxes, actions column, bulk‑select, inline status badge.|
 |🔨|`AdminBulkActionsBar`|Slides up when rows selected: count + Publish / Archive / Delete.|
 |🔨|`AdminFilterSidebar`|Left filter panel for list pages (status, date range, category).|
 |🔨|`AdminSearchBar`|Debounced search for admin list pages.|
-|🔨|`AdminEmptyState`|Admin-specific empty state (no content yet / no search results).|
-|🔨|`AdminConfirmDialog`|Destructive-action confirm modal (wraps `ConfirmDialog`).|
+|🔨|`AdminEmptyState`|Admin‑specific empty state (no content yet / no search results).|
+|🔨|`AdminConfirmDialog`|Destructive‑action confirm modal (wraps `ConfirmDialog`).|
 |🔨|`AdminBreadcrumb`|Path breadcrumb for admin pages.|
 |🔨|`ContentStatusBar`|Draft / Published / Archived switcher + schedule timestamp.|
-|🔨|`RichTextEditor`|WYSIWYG editor (Sanity-compatible portable text output).|
+|🔨|`RichTextEditor`|WYSIWYG editor (Sanity‑compatible portable text output).|
 |🔨|`MediaLibrary`|Browse/search all uploaded assets. Grid + list toggle. Select for insertion.|
 |🔨|`MediaUploader`|File upload zone → S3 → Sanity CDN. Progress indicator, preview.|
 |🔨|`ImageCropper`|Crop tool for uploaded images (staff portraits, hero images).|
 |🔨|`SEOMetaPanel`|SEO sidebar panel: meta title, description, OG image, canonical.|
-|🔨|`SlugInput`|Auto-generates slug from title. Editable, validates uniqueness.|
+|🔨|`SlugInput`|Auto‑generates slug from title. Editable, validates uniqueness.|
 |🔨|`SchedulePublishPanel`|Calendar date picker to schedule future publish.|
-|🔨|`AdminUserAvatar`|Top-right user avatar dropdown: profile, settings, logout.|
+|🔨|`AdminUserAvatar`|Top‑right user avatar dropdown: profile, settings, logout.|
 |⭐|`ActivityLog`|Audit trail feed for content changes (who changed what, when).|
 |⭐|`VersionHistoryPanel`|Sidebar showing previous saves of a content item with restore option.|
-|⭐|`AdminNotificationDrawer`|In-app notifications (new enquiry, new feedback, results uploaded).|
+|⭐|`AdminNotificationDrawer`|In‑app notifications (new enquiry, new feedback, results uploaded).|
 |⭐|`ContentLockBanner`|"Currently being edited by [user]" warning to prevent conflicts.|
 |⭐|`PreviewButton`|Opens a draft preview of the public page in a new tab.|
 
@@ -649,10 +636,10 @@
 |Status|Route|Description|
 |---|---|---|
 |🔨|`/login`|Admin login page. Email + password. JWT auth.|
-|🔨|`/` (dashboard)|Dashboard: 6× AdminStatCard, recent activity feed, quick links.|
+|🔨|`/` (dashboard)|Dashboard: 6× AdminStatCard, recent activity feed, quick links.|
 |🔨|`/news`|News listing: AdminDataTable with filter + search + bulk actions.|
 |🔨|`/news/new`|New article editor: title, slug, body (RichTextEditor), hero image, SEO panel, status.|
-|🔨|`/news/[id]`|Edit article — same as new, pre-filled. VersionHistory panel.|
+|🔨|`/news/[id]`|Edit article — same as new, pre‑filled. VersionHistory panel.|
 |🔨|`/events`|Events listing: AdminDataTable.|
 |🔨|`/events/new`|New event: title, slug, date/time, venue, body, registration link, hero image.|
 |🔨|`/events/[id]`|Edit event.|
@@ -667,7 +654,7 @@
 |🔨|`/gallery/[id]`|Edit album / manage photos: reorder, delete individual photos.|
 |🔨|`/admissions`|Admissions enquiry inbox: table of ContactForm submissions with status.|
 |🔨|`/admissions/[id]`|Individual enquiry: full details + status update + notes.|
-|🔨|`/results`|Results upload: upload CSV or per-student entry. Publish/unpublish.|
+|🔨|`/results`|Results upload: upload CSV or per‑student entry. Publish/unpublish.|
 |🔨|`/announcements`|Announcement list: text, start date, end date, priority, active toggle.|
 |🔨|`/settings`|Site settings: contact info, social links, office hours, footer text.|
 |🔨|`/settings/users`|User management: invite, role (admin/editor), deactivate.|
@@ -681,18 +668,18 @@
 
 |Status|Component / Item|Notes|
 |---|---|---|
-|🔨|`SkipToContent`|Hidden `<a href="#main-content">` that appears on focus — WCAG requirement.|
-|🔨|`A11yLiveRegion`|`aria-live` region for screen reader announcements (search results, form feedback).|
-|🔨|`FocusTrap`|Traps focus inside active modal/drawer — built into `Modal` and `Drawer`, verify is complete.|
-|🔨|`SchemaMarkup`|JSON-LD components: `Organization`, `School`, `Event`, `Article`. Injected per page.|
-|🔨|`OpenGraphMeta`|Per-page OG: title, description, image, locale. Uses `next/head` or metadata API.|
-|🔨|`LocaleAwareDateDisplay`|Formats dates per active locale (EN/SI/TA) using `Intl.DateTimeFormat`.|
-|🔨|`SinhalaFontLoader`|Loads Noto Sans Sinhala + Iskola Pota on SI locale activation.|
-|🔨|`TamilFontLoader`|Loads Noto Sans Tamil on TA locale activation.|
+|⭐|`SkipToContent`|Hidden `<a href="#main-content">` that appears on focus — WCAG requirement.|
+|⭐|`A11yLiveRegion`|`aria‑live` region for screen reader announcements (search results, form feedback).|
+|🔨|`FocusTrap`|Traps focus inside active modal/drawer — built into `Modal` and `Drawer`, verify is complete.|
+|⭐|`SchemaMarkup`|JSON‑LD components: `Organization`, `School`, `Event`, `Article`. Injected per page.|
+|⭐|`OpenGraphMeta`|Per‑page OG: title, description, image, locale. Uses `next/head` or metadata API.|
+|⭐|`LocaleAwareDateDisplay`|Formats dates per active locale (EN/SI/TA) using `Intl.DateTimeFormat`.|
+|⭐|`SinhalaFontLoader`|Loads Noto Sans Sinhala + Iskola Pota on SI locale activation.|
+|⭐|`TamilFontLoader`|Loads Noto Sans Tamil on TA locale activation.|
 |⭐|`ColorSchemeScript`|Prevents flash of wrong colour scheme on load.|
-|⭐|`ServiceWorker`|PWA offline caching — static assets + last-visited pages.|
+|⭐|`ServiceWorker`|PWA offline caching — static assets + last‑visited pages.|
 |⭐|`WebVitalsReporter`|Sends Core Web Vitals to analytics (LCP, CLS, FID).|
-|⭐|`RobotsAndSitemap`|Auto-generated `robots.txt` and `sitemap.xml` from page/content data.|
+|⭐|`RobotsAndSitemap`|Auto‑generated `robots.txt` and `sitemap.xml` from page/content data.|
 |⭐|`ErrorBoundary`|React error boundary wrapping major page sections — shows ErrorState, not blank screen.|
 
 ---
