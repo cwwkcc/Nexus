@@ -10,6 +10,7 @@
 export { Avatar } from './components/atoms/Avatar';
 export { Badge } from './components/atoms/Badge';
 export { Button } from './components/atoms/Button';
+export { ButtonLink } from './components/atoms/ButtonLink';
 export { InlineHelpText } from './components/atoms/InlineHelpText';
 export { ResultsGradeBadge } from './components/atoms/ResultsGradeBadge';
 export { Tag } from './components/atoms/Tag';
@@ -57,9 +58,9 @@ export { AmbientEmbers } from './components/effects/AmbientEmbers';
 // ============================================================================
 // FEEDBACK
 // ============================================================================
-export { Alert } from './components/feedback/Alert';
-export { Modal } from './components/feedback/Modal';
-export { Toast } from './components/feedback/Toast';
+export { Alert } from './components/notifications/Alert';
+export { Modal } from './components/overlays/Modal';
+export { Toast } from './components/notifications/Toast';
 
 // ============================================================================
 // FORMS
@@ -148,14 +149,14 @@ export { Timeline } from './components/sections/Timeline';
 // ============================================================================
 // SYSTEM
 // ============================================================================
-export { AnnouncementBanner } from './components/system/AnnouncementBanner';
-export { CookieConsentBanner } from './components/system/CookieConsentBanner';
-export { EmptyState } from './components/system/EmptyState';
-export { ErrorState } from './components/system/ErrorState';
-export { LoadingScreen } from './components/system/LoadingScreen';
-export { LoadingSkeleton } from './components/system/LoadingSkeleton';
-export { NotFoundPage } from './components/system/NotFound';
-export { OfflineBanner } from './components/system/OfflineBanner';
+export { AnnouncementBanner } from './components/notifications/AnnouncementBanner';
+export { CookieConsentBanner } from './components/page-states/CookieConsentBanner';
+export { EmptyState } from './components/page-states/EmptyState';
+export { ErrorState } from './components/page-states/ErrorState';
+export { LoadingScreen } from './components/page-states/LoadingScreen';
+export { LoadingSkeleton } from './components/page-states/LoadingSkeleton';
+export { NotFoundPage } from './components/page-states/NotFound';
+export { OfflineBanner } from './components/page-states/OfflineBanner';
 
 // ============================================================================
 // TYPOGRAPHY
