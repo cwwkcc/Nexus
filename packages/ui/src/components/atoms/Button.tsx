@@ -12,7 +12,14 @@ type ButtonVariant =
   | 'destructive'
   | 'link';
 
-type ButtonSize = 'sm' | 'md' | 'lg' | 'icon';
+type ButtonSize =
+  | 'sm'
+  | 'md'
+  | 'lg'
+  | 'icon-sm'
+  | 'icon-md'
+  | 'icon-lg'
+  | 'icon-xl';
 
 interface ButtonProps extends ComponentPropsWithoutRef<'button'> {
   variant?: ButtonVariant;
@@ -22,8 +29,6 @@ interface ButtonProps extends ComponentPropsWithoutRef<'button'> {
   fullWidth?: boolean;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
-  // Optional: allow rendering as 'a' for links (no generic needed, just use href)
-  href?: string;
 }
 
 const base =
@@ -51,14 +56,20 @@ const sizes: Record<ButtonSize, string> = {
   lg: 'px-space-5 py-space-4',
   md: 'px-space-4 py-space-3',
   sm: 'px-space-3 py-space-2',
-  icon: 'w-size-10 h-size-10 p-0',
+  'icon-sm': 'w-icon-sm h-icon-sm',
+  'icon-md': 'w-icon-md h-icon-md',
+  'icon-lg': 'w-icon-lg h-icon-lg',
+  'icon-xl': 'w-icon-xl h-icon-xl',
 };
 
 const loaderSize: Record<ButtonSize, 'sm' | 'md' | 'lg'> = {
   sm: 'sm',
   md: 'sm',
   lg: 'md',
-  icon: 'sm',
+  'icon-sm': 'sm',
+  'icon-md': 'sm',
+  'icon-lg': 'md',
+  'icon-xl': 'lg',
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -76,68 +87,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       children,
       className,
       onClick,
-      href,
       ...rest
     },
     ref,
   ) => {
     const isDisabled = disabled || loading;
-
-    // If href is provided, render as an <a> tag instead of button
-    if (href) {
-      return (
-        <a
-          ref={ref as any}
-          href={href}
-          aria-busy={loading}
-          data-variant={variant}
-          data-size={size}
-          data-loading={loading ? '' : undefined}
-          data-disabled={isDisabled ? '' : undefined}
-          data-full-width={fullWidth ? '' : undefined}
-          data-icon-only={size === 'icon' ? '' : undefined}
-          className={cn(
-            base,
-            variants[variant],
-            sizes[size],
-            fullWidth && 'w-full',
-            isDisabled && 'opacity-40 cursor-not-allowed pointer-events-none',
-            !isDisabled && 'cursor-pointer',
-            className,
-          )}
-          {...rest}
-        >
-          {/* same content as button case */}
-          {loading && (
-            <span className="absolute inset-0 flex items-center justify-center gap-space-2 pointer-events-none">
-              <BeatLoader size={loaderSize[size]} />
-              {loadingText && (
-                <span className="text-label font-body">{loadingText}</span>
-              )}
-            </span>
-          )}
-          {loading && (
-            <span className="sr-only" aria-live="polite">
-              {loadingText ?? 'Loading'}
-            </span>
-          )}
-          <span
-            className={cn(
-              'inline-flex items-center gap-space-2',
-              loading && 'opacity-0',
-            )}
-          >
-            {leftIcon && (
-              <span className="shrink-0 [&>svg]:size-[1em]">{leftIcon}</span>
-            )}
-            {children}
-            {rightIcon && (
-              <span className="shrink-0 [&>svg]:size-[1em]">{rightIcon}</span>
-            )}
-          </span>
-        </a>
-      );
-    }
 
     const handleClick: React.MouseEventHandler<HTMLButtonElement> = (e) => {
       if (isDisabled) {
@@ -147,10 +101,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       onClick?.(e);
     };
 
-    if (size === 'icon' && !rest['aria-label']) {
+    if (size.startsWith('icon') && !rest['aria-label']) {
       console.warn(
-        '[Button] size="icon" requires an aria-label for accessibility.\n' +
-          'Example: <Button size="icon" aria-label="Close menu">',
+        '[Button] size="icon*" requires an aria-label for accessibility.\n' +
+          'Example: <Button size="icon-md" aria-label="Close menu">',
       );
     }
 
@@ -165,7 +119,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         data-loading={loading ? '' : undefined}
         data-disabled={isDisabled ? '' : undefined}
         data-full-width={fullWidth ? '' : undefined}
-        data-icon-only={size === 'icon' ? '' : undefined}
+        data-icon-only={size.startsWith('icon') ? '' : undefined}
         onClick={handleClick}
         className={cn(
           base,
