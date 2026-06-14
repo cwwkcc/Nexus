@@ -12,7 +12,7 @@ import {
   Maname,
   Noto_Serif_Sinhala,
 } from 'next/font/google';
-import { Footer } from '@nexus/ui';
+import { Footer, BackToTopButton } from '@nexus/ui';
 
 const cormorantGaramond = Cormorant_Garamond({
   subsets: ['latin'],
@@ -60,7 +60,7 @@ export default async function LocaleLayout({ children, params }: Props) {
     <html lang={locale}>
       <body
         className={cn(
-          'min-w-size-96',
+          'min-w-size-64',
           cormorantGaramond.variable,
           cormorantUpright.variable,
           inter.variable,
@@ -72,6 +72,7 @@ export default async function LocaleLayout({ children, params }: Props) {
         <NextIntlClientProvider messages={messages}>
           {children}
         </NextIntlClientProvider>
+        <BackToTopButton />
         <Footer />
       </body>
     </html>
