@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { cn } from '../../utilities/cn';
 
 export function OfflineBanner() {
   const [isOffline, setIsOffline] = useState(false);
@@ -25,10 +26,14 @@ export function OfflineBanner() {
   return (
     <div
       role="alert"
-      className="fixed top-0 left-0 right-0 z-[200] bg-surface-inverse text-text-inverse text-center py-3 px-4"
+      className={cn(
+        'fixed top-0 left-0 right-0 z-raised',
+        'bg-surface-inverse text-text-inverse text-center',
+        'py-space-3 px-space-4',
+      )}
       style={{ top: 'var(--nav-height, 0px)' }}
     >
-      <p className="font-body text-sm">
+      <p className="font-body text-body-sm">
         You are currently offline. Some features may be unavailable.
       </p>
     </div>
