@@ -2,13 +2,16 @@
 
 import { useEffect, useState } from 'react';
 import { Button } from '../atoms/Button';
+import { Icon } from '../icons';
 
 export function BackToTopButton() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setVisible(window.scrollY > 400);
+      const threshold = window.innerHeight * 0.5; // 50% of viewport
+
+      setVisible(window.scrollY > threshold);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -24,23 +27,12 @@ export function BackToTopButton() {
   return (
     <Button
       onClick={scrollToTop}
-      size="icon"
+      size="icon-md"
       variant="secondary"
-      className="fixed bottom-6 right-6 z-40 shadow-lg rounded-full w-12 h-12 p-0"
+      className="fixed bottom-space-6 right-space-6 z-raised shadow-lg rounded-full w-size-12 h-size-12 p-space-0"
       aria-label="Back to top"
     >
-      <svg
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M12 19V5M5 12l7-7 7 7" />
-      </svg>
+      <Icon name="chevron-up" />
     </Button>
   );
 }
