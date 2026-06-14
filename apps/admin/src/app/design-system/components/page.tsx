@@ -3,24 +3,24 @@
 import Link from 'next/link';
 
 const categories = [
-  { slug: 'accessibility', name: 'Accessibility', count: 1 },
-  { slug: 'atoms', name: 'Atoms', count: 15 },
+  { slug: 'atoms', name: 'Atoms', count: 11 }, // Avatar, Badge, Button, ButtonLink, InlineHelpText, ResultsGradeBadge, Tag, BeatLoader, ScaleLoader, ToolTip? (ToolTip is overlay)
+  { slug: 'brand', name: 'Brand', count: 3 }, // SchoolLogo, CrestAnimation, CrestDiagram
   { slug: 'cards', name: 'Cards', count: 12 },
   { slug: 'effects', name: 'Effects', count: 1 },
-  { slug: 'feedback', name: 'Feedback', count: 14 },
+  { slug: 'feedback', name: 'Feedback', count: 3 }, // Alert, Modal, Toast
   { slug: 'forms', name: 'Forms', count: 16 },
-  { slug: 'global', name: 'Global', count: 7 },
-  { slug: 'icons', name: 'Icons', count: 5 },
+  { slug: 'global', name: 'Global', count: 7 }, // AnnouncementBanner, BackToTopButton, etc.
+  { slug: 'icons', name: 'Icons', count: 6 }, // Icon component + social icons
   { slug: 'layout-components', name: 'Layout', count: 11 },
   { slug: 'logos', name: 'Logos', count: 1 },
-  { slug: 'media', name: 'Media', count: 5 },
-  { slug: 'navigation', name: 'Navigation', count: 1 },
+  { slug: 'media', name: 'Media', count: 7 },
+  { slug: 'navigation', name: 'Navigation', count: 10 }, // Accordion, Breadcrumb, FilterBar, LanguageSwitcher, MobileMenu, NavLink, Pagination, SearchInput, TableOfContents, Tabs
+  { slug: 'overlays', name: 'Overlays', count: 4 }, // Drawer, DropDownMenu, ShareSheet, ToolTip
   { slug: 'sections', name: 'Sections', count: 9 },
-  { slug: 'system', name: 'System', count: 4 },
-  { slug: 'typography', name: 'Typography', count: 5 },
-  { slug: 'utilities', name: 'Utilities', count: 2 },
+  { slug: 'system', name: 'System', count: 7 }, // AnnouncementBanner, CookieConsentBanner, EmptyState, ErrorState, LoadingScreen, LoadingSkeleton, NotFoundPage, OfflineBanner
+  { slug: 'typography', name: 'Typography', count: 7 }, // EyebrowLabel, Heading, InlineLink, QuoteBlock, RichTextRenderer, SectionHeader, Text
+  { slug: 'utilities', name: 'Utilities', count: 3 }, // BackToTopButton, CountdownTimer, ScrollProgressBar
   { slug: 'visualization', name: 'Data Visualization', count: 8 },
-  { slug: 'test', name: 'Test', count: 1 },
 ];
 
 export default function ComponentsIndexPage() {
