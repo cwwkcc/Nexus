@@ -51,6 +51,9 @@ const iconNames: IconName[] = [
   'search',
   'home',
   'arrow-up',
+  'arrow-down',
+  'arrow-left',
+  'arrow-right',
   'download',
   'share',
   'external-link',
@@ -83,6 +86,7 @@ const iconNames: IconName[] = [
   'music',
   'flag',
   'code',
+  'minus',
 ];
 
 export default function IconsPage() {
