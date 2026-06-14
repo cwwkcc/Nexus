@@ -1,10 +1,10 @@
-// apps/web/src/app/[locale]/components/atoms/page.tsx
 'use client';
 
 import {
   Avatar,
   Badge,
   Button,
+  ButtonLink,
   ResultsGradeBadge,
   Tag,
   ToolTip,
@@ -25,7 +25,7 @@ export default function AtomsPage() {
         </p>
 
         {/* ========== BUTTON ========== */}
-        <DemoSection title="Button – Variants">
+        <DemoSection title="Button – Variants (action only)">
           <Button variant="primary">Primary</Button>
           <Button variant="secondary">Secondary</Button>
           <Button variant="ghost">Ghost</Button>
@@ -38,8 +38,17 @@ export default function AtomsPage() {
           <Button size="sm">Small</Button>
           <Button size="md">Medium</Button>
           <Button size="lg">Large</Button>
-          <Button size="icon" aria-label="Close">
+          <Button size="icon-sm" aria-label="Close">
             ✕
+          </Button>
+          <Button size="icon-md" aria-label="Settings">
+            ⚙
+          </Button>
+          <Button size="icon-lg" aria-label="Menu">
+            ☰
+          </Button>
+          <Button size="icon-xl" aria-label="User">
+            👤
           </Button>
         </DemoSection>
 
@@ -60,9 +69,36 @@ export default function AtomsPage() {
           </Button>
         </DemoSection>
 
-        <DemoSection title="Button – As link (href)">
-          <Button href="/about">Internal Link (renders as &lt;a&gt;)</Button>
-          <Button href="https://example.com">External Link</Button>
+        {/* ========== BUTTON LINK ========== */}
+        <DemoSection title="ButtonLink – Navigation (href)">
+          <ButtonLink href="/about">Internal Link</ButtonLink>
+          <ButtonLink href="https://example.com" target="_blank">
+            External Link
+          </ButtonLink>
+          <ButtonLink href="/admissions" variant="primary">
+            Primary Link
+          </ButtonLink>
+          <ButtonLink href="#" disabled>
+            Disabled Link
+          </ButtonLink>
+        </DemoSection>
+
+        <DemoSection title="ButtonLink – Sizes">
+          <ButtonLink href="#" size="sm">
+            Small Link
+          </ButtonLink>
+          <ButtonLink href="#" size="md">
+            Medium Link
+          </ButtonLink>
+          <ButtonLink href="#" size="lg">
+            Large Link
+          </ButtonLink>
+          <ButtonLink href="#" size="icon-sm" aria-label="Home">
+            🏠
+          </ButtonLink>
+          <ButtonLink href="#" size="icon-md" aria-label="Search">
+            🔍
+          </ButtonLink>
         </DemoSection>
 
         {/* ========== BADGE ========== */}
@@ -117,8 +153,8 @@ export default function AtomsPage() {
             onError={() => console.log('Image failed')}
           />
           <Avatar name="No Image" size="lg" />
-          <Avatar name="" size="lg" /> {/* Shows "?" */}
-          <Avatar name="A" size="lg" /> {/* Shows "A" */}
+          <Avatar name="" size="lg" />
+          <Avatar name="A" size="lg" />
         </DemoSection>
 
         {/* ========== ToolTip ========== */}
