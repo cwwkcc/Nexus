@@ -11,6 +11,7 @@ import {
   PrincipalMessage,
   StatsStrip,
   Timeline,
+  type StatItem,
 } from '@nexus/ui';
 
 function DemoSection({
@@ -68,6 +69,61 @@ export default function SectionsPage() {
     },
   ];
 
+  const DEFAULT_STATS: StatItem[] = [
+    {
+      id: 'students',
+      target: 5000,
+      suffix: '+',
+      label: 'Students',
+      description: 'Enrolled across all grades',
+      tooltip: {
+        content: 'Total student population (Grades 1–13)',
+        position: 'bottom',
+      },
+      trend: { direction: 'up', value: '+8%', label: 'vs 2025' },
+    },
+    {
+      id: 'staff',
+      target: 200,
+      suffix: '+',
+      label: 'Staff',
+      description: 'Teaching & support',
+      tooltip: {
+        content: 'Dedicated educators and administrative personnel',
+        position: 'bottom',
+      },
+    },
+    {
+      id: 'years',
+      target: 153,
+      suffix: '',
+      label: 'Years',
+      description: 'of excellence',
+      tooltip: {
+        content: 'Since 1873 – Sri Lanka’s first Central College',
+        position: 'left',
+      },
+    },
+    {
+      id: 'university',
+      target: 200,
+      suffix: '+',
+      label: 'University Entrances',
+      description: 'Annually (2025)',
+      tooltip: { content: 'Highest in Kalutara District', position: 'bottom' },
+      trend: { direction: 'up', value: '+12%', label: 'vs 2024' },
+    },
+    {
+      id: 'university',
+      target: 200,
+      suffix: '+',
+      label: 'University Entrances',
+      description: 'Annually (2025)',
+      tooltip: { content: 'Highest in Kalutara District', position: 'bottom' },
+      trend: { direction: 'up', value: '+12%', label: 'vs 2024' },
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-surface-base py-12">
       <div className="content-width">
@@ -116,7 +172,7 @@ export default function SectionsPage() {
         </DemoSection>
 
         <DemoSection title="StatsStrip">
-          <StatsStrip />
+          <StatsStrip stats={DEFAULT_STATS} />
         </DemoSection>
 
         <DemoSection title="Timeline">
