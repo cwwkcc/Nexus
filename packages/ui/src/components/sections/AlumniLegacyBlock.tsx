@@ -5,6 +5,8 @@ import { useState } from 'react';
 import { cn } from '../../utilities/cn';
 import { ImageFrame } from '../media/ImageFrame';
 import { Container } from '../layout/Container';
+import { Icon } from '../icons';
+import { HStack, VStack } from '../layout/Stack';
 
 interface AlumniProfile {
   id: string;
@@ -54,7 +56,7 @@ export function AlumniLegacyBlock({
   return (
     <Container>
       {/* Year filter */}
-      <div className="flex justify-center gap-space-2 mb-space-8 flex-wrap">
+      <div className=" flex justify-center gap-space-2 mb-space-8 flex-wrap">
         <button
           onClick={() => setSelectedYear('all')}
           className={cn(
@@ -83,51 +85,51 @@ export function AlumniLegacyBlock({
       </div>
 
       {/* Quote carousel */}
-      <div className="relative mx-auto">
-        <button
-          onClick={prev}
-          className="absolute left-space-0 top-space-40 -translate-y-1/2 -translate-x-12 bg-surface-elevated rounded-full p-space-2 shadow-elevation-1 hover:bg-gold-base transition-colors"
-          aria-label="Previous alumnus"
-        >
-          ←
-        </button>
 
-        <div className="text-center">
-          {currentAlumnus.portraitSrc && (
-            <ImageFrame
-              src={currentAlumnus.portraitSrc}
-              alt={currentAlumnus.portraitAlt || currentAlumnus.name}
-              aspectRatio="3/4"
-              variant="featured"
-              frameColor="gold"
-              frameWidth="border-md"
-              size="lg"
-              className="m-space-4 mx-auto"
-            ></ImageFrame>
-          )}
+      <VStack className="text-center">
+        {currentAlumnus.portraitSrc && (
+          <ImageFrame
+            src={currentAlumnus.portraitSrc}
+            alt={currentAlumnus.portraitAlt || currentAlumnus.name}
+            aspectRatio="3/4"
+            variant="featured"
+            frameColor="gold"
+            frameWidth="border-md"
+            size="full"
+            className="m-space-4 mx-auto"
+          ></ImageFrame>
+        )}
 
-          <div className="w-size-12 h-size-0p5 bg-gold-base mx-auto mb-space-6" />
+        <blockquote className="font-display text-pullquote italic text-text-primary mb-space-6 mx-auto">
+          &ldquo;{currentAlumnus.quote}&rdquo;
+        </blockquote>
 
-          <blockquote className="font-display text-pullquote italic text-text-primary mb-space-6">
-            &ldquo;{currentAlumnus.quote}&rdquo;
-          </blockquote>
-
-          <p className="font-display text-h3 mb-space-2">
-            {currentAlumnus.name}
-          </p>
-          <p className="font-body text-body-sm text-text-muted">
-            {currentAlumnus.position} · Class of {currentAlumnus.graduationYear}
-          </p>
-        </div>
-
-        <button
-          onClick={next}
-          className="absolute right-space-0 top-space-40 -translate-y-1/2 translate-x-12 bg-surface-elevated rounded-full p-space-2 shadow-elevation-1 hover:bg-gold-base transition-colors"
-          aria-label="Next alumnus"
-        >
-          →
-        </button>
-      </div>
+        <HStack justify="between" className="m-auto">
+          <button
+            onClick={prev}
+            className="bg-surface-elevated rounded-full p-space-2 shadow-elevation-1 hover:bg-gold-base transition-colors"
+            aria-label="Previous alumnus"
+          >
+            <Icon name="chevron-left" />
+          </button>
+          <div>
+            <p className="font-display text-h3 mb-space-2">
+              {currentAlumnus.name}
+            </p>
+            <p className="font-body text-body-sm text-text-muted">
+              {currentAlumnus.position} · Class of{' '}
+              {currentAlumnus.graduationYear}
+            </p>
+          </div>
+          <button
+            onClick={next}
+            className=" bg-surface-elevated rounded-full p-space-2 shadow-elevation-1 hover:bg-gold-base transition-colors"
+            aria-label="Next alumnus"
+          >
+            <Icon name="chevron-right" />
+          </button>
+        </HStack>
+      </VStack>
 
       {/* Dots indicator */}
       <div className="flex justify-center gap-space-2 mt-space-8">
