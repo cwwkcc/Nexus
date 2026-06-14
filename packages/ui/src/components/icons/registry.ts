@@ -10,6 +10,9 @@ import {
   Search,
   Home,
   ArrowUp,
+  ArrowDown,
+  ArrowRight,
+  ArrowLeft,
 
   // Actions
   Download,
@@ -58,6 +61,7 @@ import {
   Music,
   Flag,
   Code,
+  Minus,
 } from 'lucide-react';
 
 export const iconRegistry = {
@@ -71,6 +75,9 @@ export const iconRegistry = {
   search: Search,
   home: Home,
   'arrow-up': ArrowUp,
+  'arrow-down': ArrowDown,
+  'arrow-right': ArrowRight,
+  'arrow-left': ArrowLeft,
 
   // Actions
   download: Download,
@@ -119,6 +126,7 @@ export const iconRegistry = {
   music: Music,
   flag: Flag,
   code: Code,
+  minus: Minus,
 } as const;
 
 export type IconName = keyof typeof iconRegistry;
