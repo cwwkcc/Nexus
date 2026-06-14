@@ -6,5 +6,5 @@ export default function AboutStatsStrip() {
   const stats = t.raw('stats')
     ? Object.values(t.raw('stats') as Record<string, StatItem>)
     : [];
-  return <StatsStrip stats={stats} />;
+  return <StatsStrip stats={stats} className="md:grid-cols-2 lg:grid-cols-4" />;
 }
