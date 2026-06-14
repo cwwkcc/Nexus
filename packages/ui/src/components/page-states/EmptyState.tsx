@@ -1,7 +1,9 @@
-// packages/ui/src/components/feedback/EmptyState.tsx
 'use client';
 
 import { cn } from '../../utilities/cn';
+import { Button } from '../atoms/Button';
+import { Heading } from '../typography/Heading';
+import { Text } from '../typography/Text';
 
 export interface EmptyStateProps {
   heading: string;
@@ -38,46 +40,24 @@ export function EmptyState({ heading, description, action }: EmptyStateProps) {
         </span>
       </div>
 
-      <h3
-        className={cn(
-          'font-display text-h3 font-medium',
-          'text-text-primary',
-          'mb-space-2p5',
-        )}
-      >
+      <Heading level="h3" className="mb-space-2p5">
         {heading}
-      </h3>
+      </Heading>
 
       {description && (
-        <p
-          className={cn(
-            'font-body text-body-sm',
-            'text-text-muted',
-            'max-w-[360px]',
-            action ? 'mb-space-6' : 'mb-0',
-          )}
+        <Text
+          variant="body-sm"
+          color="muted"
+          className={cn('max-w-[360px]', action ? 'mb-space-6' : 'mb-0')}
         >
           {description}
-        </p>
+        </Text>
       )}
 
       {action && (
-        <button
-          type="button"
-          onClick={action.onClick}
-          className={cn(
-            'font-body text-label uppercase tracking-label',
-            'px-space-6 py-space-2p5',
-            'border border-gold-base',
-            'bg-transparent text-gold-base',
-            'cursor-pointer',
-            'transition-all duration-fast ease-snap',
-            'hover:bg-gold-base hover:text-text-inverse',
-            'focus-visible:outline-2 focus-visible:outline-gold-base focus-visible:outline-offset-[3px]',
-          )}
-        >
+        <Button onClick={action.onClick} variant="outline">
           {action.label}
-        </button>
+        </Button>
       )}
     </div>
   );
