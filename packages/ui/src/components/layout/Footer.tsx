@@ -126,7 +126,7 @@ export function Footer({
                 <Container
                   size="full"
                   padding="md"
-                  className=" w-size-60 md:w-size-68 lg:w-size-92"
+                  className=" w-full xl:w-size-pct-80"
                 >
                   <SchoolLogo />
                 </Container>
