@@ -6,27 +6,27 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "@nexus/source": "./src/index.ts",
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "default": "./dist/index.js"
+      "types": "./src/index.ts",
+      "import": "./src/index.ts",
+      "default": "./src/index.ts"
     }
+  },
+  "peerDependencies": {
+    "framer-motion": ">=12",
+    "next": ">=15",
+    "react": ">=19",
+    "react-dom": ">=19"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.4.0",
     "@portabletext/react": "^3.0.0",
+    "clsx": "^2.1.1",
     "lucide-react": "^1.17.0",
-    "react-hook-form": "^7.49.0"
+    "react-hook-form": "^7.49.0",
+    "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
-    "@svgr/cli": "^8.1.0",
     "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0",
-    "clsx": "^2.1.1",
-    "framer-motion": "^12.38.0",
-    "next": "~16.1.6",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "tailwind-merge": "^3.6.0"
+    "@types/react-dom": "^19.0.0"
   }
 }
