@@ -11,6 +11,7 @@ import {
   PrincipalMessage,
   StatsStrip,
   Timeline,
+  SectionSlider,
   type StatItem,
 } from '@nexus/ui';
 
@@ -186,6 +187,26 @@ export default function SectionsPage() {
               },
             ]}
           />
+        </DemoSection>
+        <DemoSection title="SectionSlider – Carousel">
+          <SectionSlider variant="image" dirrection="horizontal" loop>
+            {[1, 2, 3].map((i) => (
+              <div
+                key={i}
+                className="p-space-8 bg-surface-deep text-center rounded-lg"
+              >
+                <p className="font-body text-body">Slide {i}</p>
+                <p className="font-body text-caption text-text-muted">
+                  Works with images, text, or any content.
+                </p>
+              </div>
+            ))}
+          </SectionSlider>
+          <p className="font-body text-caption text-text-muted mt-space-2">
+            Variants: <code>full</code>, <code>image</code>, <code>text</code>,{' '}
+            <code>image-compact</code>. Supports horizontal/vertical, loop,
+            drag, keyboard arrows.
+          </p>
         </DemoSection>
       </div>
     </div>
