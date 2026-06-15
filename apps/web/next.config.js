@@ -8,6 +8,9 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 const nextConfig = {
   nx: {},
   transpilePackages: ['@nexus/ui'],
+  experimental: {
+    optimizePackageImports: ['@nexus/ui', 'framer-motion', 'lucide-react'],
+  },
 };
 
 module.exports = composePlugins(withNx, withNextIntl)(nextConfig);
