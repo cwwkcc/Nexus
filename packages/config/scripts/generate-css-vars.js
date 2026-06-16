@@ -66,13 +66,27 @@ function writeTokensToFile(outputPath) {
     css += `  --font-weight-${key}: ${options.fontWeight};\n`;
   }
 
-  addComment('Standalone letter spacing');
+  // `lineHeight`/`letterSpacing` are now derived from `fontSize` (see
+  // typography.ts), so every fontSize key already has a matching entry in
+  // both maps with an identical value — looping over the full maps here
+  // would just redeclare the same custom properties a second time. Only
+  // emit the keys that are genuinely independent of any font-size token
+  // (the generic tracking/leading utility scale).
+  const fontSizeKeys = new Set(Object.keys(fontSize));
+
+  addComment(
+    'Standalone letter spacing (utility scale, independent of font-size tokens)',
+  );
   for (const [key, value] of Object.entries(letterSpacing)) {
+    if (fontSizeKeys.has(key)) continue;
     css += `  --letter-spacing-${key}: ${value};\n`;
   }
 
-  addComment('Standalone line height');
+  addComment(
+    'Standalone line height (utility scale, independent of font-size tokens)',
+  );
   for (const [key, value] of Object.entries(lineHeight)) {
+    if (fontSizeKeys.has(key)) continue;
     css += `  --line-height-${key}: ${value};\n`;
   }
 
