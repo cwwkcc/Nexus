@@ -4,6 +4,7 @@ import { Heading } from '../typography/Heading';
 import { Text } from '../typography/Text';
 import { Tag } from '../atoms/Tag';
 import { NavLink } from '../navigation/NavLink';
+import { Icon } from '../icons/Icon';
 
 type Streams = 'science' | 'commerce' | 'arts' | 'technology';
 
@@ -30,9 +31,7 @@ export function AcademicStreamCard({
     <NavLink href={href} className="group block no-underline h-full">
       <div
         className={cn(
-          // Base layout
           'relative h-full overflow-hidden',
-          // Surface & border
           'bg-surface-elevated border border-border-light',
           // Spacing — pt-space-7 (28px) top, px/pb-space-6 (24px) sides/bottom
           'pt-space-7 px-space-6 pb-space-6',
@@ -46,7 +45,7 @@ export function AcademicStreamCard({
         {/* Green left accent bar — fades in on hover */}
         <div
           aria-hidden="true"
-          className="absolute inset-y-0 left-0 w-[3px] bg-green-base opacity-0 transition-opacity duration-standard group-hover:opacity-100"
+          className="absolute inset-y-0 left-space-0 w-size-2 bg-green-base opacity-0 transition-opacity duration-standard group-hover:opacity-100"
         />
 
         {/* "A/L Stream · N subjects" eyebrow */}
@@ -69,7 +68,7 @@ export function AcademicStreamCard({
           color="muted"
           className="mb-space-4 leading-[1.65]"
         >
-          {description}
+          b{description}
         </Text>
 
         {/* Career path tags */}
@@ -83,14 +82,8 @@ export function AcademicStreamCard({
           ))}
         </div>
 
-        {/* CTA — span only, outer <Link> is the interactive element */}
-        <Text
-          as="span"
-          variant="label"
-          color="gold"
-          className="transition-[letter-spacing] duration-standard ease-out group-hover:tracking-eyebrow"
-        >
-          Explore stream →
+        <Text as="span" variant="label" color="gold">
+          Explore stream <span>{<Icon name="arrow-right" />}</span>
         </Text>
       </div>
     </NavLink>

@@ -60,7 +60,7 @@ export function StatCard({
   trendLabel,
   className,
 }: StatCardProps) {
-  const { ref, count } = useCountUp(value);
+  const { ref } = useCountUp(value);
 
   return (
     <div
@@ -80,9 +80,7 @@ export function StatCard({
           variant === 'with-trend' && trend && 'mb-space-3',
         )}
       >
-        <span className="font-display text-[clamp(2rem,4vw,2.8rem)] font-medium text-gold-base leading-none">
-          {count.toLocaleString()}
-        </span>
+        <span className="font-display text-[clamp(2rem,4vw,2.8rem)] font-medium text-gold-base leading-none"></span>
         {suffix && (
           <span className="font-display text-[clamp(1rem,2vw,1.4rem)] font-medium text-gold-base/70 leading-none">
             {suffix}

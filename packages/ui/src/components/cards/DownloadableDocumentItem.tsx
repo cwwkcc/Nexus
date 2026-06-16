@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from '../../utilities/cn';
-import { Button } from '../atoms/Button';
+import { ButtonLink } from '../atoms/ButtonLink';
 
 type FileTypes = 'pdf' | 'doc' | 'xls' | 'zip';
 export interface DownloadableDocumentItemProps {
@@ -104,9 +104,9 @@ export function DownloadableDocumentItem({
           </span>
         </div>
       </div>
-      <Button as="a" href={url} variant="secondary" size="sm" download>
+      <ButtonLink href={url} variant="secondary" size="sm" download>
         Download
-      </Button>
+      </ButtonLink>
     </div>
   );
 }

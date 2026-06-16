@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import { ImageFrame } from '../media/ImageFrame';
 import { QuoteBlock } from '../typography/QuoteBlock';
 import { Button } from '../atoms/Button';
+import { ButtonLink } from '../atoms/ButtonLink';
 
 export interface PrincipalMessageProps {
   name: string;
@@ -50,19 +51,23 @@ export function PrincipalMessage({
           {tenure}
         </p>
 
-        <div className="w-12 h-0.5 bg-gold-base mb-6" />
+        <div className="w-size-12 h-size-0p5 bg-gold-base mb-space-6" />
 
         {quote && (
-          <QuoteBlock variant="pull-quote" quote={quote} className="mb-6" />
+          <QuoteBlock
+            variant="pull-quote"
+            quote={quote}
+            className="mb-space-6"
+          />
         )}
 
         <p className="font-body text-body text-text-muted leading-relaxed mb-8">
           {message}
         </p>
 
-        <Button as="a" href={fullMessageHref} variant="ghost">
+        <ButtonLink href={fullMessageHref} variant="ghost">
           Read Full Message →
-        </Button>
+        </ButtonLink>
       </div>
     </div>
   );

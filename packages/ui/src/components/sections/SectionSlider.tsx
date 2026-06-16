@@ -1,22 +1,17 @@
 'use client';
 
-// packages/ui/src/components/sections/SectionSlider.tsx
-
 import { Children, useCallback, useId, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { cn } from '../../utilities/cn';
 import { Button } from '../atoms/Button';
 import { Text } from '../typography/Text';
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-
 type SectionSliderVariant = 'image-compact' | 'image' | 'text' | 'full';
-
+type SectionSliderDirrection = 'horizontal' | 'vertical';
 export interface SectionSliderProps {
   id?: string;
   variant?: SectionSliderVariant;
-  /** "dirrection" preserved from original API to avoid a breaking change */
-  dirrection?: 'horizontal' | 'vertical';
+  dirrection?: SectionSliderDirrection;
   children: React.ReactNode;
   className?: string;
   /**
@@ -32,11 +27,6 @@ export interface SectionSliderProps {
    */
   loop?: boolean;
 }
-
-// ─── Motion constants (mapped to design system tokens) ────────────────────────
-//
-// transitionDuration : standard = 300ms  | gentle = 500ms
-// transitionTimingFn : ceremonial = cubic-bezier(0.16, 1, 0.3, 1)
 
 const CEREMONIAL_EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -243,7 +233,7 @@ function SlidingSlider({
       >
         <Button
           variant="outline"
-          size="icon"
+          size="icon-md"
           onClick={prev}
           disabled={!canPrev}
           aria-label="Previous slide"
@@ -293,7 +283,7 @@ function SlidingSlider({
 
         <Button
           variant="outline"
-          size="icon"
+          size="icon-md"
           onClick={next}
           disabled={!canNext}
           aria-label="Next slide"
@@ -479,7 +469,7 @@ function StripSlider({
           >
             <Button
               variant="secondary"
-              size="icon"
+              size="icon-md"
               onClick={() => scroll(dir)}
               aria-label={label}
               className={cn('rounded-full shadow-elevation-2', rotateClass)}
