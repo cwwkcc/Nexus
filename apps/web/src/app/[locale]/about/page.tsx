@@ -1,6 +1,3 @@
-'use client';
-
-// In apps/web/src/app/[locale]/about/page.tsx
 import AboutHero from '../../../blocks/about/AboutHero';
 import AboutStatsStrip from '../../../blocks/about/AboutStatsStrip';
 import OurNameSake from '../../../blocks/about/OurNameSake';
