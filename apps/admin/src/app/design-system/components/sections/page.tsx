@@ -189,7 +189,7 @@ export default function SectionsPage() {
           />
         </DemoSection>
         <DemoSection title="SectionSlider – Carousel">
-          <SectionSlider variant="image" dirrection="horizontal" loop>
+          <SectionSlider variant="image" direction="horizontal" loop>
             {[1, 2, 3].map((i) => (
               <div
                 key={i}

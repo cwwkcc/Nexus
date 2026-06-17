@@ -7,11 +7,11 @@ import { Button } from '../atoms/Button';
 import { Text } from '../typography/Text';
 
 type SectionSliderVariant = 'image-compact' | 'image' | 'text' | 'full';
-type SectionSliderDirrection = 'horizontal' | 'vertical';
+type SectionSliderDirection = 'horizontal' | 'vertical';
 export interface SectionSliderProps {
   id?: string;
   variant?: SectionSliderVariant;
-  dirrection?: SectionSliderDirrection;
+  direction?: SectionSliderDirection;
   children: React.ReactNode;
   className?: string;
   /**
@@ -551,7 +551,7 @@ function StripSlider({
 export function SectionSlider({
   id: externalId,
   variant = 'full',
-  dirrection = 'horizontal', // typo preserved for API compat
+  direction = 'horizontal', // typo preserved for API compat
   children,
   className,
   scrollFraction = 0.8,
@@ -561,7 +561,6 @@ export function SectionSlider({
   const autoId = useId();
   const id = externalId ?? autoId;
   // Alias internally so the typo never leaks into logic
-  const direction = dirrection;
 
   if (isSlidingVariant(variant)) {
     return (
