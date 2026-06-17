@@ -171,10 +171,6 @@ html:lang(ta) {
 
 /* ── Base Styles ── */
 @layer base {
-  /* ... rest of your base styles remain unchanged ... */
-}
-/* ── Base Styles ── */
-@layer base {
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
