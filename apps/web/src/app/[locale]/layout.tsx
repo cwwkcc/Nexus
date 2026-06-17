@@ -11,6 +11,7 @@ import {
   IBM_Plex_Mono,
   Maname,
   Noto_Serif_Sinhala,
+  Noto_Serif_Tamil,
 } from 'next/font/google';
 import { Footer, BackToTopButton } from '@nexus/ui';
 
@@ -43,6 +44,17 @@ const notoSerifSinhala = Noto_Serif_Sinhala({
   weight: ['400', '500', '600'],
   variable: '--font-sinhala-body',
 });
+const notoSerifTamilDisplay = Noto_Serif_Tamil({
+  subsets: ['tamil'],
+  weight: ['500', '600'],
+  variable: '--font-tamil-display',
+});
+const notoSerifTamilBody = Noto_Serif_Tamil({
+  subsets: ['tamil'],
+  weight: ['400', '500'],
+  variable: '--font-tamil-body',
+});
+
 type Props = {
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
@@ -54,6 +66,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   if (!routing.locales.includes(locale as 'en' | 'si' | 'ta')) {
     notFound();
   }
+
   const messages = await getMessages();
 
   return (
@@ -67,6 +80,8 @@ export default async function LocaleLayout({ children, params }: Props) {
           ibmPlexMono.variable,
           maname.variable,
           notoSerifSinhala.variable,
+          notoSerifTamilDisplay.variable,
+          notoSerifTamilBody.variable,
         )}
       >
         <NextIntlClientProvider messages={messages}>
