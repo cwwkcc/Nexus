@@ -194,6 +194,8 @@ importers:
 
   packages/database: {}
 
+  packages/types: {}
+
   packages/ui:
     dependencies:
       '@hookform/resolvers':
