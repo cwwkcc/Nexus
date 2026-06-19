@@ -194,8 +194,6 @@ importers:
 
   packages/database: {}
 
-  packages/types: {}
-
   packages/ui:
     dependencies:
       '@hookform/resolvers':
@@ -235,6 +233,12 @@ importers:
       '@types/react-dom':
         specifier: ^19.0.0
         version: 19.2.3(@types/react@19.2.14)
+
+  packages/validation:
+    dependencies:
+      zod:
+        specifier: ^4.3.6
+        version: 4.3.6
 
 packages:
 
