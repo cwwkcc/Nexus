@@ -18,7 +18,11 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@nexus/ui": ["../../packages/ui/src/index.ts"]
+      "@nexus/ui": ["../../packages/ui/src/index.ts"],
+      "@nexus/api": ["../../packages/api/src/index.ts"],
+      "@nexus/db": ["../../packages/database/src/index.ts"],
+      "@nexus/config": ["../../packages/config/src/index.ts"],
+      "@nexus/validation": ["../../packages/validation/src/index.ts"]
     }
   },
   "include": [
@@ -47,6 +51,12 @@
     "eslint.config.mjs"
   ],
   "references": [
+    {
+      "path": "../../packages/validation"
+    },
+    {
+      "path": "../../packages/api"
+    },
     {
       "path": "../../packages/ui"
     },
