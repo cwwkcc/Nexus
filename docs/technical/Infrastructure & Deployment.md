@@ -25,26 +25,26 @@ User → Cloudflare DNS → Hetzner VPS (Caddy reverse proxy) → Docker contain
 
 ## Hosting Components
 
-| Component | Technology | Purpose |
-|-----------|------------|---------|
-| VPS | Hetzner CX22 (2 vCPU, 4GB RAM, 40GB SSD) | Single server for all services |
-| Reverse proxy | Caddy | SSL termination, routing, automatic HTTPS |
-| Web application | Next.js (standalone output) | Public website + admin panel |
-| Database | PostgreSQL 16 | Content, user accounts, metadata |
-| File storage | Cloudflare R2 | Images, PDFs (10GB free) |
-| Email | Resend | Contact form notifications (free tier) |
-| Analytics | Umami (self-hosted) | Privacy-first analytics |
-| Monitoring | UptimeRobot | Uptime alerts (free tier) |
+|Component|Technology|Purpose|
+|---|---|---|
+|VPS|Hetzner CX22 (2 vCPU, 4GB RAM, 40GB SSD)|Single server for all services|
+|Reverse proxy|Caddy|SSL termination, routing, automatic HTTPS|
+|Web application|Next.js (standalone output)|Public website + admin panel|
+|Database|PostgreSQL 16|Content, user accounts, metadata|
+|File storage|Cloudflare R2|Images, PDFs (10GB free)|
+|Email|Resend|Contact form notifications (free tier)|
+|Analytics|Umami (self-hosted)|Privacy-first analytics|
+|Monitoring|UptimeRobot|Uptime alerts (free tier)|
 
 ---
 
 ## Domain Structure
 
-| Domain | Purpose | DNS record |
-|--------|---------|-------------|
-| `cwwkcc.lk` | Main website | A → Hetzner VPS IP |
-| `admin.cwwkcc.lk` (optional) | Admin panel login | CNAME or A (same IP) |
-| `analytics.cwwkcc.lk` (internal) | Umami dashboard | A → same VPS (firewall restricted) |
+|Domain|Purpose|DNS record|
+|---|---|---|
+|`cwwkcc.lk`|Main website|A → Hetzner VPS IP|
+|`admin.cwwkcc.lk` (optional)|Admin panel login|CNAME or A (same IP)|
+|`analytics.cwwkcc.lk` (internal)|Umami dashboard|A → same VPS (firewall restricted)|
 
 All domains enforce HTTPS via Caddy (Let's Encrypt).
 
@@ -54,18 +54,25 @@ All domains enforce HTTPS via Caddy (Let's Encrypt).
 
 Stored in `.env` file on the server (never committed to Git).
 
-| Variable | Purpose | Source |
-|----------|---------|--------|
-| `DATABASE_URL` | PostgreSQL connection | Generated |
-| `NEXTAUTH_SECRET` | Auth.js encryption | Random secret |
-| `NEXTAUTH_URL` | `https://cwwkcc.lk` (or admin subdomain) | Fixed |
-| `RESEND_API_KEY` | Email sending | Resend dashboard |
-| `R2_ACCESS_KEY_ID` | R2 access | Cloudflare R2 |
-| `R2_SECRET_ACCESS_KEY` | R2 secret | Cloudflare R2 |
-| `R2_BUCKET_NAME` | Bucket name | Configured |
-| `R2_ENDPOINT` | R2 endpoint | `https://<account>.r2.cloudflarestorage.com` |
-| `UMAMI_WEBSITE_ID` | Analytics site ID | Umami instance |
-| `SENTRY_DSN` (optional) | Error tracking | Sentry |
+|Variable|Purpose|Source|
+|---|---|---|
+|`DATABASE_URL`|PostgreSQL connection|Generated|
+|`DB_PASSWORD`|PostgreSQL container password (used to construct `DATABASE_URL`)|Random secret|
+|`NEXTAUTH_SECRET`|Auth.js encryption|Random secret|
+|`NEXTAUTH_URL`|`https://cwwkcc.lk` (or admin subdomain)|Fixed|
+|`GOOGLE_CLIENT_ID`|Google Workspace OAuth — staff sign-in|Google Cloud Console / Workspace admin|
+|`GOOGLE_CLIENT_SECRET`|Google Workspace OAuth — staff sign-in|Google Cloud Console / Workspace admin|
+|`ADMIN_EMAIL`|Break-glass super-admin account (see Engineering Roadmap, Task 6.3b)|Set at first deploy|
+|`ADMIN_PASSWORD`|Break-glass super-admin account, bcrypt-hashed (see Engineering Roadmap, Task 6.3b)|Set at first deploy|
+|`RESEND_API_KEY`|Email sending|Resend dashboard|
+|`R2_ACCESS_KEY_ID`|R2 access|Cloudflare R2|
+|`R2_SECRET_ACCESS_KEY`|R2 secret|Cloudflare R2|
+|`R2_BUCKET_NAME`|Bucket name|Configured|
+|`R2_ENDPOINT`|R2 endpoint|`https://<account>.r2.cloudflarestorage.com`|
+|`UMAMI_WEBSITE_ID`|Analytics site ID|Umami instance|
+|`SENTRY_DSN` (optional)|Error tracking|Sentry|
+
+This table is the single source of truth for environment variables. `Engineering Roadmap.md` and `proposal/Appendix A.md` reference variables by name where relevant but do not duplicate the full list — if a variable is missing here, add it here first.
 
 ---
 
@@ -254,12 +261,12 @@ pnpm --filter @nexus/db prisma studio
 
 ## Monitoring & Alerts
 
-| Tool | Monitors | Alert channel |
-|------|----------|----------------|
-| UptimeRobot | `https://cwwkcc.lk`, `https://admin.cwwkcc.lk` | Email, Slack |
-| Sentry (optional) | JS errors, performance | Email, Slack |
-| Umami | Page views, events | – |
-| Docker healthchecks | Container status | `docker ps` monitoring (optional) |
+|Tool|Monitors|Alert channel|
+|---|---|---|
+|UptimeRobot|`https://cwwkcc.lk`, `https://admin.cwwkcc.lk`|Email, Slack|
+|Sentry (optional)|JS errors, performance|Email, Slack|
+|Umami|Page views, events|–|
+|Docker healthchecks|Container status|`docker ps` monitoring (optional)|
 
 **SLAs:** 99.9% uptime target. P1 incidents (site down) response within 1 hour (KITS on‑call).
 
@@ -267,12 +274,12 @@ pnpm --filter @nexus/db prisma studio
 
 ## Backup Strategy
 
-| Asset | Frequency | Retention | Location |
-|-------|-----------|-----------|----------|
-| PostgreSQL database | Daily (cron) | 30 days | R2 bucket (encrypted) |
-| R2 bucket | Replication (optional) | – | Another region |
-| Environment variables | Manual, on change | – | 1Password (KITS team) |
-| Code repository | Continuous | Forever | GitHub |
+|Asset|Frequency|Retention|Location|
+|---|---|---|---|
+|PostgreSQL database|Daily (cron)|30 days|R2 bucket (encrypted)|
+|R2 bucket|Replication (optional)|–|Another region|
+|Environment variables|Manual, on change|–|1Password (KITS team)|
+|Code repository|Continuous|Forever|GitHub|
 
 **Backup script example (`/opt/nexus/backup.sh`):**
 
@@ -289,12 +296,12 @@ Add to cron: `0 2 * * * /opt/nexus/backup.sh`
 
 ## Disaster Recovery
 
-| Scenario | Recovery time (RTO) | Procedure |
-|----------|---------------------|------------|
-| Database corruption | 4 hours | Restore latest backup from R2 to new PostgreSQL container |
-| R2 bucket inaccessible | 1 hour | Switch to fallback bucket (if replicated) |
-| VPS failure | 2 hours | Provision new Hetzner VPS, restore from backups, redeploy |
-| DNS misconfiguration | 1 hour | Cloudflare rollback |
+|Scenario|Recovery time (RTO)|Procedure|
+|---|---|---|
+|Database corruption|4 hours|Restore latest backup from R2 to new PostgreSQL container|
+|R2 bucket inaccessible|1 hour|Switch to fallback bucket (if replicated)|
+|VPS failure|2 hours|Provision new Hetzner VPS, restore from backups, redeploy|
+|DNS misconfiguration|1 hour|Cloudflare rollback|
 
 **Contacts:** KITS lead + on‑call developer (rota published).
 
@@ -312,13 +319,13 @@ Add to cron: `0 2 * * * /opt/nexus/backup.sh`
 
 ## Cost Estimation (Monthly)
 
-| Service | Estimated cost | Notes |
-|---------|----------------|-------|
-| Hetzner CX22 VPS | ≈ LKR 1,500 | 2 vCPU, 4GB RAM, 40GB SSD |
-| Cloudflare R2 | Free (10GB) | Images + PDFs |
-| Resend | Free (3k emails) | Contact forms |
-| Domain renewal | ≈ LKR 1,000/year | ~ LKR 85/month |
-| **Total** | **≈ LKR 1,600/month** | Excluding domain amortisation |
+|Service|Estimated cost|Notes|
+|---|---|---|
+|Hetzner CX22 VPS|≈ LKR 1,500|2 vCPU, 4GB RAM, 40GB SSD|
+|Cloudflare R2|Free (10GB)|Images + PDFs|
+|Resend|Free (3k emails)|Contact forms|
+|Domain renewal|≈ LKR 1,000/year|~ LKR 85/month|
+|**Total**|**≈ LKR 1,600/month**|Excluding domain amortisation|
 
 ---
 
@@ -336,4 +343,4 @@ See [Launch Readiness Checklist](../operations/Launch%20Readiness%20Checklist.md
 
 ---
 
-*C.W.W. Kannangara Central College – Est. 1873 – Wisdom is All Wealth*
+_C.W.W. Kannangara Central College – Est. 1873 – Wisdom is All Wealth_
