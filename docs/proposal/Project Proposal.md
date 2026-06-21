@@ -58,6 +58,9 @@ Nexus solves all these with a modern, secure, and easy-to-manage platform.
 |Admin Panel|Custom dashboard for staff to manage all content – no coding required.|
 |Design System|Unified colours, typography, components (see Foundations.md).|
 |Privacy Analytics|Self-hosted Umami – no personal data collected.|
+|Official Social Media|Managed presence on Facebook, Instagram, YouTube, LinkedIn, and WhatsApp Channel, including takeover of any existing unofficial accounts (see Section 13.3).|
+
+> **Scope note:** the table above describes what stakeholders will see and use at launch. It is not the full technical scope. The complete engineering build — including infrastructure, design system internals, accessibility, performance, and administrative tooling — is defined in `Feature Registry.md`, the single authoritative list of all 173 features Nexus will include. Approving this proposal approves that full scope, not only the stakeholder-facing rows above.
 
 ---
 
@@ -79,7 +82,7 @@ Nexus uses modern open-source technologies, all self-hosted on a single **Hetzn
 |---|---|---|
 |Web framework|Next.js|Fast, SEO-friendly, full trilingual routing (English/Sinhala/Tamil).|
 |Admin panel|Custom-built|Tailored exactly to KCC workflows.|
-|Staff sign-in|Google Workspace (`@cwwkcc.lk`)|Staff sign in with their existing school Google account; no separate password system to maintain. See Appendix A.|
+|Staff sign-in|Google Workspace (`@cwwkcc.lk`)|Staff sign in with their existing school Google account; no separate password system to maintain. **Requires Google Workspace admin cooperation to configure** — see Section 13.4. See Appendix A.|
 |Database|PostgreSQL|News, pages, society data, user accounts.|
 |File storage|Cloudflare R2|Images, PDFs – 10GB free, zero egress fees.|
 |Web server|Caddy|Reverse proxy, automatic HTTPS (Let's Encrypt).|
@@ -97,7 +100,7 @@ All code is stored in a **school-owned GitHub repository**. KITS members are tr
 
 |Role|Responsibility|
 |---|---|
-|Technical Ownership|KITS – development, deployment, maintenance.|
+|Technical Stewardship|KITS – development, deployment, maintenance. Operational responsibility only; the school holds legal ownership (see Institutional Ownership, below, and Section 13.2).|
 |Content Ownership|School administration and designated staff editors.|
 |Institutional Ownership|School retains full ownership of GitHub repo and all code.|
 |Staff Advisor|Mrs. Tharindrie Perera, Teacher-in-Charge (ICT).|
@@ -138,31 +141,42 @@ All code is stored in a **school-owned GitHub repository**. KITS members are tr
 
 > **Commercial equivalent:** A comparable platform would cost LKR 800,000–2,500,000 to build plus LKR 15,000–50,000/month maintenance. Nexus delivers at zero development cost and minimal monthly expense.
 
+**Additional operational dependencies (no cost, free tier):**
+
+|Service|Purpose|
+|---|---|
+|GitHub|Source code hosting, school-owned repository|
+|GitHub Actions|CI/CD pipeline — automated testing and deployment|
+|GitHub Container Registry|Docker image hosting for deployments|
+|Sentry|Error tracking (optional, free tier)|
+
+These carry no monthly fee today but are part of the operational stack and depend on continued free-tier availability from their providers.
+
 ---
 
 ## 10. Phased Implementation Roadmap
 
 Preliminary research, architecture design, component development, and technical planning have been completed internally by KITS, at no cost to the school. The table below shows that preparation work alongside what comes next — full task-level detail is in `Engineering Roadmap.md`.
 
-| Stage                                  | Status / Period              | What it delivers                                                                                                          |
-| -------------------------------------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| Research & planning                    | Complete (internal, no cost) | Project scope, site map, technology choices, this proposal.                                                               |
-| Developer workspace setup              | Complete (internal, no cost) | The automated build and testing pipeline every other stage relies on.                                                     |
-| Visual identity & design system        | Complete (internal, no cost) | Colours, typography, spacing, and motion — the consistent "look" of the school's brand online.                            |
-| Reusable page components               | Complete (internal, no cost) | 100+ building blocks (cards, forms, navigation, etc.) used to assemble every page.                                        |
-| Reliability & trilingual foundation    | Complete (internal, no cost) | Safeguards against crashes/broken pages; the English/Sinhala/Tamil framework built in from the start.                     |
-| **Principal presentation & approval**  | **June 2026 — now**          | This proposal: formal mandate to proceed, plus administration's cooperation on content, photography, and alumni outreach. |
-| Database & content infrastructure      | June – July 2026             | Secure database and content-management infrastructure; staff sign-in via existing school Google accounts.                 |
-| Admin dashboard                        | July 2026                    | Staff dashboard for managing News, Staff, Societies, Events, Gallery, Results, and Media — no coding required.            |
-| Public pages go live with real content | July – August 2026           | Every public page connected to real content, including the Results Portal.                                                |
-| Content Collection & Data Entry        | September – October 2026     | Photography, historical photos, society data, staff info, alumni content — runs alongside the work below.                 |
-| Offline-friendly experience            | August 2026                  | Website stays usable on poor mobile connections; can be installed like an app.                                            |
-| Search visibility                      | August – September 2026      | Optimisation so the school appears correctly in Google search results.                                                    |
-| Hosting goes live                      | September 2026               | Hosting, automated backups, and uptime monitoring switched on.                                                            |
-| Launch preparation                     | October 2026                 | Accessibility audit, performance tuning, content population, editor training.                                             |
-| **Public Launch**                      | **Before November 2026**     | Live deployment at `cwwkcc.lk`.                                                                                           |
-| Stabilisation                          | November 2026                | First weeks of real usage — fix issues, close translation gaps, tune performance.                                         |
-| Long-term handover                     | Ongoing                      | Documentation handover, next KITS generation onboarding.                                                                  |
+|Stage|Status / Period|What it delivers|
+|---|---|---|
+|Research & planning|Complete (internal, no cost)|Project scope, site map, technology choices, this proposal.|
+|Developer workspace setup|Complete (internal, no cost)|The automated build and testing pipeline every other stage relies on.|
+|Visual identity & design system|Complete (internal, no cost)|Colours, typography, spacing, and motion — the consistent "look" of the school's brand online.|
+|Reusable page components|Complete (internal, no cost)|100+ building blocks (cards, forms, navigation, etc.) used to assemble every page.|
+|Reliability & trilingual foundation|Complete (internal, no cost)|Safeguards against crashes/broken pages; the English/Sinhala/Tamil framework built in from the start.|
+|**Principal presentation & approval**|**June 2026 — now**|This proposal: formal mandate to proceed, plus administration's cooperation on content, photography, and alumni outreach.|
+|Database & content infrastructure|June – July 2026|Secure database and content-management infrastructure; staff sign-in via existing school Google accounts.|
+|Admin Panel|July 2026|Staff dashboard for managing News, Staff, Societies, Events, Gallery, Results, and Media — no coding required.|
+|Public pages go live with real content|July – August 2026|Every public page connected to real content, including the Results Portal.|
+|Content Collection & Data Entry|September – October 2026|Photography, historical photos, society data, staff info, alumni content — runs alongside the work below.|
+|Offline-friendly experience|August 2026|Website stays usable on poor mobile connections; can be installed like an app.|
+|Search visibility|August – September 2026|Optimisation so the school appears correctly in Google search results.|
+|Hosting goes live|September 2026|Hosting, automated backups, and uptime monitoring switched on.|
+|Launch preparation|October 2026|Accessibility audit, performance tuning, content population, editor training.|
+|**Public Launch**|**Target: October 2026**|Live deployment at `cwwkcc.lk`.|
+|Stabilisation|November 2026|First weeks of real usage — fix issues, close translation gaps, tune performance.|
+|Long-term handover|Ongoing|Documentation handover, next KITS generation onboarding.|
 
 Monthly progress reviews with Staff Advisor; demo to Principal at milestones.
 
@@ -183,7 +197,7 @@ Monthly progress reviews with Staff Advisor; demo to Principal at milestones.
 
 1. Public website live at `cwwkcc.lk`, meets WCAG 2.1 AA.
 2. Full functionality in English, Sinhala, and Tamil at launch — not a partial or "infrastructure-only" rollout.
-3. Results Portal live, rate-limited, and excluded from search indexing.
+3. Results Portal live, rate-limited, and excluded from search indexing — with verified import accuracy against source exam data, response times acceptable under peak load, and availability tested ahead of the school's actual results-release period (its highest-traffic event).
 4. At least two staff editors can independently publish a news article.
 5. All existing student societies have a dedicated page.
 6. School identity (history, motto, leadership) clearly presented.
@@ -204,6 +218,7 @@ The Principal is requested to approve:
 - A monthly operational budget of approximately **LKR 2,500** (hosting and domain renewal).
 - Progression from the current preparation work into the remaining build stages described in Section 10.
 - Recognition of Nexus as the school's primary web platform upon launch.
+- Authorization for future approved KITS members to be granted the same infrastructure and administrative access as the current team, under continued school and Staff Advisor supervision, as part of the documented handover process (see Section 7, Long-Term Continuity, and Section 11, Risk Assessment).
 
 ### 13.2 Institutional Ownership
 
@@ -244,6 +259,10 @@ Authorization for KITS to:
 - Create and manage official school accounts on Facebook, Instagram, YouTube, LinkedIn, and WhatsApp Channel, subject to school oversight.
 - Where any of these accounts already exist unofficially, take them over and bring them up to the school's official visual identity and content standards — most existing accounts predate any defined branding and don't currently follow one.
 
+**Publication Authority**
+
+- Publish content on the public website and official social media accounts on the school's behalf, within the bounds of the Content Governance policy and subject to the approval workflow defined in Section 13.4.
+
 > **Student privacy:** No personal data published without consent and school policy.
 
 ### 13.4 School Support Requirements
@@ -261,8 +280,9 @@ A project like this cannot succeed on KITS effort alone. The school is requested
 
 **Technical**
 
-- Access to official domain registration.
-- Access to official Google Workspace administration (for staff sign-in setup).
+- Access to official domain registration and DNS management for `cwwkcc.lk`.
+- Access to the school's Cloudflare account (or creation of one under school ownership) for DNS and R2 storage configuration.
+- Access to official Google Workspace administration (for staff sign-in setup) — this requires admin cooperation to configure OAuth and is not available out of the box; see Section 6.
 - Approval to create required email addresses.
 
 **Operations**
@@ -281,7 +301,7 @@ A project like this cannot succeed on KITS effort alone. The school is requested
 5. Database and backend development begins on the existing school-owned repository.
 6. Monthly demos to Staff Advisor as development continues.
 7. Beta presented to Principal ahead of launch.
-8. Public launch before November 2026.
+8. Public launch — target October 2026.
 
 ---
 
@@ -301,17 +321,17 @@ Preliminary research, architecture design, component development, and technical 
 
 By approving this proposal, the school authorizes the development and deployment of Nexus and grants the permissions listed in Section 13. Operational activities shall remain subject to school policies and administrative oversight.
 
-| **Approved By** |                                   |
-| --------------- | --------------------------------- |
-| Principal       | C.W.W. Kannangara Central College |
-| **Signature**   | _____________________________     |
-| **Date**        | _____________________________     |
+|**Approved By**| |
+|---|---|
+|Principal|C.W.W. Kannangara Central College|
+|**Signature**|_____________________________|
+|**Date**|_____________________________|
 
-| **Noted By**  |                                                 |
-| ------------- | ----------------------------------------------- |
-| Staff Advisor | Mrs. Tharindrie Perera, Teacher-in-Charge (ICT) |
-| **Signature** | _____________________________                   |
-| **Date**      | _____________________________                   |
+|**Noted By**| |
+|---|---|
+|Staff Advisor|Mrs. Tharindrie Perera, Teacher-in-Charge (ICT)|
+|**Signature**|_____________________________|
+|**Date**|_____________________________|
 
 ---
 

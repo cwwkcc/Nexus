@@ -135,7 +135,7 @@ Over 100 components built in `@nexus/ui`. Categories include:
 - **Data** – DataTable, Timeline, ResultsDisplay.
 - **Media** – ImageFrame, VideoFrame, Lightbox, AudioPlayer.
 
-All components are documented in `Components.md` (or Storybook).
+All components are documented in `Component Reference.md` (or Storybook).
 
 ---
 
