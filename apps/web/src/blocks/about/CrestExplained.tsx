@@ -43,7 +43,7 @@ export function CrestExplained() {
         <Container
           size="full"
           padding="none"
-          className="w-size-screen-w-40 mb-space-10"
+          className="max-w-size-screen-h-50 mb-space-10"
         >
           <SchoolLogo></SchoolLogo>
         </Container>

@@ -11,7 +11,8 @@ import { HStack, VStack } from '../layout/Stack';
 interface AlumniProfile {
   id: string;
   name: string;
-  graduationYear: number;
+  // Updated to accept both string and number based on the JSON
+  graduationYear: number | string;
   position: string;
   quote: string;
   portraitSrc?: string;
@@ -27,11 +28,14 @@ export function AlumniLegacyBlock({
   alumni,
   className,
 }: AlumniLegacyBlockProps) {
-  const [selectedYear, setSelectedYear] = useState<number | 'all'>('all');
+  const [selectedYear, setSelectedYear] = useState<number | string | 'all'>(
+    'all',
+  );
   const [activeIndex, setActiveIndex] = useState(0);
 
+  // Cast years to Number for accurate descending sorting
   const years = Array.from(new Set(alumni.map((a) => a.graduationYear))).sort(
-    (a, b) => b - a,
+    (a, b) => Number(b) - Number(a),
   );
 
   const filteredAlumni =
@@ -40,6 +44,12 @@ export function AlumniLegacyBlock({
       : alumni.filter((a) => a.graduationYear === selectedYear);
 
   const currentAlumnus = filteredAlumni[activeIndex];
+
+  // FIX: Reset index when filter changes to prevent out-of-bounds crashes
+  const handleYearChange = (year: number | string | 'all') => {
+    setSelectedYear(year);
+    setActiveIndex(0);
+  };
 
   const next = () => {
     setActiveIndex((prev) => (prev + 1) % filteredAlumni.length);
@@ -54,11 +64,12 @@ export function AlumniLegacyBlock({
   if (filteredAlumni.length === 0) return null;
 
   return (
-    <Container>
+    <Container className={className}>
       {/* Year filter */}
-      <div className=" flex justify-center gap-space-2 mb-space-8 flex-wrap">
+      {/* FIX: Removed accidental leading space in className */}
+      <div className="flex justify-center gap-space-2 mb-space-8 flex-wrap">
         <button
-          onClick={() => setSelectedYear('all')}
+          onClick={() => handleYearChange('all')}
           className={cn(
             'px-space-3 py-space-1 font-body text-sm rounded-full transition-all',
             selectedYear === 'all'
@@ -71,7 +82,7 @@ export function AlumniLegacyBlock({
         {years.map((year) => (
           <button
             key={year}
-            onClick={() => setSelectedYear(year)}
+            onClick={() => handleYearChange(year)}
             className={cn(
               'px-space-3 py-space-1 font-body text-sm rounded-full transition-all',
               selectedYear === year
@@ -85,7 +96,6 @@ export function AlumniLegacyBlock({
       </div>
 
       {/* Quote carousel */}
-
       <VStack className="text-center">
         {currentAlumnus.portraitSrc && (
           <ImageFrame
@@ -96,8 +106,8 @@ export function AlumniLegacyBlock({
             frameColor="gold"
             frameWidth="border-md"
             size="full"
-            className="m-space-4 mx-auto"
-          ></ImageFrame>
+            className="mx-auto mb-space-6 max-w-size-screen-h-45"
+          />
         )}
 
         <blockquote className="font-display text-pullquote italic text-text-primary mb-space-6 mx-auto">
@@ -123,7 +133,7 @@ export function AlumniLegacyBlock({
           </div>
           <button
             onClick={next}
-            className=" bg-surface-elevated rounded-full p-space-2 shadow-elevation-1 hover:bg-gold-base transition-colors"
+            className="bg-surface-elevated rounded-full p-space-2 shadow-elevation-1 hover:bg-gold-base transition-colors"
             aria-label="Next alumnus"
           >
             <Icon name="chevron-right" />
