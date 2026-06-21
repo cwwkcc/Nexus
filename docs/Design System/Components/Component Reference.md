@@ -1,47 +1,45 @@
-# Component Reference
-
 ## Table of Contents
 
-1. [Shared UI Library — `packages/ui`](#1-shared-ui-library--packagesui)
-   - [Atoms](#atoms)
-   - [Brand](#brand)
-   - [Cards](#cards)
-   - [Effects](#effects)
-   - [Feedback](#feedback)
-   - [Forms](#forms)
-   - [Icons](#icons)
-   - [Layout](#layout)
-   - [Media](#media)
-   - [Navigation Components](#navigation-components)
-   - [Overlays](#overlays)
-   - [Sections](#sections)
-   - [System](#system)
-   - [Typography](#typography)
-   - [Utilities](#utilities)
-   - [Visualization](#visualization)
-2. [Hooks — `packages/ui/src/hooks`](#2-hooks--packagesuisrchooks)
-3. [Page Blocks — `apps/web/src/blocks`](#3-page-blocks--appswebsrcblocks)
-   - [Home Blocks](#home-blocks)
-   - [About Blocks](#about-blocks)
-   - [Academics Blocks](#academics-blocks)
-   - [Admissions Blocks](#admissions-blocks)
-   - [News Blocks](#news-blocks)
-   - [Events Blocks](#events-blocks)
-   - [Societies Blocks](#societies-blocks)
-   - [Facilities Blocks](#facilities-blocks)
-   - [Extracurriculars Blocks](#extracurriculars-blocks)
-   - [Gallery Blocks](#gallery-blocks)
-   - [Contact Blocks](#contact-blocks)
-   - [Results Blocks](#results-blocks)
-   - [Administration Blocks](#administration-blocks)
-4. [Web App Pages — `apps/web/src/app/[locale]`](#4-web-app-pages)
-5. [Admin App — UI Components](#5-admin-app--ui-components)
-6. [Admin App — Pages](#6-admin-app--pages)
-7. [Accessibility & Infrastructure](#7-accessibility--infrastructure)
-
+1. [Shared UI Library — `packages/ui`
+    - [Atoms]
+    - [Brand]
+    - [Cards] 
+    - [Forms]
+    - [Icons]
+    - [Layout]
+    - [Media]
+    - [Navigation Components]
+    - [Notifications]
+    - [Overlays]
+    - [Page States]
+    - [Sections]
+    - [Typography]
+    - [Utilities]
+    - [Visualization]
+2. [Hooks — `packages/ui/src/hooks`]
+3. [Page Blocks — `apps/web/src/blocks`
+    - [Home Blocks]
+    - [About Blocks]
+    - [Academics Blocks]
+    - [Admissions Blocks]
+    - [News Blocks]
+    - [Events Blocks]
+    - [Societies Blocks]
+    - [Facilities Blocks]
+    - [Extracurriculars Blocks]
+    - [Gallery Blocks]
+    - [Contact Blocks]
+    - [Results Blocks]
+    - [Administration Blocks]
+4. [Web App Pages — `apps/web/src/app/[locale]`]
+5. [Admin App — UI Components]
+6. [Admin App — Pages]
+7. [Accessibility & Infrastructure]
 ---
 
 ## 1. Shared UI Library — `packages/ui`
+
+> Every category below is named to match its real folder under `packages/ui/src/components/` exactly. If a category name in this document and the folder name on disk ever disagree, the folder is right and this document is stale — rename the doc, not the folder.
 
 ### Atoms
 
@@ -59,6 +57,8 @@
 ---
 
 ### Brand
+
+> Lives at `packages/ui/src/components/brand/` — top‑level, a sibling of `icons/`, not nested inside it. At the time of this audit the actual folder was `icons/brand/`; that's a code‑side fix still owed, not a doc error — this section reflects the locked decision, the folder needs to move to match it.
 
 |Status|Component|Notes|
 |---|---|---|
@@ -98,17 +98,6 @@
 |✅|`AmbientEmbers`|Floating particle animation for hero backgrounds. Framer Motion.|
 |⭐|`HeroVideoBackground`|Muted autoplay video layer for hero sections.|
 |⭐|`ParallaxLayer`|CSS‑transform parallax scroll wrapper.|
-
----
-
-### Feedback
-
-|Status|Component|Notes|
-|---|---|---|
-|✅|`Alert`|Inline alert: `info / success / warning / error`. Dismissible.|
-|✅|`Modal`|Accessible dialog. Focus‑trapped. Backdrop dismiss. Variants: `information` · `confirmation`.|
-|✅|`Toast`|Ephemeral notification stack. Variants: `success / error / warning`.|
-|⭐|`ConfirmDialog`|Destructive action confirmation prompt (wraps Modal with OK/Cancel).|
 
 ---
 
@@ -185,7 +174,7 @@
 |✅|`MapEmbed`|Google Maps / OpenStreetMap embed with optional nearby note.|
 |✅|`PanoramicFacilityViewer`|360° / wide panoramic viewer for campus facilities (draggable).|
 |✅|`VideoFrame`|YouTube / Vimeo embed with aspect ratio enforcement; optional poster for direct MP4.|
-|🔨|`OptimizedImage`|`next/image` wrapper with blur placeholder and Sanity CDN URL handling.|
+|🔨|`OptimizedImage`|`next/image` wrapper with blur placeholder and R2 CDN URL handling.|
 |⭐|`BeforeAfterSlider`|Before/after drag slider (campus renovation comparisons).|
 |⭐|`ImageCarousel`|Auto‑playing image carousel with dot indicators.|
 
@@ -210,15 +199,43 @@
 
 ---
 
+### Notifications
+
+|Status|Component|Notes|
+|---|---|---|
+|✅|`Alert`|Inline alert: `info / success / warning / error`. Dismissible.|
+|✅|`AnnouncementBanner`|Dismissible top‑of‑page announcement strip.|
+|✅|`Toast`|Ephemeral notification stack. Variants: `success / error / warning`.|
+
+---
+
 ### Overlays
 
 |Status|Component|Notes|
 |---|---|---|
 |✅|`Drawer`|Side‑panel overlay (slide in from right/left). Supports persistent mode.|
 |✅|`DropDownMenu`|Contextual dropdown triggered by a button (navigation or filter variant).|
+|✅|`Modal`|Accessible dialog. Focus‑trapped. Backdrop dismiss. Variants: `information` · `confirmation`.|
 |✅|`ShareSheet`|Share panel: URL copy + social share links (WhatsApp, Facebook, copy).|
 |✅|`ToolTip`|Hover/focus tooltip (position: top/bottom/left/right).|
 |⭐|`AnnouncementPopup`|Modal that appears on first visit for important notices (exams, events).|
+|⭐|`ConfirmDialog`|Destructive action confirmation prompt (wraps Modal with OK/Cancel).|
+
+---
+
+### Page States
+
+|Status|Component|Notes|
+|---|---|---|
+|✅|`CookieConsentBanner`|Cookie consent footer bar.|
+|✅|`EmptyState`|Empty list/search with illustration and message.|
+|✅|`ErrorState`|Section/page‑level error with retry. Variants: `inline` / `section`.|
+|✅|`LoadingScreen`|Full‑viewport loading (initial / route transitions). Animated crest.|
+|✅|`LoadingSkeleton`|Shimmer placeholder skeleton. Variants: `card`, `table‑row`, `section`.|
+|✅|`NotFoundPage`|404 component with back‑to‑home navigation and animated 404 count‑up.|
+|✅|`OfflineBanner`|Banner when user loses network.|
+|⭐|`MaintenancePage`|Full‑page maintenance mode screen.|
+|⭐|`UpdateAvailableBanner`|PWA "new version available" banner with reload prompt.|
 
 ---
 
@@ -244,23 +261,6 @@
 
 ---
 
-### System
-
-|Status|Component|Notes|
-|---|---|---|
-|✅|`AnnouncementBanner`|Dismissible top‑of‑page announcement strip.|
-|✅|`CookieConsentBanner`|Cookie consent footer bar.|
-|✅|`EmptyState`|Empty list/search with illustration and message.|
-|✅|`ErrorState`|Section/page‑level error with retry. Variants: `inline` / `section`.|
-|✅|`LoadingScreen`|Full‑viewport loading (initial / route transitions). Animated crest.|
-|✅|`LoadingSkeleton`|Shimmer placeholder skeleton. Variants: `card`, `table‑row`, `section`.|
-|✅|`NotFoundPage`|404 component with back‑to‑home navigation and animated 404 count‑up.|
-|✅|`OfflineBanner`|Banner when user loses network.|
-|⭐|`MaintenancePage`|Full‑page maintenance mode screen.|
-|⭐|`UpdateAvailableBanner`|PWA "new version available" banner with reload prompt.|
-
----
-
 ### Typography
 
 |Status|Component|Notes|
@@ -269,7 +269,7 @@
 |✅|`Heading`|`h1–h6` mapped to design‑system type scale with colour tokens.|
 |✅|`InlineLink`|Styled anchor for body copy (supports external links with new‑tab hint).|
 |✅|`QuoteBlock`|Styled `<blockquote>`. Variants: `pull‑quote`, `ceremonial`.|
-|✅|`RichTextRenderer`|Renders Sanity portable text / MDX with token‑matched typography.|
+|✅|`RichTextRenderer`|Renders Tiptap JSON / MDX with token‑matched typography.|
 |✅|`SectionHeader`|Eyebrow + Heading + optional subtitle combo. Variants: `eyebrow-title`, `eyebrow-title-description`.|
 |✅|`Text`|Body copy, captions, labels — mapped to type scale with colour tokens.|
 |⭐|`HighlightedText`|Inline text with gold/green highlight mark for hero callouts.|
@@ -346,7 +346,7 @@
 |---|---|---|
 |🔨|`HomeHero`|Full‑viewport hero: carousel panels, CrestAnimation, AmbientEmbers, tagline, established year, dual CTAs ("Explore" + "Apply").|
 |🔨|`HomeStatsStrip`|Wraps `StatsStrip` with live counts: students, staff, years, university entrances.|
-|🔨|`HomePrincipalMessage`|Wraps `PrincipalMessage` section with Sanity data.|
+|🔨|`HomePrincipalMessage`|Wraps `PrincipalMessage` section with CMS data.|
 |🔨|`HomeLatestNews`|SectionHeader + NewsCard grid (3 latest) + "All News →" link.|
 |🔨|`HomeAcademicStreams`|SectionHeader + 4× AcademicStreamCard grid.|
 |🔨|`HomeLifeAtKCC`|SectionHeader + LifeAtKCCPhotoStrip.|
@@ -587,8 +587,8 @@
 |🔨|`/administration`|**Administration** — Hero, Principal profile, Deputies, HODs.|
 |⭐|`/achievements`|**Achievements Archive** — Full archive of AchievementCard posts.|
 |⭐|`/alumni`|**Alumni** — AlumniCard grid, submission form, legacy stories.|
-|⭐|`/privacy-policy`|**Privacy Policy** — RichTextRenderer on Sanity doc.|
-|⭐|`/terms`|**Terms** — RichTextRenderer on Sanity doc.|
+|⭐|`/privacy-policy`|**Privacy Policy** — RichTextRenderer on a CMS‑authored doc.|
+|⭐|`/terms`|**Terms** — RichTextRenderer on a CMS‑authored doc.|
 
 ---
 
@@ -613,9 +613,9 @@
 |🔨|`AdminConfirmDialog`|Destructive‑action confirm modal (wraps `ConfirmDialog`).|
 |🔨|`AdminBreadcrumb`|Path breadcrumb for admin pages.|
 |🔨|`ContentStatusBar`|Draft / Published / Archived switcher + schedule timestamp.|
-|🔨|`RichTextEditor`|WYSIWYG editor (Sanity‑compatible portable text output).|
+|🔨|`RichTextEditor`|WYSIWYG editor built on Tiptap, outputs Tiptap JSON.|
 |🔨|`MediaLibrary`|Browse/search all uploaded assets. Grid + list toggle. Select for insertion.|
-|🔨|`MediaUploader`|File upload zone → S3 → Sanity CDN. Progress indicator, preview.|
+|🔨|`MediaUploader`|File upload zone → Cloudflare R2 (S3‑compatible API). Progress indicator, preview.|
 |🔨|`ImageCropper`|Crop tool for uploaded images (staff portraits, hero images).|
 |🔨|`SEOMetaPanel`|SEO sidebar panel: meta title, description, OG image, canonical.|
 |🔨|`SlugInput`|Auto‑generates slug from title. Editable, validates uniqueness.|
@@ -635,7 +635,7 @@
 
 |Status|Route|Description|
 |---|---|---|
-|🔨|`/login`|Admin login page. Email + password. JWT auth.|
+|🔨|`/login`|Admin login page. "Sign in with Google" restricted to `@cwwkcc.lk`, with a clear rejection message for other domains. A separate, deliberately unadvertised path leads to the break‑glass credentials login, used only for bootstrap and recovery.|
 |🔨|`/` (dashboard)|Dashboard: 6× AdminStatCard, recent activity feed, quick links.|
 |🔨|`/news`|News listing: AdminDataTable with filter + search + bulk actions.|
 |🔨|`/news/new`|New article editor: title, slug, body (RichTextEditor), hero image, SEO panel, status.|
@@ -660,7 +660,11 @@
 |🔨|`/settings/users`|User management: invite, role (admin/editor), deactivate.|
 |⭐|`/analytics`|Traffic dashboard: page views, top pages, search queries (GA4 embed or custom).|
 |⭐|`/achievements`|Achievements management: add/edit achievement ticker items.|
-|⭐|`/alumni`|Alumni submissions management.|
+|⭐|`/alumni`|Alumni submissions management: pending/approved/rejected queue, plus direct entry.|
+|⭐|`/academics`|Academic Programs admin screen: edit stream descriptions and subject lists. Fixed set of streams — no add or remove.|
+|⭐|`/extracurriculars`|Extracurriculars listing: AdminDataTable. Full CRUD — add, edit, and retire activities and teams.|
+|⭐|`/facilities`|Facilities listing: AdminDataTable. Full CRUD — add, edit, and reorder facilities.|
+|⭐|`/archive`|Digital Archive: upload and catalogue historical photographs, magazines, and prefect lists by year and category.|
 
 ---
 

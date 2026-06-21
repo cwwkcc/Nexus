@@ -4,7 +4,7 @@
 
 This document is the single authoritative list of every feature, system, and capability that Nexus will include. Every item here has a home in the Engineering Roadmap. Nothing is built that is not listed here. Nothing listed here is omitted from the build.
 
-**Total features: 163**
+**Total features: 173**
 
 ---
 
@@ -17,6 +17,8 @@ Each feature has:
 - A **brief explanation** of what it is and why it exists
 
 Features are grouped by concern. The build order is defined in the **Engineering Roadmap** — not by the order items appear here.
+
+**Changelog:** F-001–F-163 were the original scope. F-164–F-173 were added in a later completeness audit that cross-referenced this registry against Page Specifications.md's route table and the existing i18n message files — three routes (`/academics`, `/administration`, `/extracurriculars`) already existed with no corresponding feature, and several public features had no defined admin path to manage their content. The same pass replaced Credentials-based admin login with Google Workspace OAuth (F-060–F-068 rewritten in place — same numbers, revised content) once it was established the school already operates `@cwwkcc.lk` Google accounts. New numbers are appended in sequence regardless of which group they conceptually belong to; a feature's number says nothing about when its group was finalized.
 
 ---
 
@@ -164,23 +166,25 @@ Features are grouped by concern. The build order is defined in the **Engineering
 
 ## Group 7 — Authentication & Access Control
 
-**F-060 · Auth.js with Prisma Adapter** Auth.js (NextAuth) configured with the Credentials provider and Prisma adapter. Sessions are stored in the database. The User model in Prisma holds hashed passwords and role assignments.
+**F-060 · Google Workspace OAuth via Auth.js** Auth.js (NextAuth) configured with the Google provider as the primary sign-in method, restricted to the school's `@cwwkcc.lk` Google Workspace domain. Domain is verified server-side in the `signIn` callback — never trust the `hd` claim alone, since it can be spoofed outside a genuine Workspace flow. Sessions are stored in the database via the Prisma adapter.
 
-**F-061 · bcrypt Password Hashing** All admin passwords hashed with bcrypt at a sufficient cost factor. Plain text passwords are never stored or logged anywhere in the system.
+**F-061 · Invite-Based Access Control** Successfully authenticating with Google is not sufficient on its own. An existing Admin must first add a colleague's `@cwwkcc.lk` email to the User table with an assigned role; only then does that person's Google sign-in succeed past the application's own check. Nexus's User table — not the school's Google directory — is the actual source of truth for who has access, and revoking access never depends on the school's IT department.
 
 **F-062 · Role-Based Access Control** Two roles: Admin (full access to all modules, user management, settings) and Editor (create and edit content, cannot manage users, cannot access settings, cannot delete published content). Role is checked in tRPC procedures and in admin UI conditionally rendering controls.
 
 **F-063 · Admin Route Protection Middleware** Next.js middleware on `apps/admin` checks for a valid Auth.js session on every request to any route except `/login`. Unauthenticated requests are redirected to `/login`. The public site has no authentication layer.
 
-**F-064 · Admin Login Page** A designed login page in `apps/admin` with email/password form, validation, error messaging, and the institutional visual treatment. The first thing any admin user sees.
+**F-064 · Admin Login Page** A "Sign in with Google" button restricted to `@cwwkcc.lk`, with a clear rejection message — not a generic error — for any account outside the domain. A separate, deliberately unadvertised path leads to the break-glass credentials login (F-065), used only for bootstrap and recovery.
 
-**F-065 · Seed Script for Initial Admin User** The database seed creates the first Admin-role user from environment variables (`ADMIN_EMAIL`, `ADMIN_PASSWORD`). Without this, there is no way to log in to a freshly deployed instance.
+**F-065 · Break-Glass Admin Account** One Credentials-based super-admin account, seeded from environment variables (`ADMIN_EMAIL`, `ADMIN_PASSWORD`, bcrypt-hashed) at first deploy. Used only to invite the first real `@cwwkcc.lk` admins at launch, and for emergency recovery if Google OAuth becomes unavailable — a Workspace misconfiguration, an OAuth app restriction, a Google outage. Protected by its own TOTP requirement (F-173), since it is the one path that bypasses Google's account security entirely.
 
-**F-066 · Password Reset Flow** An admin user can request a password reset by email. A time-limited token is sent via Resend. The token is single-use and expires after one hour. No security questions — email-based only.
+**F-066 · Break-Glass Password Rotation** The break-glass account has no self-service "forgot password" email flow — an internet-facing reset surface on the platform's single highest-privilege bypass account is a liability, not a convenience. If the break-glass password is lost, it is rotated via a server-side CLI script run over SSH, re-hashing a new password directly into the database.
 
-**F-067 · User Deactivation** Admin users are never deleted from the database — they are deactivated (a boolean flag). Deactivated users cannot log in. Their records are retained so the audit log remains meaningful — every action is still traceable to a real person.
+**F-067 · User Deactivation** Admin users are never deleted from the database — they are deactivated (a boolean flag). Deactivated users cannot log in, regardless of whether their underlying Google account is still active. Their records are retained so the audit log remains meaningful — every action is still traceable to a real person.
 
-**F-068 · Secret Management** All credentials (database URL, Auth.js secret, R2 keys, Resend API key) live in environment variables. Never committed to the repository. `.env.example` documents what is needed. GitHub repository secrets hold CI/CD values. Production secrets live in `.env` on the Hetzner server.
+**F-068 · Secret Management** All credentials (database URL, Auth.js secret, Google OAuth client ID and secret, R2 keys, Resend API key) live in environment variables. Never committed to the repository. `.env.example` documents what is needed. GitHub repository secrets hold CI/CD values. Production secrets live in `.env` on the Hetzner server.
+
+**F-173 · TOTP Two-Factor Authentication** Applies only to the break-glass account (F-065) — every other admin's account security is inherited from the school's own Google Workspace 2FA enforcement, a setting controlled entirely outside Nexus by the school's Google Admin console. TOTP via standard authenticator apps (Google Authenticator, Authy, 1Password); ten single-use backup codes generated at setup are the only recovery path if the device protecting the break-glass account is lost.
 
 ---
 
@@ -352,6 +356,12 @@ Features are grouped by concern. The build order is defined in the **Engineering
 
 **F-135 · Cookie Consent Banner** CookieConsentBanner shown on first visit. Persisted to localStorage. GDPR-compliant: no analytics cookies set before consent. The school serves an international diaspora — compliance matters.
 
+**F-164 · Academics Page** Academic streams (Bio Science, Physical Science, Commerce, Arts, Technology) via AcademicStreamCard, with subject lists and StreamComparisonTable for side-by-side comparison. Performance visualizations (pass rate by stream, university entrance rate, subject popularity) are computed live from ExamResult data, never manually entered — they cannot drift from the Results Portal's own numbers. Stream descriptions are editable via the Academic Programs admin screen (F-165); the set of streams itself is fixed by the national A/L system, not a create/delete list.
+
+**F-166 · Administration Page** A role-grouped view of the existing Staff Module (F-139): Principal, Vice Principals, Heads of Department, and Board of Management, each shown via StaffCard, plus an AdvisoryBoardSection for the Board specifically. No new admin module — administrators are entered as staff like anyone else; this page is a filtered query, not a new content type.
+
+**F-167 · Extracurriculars Page** Sports teams and co-curricular activities (cricket, athletics, scouting, cadetting) via ExtracurricularCard — distinct from Societies (F-123/F-124), which covers academic and interest clubs. Includes an ExtracurricularsJoinCTA section.
+
 ---
 
 ## Group 17 — Admin CMS (`apps/admin`)
@@ -378,7 +388,7 @@ Features are grouped by concern. The build order is defined in the **Engineering
 
 **F-146 · Analytics Dashboard Module** The custom analytics interface in admin: views by day/week/month, top pages, zero-result searches, results portal usage, content performance, locale and device distribution.
 
-**F-147 · User Management Module** List all admin users with roles. Invite new users by email. Role assignment. Password reset initiation. User deactivation. Roles enforced — an Editor cannot access this module.
+**F-147 · User Management Module** List all admin users with roles. Invite new users by adding their `@cwwkcc.lk` email to the allowlist (F-061) — they then sign in with their own Google account, no password to set or reset. Role assignment. User deactivation. Roles enforced — an Editor cannot access this module.
 
 **F-148 · Announcements Module** Create announcements with variant (info, warning, error), message, publish date, optional expiry. View active and past. Deactivate or expire. Simple and deliberate — not a full notification platform.
 
@@ -389,6 +399,18 @@ Features are grouped by concern. The build order is defined in the **Engineering
 **F-151 · Content Preview Mode** Editors can see a live preview of draft content before publishing. Preview is accessible only to authenticated admin users. The public site never shows draft content to unauthenticated visitors.
 
 **F-152 · Content Versioning** Every published content edit creates a version snapshot. Editors can view the version history of any article and revert to a previous state. Prevents accidental content loss.
+
+**F-165 · Academic Programs Admin Screen** Config-style, not a CRUD module — the same editing pattern as Settings (F-150). A fixed set of stream entries with editable description, subject list, image, and contact department. No create, no delete, no draft/publish workflow, no versioning — streams don't get added or removed by content editors, only their descriptive content changes.
+
+**F-168 · Extracurriculars Module** Full CRUD, identical shape to the Societies Module (F-141): name, category, description, coach/advisor via staff selection, achievements, photo, active/inactive status. Unlike Academic Programs, activities genuinely get added and retired over the years.
+
+**F-169 · Alumni Module** Two entry paths into one list: admin-direct entry for building the initial alumni dataset, and public submissions awaiting moderation. Filterable by status (pending/approved/rejected), graduation year, profession. Approve publishes immediately to the public directory; reject discards with an optional logged reason. Editable before approving, since public submissions may be incomplete. The Dashboard's pending-items count (F-137) links directly into this module's pending filter.
+
+**F-170 · Achievement Module** CRUD for the Achievement Database (F-133): student name, category (academic/sports/arts/competition), achievement level, description, year, optional photo, optional link to a related News article. Same simple create/edit/delete shape as Events — no draft/review workflow.
+
+**F-171 · Digital Archive Module** Curated content layer over the Media Library (F-144), not a replacement for it. Each entry has a title, year, category (photograph/magazine/prize-giving record/prefect list), description, and a file uploaded through the standard Media Library pipeline. Year and category are what the public Digital Archive page (F-132) filters and full-text-searches by — the Media Library alone has no concept of "this PDF is the 1987 prefects list."
+
+**F-172 · Facilities Module** Full CRUD, lighter than Societies: name, category, description, photo(s), display order. Unlike Academic Programs, the facility list isn't nationally fixed — the school adds a new lab or renovates a building and should be able to reflect that without a developer.
 
 ---
 
@@ -432,7 +454,7 @@ Features are grouped by concern. The build order is defined in the **Engineering
 |Validation|F-042 – F-044|3|
 |Database|F-045 – F-052|8|
 |API Layer|F-053 – F-059|7|
-|Authentication & Access Control|F-060 – F-068|9|
+|Authentication & Access Control|F-060 – F-068, F-173|10|
 |Internationalisation|F-069 – F-075|7|
 |Error Handling & Resilience|F-076 – F-080|5|
 |Logging & Monitoring|F-081 – F-086|6|
@@ -441,11 +463,11 @@ Features are grouped by concern. The build order is defined in the **Engineering
 |Performance|F-097 – F-103|7|
 |Infrastructure & Deployment|F-104 – F-113|10|
 |Testing|F-114 – F-116|3|
-|Public Website|F-117 – F-135|19|
-|Admin CMS|F-136 – F-152|17|
+|Public Website|F-117 – F-135, F-164, F-166 – F-167|22|
+|Admin CMS|F-136 – F-152, F-165, F-168 – F-172|23|
 |PWA & Offline Support|F-153 – F-155|3|
 |Comprehensive Project Documentation|F-156 – F-163|8|
-|**Total**||**163**|
+|**Total**||**173**|
 
 ---
 

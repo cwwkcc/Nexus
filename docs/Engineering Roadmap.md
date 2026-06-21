@@ -33,7 +33,7 @@ Every phase has a clear purpose, a list of tasks, and a reason for each task. Th
 
 This document covers the full journey from the very beginning so that any future developer — or any auditor of the work — can understand every decision made.
 
-This roadmap defines the build order. **`Feature Registry.md` defines the build scope** — it is the single authoritative, numbered list (F-001 through F-163) of every feature Nexus will include, and nothing is built that isn't listed there. The two documents must stay in sync: every task below exists to build one or more registry features, and every registry feature has a home in one of the phases below. When the two disagree, the Feature Registry wins and this document is updated to match.
+This roadmap defines the build order. **`Feature Registry.md` defines the build scope** — it is the single authoritative, numbered list (F-001 through F-173) of every feature Nexus will include, and nothing is built that isn't listed there. The two documents must stay in sync: every task below exists to build one or more registry features, and every registry feature has a home in one of the phases below. When the two disagree, the Feature Registry wins and this document is updated to match.
 
 ---
 
@@ -361,11 +361,15 @@ Run `prisma migrate dev --name init` to create the first migration. Commit the
 
 ### Task 6.3 — Implement Authentication
 
-Set up Auth.js with the Prisma adapter and Credentials provider. Create the login page in `apps/admin`. Implement bcrypt password hashing. Create the middleware that protects all admin routes and redirects unauthenticated users to the login page. Create the initial admin user via a seed script. Authentication is the most security-critical piece of the entire platform — it must be complete before any other admin functionality.
+Set up Auth.js with the Prisma adapter and the Google provider as the primary sign-in method, restricted to the school's `@cwwkcc.lk` Google Workspace domain — verified server-side in the `signIn` callback, never by trusting the `hd` claim alone, since it can be spoofed outside a genuine Workspace flow. Successful Google authentication is not sufficient on its own: a new admin's email must already exist in the `User` table with an assigned role, added there by an existing Admin, before their session is created — Nexus's own `User` table is the source of truth for access, not the school's Google directory. Create the middleware that protects all admin routes and redirects unauthenticated users to the login page. Authentication is the most security-critical piece of the entire platform — it must be complete before any other admin functionality.
+
+### Task 6.3b — Seed the Break-Glass Admin Account and Implement TOTP
+
+Seed one Credentials-based super-admin account from environment variables (`ADMIN_EMAIL`, `ADMIN_PASSWORD`, bcrypt-hashed) at first deploy — used only to invite the first real `@cwwkcc.lk` admins and for emergency recovery if Google OAuth becomes unavailable (a Workspace misconfiguration, an OAuth app restriction, a Google outage). Implement TOTP (RFC 6238) for this account specifically: QR-code setup against a standard authenticator app, ten single-use backup codes generated once at setup and shown only that one time. No other admin account needs this — every other admin's account security is inherited from the school's own Google Workspace 2FA enforcement, a setting controlled entirely outside Nexus. If the break-glass password is lost, it is rotated via a server-side CLI script over SSH, never a self-service email flow — an internet-facing reset surface on the platform's single highest-privilege bypass account is a liability, not a convenience.
 
 ### Task 6.4 — Implement tRPC
 
-Set up the tRPC server in `packages/api`. Define the router structure: newsRouter, staffRouter, eventsRouter, societiesRouter, galleryRouter, achievementsRouter, alumniRouter, resultsRouter, mediaRouter, pageConfigRouter, analyticsRouter, auditRouter, notificationRouter, userRouter. Each router defines procedures for list, getById, create, update, delete, and any domain-specific operations (publish, archive, approve). Integrate the tRPC handler into `apps/web`and `apps/admin`. Create the tRPC client configuration for both apps. tRPC is the nervous system of the platform — when it is working, every piece of the admin panel and every data-driven page on the public site can be connected.
+Set up the tRPC server in `packages/api`. Define the router structure: newsRouter, staffRouter, eventsRouter, societiesRouter, galleryRouter, achievementsRouter, alumniRouter, resultsRouter, academicsRouter, extracurricularsRouter, facilitiesRouter, archiveRouter, mediaRouter, pageConfigRouter, analyticsRouter, auditRouter, notificationRouter, userRouter. Each router defines procedures for list, getById, create, update, delete, and any domain-specific operations (publish, archive, approve). Integrate the tRPC handler into `apps/web` and `apps/admin`. Create the tRPC client configuration for both apps. tRPC is the nervous system of the platform — when it is working, every piece of the admin panel and every data-driven page on the public site can be connected.
 
 ### Task 6.4b — Implement Platform-Wide Rate Limiting
 
@@ -451,7 +455,7 @@ Build the custom analytics dashboard. This is not a third-party embed — it is 
 
 ### Task 7.12 — User Management Module
 
-Build the user administration interface. List all admin users with their roles. Invite new users by email. Role assignment (Admin has full access; Editor can create and edit content but cannot manage users, access settings, or delete published content). Password reset flow. User deactivation (never delete users — deactivated users are retained for audit log integrity).
+Build the user administration interface. List all admin users with their roles. Invite new users by adding their `@cwwkcc.lk` email to the allowlist — they sign in with their own Google account, no password to set or reset. Role assignment (Admin has full access; Editor can create and edit content but cannot manage users, access settings, or delete published content). User deactivation (never delete users — deactivated users are retained for audit log integrity).
 
 ### Task 7.13 — Announcements Module
 
@@ -464,6 +468,32 @@ Build the audit log viewer. Chronological feed of all admin actions with filters
 ### Task 7.15 — Settings Module
 
 Build the global platform settings interface: school name, address, contact details, social media URLs, school founding year, school motto. These values are read by the public site for the footer, JSON-LD structured data, and metadata.
+
+> Tasks 7.16–7.21 were added in a later completeness audit that cross-referenced the Feature Registry against Page Specifications.md's route table — six admin modules had no task anywhere in this roadmap despite their public-facing pages already being specified (F-165, F-168 through F-172).
+
+### Task 7.16 — Academic Programs Admin Screen
+
+Build a config-style screen, not a CRUD module — the same editing pattern as Task 7.15's Settings Module. A fixed set of stream entries (Bio Science, Physical Science, Commerce, Arts, Technology) with editable description, subject list, image, and contact department. No create, no delete, no draft/publish workflow — the set of streams is fixed by the national A/L system; only the descriptive content changes. Performance statistics shown on the public Academics page are computed live from `ExamResult` data and have no admin entry surface here at all.
+
+### Task 7.17 — Extracurriculars Module
+
+Build the extracurriculars management interface, identical in shape to the Societies Module (Task 7.6): name, category, description, coach/advisor via staff member selection, achievements, photo, active/inactive status. Unlike Academic Programs, activities genuinely get added and retired over the years, so this needs full create/edit/delete.
+
+### Task 7.18 — Alumni Module
+
+Build the alumni management interface with two entry paths feeding one list: admin-direct entry, for building the initial historical dataset at launch, and public self-submissions awaiting moderation. List filterable by status (pending/approved/rejected), graduation year, profession. Approve publishes immediately to the public directory; reject discards with an optional logged reason. Editable before approving, since public submissions may be incomplete or contain typos. The Dashboard's pending-items count (Task 7.2) links directly into this module's pending filter.
+
+### Task 7.19 — Achievement Module
+
+Build the achievement database management interface: student name, category (academic/sports/arts/competition), achievement level, description, year, optional photo, optional link to a related News article. Simple create/edit/delete, the same shape as the Events Module — no draft/review workflow needed.
+
+### Task 7.20 — Digital Archive Module
+
+Build the digital archive management interface as a curated content layer over the Media Library (Task 7.9), not a replacement for it. Each entry has a title, year, category (photograph/magazine/prize-giving record/prefect list), description, and a file uploaded through the standard Media Library pipeline. Year and category are what the public Digital Archive page filters and full-text-searches by — the Media Library alone has no concept of what a given file actually is.
+
+### Task 7.21 — Facilities Module
+
+Build the facilities management interface: name, category, description, photo(s), display order. Full create/edit/delete — unlike Academic Programs, the facility list isn't nationally fixed, and the school should be able to add a new lab or renovate a building without a developer.
 
 ---
 
@@ -497,7 +527,7 @@ Build the societies listing page (filterable by category) and the individual soc
 
 ### Task 8.6 — Facilities Page
 
-Build the facilities page using FacilityCard components. Content is managed through the admin panel's settings or a dedicated facilities module. Facilities change rarely but the ability to update descriptions and photos without a developer is important.
+Build the facilities page using FacilityCard components. Content is managed through the Facilities Module (Task 7.21) — full create/edit/delete, since the facility list isn't fixed and the school adds or retires facilities on its own schedule.
 
 ### Task 8.7 — Admissions Page
 
@@ -530,6 +560,20 @@ Build the achievement database as a filterable, searchable record of the school'
 ### Task 8.14 — Search
 
 Build the unified search interface. A single search box, accessible from every page via the navigation, queries across all content types simultaneously: news articles, events, staff profiles, societies, gallery albums, archive records, achievement records. The search is powered by PostgreSQL full-text search with support for Sinhala, Tamil, and English terms. Results are grouped by content type and ranked by relevance. Every new content type added to the platform is automatically searchable because the search index is built from the database.
+
+> Tasks 8.15–8.17 were added in the same completeness audit as Tasks 7.16–7.21. All three routes (`/academics`, `/administration`, `/extracurriculars`) already existed in Page Specifications.md's route table with no corresponding build task anywhere in this roadmap.
+
+### Task 8.15 — Academics Page
+
+Build the academics page: academic streams (Bio Science, Physical Science, Commerce, Arts, Technology) via AcademicStreamCard, with subject lists and a StreamComparisonTable for side-by-side comparison. Performance visualizations (pass rate by stream, university entrance rate, subject popularity) are computed live from `ExamResult` data via a query, never read from a separately maintained admin record — they cannot drift from the Results Portal's own numbers this way. Stream descriptions come from the Academic Programs Admin Screen (Task 7.16).
+
+### Task 8.16 — Administration Page
+
+Build the administration page as a role-grouped view of the existing Staff Module data (Task 7.4): Principal, Vice Principals, Heads of Department, and the Board of Management, each via StaffCard. No new admin module — administrators are entered as staff like anyone else; this page is a filtered query over the Staff table, not a new content type.
+
+### Task 8.17 — Extracurriculars Page
+
+Build the extracurriculars page: sports teams and co-curricular activities (cricket, athletics, scouting, cadetting) via ExtracurricularCard, reading from the Extracurriculars Module (Task 7.17) — distinct from the Societies Hub (Task 8.5), which covers academic and interest clubs.
 
 ---
 
@@ -835,8 +879,10 @@ This is not perfectionism for its own sake. It is the baseline quality required 
 
 ## Document History
 
-**This revision** aligns the roadmap to `Feature Registry.md` (163 features) as the now-authoritative feature scope. Changes made: added Nx orchestration (Task 1.1) and dependency vulnerability scanning (Task 1.6b); added the Design System documentation set (Task 2.8b); expanded Phase 3 from 13 to 21 tasks to cover all 20 component groups in the registry (Icon Registry, Overlay, Navigation, Media, Section, Typography, and Utility Components, AmbientEmbers); added section-level error boundaries to Task 4.2; added unit testing infrastructure (Task 4.7) and a translation workflow document (Task 4.6b); added platform-wide rate limiting (Task 6.4b), database hardening covering soft-deletes/connection pooling/cleanup jobs (Task 6.9), and API integration tests (Task 6.10); added programmatic OG images and sitemap-ping-on-publish to Phase 10; resolved a direct contradiction in ADR-007 and Task 11.3 — the roadmap previously rejected Umami as an analytics alternative while the registry now includes it as a self-hosted backup, so ADR-007 and the Docker Compose service list (four services → five) were rewritten to match; added optional Sentry error tracking (Task 11.7b) and continuous Lighthouse CI (Task 11.6b); added the end-to-end test suite (Task 12.0), closing the gap where unit, integration, and E2E testing — all present in the registry — previously had no home anywhere in this document.
+**This revision** aligns the roadmap to the F-164–F-173 patch and the Google Workspace OAuth decision. Changes made: rewrote Task 6.3 to use Google OAuth restricted to `@cwwkcc.lk` with invite-based access instead of Credentials/bcrypt as the primary path; added Task 6.3b for the break-glass admin account and its TOTP requirement; added four routers (academics, extracurriculars, facilities, archive) to Task 6.4's tRPC router list; removed the password-reset reference from Task 7.12 (Google-authenticated admins have no password to reset); added Tasks 7.16–7.21 for six admin modules (Academic Programs, Extracurriculars, Alumni, Achievement, Digital Archive, Facilities) that had Feature Registry entries but no roadmap task; resolved Task 8.6’s hedge between "settings or a dedicated facilities module" now that Task 7.21 exists; added Tasks 8.15–8.17 for three public pages (Academics, Administration, Extracurriculars) whose routes already existed in Page Specifications.md with no corresponding build task.
+
+**Previous revision** aligns the roadmap to `Feature Registry.md` (163 features) as the now-authoritative feature scope. Changes made: added Nx orchestration (Task 1.1) and dependency vulnerability scanning (Task 1.6b); added the Design System documentation set (Task 2.8b); expanded Phase 3 from 13 to 21 tasks to cover all 20 component groups in the registry (Icon Registry, Overlay, Navigation, Media, Section, Typography, and Utility Components, AmbientEmbers); added section-level error boundaries to Task 4.2; added unit testing infrastructure (Task 4.7) and a translation workflow document (Task 4.6b); added platform-wide rate limiting (Task 6.4b), database hardening covering soft-deletes/connection pooling/cleanup jobs (Task 6.9), and API integration tests (Task 6.10); added programmatic OG images and sitemap-ping-on-publish to Phase 10; resolved a direct contradiction in ADR-007 and Task 11.3 — the roadmap previously rejected Umami as an analytics alternative while the registry now includes it as a self-hosted backup, so ADR-007 and the Docker Compose service list (four services → five) were rewritten to match; added optional Sentry error tracking (Task 11.7b) and continuous Lighthouse CI (Task 11.6b); added the end-to-end test suite (Task 12.0), closing the gap where unit, integration, and E2E testing — all present in the registry — previously had no home anywhere in this document.
 
 ---
 
-_C.W.W. Kannangara Central College, Est. 1873. "Wisdom is All Wealth."_ _Nexus Platform — Kannangara ICT Society (KITS)_ </file>
+_C.W.W. Kannangara Central College, Est. 1873. "Wisdom is All Wealth."_ _Nexus Platform — Kannangara ICT Society (KITS)_
