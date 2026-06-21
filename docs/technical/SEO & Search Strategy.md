@@ -10,35 +10,35 @@ This document defines the strategy for search engine optimisation (SEO) and inte
 
 Pattern: `{Page specific title} | C.W.W. Kannangara Central College`
 
-| Page | Title | Max 60 chars |
-|------|-------|---------------|
-| Home | `C.W.W. Kannangara Central College – Mathugama, Sri Lanka` | 52 |
-| About | `About Us – History, Mission, Values | KCC` | 45 |
-| Academics | `Academic Programmes – Science, Commerce, Arts, Technology | KCC` | 60 |
-| Admissions | `Admissions – Apply to C.W.W. Kannangara Central College` | 52 |
-| News | `News & Announcements | KCC` | 32 |
-| Results | `Results Portal – Exam Results | KCC` | 39 |
-| Facilities | `Facilities – Campus, Labs, Library, Sports, Pool | KCC` | 55 |
-| Societies | `Societies – Clubs & Organisations | KCC` | 42 |
-| Gallery | `Gallery – Moments at KCC` | 23 |
-| Contact | `Contact Us – KCC` | 17 |
+|Page|Title|Max 60 chars|
+|---|---|---|
+|Home|`C.W.W. Kannangara Central College – Mathugama, Sri Lanka`|52|
+|About|`About Us – History, Mission, Values|KCC`|
+|Academics|`Academic Programmes – Science, Commerce, Arts, Technology|KCC`|
+|Admissions|`Admissions – Apply to C.W.W. Kannangara Central College`|52|
+|News|`News & Announcements|KCC`|
+|Results|`Results Portal – Exam Results|KCC`|
+|Facilities|`Facilities – Campus, Labs, Library, Sports, Pool|KCC`|
+|Societies|`Societies – Clubs & Organisations|KCC`|
+|Gallery|`Gallery – Moments at KCC`|23|
+|Contact|`Contact Us – KCC`|17|
 
 ### Description
 
 Length: 120–160 characters. Unique per page.
 
-| Page | Description |
-|------|-------------|
-| Home | `Sri Lanka's first Central College — 153 years of shaping minds. Explore academics, admissions, results, and school life at KCC Mathugama.` |
-| About | `Learn about our 153‑year history, founder Dr. C.W.W. Kannangara, mission, values, and alumni legacy.` |
-| Academics | `Explore our A/L streams (Science, Commerce, Arts, Technology), subject offerings, career pathways, and outstanding exam results.` |
-| Admissions | `Applications for Grade 1 and other classes. Process steps, key dates, requirements, and enquiry form.` |
-| News | `Latest announcements, academic achievements, sports victories, and upcoming events at C.W.W. Kannangara Central College.` |
-| Results | `View O/L, A/L, and Scholarship exam results securely using your index number. Download official result sheets.` |
-| Facilities | `Explore our modern amenities – science labs, ICT labs, auditorium, swimming pool, library, and sports grounds.` |
-| Societies | `Discover student clubs – academic, cultural, sports, and technology societies. Join KITS, Science Society, Drama Club, and more.` |
-| Gallery | `Photo albums from prize givings, sports meets, cultural events, and everyday school life at KCC.` |
-| Contact | `Get in touch with our departments, send a general enquiry, provide feedback, or find directions to our campus.` |
+|Page|Description|
+|---|---|
+|Home|`Sri Lanka's first Central College — 153 years of shaping minds. Explore academics, admissions, results, and school life at KCC Mathugama.`|
+|About|`Learn about our 153‑year history, founder Dr. C.W.W. Kannangara, mission, values, and alumni legacy.`|
+|Academics|`Explore our A/L streams (Science, Commerce, Arts, Technology), subject offerings, career pathways, and outstanding exam results.`|
+|Admissions|`Applications for Grade 1 and other classes. Process steps, key dates, requirements, and enquiry form.`|
+|News|`Latest announcements, academic achievements, sports victories, and upcoming events at C.W.W. Kannangara Central College.`|
+|Results|`View O/L, A/L, and Scholarship exam results securely using your index number. Download official result sheets.`|
+|Facilities|`Explore our modern amenities – science labs, ICT labs, auditorium, swimming pool, library, and sports grounds.`|
+|Societies|`Discover student clubs – academic, cultural, sports, and technology societies. Join KITS, Science Society, Drama Club, and more.`|
+|Gallery|`Photo albums from prize givings, sports meets, cultural events, and everyday school life at KCC.`|
+|Contact|`Get in touch with our departments, send a general enquiry, provide feedback, or find directions to our campus.`|
 
 ---
 
@@ -105,35 +105,35 @@ Implement JSON‑LD in `<head>` using Next.js `generateMetadata`.
 
 ## Sitemap
 
-- Generated automatically using `next-sitemap`.
-- **Included:** All public pages (`/en/*`), news articles, society pages, gallery albums.
+- Generated using Next.js's native `sitemap.ts` route convention (`app/sitemap.ts`) — no third-party package.
+- **Included:** All public pages (`/en/*`, `/si/*`), news articles, society pages, gallery albums.
 - **Excluded:** Results search (query parameters), admin routes.
 
-Configuration (`next-sitemap.config.js`):
+Implementation (`apps/web/src/app/sitemap.ts`):
 
-```javascript
-module.exports = {
-  siteUrl: 'https://cwwkcc.lk',
-  generateRobotsTxt: true,
-  changefreq: 'weekly',
-  priority: 0.7,
-  transform: (config, path) => {
-    const priorities = {
-      '/': 1.0,
-      '/en/about': 0.9,
-      '/en/academics': 0.9,
-      '/en/admissions': 0.9,
-      '/en/news': 0.8,
-    };
-    return {
-      loc: path,
-      changefreq: config.changefreq,
-      priority: priorities[path] || config.priority,
-      lastmod: new Date().toISOString(),
-    };
-  },
-};
+```typescript
+import type { MetadataRoute } from 'next';
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const staticRoutes = [
+    { url: 'https://cwwkcc.lk/', priority: 1.0, changeFrequency: 'weekly' as const },
+    { url: 'https://cwwkcc.lk/en/about', priority: 0.9, changeFrequency: 'monthly' as const },
+    { url: 'https://cwwkcc.lk/en/academics', priority: 0.9, changeFrequency: 'monthly' as const },
+    { url: 'https://cwwkcc.lk/en/admissions', priority: 0.9, changeFrequency: 'monthly' as const },
+    { url: 'https://cwwkcc.lk/en/news', priority: 0.8, changeFrequency: 'daily' as const },
+  ];
+  const newsArticles = await getPublishedNewsSlugs(); // queries the database directly
+  const dynamicRoutes = newsArticles.map((slug) => ({
+    url: `https://cwwkcc.lk/en/news/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.6,
+  }));
+  return [...staticRoutes, ...dynamicRoutes];
+}
 ```
+
+Querying the database directly inside `sitemap.ts` means dynamic routes (news articles, events, society pages) are always current — there is no separate config file to keep in sync with what's actually published.
 
 Submit to Google Search Console and Bing Webmaster Tools.
 
@@ -141,17 +141,17 @@ Submit to Google Search Console and Bing Webmaster Tools.
 
 ## Open Graph (Social Sharing)
 
-Use `next/og` or static images. Required for all pages.
+Generated programmatically via `next/og` (`ImageResponse`) in an `opengraph-image.tsx` per route — not static images. Required for all pages.
 
-| Property | Value |
-|----------|-------|
-| `og:title` | Same as meta title |
-| `og:description` | Same as meta description |
-| `og:image` | Page‑specific image (1200×630px) or fallback |
-| `og:url` | Canonical URL |
-| `og:type` | `website` (home), `article` (news), `profile` (staff) |
+|Property|Value|
+|---|---|
+|`og:title`|Same as meta title|
+|`og:description`|Same as meta description|
+|`og:image`|Generated at request time from the page title, category, and the school crest|
+|`og:url`|Canonical URL|
+|`og:type`|`website` (home), `article` (news), `profile` (staff)|
 
-**Fallback OG image:** `/images/og-fallback.jpg`
+**Fallback:** if a route has no `opengraph-image.tsx` of its own, Next.js falls back to the nearest parent route's generated image — there is no separate static fallback file to keep updated.
 
 ---
 
@@ -175,10 +175,9 @@ Every page must have `rel="canonical"` to itself. Next.js `generateMetadata` han
 
 ## Site Search (Internal)
 
-- **v1.1:** News search (client-side filter by title, excerpt, category).
-- **Future:** MeiliSearch or Algolia for site-wide search.
+Unified, server-side search across all content types — news, events, staff, societies, gallery albums, archive records, achievement records — powered by PostgreSQL full-text search with support for Sinhala, Tamil, and English (Feature Registry F‑134, Roadmap Task 8.14). Not a client-side filter limited to one content type, and not deferred to a third-party search service — every new content type added to the platform is automatically searchable because the index is built from the database itself.
 
-**Search UI:** `SearchInput` component with autocomplete.
+**Search UI:** `SearchInput` component with autocomplete, plus a dedicated results page grouping matches by content type.
 
 ---
 
@@ -190,21 +189,21 @@ Every page must have `rel="canonical"` to itself. Next.js `generateMetadata` han
 
 ## Performance Impact on SEO
 
-Good SEO requires good performance (Core Web Vitals). See [Performance Budgets](./Performance%20Budgets.md).
+Good SEO requires good performance (Core Web Vitals). See [Performance Budgets](https://claude.ai/chat/Performance%20Budgets.md).
 
 - LCP < 2.5s
 - CLS < 0.1
-- FID < 100ms
+- INP < 200ms
 
 ---
 
 ## Monitoring & Reporting
 
-| Tool | Purpose |
-|------|---------|
-| Google Search Console | Index coverage, search queries, Core Web Vitals |
-| Umami | Page views, events, referrers |
-| Lighthouse CI | Performance, SEO scores |
+|Tool|Purpose|
+|---|---|
+|Google Search Console|Index coverage, search queries, Core Web Vitals|
+|Umami (secondary cross-check)|Page views, events, referrers|
+|Lighthouse CI|Performance, SEO scores|
 
 **Quarterly SEO audit:** Check broken links, duplicate content, missing metadata.
 
@@ -212,10 +211,10 @@ Good SEO requires good performance (Core Web Vitals). See [Performance Budgets](
 
 ## Related Documents
 
-- [Content Governance – SEO Content Standards](../governance/Content%20Governance.md#seo-content-standards)
-- [Page Specifications – SEO Metadata Per Page](../Design%20System/Page%20Specifications.md)
-- [Performance Budgets](./Performance%20Budgets.md)
+- [Content Governance – SEO Content Standards](https://claude.ai/governance/Content%20Governance.md#seo-content-standards)
+- [Page Specifications – SEO Metadata Per Page](https://claude.ai/Design%20System/Page%20Specifications.md)
+- [Performance Budgets](https://claude.ai/chat/Performance%20Budgets.md)
 
 ---
 
-*C.W.W. Kannangara Central College – Est. 1873 – Wisdom is All Wealth*
+_C.W.W. Kannangara Central College – Est. 1873 – Wisdom is All Wealth_

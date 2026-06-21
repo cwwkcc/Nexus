@@ -1,29 +1,39 @@
 ## Overview
 
-Nexus uses **Umami** (self‑hosted) for privacy‑respecting analytics. This document defines all custom events, properties, and privacy considerations.
+Nexus uses a custom, first-party event collector — built into Next.js middleware plus a dedicated API route — as the system of record for analytics (see `Engineering Roadmap.md`, ADR-007 and Task 7.11). Page views are captured automatically server-side; custom events are sent via a first-party fetch call to the platform's own API, never a third-party script. **Umami**, self-hosted on the same Hetzner server, runs as an independent secondary view — a sanity check that doesn't depend on the platform's own collection code being correct, not the primary data source. If Umami's container is down, the platform's own numbers are unaffected.
 
-**Umami dashboard:** `https://analytics.cwwkcc.lk` (internal only)
+This document defines all custom events, properties, and privacy considerations for the primary collector.
+
+**Primary dashboard:** the Analytics Module inside `apps/admin` (Task 7.11), reading from the platform's own data store. **Secondary dashboard (Umami):** `https://analytics.cwwkcc.lk` (internal only)
 
 ---
 
 ## Page Views (Automatic)
 
-Umami automatically tracks page views. No custom event needed.
+Captured server-side by Next.js middleware on every request to the public site — no client-side code, no script tag, nothing for the browser to load. Umami also tracks page views client-side as the secondary signal, so the two numbers can be compared.
 
 ---
 
 ## Custom Events
 
-All events are sent via `window.umami.track(eventName, payload)`. Use a shared utility:
+All custom events are sent via a first-party fetch call to the platform's own API route — never a third-party script, and never a direct `window.umami.track()` call from component code. Use a shared utility:
 
 ```typescript
 // lib/analytics.ts
 export const trackEvent = (eventName: string, payload?: Record<string, unknown>) => {
-  if (typeof window !== 'undefined' && (window as any).umami) {
-    (window as any).umami.track(eventName, payload);
-  }
+  if (typeof window === 'undefined') return;
+  fetch('/api/events', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ eventName, payload }),
+    keepalive: true,
+  }).catch(() => {
+    // Analytics must never break the page. Fail silently.
+  });
 };
 ```
+
+The API route writes the event to the platform's own analytics table, which feeds the Analytics Module (Task 7.11). Where Umami is also configured, the same route can optionally mirror the event to it server-side — the public site itself never loads Umami's tracking script for custom events, only (optionally) for the automatic page-view signal mentioned above.
 
 ---
 
@@ -33,10 +43,10 @@ export const trackEvent = (eventName: string, payload?: Record<string, unknown>)
 
 **Properties:**
 
-| Property | Type | Description |
-|----------|------|-------------|
-| `page` | string | Current page path |
-| `cta_position` | string | `hero`, `nav`, `footer`, `sidebar`, `in‑content` |
+|Property|Type|Description|
+|---|---|---|
+|`page`|string|Current page path|
+|`cta_position`|string|`hero`, `nav`, `footer`, `sidebar`, `in‑content`|
 
 **Example:**
 
@@ -52,11 +62,11 @@ trackEvent('cta_admissions_click', { page: '/', cta_position: 'hero' });
 
 **Properties:**
 
-| Property | Type | Description |
-|----------|------|-------------|
-| `exam_type` | string | `ol`, `al`, `scholarship` |
-| `year` | number | Exam year |
-| `success` | boolean | Whether results were found |
+|Property|Type|Description|
+|---|---|---|
+|`exam_type`|string|`ol`, `al`, `scholarship`|
+|`year`|number|Exam year|
+|`success`|boolean|Whether results were found|
 
 **Important:** Do **not** send index number, name, or any PII.
 
@@ -74,9 +84,9 @@ trackEvent('results_search', { exam_type: 'ol', year: 2025, success: true });
 
 **Properties:**
 
-| Property | Type | Description |
-|----------|------|-------------|
-| `society_slug` | string | Slug of the society (e.g., `kits`) |
+|Property|Type|Description|
+|---|---|---|
+|`society_slug`|string|Slug of the society (e.g., `kits`)|
 
 **Example:**
 
@@ -92,10 +102,10 @@ trackEvent('society_join_click', { society_slug: 'kits' });
 
 **Properties:**
 
-| Property | Type | Description |
-|----------|------|-------------|
-| `article_title` | string | Title of the article |
-| `category` | string | `academic`, `sports`, `events`, `achievements` |
+|Property|Type|Description|
+|---|---|---|
+|`article_title`|string|Title of the article|
+|`category`|string|`academic`, `sports`, `events`, `achievements`|
 
 **Example:**
 
@@ -111,9 +121,9 @@ trackEvent('news_article_opened', { article_title: 'KITS Launches Nexus', catego
 
 **Properties:**
 
-| Property | Type | Description |
-|----------|------|-------------|
-| `form_type` | string | `general`, `feedback` |
+|Property|Type|Description|
+|---|---|---|
+|`form_type`|string|`general`, `feedback`|
 
 **Example:**
 
@@ -129,9 +139,9 @@ trackEvent('contact_form_submit', { form_type: 'general' });
 
 **Properties:**
 
-| Property | Type | Description |
-|----------|------|-------------|
-| `album_title` | string | Title of the album |
+|Property|Type|Description|
+|---|---|---|
+|`album_title`|string|Title of the album|
 
 **Example:**
 
@@ -147,9 +157,9 @@ trackEvent('gallery_album_view', { album_title: 'Prize Giving 2025' });
 
 **Properties:**
 
-| Property | Type | Description |
-|----------|------|-------------|
-| `document_name` | string | File name or identifier (e.g., `admission-form-2026`) |
+|Property|Type|Description|
+|---|---|---|
+|`document_name`|string|File name or identifier (e.g., `admission-form-2026`)|
 
 **Example:**
 
@@ -159,16 +169,16 @@ trackEvent('download_document', { document_name: 'admission-form-2026' });
 
 ---
 
-### 8. `search_query` (optional, future)
+### 8. `search_query`
 
-**Trigger:** When a user performs a site‑wide search (if implemented).
+**Trigger:** When a user performs a site‑wide search (Feature Registry F‑134, Roadmap Task 8.14).
 
 **Properties:**
 
-| Property | Type | Description |
-|----------|------|-------------|
-| `query` | string | Search term (aggregated, not stored per user) |
-| `result_count` | number | Number of results |
+|Property|Type|Description|
+|---|---|---|
+|`query`|string|Search term (aggregated, not stored per user)|
+|`result_count`|number|Number of results|
 
 ---
 
@@ -179,12 +189,11 @@ Wrap the `trackEvent` call in a `useAnalytics` hook:
 ```typescript
 // hooks/useAnalytics.ts
 import { useCallback } from 'react';
+import { trackEvent } from '@/lib/analytics';
 
 export function useAnalytics() {
   const track = useCallback((eventName: string, payload?: Record<string, unknown>) => {
-    if (typeof window !== 'undefined' && (window as any).umami) {
-      (window as any).umami.track(eventName, payload);
-    }
+    trackEvent(eventName, payload);
   }, []);
   return { track };
 }
@@ -208,7 +217,7 @@ const { track } = useAnalytics();
 ## Privacy & Compliance
 
 - **No PII** – Never send personal data (names, index numbers, email addresses).
-- **IP anonymisation** – Umami is configured to anonymise IP addresses.
+- **IP anonymisation** – The custom collector anonymises IP addresses before storage (e.g. zeroing the last octet) — this is enforced in code Nexus owns and can audit directly, not delegated to a third-party's privacy policy. Where Umami also runs, it is separately configured to anonymise IPs as the secondary signal.
 - **Do Not Track** – Respect `navigator.doNotTrack`. If enabled, no events are sent.
 - **Cookie consent** – Events are only sent after user accepts analytics cookies (see `CookieConsentBanner` component).
 
@@ -216,38 +225,40 @@ const { track } = useAnalytics();
 
 ## Dashboard & Access
 
-Umami dashboard accessible only to KITS leads and administration. Credentials managed via environment variables.
+The primary dashboard is the Analytics Module inside the admin panel (Task 7.11) — accessible under the platform's own role-based access control, no separate credential set. The secondary Umami dashboard is restricted to KITS leads and administration, with credentials managed via environment variables.
 
-**Default dashboards:**
+**Default views (primary dashboard):**
+
 - Real‑time visitors
 - Page views over time
 - Event breakdowns
-- Referrers
-- Device / browser statistics
+- Search terms and result counts
+- Device / browser / language distribution
 
-**Custom metrics:** can be created as needed.
+**Custom metrics:** can be added to the primary dashboard as needed, since it reads from a table Nexus controls directly.
 
 ---
 
 ## Testing
 
-During development, use `window.umami.debug = true` to see events in console.
+During development, log events to the console instead of (or before) sending them:
 
-Staging environment sends events to a separate Umami instance (or same with `?umami_debug`).
+```typescript
+if (process.env.NODE_ENV !== 'production') {
+  console.log('[analytics]', eventName, payload);
+}
+```
+
+Staging sends events to a separate analytics table, not the production one. If Umami is also configured for staging, point it at a separate staging instance rather than the production one.
 
 ---
 
 ## Related Documents
 
-- [Foundations](Foundations.md) – privacy and performance
-- [Page Specifications](Page%20Specifications.md) – event placement per page
+- [Foundations](https://claude.ai/chat/Foundations.md) – privacy and performance
+- [Page Specifications](https://claude.ai/chat/Page%20Specifications.md) – event placement per page
+- [Engineering Roadmap](https://claude.ai/Engineering%20Roadmap.md) – ADR-007 (why the custom collector is primary) and Task 7.11 (the Analytics Module)
 
 ---
 
-*C.W.W. Kannangara Central College – Est. 1873 – Wisdom is All Wealth*
-
-
----
-
-
-
+_C.W.W. Kannangara Central College – Est. 1873 – Wisdom is All Wealth_
