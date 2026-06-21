@@ -196,7 +196,7 @@ Features are grouped by concern. The build order is defined in the **Engineering
 
 **F-069 · next-intl Locale Routing** Three locale routes: `/en/`, `/si/`, `/ta/`. The routing is defined in `packages/web/src/i18n/routing.ts`. Every public page is available in all three languages. The admin panel is English-only.
 
-**F-070 · Per-Feature Message Files (UI Chrome Only)** Translation strings are split into separate JSON files per locale per feature area: navigation, common, and the functional form/taxonomy labels embedded within other feature namespaces (search placeholders, filter pills, exam types). Per ADR-009, this no longer includes page-specific editorial prose — hero copy, story and timeline content, mission/vision/ethos text, and similar — which is sourced from `PageContent`(F-174) instead. This prevents a single massive translation file and allows partial updates without touching unrelated strings.
+**F-070 · Per-Feature Message Files** Translation strings are split into separate JSON files per locale per feature area: navigation, common, home, about, news, events, societies, facilities, admissions, results, contact, gallery. This prevents a single massive translation file and allows partial updates without touching unrelated strings.
 
 **F-071 · Complete English Translations** All message keys for all feature areas filled in English. English is the baseline — every key that exists in English must exist in the other locales.
 
@@ -368,7 +368,7 @@ Features are grouped by concern. The build order is defined in the **Engineering
 
 ---
 
-## Group 17 — Admin CMS (`apps/admin`)
+## Group 17 — Admin Panel (`apps/admin`)
 
 **F-136 · Admin Shell Layout** Persistent sidebar navigation, topbar with user avatar and session info, breadcrumb navigation, responsive mobile drawer. Every admin module lives inside this shell. The shell is the first thing built — before any module.
 
@@ -470,7 +470,7 @@ Features are grouped by concern. The build order is defined in the **Engineering
 |Infrastructure & Deployment|F-104 – F-113|10|
 |Testing|F-114 – F-116|3|
 |Public Website|F-117 – F-135, F-164, F-166 – F-167|22|
-|Admin CMS|F-136 – F-152, F-165, F-168 – F-172|23|
+|Admin Panel|F-136 – F-152, F-165, F-168 – F-172|23|
 |PWA & Offline Support|F-153 – F-155|3|
 |Comprehensive Project Documentation|F-156 – F-163|8|
 |**Total**||**173**|
