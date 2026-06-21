@@ -472,9 +472,8 @@ The following identifiers appear in Foundations but are **not design tokens** �
 |`FormFieldGroup`|React component|Layout wrapper for a single form field (label + input + error message).|
 |`FormSectionWrapper`|React component|Layout wrapper for a group of related `FormFieldGroup` elements within a form.|
 
-These have no token values to define here. For their API and usage, see the component documentation in `Components.md`.
+These have no token values to define here. For their API and usage, see the component documentation in `Component Reference.md`.
 
 ---
 
 _C.W.W. Kannangara Central College – Est. 1873 – Wisdom is All Wealth_
-
