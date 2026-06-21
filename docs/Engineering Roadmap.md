@@ -65,6 +65,10 @@ Choose the technology stack with reasons, not trends. For Nexus the decisions ar
 
 Write the formal proposal document for the school principal. This document must answer five questions: What are we building? Why does the school need it? How does it compare to what schools currently have? What will it cost? Who will maintain it after completion? The proposal should include a cost comparison in LKR, a visual mockup or design reference, and a timeline. The goal is not to impress with technical depth but to communicate institutional value clearly.
 
+### Task 0.6 — Secure Initial Approval
+
+Present the proposal to the principal. This approval is not the final launch approval — it is approval to begin work. Without this, all subsequent work is at risk of being rejected. The framing should be: "We are asking for permission to build, not permission to launch."
+
 ---
 
 ## Phase 1 — Repository and Monorepo Foundation
@@ -509,7 +513,7 @@ _The website the world sees_
 
 ### Purpose
 
-Per ADR-009, every page below sources its hero copy and editorial section content from `PageContent` (Task 6.5b) rather than static message strings, except for reusable interface chrome (buttons, form labels, filter pills, taxonomy values), which remains in `navigation.json` and `common.json`.
+Now that the database has data and the admin panel can manage it, the public pages are built to read from it. Every page is a server component by default. Only interactive elements use client components.
 
 ### Task 8.1 — Home Page
 
@@ -517,7 +521,7 @@ Build the home page as a composition of server-rendered blocks: Hero (with Crest
 
 ### Task 8.2 — About Page
 
-The About page is already built and complete as a static demonstration. This task connects it to live data: the statistics come from the database, the alumni profiles come from the `AlumniProfile` table, the principal portrait comes from the Staff table, and the story, timeline, ethos, crest, and anthem sections come from `PageContent` (Task 6.5b) rather than static message strings, per ADR-009.
+The About page is already built and complete as a static demonstration. This task connects it to live data: the statistics come from the database, the alumni profiles come from the AlumniProfile table, the principal portrait comes from the Staff table. The static timeline and story content remains as translated message strings — this content does not change often enough to require database management.
 
 ### Task 8.3 — News Pages
 
@@ -529,7 +533,7 @@ Build the events listing page (with calendar view and list view, filterable by c
 
 ### Task 8.5 — Societies Hub
 
-Build the societies listing page (filterable by category) and the individual society page (banner, description, advisor staff card, recent events, gallery preview). The societies hub is one of the highest-engagement pages for current students.
+Build the societies listing page (filterable by category) and the individual society page (banner, description, advisor staff card, recent events, gallery preview). Implement `generateStaticParams` for individual society pages so they are statically generated at build time and served from the CDN edge, consistent with the news article treatment in Task 8.x. The societies hub is one of the highest-engagement pages for current students.
 
 ### Task 8.6 — Facilities Page
 
@@ -537,11 +541,11 @@ Build the facilities page using FacilityCard components. Content is managed thro
 
 ### Task 8.7 — Admissions Page
 
-Build the admissions information page using ProcessSteps, AdmissionsKeyDatesTimeline, and contact form components. The process steps, requirements checklist, and FAQ content come from `PageContent` (Task 6.5b) — the admissions process doesn't change year-to-year, but it does change, and that should not require a developer. The key dates come from the Events table filtered by the academic-administrative category.
+Build the admissions information page. This is largely static content (the admissions process does not change year-to-year) but uses ProcessSteps, AdmissionsKeyDatesTimeline, and contact form components. The key dates come from the Events table filtered by the academic-administrative category.
 
 ### Task 8.8 — Gallery
 
-Build the gallery listing page (albums sorted by year) and the individual album page (photo grid with lightbox). All images served through `next/image` with proper sizing and blur placeholders.
+Build the gallery listing page (albums sorted by year) and the individual album page (photo grid with lightbox). Implement `generateStaticParams` for individual gallery albums so they are statically generated at build time and served from the CDN edge, matching the static generation already defined for news articles. All images served through `next/image` with proper sizing and blur placeholders.
 
 ### Task 8.9 — Results Portal
 
@@ -655,9 +659,13 @@ Create the R2 bucket for media storage. Configure CORS to allow uploads from the
 
 Write multi-stage Dockerfiles for both `apps/web` and `apps/admin`. Multi-stage builds produce small final images by discarding build tools from the production image. Each Dockerfile follows the same pattern: install dependencies, build the application, create a minimal runtime image with only the built output. The monorepo structure requires careful `COPY` commands to include the correct packages.
 
+### Task 11.2b — Implement Health Check Endpoints (F-059)
+
+Add an `/api/health` route to both `apps/web` and `apps/admin` that returns a 200 with basic service status (and a non-200 if a critical dependency like the database is unreachable). These are the actual HTTP endpoints the Docker healthchecks in Task 11.3 call, and the same endpoints UptimeRobot and the CD pipeline's post-deploy check poll before routing traffic to a new container.
+
 ### Task 11.3 — Write Docker Compose
 
-Write `docker-compose.yml` defining five services: `postgres` (the database, with a named volume for persistence), `nexus-web`(the public website), `nexus-admin` (the admin panel), `umami` (the self-hosted analytics backup — see ADR-007 and Task 11.3b), and `caddy` (the reverse proxy that handles HTTPS automatically via Let's Encrypt). Define environment variable references for secrets. Define health checks for each service so the compose orchestrator can restart an unhealthy container automatically. Define restart policies so services recover from crashes without manual intervention.
+Write `docker-compose.yml` defining five services: `postgres` (the database, with a named volume for persistence), `nexus-web`(the public website), `nexus-admin` (the admin panel), `umami` (the self-hosted analytics backup — see ADR-007 and Task 11.3b), and `caddy` (the reverse proxy that handles HTTPS automatically via Let's Encrypt). Define environment variable references for secrets. Define health checks for each service, pointed at the `/api/health` routes from Task 11.2b, so the compose orchestrator can restart an unhealthy container automatically. Define restart policies so services recover from crashes without manual intervention.
 
 ### Task 11.3b — Deploy Umami as a Self-Hosted Analytics Backup
 
@@ -861,23 +869,23 @@ This is not perfectionism for its own sake. It is the baseline quality required 
 
 ## Current Status
 
-| Phase                                        | Status                                            |
-| :------------------------------------------- | :------------------------------------------------ |
-| Phase 0 — Concept and Planning               | Complete                                          |
-| Phase 1 — Repository and Monorepo Foundation |                                                   |
-| Phase 2 — Design System Foundation           |                                                   |
-| Phase 3 — Component Library                  | 🔄 In Progress — see note below                   |
-| Phase 4 — Architecture Hardening             | 🔄 In Progress                                    |
-| Phase 5 — Principal Presentation             | ⏳ Pending                                         |
-| Phase 6 — Database and Backend               | ⏳ Pending                                         |
-| Phase 7 — Admin Panel                        | ⏳ Pending                                         |
-| Phase 8 — Public Pages                       | 🔄 Partially Complete (About done, others mocked) |
-| Phase 9 — PWA and Offline Support            | ⏳ Pending                                         |
-| Phase 10 — SEO and Structured Data           | ⏳ Pending                                         |
-| Phase 11 — Infrastructure and Deployment     | ⏳ Pending                                         |
-| Phase 12 — Launch Preparation                | ⏳ Pending                                         |
-| Phase 13 — Stabilisation                     | ⏳ Pending                                         |
-| Phase 14 — Post-Launch and Handover          | ⏳ Pending                                         |
+|Phase|Status|
+|:--|:--|
+|Phase 0 — Concept and Planning|✅ Complete|
+|Phase 1 — Repository and Monorepo Foundation|✅ Complete|
+|Phase 2 — Design System Foundation|✅ Complete|
+|Phase 3 — Component Library|🔄 In Progress — see note below|
+|Phase 4 — Architecture Hardening|🔄 In Progress|
+|Phase 5 — Principal Presentation|⏳ Pending|
+|Phase 6 — Database and Backend|⏳ Pending|
+|Phase 7 — Admin Panel|⏳ Pending|
+|Phase 8 — Public Pages|🔄 Partially Complete (About done, others mocked)|
+|Phase 9 — PWA and Offline Support|⏳ Pending|
+|Phase 10 — SEO and Structured Data|⏳ Pending|
+|Phase 11 — Infrastructure and Deployment|⏳ Pending|
+|Phase 12 — Launch Preparation|⏳ Pending|
+|Phase 13 — Stabilisation|⏳ Pending|
+|Phase 14 — Post-Launch and Handover|⏳ Pending|
 
 **Note on Phase 3:** this phase previously read "~95% Complete" against 13 tasks. Aligning the roadmap to the Feature Registry added 8 new component-group tasks (Icon Registry, Overlay, Navigation, Media, Section, Typography, and Utility Components, plus the AmbientEmbers effect) that were not previously broken out as their own line items, so that percentage no longer reflects the phase's true scope. Re-audit Phase 3 against the 21 tasks now listed and update this line with an accurate figure before relying on it again.
 
@@ -885,11 +893,9 @@ This is not perfectionism for its own sake. It is the baseline quality required 
 
 ## Document History
 
-**This revision** introduces ADR-009 (Page Content Architecture) and adds the Page Content system: Task 6.5b creates the `PageContent` table, Zod schemas, `pageContentRouter`, and the one-time migration from static message files; Task 7.10b adds the corresponding admin module. Rewrote Task 8.2 and Task 8.7 to source editorial content from `PageContent` instead of static message strings. `messages/` is now scoped to interface chrome only (`navigation.json`, `common.json`, and embedded form/taxonomy labels elsewhere) — see Feature Registry F-070, F-174–F-176.
+**This revision** aligns the roadmap to the F-164–F-173 patch and the Google Workspace OAuth decision. Changes made: rewrote Task 6.3 to use Google OAuth restricted to `@cwwkcc.lk` with invite-based access instead of Credentials/bcrypt as the primary path; added Task 6.3b for the break-glass admin account and its TOTP requirement; added four routers (academics, extracurriculars, facilities, archive) to Task 6.4's tRPC router list; removed the password-reset reference from Task 7.12 (Google-authenticated admins have no password to reset); added Tasks 7.16–7.21 for six admin modules (Academic Programs, Extracurriculars, Alumni, Achievement, Digital Archive, Facilities) that had Feature Registry entries but no roadmap task; resolved Task 8.6’s hedge between "settings or a dedicated facilities module" now that Task 7.21 exists; added Tasks 8.15–8.17 for three public pages (Academics, Administration, Extracurriculars) whose routes already existed in Page Specifications.md with no corresponding build task.
 
-aligns the roadmap to the F-164–F-173 patch and the Google Workspace OAuth decision. Changes made: rewrote Task 6.3 to use Google OAuth restricted to `@cwwkcc.lk` with invite-based access instead of Credentials/bcrypt as the primary path; added Task 6.3b for the break-glass admin account and its TOTP requirement; added four routers (academics, extracurriculars, facilities, archive) to Task 6.4's tRPC router list; removed the password-reset reference from Task 7.12 (Google-authenticated admins have no password to reset); added Tasks 7.16–7.21 for six admin modules (Academic Programs, Extracurriculars, Alumni, Achievement, Digital Archive, Facilities) that had Feature Registry entries but no roadmap task; resolved Task 8.6’s hedge between "settings or a dedicated facilities module" now that Task 7.21 exists; added Tasks 8.15–8.17 for three public pages (Academics, Administration, Extracurriculars) whose routes already existed in Page Specifications.md with no corresponding build task.
-
-**Previous revision** aligns the roadmap to `Feature Registry.md` (163 features) as the now-authoritative feature scope. Changes made: added Nx orchestration (Task 1.1) and dependency vulnerability scanning (Task 1.6b); added the Design System documentation set (Task 2.8b); expanded Phase 3 from 13 to 21 tasks to cover all 20 component groups in the registry (Icon Registry, Overlay, Navigation, Media, Section, Typography, and Utility Components, AmbientEmbers); added section-level error boundaries to Task 4.2; added unit testing infrastructure (Task 4.7) and a translation workflow document (Task 4.6b); added platform-wide rate limiting (Task 6.4b), database hardening covering soft-deletes/connection pooling/cleanup jobs (Task 6.9), and API integration tests (Task 6.10); added programmatic OG images and sitemap-ping-on-publish to Phase 10; resolved a direct contradiction in ADR-007 and Task 11.3 — the roadmap previously rejected Umami as an analytics alternative while the registry now includes it as a self-hosted backup, so ADR-007 and the Docker Compose service list (four services → five) were rewritten to match; added optional Sentry error tracking (Task 11.7b) and continuous Lighthouse CI (Task 11.6b); added the end-to-end test suite (Task 12.0), closing the gap where unit, integration, and E2E testing — all present in the registry — previously had no home anywhere in this document.
+**Previous revision** aligns the roadmap to `Feature Registry.md` (173 features — updated from the 163 this note originally referenced, after the registry's later completeness audit added F-164–F-173) as the now-authoritative feature scope. Changes made: added Nx orchestration (Task 1.1) and dependency vulnerability scanning (Task 1.6b); added the Design System documentation set (Task 2.8b); expanded Phase 3 from 13 to 21 tasks to cover all 20 component groups in the registry (Icon Registry, Overlay, Navigation, Media, Section, Typography, and Utility Components, AmbientEmbers); added section-level error boundaries to Task 4.2; added unit testing infrastructure (Task 4.7) and a translation workflow document (Task 4.6b); added platform-wide rate limiting (Task 6.4b), database hardening covering soft-deletes/connection pooling/cleanup jobs (Task 6.9), and API integration tests (Task 6.10); added programmatic OG images and sitemap-ping-on-publish to Phase 10; resolved a direct contradiction in ADR-007 and Task 11.3 — the roadmap previously rejected Umami as an analytics alternative while the registry now includes it as a self-hosted backup, so ADR-007 and the Docker Compose service list (four services → five) were rewritten to match; added optional Sentry error tracking (Task 11.7b) and continuous Lighthouse CI (Task 11.6b); added the end-to-end test suite (Task 12.0), closing the gap where unit, integration, and E2E testing — all present in the registry — previously had no home anywhere in this document.
 
 ---
 
