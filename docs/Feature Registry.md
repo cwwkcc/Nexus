@@ -144,6 +144,8 @@ Features are grouped by concern. The build order is defined in the **Engineering
 
 **F-052 · Soft-Delete Pattern** Content is never hard-deleted. A `deletedAt` timestamp marks records as archived. The audit log retains the history. Admin panel deletions trigger soft-deletes. This means accidental deletions are always recoverable from the live database without needing a backup restore.
 
+**F-174 · Page Content Model** `PageContent` table storing editorial section content — every page hero, story, timeline, and similar block previously hardcoded in `messages/` — keyed by page, section, and locale, with a JSON payload validated per-section by Zod, and the same version-snapshot pattern used for News (F-152). The database-backed counterpart to F-070's UI-chrome-only message files. See ADR-009.
+
 ---
 
 ## Group 6 — API Layer (`packages/api`)
@@ -161,6 +163,8 @@ Features are grouped by concern. The build order is defined in the **Engineering
 **F-058 · Rate Limiting** API-level rate limiting via Next.js middleware: results portal capped at 10 requests per minute per IP; contact form capped at 5 per hour per IP; general API routes protected against abuse. Implemented without external services — in-memory or lightweight middleware.
 
 **F-059 · Health Check Endpoints** `/api/health` routes on both apps return a 200 with service status. Used by Docker healthchecks, UptimeRobot monitoring, and deployment scripts to verify a container is alive before routing traffic to it.
+
+**F-175 · Page Content Router** `pageContentRouter`: `getByPage` returns every section for a page in the requested locale with English fallback for missing translations; `update` upserts a section and writes a version snapshot. Sibling to `pageConfigRouter`(F-055) — one controls section visibility and order, the other controls section content.
 
 ---
 
@@ -192,7 +196,7 @@ Features are grouped by concern. The build order is defined in the **Engineering
 
 **F-069 · next-intl Locale Routing** Three locale routes: `/en/`, `/si/`, `/ta/`. The routing is defined in `packages/web/src/i18n/routing.ts`. Every public page is available in all three languages. The admin panel is English-only.
 
-**F-070 · Per-Feature Message Files** Translation strings are split into separate JSON files per locale per feature area: navigation, common, home, about, news, events, societies, facilities, admissions, results, contact, gallery. This prevents a single massive translation file and allows partial updates without touching unrelated strings.
+**F-070 · Per-Feature Message Files (UI Chrome Only)** Translation strings are split into separate JSON files per locale per feature area: navigation, common, and the functional form/taxonomy labels embedded within other feature namespaces (search placeholders, filter pills, exam types). Per ADR-009, this no longer includes page-specific editorial prose — hero copy, story and timeline content, mission/vision/ethos text, and similar — which is sourced from `PageContent`(F-174) instead. This prevents a single massive translation file and allows partial updates without touching unrelated strings.
 
 **F-071 · Complete English Translations** All message keys for all feature areas filled in English. English is the baseline — every key that exists in English must exist in the other locales.
 
@@ -399,6 +403,8 @@ Features are grouped by concern. The build order is defined in the **Engineering
 **F-151 · Content Preview Mode** Editors can see a live preview of draft content before publishing. Preview is accessible only to authenticated admin users. The public site never shows draft content to unauthenticated visitors.
 
 **F-152 · Content Versioning** Every published content edit creates a version snapshot. Editors can view the version history of any article and revert to a previous state. Prevents accidental content loss.
+
+**F-176 · Page Content Module** Admin interface for editing `PageContent`: section list per page, with a rich text editor for prose blocks, a repeatable-list editor for timeline/crest/FAQ-style sections, and structured forms for short fields. Locale switcher per section. Every save versioned via F-174's snapshot pattern, viewable and revertible the same way as News (F-152).
 
 **F-165 · Academic Programs Admin Screen** Config-style, not a CRUD module — the same editing pattern as Settings (F-150). A fixed set of stream entries with editable description, subject list, image, and contact department. No create, no delete, no draft/publish workflow, no versioning — streams don't get added or removed by content editors, only their descriptive content changes.
 

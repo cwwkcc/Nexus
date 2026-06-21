@@ -65,10 +65,6 @@ Choose the technology stack with reasons, not trends. For Nexus the decisions ar
 
 Write the formal proposal document for the school principal. This document must answer five questions: What are we building? Why does the school need it? How does it compare to what schools currently have? What will it cost? Who will maintain it after completion? The proposal should include a cost comparison in LKR, a visual mockup or design reference, and a timeline. The goal is not to impress with technical depth but to communicate institutional value clearly.
 
-### Task 0.6 — Secure Initial Approval
-
-Present the proposal to the principal. This approval is not the final launch approval — it is approval to begin work. Without this, all subsequent work is at risk of being rejected. The framing should be: "We are asking for permission to build, not permission to launch."
-
 ---
 
 ## Phase 1 — Repository and Monorepo Foundation
@@ -128,6 +124,8 @@ The initial ADRs to write:
 **ADR-007 Analytics Strategy** — Why custom analytics is the system of record, with Umami as a self-hosted secondary view. Context: need usage data without third-party JavaScript on the public site, without GDPR complications, with full data ownership — but also a sanity-check view that doesn't depend on the platform's own collection code being correct. Decision: a custom server-side event collector in Next.js middleware feeds the primary admin analytics dashboard (Task 7.11), and Umami runs as a self-hosted Docker container on the same Hetzner server as an independent, privacy-first secondary view. Alternatives considered and rejected outright: Plausible (self-hosted, but a paid license for the self-hosted tier), Google Analytics (third-party scripts, GDPR complications, no data ownership). Consequences: complete data ownership, no third-party scripts, and a second data source to cross-check the custom collector against — at the cost of running and maintaining one additional Docker service.
 
 **ADR-008 Multilingual Font Architecture** — Why CSS variable stacking over per-component font classes. Context: trilingual platform requiring Cormorant Garamond for Latin, Maname for Sinhala, Noto Serif Tamil for Tamil without per-component class management. Decision: unified `--font-family-display` and `--font-family-body` CSS variables composed from next/font variables, browser selects correct face by unicode range. Alternatives: separate Tailwind classes per script, runtime script detection. Consequences: zero per-component font management, automatic script selection, trivial to add a fourth language.
+
+**ADR-009 Page Content Architecture** — Why long-form editorial content moves out of static i18n message files into a database-backed content model, while interface chrome stays static. Context: `messages/` mixed reusable UI strings with page-specific editorial prose edited only via developer commit, which already let placeholder alumni data and a stray dev note ship to `about.json`. Decision: a generic `PageContent` table (page, sectionKey, locale, versioned JSON) with its own tRPC router and admin module, sibling to the existing `PageConfig` section-visibility system. Alternatives: status quo (rejected — no editorial review path), one bespoke table per page (rejected — needless duplication of an identical shape), a third-party CMS (rejected — contradicts the platform's existing no-external-CMS decision). Consequences: every static public page except Home/News/Events/Results gains a request-time dependency on `PageContent` and the admin panel needs a section-type-aware editor; form-field labels, fixed taxonomy values, and the `societies.json` `kits` special case are explicitly excluded and handled separately.
 
 ---
 
@@ -379,6 +377,10 @@ Implement rate limiting as Next.js middleware, applied per route rather than as 
 
 Create the `PageConfig` table and the corresponding tRPC procedures. The page configuration system stores, for each page, an ordered list of sections with their enabled/disabled status. The admin panel exposes a simple UI to reorder sections and toggle their visibility. The public site reads this configuration at request time and renders only the enabled sections in the specified order. This is the content builder capability — not a drag-and-drop component palette, but full control over page composition without a developer.
 
+### Task 6.5b — Implement the Page Content System
+
+Create the `PageContent` table and its Zod schemas (one per `sectionKey` shape — flat prose, repeatable lists, structured short-field blocks) per ADR-009. Add `pageContentRouter` with `getByPage` (returns every section for a page in the requested locale, falling back to English if a translation is missing) and `update` (upserts one section, writing a version snapshot in the same pattern as news content versioning). This is the sibling system to Task 6.5's `PageConfig`: `PageConfig` decides whether a section appears and in what order; `PageContent` decides what that section says. Write the one-time migration script that reads the existing `en`/`si`/`ta` message JSON for every non-chrome namespace and seeds it into `PageContent` as version 1 — this is also the point at which the placeholder alumni profiles and the stray development note in `about.json`'s `heritage.caption` field get replaced with real content, not carried forward.
+
 ### Task 6.6 — Implement the Media Library
 
 Create the media management system. All uploaded files go to Cloudflare R2 object storage via presigned URLs (the browser uploads directly to R2, never through the Next.js server — this is important for performance and cost). The `MediaAsset` table stores the R2 URL, original filename, file size, MIME type, alt text, tags, and usage tracking. Every image in the CMS (news cover photos, staff portraits, gallery photos, society logos) references a MediaAsset rather than a raw URL string. This means when an image is updated in the media library, it updates everywhere it is used.
@@ -449,6 +451,10 @@ Build the central media library interface. Grid view of all uploaded assets with
 
 Build the page configuration interface. For each configurable page, show the current section order as a list of draggable cards. Each card shows the section name, a preview thumbnail, and an enable/disable toggle. Changes save to the `PageConfig` table and take effect on the next public page load.
 
+### Task 7.10b — Page Content Module
+
+Build the page content editing interface. For each page, list its content sections (sourced from `PageContent`) grouped the same way the page itself is organised. Each section's editor matches its shape: a rich text field for prose blocks (story, closing statements), a repeatable-list editor with drag-to-reorder for timeline milestones, crest symbols, and FAQ items, and a plain form for short structured fields (mission/vision/ethos text, anthem lyrics and audio). Every save creates a version snapshot, viewable and revertible the same way as Task 7.3's news versioning. A locale switcher lets an editor see and edit all three languages for a section without leaving the page.
+
 ### Task 7.11 — Analytics Module
 
 Build the custom analytics dashboard. This is not a third-party embed — it is a purpose-built interface that reads from the platform's own analytics data store. Track and display: total page views by day, week, month; most viewed pages with trend indicators; search terms entered by users and their result counts; results portal usage (how many result lookups per day); content performance (which news articles get the most views); language distribution (what percentage of users use each locale); device type distribution (mobile vs desktop vs tablet). The analytics data is collected by a lightweight server-side event collector built into the Next.js middleware — no third-party JavaScript on the public site, no GDPR complications, full ownership of the data.
@@ -503,7 +509,7 @@ _The website the world sees_
 
 ### Purpose
 
-Now that the database has data and the admin panel can manage it, the public pages are built to read from it. Every page is a server component by default. Only interactive elements use client components.
+Per ADR-009, every page below sources its hero copy and editorial section content from `PageContent` (Task 6.5b) rather than static message strings, except for reusable interface chrome (buttons, form labels, filter pills, taxonomy values), which remains in `navigation.json` and `common.json`.
 
 ### Task 8.1 — Home Page
 
@@ -511,7 +517,7 @@ Build the home page as a composition of server-rendered blocks: Hero (with Crest
 
 ### Task 8.2 — About Page
 
-The About page is already built and complete as a static demonstration. This task connects it to live data: the statistics come from the database, the alumni profiles come from the AlumniProfile table, the principal portrait comes from the Staff table. The static timeline and story content remains as translated message strings — this content does not change often enough to require database management.
+The About page is already built and complete as a static demonstration. This task connects it to live data: the statistics come from the database, the alumni profiles come from the `AlumniProfile` table, the principal portrait comes from the Staff table, and the story, timeline, ethos, crest, and anthem sections come from `PageContent` (Task 6.5b) rather than static message strings, per ADR-009.
 
 ### Task 8.3 — News Pages
 
@@ -531,7 +537,7 @@ Build the facilities page using FacilityCard components. Content is managed thro
 
 ### Task 8.7 — Admissions Page
 
-Build the admissions information page. This is largely static content (the admissions process does not change year-to-year) but uses ProcessSteps, AdmissionsKeyDatesTimeline, and contact form components. The key dates come from the Events table filtered by the academic-administrative category.
+Build the admissions information page using ProcessSteps, AdmissionsKeyDatesTimeline, and contact form components. The process steps, requirements checklist, and FAQ content come from `PageContent` (Task 6.5b) — the admissions process doesn't change year-to-year, but it does change, and that should not require a developer. The key dates come from the Events table filtered by the academic-administrative category.
 
 ### Task 8.8 — Gallery
 
@@ -855,23 +861,23 @@ This is not perfectionism for its own sake. It is the baseline quality required 
 
 ## Current Status
 
-|Phase|Status|
-|:--|:--|
-|Phase 0 — Concept and Planning|✅ Complete|
-|Phase 1 — Repository and Monorepo Foundation|✅ Complete|
-|Phase 2 — Design System Foundation|✅ Complete|
-|Phase 3 — Component Library|🔄 In Progress — see note below|
-|Phase 4 — Architecture Hardening|🔄 In Progress|
-|Phase 5 — Principal Presentation|⏳ Pending|
-|Phase 6 — Database and Backend|⏳ Pending|
-|Phase 7 — Admin Panel|⏳ Pending|
-|Phase 8 — Public Pages|🔄 Partially Complete (About done, others mocked)|
-|Phase 9 — PWA and Offline Support|⏳ Pending|
-|Phase 10 — SEO and Structured Data|⏳ Pending|
-|Phase 11 — Infrastructure and Deployment|⏳ Pending|
-|Phase 12 — Launch Preparation|⏳ Pending|
-|Phase 13 — Stabilisation|⏳ Pending|
-|Phase 14 — Post-Launch and Handover|⏳ Pending|
+| Phase                                        | Status                                            |
+| :------------------------------------------- | :------------------------------------------------ |
+| Phase 0 — Concept and Planning               | Complete                                          |
+| Phase 1 — Repository and Monorepo Foundation |                                                   |
+| Phase 2 — Design System Foundation           |                                                   |
+| Phase 3 — Component Library                  | 🔄 In Progress — see note below                   |
+| Phase 4 — Architecture Hardening             | 🔄 In Progress                                    |
+| Phase 5 — Principal Presentation             | ⏳ Pending                                         |
+| Phase 6 — Database and Backend               | ⏳ Pending                                         |
+| Phase 7 — Admin Panel                        | ⏳ Pending                                         |
+| Phase 8 — Public Pages                       | 🔄 Partially Complete (About done, others mocked) |
+| Phase 9 — PWA and Offline Support            | ⏳ Pending                                         |
+| Phase 10 — SEO and Structured Data           | ⏳ Pending                                         |
+| Phase 11 — Infrastructure and Deployment     | ⏳ Pending                                         |
+| Phase 12 — Launch Preparation                | ⏳ Pending                                         |
+| Phase 13 — Stabilisation                     | ⏳ Pending                                         |
+| Phase 14 — Post-Launch and Handover          | ⏳ Pending                                         |
 
 **Note on Phase 3:** this phase previously read "~95% Complete" against 13 tasks. Aligning the roadmap to the Feature Registry added 8 new component-group tasks (Icon Registry, Overlay, Navigation, Media, Section, Typography, and Utility Components, plus the AmbientEmbers effect) that were not previously broken out as their own line items, so that percentage no longer reflects the phase's true scope. Re-audit Phase 3 against the 21 tasks now listed and update this line with an accurate figure before relying on it again.
 
@@ -879,7 +885,9 @@ This is not perfectionism for its own sake. It is the baseline quality required 
 
 ## Document History
 
-**This revision** aligns the roadmap to the F-164–F-173 patch and the Google Workspace OAuth decision. Changes made: rewrote Task 6.3 to use Google OAuth restricted to `@cwwkcc.lk` with invite-based access instead of Credentials/bcrypt as the primary path; added Task 6.3b for the break-glass admin account and its TOTP requirement; added four routers (academics, extracurriculars, facilities, archive) to Task 6.4's tRPC router list; removed the password-reset reference from Task 7.12 (Google-authenticated admins have no password to reset); added Tasks 7.16–7.21 for six admin modules (Academic Programs, Extracurriculars, Alumni, Achievement, Digital Archive, Facilities) that had Feature Registry entries but no roadmap task; resolved Task 8.6’s hedge between "settings or a dedicated facilities module" now that Task 7.21 exists; added Tasks 8.15–8.17 for three public pages (Academics, Administration, Extracurriculars) whose routes already existed in Page Specifications.md with no corresponding build task.
+**This revision** introduces ADR-009 (Page Content Architecture) and adds the Page Content system: Task 6.5b creates the `PageContent` table, Zod schemas, `pageContentRouter`, and the one-time migration from static message files; Task 7.10b adds the corresponding admin module. Rewrote Task 8.2 and Task 8.7 to source editorial content from `PageContent` instead of static message strings. `messages/` is now scoped to interface chrome only (`navigation.json`, `common.json`, and embedded form/taxonomy labels elsewhere) — see Feature Registry F-070, F-174–F-176.
+
+aligns the roadmap to the F-164–F-173 patch and the Google Workspace OAuth decision. Changes made: rewrote Task 6.3 to use Google OAuth restricted to `@cwwkcc.lk` with invite-based access instead of Credentials/bcrypt as the primary path; added Task 6.3b for the break-glass admin account and its TOTP requirement; added four routers (academics, extracurriculars, facilities, archive) to Task 6.4's tRPC router list; removed the password-reset reference from Task 7.12 (Google-authenticated admins have no password to reset); added Tasks 7.16–7.21 for six admin modules (Academic Programs, Extracurriculars, Alumni, Achievement, Digital Archive, Facilities) that had Feature Registry entries but no roadmap task; resolved Task 8.6’s hedge between "settings or a dedicated facilities module" now that Task 7.21 exists; added Tasks 8.15–8.17 for three public pages (Academics, Administration, Extracurriculars) whose routes already existed in Page Specifications.md with no corresponding build task.
 
 **Previous revision** aligns the roadmap to `Feature Registry.md` (163 features) as the now-authoritative feature scope. Changes made: added Nx orchestration (Task 1.1) and dependency vulnerability scanning (Task 1.6b); added the Design System documentation set (Task 2.8b); expanded Phase 3 from 13 to 21 tasks to cover all 20 component groups in the registry (Icon Registry, Overlay, Navigation, Media, Section, Typography, and Utility Components, AmbientEmbers); added section-level error boundaries to Task 4.2; added unit testing infrastructure (Task 4.7) and a translation workflow document (Task 4.6b); added platform-wide rate limiting (Task 6.4b), database hardening covering soft-deletes/connection pooling/cleanup jobs (Task 6.9), and API integration tests (Task 6.10); added programmatic OG images and sitemap-ping-on-publish to Phase 10; resolved a direct contradiction in ADR-007 and Task 11.3 — the roadmap previously rejected Umami as an analytics alternative while the registry now includes it as a self-hosted backup, so ADR-007 and the Docker Compose service list (four services → five) were rewritten to match; added optional Sentry error tracking (Task 11.7b) and continuous Lighthouse CI (Task 11.6b); added the end-to-end test suite (Task 12.0), closing the gap where unit, integration, and E2E testing — all present in the registry — previously had no home anywhere in this document.
 

@@ -548,7 +548,7 @@ Use Next.js `generateMetadata` pattern.
 |`@nexus/config`|KITS|**Tokens only** – colours, spacing, typography, motion, etc. No components.|
 |`@nexus/ui`|KITS|**Reusable components** – all UI building blocks. Depends on `@nexus/config`.|
 |`apps/web`|KITS|**Composition only** – pages, data fetching, routing. Must not redefine tokens or duplicate shared components.|
-|`apps/admin`|KITS (restricted)|**Admin CMS** – same rule: composition only, no token redefinition.|
+|`apps/admin`|KITS (restricted)|**Admin Panel** – same rule: composition only, no token redefinition.|
 
 **Rule:** Apps must not define their own tokens or duplicate components from `@nexus/ui`. Component overrides are forbidden.
 
@@ -556,7 +556,7 @@ Use Next.js `generateMetadata` pattern.
 
 ## 29. Component Inventory
 
-All approved components are in `@nexus/ui`. Full catalogue in [`Components.md`](https://claude.ai/chat/Components.md) (or Storybook).
+All approved components are in `@nexus/ui`. Full catalogue in `Component Reference.md` (or Storybook).
 
 |Category|Components|
 |---|---|
@@ -636,7 +636,7 @@ Follow **Semantic Versioning** (MAJOR.MINOR.PATCH).
 A release is considered complete when:
 
 - Tokens are documented in `Tokens Reference.md`
-- Components are documented in `Components.md` (or Storybook)
+- Components are documented in `Component Reference.md` (or Storybook)
 - Storybook is updated
 - Changelog is updated
 - Accessibility checks pass (axe, Lighthouse)
@@ -660,7 +660,7 @@ A release is considered complete when:
 ## Related Documentation
 
 - **[Design Tokens Reference](https://claude.ai/chat/Tokens%20Reference.md)** – Complete listing of all token values.
-- **[Components](https://claude.ai/chat/Components.md)** – Full component catalogue and usage.
+- **Component Reference.md** – Full component catalogue and usage.
 - **[Page Specifications](https://claude.ai/chat/Page%20Specifications.md)** – Page layouts and content requirements.
 
 ---
