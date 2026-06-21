@@ -3,7 +3,7 @@
 1. [Shared UI Library — `packages/ui`
     - [Atoms]
     - [Brand]
-    - [Cards] 
+    - [Cards]
     - [Forms]
     - [Icons]
     - [Layout]
@@ -32,9 +32,10 @@
     - [Results Blocks]
     - [Administration Blocks]
 4. [Web App Pages — `apps/web/src/app/[locale]`]
-5. [Admin App — UI Components]
-6. [Admin App — Pages]
+5. [Admin Panel — UI Components]
+6. [Admin Panel — Pages]
 7. [Accessibility & Infrastructure]
+
 ---
 
 ## 1. Shared UI Library — `packages/ui`
@@ -592,7 +593,7 @@
 
 ---
 
-## 5. Admin App — UI Components
+## 5. Admin Panel — UI Components
 
 `apps/admin/src/components/`
 
@@ -629,7 +630,7 @@
 
 ---
 
-## 6. Admin App — Pages
+## 6. Admin Panel — Pages
 
 `apps/admin/src/app/`
 
