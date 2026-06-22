@@ -1,11 +1,11 @@
 'use client';
-import { useTranslations } from 'next-intl';
 import {
   Container,
   SectionHeader,
   AlumniLegacyBlock,
   type AlumniProfile,
 } from '@nexus/ui';
+import { useTranslations } from 'next-intl';
 
 export default function AlumniLegacy() {
   const t = useTranslations('about.alumni');
