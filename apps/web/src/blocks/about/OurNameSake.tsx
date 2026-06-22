@@ -1,4 +1,3 @@
-import { useTranslations } from 'next-intl';
 import {
   Container,
   Text,
@@ -9,6 +8,7 @@ import {
   Divider,
   QuoteBlock,
 } from '@nexus/ui';
+import { useTranslations } from 'next-intl';
 
 export default function OurNameSake() {
   const t = useTranslations('about.aboutKannangara');
