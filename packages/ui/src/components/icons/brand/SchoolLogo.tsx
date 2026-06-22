@@ -15,6 +15,7 @@ interface SchoolLogoProps {
   locale?: Locale;
   color?: SchoolLogoColor;
   className?: string;
+  size?: 'sm' | 'md' | 'lg' | 'xl';
 }
 
 const colorMap: Record<SchoolLogoColor, string> = {
