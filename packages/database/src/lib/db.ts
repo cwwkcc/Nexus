@@ -1,7 +1,7 @@
 import { PrismaClient } from '../generated/prisma/client.js';
 
 declare global {
-  // eslint-disable-next-line no-var
+   
   var __nexusPrisma: PrismaClient | undefined;
 }
 
