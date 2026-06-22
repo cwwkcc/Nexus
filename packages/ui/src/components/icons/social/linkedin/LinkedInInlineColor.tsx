@@ -1,6 +1,7 @@
 // Auto-generated – do not edit manually.
 // Source: packages/ui/scripts/generate-icons.js
 import { forwardRef } from 'react';
+
 import { cn } from '../../../../utilities/cn';
 import { type SocialIconProps, sizeMap } from '../types';
 
