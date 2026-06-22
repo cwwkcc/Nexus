@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+
 import { cn } from '../../utilities/cn';
 
 export type StaffCardVariant = 'principal' | 'grid' | 'compact';
