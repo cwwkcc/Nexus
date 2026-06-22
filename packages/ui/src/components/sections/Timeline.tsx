@@ -1,8 +1,9 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { cn } from '../../utilities/cn';
+
 import { useInView } from '../../hooks/useInView';
+import { cn } from '../../utilities/cn';
 import { ImageFrame } from '../media/ImageFrame';
 import { EyebrowLabel } from '../typography/EyebrowLabel';
 import { Heading } from '../typography/Heading';
