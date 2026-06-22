@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import {
   Caption,
   ImageFrame,
@@ -9,6 +8,8 @@ import {
   VideoFrame,
   type LightboxImage,
 } from '@nexus/ui';
+import { useState } from 'react';
+
 import { DemoSection } from '../_components/DemoSection';
 
 export default function MediaPage() {
