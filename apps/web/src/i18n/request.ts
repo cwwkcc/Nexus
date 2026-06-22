@@ -1,8 +1,10 @@
 // apps/web/src/i18n/request.ts
-import { getRequestConfig } from 'next-intl/server';
-import { routing } from './routing';
 import fs from 'fs';
 import path from 'path';
+
+import { getRequestConfig } from 'next-intl/server';
+
+import { routing } from './routing';
 
 async function loadMessages(locale: string) {
   const messagesDir = path.join(process.cwd(), 'messages', locale);
