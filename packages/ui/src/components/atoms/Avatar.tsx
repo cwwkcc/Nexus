@@ -1,8 +1,9 @@
 // packages/ui/src/components/atoms/Avatar.tsx
 'use client';
 
-import { useState } from 'react';
 import Image from 'next/image';
+import { useState } from 'react';
+
 import { cn } from '../../utilities/cn';
 
 type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
