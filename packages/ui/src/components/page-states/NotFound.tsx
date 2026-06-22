@@ -1,17 +1,17 @@
 'use client';
 
-import Link from 'next/link';
+import { motion, useTransform } from 'framer-motion';
+
+import { useCountUp } from '../../hooks/useCountUp';
+import { cn } from '../../utilities/cn';
+import { ButtonLink } from '../atoms/ButtonLink';
 import { SchoolLogo } from '../icons/brand/SchoolLogo';
+import { Divider } from '../layout/Divider';
 import { NavLink } from '../navigation/NavLink';
 import { EyebrowLabel } from '../typography/EyebrowLabel';
-import { Text } from '../typography/Text';
 import { Heading } from '../typography/Heading';
+import { Text } from '../typography/Text';
 
-import { Button } from '../atoms/Button';
-import { Divider } from '../layout/Divider';
-import { useCountUp } from '../../hooks/useCountUp';
-
-import { cn } from '../../utilities/cn';
 
 const QUICK_LINKS = [
   { href: '/', label: 'Homepage' },
@@ -23,7 +23,8 @@ const QUICK_LINKS = [
 ];
 
 export function NotFoundPage() {
-  const { count: animated404 } = useCountUp(404);
+  const { value: animated404 } = useCountUp(404);
+  const display404 = useTransform(animated404, Math.round);
 
   return (
     <main className="min-h-screen bg-green-base flex flex-col items-center justify-center py-space-16 px-space-6 relative overflow-hidden">
@@ -35,7 +36,7 @@ export function NotFoundPage() {
 
         {/* Animated 404 heading */}
         <Heading level="h1" color="inverse" className="mb-space-4">
-          {animated404}
+          <motion.span>{display404}</motion.span>
         </Heading>
 
         {/* Eyebrow label */}
@@ -54,15 +55,14 @@ export function NotFoundPage() {
         </Text>
 
         {/* Primary CTA – using Button component */}
-        <Button
-          as="a"
+        <ButtonLink
           href="/"
           variant="primary"
           className="bg-gold-base text-green-base hover:bg-transparent hover:text-gold-base border-gold-base"
           leftIcon={<span aria-hidden="true">←</span>}
         >
           Return to homepage
-        </Button>
+        </ButtonLink>
 
         {/* Divider */}
         <Divider accentVariant="gold-accent-short" />
