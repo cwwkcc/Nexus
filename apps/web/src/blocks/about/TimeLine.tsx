@@ -1,7 +1,7 @@
 //web/src/app/[locale]/components/test/page.tsx
 'use client';
-import { useTranslations } from 'next-intl';
 import { Container, Timeline, SectionHeader } from '@nexus/ui';
+import { useTranslations } from 'next-intl';
 
 interface Milestone {
   id: string;
