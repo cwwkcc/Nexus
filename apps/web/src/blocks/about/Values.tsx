@@ -1,4 +1,3 @@
-import { useTranslations } from 'next-intl';
 import {
   VStack,
   Text,
@@ -8,6 +7,7 @@ import {
   EyebrowLabel,
   Heading,
 } from '@nexus/ui';
+import { useTranslations } from 'next-intl';
 
 interface Value {
   english: string;
