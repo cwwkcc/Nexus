@@ -1,5 +1,5 @@
-import { useTranslations } from 'next-intl';
 import { VStack, Container, EyebrowLabel, QuoteBlock } from '@nexus/ui';
+import { useTranslations } from 'next-intl';
 export default function Ethos() {
   const t = useTranslations('about.ethos');
   return (
