@@ -1,7 +1,6 @@
 // apps/admin/src/app/design-system/components/icons/page.tsx
 'use client';
 
-import { useState } from 'react';
 import { cn } from '@nexus/ui';
 import {
   // Lucide UI icons
@@ -38,6 +37,8 @@ import {
   InstagramGlyphWhite,
   InstagramGlyphGradient,
 } from '@nexus/ui';
+import { useState } from 'react';
+
 import { DemoSection } from '../_components/DemoSection';
 
 // All registered Lucide icon names (from registry.ts)
