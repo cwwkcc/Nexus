@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { forwardRef, type ComponentPropsWithoutRef } from 'react';
+
 import { cn } from '../../utilities/cn';
 
 type InlineLinkProps = {

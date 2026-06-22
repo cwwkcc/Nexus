@@ -1,5 +1,6 @@
 // components/atoms/EyebrowLabel.tsx
 import { type ElementType, type ReactNode, forwardRef } from 'react';
+
 import { cn } from '../../utilities/cn';
 
 type EyebrowLabelProps = {
