@@ -1,6 +1,5 @@
 //web/src/app/[locale]/components/test/page.tsx
 'use client';
-import { useTranslations } from 'next-intl';
 import {
   Container,
   Heading,
@@ -13,6 +12,7 @@ import {
   type CrestSymbol,
   SchoolLogo,
 } from '@nexus/ui';
+import { useTranslations } from 'next-intl';
 
 export function CrestExplained() {
   const t = useTranslations('about.crest');
