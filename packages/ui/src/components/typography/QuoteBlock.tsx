@@ -1,4 +1,5 @@
 import { forwardRef } from 'react';
+
 import { cn } from '../../utilities/cn';
 
 type QuoteBlockVariant = 'pull-quote' | 'ceremonial';
@@ -19,7 +20,7 @@ export const QuoteBlock = forwardRef<
   if (variant === 'ceremonial') {
     return (
       <figure
-        ref={ref as any}
+        ref={ref as React.LegacyRef<HTMLQuoteElement>}
         className={cn(
           'text-center py-space-6 px-space-10 mx-auto max-w-prose',
           className,
@@ -45,7 +46,7 @@ export const QuoteBlock = forwardRef<
   // Pull quote (default)
   return (
     <blockquote
-      ref={ref as any}
+      ref={ref as React.LegacyRef<HTMLQuoteElement>}
       cite={cite}
       className={cn(
         'm-0 py-space-1 pl-space-6 border-l-2 border-gold-base',
