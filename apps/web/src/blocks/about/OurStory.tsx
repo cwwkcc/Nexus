@@ -1,5 +1,5 @@
-import { useTranslations } from 'next-intl';
 import { VStack, Text, QuoteBlock, SectionHeader, Container } from '@nexus/ui';
+import { useTranslations } from 'next-intl';
 
 export default function OurStory() {
   const t = useTranslations('about.story');
