@@ -4,14 +4,15 @@
 // will decide whether a section is shown and in what order, this router
 // decides what the section says.
 
-import { z } from 'zod';
-import { TRPCError } from '@trpc/server';
 import {
   ABOUT_SECTION_SCHEMAS,
   LocaleSchema,
   PageContentUpdateInputSchema,
   type AboutSectionKey,
 } from '@nexus/validation';
+import { TRPCError } from '@trpc/server';
+import { z } from 'zod';
+
 import { publicProcedure, adminProcedure, router } from '../trpc.js';
 
 const SECTION_SCHEMAS: Record<
