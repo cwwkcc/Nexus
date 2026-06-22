@@ -1,10 +1,9 @@
 // packages/ui/src/components/layout/Footer.tsx
 
-import { NavLink } from '../navigation/NavLink';
 import { Container } from './Container';
+import { Divider } from './Divider';
 import { Grid, GridItem } from './Grid';
 import { VStack, HStack } from './Stack';
-import { SchoolLogo } from '../icons/brand/SchoolLogo';
 import {
   FacebookColor,
   InstagramGlyphGradient,
@@ -12,7 +11,8 @@ import {
   GitHubInvertocatBlack,
   LinkedInColor,
 } from '../icons';
-import { Divider } from './Divider';
+import { SchoolLogo } from '../icons/brand/SchoolLogo';
+import { NavLink } from '../navigation/NavLink';
 import { Heading } from '../typography/Heading';
 import { Text } from '../typography/Text';
 
