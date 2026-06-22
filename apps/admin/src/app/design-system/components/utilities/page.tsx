@@ -1,6 +1,7 @@
 'use client';
 
 import { CountdownTimer, ScrollProgressBar, BackToTopButton } from '@nexus/ui';
+
 import { DemoSection } from '../_components/DemoSection';
 
 export default function UtilitiesPage() {
