@@ -1,10 +1,10 @@
 import { cn } from '../../utilities/cn';
+import { Tag } from '../atoms/Tag';
+import { Icon } from '../icons/Icon';
+import { NavLink } from '../navigation/NavLink';
 import { EyebrowLabel } from '../typography/EyebrowLabel';
 import { Heading } from '../typography/Heading';
 import { Text } from '../typography/Text';
-import { Tag } from '../atoms/Tag';
-import { NavLink } from '../navigation/NavLink';
-import { Icon } from '../icons/Icon';
 
 type Streams = 'science' | 'commerce' | 'arts' | 'technology';
 
