@@ -2,7 +2,7 @@
 'use client';
 
 import { cn } from '../../utilities/cn';
-import { Button } from '../atoms/Button';
+import { ButtonLink } from '../atoms/ButtonLink';
 import { ResultsGradeBadge } from '../atoms/ResultsGradeBadge';
 
 export interface SubjectResult {
@@ -91,7 +91,7 @@ export function ResultsDisplay({
 
       {pdfUrl && (
         <div className="flex justify-center">
-          <Button href={pdfUrl} variant="secondary" size="sm">
+          <ButtonLink href={pdfUrl} variant="secondary" size="sm">
             <svg
               width="16"
               height="16"
@@ -104,7 +104,7 @@ export function ResultsDisplay({
               <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" />
             </svg>
             Download Official Result Sheet (PDF)
-          </Button>
+          </ButtonLink>
         </div>
       )}
     </div>
