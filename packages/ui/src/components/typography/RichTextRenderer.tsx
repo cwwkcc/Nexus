@@ -1,13 +1,14 @@
 'use client';
 
 import { PortableText, type PortableTextComponents } from '@portabletext/react';
-import { cn } from '../../utilities/cn';
-import { ImageFrame } from '../media/ImageFrame';
+
 import { InlineLink } from './InlineLink';
 import { QuoteBlock } from './QuoteBlock';
+import { cn } from '../../utilities/cn';
+import { ImageFrame } from '../media/ImageFrame';
 
 export interface RichTextRendererProps {
-  value: any;
+  value: unknown;
   className?: string;
 }
 
