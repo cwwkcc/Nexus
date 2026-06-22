@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import {
   Accordion,
   Breadcrumb,
@@ -14,6 +13,8 @@ import {
   Tabs,
   type SearchResult,
 } from '@nexus/ui';
+import { useState } from 'react';
+
 import { DemoSection } from '../_components/DemoSection';
 
 // Mock search function for SearchInput demo
