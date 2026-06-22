@@ -1,15 +1,15 @@
 import AboutHero from '../../../blocks/about/AboutHero';
 import AboutStatsStrip from '../../../blocks/about/AboutStatsStrip';
+import AlumniLegacy from '../../../blocks/about/AlumniLegacy';
+import ClosingStatement from '../../../blocks/about/ClosingStatement';
+import { CrestExplained } from '../../../blocks/about/CrestExplained';
+import Ethos from '../../../blocks/about/Ethos';
+import Legacy from '../../../blocks/about/Legacy';
 import OurNameSake from '../../../blocks/about/OurNameSake';
 import OurStory from '../../../blocks/about/OurStory';
-import TimeLine from '../../../blocks/about/TimeLine';
-import Ethos from '../../../blocks/about/Ethos';
-import Values from '../../../blocks/about/Values';
-import { CrestExplained } from '../../../blocks/about/CrestExplained';
-import Legacy from '../../../blocks/about/Legacy';
-import ClosingStatement from '../../../blocks/about/ClosingStatement';
-import AlumniLegacy from '../../../blocks/about/AlumniLegacy';
 import SchoolAnthem from '../../../blocks/about/SchoolAnthem';
+import TimeLine from '../../../blocks/about/TimeLine';
+import Values from '../../../blocks/about/Values';
 
 export default function AboutPage() {
   return (
