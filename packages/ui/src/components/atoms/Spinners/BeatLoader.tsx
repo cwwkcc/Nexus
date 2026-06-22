@@ -1,7 +1,7 @@
 'use client';
 
-import { motion, useReducedMotion } from 'framer-motion';
 import clsx from 'clsx';
+import { motion, useReducedMotion } from 'framer-motion';
 
 type BeatLoaderSize = 'sm' | 'md' | 'lg';
 type BeatLoaderVariant = 'green' | 'gold' | 'muted';
