@@ -9,6 +9,7 @@ import {
   StudentJourneyFlow,
   TimetableGrid,
 } from '@nexus/ui';
+
 import { DemoSection } from '../_components/DemoSection';
 
 export default function VisualizationPage() {
