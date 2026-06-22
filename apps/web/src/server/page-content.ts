@@ -8,7 +8,6 @@
 // below calls getAboutPageContent(locale) and only the first call actually
 // hits the database; the rest read the cached result for that request.
 
-import { cache } from 'react';
 import { createServerCaller } from '@nexus/api';
 import type {
   Locale,
@@ -23,6 +22,7 @@ import type {
   AboutAnthemData,
   AboutClosingData,
 } from '@nexus/validation';
+import { cache } from 'react';
 
 export interface AboutPageContent {
   hero: AboutHeroData;
