@@ -1,5 +1,5 @@
-import { useTranslations } from 'next-intl';
 import { Hero } from '@nexus/ui';
+import { useTranslations } from 'next-intl';
 
 export default function AboutHero() {
   const t = useTranslations('about.hero');
