@@ -2,6 +2,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+
 import { cn } from '../../utilities/cn';
 
 export interface ComparisonBarProps {

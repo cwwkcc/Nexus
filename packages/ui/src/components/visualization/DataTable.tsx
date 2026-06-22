@@ -2,6 +2,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
+
 import { cn } from '../../utilities/cn';
 
 export type SortDirection = 'asc' | 'desc' | null;
