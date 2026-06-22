@@ -1,8 +1,8 @@
 // packages/ui/src/components/navigation/Tabs.tsx
 'use client';
 
-import { useState } from 'react';
 import { clsx } from 'clsx';
+import { useState } from 'react';
 
 type TabVariant = 'line' | 'pills';
 interface TabItem {
