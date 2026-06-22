@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
+
 import { Button } from '../atoms/Button';
 
 export interface ShareSheetProps {
@@ -17,7 +18,7 @@ export function ShareSheet({
   onClose,
   title,
   url,
-  text,
+  _text,
 }: ShareSheetProps) {
   const [copied, setCopied] = useState(false);
 
