@@ -1,7 +1,8 @@
 // packages/ui/src/components/icons/Icon.tsx
 import { forwardRef } from 'react';
-import { cn } from '../../utilities/cn';
+
 import { iconRegistry, type IconName } from './registry';
+import { cn } from '../../utilities/cn';
 
 export interface IconProps extends React.SVGProps<SVGSVGElement> {
   /** Name of the icon from the registry */
