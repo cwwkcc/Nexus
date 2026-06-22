@@ -1,9 +1,7 @@
+import { Suspense } from 'react';
+import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
-import { notFound } from 'next/navigation';
-import { routing } from '../../i18n/routing';
-import { cn } from '@nexus/ui';
-import '../global.css';
 import {
   Cormorant_Garamond,
   Cormorant_Upright,
@@ -13,7 +11,11 @@ import {
   Noto_Serif_Sinhala,
   Noto_Serif_Tamil,
 } from 'next/font/google';
-import { Footer, BackToTopButton } from '@nexus/ui';
+import { cn, Footer, BackToTopButton } from '@nexus/ui';
+
+import { routing } from '../../i18n/routing';
+
+import '../global.css';
 
 const cormorantGaramond = Cormorant_Garamond({
   subsets: ['latin'],
