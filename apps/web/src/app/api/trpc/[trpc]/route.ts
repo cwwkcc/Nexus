@@ -6,8 +6,8 @@
 // exists for client components and, eventually, the admin panel's React
 // Query client (Task 6.4 / 7.x).
 
-import { fetchRequestHandler } from '@trpc/server/adapters/fetch';
 import { appRouter, createContext } from '@nexus/api';
+import { fetchRequestHandler } from '@trpc/server/adapters/fetch';
 
 function handler(req: Request) {
   return fetchRequestHandler({
