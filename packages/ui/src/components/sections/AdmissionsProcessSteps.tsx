@@ -28,7 +28,7 @@ export function AdmissionsProcessSteps({
       <div className="absolute top-10 left-0 right-0 h-0.5 bg-border-light hidden md:block" />
 
       <div className="relative grid grid-cols-1 md:grid-cols-4 gap-8">
-        {steps.map((step, idx) => {
+        {steps.map((step, _idx) => {
           const isActive = activeStep === step.step;
           const isCompleted =
             activeStep !== undefined && step.step < activeStep;
