@@ -8,8 +8,8 @@
 // Task 6.3 exists, and `adminProcedure` below should check that session
 // instead of the shared-secret placeholder.
 
-import { initTRPC, TRPCError } from '@trpc/server';
 import type { db as PrismaClient } from '@nexus/db';
+import { initTRPC, TRPCError } from '@trpc/server';
 
 export interface Context {
   db: typeof PrismaClient;
