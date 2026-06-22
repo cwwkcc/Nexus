@@ -1,13 +1,11 @@
 //web/src/app/[locale]/components/test/page.tsx
 'use client';
-import { useTranslations } from 'next-intl';
 import {
   Container,
-  Heading,
   Text,
-  EyebrowLabel,
   SectionHeader,
 } from '@nexus/ui';
+import { useTranslations } from 'next-intl';
 
 export default function TimeLine() {
   const t = useTranslations('about.closing');
