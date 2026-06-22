@@ -1,8 +1,9 @@
 'use client';
 
 import { forwardRef, ComponentPropsWithoutRef } from 'react';
-import { cn } from '../../utilities/cn';
+
 import { BeatLoader } from './Spinners/BeatLoader';
+import { cn } from '../../utilities/cn';
 
 type ButtonVariant =
   | 'primary'
