@@ -2,11 +2,12 @@
 'use client';
 
 import { useState } from 'react';
+
 import { cn } from '../../utilities/cn';
-import { ImageFrame } from '../media/ImageFrame';
-import { Container } from '../layout/Container';
 import { Icon } from '../icons';
+import { Container } from '../layout/Container';
 import { HStack, VStack } from '../layout/Stack';
+import { ImageFrame } from '../media/ImageFrame';
 
 interface AlumniProfile {
   id: string;
