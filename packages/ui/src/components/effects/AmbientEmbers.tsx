@@ -1,8 +1,9 @@
 // packages/ui/src/components/effects/AmbientEmbers.tsx
 'use client';
 
-import { useEffect, useState, useId } from 'react';
 import { useReducedMotion } from 'framer-motion';
+import { useEffect, useState, useId } from 'react';
+
 import { cn } from '../../utilities/cn';
 
 export interface AmbientEmbersProps {
