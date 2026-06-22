@@ -1,5 +1,5 @@
-import { useTranslations } from 'next-intl';
 import { Container, SectionHeader, AudioPlayer, Text } from '@nexus/ui';
+import { useTranslations } from 'next-intl';
 
 export default function SchoolAnthem() {
   const t = useTranslations('about.anthem');
