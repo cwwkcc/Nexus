@@ -1,3 +1,7 @@
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
 import {
   colors,
   spacing,
@@ -19,9 +23,6 @@ import {
   glass,
   focusRing,
 } from '../src/tokens/index.js';
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
