@@ -1,6 +1,7 @@
 'use client';
 
 import { Text, Button, Input, ToolTip } from '@nexus/ui';
+
 import { DemoSection } from '../_components/DemoSection';
 
 export default function AccessibilityPage() {
