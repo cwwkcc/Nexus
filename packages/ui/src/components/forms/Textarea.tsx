@@ -1,8 +1,9 @@
 'use client';
 
 import { forwardRef } from 'react';
-import { cn } from '../../utilities/cn';
+
 import { useFormField } from '../../hooks/useFormField';
+import { cn } from '../../utilities/cn';
 
 type Props = {
   label: string;
