@@ -2,6 +2,10 @@
 // AUTOGENERATES packages/ui/src/utilities/cn.tsx
 // Run after any token change: node packages/config/scripts/generate-cn-groups.js
 
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
 import {
   colors,
   spacing,
@@ -18,9 +22,6 @@ import {
   fontFamily, // ← added
   transformScale, // ← added
 } from '../src/tokens/index.js';
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
