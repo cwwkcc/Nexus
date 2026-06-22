@@ -1,9 +1,9 @@
 // apps/admin/src/app/design-system/motion/page.tsx
 'use client';
 
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import type { BezierDefinition } from 'framer-motion';
+import { useState } from 'react';
 
 // Mirror of motion.ts transitionTimingFunction values.
 // framer-motion's Transition.ease must be a BezierDefinition ([n,n,n,n])
