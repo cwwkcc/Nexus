@@ -1,5 +1,6 @@
 'use client';
 import { useEffect } from 'react';
+
 import { cn } from '../../utilities/cn';
 
 export type ModalVariant = 'confirmation' | 'information';

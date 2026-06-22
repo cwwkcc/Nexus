@@ -1,8 +1,9 @@
 // packages/ui/src/components/feedback/DropDownMenu.tsx
 'use client';
 
-import { useEffect, useRef, useState, useId, useCallback } from 'react';
 import { useRouter } from 'next/navigation'; // FIX: import Next.js router
+import { useEffect, useRef, useState, useId, useCallback } from 'react';
+
 import { cn } from '../../utilities/cn';
 
 export type DropdownMenuVariant = 'navigation' | 'filter';
