@@ -4,8 +4,8 @@
 // (newsRouter, staffRouter, eventsRouter, ...) get added here as their own
 // phases are implemented — this file is meant to grow, not be replaced.
 
-import { router } from './trpc.js';
 import { pageContentRouter } from './routers/page-content.js';
+import { router } from './trpc.js';
 
 export const appRouter = router({
   pageContent: pageContentRouter,
