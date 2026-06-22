@@ -1,9 +1,9 @@
 // packages/ui/src/components/sections/LifeAtKCCPhotoStrip.tsx
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
-import Image from 'next/image';
 import { clsx } from 'clsx';
+import Image from 'next/image';
+import { useRef, useState, useEffect } from 'react';
 
 export interface PhotoStripItem {
   id: string;
