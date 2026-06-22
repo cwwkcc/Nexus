@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
 import Image from 'next/image';
+import { useState } from 'react';
+
 import { cn } from '../../utilities/cn';
 
 type ImageFrameAspectRatio = '16/9' | '4/3' | '3/4' | '1/1' | '21/9' | '16/7';

@@ -1,7 +1,8 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
+import { useRef, useState, useEffect } from 'react';
+
 import { cn } from '../../utilities/cn';
 
 export interface PanoramicFacilityViewerProps {

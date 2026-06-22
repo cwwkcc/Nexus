@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import { createPortal } from 'react-dom';
+
 import { cn } from '../../utilities/cn';
 
 export interface LightboxImage {

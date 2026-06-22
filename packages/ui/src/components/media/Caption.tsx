@@ -1,4 +1,5 @@
 import { forwardRef } from 'react';
+
 import { cn } from '../../utilities/cn';
 
 export interface CaptionProps {
