@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+
 import { cn } from '../../utilities/cn';
 
 export type AnnouncementVariant = 'warning' | 'error' | 'info';
