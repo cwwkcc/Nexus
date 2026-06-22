@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
+import { useState, useEffect } from 'react';
+
+import { HStack } from './Stack';
 import { cn } from '../../utilities/cn';
 import { NavLink } from '../navigation/NavLink';
-import { HStack } from './Stack';
 
 type NavVariant = 'transparent-overlay' | 'solid';
 
@@ -270,11 +271,11 @@ function MobileMenu({
                   borderBottom: '1px solid rgba(255,255,255,0.08)',
                   transition: 'color 0.15s ease',
                 }}
-                onMouseEnter={(e) => {
+                onMouseEnter={(e: React.MouseEvent<HTMLElement>) => {
                   (e.currentTarget as HTMLElement).style.color =
                     'var(--color-gold-base)';
                 }}
-                onMouseLeave={(e) => {
+                onMouseLeave={(e: React.MouseEvent<HTMLElement>) => {
                   (e.currentTarget as HTMLElement).style.color =
                     'var(--text-inverse)';
                 }}
