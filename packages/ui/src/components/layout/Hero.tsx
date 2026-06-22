@@ -1,13 +1,15 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
-import Image from 'next/image';
 import {
   motion,
   useReducedMotion,
   useScroll,
   useTransform,
+  type Variants,
 } from 'framer-motion';
+import Image from 'next/image';
+import { useEffect, useState, useRef } from 'react';
+
 import { cn } from '../../utilities/cn';
 import { NavLink } from '../navigation/NavLink';
 import { Heading } from '../typography/Heading';
@@ -178,7 +180,7 @@ export function Hero({
   };
 
   // Framer Motion variants for staggered children
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -186,7 +188,7 @@ export function Hero({
     },
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 24 },
     visible: {
       opacity: 1,
