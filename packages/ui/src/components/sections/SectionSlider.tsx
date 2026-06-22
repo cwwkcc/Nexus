@@ -1,7 +1,8 @@
 'use client';
 
-import { Children, useCallback, useId, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { Children, useCallback, useId, useMemo, useRef, useState } from 'react';
+
 import { cn } from '../../utilities/cn';
 import { Button } from '../atoms/Button';
 import { Text } from '../typography/Text';
