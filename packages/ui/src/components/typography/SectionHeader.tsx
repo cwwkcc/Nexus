@@ -1,8 +1,9 @@
 import { forwardRef, type ComponentPropsWithoutRef } from 'react';
-import { cn } from '../../utilities/cn';
+
 import { EyebrowLabel } from './EyebrowLabel';
 import { Heading } from './Heading';
 import { Text } from './Text';
+import { cn } from '../../utilities/cn';
 import { Divider } from '../layout/Divider';
 
 type SectionHeaderVariant = 'eyebrow-title' | 'eyebrow-title-description';
