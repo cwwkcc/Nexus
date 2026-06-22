@@ -12,6 +12,7 @@ import {
   BeatLoader,
   ScaleLoader,
 } from '@nexus/ui';
+
 import { DemoSection } from '../_components/DemoSection';
 
 export default function AtomsPage() {
