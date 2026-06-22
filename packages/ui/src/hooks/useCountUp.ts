@@ -1,7 +1,8 @@
 // hooks/useCountUp.ts
 'use client';
-import { useCallback, useEffect, useRef, useState } from 'react';
 import { useMotionValue, animate, type MotionValue } from 'framer-motion';
+import { useCallback, useEffect, useRef, useState } from 'react';
+
 import { useInView } from './useInView';
 
 export interface UseCountUpOptions {
