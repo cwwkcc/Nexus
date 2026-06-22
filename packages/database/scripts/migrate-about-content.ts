@@ -16,13 +16,15 @@
 import { readFile } from 'node:fs/promises';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { db } from '../src/lib/db.js';
+
 import {
   ABOUT_SECTION_SCHEMAS,
   SUPPORTED_LOCALES,
   type AboutSectionKey,
   type Locale,
 } from '@nexus/validation';
+
+import { db } from '../src/lib/db.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(__dirname, '../../../');
