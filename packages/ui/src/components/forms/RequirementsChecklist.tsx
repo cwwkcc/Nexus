@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { cn } from '../../utilities/cn';
+
 import { Checkbox } from './Checkbox';
+import { cn } from '../../utilities/cn';
 
 export interface ChecklistItem {
   id: string;
