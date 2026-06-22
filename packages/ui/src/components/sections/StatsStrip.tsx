@@ -1,13 +1,14 @@
 'use client';
 
-import { ReactNode } from 'react';
 import { motion, useReducedMotion, useTransform } from 'framer-motion';
+import { ReactNode } from 'react';
+
+import { useCountUp } from '../../hooks/useCountUp';
 import { cn } from '../../utilities/cn';
+import { Icon } from '../icons';
 import { Container } from '../layout/Container';
 import { Grid } from '../layout/Grid';
 import { Text } from '../typography/Text';
-import { useCountUp } from '../../hooks/useCountUp';
-import { Icon } from '../icons';
 
 export type StatTrendDirection = 'up' | 'down' | 'neutral';
 export type StatVariant = 'default' | 'compact';
