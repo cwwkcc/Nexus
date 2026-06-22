@@ -1,7 +1,5 @@
 //web/src/app/[locale]/components/test/page.tsx
 'use client';
-import { useTranslations } from 'next-intl';
-import { heritageImages } from '../../data/about';
 import {
   VStack,
   Text,
@@ -13,6 +11,9 @@ import {
   QuoteBlock,
   ImageFrame,
 } from '@nexus/ui';
+import { useTranslations } from 'next-intl';
+
+import { heritageImages } from '../../data/about';
 
 export default function Legacy() {
   const t = useTranslations('about.legacy');
