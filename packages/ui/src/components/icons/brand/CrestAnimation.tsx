@@ -1,9 +1,10 @@
 'use client';
 
-import { memo, useEffect } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { cn } from '../../../utilities/cn';
+import { memo, useEffect } from 'react';
+
 import { SchoolLogo } from './SchoolLogo';
+import { cn } from '../../../utilities/cn';
 
 // -----------------------------------------------------------------------------
 // Size map

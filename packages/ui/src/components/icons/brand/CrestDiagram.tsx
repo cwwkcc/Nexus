@@ -1,13 +1,14 @@
 'use client';
 
-import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { cn } from '../../../utilities/cn';
-import { EyebrowLabel } from '../../typography/EyebrowLabel';
-import { Text } from '../../typography/Text';
+import { useState, useRef, useEffect, useCallback } from 'react';
+
 import { SchoolLogo } from './SchoolLogo';
+import { cn } from '../../../utilities/cn';
 import { SvgDebugGrid } from '../../dev/SvgDebugGrid';
 import { Container } from '../../layout/Container';
+import { EyebrowLabel } from '../../typography/EyebrowLabel';
+import { Text } from '../../typography/Text';
 
 type HotspotPosition =
   | 'top-right'
