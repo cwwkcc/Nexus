@@ -1,11 +1,12 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
 import { motion, useAnimationFrame, AnimatePresence } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+
 import { cn } from '../../utilities/cn';
 import { Button } from '../atoms/Button';
+import { Container } from '../layout/Container';
 import { Heading } from '../typography/Heading';
 import { Text } from '../typography/Text';
-import { Container } from '../layout/Container';
 
 interface AudioPlayerProps {
   src: string;
@@ -152,7 +153,7 @@ export function AudioPlayer({
 
   useAnimationFrame(() => {
     if (isPlaying && analyserRef.current && dataArrayRef.current) {
-      // TypeScript DOM mismatch correctly typed
+      // @ts-expect-error TypeScript DOM mismatch correctly typed
       analyserRef.current.getByteFrequencyData(dataArrayRef.current);
 
       barsRef.current.forEach((bar, i) => {
@@ -270,7 +271,7 @@ export function AudioPlayer({
             <Button
               onClick={togglePlay}
               variant="primary"
-              size="icon"
+              size="icon-xl"
               className="rounded-full shadow-elevation-1 transition-transform hover:scale-105 active:scale-95 !w-14 !h-14"
               aria-label={isPlaying ? 'Pause' : 'Play'}
             >
