@@ -2,8 +2,9 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { cn } from '../../utilities/cn';
 import { forwardRef, type ReactNode, type ElementType } from 'react';
+
+import { cn } from '../../utilities/cn';
 
 const checkIsExternal = (href: string): boolean =>
   href.startsWith('http://') ||
@@ -19,7 +20,7 @@ export type AriaCurrentValue =
   | 'time'
   | true;
 
-export interface NavLinkProps {
+export interface NavLinkProps extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> {
   href: string;
   children: ReactNode;
   active?: boolean;
@@ -64,6 +65,7 @@ export const NavLink = forwardRef<HTMLElement, NavLinkProps>(
       prefetch = true,
       ariaCurrent = 'page',
       as: Component,
+      ...rest
     },
     ref,
   ) => {
@@ -86,6 +88,7 @@ export const NavLink = forwardRef<HTMLElement, NavLinkProps>(
     );
 
     const commonProps = {
+      ...rest,
       href,
       className: linkClasses,
       onClick,
@@ -113,6 +116,7 @@ export const NavLink = forwardRef<HTMLElement, NavLinkProps>(
           className={linkClasses}
           onClick={onClick}
           aria-current={isActive ? ariaCurrent : undefined}
+          {...rest}
         >
           {children}
           <span className="sr-only">(opens in new tab)</span>{' '}
@@ -129,6 +133,7 @@ export const NavLink = forwardRef<HTMLElement, NavLinkProps>(
         className={linkClasses}
         onClick={onClick}
         aria-current={isActive ? ariaCurrent : undefined}
+        {...rest}
       >
         {children}
       </Link>
