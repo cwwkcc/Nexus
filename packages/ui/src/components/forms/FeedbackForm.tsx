@@ -1,14 +1,15 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Input } from '../forms/Input';
-import { Textarea } from '../forms/Textarea';
-import { Select } from '../forms/Select';
+
 import { Button } from '../atoms/Button';
 import { FormValidationSummary } from '../forms/FormValidationSummary';
+import { Input } from '../forms/Input';
+import { Select } from '../forms/Select';
+import { Textarea } from '../forms/Textarea';
 
 const feedbackSchema = z.object({
   name: z.string().optional(),
@@ -38,7 +39,8 @@ export function FeedbackForm() {
     formState: { errors },
     reset,
   } = useForm<FeedbackFormData>({
-    resolver: zodResolver(feedbackSchema as any),
+    // @ts-expect-error Zod resolver type mismatch with strict mode
+    resolver: zodResolver(feedbackSchema),
     defaultValues: { anonymous: false, category: 'GENERAL' },
   });
 
