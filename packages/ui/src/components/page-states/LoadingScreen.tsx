@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { motion, useReducedMotion, AnimatePresence } from 'framer-motion';
+import { useEffect, useState } from 'react';
+
 import { SchoolLogo } from '../icons/brand/SchoolLogo';
 
 export interface LoadingScreenProps {

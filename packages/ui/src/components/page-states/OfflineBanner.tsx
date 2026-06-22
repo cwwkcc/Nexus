@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+
 import { cn } from '../../utilities/cn';
 
 export function OfflineBanner() {
