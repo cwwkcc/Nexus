@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { cn } from '@nexus/ui';
+
+import { cn } from '../../utilities/cn';
 
 export function ScrollProgressBar() {
   const [progress, setProgress] = useState(0);
