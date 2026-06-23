@@ -1,3 +1,4 @@
+import { getAboutPageContent, type AboutPageContent } from '../../../server/page-content';
 import AboutHero from '../../../blocks/about/AboutHero';
 import AboutStatsStrip from '../../../blocks/about/AboutStatsStrip';
 import AlumniLegacy from '../../../blocks/about/AlumniLegacy';
@@ -11,31 +12,39 @@ import SchoolAnthem from '../../../blocks/about/SchoolAnthem';
 import TimeLine from '../../../blocks/about/TimeLine';
 import Values from '../../../blocks/about/Values';
 
-export default function AboutPage() {
+interface AboutPageProps {
+  params: {
+    locale: string;
+  };
+}
+
+export default async function AboutPage({ params }: AboutPageProps) {
+  const content: AboutPageContent = await getAboutPageContent(params.locale as 'en' | 'si' | 'ta');
+
   return (
     <>
       {/* Hero Section */}
-      <AboutHero />
+      <AboutHero hero={content.hero} />
       {/* StatsStrip */}
       <AboutStatsStrip />
       {/* Founding narrative + Kannangara */}
-      <OurNameSake />
-      <OurStory />
+      <OurNameSake aboutKannangara={content.aboutKannangara} />
+      <OurStory story={content.story} />
       {/* Timeline */}
-      <TimeLine />
+      <TimeLine timeline={content.timeline} />
       {/* Vision, Mission, Values */}
-      <Ethos />
-      <Values />
+      <Ethos ethos={content.ethos} />
+      <Values values={content.values} />
       {/* Crest explained */}
-      <CrestExplained />
+      <CrestExplained crest={content.crest} />
       {/* Alumni Legacy */}
       <AlumniLegacy />
       {/* Spirit of Kannangara & Physical Heritage – static section, no keys needed */}
-      <Legacy />
+      <Legacy legacy={content.legacy} />
       {/* School Anthem */}
-      <SchoolAnthem />
+      <SchoolAnthem anthem={content.anthem} />
       {/* Closing Statement */}
-      <ClosingStatement />
+      <ClosingStatement closing={content.closing} />
     </>
   );
 }
