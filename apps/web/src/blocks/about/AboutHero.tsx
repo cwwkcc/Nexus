@@ -1,15 +1,13 @@
 import { Hero } from '@nexus/ui';
-import { useTranslations } from 'next-intl';
+import type { AboutHeroData } from '@nexus/validation';
 
-export default function AboutHero() {
-  const t = useTranslations('about.hero');
-
+export default function AboutHero({ hero }: { hero: AboutHeroData }) {
   return (
     <Hero
       variant="subpage"
-      heading={t('title')}
-      subheading={t('subtitle')}
-      eyebrow={t('eyebrow')}
+      heading={hero.title}
+      subheading={hero.subtitle}
+      eyebrow={hero.eyebrow}
       breadcrumb={[{ label: 'Home', href: '/' }, { label: 'About' }]}
     />
   );

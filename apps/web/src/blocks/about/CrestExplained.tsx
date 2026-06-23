@@ -1,5 +1,3 @@
-//web/src/app/[locale]/components/test/page.tsx
-'use client';
 import {
   Container,
   Heading,
@@ -12,14 +10,10 @@ import {
   type CrestSymbol,
   SchoolLogo,
 } from '@nexus/ui';
-import { useTranslations } from 'next-intl';
+import type { AboutCrestData } from '@nexus/validation';
 
-export function CrestExplained() {
-  const t = useTranslations('about.crest');
-
-  const symbols = t.raw('symbols')
-    ? Object.values(t.raw('symbols') as Record<string, CrestSymbol>)
-    : [];
+export function CrestExplained({ crest }: { crest: AboutCrestData }) {
+  const symbols = crest.symbols as CrestSymbol[];
 
   return (
     <Container
@@ -29,23 +23,22 @@ export function CrestExplained() {
       className="m-space-6 md:m-space-12 lg:m-space-16"
     >
       <SectionHeader
-        eyebrow={t('eyebrow')}
-        title={t('heading')}
+        eyebrow={crest.eyebrow}
+        title={crest.heading}
         align="center"
         withAccentRule
         variant="eyebrow-title-description"
-        description={t('intro')}
+        description={crest.intro}
         marginBottom="mb-space-12"
       />
 
-      {/* ── Mobile: crest + 2×2 symbol grid ──────────────────────────── */}
       <Container className="lg:hidden">
         <Container
           size="full"
           padding="none"
           className="max-w-size-screen-h-50 mb-space-10"
         >
-          <SchoolLogo></SchoolLogo>
+          <SchoolLogo />
         </Container>
         <Grid columns={1} gap={6} className="xs:grid-cols-2">
           {symbols.map((symbol) => (
@@ -63,7 +56,6 @@ export function CrestExplained() {
         </Grid>
       </Container>
 
-      {/* ── Desktop: annotated hotspot diagram ────────────────────────── */}
       <div className="hidden lg:block">
         <CrestDiagram symbols={symbols} />
       </div>

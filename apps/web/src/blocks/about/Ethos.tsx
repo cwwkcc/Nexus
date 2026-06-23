@@ -1,7 +1,7 @@
 import { VStack, Container, EyebrowLabel, QuoteBlock } from '@nexus/ui';
-import { useTranslations } from 'next-intl';
-export default function Ethos() {
-  const t = useTranslations('about.ethos');
+import type { AboutEthosData } from '@nexus/validation';
+
+export default function Ethos({ ethos }: { ethos: AboutEthosData }) {
   return (
     <Container
       size="full"
@@ -11,18 +11,18 @@ export default function Ethos() {
     >
       <VStack spacing={6}>
         <VStack spacing={4}>
-          <EyebrowLabel>{t('visionEyebrow')}</EyebrowLabel>
-          <QuoteBlock variant="pull-quote" quote={t('visionText')} />
+          <EyebrowLabel>{ethos.visionEyebrow}</EyebrowLabel>
+          <QuoteBlock variant="pull-quote" quote={ethos.visionText} />
         </VStack>
 
         <VStack spacing={4}>
-          <EyebrowLabel>{t('missionEyebrow')}</EyebrowLabel>
-          <QuoteBlock variant="pull-quote" quote={t('missionText')} />
+          <EyebrowLabel>{ethos.missionEyebrow}</EyebrowLabel>
+          <QuoteBlock variant="pull-quote" quote={ethos.missionText} />
         </VStack>
         <VStack spacing={4}>
           <EyebrowLabel>Our Motto</EyebrowLabel>
           <div className="text-center">
-            <QuoteBlock variant="pull-quote" quote={t('motto')} />
+            <QuoteBlock variant="pull-quote" quote={ethos.motto} />
           </div>
         </VStack>
       </VStack>

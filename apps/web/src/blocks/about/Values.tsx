@@ -7,19 +7,9 @@ import {
   EyebrowLabel,
   Heading,
 } from '@nexus/ui';
-import { useTranslations } from 'next-intl';
+import type { AboutValuesData } from '@nexus/validation';
 
-interface Value {
-  english: string;
-  latin: string;
-  desc: string;
-}
-export default function Values() {
-  const t = useTranslations('about.values');
-  const values = t.raw('values')
-    ? Object.values(t.raw('values') as Record<string, Value>)
-    : [];
-
+export default function Values({ values }: { values: AboutValuesData }) {
   return (
     <Container
       size="full"
@@ -27,14 +17,14 @@ export default function Values() {
       as="section"
       className=" m-space-6 md:m-space-12 lg:m-space-16"
     >
-      <EyebrowLabel>{t('valuesEyebrow')}</EyebrowLabel>
+      <EyebrowLabel>{values.valuesEyebrow}</EyebrowLabel>
       <Grid
         columns={1}
         gap={8}
         className="mt-space-10 md:grid-cols-2 lg:grid-cols-4"
       >
-        {values.map((value) => (
-          <GridItem key={value.english}>
+        {values.values.map((value) => (
+          <GridItem key={value.id}>
             <VStack spacing={3} align="center" className="text-center">
               <Heading level="h3">{value.english}</Heading>
               <Text variant="caption" color="gold">

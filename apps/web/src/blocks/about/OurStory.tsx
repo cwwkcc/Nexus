@@ -1,8 +1,7 @@
 import { VStack, Text, QuoteBlock, SectionHeader, Container } from '@nexus/ui';
-import { useTranslations } from 'next-intl';
+import type { AboutStoryData } from '@nexus/validation';
 
-export default function OurStory() {
-  const t = useTranslations('about.story');
+export default function OurStory({ story }: { story: AboutStoryData }) {
   return (
     <Container
       size="full"
@@ -12,21 +11,23 @@ export default function OurStory() {
     >
       <VStack spacing={6}>
         <SectionHeader
-          eyebrow={t('eyebrow')}
-          title={t('heading')}
-          titleEm={t('headingEm')}
+          eyebrow={story.eyebrow}
+          title={story.heading}
+          titleEm={story.headingEm}
           withAccentRule
           headingLevel="h2"
           marginBottom="mb-space-6"
         />
         <Text variant="body" color="muted">
-          {t('paragraph')}
+          {story.paragraph}
         </Text>
-        <QuoteBlock
-          variant="pull-quote"
-          quote={t('quote')}
-          attribution={t('quoteAuthor')}
-        />
+        {story.quote && (
+          <QuoteBlock
+            variant="pull-quote"
+            quote={story.quote}
+            attribution={story.quoteAuthor}
+          />
+        )}
       </VStack>
     </Container>
   );

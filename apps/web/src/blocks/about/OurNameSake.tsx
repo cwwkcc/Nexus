@@ -8,11 +8,13 @@ import {
   Divider,
   QuoteBlock,
 } from '@nexus/ui';
-import { useTranslations } from 'next-intl';
+import type { AboutKannangaraData } from '@nexus/validation';
 
-export default function OurNameSake() {
-  const t = useTranslations('about.aboutKannangara');
-
+export default function OurNameSake({
+  aboutKannangara,
+}: {
+  aboutKannangara: AboutKannangaraData;
+}) {
   return (
     <Container
       size="full"
@@ -26,34 +28,32 @@ export default function OurNameSake() {
         alignItems="start"
         className="md:grid-cols-2 xl:grid-cols-3"
       >
-        {/* ──  Portrait ───────────────────────────────────────────── */}
         <GridItem alignSelf="center">
           <ImageFrame
-            src="/images/ironman.jpg"
-            alt={t('portraitAlt')}
+            src={aboutKannangara.portraitSrc ?? '/images/ironman.jpg'}
+            alt={aboutKannangara.portraitAlt}
             aspectRatio="3/4"
             variant="featured"
             frameColor="gold"
             frameWidth="border-2xl"
             size="full"
           />
-          {t('portraitCaption') && (
+          {aboutKannangara.portraitCaption && (
             <Text
               variant="caption"
               color="muted"
               className="text-center mt-space-2"
             >
-              {t('portraitCaption')}
+              {aboutKannangara.portraitCaption}
             </Text>
           )}
         </GridItem>
 
-        {/* ──  Content ────────────────────────────────────────────── */}
         <GridItem className="xl:col-span-2">
           <SectionHeader
-            eyebrow={t('eyebrow')}
-            title={t('name')}
-            description={t('position')}
+            eyebrow={aboutKannangara.eyebrow}
+            title={aboutKannangara.name}
+            description={aboutKannangara.position}
             variant="eyebrow-title-description"
             withAccentRule
             headingLevel="h2"
@@ -63,15 +63,17 @@ export default function OurNameSake() {
           <Divider accentVariant="muted" className="mb-space-6" />
 
           <Text variant="body" color="muted">
-            {t('paragraph')}
+            {aboutKannangara.paragraph}
           </Text>
 
-          <QuoteBlock
-            variant="pull-quote"
-            quote={t('quote')}
-            attribution={t('attribution')}
-            className="mt-space-8"
-          />
+          {aboutKannangara.quote && (
+            <QuoteBlock
+              variant="pull-quote"
+              quote={aboutKannangara.quote}
+              attribution={aboutKannangara.attribution}
+              className="mt-space-8"
+            />
+          )}
         </GridItem>
       </Grid>
     </Container>

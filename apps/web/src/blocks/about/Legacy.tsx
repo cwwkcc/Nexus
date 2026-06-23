@@ -1,5 +1,3 @@
-//web/src/app/[locale]/components/test/page.tsx
-'use client';
 import {
   VStack,
   Text,
@@ -11,13 +9,11 @@ import {
   QuoteBlock,
   ImageFrame,
 } from '@nexus/ui';
-import { useTranslations } from 'next-intl';
+import type { AboutLegacyData } from '@nexus/validation';
 
 import { heritageImages } from '../../data/about';
 
-export default function Legacy() {
-  const t = useTranslations('about.legacy');
-
+export default function Legacy({ legacy }: { legacy: AboutLegacyData }) {
   return (
     <Container
       size="full"
@@ -29,26 +25,26 @@ export default function Legacy() {
         <GridItem>
           <VStack spacing={6}>
             <EyebrowLabel className="mb-space-2">
-              {t('spirit.eyebrow')}
+              {legacy.spirit.eyebrow}
             </EyebrowLabel>
-            <Heading level="h3">{t('spirit.heading')}</Heading>
+            <Heading level="h3">{legacy.spirit.heading}</Heading>
             <Text variant="body" color="muted">
-              {t('spirit.paragraph')}
+              {legacy.spirit.paragraph}
             </Text>
             <QuoteBlock
               variant="pull-quote"
-              quote={t('spirit.quote')}
-              attribution={t('spirit.attribution')}
+              quote={legacy.spirit.quote}
+              attribution={legacy.spirit.attribution}
             />
           </VStack>
         </GridItem>
         <GridItem className="xl:col-span-2">
           <Grid>
             <EyebrowLabel className="mb-space-4">
-              {t('heritage.eyebrow')}
+              {legacy.heritage.eyebrow}
             </EyebrowLabel>
             <Heading level="h3" className="mb-space-4">
-              {t('heritage.heading')}
+              {legacy.heritage.heading}
             </Heading>
 
             <Grid columns={2} gap={2}>
@@ -67,7 +63,7 @@ export default function Legacy() {
               color="muted"
               className="mt-space-4 text-center"
             >
-              {t('heritage.caption')}
+              {legacy.heritage.caption}
             </Text>
           </Grid>
         </GridItem>
