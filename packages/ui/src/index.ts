@@ -157,6 +157,7 @@ export { LoadingScreen } from './components/page-states/LoadingScreen';
 export { LoadingSkeleton } from './components/page-states/LoadingSkeleton';
 export { NotFoundPage } from './components/page-states/NotFound';
 export { OfflineBanner } from './components/page-states/OfflineBanner';
+export { SectionErrorBoundary } from './components/SectionErrorBoundary';
 
 // ============================================================================
 // TYPOGRAPHY
