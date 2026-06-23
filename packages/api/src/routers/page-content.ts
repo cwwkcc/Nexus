@@ -13,7 +13,7 @@ import {
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 
-import { publicProcedure, adminProcedure, router } from '../trpc.js';
+import { publicProcedure, adminMutation, router } from '../trpc.js';
 
 const SECTION_SCHEMAS: Record<
   string,
@@ -57,7 +57,7 @@ export const pageContentRouter = router({
    * News. Gated by adminProcedure — see trpc.ts for the temporary-auth
    * caveat.
    */
-  update: adminProcedure
+  update: adminMutation
     .input(PageContentUpdateInputSchema)
     .mutation(async ({ ctx, input }) => {
       const { page, sectionKey, locale, data } = input;
