@@ -25,6 +25,10 @@
       "path": "packages/config",
     },
     {
+      "name": "VALIDATION",
+      "path": "packages/validation",
+    },
+    {
       "name": "ROOT",
       "path": ".",
     },
