@@ -51,7 +51,7 @@ const DEFAULT_LINKS: NavLink[] = [
   { label: 'Contact', href: '/contact' },
 ];
 
-function NavDropdown({ children, isSolid }: NavDropdownProps) {
+function NavDropdown({ children, isSolid: _isSolid }: NavDropdownProps) {
   return (
     <div
       className="absolute top-full left-0 min-w-[180px] py-2"
@@ -107,7 +107,7 @@ function NavItem({ link, isSolid, isActive }: NavItemProps) {
       </HStack>
 
       {hasChildren && open && (
-        <NavDropdown children={link.children!} isSolid={isSolid} />
+        <NavDropdown children={link.children ?? []} isSolid={isSolid} />
       )}
     </div>
   );

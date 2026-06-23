@@ -1,6 +1,5 @@
 import clsx from 'clsx';
 
-import { Button } from '../atoms/Button';
 import { ButtonLink } from '../atoms/ButtonLink';
 import { ImageFrame } from '../media/ImageFrame';
 import { QuoteBlock } from '../typography/QuoteBlock';

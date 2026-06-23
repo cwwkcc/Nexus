@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest';
+
 import { cn } from './cn';
 
 describe('cn - Class Name Utility', () => {
@@ -9,7 +10,8 @@ describe('cn - Class Name Utility', () => {
   });
 
   it('should handle conditional classes', () => {
-    const result = cn('px-2', true && 'py-2');
+    const isActive = true;
+    const result = cn('px-2', isActive && 'py-2');
     expect(typeof result).toBe('string');
   });
 

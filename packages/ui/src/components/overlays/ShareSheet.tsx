@@ -13,13 +13,7 @@ export interface ShareSheetProps {
   text?: string;
 }
 
-export function ShareSheet({
-  isOpen,
-  onClose,
-  title,
-  url,
-  _text,
-}: ShareSheetProps) {
+export function ShareSheet({ isOpen, onClose, title, url }: ShareSheetProps) {
   const [copied, setCopied] = useState(false);
 
   const shareViaWhatsApp = () => {

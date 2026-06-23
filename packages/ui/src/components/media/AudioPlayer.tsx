@@ -87,7 +87,9 @@ export function AudioPlayer({
     if (!audioContextRef.current && audioRef.current) {
       try {
         const AudioContext =
-          window.AudioContext || (window as any).webkitAudioContext;
+          window.AudioContext ||
+          (window as unknown as { webkitAudioContext: typeof AudioContext })
+            .webkitAudioContext;
         const audioCtx = new AudioContext();
         const analyser = audioCtx.createAnalyser();
         analyser.fftSize = 128;
