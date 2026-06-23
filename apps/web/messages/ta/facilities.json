@@ -1,0 +1,16 @@
+{
+  "facilities": {
+    "hero": {
+      "eyebrow": "[Sinhala translation pending]",
+      "title": "[Sinhala translation pending]",
+      "subtitle": "[Sinhala translation pending]"
+    },
+    "mainBuilding": "[Sinhala translation pending]",
+    "scienceLabs": "[Sinhala translation pending]",
+    "ictLabs": "[Sinhala translation pending]",
+    "auditorium": "[Sinhala translation pending]",
+    "sportsGrounds": "[Sinhala translation pending]",
+    "swimmingPool": "[Sinhala translation pending]",
+    "library": "[Sinhala translation pending]"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "societies": {
+    "hero": {
+      "eyebrow": "[Sinhala translation pending]",
+      "title": "[Sinhala translation pending]",
+      "titleEm": "[Sinhala translation pending]",
+      "subtitle": "[Sinhala translation pending]"
+    },
+    "hub": {
+      "title": "[Sinhala translation pending]"
+    },
+    "kits": {
+      "name": "[Sinhala translation pending]",
+      "tagline": "[Sinhala translation pending]"
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "home": {
+    "hero": {
+      "eyebrow": "[Sinhala translation pending]",
+      "tagline": "[Sinhala translation pending]",
+      "established": "[Sinhala translation pending]",
+      "ctaExplore": "[Sinhala translation pending]",
+      "ctaAdmissions": "[Sinhala translation pending]",
+      "scrollHint": "[Sinhala translation pending]"
+    },
+    "stats": {
+      "students": "[Sinhala translation pending]",
+      "staff": "[Sinhala translation pending]",
+      "years": "[Sinhala translation pending]",
+      "universityEntrances": "[Sinhala translation pending]"
+    },
+    "principal": {
+      "title": "[Sinhala translation pending]",
+      "readFull": "[Sinhala translation pending]"
+    },
+    "news": {
+      "title": "[Sinhala translation pending]",
+      "viewAll": "[Sinhala translation pending]"
+    },
+    "academicStreams": {
+      "title": "[Sinhala translation pending]"
+    },
+    "lifeAtKCC": {
+      "title": "[Sinhala translation pending]"
+    },
+    "achievements": {
+      "title": "[Sinhala translation pending]"
+    },
+    "societies": {
+      "title": "[Sinhala translation pending]"
+    }
+  }
+}
