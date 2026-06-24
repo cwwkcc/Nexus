@@ -1,31 +1,14 @@
 // apps/web/src/i18n/request.ts
-import fs from 'fs';
-import path from 'path';
-
 import { getRequestConfig } from 'next-intl/server';
+import { loadMessages, SUPPORTED_LOCALES } from '@nexus/locales';
 
 import { routing } from './routing';
 
-async function loadMessages(locale: string) {
-  const messagesDir = path.join(process.cwd(), 'messages', locale);
-  const files = fs.readdirSync(messagesDir).filter((f) => f.endsWith('.json'));
-  let allMessages = {};
-  for (const file of files) {
-    const filePath = path.join(messagesDir, file);
-    const content = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-    allMessages = { ...allMessages, ...content };
-  }
-  return allMessages;
-}
-
 export default getRequestConfig(async ({ requestLocale }) => {
   let locale = await requestLocale;
-  if (!locale || !routing.locales.includes(locale as 'en' | 'si' | 'ta')) {
+  if (!locale || !SUPPORTED_LOCALES.includes(locale as any)) {
     locale = routing.defaultLocale;
   }
-  const messages = await loadMessages(locale);
-  return {
-    locale,
-    messages,
-  };
+  const messages = loadMessages(locale as any);
+  return { locale, messages };
 });

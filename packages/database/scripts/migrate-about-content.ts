@@ -1,18 +1,3 @@
-// packages/database/scripts/migrate-about-content.ts
-//
-// One-time migration for ADR-009. Reads the existing en/si/ta
-// apps/web/messages/{locale}/about.json files and seeds them into
-// PageContent. Safe to re-run (upserts). Does NOT delete the source JSON
-// files or the about.json `stats`/`alumni` keys — those stay in place
-// until Tasks 8.2 (stats) and 7.18/Alumni Module wiring read from their own
-// tables; this script only touches the ten sections that move to
-// PageContent per ADR-009.
-//
-// Run from the repo root:
-//   pnpm --filter @nexus/db exec tsx scripts/migrate-about-content.ts
-//
-// Requires DATABASE_URL to be set and `prisma generate` to have been run.
-
 import { readFile } from 'node:fs/promises';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';

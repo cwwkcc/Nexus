@@ -36,7 +36,8 @@
       "@nexus/api": ["./packages/api/src/index.ts"],
       "@nexus/db": ["./packages/database/src/index.ts"],
       "@nexus/config": ["./packages/config/src/index.ts"],
-      "@nexus/validation": ["./packages/validation/src/index.ts"]
+      "@nexus/validation": ["./packages/validation/src/index.ts"],
+      "@nexus/locales": ["./packages/locales/src/index.ts"]
     }
   }
 }
