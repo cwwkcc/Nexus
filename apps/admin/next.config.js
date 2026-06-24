@@ -1,6 +1,5 @@
 //@ts-check
 
- 
 const { composePlugins, withNx } = require('@nx/next');
 
 /**
@@ -8,7 +7,7 @@ const { composePlugins, withNx } = require('@nx/next');
  **/
 const nextConfig = {
   nx: {},
-  transpilePackages: ['@nexus/ui'],
+  transpilePackages: ['@nexus/ui', '@nexus/api', '@nexus/validation'],
   experimental: {
     optimizePackageImports: ['@nexus/ui', 'framer-motion', 'lucide-react'],
   },
