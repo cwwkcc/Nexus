@@ -1,5 +1,6 @@
 import { z } from 'zod';
-import { adminProcedure, router, publicProcedure } from '../trpc.js';
+
+import { adminMutation, router, publicProcedure } from '../trpc.js';
 
 export const pageConfigRouter = router({
   getByPage: publicProcedure

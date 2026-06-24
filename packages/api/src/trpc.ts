@@ -27,30 +27,33 @@ const authMiddleware = t.middleware(({ ctx, next }) => {
   return next({ ctx });
 });
 
-const auditMiddleware = t.middleware(async ({ ctx, path, type, input, next }) => {
-  const result = await next();
+const auditMiddleware = t.middleware(
+  async ({ ctx, path, type, input, next }) => {
+    const result = await next();
 
-  if (type === 'mutation') {
-    try {
-      await ctx.db.auditLog.create({
-        data: {
-          performedBy: ctx.adminSecret ?? 'unknown',
-          entityType: path.split('.')[0],
-          entityId: typeof input === 'object' && input !== null && 'id' in input
-            ? String((input as any).id)
-            : '',
-          action: path,
-          beforeData: null,
-          afterData: input ? JSON.stringify(input) : null,
-        },
-      });
-    } catch {
-      // Audit logging must not break the primary action.
+    if (type === 'mutation') {
+      try {
+        await ctx.db.auditLog.create({
+          data: {
+            performedBy: ctx.adminSecret ?? 'unknown',
+            entityType: path.split('.')[0],
+            entityId:
+              typeof input === 'object' && input !== null && 'id' in input
+                ? String((input as Record<string, unknown>).id)
+                : '',
+            action: path,
+            beforeData: null,
+            afterData: input ? JSON.stringify(input) : null,
+          },
+        });
+      } catch {
+        // Audit logging must not break the primary action.
+      }
     }
-  }
 
-  return result;
-});
+    return result;
+  },
+);
 
 export const router = t.router;
 export const publicProcedure = t.procedure;
