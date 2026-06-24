@@ -1,82 +1,97 @@
-# Nexus – The Digital Institution of C.W.W. Kannangara Central College
-
-**To:** The Principal, C.W.W. Kannangara Central College, Mathugama  
-**From:** Kannangara ICT Society (KITS)  
-**Date:** June 2026  
-**Subject:** Implementation of the "Nexus" Digital Web Platform
+**To:** The Principal, C.W.W. Kannangara Central College, Mathugama
+**From:** Kannangara ICT Society (KITS)
+**Date:** June 2026
+**Subject:** Implementation of the "Nexus" Digital Institution
 
 ---
 
 ## 1. Executive Summary
 
+Nexus will become the school's official digital institution: a complete, unified digital face that improves communication, strengthens public reputation, preserves school history, supports student activities, and provides a sustainable foundation for future digital services.
+
 C.W.W. Kannangara Central College – founded in 1873 and recognised in 1941 as Sri Lanka's first Central College – deserves a modern, official digital presence that reflects its heritage, scale, and educational excellence.
 
-**Nexus** is a proposal to build a complete, professional, and sustainable digital institution for KCC. It will encompass:
+**Nexus** is a proposal to build the school's permanent digital institution. It will encompass:
 
-- A fully trilingual public website (`cwwkcc.lk`, English / Sinhala / Tamil) covering school information, news, society hub, gallery, admissions, results, and contact tools.
+- A fully trilingual public website (`cwwkcc.lk`, English / Sinhala / Tamil) covering school information, news, society hub, gallery, admissions, and contact tools.
 - A secure, custom admin panel enabling staff and KITS editors to update content without technical knowledge.
+- Official, professionally managed social media presence across Facebook, Instagram, YouTube, LinkedIn, and WhatsApp Channel.
 - A robust technical foundation – a design system, database, and image storage architecture – built to serve the school for the next decade.
-- An official, managed social media presence across key platforms.
 
-Nexus will be designed and developed entirely **by the Kannangara ICT Society (KITS)** under staff guidance, using industry-standard open-source tools. There are no recurring software licensing fees. The only operational cost is hosting and domain renewal at approximately **LKR 2,500 per month**.
+Nexus will be designed and developed entirely **by the Kannangara ICT Society (KITS)** under staff guidance, using industry-standard open-source tools. There are no recurring software licensing fees. The only operational cost is hosting and domain renewal at approximately **LKR 10,000–12,000 per month**.
 
 ---
 
 ## 2. Project Objectives
 
-1. **Modernize** the school's digital presence to reflect its 153-year heritage and prestige.
-2. **Improve communication** with parents and students through timely news, announcements, and downloadable resources.
-3. **Centralize institutional information** into a single, authoritative platform.
-4. **Increase visibility** of student achievements, school activities, and extracurricular opportunities.
-5. **Establish a scalable, sustainable foundation** for future digital services.
+1. **Modernize** the school's digital presence to reflect its 153-year heritage and prestige.
+2. **Improve communication** with parents and students through timely news, announcements, and downloadable resources.
+3. **Centralize institutional information** into a single, authoritative platform.
+4. **Increase visibility** of student achievements, school activities, and extracurricular opportunities.
+5. **Establish a scalable, sustainable foundation** for future digital services.
 
 ---
 
 ## 3. The Case for Change
 
-- Fragmented visual identity and inconsistent user experience.
+- Fragmented visual identity and inconsistent user experience across web and social media.
 - Poor mobile performance and accessibility.
 - Security risks of unmaintained legacy systems.
 - Administrative friction – updates require technical intervention.
+- Unofficial social media accounts that do not follow the school's visual identity or content standards.
 
-Nexus solves all these with a modern, secure, and easy-to-manage platform.
+Nexus solves all these with a modern, secure, and easy-to-manage digital institution.
+
+---
+
+### Why Now?
+The school already possesses the student talent, technical planning, and organisational structure required to execute this project successfully.
+The majority of the research, architecture design, component development, and planning work has already been completed by KITS at no cost to the school. Approval now allows that momentum to be converted into a permanent institutional asset.
 
 ---
 
 ## 4. Proposed Solution: Nexus
 
-**Design Philosophy:** "Stepping Into the Forest" – light‑dominant, glass‑based UI, reflecting KCC's natural environment.
+**Design Philosophy:** "Royal Institution" — warm parchment surfaces, forest green identity, gold accents, and deliberate motion. Every design decision reflects the dignity of a school that has stood since 1873.
 
-**Core Features (Launch Scope):**
+**Core Components (Launch Scope):**
 
-|Feature|Description|
-|---|---|
-|Public Website|Home, About, Academics, Admissions, News, Societies, Gallery, Facilities, Extracurriculars, Contact. Fully responsive, available in English, Sinhala, and Tamil.|
-|Results Portal|Index number + exam year lookup, rate-limited and privacy-safe (no public browsing, no index numbers in analytics). The single most-used feature for the wider community at results time.|
-|News & Announcements|Editors publish articles, events, achievements via custom admin panel.|
-|Admissions Hub|Process steps, key dates, requirements, downloadable forms, enquiry form.|
-|Admin Panel|Custom dashboard for staff to manage all content – no coding required.|
-|Design System|Unified colours, typography, components (see Foundations.md).|
-|Privacy Analytics|Self-hosted Umami – no personal data collected.|
-|Official Social Media|Managed presence on Facebook, Instagram, YouTube, LinkedIn, and WhatsApp Channel, including takeover of any existing unofficial accounts (see Section 13.3).|
+| Component | Description |
+|-----------|-------------|
+| **Public Website** | Home, About, Academics, Admissions, News, Societies, Gallery, Facilities, Extracurriculars, Alumni, Digital Archive, Achievement Database, Contact. Fully responsive, available in English, Sinhala, and Tamil. |
+| **News & Announcements** | Editors publish articles, events, achievements via custom admin panel. |
+| **Admissions Hub** | Process steps, key dates, requirements, downloadable forms, enquiry form. |
+| **Admin Panel** | Custom dashboard for staff to manage all content – no coding required. |
+| **Design System** | Unified colours, typography, components, and motion language. |
+| **Privacy Analytics** | Self-hosted Umami – no personal data collected. |
+| **Official Social Media** | Managed presence on Facebook, Instagram, YouTube, LinkedIn, and WhatsApp Channel. Where unofficial accounts already exist, KITS will coordinate the transfer of administration to bring them under school oversight and align them with the school's official visual identity. |
+| **Technical Foundation** | Infrastructure, database, and architecture that allows the school to grow its digital presence for the next decade. |
 
-> **Scope note:** the table above describes what stakeholders will see and use at launch. It is not the full technical scope. The complete engineering build — including infrastructure, design system internals, accessibility, performance, and administrative tooling — is defined in `Feature Registry.md`, the single authoritative list of all 173 features Nexus will include. Approving this proposal approves that full scope, not only the stakeholder-facing rows above.
+> **Scope note:** The table above describes what stakeholders will see and interact with at launch. It is not the full technical scope. The complete engineering build — including infrastructure, design system internals, accessibility, performance, and administrative tooling — is defined in `Feature Registry.md`, the single authoritative list of all **181 features** Nexus will include. Approving this proposal approves that full scope.
+
+> **Scope note (Social Media):** Social media is a core component of Nexus, not an add-on. Official account creation, management, and the coordinated transfer of any existing unofficial accounts (where appropriate and approved by the school) are approved as part of this proposal (see Section 13.3). Social media _management_ is an operational activity and is not listed in the Feature Registry, which covers the web platform only.
 
 ---
 
 ## 5. Expected Benefits
 
-- Improved communication with parents and students.
+- Improved communication with parents and students across web and social media.
 - Enhanced school reputation for prospective families.
 - Increased student engagement through society and achievement visibility.
 - Reduced administrative burden – centralised, self-service content.
 - Long-term sustainability – full school ownership of code and infrastructure.
+- Consistent, professional digital identity across all platforms.
+
+### 5.1 Educational Value
+Nexus is not only a digital platform for the school; it is also a long-term educational initiative.
+Through participation in Nexus, members of the Kannangara ICT Society gain practical experience in software engineering, cybersecurity, user experience design, database systems, technical documentation, project management, accessibility, and collaborative development practices used throughout the modern technology industry.
+This transforms Nexus from a simple website project into a real-world learning platform that directly supports the school's mission of preparing students for higher education and professional careers.
 
 ---
 
 ## 6. Technical Approach
 
-Nexus uses modern open-source technologies, all self-hosted on a single **Hetzner VPS** (no cloud vendor lock-in). The table below is included for transparency; full specifications are in Appendix A. In plain terms: everything runs on infrastructure the school fully owns, with no recurring software licence fees.
+Nexus uses modern open-source technologies, all self-hosted on a single **Hetzner VPS** (no cloud vendor lock-in). The table below is included for transparency; full specifications are in Appendix A. In plain terms: everything runs on infrastructure the school fully owns, with no recurring software licence fees.
 
 |Component|Technology|Purpose|
 |---|---|---|
@@ -84,15 +99,15 @@ Nexus uses modern open-source technologies, all self-hosted on a single **Hetzn
 |Admin panel|Custom-built|Tailored exactly to KCC workflows.|
 |Staff sign-in|Google Workspace (`@cwwkcc.lk`)|Staff sign in with their existing school Google account; no separate password system to maintain. **Requires Google Workspace admin cooperation to configure** — see Section 13.4. See Appendix A.|
 |Database|PostgreSQL|News, pages, society data, user accounts.|
-|File storage|Cloudflare R2|Images, PDFs – 10GB free, zero egress fees.|
+|File storage|Cloudflare R2|Images, PDFs – 10 GB free, zero egress fees.|
 |Web server|Caddy|Reverse proxy, automatic HTTPS (Let's Encrypt).|
 |Email|Resend|Contact form notifications (free tier, 3k/month).|
 |Analytics|Umami (self-hosted)|Privacy-first, runs on same VPS.|
 |Error tracking|Sentry (free tier)|Optional – can be omitted.|
 
-All code is stored in a **school-owned GitHub repository**. KITS members are trained to maintain the system. Full documentation is provided.
+All code is stored in a **school-owned GitHub repository**. KITS members are trained to maintain the system. Full documentation is provided.
 
-**Accessibility & Performance:** WCAG 2.1 Level AA, Lighthouse score ≥90 on mobile.
+**Accessibility & Performance:** WCAG 2.1 Level AA, Lighthouse score ≥ 90 on mobile.
 
 ---
 
@@ -105,11 +120,11 @@ All code is stored in a **school-owned GitHub repository**. KITS members are tr
 |Institutional Ownership|School retains full ownership of GitHub repo and all code.|
 |Staff Advisor|Mrs. Tharindrie Perera, Teacher-in-Charge (ICT).|
 
-**Content Approval:** All content remains subject to school policies. The Principal or any designated staff may request modification or removal at any time.
+**Content Approval:** All content remains subject to school policies. The Principal or any designated staff may request modification or removal at any time.
 
-**Long-Term Continuity:** Full technical documentation ensures future KITS members or external developers can maintain the platform. No vendor lock-in.
+**Long-Term Continuity:** Full technical documentation ensures future KITS members or external developers can maintain the platform. No vendor lock-in.
 
-**Data Privacy:** No student records or PII are stored without separate approval. Student photos published only with consent.
+**Data Privacy:** No student records or PII are stored without separate approval. Student photos published only with consent.
 
 ---
 
@@ -128,35 +143,45 @@ All code is stored in a **school-owned GitHub repository**. KITS members are tr
 
 ## 9. Budget & Resources
 
-|Item|Cost|Notes|
-|---|---|---|
-|Domain (`cwwkcc.lk`)|≈ LKR 1,000/year|Renewal|
-|Hetzner VPS (CX22)|≈ LKR 1,500/month|2 vCPU, 4GB RAM, 40GB SSD|
-|Cloudflare R2|Free (10GB)|Object storage|
-|Resend (email)|Free (3k/month)|Transactional emails|
-|SSL Certificate|Free (Let's Encrypt)|Via Caddy|
-|Umami (self-hosted)|Free|On same VPS|
-|**Total Monthly**|**≈ LKR 2,500**|No additional licences|
-|**One-Time Setup**|**Zero**|All tools open source|
+The school receives the complete Nexus platform at **zero development cost**. The only recurring expenses are the infrastructure and services required to operate it reliably.
 
-> **Commercial equivalent:** A comparable platform would cost LKR 800,000–2,500,000 to build plus LKR 15,000–50,000/month maintenance. Nexus delivers at zero development cost and minimal monthly expense.
+| Item | Monthly Cost | What It Provides |
+|--------|--------:|-------------|
+| Hetzner CPX22 Server | ≈ LKR 7,450 | Main application server running the website, admin panel, database, and supporting services (2 vCPU, 4 GB RAM, 80 GB NVMe SSD). |
+| Hetzner Storage Box (1 TB) | ≈ LKR 1,550 | Secure off-site backup storage for encrypted database backups, media backups, and disaster recovery. |
+| Cloudflare R2 (Media Storage) | ≈ LKR 0–1,200 | Storage for gallery photos, staff portraits, documents, and other media assets. Initial usage is expected to remain within or near the free tier. |
+| Domain (`cwwkcc.lk`) | ≈ LKR 533 | Averaged over a 5-year renewal period (≈ LKR 32,000 ÷ 60 months). |
+| Cloudflare CDN & Security | ≈ LKR 0–2,000 | Global CDN, DDoS protection, caching, and SSL. Free plan is sufficient at launch; Pro plan is optional. |
+| Buffer / Miscellaneous | ≈ LKR 500 | Small reserve for minor renewals, operational tools, or future infrastructure adjustments. |
+| Resend (Email) | Free | Contact form notifications and transactional email delivery (free tier). |
+| SSL Certificates | Free | Automatic HTTPS certificates via Let's Encrypt, managed by Caddy. |
+| Umami Analytics | Free | Self-hosted privacy-friendly analytics running on the same VPS. |
+| **Total Monthly (Expected)** | **≈ LKR 10,000–12,000** | Typical operating cost under projected usage. |
+| **Total Annual Cost** | **≈ LKR 120,000–144,000** | Expected yearly infrastructure expenditure. |
+| **One-Time Setup Cost** | **LKR 0** | No software licence fees or commercial development costs. |
 
-**Additional operational dependencies (no cost, free tier):**
+> **Commercial equivalent:** The software itself represents hundreds of hours of student engineering effort. A comparable custom-built platform would typically cost between LKR 800,000 and 2,500,000 to commission commercially. Through KITS, the school receives this development at no cost and pays only the infrastructure required to operate it.
 
-|Service|Purpose|
-|---|---|
-|GitHub|Source code hosting, school-owned repository|
-|GitHub Actions|CI/CD pipeline — automated testing and deployment|
-|GitHub Container Registry|Docker image hosting for deployments|
-|Sentry|Error tracking (optional, free tier)|
+> **Value proposition:** For approximately **LKR 10,000–12,000 per month**, the school gains a modern trilingual digital institution serving over **5,000 students, staff, parents, prospective applicants, and alumni worldwide**, while retaining full ownership of its software, data, and infrastructure.
 
-These carry no monthly fee today but are part of the operational stack and depend on continued free-tier availability from their providers.
+### Additional Operational Dependencies (No Current Cost)
+
+The following services are part of the operational stack and currently operate within their free tiers:
+
+| Service | Purpose |
+|----------|----------|
+| GitHub | School-owned source code repository and version control |
+| GitHub Actions | Automated testing, building, and deployment pipeline |
+| GitHub Container Registry | Docker image hosting for deployments |
+| Sentry (Optional) | Error monitoring and diagnostics |
+
+These services currently carry no recurring cost but depend on the continued availability of their respective free tiers.
 
 ---
 
 ## 10. Phased Implementation Roadmap
 
-Preliminary research, architecture design, component development, and technical planning have been completed internally by KITS, at no cost to the school. The table below shows that preparation work alongside what comes next — full task-level detail is in `Engineering Roadmap.md`.
+Preliminary research, architecture design, component development, and technical planning have been completed internally by KITS, at no cost to the school. The table below shows that preparation work alongside what comes next — full task-level detail is in `Engineering Roadmap.md`.
 
 |Stage|Status / Period|What it delivers|
 |---|---|---|
@@ -167,14 +192,14 @@ Preliminary research, architecture design, component development, and technical 
 |Reliability & trilingual foundation|Complete (internal, no cost)|Safeguards against crashes/broken pages; the English/Sinhala/Tamil framework built in from the start.|
 |**Principal presentation & approval**|**June 2026 — now**|This proposal: formal mandate to proceed, plus administration's cooperation on content, photography, and alumni outreach.|
 |Database & content infrastructure|June – July 2026|Secure database and content-management infrastructure; staff sign-in via existing school Google accounts.|
-|Admin Panel|July 2026|Staff dashboard for managing News, Staff, Societies, Events, Gallery, Results, and Media — no coding required.|
-|Public pages go live with real content|July – August 2026|Every public page connected to real content, including the Results Portal.|
+|Admin Panel|July 2026|Staff dashboard for managing News, Staff, Societies, Events, Gallery, and Media — no coding required.|
+|Public pages go live with real content|July – August 2026|Every public page connected to real content.|
 |Content Collection & Data Entry|September – October 2026|Photography, historical photos, society data, staff info, alumni content — runs alongside the work below.|
 |Offline-friendly experience|August 2026|Website stays usable on poor mobile connections; can be installed like an app.|
 |Search visibility|August – September 2026|Optimisation so the school appears correctly in Google search results.|
 |Hosting goes live|September 2026|Hosting, automated backups, and uptime monitoring switched on.|
 |Launch preparation|October 2026|Accessibility audit, performance tuning, content population, editor training.|
-|**Public Launch**|**Target: October 2026**|Live deployment at `cwwkcc.lk`.|
+|**Public Launch**|**Target: October 2026**|Live deployment at `cwwkcc.lk`.|
 |Stabilisation|November 2026|First weeks of real usage — fix issues, close translation gaps, tune performance.|
 |Long-term handover|Ongoing|Documentation handover, next KITS generation onboarding.|
 
@@ -195,13 +220,13 @@ Monthly progress reviews with Staff Advisor; demo to Principal at milestones.
 
 ## 12. Success Criteria
 
-1. Public website live at `cwwkcc.lk`, meets WCAG 2.1 AA.
+1. Public website live at `cwwkcc.lk`, meets WCAG 2.1 AA.
 2. Full functionality in English, Sinhala, and Tamil at launch — not a partial or "infrastructure-only" rollout.
-3. Results Portal live, rate-limited, and excluded from search indexing — with verified import accuracy against source exam data, response times acceptable under peak load, and availability tested ahead of the school's actual results-release period (its highest-traffic event).
-4. At least two staff editors can independently publish a news article.
-5. All existing student societies have a dedicated page.
-6. School identity (history, motto, leadership) clearly presented.
-7. Site loads efficiently on mobile networks (Lighthouse ≥90).
+3. At least two staff editors can independently publish a news article.
+4. All existing student societies have a dedicated page.
+5. School identity (history, motto, leadership) clearly presented.
+6. Site loads efficiently on mobile networks (Lighthouse ≥ 90).
+7. Official social media accounts created and aligned with the school's visual identity.
 
 ---
 
@@ -213,11 +238,11 @@ This section defines exactly what the Principal's signature authorizes. It is sp
 
 The Principal is requested to approve:
 
-- Nexus as the official digital platform project of C.W.W. Kannangara Central College.
+- Nexus as the official digital institution of C.W.W. Kannangara Central College.
 - Development and deployment of the Nexus platform under KITS supervision.
-- A monthly operational budget of approximately **LKR 2,500** (hosting and domain renewal).
+- A monthly operational budget of approximately **LKR 10,000–12,000** (hosting and domain renewal).
 - Progression from the current preparation work into the remaining build stages described in Section 10.
-- Recognition of Nexus as the school's primary web platform upon launch.
+- Recognition of Nexus as the school's primary digital presence upon launch.
 - Authorization for future approved KITS members to be granted the same infrastructure and administrative access as the current team, under continued school and Staff Advisor supervision, as part of the documented handover process (see Section 7, Long-Term Continuity, and Section 11, Risk Assessment).
 
 ### 13.2 Institutional Ownership
@@ -257,13 +282,14 @@ Authorization for KITS to:
 **Digital Platforms**
 
 - Create and manage official school accounts on Facebook, Instagram, YouTube, LinkedIn, and WhatsApp Channel, subject to school oversight.
-- Where any of these accounts already exist unofficially, take them over and bring them up to the school's official visual identity and content standards — most existing accounts predate any defined branding and don't currently follow one.
+- Where any of these accounts already exist unofficially, coordinate the transfer of administration of existing school-related accounts where appropriate and approved by the school, and bring them up to the school's official visual identity and content standards.
+- **Reason:** Most existing accounts predate any defined branding and do not follow one. Aligning them under Nexus ensures a consistent, professional digital face for the school.
 
 **Publication Authority**
 
 - Publish content on the public website and official social media accounts on the school's behalf, within the bounds of the Content Governance policy and subject to the approval workflow defined in Section 13.4.
 
-> **Student privacy:** No personal data published without consent and school policy.
+> **Student privacy:** No personal data published without consent and school policy.
 
 ### 13.4 School Support Requirements
 
@@ -297,11 +323,11 @@ A project like this cannot succeed on KITS effort alone. The school is requested
 1. Principal formally approves proposal.
 2. Staff Advisor appointed.
 3. Immediate content collection begins: Principal's biography and portrait, full staff list, seed news articles, crest in vector format, historical photographs, school anthem audio.
-4. Social media accounts created (or taken over and brought up to standard, where they already exist unofficially).
+4. Social media accounts created (or coordinated transfer of existing unofficial accounts, where appropriate and approved).
 5. Database and backend development begins on the existing school-owned repository.
 6. Monthly demos to Staff Advisor as development continues.
 7. Beta presented to Principal ahead of launch.
-8. Public launch — target October 2026.
+8. Public launch — target November 2026.
 
 ---
 
@@ -313,19 +339,27 @@ Preliminary research, architecture design, component development, and technical 
 
 ## 16. Closing Statement
 
-> _Nexus is more than a website. It is the digital gateway to C.W.W. Kannangara Central College – preserving 153 years of heritage while building the technological foundation for the next generation._
+> _Nexus is more than a website. It is the digital gateway to C.W.W. Kannangara Central College – the school's complete digital institution, preserving 153 years of heritage while building the technological foundation for the next generation._
 
 ---
 
-## 17. Approval
+## 17. Recommendation
+
+The Kannangara ICT Society respectfully recommends approval of Nexus.
+The project presents a low financial commitment, zero software licensing costs, full institutional ownership, significant educational value, and a long-term digital foundation for the school.
+Approval will allow development to proceed immediately toward a public launch targeted for October–November 2026.
+
+---
+
+## 18. Approval
 
 By approving this proposal, the school authorizes the development and deployment of Nexus and grants the permissions listed in Section 13. Operational activities shall remain subject to school policies and administrative oversight.
 
-|**Approved By**| |
-|---|---|
-|Principal|C.W.W. Kannangara Central College|
-|**Signature**|_____________________________|
-|**Date**|_____________________________|
+| **Approved By** |                                   |
+| --------------- | --------------------------------- |
+| Principal       | C.W.W. Kannangara Central College |
+| **Signature**   | _____________________________     |
+| **Date**        | _____________________________     |
 
 |**Noted By**| |
 |---|---|
@@ -337,13 +371,13 @@ By approving this proposal, the school authorizes the development and deployment
 
 ## Appendices
 
-- **Appendix A:** Technical Architecture Overview (self-hosted Hetzner stack)
-- **Appendix B:** Design System Summary (matches Foundations & Tokens)
-- **Appendix C:** Asset Inventory
+- **Appendix A:** Technical Architecture Overview (self-hosted Hetzner stack)
+- **Appendix B:** Design System Summary (matches Foundations & Tokens)
+- **Appendix C:** Asset Inventory
 
 ---
 
-**Prepared by:** Kannangara ICT Society (KITS), C.W.W. Kannangara Central College, Mathugama  
-**Date:** June 2026
+**Prepared by:** Kannangara ICT Society (KITS), C.W.W. Kannangara Central College, Mathugama
+**Date:** June 2026
 
 _"Wisdom is All Wealth" – Est. 1873_

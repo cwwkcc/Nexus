@@ -1,191 +1,333 @@
 # Technical Architecture Overview
 
-**Project:** Nexus – C.W.W. Kannangara Central College  
-**Prepared by:** Kannangara ICT Society (KITS)  
-**Date:** June 2026
+## A.1 Architecture Philosophy
+
+Nexus is built on a **self-hosted, open-source, vendor-neutral** architecture. Every component is chosen for long-term maintainability, cost predictability, and institutional ownership. No third-party service can hold the school's digital presence hostage.
+
+The entire platform runs on a single Hetzner VPS, with all services containerised via Docker and orchestrated with Docker Compose. This keeps operational complexity low and costs predictable.
 
 ---
 
-## Overview
-
-Nexus is built as a single, self-contained application running on a dedicated **Hetzner VPS**. It combines the public website and the staff admin panel into one codebase, communicates with a PostgreSQL database for dynamic content, and stores all uploaded files in Cloudflare R2. Every component is free and open-source.
-
-The architecture is designed for:
-
-- **Reliability** – industry-standard tools with large support communities
-- **Security** – full control over server, encrypted traffic, no third-party CMS
-- **Simplicity** – one server, one application, minimal moving parts
-- **Maintainability** – fully documented stack that future KITS members can manage
-
----
-
-## System Architecture Diagram
+## A.2 System Architecture Diagram
 
 ```
-## System Architecture Diagram
-
-┌──────────────────────────────────────────────────────────────┐
-│                    VISITORS & STAFF                          |
-│                Desktop · Mobile · Tablet                     │
-└──────────────────────────┬───────────────────────────────────┘
-                           │ HTTPS
-                           ▼
-┌──────────────────────────────────────────────────────────────┐
-│                         CLOUDFLARE                           │
-│               DNS · CDN · DDoS Protection                    │
-└──────────────────────────┬───────────────────────────────────┘
-                           │
-                           ▼
-┌──────────────────────────────────────────────────────────────┐
-│                 CADDY (Hetzner VPS)                          │
-│      SSL Termination · Reverse Proxy · Security Headers      │
-└──────────────────────────┬───────────────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────────────┐
-│              NEXT.JS APPLICATION (Node.js)                  │
-│                                                             │
-│  ┌──────────────────────┐  ┌──────────────────────────────┐ │
-│  │     Public Website   │  │      Admin Panel (Custom)    │ │
-│  │                      │  │                              │ │
-│  │ • Home               │  │ • News Management            │ │
-│  │ • About              │  │ • Staff Management           │ │
-│  │ • News               │  │ • Society Management         │ │
-│  │ • Societies          │  │ • Image Uploads              │ │
-│  │ • Admissions         │  │ • Site Settings              │ │
-│  │ • More Pages         │  │ • Staff Authentication       │ │
-│  └──────────────────────┘  └──────────────────────────────┘ │
-└───────────────┬────────────────┬────────────────┬───────────┘
-                │                │                │
-                ▼                ▼                ▼
-
-┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐
-│   PostgreSQL    │  │  Cloudflare R2  │  │      Umami      │
-│                 │  │                 │  │                 │
-│ • Content Data  │  │ • Images        │  │ • Analytics     │
-│ • User Accounts │  │ • PDFs          │  │ • Self-hosted   │
-│ • Settings      │  │ • Documents     │  │ • No PII Data   │
-└─────────────────┘  └─────────────────┘  └─────────────────┘
-          │
-          ▼
-┌─────────────────┐
-│     Resend      │
-│                 │
-│ • Contact Forms │
-│ • Notifications │
-│ • System Emails │
-└─────────────────┘
-
+┌─────────────────────────────────────────────────────────────────┐
+│                         Internet                                │
+└─────────────────────────┬───────────────────────────────────────┘
+                          │
+                          ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                      Cloudflare (CDN + WAF)                     │
+│  • DNS management                                               │
+│  • DDoS protection                                              │
+│  • Global CDN caching                                           │
+│  • SSL termination (edge)                                       │
+└─────────────────────────┬───────────────────────────────────────┘
+                          │
+                          ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    Caddy (Reverse Proxy)                        │
+│  • Automatic HTTPS (Let's Encrypt)                             │
+│  • Route: cwwkcc.lk → web container                            │
+│  • Route: admin.cwwkcc.lk → admin container                    │
+│  • Security headers (HSTS, CSP, X-Frame-Options)               │
+└─────────────────────────┬───────────────────────────────────────┘
+                          │
+          ┌───────────────┼───────────────┐
+          ▼               ▼               ▼
+┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐
+│  nexus-web      │ │  nexus-admin    │ │  umami          │
+│  (Next.js)      │ │  (Next.js)      │ │  (Analytics)    │
+│  Port: 3000     │ │  Port: 3001     │ │  Port: 3002     │
+└────────┬────────┘ └────────┬────────┘ └────────┬────────┘
+         │                   │                   │
+         └───────────────┬───┴───────────────────┘
+                         │
+                         ▼
+              ┌─────────────────────┐
+              │   PostgreSQL        │
+              │   Port: 5432        │
+              │   (Internal only)   │
+              └─────────────────────┘
+                         │
+                         ▼
+              ┌─────────────────────┐
+              │   Cloudflare R2     │
+              │   (Object Storage)  │
+              │   • Images          │
+              │   • PDFs            │
+              │   • Media assets    │
+              └─────────────────────┘
 ```
 
-Note:
-All components except Cloudflare R2 and Resend run on the same
-Hetzner VPS. The school owns and controls all infrastructure.
-
----
-## System Layers
-
-### Layer 1 – User Browser
-
-Any visitor accesses the site via `cwwkcc.lk`. The site is optimised for low-bandwidth mobile connections.
-
-### Layer 2 – Cloudflare (DNS & Protection)
-
-- DNS management, DDoS protection, CDN for static assets.
-
-### Layer 3 – Web Server (Caddy)
-
-- Automatic SSL certificates (Let's Encrypt), reverse proxy to Next.js, security headers.
-
-### Layer 4 – Application (Next.js)
-
-- **Public website** – pre-rendered pages for speed and SEO.
-- **Admin panel** – staff sign in with their existing `@cwwkcc.lk` Google account (Auth.js + Google Workspace OAuth). A colleague's email must first be added by an existing Admin before their Google sign-in is accepted — Google authentication alone is not sufficient. A single break-glass credentials account exists for bootstrap and emergency recovery only. No coding required to manage content (news, societies, staff, facilities, gallery).
-
-### Layer 5 – Database (PostgreSQL)
-
-- Stores all dynamic content: news articles, society records, staff profiles, admissions data, and admin user records (most accounts authenticate via Google — only the break-glass account has a bcrypt-hashed password). Runs on the same VPS, not exposed to the internet.
-
-### Layer 6 – File Storage (Cloudflare R2)
-
-- All uploaded images and PDFs stored in R2. 10GB free, zero egress fees. Images are optimised (WebP, resized) before upload via Sharp.
-
-### Layer 7 – Analytics (Umami)
-
-- Self-hosted, open-source, privacy-focused analytics. No cookies or personal data collected.
-
-### Layer 8 – Email (Resend)
-
-- Sends contact form submissions and admin notifications. Free tier (3,000 emails/month).
-
 ---
 
-## Infrastructure Summary
+## A.3 Technology Stack
 
-| Component         | Provider                                 | Cost              |
-| ----------------- | ---------------------------------------- | ----------------- |
-| VPS Server        | Hetzner CX22 (2 vCPU, 4GB RAM, 40GB SSD) | ≈ LKR 1,500/month |
-| Domain            | `cwwkcc.lk`                              | ≈ LKR 1,0000/year |
-| DNS & CDN         | Cloudflare (free tier)                   | Free              |
-| File Storage      | Cloudflare R2 (free tier, 10GB)          | Free              |
-| SSL Certificate   | Let's Encrypt via Caddy                  | Free              |
-| Email Delivery    | Resend (free tier, 3,000/month)          | Free              |
-| Analytics         | Umami (self-hosted on same VPS)          | Free              |
-| **Monthly Total** |                                          | **≈ LKR 2,500**   |
+### A.3.1 Core Framework
+
+| Layer | Technology | Purpose | Why Chosen |
+|-------|-----------|---------|------------|
+| **Frontend Framework** | Next.js 14+ (App Router) | React framework with server components, static generation, and API routes | Provides SSR, ISR, and static generation with excellent i18n support; single framework for both public site and admin panel |
+| **Monorepo** | pnpm + Nx | Package management and build orchestration | Faster than npm; workspace linking; Nx provides task caching and affected commands |
+| **TypeScript** | TypeScript 5.0+ | Type safety across the entire codebase | Reduces runtime errors; provides excellent IDE support; entire stack is type-safe |
+| **Styling** | Tailwind CSS + Custom Preset | Utility-first styling with design tokens | Token system ensures visual consistency; Tailwind preset enforces design system rules |
+
+### A.3.2 Backend & API
+
+| Layer | Technology | Purpose | Why Chosen |
+|-------|-----------|---------|------------|
+| **API Layer** | tRPC | End-to-end type-safe API | Eliminates API spec drift; full type safety from server to client; excellent developer experience |
+| **Database** | PostgreSQL 15+ | Primary relational database | Battle-tested; handles JSON content well; excellent full-text search with Sinhala/Tamil support |
+| **ORM** | Prisma | Database access and migrations | Type-safe database client; declarative schema; migration history |
+| **Validation** | Zod | Schema validation | Single source of truth for data shapes; infers TypeScript types; validates forms, API, and database |
+| **Authentication** | Auth.js (NextAuth) | OAuth authentication with Google Workspace | Supports Google OAuth natively; Prisma adapter for session storage; restricts to `@cwwkcc.lk` domain |
+
+### A.3.3 Infrastructure
+
+| Layer | Technology | Purpose | Why Chosen |
+|-------|-----------|---------|------------|
+| **Web Server** | Caddy | Reverse proxy with automatic HTTPS | Automatic Let's Encrypt; simple Caddyfile configuration; built-in security headers |
+| **Container Runtime** | Docker + Docker Compose | Application containerisation | Consistent environment; easy deployment; health checks; restart policies |
+| **Object Storage** | Cloudflare R2 | Media asset storage | Zero egress fees; S3-compatible API; 10GB free tier; no bandwidth costs |
+| **CI/CD** | GitHub Actions | Automated testing and deployment | Native to GitHub; reusable workflows; container registry integration |
+| **Container Registry** | GitHub Container Registry (GHCR) | Docker image hosting | Free for public repositories; integrated with GitHub Actions |
+
+### A.3.4 Frontend Libraries
+
+| Library | Purpose |
+|---------|---------|
+| **Framer Motion** | React animation library for micro-interactions and state transitions |
+| **GSAP** | Timeline-based animations for ceremonial sequences (crest drawing, page transitions) |
+| **Lucide React** | Icon library (unified through Icon Registry) |
+| **next-intl** | Internationalisation with locale-aware routing |
+| **Tiptap** | Rich text editor for the admin panel |
+| **Sharp** | Image optimisation in the upload pipeline |
+| **clsx + tailwind-merge** | Conditional class name utility (`cn()` function) |
+
+### A.3.5 Monitoring & Analytics
+
+| Service | Purpose |
+|---------|---------|
+| **Umami** | Self-hosted privacy-first analytics (Docker container on same VPS) |
+| **UptimeRobot** | External uptime monitoring (5-minute checks) |
+| **Sentry** | Optional error monitoring (configurable via environment variable) |
 
 ---
 
-## Security Architecture
+## A.4 Data Flow
 
-|Measure|Implementation|
-|---|---|
-|Encrypted traffic|HTTPS enforced via Let's Encrypt|
-|Secrets management|Environment variables, never in code|
-|Input validation|Zod schemas on server and client|
-|Staff sign-in|Google Workspace OAuth restricted to `@cwwkcc.lk`, verified server-side — never trusted from the OAuth claim alone|
-|Admin access control|Invite-only: an existing Admin must add a colleague's `@cwwkcc.lk` email before their Google sign-in is accepted|
-|Break-glass account|One bcrypt-hashed credentials account for bootstrap/recovery only, protected by mandatory TOTP two-factor|
-|Everyday admin 2FA|Inherited from the school's own Google Workspace 2FA policy — not managed by Nexus|
-|Database isolation|PostgreSQL not exposed to public|
-|Dependency vulnerability scanning|`pnpm audit` in CI (GitHub Actions) — fails the build on high-severity vulnerabilities|
-|Uptime monitoring|UptimeRobot (free) – email alerts|
-|Backups|Automated database backups via cron to R2|
+### A.4.1 Content Publication Flow
 
----
+```
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│   Admin     │    │   tRPC      │    │   Zod       │    │  PostgreSQL │
+│   Panel     │───▶│   Router    │───▶│ Validation  │───▶│   Database  │
+│   (Editor)  │    │             │    │             │    │             │
+└─────────────┘    └─────────────┘    └─────────────┘    └──────┬──────┘
+                                                                 │
+                                                                 ▼
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│   Public    │    │   Next.js   │    │  Database   │    │   CDN       │
+│   Website   │◀───│   Server    │◀───│   Query     │◀───│   Cache     │
+│   Visitor   │    │   Component │    │             │    │             │
+└─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘
+```
 
-## Access Control
+### A.4.2 Asset Upload Flow
 
-|Role|Access Level|
-|---|---|
-|Public visitor|Read-only access to public pages|
-|Editor (teacher/KITS)|Create and edit content (news, societies, staff, events); cannot manage users, access settings, or delete published content|
-|Admin|Full content access, user management, settings|
-|Server Access|Restricted to designated KITS maintainers under staff oversight|
-
----
-
-## Codebase & Version Control
-
-- Private GitHub repository under school's institutional email.
-- Full history, rollback capability, collaborative development with code review.
-- Complete handover documentation for future maintainers.
-
----
-
-## Disaster Recovery
-
-- Database backups: daily `pg_dump` to R2, retained 30 days.
-- Configuration backups: Infrastructure as Code (Docker Compose, Caddyfile) in Git.
-- Recovery procedures for every failure mode — server failure, database corruption, accidental content deletion, domain loss, GitHub repository loss, R2 storage failure — documented in `docs/operations/Disaster Recovery.md`, with estimated recovery times for each.
-- Day-to-day operational procedures (deploy a change, roll back a deployment, restore from backup, add an admin user, renew a TLS certificate) documented in `docs/operations/Runbook.md`.
+```
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│   Admin     │    │   Sharp     │    │   Presigned │    │  Cloudflare │
+│   Upload    │───▶│  Optimise   │───▶│   URL       │───▶│   R2        │
+│   Request   │    │  (WebP)     │    │   Request   │    │   Storage   │
+└─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘
+                                                                 │
+                                                                 ▼
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│   Media     │    │   tRPC      │    │  PostgreSQL │    │   CDN       │
+│   Library   │◀───│   Router    │───▶│   Database  │───▶│   Edge      │
+│   Display   │    │   (callback)│    │   (metadata)│    │   Cache     │
+└─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘
+```
 
 ---
 
-## Documentation
+## A.5 Security Architecture
 
-Comprehensive technical and operational documentation maintained alongside the codebase to ensure continuity between student cohorts and enable future maintenance.
+### A.5.1 Authentication Flow
+
+1. **Primary Authentication**: Google Workspace OAuth via Auth.js
+   - Restricted to `@cwwkcc.lk` domain (verified server-side)
+   - Session stored in database via Prisma adapter
+   - Secure cookies with HttpOnly, SameSite
+
+2. **Access Control**: Invite-based
+   - Admin must first add user email to database
+   - Role assignment (Admin or Editor)
+   - Deactivation revokes access immediately
+
+3. **Break-glass Account**: Credentials-based super-admin
+   - Seeded from environment variables at deploy
+   - Protected by TOTP (RFC 6238)
+   - Used only for bootstrap and recovery
+   - Password rotation via server-side CLI script
+
+### A.5.2 Security Layers
+
+| Layer | Protection |
+|-------|------------|
+| **Network** | Firewall (ports 80, 443, 22 only); PostgreSQL internal-only |
+| **TLS** | Automatic HTTPS via Let's Encrypt; HSTS header |
+| **Headers** | CSP, X-Frame-Options (DENY), X-Content-Type-Options (nosniff), Referrer-Policy |
+| **API** | tRPC middleware for authentication; Zod input validation; rate limiting |
+| **File Upload** | MIME type validation; extension validation; size limits; Sharp metadata stripping |
+| **Database** | Connection pooling; prepared statements; no direct public access |
+| **Backups** | Encrypted off-site backups; separate key storage |
+
+### A.5.3 Rate Limiting
+
+| Endpoint | Limit | Implementation |
+|----------|-------|----------------|
+| Results Portal | 10 requests/minute/IP | Next.js middleware or Cloudflare WAF |
+| Contact Form | 5 requests/hour/IP | Next.js middleware or Cloudflare WAF |
+| General API | Configurable baseline | Next.js middleware |
 
 ---
 
-_Nexus – C.W.W. Kannangara Central College_  
-_"Wisdom is All Wealth" – Est. 1873_
+## A.6 Performance Optimisation
+
+### A.6.1 Static Generation
+
+- **Pages generated at build time**: Home, About, static content pages
+- **Pages with `generateStaticParams`**: News articles, society pages, gallery albums
+- **Revalidation**: ISR with revalidation intervals (1 hour for news, daily for societies)
+- **On-demand revalidation**: Content publish triggers immediate revalidation
+
+### A.6.2 Image Optimisation
+
+| Step | Tool | Purpose |
+|------|------|---------|
+| Upload | Sharp | Resize to max display dimensions; WebP conversion; metadata stripping |
+| Delivery | `next/image` | Automatic format negotiation; lazy loading; blur placeholders |
+| Storage | Cloudflare R2 | Global CDN caching; zero egress fees |
+| Caching | CDN + Browser | Cache-Control headers for immutable assets |
+
+### A.6.3 Bundle Optimisation
+
+| Technique | Implementation |
+|-----------|----------------|
+| Dynamic imports | CrestAnimation, AudioPlayer, Tiptap, PanoramicFacilityViewer |
+| Package optimisation | `optimizePackageImports` for `@nexus/ui` and `framer-motion` |
+| Code splitting | Next.js automatic per-page bundling |
+| Font optimisation | Self-hosted fonts; `next/font` with preload |
+
+### A.6.4 Performance Targets
+
+| Metric | Target |
+|--------|--------|
+| Lighthouse Performance (mobile) | ≥ 90 |
+| Cumulative Layout Shift (CLS) | < 0.1 |
+| Largest Contentful Paint (LCP) | < 2.5s |
+| Total Bundle Size (initial load) | < 200KB (JS) |
+
+---
+
+## A.7 Deployment Architecture
+
+### A.7.1 CI/CD Pipeline (GitHub Actions)
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                         Push to main                            │
+└─────────────────────────┬───────────────────────────────────────┘
+                          │
+                          ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    CI: ci.yml                                   │
+│  • TypeScript typecheck                                        │
+│  • ESLint lint                                                 │
+│  • pnpm audit (security)                                       │
+│  • Lighthouse CI (performance budgets)                         │
+│  • Unit tests (Vitest)                                         │
+│  • Integration tests                                           │
+│  • Build both apps                                             │
+└─────────────────────────┬───────────────────────────────────────┘
+                          │
+                          ▼ (if CI passes)
+┌─────────────────────────────────────────────────────────────────┐
+│                    CD: deploy.yml                               │
+│  • Build Docker images (multi-stage)                           │
+│  • Push to GitHub Container Registry                           │
+│  • SSH into Hetzner server                                     │
+│  • Pull new images                                             │
+│  • Docker compose restart (zero-downtime)                      │
+│  • Wait for health checks                                      │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### A.7.2 Zero-Downtime Deployment Strategy
+
+```yaml
+# docker-compose.yml deployment strategy
+services:
+  nexus-web:
+    image: ghcr.io/org/nexus-web:latest
+    container_name: nexus-web
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/api/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+```
+
+- New container starts alongside existing
+- Health check passes before routing traffic
+- Old container remains until new is healthy
+- Caddy automatically routes to healthy instance
+- Rollback: deploy previous image tag
+
+---
+
+## A.8 Disaster Recovery
+
+### A.8.1 Backup Strategy
+
+| Type | Schedule | Location | Retention |
+|------|----------|----------|-----------|
+| **Database** | Nightly | R2 (encrypted) | 30 days |
+| **Database** | Hourly (transaction logs) | R2 (encrypted) | 7 days |
+| **Media Assets** | Nightly | Secondary storage | 30 days |
+| **Docker Images** | Each deployment | GHCR | Unlimited |
+
+### A.8.2 Recovery Procedures
+
+| Failure Mode | Recovery Time | Procedure |
+|--------------|--------------|-----------|
+| Server failure | 2-4 hours | Provision new Hetzner server; restore from R2 backup |
+| Database corruption | 1-2 hours | Stop services; restore from latest backup; verify integrity |
+| Accidental deletion | Minutes | Audit log identifies deletion; soft-delete recovery from database |
+| Domain loss | Hours-Days | Contact LK domain registry with proof of institutional ownership |
+| R2 failure | Hours | Restore from secondary backup; migrate to alternative storage |
+
+---
+
+## A.9 Monitoring
+
+### A.9.1 Health Checks
+
+| Service | Health Check Endpoint | Interval | Alert On |
+|---------|----------------------|----------|----------|
+| nexus-web | `/api/health` | 10s | Container unhealthy (5 retries) |
+| nexus-admin | `/api/health` | 10s | Container unhealthy (5 retries) |
+| postgres | `pg_isready` | 30s | Database not responding |
+| umami | HTTP check on port 3002 | 30s | Service unavailable |
+
+### A.9.2 External Monitoring
+
+| Service | Frequency | Alert Method |
+|---------|-----------|--------------|
+| UptimeRobot (`cwwkcc.lk`) | 5 minutes | Email + SMS to KITS lead |
+| UptimeRobot (`admin.cwwkcc.lk`) | 5 minutes | Email + SMS to KITS lead |
+| SSL Certificate Expiry | 30 days before | Email notification |

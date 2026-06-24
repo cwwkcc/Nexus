@@ -1,322 +1,387 @@
-# Translation Workflow
+# Nexus — Translation Workflow
+
+**How to add, manage, and review translations**
+
+---
 
 ## Overview
 
-Nexus is a trilingual platform supporting English, Sinhala (සිංහල), and Tamil (தமிழ்). All content is managed through JSON message files organized by feature area.
+This document defines the workflow for managing translations across English, Sinhala, and Tamil. All translations must be completed by native speakers — machine translation is only for drafts.
 
 ---
 
-## Message File Structure
+## Roles and Responsibilities
 
-```
-apps/web/messages/
-  en/              # English (complete, master translations)
-    navigation.json
-    common.json
-    home.json
-    about.json
-    academics.json
-    ...
-  si/              # Sinhala (සිංහල)
-    [same files as en/]
-  ta/              # Tamil (தமிழ்)
-    [same files as en/]
-```
-
-### Locale Routing
-
-- `/en/` → English
-- `/si/` → Sinhala
-- `/ta/` → Tamil
-
-Users can switch between locales using the language switcher in the navigation.
+| Role | Responsibility |
+|------|----------------|
+| **Translation Coordinator** | Manages the translation process, tracks progress |
+| **English Editor** | Writes and maintains English source text |
+| **Sinhala Translator** | Translates from English to Sinhala |
+| **Tamil Translator** | Translates from English to Tamil |
+| **Reviewer** | Reviews translations for accuracy and tone |
 
 ---
 
-## Adding a New Translation Key
+## Adding New Translation Keys
 
-When adding new UI text, follow these steps:
+### Step 1: Add to English Source
 
-### 1. Identify the Feature Area
-
-Determine which message file the key belongs to:
-
-- `navigation.json` — Navigation menu, links, labels
-- `common.json` — Shared terminology, buttons, UI labels
-- `home.json` — Homepage content
-- `about.json` — About page, school info
-- `academics.json` — Academics, streams, courses
-- `admissions.json` — Admissions process, deadlines
-- `news.json` — News section headings, labels
-- `events.json` — Events section (planned)
-- `societies.json` — Societies, clubs, student groups
-- `gallery.json` — Gallery, albums, captions
-- `facilities.json` — Facilities page, building info
-- `extracurriculars.json` — Extracurricular activities
-- `results.json` — Exam results portal
-- `contact.json` — Contact page, forms
-
-### 2. Add to English File
-
-Edit `apps/web/messages/en/[feature].json`:
+1. Identify the feature area (home, about, news, etc.)
+2. Open the corresponding English JSON file
+3. Add the new key with a clear, descriptive name
+4. Add the English text
 
 ```json
+// en/home.json
 {
-  "section": {
-    "existingKey": "Existing value",
-    "newKey": "Your new English text here"
+  "newFeature": {
+    "title": "New Feature Title",
+    "description": "This is a description of the new feature."
   }
 }
 ```
 
-**Guidelines:**
+### Step 2: Add Placeholders to Other Locales
 
-- Use camelCase for keys
-- Group related keys under objects (e.g., all homepage headings under `home.hero`)
-- Keep English text clear and concise
-- Avoid idioms or colloquialisms
-
-### 3. Add to Sinhala and Tamil Files
-
-Edit `apps/web/messages/si/[feature].json` and `apps/web/messages/ta/[feature].json`:
+Add the same key to Sinhala and Tamil files with a placeholder:
 
 ```json
+// si/home.json
 {
-  "section": {
-    "existingKey": "පවතින අනුවාද",
-    "newKey": "[Sinhala translation pending]"
+  "newFeature": {
+    "title": "[TO TRANSLATE] New Feature Title",
+    "description": "[TO TRANSLATE] This is a description of the new feature."
   }
 }
 ```
 
-**Must include all keys** from the English file, even if untranslated. Missing keys cause runtime crashes.
+### Step 3: Send for Translation
 
-### 4. Mark for Review
+1. Extract all keys with `[TO TRANSLATE]` placeholders
+2. Create a translation request document
+3. Send to native speakers
 
-Add a comment to the GitHub PR:
+### Translation Request Template
 
+```markdown
+# Translation Request
+
+## Language: [Sinhala / Tamil]
+## Date: YYYY-MM-DD
+## Feature Area: [home / about / news / etc.]
+
+### Keys to Translate
+
+| Key | English Text | Translation |
+|-----|--------------|-------------|
+| home.newFeature.title | New Feature Title | |
+| home.newFeature.description | This is a description of the new feature. | |
 ```
-@[translator-username] Sinhala/Tamil translations needed for [feature].json:
-- newKey
-- anotherNewKey
-```
+
+### Step 4: Review and Commit
+
+1. Receive translations from native speakers
+2. Replace placeholders with translations
+3. Review for consistency with glossary terms
+4. Commit changes
+5. Test the locale
 
 ---
 
-## Requesting Translations
+## Translation Quality Guidelines
 
-### Sinhala
+### Accuracy
 
-- **Native speaker:** Request from school staff or community members
-- **Translator:** [To be assigned by KITS lead]
-- **Review:** Check with admin staff for institutional terminology accuracy
+- Translate the meaning, not word-for-word
+- Maintain the same tone (formal but welcoming)
+- Use appropriate cultural references where needed
 
-### Tamil
+### Consistency
 
-- **Native speaker:** Request from school staff or community members
-- **Translator:** [To be assigned by KITS lead]
-- **Review:** Check with admin staff for institutional terminology accuracy
+- Use the same translation for the same term throughout
+- Refer to the glossary for institutional terms
+- Maintain consistent style across all translations
 
-### Translation Review Checklist
+### Readability
 
-Before merging a translation:
-
-- [ ] All keys in English file have corresponding entries
-- [ ] No keys are missing (would cause runtime errors)
-- [ ] Terminology matches the institutional glossary (see below)
-- [ ] Grammar and formatting are correct
-- [ ] Special characters (ශ්‍ර, ஞ) render correctly
-- [ ] Tested in browser with locale switch
+- Use natural language, not literal translations
+- Consider sentence length (Sinhala/Tamil can be longer)
+- Use appropriate punctuation for each script
 
 ---
 
-## Handling Untranslatable Strings
+## Translation Review Process
 
-Some strings have no direct equivalent in all three languages. Examples:
+### Before Review
 
-- School names and abbreviations (KCC, KITS) — use English
-- Titles of institutional roles — use glossary entry (below)
-- Technical terms — use closest equivalent + glossary note
+1. Translator completes the translation
+2. Translator self-checks for errors
+3. Placeholder replaced with translation
 
-**Example:**
+### Review Process
 
-```json
-{
-  "schoolName": "C.W.W. Kannangara Central College",
-  "abbreviation": "KCC"
-}
-```
+1. Reviewer reads the translation
+2. Checks for accuracy against English source
+3. Checks for consistency with glossary
+4. Checks for readability and naturalness
+5. Provides feedback or approves
 
-Same in all three locales.
+### Review Checklist
 
----
-
-## Institutional Glossary
-
-Maintain consistent terminology across all feature areas and locales. All contributors should reference this glossary to avoid drift.
-
-### English
-
-| Term | Context |
-|------|---------|
-| C.W.W. Kannangara Central College | Official school name (no translation) |
-| KCC | Abbreviation (no translation) |
-| Kannangara ICT Society (KITS) | Society name (no translation) |
-| Principal | Head of school |
-| Deputy Principal | Deputy head |
-| Head of Department | Department leader |
-| Academic Stream | Curriculum track (Science, Commerce, Arts) |
-| Extracurricular | Activities outside core curriculum |
-
-### Sinhala (සිංහල)
-
-| Term | Sinhala | Context |
-|------|---------|---------|
-| C.W.W. Kannangara Central College | C.W.W. Kannangara මධ්‍ය විද්‍යාලය | Official school name |
-| KCC | KCC | Abbreviation |
-| Principal | ප්‍රිංසිපල් | Head of school |
-| Deputy Principal | උපප්‍රිංසිපල් | Deputy head |
-| Head of Department | বिभाग के प्रमुख | Department leader |
-| Academic Stream | වේදයා / වාණිජ්‍ය / කලා ධාරාව | Curriculum track |
-| Extracurricular | පාඩමට නොවැඩි ක්‍රියා | Activities outside core curriculum |
-
-### Tamil (தமிழ்)
-
-| Term | Tamil | Context |
-|------|-------|---------|
-| C.W.W. Kannangara Central College | C.W.W. Kannangara மைய கல்லூரி | Official school name |
-| KCC | KCC | Abbreviation |
-| Principal | அதிபர் | Head of school |
-| Deputy Principal | துணை அதிபர் | Deputy head |
-| Head of Department | பிரிவுத் தலைவர் | Department leader |
-| Academic Stream | கல்வி நெறி | Curriculum track |
-| Extracurricular | பாடப்புற செயல்பாடு | Activities outside core curriculum |
-
-**Maintaining the glossary:**
-
-- Keep this table updated as new terminology is introduced
-- Consult before translating similar terms in new feature areas
-- When adding new entries, verify with native speakers and school administration
+- [ ] All keys translated (no `[TO TRANSLATE]` placeholders)
+- [ ] Translation matches the English meaning
+- [ ] Tone is consistent with the school's voice
+- [ ] Grammar is correct
+- [ ] Spelling is correct
+- [ ] Institutional terms match the glossary
+- [ ] The text fits within the UI (no overflow)
 
 ---
 
-## Testing Translations Locally
+## Testing Translations
 
-### Switch Locale
-
-1. Click the language selector in the top navigation
-2. Select `සිංහල` (Sinhala) or `தமிழ்` (Tamil)
-3. The page reloads in that locale (URL changes to `/si/...` or `/ta/...`)
-
-### Check for Missing Keys
-
-If a key is missing, you'll see the key path in curly braces:
-
-```
-{[feature].missingKey}
-```
-
-This is a runtime error — fix it immediately by adding the key to all three message files.
-
-### Test Message Files
-
-From the project root:
+### Local Development
 
 ```bash
-# Run type check to catch schema violations
-npm run typecheck
+# Start the development server
+pnpm dev
 
-# Or manually validate JSON syntax
-node -c apps/web/messages/en/navigation.json
-node -c apps/web/messages/si/navigation.json
-node -c apps/web/messages/ta/navigation.json
+# Visit the locale to test
+http://localhost:3000/si
+http://localhost:3000/ta
 ```
+
+### Testing Checklist
+
+- [ ] All pages load in the locale
+- [ ] All translated text is displayed correctly
+- [ ] No English text appears where it shouldn't
+- [ ] No `[TO TRANSLATE]` placeholders are visible
+- [ ] Text fits within UI containers (no overflow)
+- [ ] Fonts render correctly for the script
+- [ ] Dates are formatted correctly
+- [ ] Numbers are formatted correctly
 
 ---
 
-## Workflow for Contributors
+## Translation Tools
 
-### I'm adding a new feature with new text:
+### JSON Editor
 
-1. Add keys to `apps/web/messages/en/[feature].json`
-2. Add the same keys with `[Sinhala translation pending]` to `si/[feature].json`
-3. Add the same keys with `[Tamil translation pending]` to `ta/[feature].json`
-4. Create a PR and tag native speakers for review
-5. Don't merge until all three locales have content (even if placeholders)
+Use a JSON editor with syntax highlighting:
+- VS Code (built-in)
+- VS Code with i18n Ally extension (recommended)
+- Online JSON editors
 
-### I'm reviewing a translation PR:
+### i18n Ally Features
 
-1. Check the glossary (above) for terminology consistency
-2. Verify all keys exist in all three files
-3. Test locally by switching locales
-4. Confirm special characters render correctly
-5. Ask author to fix any missing keys before merging
+- Shows missing translations
+- Shows unused translations
+- Inline preview of translations
+- Quick navigation between locales
 
-### I'm native speaker reviewing translations:
-
-1. Verify grammar and phrasing sound natural
-2. Check institutional terminology against glossary
-3. Suggest corrections by commenting on specific JSON keys
-4. After approval, maintainer merges and deploys
-
----
-
-## Common Issues
-
-### "missing key errors"
-
-**Cause:** A key exists in English but not in Sinhala or Tamil.
-
-**Fix:** Add the missing key to all message files:
-
-```json
-{
-  "section": {
-    "missingKey": "[Sinhala translation pending]"
-  }
-}
-```
-
-### Character encoding errors (rendered as `?`)
-
-**Cause:** File saved without UTF-8 encoding.
-
-**Fix:** Ensure `apps/web/messages/**/*.json` are saved as UTF-8:
+### Installation
 
 ```bash
-file -i apps/web/messages/si/navigation.json
-# Should show: charset=utf-8
+# Install i18n Ally in VS Code
+# Extensions → Search for "i18n Ally" → Install
 ```
 
-### Locale doesn't switch in browser
+---
 
-**Cause:** Message files not loaded or application not restarted.
+## Common Translation Issues
 
-**Fix:**
+### Issue 1: Text Overflow
 
-1. Clear browser cache
-2. Restart dev server: `npm run dev`
-3. Test again
+**Symptom:** Translated text is longer than the container, causing layout issues.
+
+**Solution:**
+- Use responsive design with `min-width` and `max-width`
+- Allow text to wrap naturally
+- Use shorter phrases where possible
+- Adjust container padding or font size
+
+### Issue 2: Missing Keys
+
+**Symptom:** A page shows English text when it should show Sinhala/Tamil.
+
+**Solution:**
+- Check the translation file contains the key
+- Check the key name matches exactly
+- Run the type check to identify missing keys
+
+### Issue 3: Incorrect Font Rendering
+
+**Symptom:** Characters are not displayed correctly (� or boxes).
+
+**Solution:**
+- Verify the font is installed and loaded
+- Check the font stack includes the correct fallbacks
+- Check the font is included in `next/font` configuration
 
 ---
 
-## Deployment
+## Translation Status Tracking
 
-Translations are committed with code and deployed on every release. No separate translation deployment process exists.
-
-**Before release:**
-
-- [ ] All three locales complete (no placeholders)
-- [ ] No missing keys across any file
-- [ ] Glossary updated with new terminology
-- [ ] QA tested locale switching in all three languages
+| Locale | Progress | Status | Last Updated |
+|--------|----------|--------|--------------|
+| English | 100% | Complete | June 2026 |
+| Sinhala | 85% | In Progress | June 2026 |
+| Tamil | 70% | In Progress | June 2026 |
 
 ---
 
-## Contact & Support
+**C.W.W. Kannangara Central College, Est. 1873. "Wisdom is All Wealth."**
 
-- **KITS Lead (Project Owner):** [To be assigned]
-- **Sinhala Translation Lead:** [To be assigned]
-- **Tamil Translation Lead:** [To be assigned]
+---
 
-For questions about the workflow, reach out to the KITS lead.
+# i18n/Glossary.md
+
+# Nexus — Institutional Glossary
+
+**Consistent translations for school terminology**
+
+---
+
+## Purpose
+
+This glossary defines how institutional terms are translated across all three languages. Using consistent translations prevents confusion and maintains the school's professional identity.
+
+---
+
+## School Identity
+
+| English | Sinhala | Tamil |
+|---------|---------|-------|
+| C.W.W. Kannangara Central College | කන්නන්ගර මධ්ය විද්යාලය | கன்னங்கர மத்திய கல்லூரி |
+| KCC | කේ.සී.සී | கே.சி.சி |
+| Kannangara | කන්නන්ගර | கன்னங்கர |
+| Central College | මධ්ය විද්යාලය | மத்திய கல்லூரி |
+| Mathugama | මතුගම | மதுகம |
+
+---
+
+## Motto and Philosophy
+
+| English | Sinhala | Tamil |
+|---------|---------|-------|
+| Wisdom is All Wealth | සුඛෝ පඤ්ඤාය පඨිලාභෝ | [Tamil translation] |
+| Head, Heart, Hand | හිස, හදවත, අත | [Tamil translation] |
+| Truth, Courage, Discipline | සත්යය, ධෛර්යය, විනය | [Tamil translation] |
+| Established 1873 | ආරම්භ කරන ලද්දේ 1873 දී | [Tamil translation] |
+
+---
+
+## Roles and Titles
+
+| English | Sinhala | Tamil |
+|---------|---------|-------|
+| Principal | විදුහල්පති | [Tamil translation] |
+| Deputy Principal | සහාය විදුහල්පති | [Tamil translation] |
+| Assistant Principal | සහකාර විදුහල්පති | [Tamil translation] |
+| Head of Department | අංශ ප්රධානී | [Tamil translation] |
+| Teacher | ගුරුවරයා | [Tamil translation] |
+| Staff | කාර්ය මණ්ඩලය | [Tamil translation] |
+| Administration | පරිපාලනය | [Tamil translation] |
+
+---
+
+## Students
+
+| English | Sinhala | Tamil |
+|---------|---------|-------|
+| Student | ශිෂ්යයා | [Tamil translation] |
+| Kannangarian | කන්නන්ගරියන් | [Tamil translation] |
+| Alumni | ආදි ශිෂ්ය | [Tamil translation] |
+| Old Boys' Association | පැරණි ශිෂ්ය සංගමය | [Tamil translation] |
+| Head Prefect | ප්රධාන ශිෂ්ය නායක | [Tamil translation] |
+
+---
+
+## Academic
+
+| English | Sinhala | Tamil |
+|---------|---------|-------|
+| Science Stream | විද්යා අංශය | [Tamil translation] |
+| Commerce Stream | වාණිජ අංශය | [Tamil translation] |
+| Arts Stream | කලා අංශය | [Tamil translation] |
+| Technology Stream | තාක්ෂණ අංශය | [Tamil translation] |
+| O/L (Ordinary Level) | සාමාන්ය පෙළ | [Tamil translation] |
+| A/L (Advanced Level) | උසස් පෙළ | [Tamil translation] |
+| Scholarship | ශිෂ්යත්ව | [Tamil translation] |
+| Results | ප්රතිඵල | [Tamil translation] |
+
+---
+
+## Facilities
+
+| English | Sinhala | Tamil |
+|---------|---------|-------|
+| Library | පුස්තකාලය | [Tamil translation] |
+| Auditorium | ශ්‍රවණාගාරය | [Tamil translation] |
+| Laboratory | විද්‍යාගාරය | [Tamil translation] |
+| Swimming Pool | පිහිනුම් තටාකය | [Tamil translation] |
+| Sports Ground | ක්‍රීඩා පිටිය | [Tamil translation] |
+| Main Building | ප්රධාන ගොඩනැගිල්ල | [Tamil translation] |
+
+---
+
+## Extracurricular
+
+| English | Sinhala | Tamil |
+|---------|---------|-------|
+| Societies | සමාජ | [Tamil translation] |
+| Sports | ක්‍රීඩා | [Tamil translation] |
+| Scouts | බාලදක්ෂ | [Tamil translation] |
+| Cadets | ශිෂ්‍ය භට | [Tamil translation] |
+| Band | සංගීත කණ්ඩායම | [Tamil translation] |
+| Culture | සංස්කෘතික | [Tamil translation] |
+
+---
+
+## Technology
+
+| English | Sinhala | Tamil |
+|---------|---------|-------|
+| ICT | තොරතුරු හා සන්නිවේදන තාක්ෂණය | [Tamil translation] |
+| Website | වෙබ් අඩවිය | [Tamil translation] |
+| Digital | ඩිජිටල් | [Tamil translation] |
+| Platform | වේදිකාව | [Tamil translation] |
+| Results Portal | ප්‍රතිඵල ද්වාරය | [Tamil translation] |
+
+---
+
+## Common UI Terms
+
+| English | Sinhala | Tamil |
+|---------|---------|-------|
+| Home | මුල් පිටුව | [Tamil translation] |
+| About | ගැන | [Tamil translation] |
+| News | පුවත් | [Tamil translation] |
+| Events | සිදුවීම් | [Tamil translation] |
+| Contact | සම්බන්ධ වන්න | [Tamil translation] |
+| Gallery | ඡායාරූප ගැලරිය | [Tamil translation] |
+| Admissions | ඇතුළත් කිරීම් | [Tamil translation] |
+| Academics | අධ්‍යාපනික | [Tamil translation] |
+| Facilities | පහසුකම් | [Tamil translation] |
+
+---
+
+## Using the Glossary
+
+### For Translators
+
+1. Check the glossary first when translating a term
+2. Use the exact translation from the glossary
+3. If a term is not in the glossary, add it
+4. Maintain consistency across all files
+
+### For Developers
+
+1. Use the English term consistently in code
+2. Do not change the English source text without updating translations
+3. When adding a new feature, update the glossary
+
+---
+
+**C.W.W. Kannangara Central College, Est. 1873. "Wisdom is All Wealth."**

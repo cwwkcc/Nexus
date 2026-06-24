@@ -1,261 +1,312 @@
 # Asset Inventory
 
-**Project:** Nexus – C.W.W. Kannangara Central College  
-**Prepared by:** Kannangara ICT Society (KITS)  
-**Date:** June 2026  
-**Content Collection Period:** September – October 2026
+## C.1 School Identity Assets
 
-> **Note:** Image dimensions and aspect ratios in this inventory align with the design system tokens defined in [`Design System/Tokens Reference.md`](../Design%20System/Tokens%20Reference.md#13-aspect-ratio-tokens). Use those tokens when implementing components.
+### C.1.1 Logo & Brand Assets
 
----
+| Asset | Format | Status | Owner | Notes |
+|-------|--------|--------|-------|-------|
+| School Crest (Full Colour) | SVG | Pending | Administration | Vector format required for digital use |
+| School Crest (Monochrome) | SVG | Pending | Administration | For dark backgrounds and print |
+| School Logo (Horizontal) | SVG/PNG | Pending | Administration | Lockup with crest + text |
+| School Logo (Stacked) | SVG/PNG | Pending | Administration | Crest above text |
+| School Flag | SVG/PNG | Pending | Administration | Full flag design |
+| Motto (Sinhala) | SVG/PNG | Pending | Administration | "සුඛෝ පඤ්ඤාය පඨිලාභෝ" |
+| Motto (English) | SVG/PNG | Pending | Administration | "Wisdom is All Wealth" |
 
-## How to Use This Inventory
+### C.1.2 Colour Specification
 
-This document lists every photograph, piece of text, document, and dataset required to populate the Nexus website before launch. It is intended as a working checklist for the Staff Advisor, content editors, and the media unit.
-
-**Status key:**
-
-|Symbol|Meaning|
-|---|---|
-|⬜|Not yet collected|
-|🟡|In progress / partially available|
-|✅|Collected and ready|
-
----
-
-## Section 1: Homepage
-
-|#|Asset|Owner|Notes|Status|
-|---|---|---|---|---|
-|1.1|Hero image – school entrance or main building|Media Unit|Landscape, high resolution, golden hour preferred|⬜|
-|1.2|Aerial or wide-angle view of school grounds|Media Unit|Optional – strong visual impact|⬜|
-|1.3|Students in school uniform (group, candid)|Media Unit|Parental consent required|⬜|
-|1.4|School motto or crest displayed on premises|Media Unit|Decorative use in hero section|⬜|
-|1.5|One-sentence school tagline / welcome statement|Administration|For display under the hero image|⬜|
-|1.6|Three to five key school statistics|Administration|e.g. Founded, Students, Staff, Societies, A/L Streams|⬜|
-|1.7|Two to three featured news articles|Staff Editors|Initial content for homepage news feed|⬜|
+| Element | Hex | RGB | CMYK | Usage |
+|---------|-----|-----|------|-------|
+| Forest Green | `#1A4A2E` | 26, 74, 46 | 65, 0, 38, 71 | Primary brand |
+| Forest Green (Light) | `#235C3A` | 35, 92, 58 | 62, 0, 37, 64 | Hover states |
+| Gold | `#C9973A` | 201, 151, 58 | 0, 25, 71, 21 | Accents, links |
+| Gold (Light) | `#E8B84B` | 232, 184, 75 | 0, 21, 68, 9 | Hover states |
+| Warm Cream | `#F7F3EC` | 247, 243, 236 | 0, 2, 4, 3 | Backgrounds |
 
 ---
 
-## Section 2: About
+## C.2 Content Assets (To Be Collected)
 
-|#|Asset|Owner|Notes|Status|
-|---|---|---|---|---|
-|2.1|Portrait of Dr. C.W.W. Kannangara|Administration|Historical – from public record or school archive|⬜|
-|2.2|Historic photographs of school building|Alumni / Senior Students|Old photographs from archive; consent required|⬜|
-|2.3|Milestone event photographs|Administration / Archive|e.g. prize-givings, construction phases|⬜|
-|2.4|Present-day school grounds (multiple angles)|Media Unit|For contrast with historic images|⬜|
-|2.5|School history narrative (English)|Administration|From 1873 to present; approx. 400–600 words|⬜|
-|2.6|School history narrative (Sinhala)|Administration|Translation or original Sinhala text|⬜|
-|2.7|School motto, vision, and mission statements|Administration|Official text as approved|⬜|
-|2.8|Notable achievements and milestones list|Administration|Key dates and events for timeline component|⬜|
-|2.9|Alumni testimonial – written statement|Alumni (individual)|2–4 sentences; written consent required per person. For the About page only — see Section 10 for the full Alumni Directory|⬜|
-|2.10|Alumni portrait photograph|Alumni (individual)|Formal photograph; written consent required|⬜|
-|2.11|Alumni name, graduation year, current role|Alumni (individual)|For display alongside testimonial|⬜|
+### C.2.1 Historical Content
 
----
+| Asset | Format | Status | Responsible Party | Notes |
+|-------|--------|--------|-------------------|-------|
+| Dr. C.W.W. Kannangara Portrait | High-res image | Pending | Administration / OBA | Official portrait for About page |
+| School Founding Photographs | Digital scan | Pending | Administration / Archive | 1873–1900 period |
+| Historical Timeline Images | Digital scans | Pending | Administration / Archive | Key milestones |
+| Prefect Lists (by year) | Digital/PDF | Pending | Administration / Archive | For Digital Archive |
+| Annual Magazines (by year) | PDF | Pending | Administration / Archive | For Digital Archive |
+| Prize-Giving Records | Digital/PDF | Pending | Administration / Archive | Historical records |
+| School Building Evolution | Photographs | Pending | Administration / Archive | Before/after campus views |
 
-## Section 3: Administration
+### C.2.2 Staff Content
 
-|#|Asset|Owner|Notes|Status|
-|---|---|---|---|---|
-|3.1|Official portrait – Principal|Media Unit|Formal photograph at school|⬜|
-|3.2|Official portrait – Vice Principal(s)|Media Unit|One portrait per Vice Principal|⬜|
-|3.3|Official portrait – Section Heads / HODs|Media Unit|One per head; group photo also acceptable|⬜|
-|3.4|Principal's Statement|Principal|150–250 words for the Administration section|⬜|
-|3.5|Administration hierarchy chart|Administration|Names, designations, reporting structure|⬜|
-|3.6|Full staff list|Administration|Name, subject(s), designation|⬜|
+| Asset | Format | Status | Responsible Party | Notes |
+|-------|--------|--------|-------------------|-------|
+| Principal Portrait | High-res image | Pending | Principal | Professional headshot |
+| Principal Biography | Text | Pending | Principal / Administration | For Principal Message section |
+| Deputy Principal Portraits | High-res images | Pending | Administration | Headshots for Administration page |
+| Department Head Portraits | High-res images | Pending | Administration | All departments |
+| Teacher Portraits | High-res images | Pending | Administration | Optional — can be collected over time |
+| Staff List | Structured data | Pending | Administration | Names, titles, departments |
 
----
+### C.2.3 Academic Content
 
-## Section 4: Academics
+| Asset | Format | Status | Responsible Party | Notes |
+|-------|--------|--------|-------------------|-------|
+| O/L Pass Rate Statistics | Data | Pending | Examinations Office | By year, for Academics page |
+| A/L Pass Rate Statistics | Data | Pending | Examinations Office | By stream, for Academics page |
+| University Entrance Data | Data | Pending | Examinations Office | By year and university |
+| Subject Offerings | Structured data | Pending | Academic Office | Per stream |
+| Examination Results (Historical) | Data/PDF | Pending | Examinations Office | For Results Portal |
 
-|#|Asset|Owner|Notes|Status|
-|---|---|---|---|---|
-|4.1|A/L academic streams list|Administration|Stream names and subjects per stream|⬜|
-|4.2|O/L subject offerings list|Administration|All subjects at Ordinary Level|⬜|
-|4.3|Scholarship / Grade 5 programme details|Administration|If applicable|⬜|
-|4.4|Notable academic achievements|Administration|e.g. island ranks, batch results (with publication consent). Recurring/annual figures belong in Section 12, Achievement Database|⬜|
-|4.5|Department descriptions|Heads of Department|Brief description per department|⬜|
+### C.2.4 Facility Content
 
----
+| Asset | Format | Status | Responsible Party | Notes |
+|-------|--------|--------|-------------------|-------|
+| Main Building | Photographs | Pending | Media Unit / Administration | Exterior and interior |
+| Science Laboratories | Photographs | Pending | Media Unit / Administration | All labs |
+| ICT Laboratories | Photographs | Pending | Media Unit / Administration | All ICT labs |
+| Library | Photographs | Pending | Media Unit / Administration | Interior and exterior |
+| Auditorium | Photographs | Pending | Media Unit / Administration | Full hall and stage |
+| Sports Grounds | Photographs | Pending | Media Unit / Administration | Cricket, athletics, stadium |
+| Swimming Pool | Photographs | Pending | Media Unit / Administration | Full view and facilities |
+| Campus Panoramic | 360° images | Pending | Media Unit / Administration | For PanoramicFacilityViewer |
 
-## Section 5: Admissions
+### C.2.5 Extracurricular Content
 
-|#|Asset|Owner|Notes|Status|
-|---|---|---|---|---|
-|5.1|Grade 1 admission application form (PDF)|Administration|Official current-year form|⬜|
-|5.2|General admissions application form (PDF)|Administration|For other grades|⬜|
-|5.3|Admission requirements document|Administration|Eligibility criteria and documentation list|⬜|
-|5.4|Grade 1 admission process description|Administration|Step-by-step guide for parents|⬜|
-|5.5|Key admission dates and deadlines|Administration|Application open, closing, announcement dates|⬜|
-|5.6|Admissions contact details|Administration|Name, email, phone of responsible staff|⬜|
+| Asset | Format | Status | Responsible Party | Notes |
+|-------|--------|--------|-------------------|-------|
+| Cricket Team | Photographs | Pending | Sports Unit | Team photos and action shots |
+| Athletics Events | Photographs | Pending | Sports Unit | Events and achievements |
+| Scout Troop | Photographs | Pending | Scout Master | Troop photos, achievements |
+| National Cadet Corps | Photographs | Pending | Cadet Officer | Parade and camp photos |
+| Western Band | Photographs | Pending | Music Teacher | Performances |
+| Eastern Band | Photographs | Pending | Music Teacher | Performances |
+| Drama Productions | Photographs | Pending | Cultural Unit | Stage performances |
+| KITS Activities | Photographs | Pending | KITS | Society events and projects |
 
----
+### C.2.6 Society Content
 
-## Section 6: Societies
+| Asset | Format | Status | Responsible Party | Notes |
+|-------|--------|--------|-------------------|-------|
+| KITS Logo/Banner | Image | Pending | KITS | For featured society banner |
+| KITS Description | Text | Pending | KITS | About the society |
+| Other Society Logos | Images | Pending | Society Advisors | All societies |
+| Society Descriptions | Text | Pending | Society Advisors | About each society |
+| Society Advisors | Names/Photos | Pending | Administration | Staff advisors per society |
+| Society Events | Data/Photos | Pending | Society Advisors | Recent activities |
 
-_Academic, cultural, and interest-based clubs (e.g. KITS, Science Society). Distinct from Extracurriculars (Section 7), which covers sports, scouting, and cadetting — they are separate content types in the platform with separate admin areas, so each society and each extracurricular activity needs its own record._
+### C.2.7 Gallery Content
 
-_One record required per society._
+| Asset | Format | Status | Responsible Party | Notes |
+|-------|--------|--------|-------------------|-------|
+| School Events (Current) | Photographs | Ongoing | Media Unit | Regular photography programme |
+| Prize-Giving Ceremonies | Photographs | Pending | Media Unit | Annual event |
+| Sports Meets | Photographs | Pending | Media Unit | Annual events |
+| Cultural Events | Photographs | Pending | Media Unit | Performances and shows |
+| Academic Events | Photographs | Pending | Media Unit | Science fairs, exhibitions |
+| Campus Life | Photographs | Ongoing | Media Unit | Daily life at KCC |
+| Alumni Events | Photographs | Pending | OBA | Reunions and gatherings |
 
-|#|Asset|Owner|Notes|Status|
-|---|---|---|---|---|
-|6.1|Society name, category, and tagline|Teacher-in-Charge (per society)|Category: Academic, Sports, Arts, or Technology|⬜|
-|6.2|Society description|Teacher-in-Charge (per society)|50–150 words per society|⬜|
-|6.3|Founding year and current member count|Society / Teacher-in-Charge|⬜||
-|6.4|Society logo or emblem|Society / KITS|PNG with transparent background preferred|⬜|
-|6.5|Society banner image|Society / KITS|Group or activity photo, wide format|⬜|
-|6.6|Advisor / Teacher-in-Charge name|Administration|Per society|⬜|
-|6.7|Society leader(s) name and class|Society Prefects|President, Secretary, or equivalent|⬜|
-|6.8|Society activity photographs (3–6 per society)|Media Unit / Society|Meetings, events, competitions|⬜|
+### C.2.8 School Anthem
 
-_Known societies: KITS, Science Society, Drama Society, and other academic/interest clubs currently active._
-
----
-
-## Section 7: Extracurriculars
-
-_Sports and co-curricular activities. Distinct from Societies (Section 6) above._
-
-_One record required per activity._
-
-|#|Asset|Owner|Notes|Status|
-|---|---|---|---|---|
-|7.1|Activity name, category, and description|Coach / Teacher-in-Charge|Category: Sports, Performing Arts, Scouting, or Cadetting|⬜|
-|7.2|Coach / advisor name|Administration|Per activity|⬜|
-|7.3|Recent achievements|Coach / Teacher-in-Charge|Tournament wins, awards, camps attended|⬜|
-|7.4|Activity photograph(s)|Media Unit|Action shots preferred|⬜|
-|7.5|Active/inactive status|Administration|Confirm which activities are currently running|⬜|
-
-_Known extracurricular activities: cricket, athletics, and other sports; Western and Eastern bands; Scouts; National Cadet Corps._
-
----
-
-## Section 8: Facilities
-
-|#|Asset|Owner|Notes|Status|
-|---|---|---|---|---|
-|8.1|Swimming pool photographs|Media Unit|Interior and exterior views|⬜|
-|8.2|Library / resource centre photographs|Media Unit|Interior showing books and reading areas|⬜|
-|8.3|Science laboratory photographs|Media Unit|At least 2 different labs|⬜|
-|8.4|ICT laboratory photographs|Media Unit|Interior view|⬜|
-|8.5|Sports grounds / playing fields|Media Unit|Wide landscape shot|⬜|
-|8.6|Auditorium or main hall|Media Unit|Interior and stage|⬜|
-|8.7|Classrooms (representative)|Media Unit|At least one interior view|⬜|
-|8.8|Other notable facilities|Media Unit|Canteen, medical room, etc.|⬜|
-|8.9|Swimming pool details and pricing|Administration|Session times, pricing per session/membership|⬜|
-|8.10|Library hours and collection overview|Administration|Brief description of available resources|⬜|
-|8.11|Sports facilities details|Administration|Available sports, booking process|⬜|
+| Asset | Format | Status | Responsible Party | Notes |
+|-------|--------|--------|-------------------|-------|
+| School Anthem Audio | MP3/OGG | Pending | Music Department | High-quality recording |
+| School Anthem Lyrics (Sinhala) | Text | Pending | Music Department | Full lyrics |
+| School Anthem Lyrics (English Translation) | Text | Pending | Music Department | Optional |
+| School Anthem Video | MP4 | Pending | Music Department | Performance recording |
 
 ---
 
-## Section 9: Gallery
+## C.3 Technical Assets (Collected/Prepared)
 
-|#|Asset|Owner|Notes|Status|
-|---|---|---|---|---|
-|9.1|Annual Prize-Giving photographs|Media Unit / Archive|Recent and historical|⬜|
-|9.2|Sports Day / Athletic Meet photographs|Media Unit|Action and group shots|⬜|
-|9.3|Cultural events / concert photographs|Media Unit|Performances and audience|⬜|
-|9.4|Science / ICT exhibition photographs|Media Unit|Displays and presentations|⬜|
-|9.5|School trips and outdoor activities|Media Unit|Group photos with staff|⬜|
-|9.6|Historical photographs (archive)|Alumni / Senior Students|Collected with consent. Categorised archival material belongs in Section 11, Digital Archive|⬜|
-|9.7|School building and grounds (various)|Media Unit|Multiple angles and lighting conditions|⬜|
+### C.3.1 Design System
 
-_Target: minimum 40 gallery images at launch._
+| Asset | Format | Status | Responsible Party | Notes |
+|-------|--------|--------|-------------------|-------|
+| Color Tokens | TypeScript | ✅ Complete | KITS | `packages/config/src/tokens/color.ts` |
+| Typography Tokens | TypeScript | ✅ Complete | KITS | `packages/config/src/tokens/typography.ts` |
+| Spacing Tokens | TypeScript | ✅ Complete | KITS | `packages/config/src/tokens/spacing.ts` |
+| Motion Tokens | TypeScript | ✅ Complete | KITS | `packages/config/src/tokens/motion.ts` |
+| Tailwind Preset | TypeScript | ✅ Complete | KITS | `packages/config/src/nexus-preset.ts` |
+| tokens.css | CSS | ✅ Complete | KITS | Generated from token definitions |
 
----
+### C.3.2 Component Library
 
-## Section 10: Alumni Directory
+| Category | Status | Notes |
+|----------|--------|-------|
+| Atoms | ✅ Complete | 6 components |
+| Spinners | ✅ Complete | 3 components |
+| Brand | ✅ Complete | 3 components |
+| Forms | ✅ Complete | 15 components |
+| Cards | ✅ Complete | 12 components |
+| Layout | ✅ Complete | 8 components |
+| Navigation | ✅ Complete | 10 components |
+| Overlays | ✅ Complete | 5 components |
+| Media | ✅ Complete | 6 components |
+| Sections | ✅ Complete | 8 components |
+| Typography | ✅ Complete | 8 components |
+| Utilities | ✅ Complete | 3 components |
+| Visualization | ✅ Complete | 7 components |
+| Hooks | ✅ Complete | 8 hooks |
+| **Total** | ✅ **Complete** | **~100+ components** |
 
-_The searchable, school-wide alumni directory — distinct from the one or two testimonials used on the About page (Section 2). Builds the school's network over time; the initial batch below seeds the directory, and a public submission form fills in the rest after launch._
+### C.3.3 Infrastructure
 
-_One record required per alumni profile._
-
-|#|Asset|Owner|Notes|Status|
-|---|---|---|---|---|
-|10.1|Alumni name, graduation year, profession/role, country|Alumni (individual) / OBA|Public-facing directory entry — no private contact information|⬜|
-|10.2|Alumni quote or short statement|Alumni (individual)|1–2 sentences|⬜|
-|10.3|Alumni portrait (optional)|Alumni (individual)|Written consent required|⬜|
-|10.4|Initial batch of profiles to seed the directory|Old Boys'/Old Girls' Association|Aim for a meaningful starting set before launch|⬜|
-
----
-
-## Section 11: Digital Archive
-
-_Historical institutional record — annual magazines, prize-giving records, and prefect lists, each organised by year. A unique asset for a 150-year-old school; distinct from the general heritage photographs already collected for the About page and Gallery._
-
-|#|Asset|Owner|Notes|Status|
-|---|---|---|---|---|
-|11.1|Annual magazines (PDF), by year|Editorial team / Archive|Scan if only physical copies exist|⬜|
-|11.2|Prize-giving records, by year|Administration / Archive|Programme booklets, winner lists|⬜|
-|11.3|Prefect lists, by year|Administration / Archive|Names and positions|⬜|
-|11.4|Categorised historical photographs|Alumni / Senior Students|Year and category required for each record|⬜|
-
----
-
-## Section 12: Achievement Database
-
-_A living, year-on-year record across academic, sporting, and arts achievements — filterable by year, category, and student name. Distinct from the one-off "notable achievements" mentioned in Academics (Section 4) and Societies (Section 6), which are page copy, not structured records._
-
-|#|Asset|Owner|Notes|Status|
-|---|---|---|---|---|
-|12.1|Academic achievements, by year|Administration / Examinations Office|A/L results, university admissions, island ranks (publication consent required)|⬜|
-|12.2|Sporting achievements, by year|Sports Unit|Tournament wins, national-level athletes|⬜|
-|12.3|Arts and cultural achievements, by year|Music / Drama units|Competition wins, performances|⬜|
-|12.4|Student name and category for each record|Relevant unit|Required so records can be filtered by year, category, and student|⬜|
+| Asset | Format | Status | Notes |
+|-------|--------|--------|-------|
+| Dockerfile (web) | Docker | ✅ Complete | Multi-stage build |
+| Dockerfile (admin) | Docker | ✅ Complete | Multi-stage build |
+| docker-compose.yml | Docker Compose | ✅ Complete | Five services |
+| Caddyfile | Caddy | ✅ Complete | Reverse proxy config |
+| GitHub Actions CI | YAML | ✅ Complete | ci.yml |
+| GitHub Actions CD | YAML | ✅ Complete | deploy.yml |
+| .env.example | Environment | ✅ Complete | Both apps |
 
 ---
 
-## Section 13: Contact
+## C.4 Content Collection Plan
 
-|#|Asset|Owner|Notes|Status|
-|---|---|---|---|---|
-|13.1|Official school address|Administration|Full mailing address|⬜|
-|13.2|Main telephone number(s)|Administration|Including STD code|⬜|
-|13.3|Official school email address(es)|Administration|Principal's office, admissions, general inquiries|⬜|
-|13.4|Office hours|Administration|Days and hours open to visitors|⬜|
-|13.5|Map / location pin|KITS|Google Maps coordinates|🟡|
+### C.4.1 Immediate Collection (First 2 Weeks After Approval)
 
----
+| Item | Responsibility | Format | Deadline |
+|------|----------------|--------|----------|
+| Principal Portrait | Principal | High-res photo | Week 1 |
+| Principal Biography | Principal / Administration | Text | Week 1 |
+| School Crest (Vector) | Administration | SVG | Week 1 |
+| School Anthem Audio | Music Department | MP3 | Week 1 |
+| Seed News Articles (5) | Administration / KITS | Text + Photos | Week 1 |
+| Staff List | Administration | Structured data | Week 2 |
+| Department Structure | Administration | Structured data | Week 2 |
 
-## Section 14: School Branding Assets
+### C.4.2 Phase 2 Collection (Weeks 3-6)
 
-|#|Asset|Owner|Notes|Status|
-|---|---|---|---|---|
-|14.1|School crest / emblem (vector or high-res PNG)|Administration|For navigation, footer, social media|⬜|
-|14.2|School crest on white background|Administration|For print and documents|⬜|
-|14.3|School flag or banner photograph|Media Unit|High-resolution|⬜|
-|14.4|Official school colours confirmation|Administration|Confirm exact shades of school green and gold|🟡|
+| Item | Responsibility | Format | Deadline |
+|------|----------------|--------|----------|
+| Society Information | Society Advisors | Text + Logos | Week 4 |
+| Historical Photographs | Archive / OBA | Digital scans | Week 6 |
+| Historical Documents | Archive / OBA | PDFs | Week 6 |
+| Faculty Portraits | Administration | Photos | Week 6 |
 
----
+### C.4.3 Phase 3 Collection (Weeks 7-12)
 
-## Summary
-
-|Section|Total Items|Owner|Pending|
-|---|---|---|---|
-|1. Homepage|7|Administration + Media Unit|7|
-|2. About|11|Administration + Alumni|11|
-|3. Administration|6|Administration + Media Unit|6|
-|4. Academics|5|Administration + HODs|5|
-|5. Admissions|6|Administration|6|
-|6. Societies|8 per society|Teachers-in-Charge + Media Unit|8 per society|
-|7. Extracurriculars|5 per activity|Coaches/Teachers-in-Charge + Media Unit|5 per activity|
-|8. Facilities|11|Administration + Media Unit|11|
-|9. Gallery|7|Media Unit + Alumni|7|
-|10. Alumni Directory|3 per profile + 1 coordination item|Alumni / OBA|3 per profile + 1|
-|11. Digital Archive|4|Administration + Archive|4|
-|12. Achievement Database|4|Administration + Sports/Arts Units|4|
-|13. Contact|5|Administration + KITS|4|
-|14. Branding|4|Administration + Media Unit|3|
-|**Total (excl. per-record sections)**|**70**||**68**|
-
-_This inventory will be updated as assets are collected during September – October 2026._
+| Item | Responsibility | Format | Deadline |
+|------|----------------|--------|----------|
+| Gallery Albums | Media Unit | Photos | Week 12 |
+| Alumni Profiles | OBA | Text + Photos | Ongoing |
+| Achievement Records | Sports / Academic | Data | Ongoing |
 
 ---
 
-**Prepared by:** Kannangara ICT Society (KITS)  
-**Staff Advisor:** Mrs. Tharindrie Perera, Teacher-in-Charge (ICT)  
-**Date:** June 2026
+## C.5 Asset Management
 
-_Nexus – C.W.W. Kannangara Central College – "Wisdom is All Wealth" – Est. 1873_
+### C.5.1 Storage Structure (Cloudflare R2)
+
+```
+kcc-assets/
+├── brand/
+│   ├── crest-full.svg
+│   ├── crest-monochrome.svg
+│   ├── logo-horizontal.svg
+│   ├── logo-stacked.svg
+│   └── favicon.ico
+├── staff/
+│   ├── principal/
+│   │   ├── portrait.jpg
+│   │   └── thumb.jpg
+│   ├── deputy-principals/
+│   │   ├── dp1.jpg
+│   │   └── dp2.jpg
+│   └── heads/
+│       ├── science.jpg
+│       ├── commerce.jpg
+│       └── ...
+├── news/
+│   ├── 2026/
+│   │   ├── 06/
+│   │   │   ├── article-1-hero.jpg
+│   │   │   └── article-1-thumb.jpg
+│   │   └── ...
+│   └── ...
+├── gallery/
+│   ├── 2026/
+│   │   ├── prize-giving/
+│   │   │   ├── album-cover.jpg
+│   │   │   ├── photo-1.jpg
+│   │   │   └── ...
+│   │   └── sports-meet/
+│   │       └── ...
+│   └── ...
+├── societies/
+│   ├── kits/
+│   │   ├── logo.svg
+│   │   └── banner.jpg
+│   └── ...
+├── documents/
+│   ├── admissions/
+│   │   ├── application-form-2026.pdf
+│   │   └── prospectus-2026.pdf
+│   ├── results/
+│   │   ├── ol-2025.pdf
+│   │   └── al-2025.pdf
+│   └── archive/
+│       ├── magazine-1980.pdf
+│       └── ...
+├── facilities/
+│   ├── main-building.jpg
+│   ├── library.jpg
+│   ├── pool.jpg
+│   └── ...
+└── anthem/
+    ├── anthem.mp3
+    └── anthem-ogg.ogg
+```
+
+### C.5.2 Naming Convention
+
+**Format:** `{category}/{subcategory}/{descriptor}-{year?}.{extension}`
+
+**Examples:**
+- `staff/principal/portrait-2026.jpg`
+- `news/2026/06/sports-day-hero.jpg`
+- `gallery/2026/prize-giving/photo-001.jpg`
+- `documents/results/ol-2025.pdf`
+
+### C.5.3 Image Optimisation Pipeline
+
+1. **Upload**: User uploads original file
+2. **Process**: Sharp in Next.js API route
+   - Resize to max display dimensions (1920px width max)
+   - Convert to WebP (quality: 80)
+   - Extract metadata (EXIF stripped)
+   - Generate thumbnails (300px, 600px, 1200px widths)
+3. **Store**: Upload to R2 via presigned URL
+4. **Serve**: `next/image` with CDN caching
+
+---
+
+## C.6 Asset Responsibility Matrix
+
+| Content Type | Content Owner | Technical Owner (KITS) | Update Frequency |
+|--------------|---------------|----------------------|------------------|
+| School Brand Assets | Administration | Lead Developer | As needed |
+| Staff Information | Administration | Developer (Staff Module) | When staff changes |
+| News & Announcements | Editorial Team | Developer (News Module) | Weekly minimum |
+| Events | Event Organisers | Developer (Events Module) | As events are scheduled |
+| Society Information | Society Advisors | Developer (Societies Module) | Annually / as needed |
+| Gallery Photos | Media Unit | Developer (Gallery Module) | After events |
+| Examination Results | Examinations Office | Developer (Results Module) | After results release |
+| Alumni Profiles | OBA / Alumni | Developer (Alumni Module) | Ongoing |
+| Digital Archive | OBA / History Committee | Developer (Archive Module) | Ongoing |
+
+---
+
+**Prepared by:** Kannangara ICT Society (KITS), C.W.W. Kannangara Central College, Mathugama  
+**Date:** June 2026
+
+---
+
+*"Wisdom is All Wealth" – Est. 1873*

@@ -1,224 +1,324 @@
-## Overview
+# Nexus — Content Governance
 
-This document defines editorial standards, writing guidelines, publishing workflows, and archiving rules for all content on Nexus. It applies to all content types: pages, news articles, society profiles, facility descriptions, and downloadable documents.
-
----
-
-## Editorial Roles & Responsibilities
-
-| Role | Responsibilities | Content types |
-|------|------------------|----------------|
-| **Principal** | Final approval for major announcements, vision statements | Homepage principal message, about page, institutional statements |
-| **Head of Administration** | Approve staff profiles, facility descriptions, contact details | Staff, facilities, contact |
-| **Head of Academics** | Approve academic content (streams, results, performance) | Academics pages |
-| **Editorial Team (3‑5 members)** | Write, edit, publish news articles, events, announcements | News, events |
-| **Society Advisor** | Approve society content, leadership changes | Society pages |
-| **Media Unit** | Upload gallery albums, manage photography | Gallery |
-| **KITS Lead** | Technical content, system announcements | Any |
-| **Student Contributor** | Propose content (requires approval) | News, society updates (draft only) |
+**Who owns what content and how often to update it**
 
 ---
 
-## Writing Tone & Style
+## Purpose
 
-### Voice
-
-- **Formal but welcoming** – not academic, not casual. Write as a respected headmaster would speak to parents.
-- **Educational** – inform and guide, never condescend.
-- **Heritage‑focused** – proud of 153 years, but not arrogant.
-
-### Tone examples
-
-| Acceptable | Not acceptable |
-|------------|----------------|
-| "We are pleased to announce…" | "We're super excited to tell you…" |
-| "Students achieved outstanding results." | "Our brilliant students smashed it again!" |
-| "Dr. Kannangara’s vision changed the nation." | "Dr. Kannangara was a total legend." |
-| "Please submit your application by 30 June." | "You better apply soon before it's too late!" |
-
-### What to avoid
-
-- Excessive exclamation marks (use one per article maximum).
-- All‑caps titles or headings.
-- Marketing jargon ("world‑class", "cutting‑edge", "unique").
-- Corporate language ("leverage", "synergy", "optimise").
-- Overly emotional pleas ("Don't miss out on this life‑changing opportunity!").
+A perfect CMS with no assigned content owners becomes a dead website within six months. This document defines who is responsible for each content type, how often it should be updated, and what the publishing workflow is.
 
 ---
 
-## Headline Conventions
+## Content Ownership Matrix
 
-| Content type | Max length | Example |
-|--------------|------------|---------|
-| News article title | 12 words / 80 characters | "KITS Wins Gold at SLIIT Codefest 2024" |
-| Society name | 5 words / 50 characters | "Kannangara ICT Society" |
-| Event title | 10 words / 70 characters | "Annual Prize Giving 2026" |
-| Facility name | 5 words / 40 characters | "Science Laboratories" |
-
-**Rule:** Never use clickbait or sensational headlines. Headlines must accurately reflect content.
-
----
-
-## Image Standards
-
-- All images must have meaningful `alt` text (max 120 characters). Decorative images may have empty `alt`.
-- No text overlays on images (use caption component instead).
-- Faces of students under 18 require parental consent (separate policy). Default to group shots or use blur faces if required.
-- Image editing: crop, colour correction, exposure adjustment allowed. No heavy filters, artificial HDR, or added text.
-
-**Alt text examples:**
-
-| Good | Bad |
-|------|-----|
-| "Students conducting chemistry experiment in lab" | "Lab" |
-| "Principal Mr. Rajapaksa addressing assembly" | "Principal" |
-| "Aerial view of school main building and sports ground" | "School" |
+| Content Type | Owner | Secondary | Update Frequency | Review Frequency |
+|--------------|-------|-----------|------------------|------------------|
+| **News & Announcements** | Editorial Team | Staff Advisor | Minimum 2 articles/month | Monthly |
+| **Events** | Event Coordinators | Society Leaders | 2 weeks before event | Weekly |
+| **Gallery** | Media Unit | Photography Club | Within 1 week of events | Monthly |
+| **Examination Results** | Examinations Office | Principal | Within 24 hours of release | Per release |
+| **Staff Profiles** | School Administration | HR | When staff join or leave | Quarterly |
+| **Society Information** | Society Advisors | Student Leaders | Annually or as needed | Annually |
+| **Digital Archive** | History Committee | Alumni Association | Ongoing | Annually |
+| **Academic Programs** | Academic Office | Section Heads | Annually | Annually |
+| **Facilities** | School Administration | Facilities Manager | As renovations occur | Annually |
+| **Social Media** | Social Media Editors | Staff Advisor | Weekly | Weekly |
+| **Page Content** | Section Owners | Editorial Team | As needed | Quarterly |
 
 ---
 
-## Publishing Workflow (Custom Admin Panel)
+## Detailed Content Guidelines
 
-### News Articles
+### 1. News & Announcements
 
-1. **Draft** – Author writes in the admin panel (`/admin`), saves as draft.
-2. **Review** – Editorial team member reviews using the admin preview mode.
-3. **Fact‑check** – Verify dates, names, quotes.
-4. **Approve** – Head of editorial or administration approves via admin panel.
-5. **Schedule** – Set `publishedAt` (future dates allowed).
-6. **Publish** – Automatically published at scheduled time (cron job or server action).
+**Owner:** Editorial Team (selected staff + KITS editors)
 
-**Slug:** Auto‑generated from title, can be overridden. Must be unique.
+**Responsibility:**
+- Publish at least 2 articles per month
+- Cover: school events, achievements, important announcements
+- Ensure accuracy and appropriate tone
+- Respond to comments and enquiries
 
-### Society Pages
+**Workflow:**
+1. **Draft** — Editor creates the article
+2. **Review** — Staff Advisor reviews for accuracy and tone
+3. **Publish** — Editor publishes with a scheduled date
+4. **Archive** — Old articles are archived after 1 year
 
-1. **Proposal** – Student committee creates draft in admin panel.
-2. **Advisor review** – Society advisor reviews.
-3. **Approval** – Head of Administration or KITS Lead.
-4. **Publish** – Immediate.
-
-### Staff Profiles
-
-- Only administration editors can create/update.
-- Changes require photo upload (processed via Sharp to WebP) and title/portfolio verification.
-- Published immediately after review.
-
-### Gallery Albums
-
-- Media unit uploads photos via admin panel (max 100 per album).
-- Photos are automatically optimised (WebP, resized to max 1200px) before storage in R2.
-- Albums must have cover image, title, year, category.
-- Published immediately.
+**Publishing Guidelines:**
+- Articles should be 300-500 words
+- Include at least one relevant image
+- Use appropriate categories (Academic, Sports, Events, Achievements, General)
+- Link to related content where possible
 
 ---
 
-## Archiving Rules
+### 2. Events
 
-| Content type | Archive after | Action |
-|--------------|---------------|--------|
-| News articles | 2 years | Remove from feeds, keep accessible via direct URL and archive page. |
-| Events | 30 days after event date | Remove from feeds, move to past events section. |
-| Staff profiles | When staff leaves | Keep in archive (hidden from public unless marked as alumnus). |
-| Gallery albums | 5 years | Keep, but mark as archival. |
-| Results | After next exam cycle | Move to archive section, keep PDFs. |
+**Owner:** Event organisers (society leaders, teachers)
 
-**Deletion:** Content is never hard‑deleted. Instead, set `status: "archived"` in the database. Archived content is not shown in listings but can be accessed via direct URL (for news) or admin panel.
+**Responsibility:**
+- Create events at least 2 weeks before they occur
+- Include: title, description, date, time, venue
+- Update event status (upcoming → ongoing → past)
+- Add images when available
 
----
-
-## Fact‑Checking Process
-
-Before publishing any factual claim:
-
-| Claim type | Verifier |
-|-------------|----------|
-| Historical dates (e.g., founding year) | School archives / Administration |
-| Examination results | Examinations Office |
-| Student achievements | Teacher in charge / Sport unit |
-| Event dates | Event organiser |
-| Dr. Kannangara quotes | Verified sources (books, recorded speeches) |
-
-**Unverified claims:** Must be marked as "preliminary" or "awaiting confirmation". Do not publish.
+**Workflow:**
+1. **Draft** — Event organiser creates the event
+2. **Publish** — Event organiser publishes immediately
+3. **Update** — Event organiser updates if details change
+4. **Archive** — Past events are archived automatically
 
 ---
 
-## SEO Content Standards
+### 3. Gallery
 
-- Each page must have unique meta title and description (see [SEO & Search Strategy](./SEO%20%26%20Search%20Strategy.md)).
-- Headings must be hierarchical (H1 → H2 → H3). Do not skip levels.
-- Avoid duplicate content across pages (e.g., same text on home and about).
-- Internal links: use descriptive anchor text ("Read more about our science stream" not "Click here").
+**Owner:** Media Unit / Photography Club
 
----
+**Responsibility:**
+- Upload photos within 1 week of significant school events
+- Add accurate alt text to all photos (accessibility requirement)
+- Categorise albums appropriately
+- Ensure image quality is high
 
-## Publishing Calendar
+**Workflow:**
+1. **Upload** — Photographer uploads photos to the admin panel
+2. **Organise** — Editor creates albums and adds descriptions
+3. **Publish** — Editor publishes the album
+4. **Archive** — Albums are archived after 3 years
 
-| Content type | Frequency | Lead time |
-|--------------|-----------|-----------|
-| News (major) | As needed | 1 day review |
-| News (routine) | Weekly (Monday) | 2 days |
-| Events | 2 weeks before | 1 week |
-| Results | Same day as release | 1 hour (pre‑prepared) |
-| Staff profiles | As changes occur | 1 day |
-| Gallery albums | Monthly | 3 days |
-
----
-
-## Versioning & Revisions
-
-- The admin panel automatically tracks revisions (stored in a `revisions` table).
-- Every change must have a comment explaining the reason (required field if `editedBy` not equal to original author).
-- Major content changes (e.g., mission statement) require principal approval and are logged in a separate change log.
+**Photo Requirements:**
+- Minimum 10 photos per album
+- All photos must have alt text
+- Photos should be representative of the event
+- High-resolution, well-lit, in-focus
 
 ---
 
-## Content Removal & Unpublishing
+### 4. Examination Results
 
-To remove content (without deleting):
+**Owner:** Examinations Office
 
-1. Change status to `archived` in admin panel.
-2. Add reason in `archiveReason` field.
-3. For sensitive content (e.g., incorrect exam results), add `redirectTo` URL.
+**Responsibility:**
+- Upload exam results within 24 hours of official release
+- Ensure accuracy of all results
+- Keep results for 5 years, then archive
+- Maintain data privacy and security
 
-Archived content is not indexed (noindex) and excluded from sitemap.
+**Workflow:**
+1. **Prepare** — Examinations office prepares CSV file
+2. **Upload** — Authorised staff uploads to the Results Portal
+3. **Verify** — Examinations office verifies the upload
+4. **Publish** — Results become available to students and parents
 
----
-
-## Sponsored / External Content
-
-- Nexus does not accept paid advertising.
-- External links are allowed only to educational resources, partner institutions, or government bodies.
-- All external links must open in new tab (`target="_blank"`) with `rel="noopener noreferrer"`.
-
----
-
-## Editorial Calendar Template
-
-| Week | Planned content | Author | Reviewer | Status |
-|------|----------------|--------|----------|--------|
-| 1 | Principal's message for new term | Administration | Principal | Draft |
-| 2 | Science exhibition announcement | Science society | Editorial team | Review |
-| 3 | Exam results release | Examinations Office | Administration | Pre‑prepared |
-
-Maintained in shared drive or Trello.
+**Security:**
+- Only authorised staff have access to the Results Module
+- Results are searchable by index number only (not by name)
+- Rate limiting prevents bulk access
+- All lookups are audited
 
 ---
 
-## Training & Onboarding
+### 5. Staff Profiles
 
-New content editors must:
+**Owner:** School administration
 
-1. Read this document.
-2. Complete a tutorial on using the admin panel (recorded video + written guide).
-3. Write a test article (not published) and submit for review.
-4. Receive approval from KITS Lead or editorial head.
+**Responsibility:**
+- Update staff profiles when new staff join
+- Remove profiles when staff leave
+- Ensure profiles are accurate and up-to-date
+- Add portraits for all staff members
+
+**Workflow:**
+1. **Add** — Administration adds new staff member
+2. **Approve** — Principal approves the profile
+3. **Publish** — Profile appears on the public site
+4. **Remove** — Profile is archived when staff leaves
+
+**Profile Requirements:**
+- Name, title, role, department
+- Portrait photo (high-resolution)
+- Brief biography (optional)
+- Contact information (optional)
 
 ---
 
-## Related Documents
+### 6. Society Information
 
-- [SEO & Search Strategy](./SEO%20%26%20Search%20Strategy.md)
-- [Assets Inventory](./Assets%20Inventory.md)
+**Owner:** Society Advisors
+
+**Responsibility:**
+- Update society information annually
+- Add new societies as they form
+- Remove societies that are inactive
+- Ensure descriptions are accurate
+
+**Workflow:**
+1. **Review** — Society Advisor reviews the listing
+2. **Update** — Society Advisor makes changes
+3. **Approve** — Staff Advisor approves
+4. **Publish** — Changes appear on the public site
 
 ---
 
-*C.W.W. Kannangara Central College – Est. 1873 – Wisdom is All Wealth*
+### 7. Digital Archive
+
+**Owner:** History Committee (senior teachers + OBA)
+
+**Responsibility:**
+- Digitise historical photographs, magazines, and records
+- Upload to the Digital Archive with accurate metadata
+- Ensure long-term preservation of historical materials
+- Respond to research requests
+
+**Workflow:**
+1. **Collect** — History Committee identifies materials
+2. **Digitise** — Materials are scanned or photographed
+3. **Upload** — Materials are uploaded with metadata
+4. **Publish** — Materials appear in the Digital Archive
+
+**Archive Items:**
+- Historical photographs (1873–present)
+- Annual magazines (digital PDFs)
+- Prize-giving records (by year)
+- Prefect lists (by year)
+- Notable achievement records
+- School building evolution photos
+
+---
+
+### 8. Academic Programs
+
+**Owner:** Academic Office
+
+**Responsibility:**
+- Update stream descriptions annually
+- Ensure subject lists are accurate
+- Coordinate with section heads for content
+- Maintain performance statistics
+
+**Workflow:**
+1. **Review** — Academic Office reviews stream descriptions
+2. **Update** — Section heads provide updates
+3. **Approve** — Principal approves changes
+4. **Publish** — Changes appear on the public site
+
+---
+
+### 9. Facilities
+
+**Owner:** School Administration
+
+**Responsibility:**
+- Update facility descriptions when changes occur
+- Add new facilities as they are built
+- Remove facilities that are retired
+- Ensure images are up-to-date
+
+**Workflow:**
+1. **Review** — Administration reviews facility list
+2. **Update** — Facilities Manager provides updates
+3. **Approve** — Principal approves changes
+4. **Publish** — Changes appear on the public site
+
+---
+
+### 10. Social Media
+
+**Owner:** Social Media Editors (designated staff + KITS)
+
+**Responsibility:**
+- Post at least 5 times per week across all platforms
+- Maintain the school's official digital face
+- Respond to comments and messages promptly
+- Follow content guidelines and brand standards
+
+**Workflow:**
+1. **Draft** — Editor creates a draft post
+2. **Review** — Staff Advisor reviews
+3. **Approve** — Staff Advisor approves
+4. **Schedule** — Editor schedules the post
+5. **Publish** — Editor publishes to all platforms
+6. **Engage** — Editor responds to comments
+
+---
+
+### 11. Page Content
+
+**Owner:** Section Owners (identified per page)
+
+**Responsibility:**
+- Keep page content accurate and current
+- Update as needed (at least quarterly)
+- Coordinate with the Editorial Team
+
+**Page Owner Assignments:**
+
+| Page | Owner | Review Frequency |
+|------|-------|------------------|
+| Home | Principal / Staff Advisor | Quarterly |
+| About | Administration / History Committee | Quarterly |
+| Academics | Academic Office | Annually |
+| Admissions | Admissions Office | Annually |
+| Contact | Administration | Quarterly |
+| Facilities | Administration | Annually |
+| Extracurriculars | Sports / Cultural Units | Annually |
+| Societies | Staff Advisor | Annually |
+
+---
+
+## Content Review Schedule
+
+| Content Type | Review Frequency | Reviewer | Action |
+|--------------|------------------|----------|--------|
+| News & Announcements | Monthly | Staff Advisor | Remove outdated, update trends |
+| Events | Weekly | Event Coordinator | Update upcoming, archive past |
+| Gallery | Monthly | Media Unit Head | Review quality, remove duplicates |
+| Staff Profiles | Quarterly | School Administration | Update changes |
+| Society Information | Annually | Society Advisors | Verify accuracy |
+| Academic Programs | Annually | Academic Office | Update descriptions |
+| Facilities | Annually | Facilities Manager | Verify accuracy |
+| Page Content | Quarterly | Section Owners | Verify accuracy |
+| Social Media | Weekly | Staff Advisor | Review engagement |
+
+---
+
+## Archival Policy
+
+### When to Archive
+
+| Content Type | Archive After |
+|--------------|---------------|
+| News Articles | 1 year |
+| Events | After event date |
+| Gallery Albums | 3 years |
+| Exam Results | 5 years (then removed) |
+| Staff Profiles | When staff leaves |
+| Society Information | When society becomes inactive |
+
+### Where to Archive
+
+- Archived content is removed from the public site but retained in the database
+- Archived content is still accessible to administrators
+- Archived content is backed up regularly
+
+---
+
+## Sign-off
+
+This content governance document is approved by:
+
+| Role | Name | Signature | Date |
+|------|------|-----------|------|
+| Principal | | | |
+| Staff Advisor | Mrs. Tharindrie Perera | | |
+| Editorial Team Lead | | | |
+
+---
+
+**C.W.W. Kannangara Central College, Est. 1873. "Wisdom is All Wealth."**
+
+---
+
+# governance/Roles-and-Responsibilities.md
