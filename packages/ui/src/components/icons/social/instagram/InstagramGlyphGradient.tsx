@@ -10,7 +10,7 @@ export type { SocialIconProps };
 export const InstagramGlyphGradient = forwardRef<
   SVGSVGElement,
   SocialIconProps
->(({ size = 'md', color, className, style, ...props }, ref) => {
+>(({ size = 'md', color: _color, className, style, ...props }, ref) => {
   const isToken = typeof size === 'string' && size in sizeMap;
   const sizeClass = isToken ? sizeMap[size] : '';
   const customStyle =
