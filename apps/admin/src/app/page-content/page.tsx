@@ -1,6 +1,6 @@
 import { createServerCaller } from '@nexus/api';
-import { ABOUT_SECTION_SCHEMAS, LocaleSchema, type AboutSectionKey } from '@nexus/validation';
 import { Button, Container, Heading, SectionHeader, Text, Textarea } from '@nexus/ui';
+import { ABOUT_SECTION_SCHEMAS, LocaleSchema, type AboutSectionKey } from '@nexus/validation';
 
 const defaultLocale = 'en' as const;
 

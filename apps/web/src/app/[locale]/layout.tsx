@@ -1,7 +1,4 @@
-import { Suspense } from 'react';
-import { notFound } from 'next/navigation';
-import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
+import { cn, Footer, BackToTopButton } from '@nexus/ui';
 import {
   Cormorant_Garamond,
   Cormorant_Upright,
@@ -11,7 +8,10 @@ import {
   Noto_Serif_Sinhala,
   Noto_Serif_Tamil,
 } from 'next/font/google';
-import { cn, Footer, BackToTopButton } from '@nexus/ui';
+import { notFound } from 'next/navigation';
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
+import { Suspense } from 'react';
 
 import { routing } from '../../i18n/routing';
 

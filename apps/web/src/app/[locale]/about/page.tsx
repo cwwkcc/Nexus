@@ -1,4 +1,3 @@
-import { getAboutPageContent, type AboutPageContent } from '../../../server/page-content';
 import AboutHero from '../../../blocks/about/AboutHero';
 import AboutStatsStrip from '../../../blocks/about/AboutStatsStrip';
 import AlumniLegacy from '../../../blocks/about/AlumniLegacy';
@@ -11,6 +10,7 @@ import OurStory from '../../../blocks/about/OurStory';
 import SchoolAnthem from '../../../blocks/about/SchoolAnthem';
 import TimeLine from '../../../blocks/about/TimeLine';
 import Values from '../../../blocks/about/Values';
+import { getAboutPageContent, type AboutPageContent } from '../../../server/page-content';
 
 interface AboutPageProps {
   params: {

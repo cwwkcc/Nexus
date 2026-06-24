@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { db } from '@nexus/db';
 import {
   Badge,
@@ -10,6 +9,7 @@ import {
   SectionHeader,
   Text,
 } from '@nexus/ui';
+import Link from 'next/link';
 
 export default async function AdminDashboardPage() {
   const [newsCount, staffCount, eventCount, societiesCount, pendingAlumniCount, recentAudit] =

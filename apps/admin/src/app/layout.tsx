@@ -1,5 +1,4 @@
 import './global.css';
-import Link from 'next/link';
 import { cn } from '@nexus/ui';
 import { BackToTopButton } from '@nexus/ui';
 import {
@@ -11,6 +10,7 @@ import {
   Noto_Serif_Sinhala,
   Noto_Serif_Tamil,
 } from 'next/font/google';
+import Link from 'next/link';
 
 const cormorantGaramond = Cormorant_Garamond({
   subsets: ['latin'],
