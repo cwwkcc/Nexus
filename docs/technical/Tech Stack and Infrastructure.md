@@ -63,10 +63,10 @@ nexus/
 
 ### File Storage & Media
 
-|Service|Purpose|Notes|
-|---|---|---|
-|Cloudflare R2|Photos, PDFs, documents|10GB free, zero egress fees|
-|Sharp|Image processing on upload|Resize to max 1200px, convert to WebP, strip metadata|
+| Service       | Purpose                    | Notes                                                 |
+| ------------- | -------------------------- | ----------------------------------------------------- |
+| Cloudflare R2 | Photos, PDFs, documents    | 10GB free, zero egress fees                           |
+| Sharp         | Image processing on upload | Resize to max 1200px, convert to WebP, strip metadata |
 
 ### Auth
 
