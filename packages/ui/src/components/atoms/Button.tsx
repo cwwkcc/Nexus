@@ -102,13 +102,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       onClick?.(e);
     };
 
-    if (size.startsWith('icon') && !rest['aria-label']) {
-      console.warn(
-        '[Button] size="icon*" requires an aria-label for accessibility.\n' +
-          'Example: <Button size="icon-md" aria-label="Close menu">',
-      );
-    }
-
     return (
       <button
         ref={ref}

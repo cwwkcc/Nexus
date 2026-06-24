@@ -29,6 +29,14 @@
       "path": "packages/validation",
     },
     {
+      "name": "LOCALES",
+      "path": "packages/locales",
+    },
+    {
+      "name": "DOC",
+      "path": "docs/",
+    },
+    {
       "name": "ROOT",
       "path": ".",
     },

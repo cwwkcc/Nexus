@@ -19,7 +19,6 @@ interface AcademicStreamCardProps {
 }
 
 export function AcademicStreamCard({
-  stream,
   name,
   description,
   careerPaths,

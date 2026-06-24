@@ -76,37 +76,31 @@ export function AudioPlayer({
         audioContextRef.current &&
         audioContextRef.current.state !== 'closed'
       ) {
-        audioContextRef.current
-          .close()
-          .catch((err) => console.error('Error closing AudioContext', err));
+        audioContextRef.current.close();
       }
     };
   }, []);
 
   const initAudioVisualizer = () => {
     if (!audioContextRef.current && audioRef.current) {
-      try {
-        const AudioContext =
-          window.AudioContext ||
-          (window as unknown as { webkitAudioContext: typeof AudioContext })
-            .webkitAudioContext;
-        const audioCtx = new AudioContext();
-        const analyser = audioCtx.createAnalyser();
-        analyser.fftSize = 128;
+      const AudioContext =
+        window.AudioContext ||
+        (
+          window as typeof window & {
+            webkitAudioContext?: typeof window.AudioContext;
+          }
+        ).webkitAudioContext;
+      const audioCtx = new AudioContext();
+      const analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 128;
 
-        const source = audioCtx.createMediaElementSource(audioRef.current);
-        source.connect(analyser);
-        analyser.connect(audioCtx.destination);
+      const source = audioCtx.createMediaElementSource(audioRef.current);
+      source.connect(analyser);
+      analyser.connect(audioCtx.destination);
 
-        audioContextRef.current = audioCtx;
-        analyserRef.current = analyser;
-        dataArrayRef.current = new Uint8Array(analyser.frequencyBinCount);
-      } catch (error) {
-        console.warn(
-          'Web Audio API initialized failed. Bars will remain static.',
-          error,
-        );
-      }
+      audioContextRef.current = audioCtx;
+      analyserRef.current = analyser;
+      dataArrayRef.current = new Uint8Array(analyser.frequencyBinCount);
     }
   };
 
@@ -121,9 +115,7 @@ export function AudioPlayer({
         audioRef.current.pause();
       } else {
         // Safely handle play() Promise
-        audioRef.current
-          .play()
-          .catch((err) => console.error('Playback failed', err));
+        audioRef.current.play();
       }
     }
   };

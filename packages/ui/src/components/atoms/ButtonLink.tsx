@@ -88,13 +88,6 @@ export const ButtonLink = forwardRef<HTMLAnchorElement, ButtonLinkProps>(
       onClick?.(e);
     };
 
-    if (size.startsWith('icon') && !rest['aria-label']) {
-      console.warn(
-        '[ButtonLink] size="icon*" requires an aria-label for accessibility.\n' +
-          'Example: <ButtonLink size="icon-md" aria-label="Close menu" href="/">',
-      );
-    }
-
     return (
       <a
         ref={ref}
