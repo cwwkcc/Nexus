@@ -58,14 +58,14 @@ Use a **dual approach**:
 
 ### Why Both?
 
-| Aspect | Custom Analytics | Umami |
-|--------|------------------|-------|
-| Data ownership | ✅ Full | ✅ Full |
-| No third-party scripts | ✅ | ✅ (self-hosted) |
-| Built-in dashboard | ✅ | ✅ |
-| Independent from platform | ❌ | ✅ |
-| Cross-checking | ❌ | ✅ |
-| Custom metrics (search terms, results usage) | ✅ | ❌ |
+| Aspect                                       | Custom Analytics | Umami            |
+| -------------------------------------------- | ---------------- | ---------------- |
+| Data ownership                               | ✅ Full          | ✅ Full          |
+| No third-party scripts                       | ✅               | ✅ (self-hosted) |
+| Built-in dashboard                           | ✅               | ✅               |
+| Independent from platform                    | ❌               | ✅               |
+| Cross-checking                               | ❌               | ✅               |
+| Custom metrics (search terms, results usage) | ✅               | ❌               |
 
 ---
 
@@ -74,11 +74,13 @@ Use a **dual approach**:
 ### 1. Google Analytics (Rejected)
 
 **Pros:**
+
 - Free
 - Detailed reports
 - Industry standard
 
 **Cons:**
+
 - Third-party script on public site
 - GDPR compliance complexity
 - Data owned by Google
@@ -86,21 +88,25 @@ Use a **dual approach**:
 ### 2. Umami Only (Rejected)
 
 **Pros:**
+
 - Simple
 - Good dashboard
 - Privacy-first
 
 **Cons:**
+
 - No custom metrics (search terms, results usage)
 - Harder to extend
 
 ### 3. Plausible (Rejected)
 
 **Pros:**
+
 - Privacy-first
 - Good dashboard
 
 **Cons:**
+
 - Paid for self-hosted
 - Limited customisation
 

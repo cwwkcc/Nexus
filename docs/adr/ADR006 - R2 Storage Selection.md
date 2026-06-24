@@ -1,6 +1,7 @@
 # adr/ADR-006-r2-storage.md
 
-# 
+#
+
 **Date:** June 2026
 
 **Status:** Accepted
@@ -37,22 +38,22 @@ Use **Cloudflare R2**.
 
 ### Justification
 
-| Requirement | How R2 Meets It |
-|-------------|-----------------|
-| Zero egress fees | Native — no bandwidth costs |
-| CDN integration | Cloudflare CDN built-in |
-| S3-compatible API | Works with existing S3 tools |
-| Cost | 10 GB free, ~$0.015/GB/month after |
+| Requirement        | How R2 Meets It                                    |
+| ------------------ | -------------------------------------------------- |
+| Zero egress fees   | Native — no bandwidth costs                        |
+| CDN integration    | Cloudflare CDN built-in                            |
+| S3-compatible API  | Works with existing S3 tools                       |
+| Cost               | 10 GB free, ~$0.015/GB/month after                 |
 | Sri Lankan context | No egress fees means no unexpected bandwidth costs |
 
 ### Cost Breakdown
 
-| Component | Free Tier | Paid Tier |
-|-----------|-----------|-----------|
-| Storage | 10 GB | $0.015/GB/month |
-| Class A Ops (writes) | 1 million | $4.50/million |
-| Class B Ops (reads) | 10 million | $0.36/million |
-| Egress | Unlimited | Free |
+| Component            | Free Tier  | Paid Tier       |
+| -------------------- | ---------- | --------------- |
+| Storage              | 10 GB      | $0.015/GB/month |
+| Class A Ops (writes) | 1 million  | $4.50/million   |
+| Class B Ops (reads)  | 10 million | $0.36/million   |
+| Egress               | Unlimited  | Free            |
 
 **Realistic monthly cost:** $0.30–$1.20 (≈ 300–1,200 LKR)
 
@@ -63,10 +64,12 @@ Use **Cloudflare R2**.
 ### 1. AWS S3 (Rejected)
 
 **Pros:**
+
 - Industry standard
 - Many tools and integrations
 
 **Cons:**
+
 - Egress fees (significant cost for a school website)
 - Complex pricing structure
 - Higher cost per GB
@@ -74,19 +77,23 @@ Use **Cloudflare R2**.
 ### 2. Backblaze B2 (Rejected)
 
 **Pros:**
+
 - Lower cost than S3
 - S3-compatible
 
 **Cons:**
+
 - Egress fees
 - Less integration with Cloudflare
 
 ### 3. Local Filesystem (Rejected)
 
 **Pros:**
+
 - Zero external cost
 
 **Cons:**
+
 - No CDN
 - Not resilient (single server)
 - Difficult to scale

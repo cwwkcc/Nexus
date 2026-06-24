@@ -29,13 +29,13 @@ Use **tRPC** with Zod validation.
 
 ### Justification
 
-| Requirement | How tRPC Meets It |
-|-------------|-------------------|
-| End-to-end type safety | Native TypeScript inference |
-| No API spec duplication | Same router defines server and client types |
-| Developer experience | Autocomplete, type checking, and error handling |
-| Server components | Client can be called from server components |
-| Validation | Integration with Zod |
+| Requirement             | How tRPC Meets It                               |
+| ----------------------- | ----------------------------------------------- |
+| End-to-end type safety  | Native TypeScript inference                     |
+| No API spec duplication | Same router defines server and client types     |
+| Developer experience    | Autocomplete, type checking, and error handling |
+| Server components       | Client can be called from server components     |
+| Validation              | Integration with Zod                            |
 
 ---
 
@@ -44,10 +44,12 @@ Use **tRPC** with Zod validation.
 ### 1. REST + OpenAPI (Rejected)
 
 **Pros:**
+
 - Industry standard
 - Language-agnostic
 
 **Cons:**
+
 - Requires code generation for type safety
 - Schema duplication (spec + implementation)
 - Manual endpoint management
@@ -55,10 +57,12 @@ Use **tRPC** with Zod validation.
 ### 2. GraphQL (Rejected)
 
 **Pros:**
+
 - Flexible queries
 - Single endpoint
 
 **Cons:**
+
 - Overkill for this use case
 - Complex resolver chains
 - Requires code generation
@@ -66,10 +70,12 @@ Use **tRPC** with Zod validation.
 ### 3. Server Actions (Rejected)
 
 **Pros:**
+
 - Simple, native to Next.js
 - No additional dependencies
 
 **Cons:**
+
 - No built-in type safety across client/server
 - Limited support for complex operations
 - No middleware ecosystem

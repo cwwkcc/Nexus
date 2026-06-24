@@ -1,6 +1,6 @@
 # adr/ADR-002-nextjs-app-router.md
 
-# 
+#
 
 **Date:** June 2026
 
@@ -37,16 +37,16 @@ Use **Next.js 14+ with the App Router**.
 
 ### Justification
 
-| Requirement | How Next.js App Router Meets It |
-|-------------|----------------------------------|
-| SSR | Native with server components |
-| i18n routing | Deep integration with `next-intl` |
-| Static generation | `generateStaticParams` |
-| API routes | Route handlers in `app/api/` |
-| Server components | Default rendering mode |
-| Client components | `'use client'` directive |
-| Image optimisation | `next/image` |
-| Middleware | Auth checks, i18n routing |
+| Requirement        | How Next.js App Router Meets It   |
+| ------------------ | --------------------------------- |
+| SSR                | Native with server components     |
+| i18n routing       | Deep integration with `next-intl` |
+| Static generation  | `generateStaticParams`            |
+| API routes         | Route handlers in `app/api/`      |
+| Server components  | Default rendering mode            |
+| Client components  | `'use client'` directive          |
+| Image optimisation | `next/image`                      |
+| Middleware         | Auth checks, i18n routing         |
 
 ---
 
@@ -55,10 +55,12 @@ Use **Next.js 14+ with the App Router**.
 ### 1. Next.js Pages Router (Rejected)
 
 **Pros:**
+
 - Mature, well-understood
 - Larger ecosystem
 
 **Cons:**
+
 - No server components
 - i18n routing requires custom implementation
 - More complex data fetching patterns
@@ -67,10 +69,12 @@ Use **Next.js 14+ with the App Router**.
 ### 2. Remix (Rejected)
 
 **Pros:**
+
 - Excellent nested routing
 - Progressive enhancement
 
 **Cons:**
+
 - No built-in image optimisation
 - Less mature i18n support
 - Smaller ecosystem
@@ -79,10 +83,12 @@ Use **Next.js 14+ with the App Router**.
 ### 3. Separate Frontend/Backend (Rejected)
 
 **Pros:**
+
 - Clear separation of concerns
 - Backend can be reused for APIs
 
 **Cons:**
+
 - Two codebases to maintain
 - Type safety requires code generation
 - More complex deployment
@@ -114,4 +120,3 @@ Use **Next.js 14+ with the App Router**.
 - Document server/client patterns for the team
 
 ---
-

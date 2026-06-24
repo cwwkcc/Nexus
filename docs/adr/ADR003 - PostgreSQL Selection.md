@@ -1,7 +1,5 @@
 # adr/ADR-003-postgresql.md
 
-
-
 **Date:** June 2026
 
 **Status:** Accepted
@@ -35,14 +33,14 @@ Use **PostgreSQL 15+**.
 
 ### Justification
 
-| Requirement | How PostgreSQL Meets It |
-|-------------|-------------------------|
-| Relational data | Native with schema, relations, constraints |
-| JSON content | `JSONB` type with indexing |
-| Full-text search | `tsvector` with Sinhala/Tamil support |
-| Transactional integrity | ACID compliant |
-| Self-hosting | Can run on Hetzner VPS |
-| Cost | Free and open-source |
+| Requirement             | How PostgreSQL Meets It                    |
+| ----------------------- | ------------------------------------------ |
+| Relational data         | Native with schema, relations, constraints |
+| JSON content            | `JSONB` type with indexing                 |
+| Full-text search        | `tsvector` with Sinhala/Tamil support      |
+| Transactional integrity | ACID compliant                             |
+| Self-hosting            | Can run on Hetzner VPS                     |
+| Cost                    | Free and open-source                       |
 
 ---
 
@@ -51,10 +49,12 @@ Use **PostgreSQL 15+**.
 ### 1. MySQL (Rejected)
 
 **Pros:**
+
 - Widely used
 - Good performance for read-heavy workloads
 
 **Cons:**
+
 - JSON support less mature than PostgreSQL
 - Full-text search with Sinhala/Tamil is more complex
 - Fewer advanced features (e.g., `JSONB`, partial indexes)
@@ -62,10 +62,12 @@ Use **PostgreSQL 15+**.
 ### 2. MongoDB (Rejected)
 
 **Pros:**
+
 - Flexible schema
 - Excellent for document storage
 
 **Cons:**
+
 - No relational integrity
 - No full-text search across languages
 - Transaction support is less mature
@@ -74,9 +76,11 @@ Use **PostgreSQL 15+**.
 ### 3. Supabase / PlanetScale (Rejected)
 
 **Pros:**
+
 - Managed service (less operations overhead)
 
 **Cons:**
+
 - Vendor lock-in
 - Higher cost than self-hosting
 - Egress fees
@@ -106,4 +110,3 @@ Use **PostgreSQL 15+**.
 - Documented backup and restore procedures
 
 ---
-

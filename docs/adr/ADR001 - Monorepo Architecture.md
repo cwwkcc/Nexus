@@ -39,6 +39,7 @@ nexus/
 ### Nx Integration
 
 Nx provides:
+
 - Task caching (`build`, `lint`, `typecheck`)
 - Affected commands (`nx affected:build` only rebuilds changed packages)
 - Dependency graph visualisation
@@ -51,10 +52,12 @@ Nx provides:
 ### 1. Separate Repositories (Rejected)
 
 **Pros:**
+
 - Clear ownership boundaries
 - Independent versioning
 
 **Cons:**
+
 - Cross-repo changes require multiple PRs
 - Publishing npm packages for every change
 - Duplicated configuration
@@ -63,10 +66,12 @@ Nx provides:
 ### 2. Turborepo (Rejected)
 
 **Pros:**
+
 - Excellent caching
 - Good integration with Vercel
 
 **Cons:**
+
 - Additional tool to learn
 - pnpm workspaces already provide most of the same benefits
 - Nx has better TypeScript integration for monorepos
@@ -96,4 +101,3 @@ Nx provides:
 - Regular codebase hygiene reviews
 
 ---
-

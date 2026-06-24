@@ -41,7 +41,7 @@ model PageContent {
   version   Int       // Incremented on each change
   published DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  
+
   @@unique([page, section, locale])
   @@index([page, locale])
 }
@@ -51,19 +51,19 @@ model PageContent {
 
 Each section has a Zod schema defining its shape:
 
-| Section Type | Shape | Example |
-|--------------|-------|---------|
-| Flat prose | `{ content: string }` | About page story |
-| Repeatable list | `{ items: Array<{ title, description, year? }> }` | Timeline |
-| Structured fields | `{ heading, subtitle, text }` | Hero content |
+| Section Type      | Shape                                             | Example          |
+| ----------------- | ------------------------------------------------- | ---------------- |
+| Flat prose        | `{ content: string }`                             | About page story |
+| Repeatable list   | `{ items: Array<{ title, description, year? }> }` | Timeline         |
+| Structured fields | `{ heading, subtitle, text }`                     | Hero content     |
 
 ### Excluded Content
 
-| Content Type | Reason |
-|--------------|--------|
-| Form field labels | Interface chrome — static |
+| Content Type          | Reason                            |
+| --------------------- | --------------------------------- |
+| Form field labels     | Interface chrome — static         |
 | Fixed taxonomy values | E.g., society categories — static |
-| `societies.json` | KITS special case — static |
+| `societies.json`      | KITS special case — static        |
 
 **These remain in `messages/*.json` (i18n) and are not migrated to the database.**
 
@@ -74,10 +74,12 @@ Each section has a Zod schema defining its shape:
 ### 1. Keep in messages/ (Rejected)
 
 **Pros:**
+
 - Simple
 - No database dependency for content
 
 **Cons:**
+
 - Editorial content requires developer commits
 - No review path for editors
 - Placeholder content ships accidentally
@@ -85,9 +87,11 @@ Each section has a Zod schema defining its shape:
 ### 2. One Table Per Page (Rejected)
 
 **Pros:**
+
 - Clear per-page ownership
 
 **Cons:**
+
 - Needlessly duplicates schema
 - More complex to query
 - Harder to add new pages
@@ -95,10 +99,12 @@ Each section has a Zod schema defining its shape:
 ### 3. Third-Party CMS (Rejected)
 
 **Pros:**
+
 - Feature-rich
 - Editorial-friendly
 
 **Cons:**
+
 - Contradicts self-hosted principle
 - Vendor lock-in
 - Additional cost

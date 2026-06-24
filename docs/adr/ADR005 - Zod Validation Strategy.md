@@ -1,4 +1,3 @@
-
 ---
 
 # adr/ADR-005-zod-validation.md
@@ -67,19 +66,23 @@ Use **Zod** as the single source of truth for data shapes.
 ### 1. TypeScript Interfaces (Rejected)
 
 **Pros:**
+
 - Simple, no runtime overhead
 
 **Cons:**
+
 - No runtime validation
 - Type drift between layers
 
 ### 2. Yup (Rejected)
 
 **Pros:**
+
 - Similar to Zod
 - Good API
 
 **Cons:**
+
 - Less TypeScript integration
 - Slower than Zod
 - Less active development
@@ -87,10 +90,12 @@ Use **Zod** as the single source of truth for data shapes.
 ### 3. class-validator (Rejected)
 
 **Pros:**
+
 - Decorator-based
 - Works with classes
 
 **Cons:**
+
 - Requires classes, not plain objects
 - More verbose than Zod
 - Less friendly with inferred types
@@ -118,4 +123,3 @@ Use **Zod** as the single source of truth for data shapes.
 - Migration script for schema updates
 
 ---
-

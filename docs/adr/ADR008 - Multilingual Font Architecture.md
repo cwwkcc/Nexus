@@ -7,11 +7,11 @@
 
 The Nexus platform supports three languages: English, Sinhala, and Tamil. Each script requires different typefaces:
 
-| Script | Display Font | Body Font |
-|--------|--------------|-----------|
-| English | Cormorant Garamond | Inter |
-| Sinhala | Maname | Noto Serif Sinhala |
-| Tamil | Noto Serif Tamil | Noto Serif Tamil |
+| Script  | Display Font       | Body Font          |
+| ------- | ------------------ | ------------------ |
+| English | Cormorant Garamond | Inter              |
+| Sinhala | Maname             | Noto Serif Sinhala |
+| Tamil   | Noto Serif Tamil   | Noto Serif Tamil   |
 
 The challenge is applying the correct font to the correct script without manual per-component class management.
 
@@ -70,9 +70,11 @@ const tamilBody = NotoSerifTamil({
 ### 1. Per-Component Font Classes (Rejected)
 
 **Pros:**
+
 - Explicit control
 
 **Cons:**
+
 - Every component needs script detection
 - Verbose
 - Error-prone
@@ -80,9 +82,11 @@ const tamilBody = NotoSerifTamil({
 ### 2. Runtime Script Detection (Rejected)
 
 **Pros:**
+
 - Works with any content
 
 **Cons:**
+
 - Runtime overhead
 - Must handle dynamic content
 - Complex logic
@@ -90,9 +94,11 @@ const tamilBody = NotoSerifTamil({
 ### 3. Unicode Range in @font-face (Rejected)
 
 **Pros:**
+
 - Browser handles selection
 
 **Cons:**
+
 - Must define ranges for every script
 - Complex to configure
 - Font loading may be suboptimal
