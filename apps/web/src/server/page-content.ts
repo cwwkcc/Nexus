@@ -1,12 +1,17 @@
 // apps/web/src/server/page-content.ts
 //
-// Each about/* block component needs its own section of `about` page
-// content. Calling createServerCaller().pageContent.getByPage() directly in
-// every component would mean nine separate DB round-trips for one page load
-// (getByPage returns the whole page's sections, not one). Wrapping it in
-// React's cache() makes it request-scoped-memoized — every block component
-// below calls getAboutPageContent(locale) and only the first call actually
-// hits the database; the rest read the cached result for that request.
+// Typed page fetchers for apps/web.
+//
+// Each fetcher wraps React's cache() for request-scoped memoisation: every
+// block component on a page calls getAboutPageContent(locale), but only the
+// first call hits the DB; the rest read the in-memory result for that request.
+//
+// Router: contentEntry.getByScope (canonical) — not the old pageContent.getByPage.
+// Scope convention: 'page:about', 'page:home', etc.
+//
+// IMPORTANT: getByScope only returns sections whose status is 'published'.
+// Sections saved as 'draft' will not appear here. Use the admin editor to
+// publish sections before expecting them to render on the public site.
 
 import { createServerCaller } from '@nexus/api';
 import type {
@@ -24,6 +29,8 @@ import type {
 } from '@nexus/validation';
 import { cache } from 'react';
 
+// ── About page ────────────────────────────────────────────────────────────────
+
 export interface AboutPageContent {
   hero: AboutHeroData;
   story: AboutStoryData;
@@ -39,14 +46,14 @@ export interface AboutPageContent {
 
 export const getAboutPageContent = cache(
   async (locale: Locale): Promise<AboutPageContent> => {
-    const sections = await createServerCaller().pageContent.getByPage({
-      page: 'about',
+    const sections = await createServerCaller().contentEntry.getByScope({
+      scope: 'page:about',
       locale,
     });
 
-    // Cast per key rather than the whole object — if the migration script
-    // hasn't been run yet, a missing key surfaces here as `undefined` at a
-    // specific field instead of silently rendering an empty page.
+    // Cast per key: if a section hasn't been published yet, the field will be
+    // undefined here rather than silently rendering an empty page. Block
+    // components should handle `undefined` gracefully until seeded.
     return {
       hero: sections['about.hero'] as AboutHeroData,
       story: sections['about.story'] as AboutStoryData,
@@ -59,5 +66,24 @@ export const getAboutPageContent = cache(
       anthem: sections['about.anthem'] as AboutAnthemData,
       closing: sections['about.closing'] as AboutClosingData,
     };
+  },
+);
+
+// ── Home page ─────────────────────────────────────────────────────────────────
+// Sections are added here as home blocks are designed and registered.
+
+export interface HomePageContent {
+  // e.g. hero: HomeHeroData;
+}
+
+export const getHomePageContent = cache(
+  async (locale: Locale): Promise<HomePageContent> => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const _sections = await createServerCaller().contentEntry.getByScope({
+      scope: 'page:home',
+      locale,
+    });
+
+    return {};
   },
 );
