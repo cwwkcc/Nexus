@@ -1,3 +1,8 @@
+// apps/admin/src/app/layout.tsx
+//
+// Root layout for the admin panel.
+// Nav links updated to reflect the new /content routing structure.
+
 import './global.css';
 import { cn } from '@nexus/ui';
 import { BackToTopButton } from '@nexus/ui';
@@ -59,8 +64,10 @@ export const metadata = {
 
 const navLinks = [
   { href: '/', label: 'Dashboard' },
-  { href: '/page-content', label: 'Page Content' },
-  { href: '/page-config', label: 'Page Config' },
+  { href: '/content', label: 'Content' },
+  // Future nav items:
+  // { href: '/settings', label: 'Site Settings' },
+  // { href: '/global', label: 'Global Content' },
 ];
 
 export default function RootLayout({
@@ -90,7 +97,7 @@ export default function RootLayout({
                 Nexus Admin
               </Link>
               <p className="mt-2 text-sm text-slate-400">
-                Content management and analytics.
+                Content management and site settings.
               </p>
             </div>
             <nav className="space-y-2">

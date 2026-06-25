@@ -1,7 +1,14 @@
+// apps/admin/src/app/page.tsx
+//
+// Admin dashboard — only queries models that exist in the current Prisma schema:
+//   ContentEntry, ContentEntryVersion, SiteSetting
+//
+// Models that don't exist yet (News, StaffMember, SchoolEvent, Society,
+// AlumniProfile, AuditLog) are NOT referenced here. They will be added as
+// their own features are implemented.
+
 import { db } from '@nexus/db';
 import {
-  Badge,
-  Button,
   Container,
   Grid,
   GridItem,
@@ -9,38 +16,43 @@ import {
   SectionHeader,
   Text,
 } from '@nexus/ui';
+import { PAGE_REGISTRY } from '@nexus/validation';
 import Link from 'next/link';
 
 export default async function AdminDashboardPage() {
-  const [newsCount, staffCount, eventCount, societiesCount, pendingAlumniCount, recentAudit] =
-    await Promise.all([
-      db.news.count(),
-      db.staffMember.count({ where: { deletedAt: null } }),
-      db.schoolEvent.count({ where: { deletedAt: null } }),
-      db.society.count({ where: { deletedAt: null } }),
-      db.alumniProfile.count({ where: { status: 'pending' } }),
-      db.auditLog.findMany({
-        take: 10,
-        orderBy: { createdAt: 'desc' },
-      }),
-    ]);
+  const [totalEntries, publishedEntries, draftEntries] = await Promise.all([
+    db.contentEntry.count(),
+    db.contentEntry.count({ where: { status: 'published' } }),
+    db.contentEntry.count({ where: { status: 'draft' } }),
+  ]);
+
+  const recentVersions = await db.contentEntryVersion.findMany({
+    take: 10,
+    orderBy: { changedAt: 'desc' },
+    include: {
+      contentEntry: {
+        select: { scope: true, sectionKey: true },
+      },
+    },
+  });
+
+  const metrics = [
+    { label: 'Total sections', value: totalEntries },
+    { label: 'Published', value: publishedEntries },
+    { label: 'Drafts', value: draftEntries },
+    { label: 'Pages in registry', value: PAGE_REGISTRY.length },
+  ];
 
   return (
     <Container size="full" padding="lg" className="space-y-10">
       <SectionHeader
         eyebrow="Admin Dashboard"
         title="Overview"
-        description="Live counts, pending items, and recent audit activity."
+        description="Content entry counts and recent save activity."
       />
 
-      <Grid columns={1} gap={6} className="lg:grid-cols-3">
-        {[
-          { label: 'News articles', value: newsCount },
-          { label: 'Staff profiles', value: staffCount },
-          { label: 'Events', value: eventCount },
-          { label: 'Societies', value: societiesCount },
-          { label: 'Pending alumni', value: pendingAlumniCount },
-        ].map((metric) => (
+      <Grid columns={1} gap={6} className="lg:grid-cols-4">
+        {metrics.map((metric) => (
           <GridItem
             key={metric.label}
             className="rounded-3xl bg-slate-900 p-6 shadow-lg shadow-slate-950/30"
@@ -55,30 +67,48 @@ export default async function AdminDashboardPage() {
         ))}
       </Grid>
 
+      {/* Quick links to page editors */}
       <section className="space-y-4 rounded-3xl bg-slate-900 p-6 shadow-lg shadow-slate-950/30">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <Heading level="h3">Recent audit activity</Heading>
-          <Button asChild>
-            <Link href="/page-config">Open page config</Link>
-          </Button>
+        <Heading level="h3">Pages</Heading>
+        <div className="flex flex-wrap gap-3">
+          {PAGE_REGISTRY.map((r) => (
+            <Link
+              key={r.page}
+              href={`/content/${r.page}`}
+              className="rounded-xl bg-slate-800 px-4 py-2 text-sm text-slate-200 transition hover:bg-slate-700"
+            >
+              {r.label}
+            </Link>
+          ))}
         </div>
+      </section>
+
+      {/* Recent save activity */}
+      <section className="space-y-4 rounded-3xl bg-slate-900 p-6 shadow-lg shadow-slate-950/30">
+        <Heading level="h3">Recent saves</Heading>
         <div className="space-y-3">
-          {recentAudit.length === 0 ? (
-            <Text color="muted">No audit activity yet.</Text>
+          {recentVersions.length === 0 ? (
+            <Text color="muted">No saves recorded yet.</Text>
           ) : (
-            recentAudit.map((entry) => (
+            recentVersions.map((v) => (
               <div
-                key={entry.id}
+                key={v.id}
                 className="rounded-2xl border border-slate-800 bg-slate-950 p-4"
               >
                 <div className="flex flex-wrap items-center gap-3 text-sm text-slate-400">
-                  <span>{new Date(entry.createdAt).toLocaleString()}</span>
-                  <Badge variant="secondary">{entry.entityType}</Badge>
-                  <span>{entry.action}</span>
+                  <span className="tabular-nums">
+                    {new Date(v.changedAt).toLocaleString()}
+                  </span>
+                  <span className="font-mono text-xs text-slate-500">
+                    {v.contentEntry.scope} / {v.contentEntry.sectionKey}
+                  </span>
+                  <span>v{v.version}</span>
                 </div>
-                <Text className="mt-2 text-slate-200">
-                  Performed by {entry.performedBy}
-                </Text>
+                {v.changedBy && (
+                  <Text className="mt-1 text-sm text-slate-300">
+                    Saved by {v.changedBy}
+                  </Text>
+                )}
               </div>
             ))
           )}
