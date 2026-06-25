@@ -1,33 +1,9 @@
-/* apps/web/src/app/global.css (and same for apps/admin/src/app/global.css) */
-
-/* This file is manually maintained. Do not edit tokens.css – it's generated. */
+/* This file is manually maintained. */
 @import './tokens.css';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/*
- * NOTE: --font-family-display, --font-family-body, --font-family-quote, and
- * --font-family-mono are already generated into tokens.css from
- * packages/config/src/tokens/typography.ts, so they are NOT redeclared here.
- *
- * Those font-family stacks reference --font-display, --font-sinhala-display,
- * --font-tamil-display (and the equivalent -body variables). Each of those
- * MUST be bound to an actual loaded font in the app's layout.tsx via
- * next/font's `variable` option (e.g. cormorantGaramond.variable sets
- * --font-display). If any one of them is never declared anywhere, the whole
- * --font-family-* value it's part of becomes invalid at computed-value time
- * and silently falls back to the inherited/default font for ALL locales —
- * not just the missing one. Currently --font-tamil-display and
- * --font-tamil-body have no font bound to them in layout.tsx; that needs a
- * Tamil font added there before this will behave correctly.
- */
-
-/* ── Language-specific typography overrides ────────────────────────────── */
-/* These automatically apply based on the <html lang="..."> attribute. */
-/* English needs no override block: the defaults in tokens.css already are */
-/* the English values, so there's nothing to remap for html:lang(en).      */
 
 /* Sinhala */
 html:lang(si) {
@@ -175,10 +151,6 @@ html:lang(ta) {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
     min-height: 100%;
-    /*
-     * Fixed gradient — the "world" behind the glass.
-     * Stays put as the user scrolls, creating depth.
-     */
     background: radial-gradient(
       140% 140% at 0% 0%,
       #8eb69b 0%,
@@ -187,7 +159,6 @@ html:lang(ta) {
       #0b2b26 75%,
       #051f20 100%
     );
-    background-attachment: fixed;
   }
 
   body {
@@ -195,11 +166,6 @@ html:lang(ta) {
     line-height: 1.6;
     margin: 0;
     min-height: 100vh;
-    /*
-     * The glass layer — the entire site lives inside this semi-transparent
-     * dark green sheet, letting the gradient bleed through.
-     * No backdrop-filter needed; the transparency does the work.
-     */
     background: var(--color-surface-glass);
     color: var(--color-text-primary);
   }
@@ -237,12 +203,7 @@ html:lang(ta) {
   }
 }
 
-/* ── Glass Utilities ── */
 @layer utilities {
-  /*
-   * Subtle glass — a barely-there panel. Good for nav items,
-   * secondary sections, or any element that needs slight separation.
-   */
   .glass-panel {
     background: var(--glass-surface-subtle);
     border: 1px solid var(--glass-border);
@@ -252,10 +213,6 @@ html:lang(ta) {
     box-shadow: var(--glass-shadow);
   }
 
-  /*
-   * Heavy glass — more opaque, stronger visual presence.
-   * Good for modals, drawers, primary cards.
-   */
   .glass-panel-heavy {
     background: var(--glass-surface-medium);
     border: 1px solid var(--glass-border);
@@ -265,10 +222,6 @@ html:lang(ta) {
     box-shadow: var(--glass-shadow-heavy);
   }
 
-  /*
-   * Card glass — the "notes for today" reference style.
-   * The definitive text-block glass look.
-   */
   .glass-card {
     background: var(--glass-surface-card);
     border: 1px solid var(--glass-border);
