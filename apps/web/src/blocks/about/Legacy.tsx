@@ -11,8 +11,6 @@ import {
 } from '@nexus/ui';
 import type { AboutLegacyData } from '@nexus/validation';
 
-import { heritageImages } from '../../data/about';
-
 export default function Legacy({ legacy }: { legacy: AboutLegacyData }) {
   return (
     <Container
