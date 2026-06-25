@@ -7,29 +7,65 @@ datasource db {
   provider = "postgresql"
 }
 
-model PageContent {
-  id         String   @id @default(cuid())
-  page       String
-  sectionKey String
-  locale     String
-  data       Json
-  version    Int      @default(1)
-  updatedAt  DateTime @updatedAt
-  updatedBy  String? // becomes a User relation once Task 6.3 (Auth) lands
 
-  @@unique([page, sectionKey, locale])
-  @@index([page])
+
+model ContentEntry {
+  id          String   @id @default(cuid())
+  
+  // 'scope' replaces 'page'. It allows us to group content logically.
+  // Examples: 'page:about', 'global:footer', 'society:kits'
+  scope       String   
+  
+  // The unique identifier within the scope (e.g., 'about.hero', 'footer.links')
+  sectionKey  String   
+  
+  // Preserves the developer's intent even if registries change (e.g., 'hero', 'richText')
+  contentType String   
+  
+  locale      String   // 'en', 'si', 'ta'
+  
+  // The editorial workflow state
+  status      String   @default("draft") // 'draft', 'published', 'archived'
+  
+  data        Json
+  version     Int      @default(1)
+  
+  updatedAt   DateTime @updatedAt
+  updatedBy   String?  // References the Admin user ID
+
+  // Relation to version history
+  versions    ContentEntryVersion[]
+
+  // A scope, sectionKey, and locale combination must be unique
+  @@unique([scope, sectionKey, locale])
+  @@index([scope, locale])
+  @@index([status])
 }
 
-model PageContentVersion {
-  id         String   @id @default(cuid())
-  page       String
-  sectionKey String
-  locale     String
-  version    Int
-  data       Json
-  updatedAt  DateTime
-  updatedBy  String?
+model ContentEntryVersion {
+  id             String       @id @default(cuid())
+  
+  contentEntryId String
+  contentEntry   ContentEntry @relation(fields: [contentEntryId], references: [id], onDelete: Cascade)
+  
+  version        Int
+  data           Json
+  
+  changedAt      DateTime     @default(now())
+  changedBy      String?
 
-  @@index([page, sectionKey, locale])
+  @@index([contentEntryId, version])
+}
+
+model SiteSetting {
+  // e.g., 'school.name', 'contact.phone', 'social.facebook'
+  key       String   
+  
+  locale    String   // 'en', 'si', 'ta', or 'global' for non-translatable settings like URLs
+  value     Json
+  
+  updatedAt DateTime @updatedAt
+  updatedBy String?
+
+  @@id([key, locale])
 }
