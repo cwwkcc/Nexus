@@ -1,16 +1,23 @@
 // packages/api/src/root.ts
 //
-// Only pageContentRouter exists so far. The other routers listed in Task 6.4
-// (newsRouter, staffRouter, eventsRouter, ...) get added here as their own
-// phases are implemented — this file is meant to grow, not be replaced.
+// The contentEntryRouter is the canonical CMS router that writes to ContentEntry,
+// ContentEntryVersion, and SiteSetting — the only models in the current schema.
+//
+// The old pageContentRouter and pageConfigRouter are removed: pageContentRouter
+// referenced the now-deleted `pageContent` / `pageContentVersion` Prisma models
+// and will crash on any call. pageConfigRouter referenced `pageConfig`, also gone.
+//
+// Migration checklist before deleting this comment:
+//   ✓ root.ts  — imports contentEntryRouter, removes dead routers
+//   ✓ apps/web/src/server/page-content.ts — calls contentEntry.getByScope
+//   ✓ apps/admin/src/app/page-content/page.tsx — calls contentEntry.adminGetByScope
+//   ✓ apps/admin/src/app/page.tsx — dashboard no longer queries dead models
 
-import { pageConfigRouter } from './routers/page-config.js';
-import { pageContentRouter } from './routers/page-content.js';
+import { contentEntryRouter } from './routers/content-entry.js';
 import { router } from './trpc.js';
 
 export const appRouter = router({
-  pageContent: pageContentRouter,
-  pageConfig: pageConfigRouter,
+  contentEntry: contentEntryRouter,
 });
 
 export type AppRouter = typeof appRouter;
