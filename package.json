@@ -21,7 +21,20 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "affected:build": "nx affected -t build",
-    "affected:lint": "nx affected -t lint"
+    "affected:lint": "nx affected -t lint",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "docker:clean": "docker compose down -v",
+    "docker:logs": "docker compose logs -f",
+    "docker:ps": "docker compose ps",
+    "docker:restart": "docker compose restart",
+    "db:generate": "pnpm --filter @nexus/db exec prisma generate",
+    "db:migrate": "pnpm --filter @nexus/db exec prisma migrate dev",
+    "db:seed": "pnpm --filter @nexus/db exec prisma db seed",
+    "db:studio": "pnpm --filter @nexus/db exec prisma studio",
+    "db:push": "pnpm --filter @nexus/db exec prisma db push",
+    "reset:hard": "pnpm docker:clean && pnpm docker:up && pnpm db:generate && pnpm db:migrate -- --name reset && pnpm db:seed",
+    "reset:soft": "pnpm db:migrate -- --name reset && pnpm db:seed"
   },
   "pnpm": {
     "overrides": {
