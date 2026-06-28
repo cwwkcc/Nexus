@@ -1,7 +1,6 @@
 'use client';
 
 import { Button } from '@nexus/ui';
-import { useEffect } from 'react';
 
 interface ErrorProps {
   error: Error & { digest?: string };
@@ -9,10 +8,6 @@ interface ErrorProps {
 }
 
 export default function Error({ error, reset }: ErrorProps) {
-  useEffect(() => {
-    console.error('Locale-level error:', error);
-  }, [error]);
-
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
       <div className="text-center space-y-6 max-w-md">
@@ -28,8 +23,12 @@ export default function Error({ error, reset }: ErrorProps) {
             <summary className="font-semibold cursor-pointer mb-2">
               Error Details (Dev Only)
             </summary>
-            <pre className="whitespace-pre-wrap break-words">{error.message}</pre>
-            {error.digest && <p className="mt-2 text-xs">Digest: {error.digest}</p>}
+            <pre className="whitespace-pre-wrap break-words">
+              {error.message}
+            </pre>
+            {error.digest && (
+              <p className="mt-2 text-xs">Digest: {error.digest}</p>
+            )}
           </details>
         )}
 
@@ -37,7 +36,10 @@ export default function Error({ error, reset }: ErrorProps) {
           <Button onClick={reset} variant="primary">
             Try Again
           </Button>
-          <Button onClick={() => (window.location.href = '/')} variant="secondary">
+          <Button
+            onClick={() => (window.location.href = '/')}
+            variant="secondary"
+          >
             Go Home
           </Button>
         </div>

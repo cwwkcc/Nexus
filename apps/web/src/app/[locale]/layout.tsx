@@ -11,7 +11,6 @@ import {
 import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
-import { Suspense } from 'react';
 
 import { routing } from '../../i18n/routing';
 
@@ -40,21 +39,25 @@ const maname = Maname({
   subsets: ['sinhala'],
   weight: ['400'],
   variable: '--font-sinhala-display',
+  preload: false,
 });
 const notoSerifSinhala = Noto_Serif_Sinhala({
   subsets: ['sinhala'],
   weight: ['400', '500', '600'],
   variable: '--font-sinhala-body',
+  preload: false,
 });
 const notoSerifTamilDisplay = Noto_Serif_Tamil({
   subsets: ['tamil'],
   weight: ['500', '600'],
   variable: '--font-tamil-display',
+  preload: false,
 });
 const notoSerifTamilBody = Noto_Serif_Tamil({
   subsets: ['tamil'],
   weight: ['400', '500'],
   variable: '--font-tamil-body',
+  preload: false,
 });
 
 type Props = {
