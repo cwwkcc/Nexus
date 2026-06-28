@@ -11,9 +11,5 @@
     "types": ["node"]
   },
   "include": ["src/**/*.ts", "prisma.config.ts"],
-  "references": [
-    {
-      "path": "../validation"
-    }
-  ]
+  "references": []
 }

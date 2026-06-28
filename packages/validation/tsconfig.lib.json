@@ -14,9 +14,6 @@
   "references": [
     {
       "path": "../validation"
-    },
-    {
-      "path": "../database/tsconfig.lib.json"
     }
   ]
 }

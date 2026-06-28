@@ -52,6 +52,15 @@
   ],
   "references": [
     {
+      "path": "../../packages/database"
+    },
+    {
+      "path": "../../packages/validation"
+    },
+    {
+      "path": "../../packages/api"
+    },
+    {
       "path": "../../packages/ui"
     },
     {
