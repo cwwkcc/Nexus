@@ -14,9 +14,10 @@ export * from './about.js';
 export * from './home.js';
 
 import type { ZodTypeAny } from 'zod';
-import type { PageRegistry } from './types.js';
+
 import { aboutRegistry } from './about.js';
 import { homeRegistry } from './home.js';
+import type { PageRegistry } from './types.js';
 
 // ── Master list ───────────────────────────────────────────────────────────────
 // Add new page registries here in the order they should appear in the admin panel.

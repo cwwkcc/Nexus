@@ -8,6 +8,7 @@
 // 2. Update getAboutPageContent() in apps/web/src/server/content.ts
 // 3. Run a migration script to seed/update DB content
 
+import type { PageRegistry } from './types';
 import {
   AboutHeroSchema,
   AboutStorySchema,
@@ -20,7 +21,6 @@ import {
   AboutAnthemSchema,
   AboutClosingSchema,
 } from '../content/page-content.js';
-import type { PageRegistry } from './types';
 
 export const aboutRegistry: PageRegistry = {
   page: 'about',
