@@ -31,6 +31,10 @@
     },
     "test": {
       "cache": true
+    },
+    "dev": {
+      "continuous": true,
+      "dependsOn": ["build-deps"]
     }
   },
   "plugins": [
