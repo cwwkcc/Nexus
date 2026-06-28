@@ -7,8 +7,13 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 /** @type {import('@nx/next/plugins/with-nx').WithNxOptions} */
 const nextConfig = {
   nx: {},
-  transpilePackages: ['@nexus/ui', '@nexus/api', '@nexus/validation'],
-  serverExternalPackages: ['@nexus/config'],
+  transpilePackages: [
+    '@nexus/ui',
+    '@nexus/api',
+    '@nexus/validation',
+    '@nexus/config',
+  ],
+  // serverExternalPackages removed entirely
   experimental: {
     optimizePackageImports: ['@nexus/ui', 'framer-motion', 'lucide-react'],
   },
