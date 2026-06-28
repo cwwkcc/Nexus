@@ -7,7 +7,7 @@ import {
   EyebrowLabel,
   Heading,
 } from '@nexus/ui';
-import type { AboutValuesData } from '@nexus/validation';
+import type { AboutValuesData } from '@nexus/contracts';
 
 export default function Values({ values }: { values: AboutValuesData }) {
   return (

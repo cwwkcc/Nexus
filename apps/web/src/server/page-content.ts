@@ -11,7 +11,7 @@ import type {
   AboutLegacyData,
   AboutAnthemData,
   AboutClosingData,
-} from '@nexus/validation';
+} from '@nexus/contracts';
 import { cache } from 'react';
 
 // ── About page ────────────────────────────────────────────────────────────────

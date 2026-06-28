@@ -6,7 +6,7 @@
 
 import { createServerCaller } from '@nexus/api';
 import { Container, Heading, SectionHeader, Text } from '@nexus/ui';
-import { PAGE_REGISTRY } from '@nexus/validation';
+import { PAGE_REGISTRY } from '@nexus/contracts';
 import Link from 'next/link';
 
 export default async function ContentIndexPage() {

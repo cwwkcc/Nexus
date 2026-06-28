@@ -10,7 +10,7 @@ const nextConfig = {
   transpilePackages: [
     '@nexus/ui',
     '@nexus/api',
-    '@nexus/validation',
+    '@nexus/contracts',
     '@nexus/config',
   ],
   // serverExternalPackages removed entirely

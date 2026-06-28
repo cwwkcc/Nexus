@@ -7,7 +7,7 @@ const { composePlugins, withNx } = require('@nx/next');
  **/
 const nextConfig = {
   nx: {},
-  transpilePackages: ['@nexus/ui', '@nexus/api', '@nexus/validation'],
+  transpilePackages: ['@nexus/ui', '@nexus/api', '@nexus/contracts'],
   experimental: {
     optimizePackageImports: ['@nexus/ui', 'framer-motion', 'lucide-react'],
   },

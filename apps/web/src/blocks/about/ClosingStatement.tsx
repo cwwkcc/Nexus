@@ -1,11 +1,11 @@
-import {
-  Container,
-  Text,
-  SectionHeader,
-} from '@nexus/ui';
-import type { AboutClosingData } from '@nexus/validation';
+import { Container, Text, SectionHeader } from '@nexus/ui';
+import type { AboutClosingData } from '@nexus/contracts';
 
-export default function ClosingStatement({ closing }: { closing: AboutClosingData }) {
+export default function ClosingStatement({
+  closing,
+}: {
+  closing: AboutClosingData;
+}) {
   return (
     <Container
       size="full"

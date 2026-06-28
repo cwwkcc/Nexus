@@ -11,7 +11,7 @@
     "@nexus/config": "workspace:*",
     "@nexus/ui": "workspace:*",
     "@nexus/api": "workspace:*",
-    "@nexus/validation": "workspace:*",
+    "@nexus/contracts": "workspace:*",
     "clsx": "^2.1.1",
     "framer-motion": "^12.38.0",
     "next": "^16.2.9",

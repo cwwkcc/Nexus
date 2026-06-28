@@ -19,7 +19,7 @@ import {
   LocaleSchema,
   getAllSectionSchemas,
   getGlobalSectionSchemas,
-} from '@nexus/validation';
+} from '@nexus/contracts';
 
 import {
   publicProcedure,
@@ -178,7 +178,7 @@ export const contentEntryRouter = router({
           code: 'BAD_REQUEST',
           message:
             `No schema registered for sectionKey "${sectionKey}". ` +
-            `Register it in packages/validation/src/page-registry/ or global-registry/ first.`,
+            `Register it in packages/contracts/src/page-registry/ or global-registry/ first.`,
         });
       }
 
@@ -186,7 +186,7 @@ export const contentEntryRouter = router({
       if (!parsed.success) {
         throw new TRPCError({
           code: 'BAD_REQUEST',
-          message: `Validation failed for "${sectionKey}": ${parsed.error.message}`,
+          message: `contracts failed for "${sectionKey}": ${parsed.error.message}`,
         });
       }
 

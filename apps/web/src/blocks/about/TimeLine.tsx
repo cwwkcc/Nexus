@@ -1,7 +1,11 @@
 import { Container, Timeline, SectionHeader } from '@nexus/ui';
-import type { AboutTimelineData } from '@nexus/validation';
+import type { AboutTimelineData } from '@nexus/contracts';
 
-export default function TimeLine({ timeline }: { timeline: AboutTimelineData }) {
+export default function TimeLine({
+  timeline,
+}: {
+  timeline: AboutTimelineData;
+}) {
   const events = timeline.milestones.map((m) => ({
     id: m.id,
     year: String(m.year),

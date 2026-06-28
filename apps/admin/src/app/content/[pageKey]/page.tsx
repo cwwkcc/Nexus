@@ -26,7 +26,7 @@ import {
   Text,
   Textarea,
 } from '@nexus/ui';
-import { PAGE_REGISTRY, getPageRegistry } from '@nexus/validation';
+import { PAGE_REGISTRY, getPageRegistry } from '@nexus/contracts';
 import { notFound } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 
