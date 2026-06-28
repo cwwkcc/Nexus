@@ -1,4 +1,4 @@
-// packages/validation/src/content-types/index.ts
+// packages/contracts/src/content-types/index.ts
 //
 // Generic, reusable content type schemas. These are the building blocks of the
 // Nexus CMS. Pages reference a contentType from this registry; sections may use

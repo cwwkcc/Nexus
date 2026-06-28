@@ -1,4 +1,4 @@
-// packages/validation/src/global-registry/index.ts
+// packages/contracts/src/global-registry/index.ts
 //
 // Global content sections: navigation, footer, and other site-wide content.
 // These live in ContentEntry with scopes like 'global:navigation', 'global:footer'.
@@ -70,7 +70,7 @@ export interface GlobalSectionDefinition {
   label: string;
   /** Help text for admins */
   description?: string;
-  /** Zod schema used for validation and form building */
+  /** Zod schema used for contracts and form building */
   schema: ZodTypeAny;
 }
 

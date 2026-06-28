@@ -1,6 +1,6 @@
-// packages/validation/src/index.ts
+// packages/contracts/src/index.ts
 //
-// Public exports for @nexus/validation.
+// Public exports for @nexus/contracts.
 // Consumers import types, schemas, and registry helpers from here.
 
 // ── Existing content schemas ───────────────────────────────────────────────────
@@ -15,7 +15,7 @@ export * from './content-types/index.js';
 
 // ── Page registry ──────────────────────────────────────────────────────────────
 // Per-page section definitions. The admin reads this to build its editor;
-// the API router reads this for validation.
+// the API router reads this for contracts.
 export * from './page-registry/index.js';
 
 // ── Global registry ────────────────────────────────────────────────────────────

@@ -1,4 +1,4 @@
-// packages/validation/src/page-registry/about.ts
+// packages/contracts/src/page-registry/about.ts
 //
 // Registry definition for the About page.
 // Each section maps its sectionKey → Zod schema → admin label/description.

@@ -1,4 +1,4 @@
-// packages/validation/src/page-registry/home.ts
+// packages/contracts/src/page-registry/home.ts
 //
 // Registry definition for the Homepage.
 // Sections will be added here as the home page blocks are designed and built.

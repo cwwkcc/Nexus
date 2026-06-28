@@ -1,4 +1,4 @@
-// packages/validation/src/page-registry/types.ts
+// packages/contracts/src/page-registry/types.ts
 //
 // Type definitions for the page and section registries.
 // Developers declare the structure of each page using these types.

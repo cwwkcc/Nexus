@@ -1,4 +1,4 @@
-// packages/validation/src/site-settings/index.ts
+// packages/contracts/src/site-settings/index.ts
 //
 // Definitions for SiteSetting values. These are global, non-page-specific
 // settings stored in the SiteSetting table.

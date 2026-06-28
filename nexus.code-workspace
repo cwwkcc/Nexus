@@ -25,8 +25,8 @@
       "path": "packages/config",
     },
     {
-      "name": "VALIDATION",
-      "path": "packages/validation",
+      "name": "CONTRACTS",
+      "path": "packages/contracts",
     },
     {
       "name": "DOC",

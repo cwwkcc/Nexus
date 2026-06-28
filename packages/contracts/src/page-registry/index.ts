@@ -1,11 +1,11 @@
-// packages/validation/src/page-registry/index.ts
+// packages/contracts/src/page-registry/index.ts
 //
 // The master page registry. Every page that participates in the CMS must be
 // registered here. The admin panel reads this to build its page list; the
 // API router reads it to validate incoming content.
 //
 // Adding a new page:
-// 1. Create packages/validation/src/page-registry/{page}.ts
+// 1. Create packages/contracts/src/page-registry/{page}.ts
 // 2. Import the registry below and add it to PAGE_REGISTRY
 // 3. Export the registry from this file
 
