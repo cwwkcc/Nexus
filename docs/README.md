@@ -1,7 +1,7 @@
 # Nexus Project Documentation
 
 **C.W.W. Kannangara Central College Digital Platform**  
-*Maintained by Kannangara ICT Society (KITS)*
+_Maintained by Kannangara ICT Society (KITS)_
 
 Welcome to the complete documentation for the Nexus platform — the official digital institution of C.W.W. Kannangara Central College.
 
@@ -47,7 +47,7 @@ docs/
 │   ├── ADR002 - Next.js App Router.md
 │   ├── ADR003 - PostgreSQL Selection.md
 │   ├── ADR004 - tRPC Selection.md
-│   ├── ADR005 - Zod Validation Strategy.md
+│   ├── ADR005 - Zod contracts Strategy.md
 │   ├── ADR006 - R2 Storage Selection.md
 │   ├── ADR007 - Analytics Strategy.md
 │   ├── ADR008 - Multilingual Font Architecture.md
@@ -116,12 +116,14 @@ docs/
 ## Key Documents for Each Audience
 
 ### For the Principal / School Administration
+
 1. **[Executive Summary](./proposal/Executive%20Summary.md)** — One-page overview
 2. **[Project Proposal](./proposal/Project%20Proposal.md)** — Full proposal with budget, scope, approvals
 3. **[Governance Overview](./governance/Governance%20Overview.md)** — Content ownership and policies
 4. **[Asset Inventory](./proposal/Appendix%20C.md)** — What content needs to be collected
 
 ### For KITS Developers (Current and Future)
+
 1. **[Developer Onboarding Guide](./technical/Developer%20Onboarding%20Guide.md)** — Environment setup, project structure, workflow
 2. **[Engineering Roadmap](./technical/Engineering%20Roadmap.md)** — What to build and in what order
 3. **[Feature Registry](./technical/Feature%20Registry.md)** — Complete list of features
@@ -129,12 +131,14 @@ docs/
 5. **[Runbook](./operations/Runbook.md)** — Day-to-day operational tasks
 
 ### For Content Editors
+
 1. **[Content Guidelines](./governance/Content%20Guidelines.md)** — Writing, images, accessibility
 2. **[Content Approval Workflow](./governance/Content%20Approval%20Workflow.md)** — How to publish
 3. **[Editorial Style Guide](./governance/Editorial%20Style%20Guide.md)** — Tone and voice
 4. **[Translation Workflow](./i18n/Translation%20Workflow.md)** — Adding new translations
 
 ### For External Auditors / Technical Reviewers
+
 1. **[ADR-001 to ADR-009](./adr/)** — Decision rationale
 2. **[Technical Architecture Overview](./technical/Technical%20Architecture%20Overview.md)**
 3. **[Security Architecture](./technical/Technical%20Architecture%20Overview.md#security-architecture)** — Authentication, rate limiting, CSP
@@ -144,32 +148,35 @@ docs/
 
 ## Document Status
 
-| Category | Status | Last Updated |
-|----------|--------|--------------|
-| ADRs | ✅ Complete | June 2026 |
-| Design System | ✅ Complete | June 2026 |
-| Governance | ✅ Complete | June 2026 |
-| i18n | ✅ Complete | June 2026 |
-| Operations | ✅ Complete | June 2026 |
-| Proposal | ✅ Complete | June 2026 |
-| Reference | ✅ Complete | June 2026 |
-| Technical | ✅ Complete | June 2026 |
+| Category      | Status      | Last Updated |
+| ------------- | ----------- | ------------ |
+| ADRs          | ✅ Complete | June 2026    |
+| Design System | ✅ Complete | June 2026    |
+| Governance    | ✅ Complete | June 2026    |
+| i18n          | ✅ Complete | June 2026    |
+| Operations    | ✅ Complete | June 2026    |
+| Proposal      | ✅ Complete | June 2026    |
+| Reference     | ✅ Complete | June 2026    |
+| Technical     | ✅ Complete | June 2026    |
 
 ---
 
 ## Conventions
 
 ### File Naming
+
 - Use `Title Case with Spaces.md` for human-readable documents
 - Use `kebab-case.md` for technical configuration references (if any)
 - ADRs use `ADR### - Title.md` with a three-digit number
 
 ### Versioning
+
 - All documents are versioned via Git
 - Major changes require a pull request review
 - ADRs are never edited after finalisation — reversals get new ADRs
 
 ### Cross-Referencing
+
 - Use relative markdown links: `[document](./subfolder/file.md)`
 - Reference features by their stable ID: `F-087` (from Feature Registry)
 - Reference ADRs by number: `ADR-007`
@@ -205,4 +212,4 @@ All rights reserved. Internal use only.
 
 ---
 
-*C.W.W. Kannangara Central College — Est. 1873 — "Wisdom is All Wealth"*
+_C.W.W. Kannangara Central College — Est. 1873 — "Wisdom is All Wealth"_
