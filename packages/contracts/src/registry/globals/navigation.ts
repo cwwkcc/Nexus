@@ -16,6 +16,8 @@
 //   The Navigation component in @nexus/ui reads NavigationContentData.
 //   Migrate from packages/validation/src/global-registry/index.ts.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Navigation = unknown;

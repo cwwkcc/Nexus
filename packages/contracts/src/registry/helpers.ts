@@ -16,3 +16,5 @@
 //   Migrate from current page-registry/index.ts and global-registry/index.ts.
 
 // TODO: implement
+
+export type Helpers = unknown;

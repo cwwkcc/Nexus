@@ -15,6 +15,8 @@
 //   The Footer component in @nexus/ui reads FooterContentData.
 //   Migrate from packages/validation/src/global-registry/index.ts.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Footer = unknown;

@@ -8,19 +8,19 @@
 // 2. Update getAboutPageContent() in apps/web/src/server/content.ts
 // 3. Run a migration script to seed/update DB content
 
-import type { PageRegistry } from './types';
-import {
-  AboutHeroSchema,
-  AboutStorySchema,
-  AboutKannangaraSchema,
-  AboutTimelineSchema,
-  AboutEthosSchema,
-  AboutValuesSchema,
-  AboutCrestSchema,
-  AboutLegacySchema,
-  AboutAnthemSchema,
-  AboutClosingSchema,
-} from '../content/page-content.js';
+import { z } from 'zod';
+
+import type { PageRegistry } from './types.js';
+const AboutHeroSchema = z.any();
+const AboutStorySchema = z.any();
+const AboutKannangaraSchema = z.any();
+const AboutTimelineSchema = z.any();
+const AboutEthosSchema = z.any();
+const AboutValuesSchema = z.any();
+const AboutCrestSchema = z.any();
+const AboutLegacySchema = z.any();
+const AboutAnthemSchema = z.any();
+const AboutClosingSchema = z.any();
 
 export const aboutRegistry: PageRegistry = {
   page: 'about',

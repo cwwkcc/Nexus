@@ -9,7 +9,7 @@
 // 3. Create the fetcher in apps/web/src/server/content.ts → getHomePageContent()
 // 4. Build the React block component in apps/web/src/blocks/home/
 
-import type { PageRegistry } from './types';
+import type { PageRegistry } from './types.js';
 
 export const homeRegistry: PageRegistry = {
   page: 'home',
