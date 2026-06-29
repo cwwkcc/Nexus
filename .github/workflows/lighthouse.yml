@@ -1,0 +1,3 @@
+# Lighthouse CI (F-100)
+# Runs on every PR. Fails if Performance, Accessibility, Best Practices, or SEO < 90.
+# Prevents performance regressions from silently shipping.

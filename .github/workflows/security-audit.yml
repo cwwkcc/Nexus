@@ -1,0 +1,3 @@
+# Dependency vulnerability scan (F-008, F-119)
+# Runs pnpm audit on every push.
+# High-severity vulnerabilities fail the build.

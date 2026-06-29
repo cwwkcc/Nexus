@@ -1,0 +1,4 @@
+# CD Pipeline (F-010)
+# Trigger: push to main.
+# Steps: build Docker images, push to GHCR, SSH deploy to Hetzner.
+# Waits for healthchecks. Rollback: re-tag previous image and redeploy.
