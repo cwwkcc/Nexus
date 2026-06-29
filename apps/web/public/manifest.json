@@ -1,0 +1,3 @@
+// Web App Manifest (F-172)
+// School name, icons (192px, 512px, maskable), theme color from design system.
+// display: standalone — enables Add to Home Screen.
