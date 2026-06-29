@@ -136,7 +136,7 @@ export default function FormsPage() {
             description="Your basic information"
           >
             <Input label="Full Name" />
-            <Input label="Date of Birth" type="date" />
+            <Input label="Date of Birth" />
           </FormSectionWrapper>
         </DemoSection>
 
