@@ -7,6 +7,7 @@
 // AlumniProfile, AuditLog) are NOT referenced here. They will be added as
 // their own features are implemented.
 
+import { PAGE_REGISTRY } from '@nexus/contracts';
 import { db } from '@nexus/db';
 import {
   Container,
@@ -16,7 +17,6 @@ import {
   SectionHeader,
   Text,
 } from '@nexus/ui';
-import { PAGE_REGISTRY } from '@nexus/contracts';
 import Link from 'next/link';
 
 export default async function AdminDashboardPage() {

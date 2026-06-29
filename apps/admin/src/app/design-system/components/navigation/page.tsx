@@ -275,6 +275,7 @@ export default function NavigationComponentsPage() {
             <Pagination
               totalPages={5}
               currentPage={2}
+              // eslint-disable-next-line @typescript-eslint/no-empty-function
               onPageChange={() => {}}
               siblingCount={0}
             />

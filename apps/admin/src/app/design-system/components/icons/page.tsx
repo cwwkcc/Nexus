@@ -577,7 +577,7 @@ export default function IconsPage() {
                 </datalist>
                 <select
                   value={previewSize}
-                  onChange={(e) => setPreviewSize(e.target.value as any)}
+                  onChange={(e) => setPreviewSize(e.target.value as unknown)}
                   className="px-space-3 py-space-2 bg-surface-default border border-border-light rounded-md font-mono text-caption"
                 >
                   <option value="xs">xs</option>

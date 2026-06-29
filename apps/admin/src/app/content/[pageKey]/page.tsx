@@ -17,6 +17,7 @@
 // Next.js Data Cache for apps/web is busted immediately.
 
 import { createServerCaller } from '@nexus/api';
+import { PAGE_REGISTRY, getPageRegistry } from '@nexus/contracts';
 import {
   Badge,
   Button,
@@ -26,9 +27,8 @@ import {
   Text,
   Textarea,
 } from '@nexus/ui';
-import { PAGE_REGISTRY, getPageRegistry } from '@nexus/contracts';
-import { notFound } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
+import { notFound } from 'next/navigation';
 
 interface PageEditorProps {
   params: Promise<{ pageKey: string }>;

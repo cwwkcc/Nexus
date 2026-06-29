@@ -5,8 +5,8 @@
 // Clicking a page navigates to /admin/content/[pageKey].
 
 import { createServerCaller } from '@nexus/api';
-import { Container, Heading, SectionHeader, Text } from '@nexus/ui';
 import { PAGE_REGISTRY } from '@nexus/contracts';
+import { Container, Heading, SectionHeader, Text } from '@nexus/ui';
 import Link from 'next/link';
 
 export default async function ContentIndexPage() {
