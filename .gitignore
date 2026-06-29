@@ -84,3 +84,6 @@ Thumbs.db
 
 # PostgreSQL data directory
 packages/database/postgres/
+
+
+docs/new-feature.md
