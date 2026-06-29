@@ -1,6 +1,6 @@
 // apps/web/src/i18n/request.ts
-import { getRequestConfig } from 'next-intl/server';
 import { SUPPORTED_LOCALES, type Locale } from '@nexus/contracts';
+import { getRequestConfig } from 'next-intl/server';
 
 import { routing } from './routing';
 

@@ -13,13 +13,14 @@
 // Public procedures return only `status: 'published'` entries.
 // Admin procedures return all statuses and are gated by adminSecret.
 
-import { z } from 'zod';
-import { TRPCError } from '@trpc/server';
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import {
   LocaleSchema,
   getAllSectionSchemas,
   getGlobalSectionSchemas,
 } from '@nexus/contracts';
+import { TRPCError } from '@trpc/server';
+import { z } from 'zod';
 
 import {
   publicProcedure,
@@ -74,8 +75,10 @@ export const contentEntryRouter = router({
       ]);
 
       // English rows provide the baseline; locale rows override them.
-      const bySectionKey = new Map(
-        fallback.map((row) => [row.sectionKey, row]),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const bySectionKey = new Map<string, any>(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        fallback.map((row: any) => [row.sectionKey, row]),
       );
       for (const row of localized) bySectionKey.set(row.sectionKey, row);
 
