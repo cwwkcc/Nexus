@@ -10,6 +10,8 @@
 //
 // Used on: About page (Crest Explained section)
 
-import { z } from 'zod';
+
 
 // TODO: implement (migrate from packages/validation/src/content/page-content.ts AboutCrestSchema)
+
+export type Crest = unknown;

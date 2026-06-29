@@ -11,6 +11,8 @@
 //   Items are manually curated — not auto-generated from all achievements.
 //   Stored in ContentEntry: sectionKey 'home.ticker', scope 'page:home'.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Ticker = unknown;

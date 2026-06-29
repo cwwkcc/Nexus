@@ -11,6 +11,8 @@
 //   The school's primary map URL is also in SiteSettings as 'school.mapEmbedUrl'.
 //   This block is for one-off map embeds on arbitrary pages (e.g. facilities).
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Map = unknown;

@@ -14,6 +14,8 @@
 //   Only isFeatureworthy: true alumni are shown on the public About page.
 //   Migrate from packages/validation/src/people/.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Alumni = unknown;

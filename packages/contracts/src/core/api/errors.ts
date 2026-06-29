@@ -15,6 +15,8 @@
 //   These codes map to tRPC's built-in error codes and produce consistent
 //   error shapes in the error formatter and client-side error handlers.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Errors = unknown;

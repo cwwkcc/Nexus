@@ -17,6 +17,8 @@
 //   The router in packages/api/src/routers/content-entry.ts imports these
 //   as procedure .input() schemas.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type CoreContentEntry2 = unknown;

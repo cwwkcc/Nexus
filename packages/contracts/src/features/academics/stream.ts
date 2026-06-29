@@ -11,6 +11,8 @@
 //   The raw ALStream enum lives in features/school/academic-stream.ts.
 //   This file extends it with editorial display fields (tagline, image, cta).
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Stream = unknown;

@@ -14,6 +14,8 @@
 //   EventSchema is for one-off or date-ranged events.
 //   Recurring events (weekly assembly etc.) use CalendarEntrySchema in calendar.ts.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Event = unknown;

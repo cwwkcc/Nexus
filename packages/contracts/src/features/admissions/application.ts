@@ -13,6 +13,8 @@
 //   Application data is PII. apps/web submits the form but never reads stored applications.
 //   Only the admin panel reads ApplicationData.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Application = unknown;

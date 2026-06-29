@@ -12,6 +12,8 @@
 //   Used by the FeedbackForm component in @nexus/ui.
 //   Unlike contact form submissions, feedback may be stored in the DB.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Feedback = unknown;

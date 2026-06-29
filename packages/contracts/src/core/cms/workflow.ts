@@ -14,6 +14,8 @@
 //   status column later without redesigning contracts.
 //   The workflow engine lives in packages/api — this file is shapes only.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Workflow = unknown;

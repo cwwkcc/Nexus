@@ -10,6 +10,8 @@
 //
 // Used on: About page (school anthem section)
 
-import { z } from 'zod';
+
 
 // TODO: implement (migrate from packages/validation/src/content/page-content.ts AboutAnthemSchema)
+
+export type Anthem = unknown;

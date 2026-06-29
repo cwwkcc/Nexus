@@ -12,6 +12,8 @@
 //   Student data is PII. Only add fields strictly needed for administration.
 //   Review docs/governance/Data Privacy Policy.md before adding fields.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Student = unknown;

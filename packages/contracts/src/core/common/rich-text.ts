@@ -14,6 +14,8 @@
 //   If you switch to Tiptap JSON format later, update this schema and
 //   RichTextRenderer together.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type CoreRichText2 = unknown;

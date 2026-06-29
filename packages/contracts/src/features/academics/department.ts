@@ -8,6 +8,8 @@
 //   DepartmentSchema — key (DepartmentKey), name, head? (staff name), subjects?: string[]
 //   DepartmentData   — z.infer type
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Department = unknown;

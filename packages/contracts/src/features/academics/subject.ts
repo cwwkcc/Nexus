@@ -8,6 +8,8 @@
 //                   streams?: ALStream[], department? (DepartmentKey), description?
 //   SubjectData   — z.infer type
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Subject = unknown;

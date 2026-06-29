@@ -14,6 +14,8 @@
 //   (which is specific to a single society).
 //   Used on the home page achievement section and a dedicated achievements list.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Achievement = unknown;

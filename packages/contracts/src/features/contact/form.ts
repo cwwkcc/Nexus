@@ -13,6 +13,8 @@
 //   .min() / .max() constraints are read by the UI for validation feedback.
 //   Never store contact form submissions in the DB — email them directly.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Form = unknown;

@@ -12,6 +12,8 @@
 //   The Contact page reads individual settings and validates the assembled object
 //   against this schema before passing it to the ContactInfo component.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type ContactInfo = unknown;

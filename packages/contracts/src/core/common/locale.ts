@@ -1,3 +1,4 @@
+import { z } from 'zod';
 // packages/contracts/src/core/common/locale.ts
 //
 // Locale definitions for the trilingual Nexus platform.
@@ -15,7 +16,7 @@
 //   packages/database seed scripts
 //   ContentEntry.locale column validation
 
-import { z } from 'zod';
+
 
 export const SUPPORTED_LOCALES = ['en', 'si', 'ta'] as const;
 export type Locale = (typeof SUPPORTED_LOCALES)[number];

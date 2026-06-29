@@ -11,6 +11,8 @@
 //   Stored in ContentEntry: sectionKey 'news.featured', scope 'editorial:news'.
 //   Editors pin specific articles to the featured slot via the admin panel.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Featured = unknown;

@@ -10,6 +10,8 @@
 //   Also used as a structural base for the Ethos section on the About page,
 //   which extends it with vision, mission, and motto fields in registry/pages/about.ts.
 
-import { z } from 'zod';
+
 
 // TODO: implement (migrate from packages/validation/src/content-types/index.ts)
+
+export type Quote = unknown;

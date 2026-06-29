@@ -8,6 +8,8 @@
 //                              date (ISO), awardedBy?, image? (R2 key)
 //   SocietyAchievementData   — z.infer type
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type SocietyAchievement = unknown;

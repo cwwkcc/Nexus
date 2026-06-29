@@ -13,6 +13,8 @@
 //   Sri Lankan school year: January–November, three terms.
 //   Used by editorial/events/calendar.ts and features/academics/timetable.ts.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type AcademicYear = unknown;

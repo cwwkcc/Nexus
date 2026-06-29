@@ -10,6 +10,8 @@
 //
 // Used on: Admissions page, Societies page, Results page
 
-import { z } from 'zod';
+
 
 // TODO: implement (migrate from packages/validation/src/content-types/index.ts)
+
+export type Faq = unknown;

@@ -11,6 +11,8 @@
 //   Individual fields come from SiteSettings.
 //   This schema validates the assembled object after reading from settings.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Info = unknown;

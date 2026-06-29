@@ -13,6 +13,8 @@
 //   This is the curated editorial layer, not raw per-student data.
 //   Full result schemas are in features/results/.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type ResultsDisplay = unknown;

@@ -13,6 +13,8 @@
 //   Individual settings are read via getSiteSettingGroups() + SITE_SETTING_SCHEMAS.
 //   Migrate from packages/validation/src/school/.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Identity = unknown;

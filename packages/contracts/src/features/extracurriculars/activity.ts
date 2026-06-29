@@ -10,6 +10,8 @@
 //   ActivityCardSchema — id, name, category, image?
 //   ActivityData      — z.infer type
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Activity = unknown;

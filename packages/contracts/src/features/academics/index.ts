@@ -1,6 +1,4 @@
-// packages/contracts/src/features/academics/index.ts
-
+export * from './curriculum.js';
+export * from './department.js';
 export * from './stream.js';
 export * from './subject.js';
-export * from './department.js';
-export * from './curriculum.js';

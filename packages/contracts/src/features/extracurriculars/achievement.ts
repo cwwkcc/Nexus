@@ -7,6 +7,8 @@
 //                                      level (AchievementLevel), date (ISO), awardedBy?
 //   ExtracurricularAchievementData   — z.infer type
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type ExtracurricularAchievement = unknown;

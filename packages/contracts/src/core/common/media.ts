@@ -14,6 +14,8 @@
 //   DocumentSchema is used by blocks/downloads.ts.
 //   All src values are R2 keys — same convention as ImageSchema.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type CoreMedia2 = unknown;

@@ -9,6 +9,8 @@
 //   EligibilitySchema — gradeLevel, requirements: Requirement[], cutoffMark?
 //   EligibilityData   — z.infer type
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Requirements = unknown;

@@ -13,6 +13,8 @@
 //   disableCountUp: true for values that should not animate (e.g. year '1873').
 //   The useCountUp hook in @nexus/ui handles the animation.
 
-import { z } from 'zod';
+
 
 // TODO: implement (migrate from packages/validation/src/content-types/index.ts)
+
+export type Stats = unknown;

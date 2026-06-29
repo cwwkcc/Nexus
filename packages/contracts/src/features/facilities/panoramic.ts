@@ -12,6 +12,8 @@
 //   x/y are percentages of the panorama image dimensions.
 //   The PanoramicFacilityViewer component in @nexus/ui reads this data.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Panoramic = unknown;

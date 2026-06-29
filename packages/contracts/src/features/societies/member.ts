@@ -11,6 +11,8 @@
 //   Members are stored as part of the society ContentEntry data.
 //   Not linked to features/people/student.ts — no foreign key relationship.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Member = unknown;

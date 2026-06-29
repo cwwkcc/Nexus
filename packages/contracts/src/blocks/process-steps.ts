@@ -9,6 +9,8 @@
 //
 // Used on: Admissions page (application process), Societies page (how to join)
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type ProcessSteps = unknown;

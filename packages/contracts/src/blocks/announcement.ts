@@ -12,6 +12,8 @@
 //   Also used as the value type for the 'site.announcementBanner' SiteSetting.
 //   The web app hides the announcement client-side once expiresAt has passed.
 
-import { z } from 'zod';
+
 
 // TODO: implement (migrate from packages/validation/src/content-types/index.ts)
+
+export type Announcement = unknown;

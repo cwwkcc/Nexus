@@ -12,6 +12,8 @@
 //   Stored in ContentEntry with scope 'editorial:calendar'.
 //   The events page and home page upcoming strip both read from this.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Calendar = unknown;

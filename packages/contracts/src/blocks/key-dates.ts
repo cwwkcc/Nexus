@@ -9,6 +9,8 @@
 //
 // Used on: Admissions page (key dates timeline), Home page (upcoming events strip)
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type BlockKeyDates = unknown;

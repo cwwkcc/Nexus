@@ -12,6 +12,8 @@
 //   The admin composes a ResultsPage from available OLResult and ALResult records.
 //   GradeBadge is rendered by the ResultsGradeBadge component in @nexus/ui.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Display = unknown;

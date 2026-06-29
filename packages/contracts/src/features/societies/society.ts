@@ -14,6 +14,8 @@
 // Notes:
 //   Each society gets a detail page at /societies/{slug}.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Society = unknown;

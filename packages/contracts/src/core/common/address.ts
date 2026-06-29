@@ -11,6 +11,8 @@
 //   Extracted here so features/contact/info.ts and features/facilities/facility.ts
 //   can reference the same shape without duplication.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Address = unknown;

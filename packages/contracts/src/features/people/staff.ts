@@ -15,6 +15,8 @@
 //   The public staff directory shows StaffCardData only.
 //   Migrate from packages/validation/src/people/.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Staff = unknown;

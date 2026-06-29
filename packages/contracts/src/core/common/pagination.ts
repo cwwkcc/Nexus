@@ -13,6 +13,8 @@
 //   editorial/news/article.ts — article list pagination
 //   editorial/events/event.ts — event list pagination
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Pagination = unknown;

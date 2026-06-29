@@ -10,6 +10,8 @@
 //
 // Used on: About page (four school values)
 
-import { z } from 'zod';
+
 
 // TODO: implement (migrate from packages/validation/src/content-types/index.ts)
+
+export type Values = unknown;

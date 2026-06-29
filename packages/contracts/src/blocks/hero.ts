@@ -1,3 +1,4 @@
+import { z } from 'zod';
 // packages/contracts/src/blocks/hero.ts
 //
 // Hero block — top-of-page banner used on most pages.
@@ -12,7 +13,7 @@
 // Page-specific extensions (e.g. AboutHeroSchema) are defined in
 // registry/pages/about.ts via HeroSchema.extend({ ... }).
 
-import { z } from 'zod';
+
 
 export const HeroSchema = z.object({
   eyebrow: z.string(),

@@ -9,6 +9,8 @@
 //   MembersData   — z.infer type
 //   MemberItem    — z.infer type
 
-import { z } from 'zod';
+
 
 // TODO: implement (migrate from packages/validation/src/content-types/index.ts)
+
+export type Members = unknown;

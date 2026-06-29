@@ -8,6 +8,8 @@
 //   AdmissionsProcessSchema — steps: AdmissionsStep[], notes?
 //   AdmissionsProcessData   — z.infer type
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Process = unknown;

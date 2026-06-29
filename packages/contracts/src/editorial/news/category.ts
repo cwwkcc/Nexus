@@ -9,3 +9,5 @@
 //   NewsCategoryMeta   — { key, label, description? }[] for admin filter UI
 
 // TODO: implement
+
+export type Category = unknown;

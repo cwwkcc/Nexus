@@ -11,6 +11,8 @@
 // Used by: academics page, admissions requirements, results display
 // Note: Combined Maths stream is you. Don't get the subjects wrong.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type AcademicStream = unknown;

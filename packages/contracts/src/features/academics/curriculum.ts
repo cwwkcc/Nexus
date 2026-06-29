@@ -11,6 +11,8 @@
 // Notes:
 //   High-level only. Detailed syllabus documents are managed as Downloads blocks.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Curriculum = unknown;

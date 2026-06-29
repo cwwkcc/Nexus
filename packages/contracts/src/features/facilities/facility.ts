@@ -15,6 +15,8 @@
 // Notes:
 //   hasPanorama: true → renders PanoramicFacilityViewer with data from panoramic.ts.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Facility = unknown;

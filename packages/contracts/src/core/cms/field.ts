@@ -20,3 +20,5 @@
 //   Start simple — add FieldType variants as the form builder grows.
 
 // TODO: implement
+
+export type Field = unknown;

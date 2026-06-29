@@ -10,6 +10,8 @@
 //   Wraps core/common/rich-text.ts as a named BLOCKS entry so it appears
 //   in the block registry and can be assigned to page sections.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type BlockRichText2 = unknown;

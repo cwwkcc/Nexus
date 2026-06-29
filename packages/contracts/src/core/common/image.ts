@@ -13,6 +13,8 @@
 //   The web app resolves keys via apps/web/src/lib/cdn.ts at render time.
 //   Never store full CDN URLs — keys are portable if the CDN domain changes.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Image = unknown;

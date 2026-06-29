@@ -17,3 +17,5 @@
 //   Keep RendererKey in sync with the BLOCKS registry in blocks/index.ts.
 
 // TODO: implement
+
+export type Renderer = unknown;

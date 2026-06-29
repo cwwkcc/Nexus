@@ -12,6 +12,8 @@
 //   src is an R2 object key resolved to a CDN URL at render time.
 //   Used on: About page (crest images), Facilities, Gallery album views.
 
-import { z } from 'zod';
+
 
 // TODO: implement (migrate from packages/validation/src/content-types/index.ts)
+
+export type Gallery = unknown;

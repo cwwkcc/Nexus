@@ -9,3 +9,5 @@
 //   EventCategoryMeta   — { key, label, color? }[] for admin calendar colour coding
 
 // TODO: implement
+
+export type EventCategory = unknown;

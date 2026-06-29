@@ -9,6 +9,8 @@
 //
 // Used on: Home page (life at KCC strip), About page
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type PhotoStrip = unknown;

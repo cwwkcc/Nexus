@@ -15,6 +15,8 @@
 //   Keep this in sync with packages/database/prisma/schema.prisma.
 //   When the Prisma schema changes, update this file too.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type CoreContentEntry2 = unknown;

@@ -13,6 +13,8 @@
 //   Never store or display individual student O/L grades on the public website.
 //   This schema captures school-level aggregate statistics only.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Ol = unknown;

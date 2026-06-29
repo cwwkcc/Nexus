@@ -14,6 +14,8 @@
 //   for use in the footer and global contexts.
 //   The full profile and message are stored in ContentEntry.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Principal = unknown;

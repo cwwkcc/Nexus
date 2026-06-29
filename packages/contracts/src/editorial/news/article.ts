@@ -18,6 +18,8 @@
 //   Articles are stored as ContentEntry rows with scope 'editorial:news'.
 //   Full content is Tiptap HTML — render with RichTextRenderer in @nexus/ui.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Article = unknown;

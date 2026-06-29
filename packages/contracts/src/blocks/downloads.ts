@@ -12,6 +12,8 @@
 //
 // Used on: Admissions (prospectus, forms), Results (past papers), Administration
 
-import { z } from 'zod';
+
 
 // TODO: implement (migrate from packages/validation/src/content-types/index.ts)
+
+export type Downloads = unknown;

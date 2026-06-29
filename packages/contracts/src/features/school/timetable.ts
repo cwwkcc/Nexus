@@ -12,6 +12,8 @@
 // Notes:
 //   Admin panel only. Never import this in apps/web.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Timetable = unknown;

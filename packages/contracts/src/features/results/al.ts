@@ -14,6 +14,8 @@
 //   Same constraints as ol.ts — aggregate stats only on the public site.
 //   islandRanks = number of students who achieved island-level rankings.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Al = unknown;

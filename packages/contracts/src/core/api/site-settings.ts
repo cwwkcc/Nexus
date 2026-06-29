@@ -12,6 +12,8 @@
 //   value is stored as JSONB in Postgres. The admin panel validates each
 //   value against SITE_SETTING_SCHEMAS[key] before calling the procedure.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type SiteSettings = unknown;

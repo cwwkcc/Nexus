@@ -14,6 +14,8 @@
 //   blocks/downloads.ts        — downloadable document hrefs
 //   registry/globals/navigation.ts — nav link hrefs
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Link = unknown;

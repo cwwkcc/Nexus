@@ -11,6 +11,8 @@
 //   src is an R2 key resolved to a CDN URL at render time.
 //   order determines display sequence within the album lightbox.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type Photo = unknown;

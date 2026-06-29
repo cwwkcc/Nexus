@@ -14,6 +14,8 @@
 //   calls confirmUpload to register the asset in the DB.
 //   Never stream file bytes through the tRPC server.
 
-import { z } from 'zod';
+
 
 // TODO: implement
+
+export type CoreMedia2 = unknown;
