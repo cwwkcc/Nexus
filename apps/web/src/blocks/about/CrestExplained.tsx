@@ -1,3 +1,4 @@
+import type { AboutCrestData } from '@nexus/contracts';
 import {
   Container,
   Heading,
@@ -10,7 +11,6 @@ import {
   type CrestSymbol,
   SchoolLogo,
 } from '@nexus/ui';
-import type { AboutCrestData } from '@nexus/contracts';
 
 export function CrestExplained({ crest }: { crest: AboutCrestData }) {
   const symbols = crest.symbols as CrestSymbol[];

@@ -1,5 +1,5 @@
-import { Container, Timeline, SectionHeader } from '@nexus/ui';
 import type { AboutTimelineData } from '@nexus/contracts';
+import { Container, Timeline, SectionHeader } from '@nexus/ui';
 
 export default function TimeLine({
   timeline,

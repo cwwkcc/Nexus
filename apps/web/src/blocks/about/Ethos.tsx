@@ -1,5 +1,5 @@
-import { VStack, Container, EyebrowLabel, QuoteBlock } from '@nexus/ui';
 import type { AboutEthosData } from '@nexus/contracts';
+import { VStack, Container, EyebrowLabel, QuoteBlock } from '@nexus/ui';
 
 export default function Ethos({ ethos }: { ethos: AboutEthosData }) {
   return (

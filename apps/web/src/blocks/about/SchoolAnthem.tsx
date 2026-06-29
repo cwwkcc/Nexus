@@ -1,5 +1,5 @@
-import { Container, SectionHeader, AudioPlayer, Text } from '@nexus/ui';
 import type { AboutAnthemData } from '@nexus/contracts';
+import { Container, SectionHeader, AudioPlayer, Text } from '@nexus/ui';
 
 export default function SchoolAnthem({ anthem }: { anthem: AboutAnthemData }) {
   return (

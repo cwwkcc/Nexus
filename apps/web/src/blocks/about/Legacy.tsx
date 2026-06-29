@@ -1,3 +1,4 @@
+import type { AboutLegacyData } from '@nexus/contracts';
 import {
   VStack,
   Text,
@@ -9,7 +10,6 @@ import {
   QuoteBlock,
   ImageFrame,
 } from '@nexus/ui';
-import type { AboutLegacyData } from '@nexus/contracts';
 
 export default function Legacy({ legacy }: { legacy: AboutLegacyData }) {
   return (

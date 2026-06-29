@@ -1,5 +1,5 @@
-import { VStack, Text, QuoteBlock, SectionHeader, Container } from '@nexus/ui';
 import type { AboutStoryData } from '@nexus/contracts';
+import { VStack, Text, QuoteBlock, SectionHeader, Container } from '@nexus/ui';
 
 export default function OurStory({ story }: { story: AboutStoryData }) {
   return (

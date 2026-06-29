@@ -1,5 +1,5 @@
-import { Hero } from '@nexus/ui';
 import type { AboutHeroData } from '@nexus/contracts';
+import { Hero } from '@nexus/ui';
 
 export default function AboutHero({ hero }: { hero: AboutHeroData }) {
   return (

@@ -1,5 +1,5 @@
-import { Container, Text, SectionHeader } from '@nexus/ui';
 import type { AboutClosingData } from '@nexus/contracts';
+import { Container, Text, SectionHeader } from '@nexus/ui';
 
 export default function ClosingStatement({
   closing,

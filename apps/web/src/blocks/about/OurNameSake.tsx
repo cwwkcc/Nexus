@@ -1,3 +1,4 @@
+import type { AboutKannangaraData } from '@nexus/contracts';
 import {
   Container,
   Text,
@@ -8,7 +9,6 @@ import {
   Divider,
   QuoteBlock,
 } from '@nexus/ui';
-import type { AboutKannangaraData } from '@nexus/contracts';
 
 export default function OurNameSake({
   aboutKannangara,
