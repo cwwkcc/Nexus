@@ -1,17 +1,17 @@
 // packages/contracts/src/blocks/anthem.ts
 //
-// Anthem block — school anthem audio player with optional lyrics display.
-//
-// Should contain:
-//   AnthemSchema — heading, description?, audioSrc (R2 key for .mp3),
-//                  audioTitle, lyrics? (Sinhala lyrics as plain text),
-//                  transcriptLabel? (label for the expand-lyrics button)
-//   AnthemData   — z.infer type
-//
-// Used on: About page (school anthem section)
+// Note: rewritten to match the real field names already used by
+// apps/web/src/blocks/about/SchoolAnthem.tsx (anthemSrc/playerTitle, not
+// the originally-planned audioSrc/audioTitle).
+import { z } from 'zod';
 
-
-
-// TODO: implement (migrate from packages/validation/src/content/page-content.ts AboutAnthemSchema)
-
-export type Anthem = unknown;
+export const AnthemSchema = z.object({
+  eyebrow: z.string().optional(),
+  heading: z.string(),
+  paragraph: z.string().optional(),
+  anthemSrc: z.string(),
+  playerTitle: z.string(),
+  playerSubtitle: z.string().optional(),
+  lyricsSinhala: z.string().optional(),
+});
+export type AnthemData = z.infer<typeof AnthemSchema>;

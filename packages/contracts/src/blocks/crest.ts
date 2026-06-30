@@ -1,17 +1,18 @@
 // packages/contracts/src/blocks/crest.ts
-//
-// Crest block — visual explanation of the school crest and its symbols.
-//
-// Should contain:
-//   CrestSymbolSchema — id, name, meaning, position? (e.g. 'top-left')
-//   CrestSchema       — eyebrow?, heading?, intro?, symbols: CrestSymbol[]
-//   CrestData         — z.infer type
-//   CrestSymbol       — z.infer type
-//
-// Used on: About page (Crest Explained section)
+import { z } from 'zod';
 
+export const CrestSymbolSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  meaning: z.string(),
+  position: z.string().optional(),
+});
+export type CrestSymbol = z.infer<typeof CrestSymbolSchema>;
 
-
-// TODO: implement (migrate from packages/validation/src/content/page-content.ts AboutCrestSchema)
-
-export type Crest = unknown;
+export const CrestSchema = z.object({
+  eyebrow: z.string().optional(),
+  heading: z.string().optional(),
+  intro: z.string().optional(),
+  symbols: z.array(CrestSymbolSchema),
+});
+export type CrestData = z.infer<typeof CrestSchema>;

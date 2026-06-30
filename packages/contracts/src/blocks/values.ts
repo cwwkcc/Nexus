@@ -1,17 +1,17 @@
 // packages/contracts/src/blocks/values.ts
-//
-// Values block — list of core values, each with a title, description, optional icon.
-//
-// Should contain:
-//   ValueItemSchema — id, title, description, icon? (icon name in @nexus/ui Icon registry)
-//   ValuesSchema    — eyebrow?, heading?, values: ValueItem[]
-//   ValuesData      — z.infer type
-//   ValueItem       — z.infer type
-//
-// Used on: About page (four school values)
+import { z } from 'zod';
 
+export const ValueItemSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  description: z.string(),
+  icon: z.string().optional(),
+});
+export type ValueItem = z.infer<typeof ValueItemSchema>;
 
-
-// TODO: implement (migrate from packages/validation/src/content-types/index.ts)
-
-export type Values = unknown;
+export const ValuesSchema = z.object({
+  eyebrow: z.string().optional(),
+  heading: z.string().optional(),
+  values: z.array(ValueItemSchema),
+});
+export type ValuesData = z.infer<typeof ValuesSchema>;
