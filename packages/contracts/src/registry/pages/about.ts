@@ -1,46 +1,196 @@
 // packages/contracts/src/registry/pages/about.ts
 //
 // Page registry for: About
-//
-// Should contain:
-//   aboutRegistry — PageRegistry object:
-//     page:        'about'
-//     scope:       'page:about'
-//     label:       'About'
-//     description: What this page is and who manages it
-//     sections:    SectionDefinition[] — one entry per block on this page
-//
-// Each SectionDefinition:
-//   key:         'about.{sectionName}'  → stored as ContentEntry.sectionKey
-//   blockKey:    key from BLOCKS registry (e.g. 'hero', 'stats', 'timeline')
-//   label:       Section name shown in the admin editor
-//   description: Help text for content editors explaining what this section is
-//   schema:      The block schema — either a BLOCKS schema directly, or a
-//                page-specific extension: HeroSchema.extend({ extraField: z.string() })
-//
-// When adding a section:
-//   1. Add a SectionDefinition entry here
-//   2. Add seed data in packages/database/prisma/seed-about.ts
-//   3. Update the page fetcher in apps/web/src/server/content.ts
-//   4. Build the block in apps/web/src/blocks/about/
 
+import { z } from 'zod';
+
+import { AnthemSchema, type AnthemData } from '../../blocks/anthem.js';
+import { CrestSchema, type CrestData } from '../../blocks/crest.js';
+import { HeroSchema, type HeroData } from '../../blocks/hero.js';
+import { TimelineItemSchema } from '../../blocks/timeline.js';
 import type { PageRegistry } from '../types.js';
+
+// ── Section schemas ─────────────────────────────────────────────────────
+
+// hero, crest, and anthem match the shared block schemas exactly.
+export const AboutHeroSchema = HeroSchema;
+export type AboutHeroData = HeroData;
+
+export const AboutCrestSchema = CrestSchema;
+export type AboutCrestData = CrestData;
+
+export const AboutAnthemSchema = AnthemSchema;
+export type AboutAnthemData = AnthemData;
+
+// timeline reuses the shared per-milestone shape, but the live component
+// reads `timeline.milestones`, not `items` — so the wrapper stays custom.
+export const AboutTimelineSchema = z.object({
+  eyebrow: z.string(),
+  heading: z.string(),
+  milestones: z.array(TimelineItemSchema),
+});
+export type AboutTimelineData = z.infer<typeof AboutTimelineSchema>;
+
+// story, aboutKannangara, ethos, values, legacy, closing have no matching
+// generic block — bespoke shapes specific to this page.
+export const AboutStorySchema = z.object({
+  eyebrow: z.string(),
+  heading: z.string(),
+  headingEm: z.string().optional(),
+  paragraph: z.string(),
+  quote: z.string().optional(),
+  quoteAuthor: z.string().optional(),
+});
+export type AboutStoryData = z.infer<typeof AboutStorySchema>;
+
+export const AboutKannangaraSchema = z.object({
+  eyebrow: z.string(),
+  name: z.string(),
+  position: z.string(),
+  portraitSrc: z.string().optional(),
+  portraitAlt: z.string(),
+  portraitCaption: z.string().optional(),
+  paragraph: z.string(),
+  quote: z.string().optional(),
+  attribution: z.string().optional(),
+});
+export type AboutKannangaraData = z.infer<typeof AboutKannangaraSchema>;
+
+export const AboutEthosSchema = z.object({
+  visionEyebrow: z.string(),
+  visionText: z.string(),
+  missionEyebrow: z.string(),
+  missionText: z.string(),
+  mottoEyebrow: z.string().optional(),
+  motto: z.string(),
+});
+export type AboutEthosData = z.infer<typeof AboutEthosSchema>;
+
+export const AboutValueItemSchema = z.object({
+  id: z.string(),
+  english: z.string(),
+  latin: z.string(),
+  desc: z.string(),
+});
+
+export const AboutValuesSchema = z.object({
+  valuesEyebrow: z.string(),
+  values: z.array(AboutValueItemSchema),
+});
+export type AboutValuesData = z.infer<typeof AboutValuesSchema>;
+
+export const AboutLegacySchema = z.object({
+  spirit: z.object({
+    eyebrow: z.string(),
+    heading: z.string(),
+    paragraph: z.string(),
+    quote: z.string(),
+    attribution: z.string().optional(),
+  }),
+  heritage: z.object({
+    eyebrow: z.string(),
+    heading: z.string(),
+    caption: z.string(),
+  }),
+});
+export type AboutLegacyData = z.infer<typeof AboutLegacySchema>;
+
+export const AboutClosingSchema = z.object({
+  eyebrow: z.string(),
+  heading: z.string(),
+  body: z.string(),
+  rule: z.string(),
+});
+export type AboutClosingData = z.infer<typeof AboutClosingSchema>;
+
+// ── Page registry ───────────────────────────────────────────────────────
 
 export const aboutRegistry: PageRegistry = {
   page: 'about',
   scope: 'page:about',
-  label: 'About',
-  description: '', // TODO: add a description for the admin panel
+  label: 'About KCC',
+  description:
+    "The About page introduces KCC — its history, the legacy of Dr. Kannangara, the school's ethos, and more.",
   sections: [
-    // TODO: add SectionDefinition entries as blocks are designed and built
-    //
-    // Example:
-    // {
-    //   key: 'about.hero',
-    //   blockKey: 'hero',
-    //   label: 'Hero Banner',
-    //   description: 'Top-of-page headline and eyebrow text.',
-    //   schema: HeroSchema,
-    // },
+    {
+      key: 'about.hero',
+      blockKey: 'hero',
+      label: 'Hero Banner',
+      description:
+        'Eyebrow text (e.g. "Est. 1873 · Mathugama"), page headline, optional emphasised word, and subtitle shown at the top of the page.',
+      schema: AboutHeroSchema,
+    },
+    {
+      key: 'about.story',
+      blockKey: 'richText',
+      label: 'Our Story',
+      description:
+        'The founding narrative of KCC — eyebrow, heading, body paragraph, and optional pull-quote with attribution.',
+      schema: AboutStorySchema,
+    },
+    {
+      key: 'about.aboutKannangara',
+      blockKey: 'richText',
+      label: 'Our Namesake',
+      description:
+        'Profile of Dr. C.W.W. Kannangara — name, title, portrait image, biography paragraph, and optional quote.',
+      schema: AboutKannangaraSchema,
+    },
+    {
+      key: 'about.timeline',
+      blockKey: 'timeline',
+      label: 'Historical Timeline',
+      description:
+        "Key milestones in KCC's history. Each milestone has a year, title, description, and era (early / mid / modern).",
+      schema: AboutTimelineSchema,
+    },
+    {
+      key: 'about.ethos',
+      blockKey: 'quote',
+      label: 'Ethos — Vision, Mission & Motto',
+      description:
+        "The school's eyebrow labels, vision statement, mission statement, and motto. Each has its own eyebrow.",
+      schema: AboutEthosSchema,
+    },
+    {
+      key: 'about.values',
+      blockKey: 'values',
+      label: 'Core Values',
+      description:
+        'The four school values. Each has an English name, a Latin name, and a description.',
+      schema: AboutValuesSchema,
+    },
+    {
+      key: 'about.crest',
+      blockKey: 'crest',
+      label: 'Crest Explained',
+      description:
+        'Eyebrow, heading, intro paragraph, and list of crest symbols. Each symbol has a name, meaning, and position label.',
+      schema: AboutCrestSchema,
+    },
+    {
+      key: 'about.legacy',
+      blockKey: 'richText',
+      label: 'Legacy',
+      description:
+        'Two sub-sections: "Spirit of Kannangara" (eyebrow, heading, paragraph, pull-quote) and "Physical Heritage" (eyebrow, heading, caption).',
+      schema: AboutLegacySchema,
+    },
+    {
+      key: 'about.anthem',
+      blockKey: 'anthem',
+      label: 'School Anthem',
+      description:
+        'Anthem section heading, description paragraph, audio player labels, and Sinhala lyrics text.',
+      schema: AboutAnthemSchema,
+    },
+    {
+      key: 'about.closing',
+      blockKey: 'richText',
+      label: 'Closing Statement',
+      description:
+        'Eyebrow, final heading, body paragraph, and footnote rule shown at the very bottom of the page.',
+      schema: AboutClosingSchema,
+    },
   ],
 };
