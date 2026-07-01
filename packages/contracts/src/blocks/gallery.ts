@@ -1,19 +1,19 @@
 // packages/contracts/src/blocks/gallery.ts
-//
-// Gallery block — image grid with optional lightbox.
-//
-// Should contain:
-//   GalleryImageSchema — id, src (R2 key), alt, caption?
-//   GallerySchema      — eyebrow?, heading?, images: GalleryImage[]
-//   GalleryData        — z.infer type
-//   GalleryImage       — z.infer type
-//
-// Notes:
-//   src is an R2 object key resolved to a CDN URL at render time.
-//   Used on: About page (crest images), Facilities, Gallery album views.
 
+import { z } from 'zod';
 
+export const GalleryImageSchema = z.object({
+  id: z.string(),
+  src: z.string(),
+  alt: z.string(),
+  caption: z.string().optional(),
+});
 
-// TODO: implement (migrate from packages/validation/src/content-types/index.ts)
+export const GallerySchema = z.object({
+  eyebrow: z.string().optional(),
+  heading: z.string().optional(),
+  images: z.array(GalleryImageSchema),
+});
 
-export type Gallery = unknown;
+export type GalleryData = z.infer<typeof GallerySchema>;
+export type GalleryImage = z.infer<typeof GalleryImageSchema>;

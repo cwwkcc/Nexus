@@ -1,20 +1,21 @@
 // packages/contracts/src/blocks/stats.ts
-//
-// Stats block — animated count-up statistics strip.
-//
-// Should contain:
-//   StatItemSchema — id, target (number), label, suffix?, prefix?,
-//                    description?, tooltip?, disableCountUp? (bool)
-//   StatsSchema    — stats: StatItem[]
-//   StatsData      — z.infer type
-//   StatItem       — z.infer type
-//
-// Notes:
-//   disableCountUp: true for values that should not animate (e.g. year '1873').
-//   The useCountUp hook in @nexus/ui handles the animation.
 
+import { z } from 'zod';
 
+export const StatItemSchema = z.object({
+  id: z.string(),
+  target: z.number(),
+  label: z.string(),
+  suffix: z.string().optional(),
+  prefix: z.string().optional(),
+  description: z.string().optional(),
+  tooltip: z.string().optional(),
+  disableCountUp: z.boolean().optional(),
+});
 
-// TODO: implement (migrate from packages/validation/src/content-types/index.ts)
+export const StatsSchema = z.object({
+  stats: z.array(StatItemSchema),
+});
 
-export type Stats = unknown;
+export type StatsData = z.infer<typeof StatsSchema>;
+export type StatItem = z.infer<typeof StatItemSchema>;

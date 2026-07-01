@@ -1,16 +1,20 @@
 // packages/contracts/src/blocks/members.ts
-//
-// Members block — rendered list of people within a page section.
-// Distinct from features/people/ (the authoritative people data model).
-//
-// Should contain:
-//   MemberSchema  — id, name, role, image? (R2 key), bio?
-//   MembersSchema — eyebrow?, heading?, members: Member[]
-//   MembersData   — z.infer type
-//   MemberItem    — z.infer type
 
+import { z } from 'zod';
 
+export const MemberSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  role: z.string(),
+  image: z.string().optional(),
+  bio: z.string().optional(),
+});
 
-// TODO: implement (migrate from packages/validation/src/content-types/index.ts)
+export const MembersSchema = z.object({
+  eyebrow: z.string().optional(),
+  heading: z.string().optional(),
+  members: z.array(MemberSchema),
+});
 
-export type Members = unknown;
+export type MembersData = z.infer<typeof MembersSchema>;
+export type MemberItem = z.infer<typeof MemberSchema>;

@@ -1,17 +1,15 @@
 // packages/contracts/src/blocks/cta.ts
-//
-// CTA block — call-to-action with primary and optional secondary button.
-//
-// Should contain:
-//   CtaSchema — eyebrow?, title, subtitle?,
-//               buttonLabel, buttonHref,
-//               secondaryButtonLabel?, secondaryButtonHref?
-//   CtaData   — z.infer type
-//
-// Used on: About page closing, Admissions page, Contact page
 
+import { z } from 'zod';
 
+export const CtaSchema = z.object({
+  eyebrow: z.string().optional(),
+  title: z.string(),
+  subtitle: z.string().optional(),
+  buttonLabel: z.string(),
+  buttonHref: z.string(),
+  secondaryButtonLabel: z.string().optional(),
+  secondaryButtonHref: z.string().optional(),
+});
 
-// TODO: implement (migrate from packages/validation/src/content-types/index.ts)
-
-export type Cta = unknown;
+export type CtaData = z.infer<typeof CtaSchema>;

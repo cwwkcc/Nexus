@@ -7,3 +7,5 @@ export * from './people/index.js';
 export * from './results/index.js';
 export * from './school/index.js';
 export * from './societies/index.js';
+export * from './timetable.js';
+export * from './results.js';

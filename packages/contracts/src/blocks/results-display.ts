@@ -1,20 +1,19 @@
 // packages/contracts/src/blocks/results-display.ts
-//
-// Results display block — editorial summary of exam results for the Results page.
-// Distinct from features/results/ (the detailed data model).
-//
-// Should contain:
-//   ResultsSummarySchema  — examType ('OL'|'AL'), year (string),
-//                           heading?, highlights: string[], downloadHref?
-//   ResultsDisplaySchema  — eyebrow?, heading?, summaries: ResultsSummary[]
-//   ResultsDisplayData    — z.infer type
-//
-// Notes:
-//   This is the curated editorial layer, not raw per-student data.
-//   Full result schemas are in features/results/.
 
+import { z } from 'zod';
 
+export const ResultsSummarySchema = z.object({
+  examType: z.enum(['OL', 'AL']),
+  year: z.string(),
+  heading: z.string().optional(),
+  highlights: z.array(z.string()),
+  downloadHref: z.string().optional(),
+});
 
-// TODO: implement
+export const ResultsDisplaySchema = z.object({
+  eyebrow: z.string().optional(),
+  heading: z.string().optional(),
+  summaries: z.array(ResultsSummarySchema),
+});
 
-export type ResultsDisplay = unknown;
+export type ResultsDisplayData = z.infer<typeof ResultsDisplaySchema>;

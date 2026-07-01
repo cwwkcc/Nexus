@@ -13,8 +13,16 @@
 //   Albums are the top-level container. Individual photos are in gallery/photo.ts.
 //   Gallery page shows AlbumCard grid; clicking opens the album lightbox.
 
+import { z } from 'zod';
 
+export const GalleryAlbumSchema = z.object({
+  title: z.string(),
+  year: z.string(),
+  photoCount: z.number(),
+  category: z.string().optional(),
+  href: z.string(),
+  coverSrc: z.string().optional(),
+  coverAlt: z.string().optional(),
+});
 
-// TODO: implement
-
-export type Album = unknown;
+export type GalleryAlbumData = z.infer<typeof GalleryAlbumSchema>;

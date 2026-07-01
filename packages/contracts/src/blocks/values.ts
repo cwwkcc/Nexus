@@ -1,4 +1,5 @@
 // packages/contracts/src/blocks/values.ts
+
 import { z } from 'zod';
 
 export const ValueItemSchema = z.object({

@@ -2,3 +2,8 @@ export * from './achievements/index.js';
 export * from './events/index.js';
 export * from './gallery/index.js';
 export * from './news/index.js';
+export * from './stats.js';
+export * from './search.js';
+export * from './navigation.js';
+export * from './process.js';
+export * from './media.js';

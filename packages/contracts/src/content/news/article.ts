@@ -18,8 +18,24 @@
 //   Articles are stored as ContentEntry rows with scope 'editorial:news'.
 //   Full content is Tiptap HTML — render with RichTextRenderer in @nexus/ui.
 
+import { z } from 'zod';
 
+export const NewsCardVariant = z.enum(['featured', 'standard', 'compact']);
 
-// TODO: implement
+export const ArticleSchema = z.object({
+  variant: NewsCardVariant.optional(),
+  title: z.string(),
+  excerpt: z.string().optional(),
+  category: z.string(),
+  date: z.string(),
+  href: z.string(),
+  imageSrc: z.string().optional(),
+  imageAlt: z.string().optional(),
+  readTime: z.string().optional(),
+});
 
-export type Article = unknown;
+export type ArticleData = z.infer<typeof ArticleSchema>;
+export type NewsCardVariantType = z.infer<typeof NewsCardVariant>;
+
+// Runtime enum values for comparisons
+export const NewsCardVariantValues = NewsCardVariant.enum;

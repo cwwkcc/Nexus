@@ -14,8 +14,25 @@
 // Notes:
 //   Each society gets a detail page at /societies/{slug}.
 
+import { z } from 'zod';
 
+export const SocietyCardVariant = z.enum(['hub-grid', 'featured']);
 
-// TODO: implement
+export const SocietySchema = z.object({
+  variant: SocietyCardVariant.optional(),
+  name: z.string(),
+  tagline: z.string(),
+  category: z.string(),
+  href: z.string(),
+  imageSrc: z.string().optional(),
+  imageAlt: z.string().optional(),
+  isFeatured: z.boolean().optional(),
+  memberCount: z.number().optional(),
+  founded: z.string().optional(),
+});
 
-export type Society = unknown;
+export type SocietyData = z.infer<typeof SocietySchema>;
+export type SocietyCardVariantType = z.infer<typeof SocietyCardVariant>;
+
+// Runtime enum values for comparisons
+export const SocietyCardVariantValues = SocietyCardVariant.enum;

@@ -19,6 +19,32 @@
 //   This is the bridge between Zod schemas and the admin form UI.
 //   Start simple — add FieldType variants as the form builder grows.
 
-// TODO: implement
+import { z } from 'zod';
 
-export type Field = unknown;
+export const FieldType = z.enum([
+  'text',
+  'textarea',
+  'richtext',
+  'number',
+  'boolean',
+  'select',
+  'multiselect',
+  'image',
+  'date',
+  'url',
+  'email',
+  'array',
+  'object',
+]);
+
+export const FieldDefinition = z.object({
+  type: FieldType,
+  label: z.string(),
+  hint: z.string().optional(),
+  required: z.boolean().optional(),
+  min: z.number().optional(),
+  max: z.number().optional(),
+  options: z.array(z.object({ label: z.string(), value: z.string() })).optional(),
+});
+
+export type FieldMeta = Record<string, z.infer<typeof FieldDefinition>>;

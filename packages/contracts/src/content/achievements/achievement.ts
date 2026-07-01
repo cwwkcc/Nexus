@@ -14,8 +14,21 @@
 //   (which is specific to a single society).
 //   Used on the home page achievement section and a dedicated achievements list.
 
+import { z } from 'zod';
 
+export const AchievementLevel = z.enum(['national', 'provincial', 'district', 'school']);
 
-// TODO: implement
+export const AchievementCategory = z.enum(['academic', 'sports', 'cultural', 'other']);
 
-export type Achievement = unknown;
+export const AchievementSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  year: z.string(),
+  category: z.string().optional(),
+  context: z.string().optional(),
+  imageSrc: z.string().optional(),
+  imageAlt: z.string().optional(),
+  href: z.string().optional(),
+});
+
+export type AchievementData = z.infer<typeof AchievementSchema>;

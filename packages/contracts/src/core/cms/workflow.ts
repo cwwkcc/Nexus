@@ -14,8 +14,30 @@
 //   status column later without redesigning contracts.
 //   The workflow engine lives in packages/api — this file is shapes only.
 
+import { z } from 'zod';
 
+export const ContentStatus = z.enum([
+  'draft',
+  'in_review',
+  'approved',
+  'published',
+  'archived',
+]);
 
-// TODO: implement
+export const WorkflowTransition = z.object({
+  from: ContentStatus,
+  to: ContentStatus,
+  triggeredBy: z.string(),
+});
 
-export type Workflow = unknown;
+export const ApprovalRequest = z.object({
+  contentEntryId: z.string(),
+  requestedBy: z.string(),
+  note: z.string().optional(),
+});
+
+export const ApprovalDecision = z.object({
+  approved: z.boolean(),
+  decidedBy: z.string(),
+  comment: z.string().optional(),
+});

@@ -10,8 +10,25 @@
 //   ActivityCardSchema — id, name, category, image?
 //   ActivityData      — z.infer type
 
+import { z } from 'zod';
 
+export const ExtracurricularVariant = z.enum(['sport', 'performing-arts', 'leadership']);
 
-// TODO: implement
+export const ActivitySchema = z.object({
+  variant: ExtracurricularVariant.optional(),
+  name: z.string(),
+  description: z.string(),
+  recentAchievements: z.array(z.string()).optional(),
+  teacherInCharge: z.string().optional(),
+  studentQuote: z.string().optional(),
+  season: z.string().optional(),
+  href: z.string().optional(),
+  imageSrc: z.string().optional(),
+  imageAlt: z.string().optional(),
+});
 
-export type Activity = unknown;
+export type ActivityData = z.infer<typeof ActivitySchema>;
+export type ExtracurricularVariantType = z.infer<typeof ExtracurricularVariant>;
+
+// Runtime enum values for comparisons
+export const ExtracurricularVariantValues = ExtracurricularVariant.enum;

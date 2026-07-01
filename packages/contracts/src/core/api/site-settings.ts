@@ -1,19 +1,26 @@
 // packages/contracts/src/core/api/site-settings.ts
-//
-// Input/output schemas for the siteSettings tRPC router.
-//
-// Should contain:
-//   GetSiteSettingInput       — key (SiteSettingKey), locale?
-//   UpdateSiteSettingInput    — key, locale, value (unknown)
-//   SiteSettingOutput         — key, locale, value, updatedAt
-//   BulkGetSiteSettingsInput  — keys: SiteSettingKey[], locale?
-//
-// Notes:
-//   value is stored as JSONB in Postgres. The admin panel validates each
-//   value against SITE_SETTING_SCHEMAS[key] before calling the procedure.
 
+import { z } from 'zod';
 
+export const GetSiteSettingInput = z.object({
+  key: z.string(),
+  locale: z.string().optional(),
+});
 
-// TODO: implement
+export const UpdateSiteSettingInput = z.object({
+  key: z.string(),
+  locale: z.string(),
+  value: z.unknown(),
+});
 
-export type SiteSettings = unknown;
+export const SiteSettingOutput = z.object({
+  key: z.string(),
+  locale: z.string(),
+  value: z.unknown(),
+  updatedAt: z.string(),
+});
+
+export const BulkGetSiteSettingsInput = z.object({
+  keys: z.array(z.string()),
+  locale: z.string().optional(),
+});

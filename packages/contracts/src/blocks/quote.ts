@@ -1,4 +1,5 @@
 // packages/contracts/src/blocks/quote.ts
+
 import { z } from 'zod';
 
 export const QuoteSchema = z.object({

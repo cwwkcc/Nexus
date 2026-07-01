@@ -1,6 +1,4 @@
 // packages/contracts/src/registry/pages/about.ts
-//
-// Page registry for: About
 
 import { z } from 'zod';
 
@@ -12,7 +10,6 @@ import type { PageRegistry } from '../types.js';
 
 // ── Section schemas ─────────────────────────────────────────────────────
 
-// hero, crest, and anthem match the shared block schemas exactly.
 export const AboutHeroSchema = HeroSchema;
 export type AboutHeroData = HeroData;
 
@@ -22,8 +19,6 @@ export type AboutCrestData = CrestData;
 export const AboutAnthemSchema = AnthemSchema;
 export type AboutAnthemData = AnthemData;
 
-// timeline reuses the shared per-milestone shape, but the live component
-// reads `timeline.milestones`, not `items` — so the wrapper stays custom.
 export const AboutTimelineSchema = z.object({
   eyebrow: z.string(),
   heading: z.string(),
@@ -31,8 +26,6 @@ export const AboutTimelineSchema = z.object({
 });
 export type AboutTimelineData = z.infer<typeof AboutTimelineSchema>;
 
-// story, aboutKannangara, ethos, values, legacy, closing have no matching
-// generic block — bespoke shapes specific to this page.
 export const AboutStorySchema = z.object({
   eyebrow: z.string(),
   heading: z.string(),
@@ -91,6 +84,13 @@ export const AboutLegacySchema = z.object({
     eyebrow: z.string(),
     heading: z.string(),
     caption: z.string(),
+    images: z.array(
+      z.object({
+        src: z.string(),
+        alt: z.string(),
+        year: z.string().optional(),
+      })
+    ),
   }),
 });
 export type AboutLegacyData = z.infer<typeof AboutLegacySchema>;

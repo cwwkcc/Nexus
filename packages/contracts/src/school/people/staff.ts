@@ -15,8 +15,24 @@
 //   The public staff directory shows StaffCardData only.
 //   Migrate from packages/validation/src/people/.
 
+import { z } from 'zod';
 
+export const StaffCardVariant = z.enum(['principal', 'grid', 'compact']);
 
-// TODO: implement
+export const StaffSchema = z.object({
+  variant: StaffCardVariant.optional(),
+  name: z.string(),
+  title: z.string(),
+  tenure: z.string().optional(),
+  quote: z.string().optional(),
+  imageSrc: z.string().optional(),
+  imageAlt: z.string().optional(),
+  portfolio: z.string().optional(),
+  href: z.string().optional(),
+});
 
-export type Staff = unknown;
+export type StaffData = z.infer<typeof StaffSchema>;
+export type StaffCardVariantType = z.infer<typeof StaffCardVariant>;
+
+// Runtime enum values for comparisons
+export const StaffCardVariantValues = StaffCardVariant.enum;

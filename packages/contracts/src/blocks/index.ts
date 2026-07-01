@@ -1,3 +1,5 @@
+// packages/contracts/src/blocks/index.ts
+
 export * from './announcement.js';
 export * from './anthem.js';
 export * from './contact-info.js';

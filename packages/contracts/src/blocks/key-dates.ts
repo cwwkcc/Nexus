@@ -1,16 +1,19 @@
 // packages/contracts/src/blocks/key-dates.ts
-//
-// Key dates block — list of upcoming important dates.
-//
-// Should contain:
-//   KeyDateSchema  — id, date (ISO string), title, description?, category?
-//   KeyDatesSchema — eyebrow?, heading?, dates: KeyDate[]
-//   KeyDatesData   — z.infer type
-//
-// Used on: Admissions page (key dates timeline), Home page (upcoming events strip)
 
+import { z } from 'zod';
 
+export const KeyDateSchema = z.object({
+  id: z.string(),
+  date: z.string(),
+  title: z.string(),
+  description: z.string().optional(),
+  category: z.string().optional(),
+});
 
-// TODO: implement
+export const KeyDatesSchema = z.object({
+  eyebrow: z.string().optional(),
+  heading: z.string().optional(),
+  dates: z.array(KeyDateSchema),
+});
 
-export type BlockKeyDates = unknown;
+export type KeyDatesData = z.infer<typeof KeyDatesSchema>;

@@ -1,21 +1,31 @@
 // packages/contracts/src/core/api/media.ts
-//
-// Input/output schemas for the media upload tRPC router.
-//
-// Should contain:
-//   RequestUploadUrlInput  — fileName, contentType (MIME),
-//                            folder ('images'|'documents'|'media'|'avatars')
-//   RequestUploadUrlOutput — uploadUrl (presigned R2 PUT URL), key, expiresAt
-//   ConfirmUploadInput     — key, title?, altText?
-//   MediaAssetOutput       — key, url, contentType, size, title?, altText?, uploadedAt
-//
-// Notes:
-//   Upload flow: admin requests presigned URL → uploads directly to R2 →
-//   calls confirmUpload to register the asset in the DB.
-//   Never stream file bytes through the tRPC server.
 
+import { z } from 'zod';
 
+export const RequestUploadUrlInput = z.object({
+  fileName: z.string(),
+  contentType: z.string(),
+  folder: z.enum(['images', 'documents', 'media', 'avatars']),
+});
 
-// TODO: implement
+export const RequestUploadUrlOutput = z.object({
+  uploadUrl: z.string(),
+  key: z.string(),
+  expiresAt: z.string(),
+});
 
-export type CoreMedia2 = unknown;
+export const ConfirmUploadInput = z.object({
+  key: z.string(),
+  title: z.string().optional(),
+  altText: z.string().optional(),
+});
+
+export const MediaAssetOutput = z.object({
+  key: z.string(),
+  url: z.string(),
+  contentType: z.string(),
+  size: z.number(),
+  title: z.string().optional(),
+  altText: z.string().optional(),
+  uploadedAt: z.string(),
+});

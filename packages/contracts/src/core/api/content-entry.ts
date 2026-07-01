@@ -1,24 +1,55 @@
 // packages/contracts/src/core/api/content-entry.ts
-//
-// Input/output schemas for the contentEntry tRPC router.
-//
-// Should contain:
-//   CreateContentEntryInput  — sectionKey, scope, locale, contentType, data (unknown)
-//   UpdateContentEntryInput  — id + partial of create fields
-//   GetByScopeInput          — scope, locale
-//   GetByKeyInput            — sectionKey, locale
-//   AdminGetByScopeInput     — scope (returns all locales)
-//   ContentEntryOutput       — id, sectionKey, scope, locale, contentType, data, updatedAt
-//   ContentEntryListOutput   — items: ContentEntryOutput[], meta: PaginationMeta
-//
-// Notes:
-//   data is typed unknown at the API boundary — callers parse it against
-//   the correct block schema from registry/.
-//   The router in packages/api/src/routers/content-entry.ts imports these
-//   as procedure .input() schemas.
 
+import { z } from 'zod';
 
+export const CreateContentEntryInput = z.object({
+  sectionKey: z.string(),
+  scope: z.string(),
+  locale: z.string(),
+  contentType: z.string(),
+  data: z.unknown(),
+});
 
-// TODO: implement
+export const UpdateContentEntryInput = z.object({
+  id: z.string(),
+  sectionKey: z.string().optional(),
+  scope: z.string().optional(),
+  locale: z.string().optional(),
+  contentType: z.string().optional(),
+  data: z.unknown().optional(),
+});
 
-export type CoreContentEntry2 = unknown;
+export const GetByScopeInput = z.object({
+  scope: z.string(),
+  locale: z.string(),
+});
+
+export const GetByKeyInput = z.object({
+  sectionKey: z.string(),
+  locale: z.string(),
+});
+
+export const AdminGetByScopeInput = z.object({
+  scope: z.string(),
+});
+
+export const ContentEntryOutput = z.object({
+  id: z.string(),
+  sectionKey: z.string(),
+  scope: z.string(),
+  locale: z.string(),
+  contentType: z.string(),
+  data: z.unknown(),
+  updatedAt: z.string(),
+});
+
+export const PaginationMeta = z.object({
+  total: z.number(),
+  page: z.number(),
+  pageSize: z.number(),
+});
+
+export const ContentEntryListOutput = z.object({
+  items: z.array(ContentEntryOutput),
+  meta: PaginationMeta,
+});

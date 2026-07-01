@@ -1,8 +1,5 @@
 // packages/contracts/src/blocks/anthem.ts
-//
-// Note: rewritten to match the real field names already used by
-// apps/web/src/blocks/about/SchoolAnthem.tsx (anthemSrc/playerTitle, not
-// the originally-planned audioSrc/audioTitle).
+
 import { z } from 'zod';
 
 export const AnthemSchema = z.object({

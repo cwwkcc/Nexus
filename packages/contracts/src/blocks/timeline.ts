@@ -1,4 +1,5 @@
 // packages/contracts/src/blocks/timeline.ts
+
 import { z } from 'zod';
 
 export const TimelineItemSchema = z.object({

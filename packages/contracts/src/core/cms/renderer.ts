@@ -16,6 +16,34 @@
 //   This file only defines the contract — which contentType keys are valid.
 //   Keep RendererKey in sync with the BLOCKS registry in blocks/index.ts.
 
-// TODO: implement
+import { z } from 'zod';
 
-export type Renderer = unknown;
+export const RendererKey = z.enum([
+  'announcement',
+  'anthem',
+  'contact-info',
+  'crest',
+  'cta',
+  'downloads',
+  'faq',
+  'gallery',
+  'hero',
+  'key-dates',
+  'map',
+  'members',
+  'photo-strip',
+  'process-steps',
+  'quote',
+  'results-display',
+  'rich-text',
+  'stats',
+  'timeline',
+  'values',
+]);
+
+export type RendererMap = Record<z.infer<typeof RendererKey>, string>;
+
+export const ContentRendererSchema = z.object({
+  contentType: RendererKey,
+  data: z.unknown(),
+});

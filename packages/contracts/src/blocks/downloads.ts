@@ -1,19 +1,21 @@
 // packages/contracts/src/blocks/downloads.ts
-//
-// Downloads block — list of downloadable documents.
-//
-// Should contain:
-//   DownloadItemSchema — id, title, description?, href (R2 key or URL),
-//                        fileType? ('PDF'|'DOCX'|'XLSX'|'PPT'|'ZIP'),
-//                        fileSize? (human-readable e.g. '2.4 MB')
-//   DownloadsSchema    — eyebrow?, heading?, items: DownloadItem[]
-//   DownloadsData      — z.infer type
-//   DownloadItem       — z.infer type
-//
-// Used on: Admissions (prospectus, forms), Results (past papers), Administration
 
+import { z } from 'zod';
 
+export const DownloadItemSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  description: z.string().optional(),
+  href: z.string(),
+  fileType: z.enum(['PDF', 'DOCX', 'XLSX', 'PPT', 'ZIP']).optional(),
+  fileSize: z.string().optional(),
+});
 
-// TODO: implement (migrate from packages/validation/src/content-types/index.ts)
+export const DownloadsSchema = z.object({
+  eyebrow: z.string().optional(),
+  heading: z.string().optional(),
+  items: z.array(DownloadItemSchema),
+});
 
-export type Downloads = unknown;
+export type DownloadsData = z.infer<typeof DownloadsSchema>;
+export type DownloadItem = z.infer<typeof DownloadItemSchema>;
