@@ -19,10 +19,10 @@
     "paths": {
       "@/*": ["./src/*"],
       "@nexus/ui": ["../../packages/ui/src/index.ts"],
-      "@nexus/api": ["../../packages/api/src/index.ts"],
-      "@nexus/db": ["../../packages/database/src/index.ts"],
-      "@nexus/config": ["../../packages/config/src/index.ts"],
-      "@nexus/contracts": ["../../packages/contracts/src/index.ts"]
+      "@nexus/api": ["../../packages/api/dist/index.js"],
+      "@nexus/db": ["../../packages/database/dist/index.js"],
+      "@nexus/config": ["../../packages/config/dist/index.js"],
+      "@nexus/contracts": ["../../packages/contracts/dist/index.js"]
     },
     "outDir": "dist",
     "rootDir": "src",
