@@ -12,7 +12,7 @@ import {
   SchoolLogo,
 } from '@nexus/ui';
 
-export function CrestExplained({ crest }: { crest: AboutCrestData }) {
+export default function CrestExplained({ crest }: { crest: AboutCrestData }) {
   const symbols = crest.symbols as CrestSymbol[];
 
   return (
@@ -23,8 +23,8 @@ export function CrestExplained({ crest }: { crest: AboutCrestData }) {
       className="m-space-6 md:m-space-12 lg:m-space-16"
     >
       <SectionHeader
-        eyebrow={crest.eyebrow}
-        title={crest.heading}
+        eyebrow={crest.eyebrow ?? ''}
+        title={crest.heading ?? ''}
         align="center"
         withAccentRule
         variant="eyebrow-title-description"

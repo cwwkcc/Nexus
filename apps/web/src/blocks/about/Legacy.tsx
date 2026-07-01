@@ -46,7 +46,7 @@ export default function Legacy({ legacy }: { legacy: AboutLegacyData }) {
             </Heading>
 
             <Grid columns={2} gap={2}>
-              {heritageImages.map((img) => (
+              {legacy.heritage.images.map((img) => (
                 <ImageFrame
                   key={img.src + img.year}
                   src={img.src}

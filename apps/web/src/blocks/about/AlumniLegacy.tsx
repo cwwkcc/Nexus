@@ -3,9 +3,18 @@ import {
   Container,
   SectionHeader,
   AlumniLegacyBlock,
-  type AlumniProfile,
 } from '@nexus/ui';
 import { useTranslations } from 'next-intl';
+
+interface AlumniProfile {
+  id: string;
+  name: string;
+  graduationYear: number | string;
+  position: string;
+  quote: string;
+  portraitSrc?: string;
+  portraitAlt?: string;
+}
 
 export default function AlumniLegacy() {
   const t = useTranslations('about.alumni');
@@ -23,7 +32,7 @@ export default function AlumniLegacy() {
         withAccentRule
         className="mb-space-2"
       />
-      <AlumniLegacyBlock alumni={profiles} />{' '}
+      <AlumniLegacyBlock alumni={profiles} />
     </Container>
   );
 }

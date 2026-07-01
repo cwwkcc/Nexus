@@ -9,13 +9,17 @@ import { routing } from './routing';
 const NAMESPACES = ['about'] as const;
 
 async function loadMessages(locale: Locale) {
-  const modules = await Promise.all(
-    NAMESPACES.map((ns) => import(`./messages/${locale}/${ns}.json`)),
-  );
-  return NAMESPACES.reduce<Record<string, unknown>>((acc, ns, i) => {
-    acc[ns] = modules[i].default;
-    return acc;
-  }, {});
+  const messages: Record<string, unknown> = {};
+  for (const ns of NAMESPACES) {
+    try {
+      const module = await import(`./messages/${locale}/${ns}.json`);
+      messages[ns] = module.default;
+    } catch {
+      // Fallback to empty object if message file doesn't exist
+      messages[ns] = {};
+    }
+  }
+  return messages;
 }
 
 export default getRequestConfig(async ({ requestLocale }) => {

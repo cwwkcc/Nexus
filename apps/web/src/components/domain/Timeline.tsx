@@ -1,13 +1,14 @@
 'use client';
 
+import {
+  useInView,
+  cn,
+  ImageFrame,
+  EyebrowLabel,
+  Heading,
+  Text,
+} from '@nexus/ui';
 import { useCallback, useEffect, useRef, useState } from 'react';
-
-import { useInView } from '../../hooks/useInView';
-import { cn } from '../../utilities/cn';
-import { ImageFrame } from '../media/ImageFrame';
-import { EyebrowLabel } from '../typography/EyebrowLabel';
-import { Heading } from '../typography/Heading';
-import { Text } from '../typography/Text';
 
 interface TimelineEvent {
   id: string;

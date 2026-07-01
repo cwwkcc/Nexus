@@ -56,7 +56,7 @@ export default function GlobalError() {
             <div
               style={{
                 display: 'flex',
-                gap: '0.75rem',
+                gap: '0.1rem',
                 justifyContent: 'center',
                 flexWrap: 'wrap',
               }}
@@ -79,6 +79,7 @@ export default function GlobalError() {
                 onClick={() => (window.location.href = '/')}
                 style={{
                   padding: '0.5rem 1rem',
+                  margin: '0.5rem 1rem',
                   backgroundColor: '#e5e7eb',
                   color: '#1f2937',
                   border: 'none',

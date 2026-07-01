@@ -2,7 +2,7 @@ import AboutHero from '../../../blocks/about/AboutHero';
 import AboutStatsStrip from '../../../blocks/about/AboutStatsStrip';
 import AlumniLegacy from '../../../blocks/about/AlumniLegacy';
 import ClosingStatement from '../../../blocks/about/ClosingStatement';
-import { CrestExplained } from '../../../blocks/about/CrestExplained';
+import CrestExplained from '../../../blocks/about/CrestExplained';
 import Ethos from '../../../blocks/about/Ethos';
 import Legacy from '../../../blocks/about/Legacy';
 import OurNameSake from '../../../blocks/about/OurNameSake';

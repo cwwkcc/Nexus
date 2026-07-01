@@ -1,11 +1,8 @@
 'use client';
 
+import { cn, Button, Text } from '@nexus/ui';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { Children, useCallback, useId, useMemo, useRef, useState } from 'react';
-
-import { cn } from '../../utilities/cn';
-import { Button } from '../atoms/Button';
-import { Text } from '../typography/Text';
 
 type SectionSliderVariant = 'image-compact' | 'image' | 'text' | 'full';
 type SectionSliderDirection = 'horizontal' | 'vertical';
