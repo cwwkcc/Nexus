@@ -1,17 +1,11 @@
+import type { GalleryAlbumData } from '@nexus/contracts';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import { cn } from '../../utilities/cn';
 import { Badge } from '../atoms/Badge';
 
-export interface GalleryAlbumCardProps {
-  title: string;
-  year: string;
-  photoCount: number;
-  category?: string;
-  href: string;
-  coverSrc?: string;
-  coverAlt?: string;
+export interface GalleryAlbumCardProps extends GalleryAlbumData {
   className?: string;
 }
 

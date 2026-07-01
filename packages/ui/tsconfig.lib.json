@@ -14,5 +14,10 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts"]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts"],
+  "references": [
+    {
+      "path": "../contracts/tsconfig.lib.json"
+    }
+  ]
 }

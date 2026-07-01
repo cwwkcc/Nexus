@@ -1,21 +1,18 @@
 // packages/ui/src/components/visualization/ResultsDisplay.tsx
 'use client';
 
+import type { SubjectResultData } from '@nexus/contracts';
+
 import { cn } from '../../utilities/cn';
 import { ButtonLink } from '../atoms/ButtonLink';
 import { ResultsGradeBadge } from '../atoms/ResultsGradeBadge';
-
-export interface SubjectResult {
-  name: string;
-  grade: string;
-}
 
 export interface ResultsDisplayProps {
   studentName: string;
   indexNumber: string;
   examType: 'OL' | 'AL' | 'SCHOLARSHIP';
   year: number;
-  subjects: SubjectResult[];
+  subjects: SubjectResultData[];
   pdfUrl?: string;
   className?: string;
 }

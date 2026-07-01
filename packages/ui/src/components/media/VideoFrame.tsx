@@ -1,16 +1,16 @@
 'use client';
 
+import type { VideoSourceType } from '@nexus/contracts';
 import { useState, useRef } from 'react';
 
 import { cn } from '../../utilities/cn';
 import { Button } from '../atoms/Button';
 
 export type VideoFrameAspectRatio = '16/9' | '21/9' | '4/3';
-export type VideoSource = 'youtube' | 'vimeo' | 'direct';
 
 export interface VideoFrameProps {
   src: string;
-  source?: VideoSource;
+  source?: VideoSourceType;
   aspectRatio?: VideoFrameAspectRatio;
   posterSrc?: string;
   title: string;

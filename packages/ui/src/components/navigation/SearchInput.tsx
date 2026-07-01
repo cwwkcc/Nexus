@@ -1,18 +1,13 @@
 'use client';
+import type { SearchResultData } from '@nexus/contracts';
 import { useState, useEffect, useRef, useId } from 'react';
-export interface SearchResult {
-  id: string;
-  label: string;
-  meta?: string;
-  href: string;
-}
 
 export interface SearchInputProps {
   /** Clarifies scope, e.g. "Search news and announcements" */
   scopeLabel: string;
   placeholder?: string;
-  onSearch: (query: string) => Promise<SearchResult[]> | SearchResult[];
-  onResultClick?: (result: SearchResult) => void;
+  onSearch: (query: string) => Promise<SearchResultData[]> | SearchResultData[];
+  onResultClick?: (result: SearchResultData) => void;
   className?: string;
 }
 
@@ -27,7 +22,7 @@ export function SearchInput({
   const listId = `${id}-results`;
 
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState<SearchResult[]>([]);
+  const [results, setResults] = useState<SearchResultData[]>([]);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [activeIdx, setActiveIdx] = useState(-1);

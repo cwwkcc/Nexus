@@ -1,10 +1,7 @@
-export interface TocSection {
-  id: string;
-  label: string;
-}
+import type { TocSectionData } from '@nexus/contracts';
 
 export interface TableOfContentsProps {
-  sections: TocSection[];
+  sections: TocSectionData[];
   /** ID of the currently visible section (passed in from parent's scroll observer) */
   activeId?: string;
   className?: string;

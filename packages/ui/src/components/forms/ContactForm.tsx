@@ -30,7 +30,6 @@ export function ContactForm() {
     formState: { errors },
     reset,
   } = useForm<ContactFormData>({
-    // @ts-expect-error Zod resolver type mismatch with strict mode
     resolver: zodResolver(contactSchema),
   });
 

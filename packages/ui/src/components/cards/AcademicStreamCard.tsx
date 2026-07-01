@@ -1,3 +1,5 @@
+import type { StreamData } from '@nexus/contracts';
+
 import { cn } from '../../utilities/cn';
 import { Tag } from '../atoms/Tag';
 import { Icon } from '../icons/Icon';
@@ -6,15 +8,8 @@ import { EyebrowLabel } from '../typography/EyebrowLabel';
 import { Heading } from '../typography/Heading';
 import { Text } from '../typography/Text';
 
-type Streams = 'science' | 'commerce' | 'arts' | 'technology';
-
-interface AcademicStreamCardProps {
-  stream: Streams;
-  name: string;
-  description: string;
-  careerPaths: string[];
+interface AcademicStreamCardProps extends Omit<StreamData, 'stream'> {
   href: string;
-  subjectCount?: number;
   className?: string;
 }
 

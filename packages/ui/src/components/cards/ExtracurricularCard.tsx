@@ -1,26 +1,20 @@
+import type {
+  ActivityData,
+  ExtracurricularVariantType,
+} from '@nexus/contracts';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import { cn } from '../../utilities/cn';
 import { Badge } from '../atoms/Badge';
 
-export type ExtracurricularVariant = 'sport' | 'performing-arts' | 'leadership';
-
-export interface ExtracurricularCardProps {
-  variant?: ExtracurricularVariant;
-  name: string;
-  description: string;
-  recentAchievements?: string[];
-  teacherInCharge?: string;
-  studentQuote?: string;
-  season?: string;
-  href?: string;
-  imageSrc?: string;
-  imageAlt?: string;
+export interface ExtracurricularCardProps
+  extends Omit<ActivityData, 'variant'> {
+  variant?: ExtracurricularVariantType;
   className?: string;
 }
 
-const ACCENT_COLORS: Record<ExtracurricularVariant, string> = {
+const ACCENT_COLORS: Record<ExtracurricularVariantType, string> = {
   sport: 'bg-green-base',
   'performing-arts': 'bg-gold-base',
   leadership: 'bg-green-base',

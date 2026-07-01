@@ -39,7 +39,6 @@ export function FeedbackForm() {
     formState: { errors },
     reset,
   } = useForm<FeedbackFormData>({
-    // @ts-expect-error Zod resolver type mismatch with strict mode
     resolver: zodResolver(feedbackSchema),
     defaultValues: { anonymous: false, category: 'GENERAL' },
   });

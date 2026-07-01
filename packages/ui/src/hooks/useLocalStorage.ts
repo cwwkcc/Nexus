@@ -9,23 +9,15 @@ export function useLocalStorage<T>(
   const [storedValue, setStoredValue] = useState<T>(initialValue);
 
   useEffect(() => {
-    try {
-      const item = localStorage.getItem(key);
-      if (item) {
-        setStoredValue(JSON.parse(item));
-      }
-    } catch (error) {
-      console.warn(`Error setting localStorage key "${key}":`, error);
+    const item = localStorage.getItem(key);
+    if (item) {
+      setStoredValue(JSON.parse(item));
     }
   }, [key]);
 
   const setValue = (value: T) => {
-    try {
-      setStoredValue(value);
-      localStorage.setItem(key, JSON.stringify(value));
-    } catch (error) {
-      console.warn(`Error setting localStorage key "${key}":`, error);
-    }
+    setStoredValue(value);
+    localStorage.setItem(key, JSON.stringify(value));
   };
 
   return [storedValue, setValue];

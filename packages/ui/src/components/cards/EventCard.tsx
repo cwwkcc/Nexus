@@ -1,39 +1,23 @@
 'use client';
 
+import type {
+  EventData,
+  EventStatusType,
+  EventCardVariantType,
+} from '@nexus/contracts';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import { cn } from '../../utilities/cn';
 import { Badge } from '../atoms/Badge';
 
-export type EventStatus =
-  | 'upcoming'
-  | 'today'
-  | 'ongoing'
-  | 'past'
-  | 'registration-open'
-  | 'registration-closed';
-
-export type EventCardVariant = 'standard' | 'compact' | 'featured';
-
-export interface EventCardProps {
-  variant?: EventCardVariant;
-  title: string;
-  description?: string;
-  date: string;
-  time?: string;
-  venue?: string;
-  category?: string;
-  status?: EventStatus;
-  href: string;
-  imageSrc?: string;
-  imageAlt?: string;
-  relativeTime?: string;
-  registrationHref?: string;
+export interface EventCardProps extends Omit<EventData, 'variant'> {
+  variant?: EventCardVariantType;
+  className?: string;
 }
 
 const STATUS_CONFIG: Record<
-  EventStatus,
+  EventStatusType,
   { label: string; bg: string; text: string; dot?: string }
 > = {
   upcoming: {
@@ -69,7 +53,7 @@ const STATUS_CONFIG: Record<
   },
 };
 
-function EventStatusBadge({ status }: { status: EventStatus }) {
+function EventStatusBadge({ status }: { status: EventStatusType }) {
   const config = STATUS_CONFIG[status];
   return (
     <span

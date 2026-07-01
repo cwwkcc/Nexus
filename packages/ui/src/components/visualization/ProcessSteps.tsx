@@ -1,16 +1,10 @@
 'use client';
 
+import type { StepData } from '@nexus/contracts';
 import { clsx } from 'clsx';
 
-export interface Step {
-  id: string;
-  number: number;
-  title: string;
-  description: string;
-}
-
 export interface ProcessStepsProps {
-  steps: Step[];
+  steps: StepData[];
   className?: string;
 }
 

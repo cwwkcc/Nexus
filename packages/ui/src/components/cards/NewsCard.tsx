@@ -1,21 +1,12 @@
+import type { ArticleData, NewsCardVariantType } from '@nexus/contracts';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import { cn } from '../../utilities/cn';
 import { Badge } from '../atoms/Badge';
 
-export type NewsCardVariant = 'featured' | 'standard' | 'compact';
-
-export interface NewsCardProps {
-  variant?: NewsCardVariant;
-  title: string;
-  excerpt?: string;
-  category: string;
-  date: string;
-  href: string;
-  imageSrc?: string;
-  imageAlt?: string;
-  readTime?: string;
+export interface NewsCardProps extends Omit<ArticleData, 'variant'> {
+  variant?: NewsCardVariantType;
   className?: string;
 }
 

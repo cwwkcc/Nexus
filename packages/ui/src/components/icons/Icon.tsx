@@ -27,9 +27,6 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(
   ({ name, size = 'md', strokeWidth = 2, className, ...rest }, ref) => {
     const LucideIcon = iconRegistry[name];
     if (!LucideIcon) {
-      if (process.env.NODE_ENV === 'development') {
-        console.warn(`[Icon] "${name}" not found in registry`);
-      }
       return null;
     }
 

@@ -1,25 +1,11 @@
+import type { FacilityData, FacilityCardVariantType } from '@nexus/contracts';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import { cn } from '../../utilities/cn';
 
-export interface FacilityScheduleSlot {
-  day: string;
-  time: string;
-  group: string;
-}
-
-export type FacilityCardVariant = 'standard' | 'schedule';
-
-export interface FacilityCardProps {
-  variant?: FacilityCardVariant;
-  name: string;
-  description: string;
-  features: string[];
-  href?: string;
-  imageSrc?: string;
-  imageAlt?: string;
-  schedule?: FacilityScheduleSlot[];
+export interface FacilityCardProps extends Omit<FacilityData, 'variant'> {
+  variant?: FacilityCardVariantType;
   className?: string;
 }
 

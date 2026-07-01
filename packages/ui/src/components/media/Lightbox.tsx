@@ -1,16 +1,13 @@
 'use client';
 
+import type { LightboxImageData } from '@nexus/contracts';
 import { useEffect, useState, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 
-export interface LightboxImage {
-  src: string;
-  alt: string;
-  caption?: string;
-}
+export type LightboxImage = LightboxImageData;
 
 export interface LightboxProps {
-  images: LightboxImage[];
+  images: LightboxImageData[];
   initialIndex?: number;
   isOpen: boolean;
   onClose: () => void;

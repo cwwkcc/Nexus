@@ -1,5 +1,6 @@
 'use client';
 
+import type { AchievementData } from '@nexus/contracts';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -8,15 +9,8 @@ import { Badge } from '../atoms/Badge';
 
 type AchievementCardVariant = 'ticker-item' | 'archive-post';
 
-interface AchievementCardProps {
+interface AchievementCardProps extends Omit<AchievementData, 'id'> {
   variant?: AchievementCardVariant;
-  title: string;
-  year: string;
-  category?: string;
-  context?: string;
-  imageSrc?: string;
-  imageAlt?: string;
-  href?: string;
   className?: string;
 }
 

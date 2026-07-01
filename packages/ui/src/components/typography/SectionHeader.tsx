@@ -12,7 +12,7 @@ type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
 interface SectionHeaderProps extends ComponentPropsWithoutRef<'div'> {
   /** The eyebrow (kicker) text above the main title */
-  eyebrow: string;
+  eyebrow?: string;
   /** The main title text */
   title: string;
   /** Optional emphasised part of the title (rendered in gold) */
@@ -64,11 +64,13 @@ export const SectionHeader = forwardRef<HTMLDivElement, SectionHeaderProps>(
         )}
         {...rest}
       >
-        <EyebrowLabel
-          className={cn(withAccentRule ? 'mb-space-3p5' : 'mb-space-4')}
-        >
-          {eyebrow}
-        </EyebrowLabel>
+        {eyebrow && (
+          <EyebrowLabel
+            className={cn(withAccentRule ? 'mb-space-3p5' : 'mb-space-4')}
+          >
+            {eyebrow}
+          </EyebrowLabel>
+        )}
 
         {withAccentRule && (
           <Divider

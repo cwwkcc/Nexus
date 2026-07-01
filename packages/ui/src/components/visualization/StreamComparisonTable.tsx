@@ -1,21 +1,13 @@
 // packages/ui/src/components/visualization/StreamComparisonTable.tsx
 'use client';
 
+import type { StreamComparisonData } from '@nexus/contracts';
 import { useEffect, useState } from 'react';
 
 import { cn } from '../../utilities/cn';
 
-export interface StreamData {
-  id: string;
-  name: string;
-  subjects: string[];
-  careerPaths: string[];
-  entryRequirements: string;
-  passRate: number;
-}
-
 export interface StreamComparisonTableProps {
-  streams: StreamData[];
+  streams: StreamComparisonData[];
   className?: string;
 }
 

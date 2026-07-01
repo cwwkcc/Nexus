@@ -65,7 +65,7 @@ export function NotFoundPage() {
         </ButtonLink>
 
         {/* Divider */}
-        <Divider accentVariant="gold-accent-short" />
+        <Divider accentVariant="gold-accent-narrow" />
 
         {/* Quick links section */}
         <Text

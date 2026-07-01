@@ -1,26 +1,16 @@
 // packages/ui/src/components/feedback/Calendar.tsx
 'use client';
 
+import type { EventData } from '@nexus/contracts';
 import { useState, useCallback } from 'react';
 
 import { cn } from '../../utilities/cn';
-
-export interface CalendarEvent {
-  id: string;
-  title: string;
-  date: string; // ISO yyyy-mm-dd
-  time?: string;
-  venue?: string;
-  category?: string;
-  href?: string;
-  status?: 'upcoming' | 'today' | 'ongoing' | 'past';
-}
 
 export type CalendarVariant = 'mini-strip' | 'month-view' | 'list-view';
 
 export interface CalendarProps {
   variant?: CalendarVariant;
-  events: CalendarEvent[];
+  events: EventData[];
   month?: string;
   onMonthChange?: (month: string) => void;
   className?: string;
@@ -43,7 +33,7 @@ const MONTH_NAMES = [
 const DAY_ABBR = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 const statusStyles: Record<
-  NonNullable<CalendarEvent['status']>,
+  NonNullable<EventData['status']>,
   { dot: string; badge: string }
 > = {
   upcoming: {
@@ -59,6 +49,14 @@ const statusStyles: Record<
     badge: 'bg-semantic-success-base text-text-inverse',
   },
   past: {
+    dot: 'bg-text-muted',
+    badge: 'bg-surface-deep text-text-muted',
+  },
+  'registration-open': {
+    dot: 'bg-semantic-success-base',
+    badge: 'bg-semantic-success-base text-text-inverse',
+  },
+  'registration-closed': {
     dot: 'bg-text-muted',
     badge: 'bg-surface-deep text-text-muted',
   },
@@ -221,7 +219,7 @@ export function Calendar({
   ];
   while (cells.length % 7 !== 0) cells.push(null);
 
-  const eventsByDay: Record<number, CalendarEvent[]> = {};
+  const eventsByDay: Record<number, EventData[]> = {};
   events.forEach((evt) => {
     const d = new Date(evt.date);
     if (d.getFullYear() === year && d.getMonth() + 1 === monthNum) {

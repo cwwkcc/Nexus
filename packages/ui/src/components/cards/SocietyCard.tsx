@@ -1,22 +1,13 @@
+import type { SocietyData, SocietyCardVariantType } from '@nexus/contracts';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import { cn } from '../../utilities/cn';
 import { Badge } from '../atoms/Badge';
 
-export type SocietyCardVariant = 'hub-grid' | 'featured';
-
-export interface SocietyCardProps {
-  variant?: SocietyCardVariant;
-  name: string;
-  tagline: string;
-  category: string;
-  href: string;
-  imageSrc?: string;
-  imageAlt?: string;
-  isFeatured?: boolean;
-  memberCount?: number;
-  founded?: string;
+export interface SocietyCardProps extends Omit<SocietyData, 'variant'> {
+  variant?: SocietyCardVariantType;
+  className?: string;
 }
 
 // Hub grid variant

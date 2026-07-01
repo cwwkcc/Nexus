@@ -1,19 +1,15 @@
 'use client';
+import type {
+  StatData,
+  TrendDirectionType,
+  StatCardVariantType,
+} from '@nexus/contracts';
 
 import { useCountUp } from '../../hooks/useCountUp';
 import { cn } from '../../utilities/cn';
 
-export type StatCardVariant = 'single' | 'with-trend';
-export type TrendDirection = 'up' | 'down' | 'neutral';
-
-export interface StatCardProps {
-  variant?: StatCardVariant;
-  value: number;
-  suffix?: string;
-  label: string;
-  trend?: TrendDirection;
-  trendValue?: string;
-  trendLabel?: string;
+export interface StatCardProps extends Omit<StatData, 'variant'> {
+  variant?: StatCardVariantType;
   className?: string;
 }
 
@@ -22,7 +18,7 @@ function TrendIndicator({
   value,
   label,
 }: {
-  direction: TrendDirection;
+  direction: TrendDirectionType;
   value?: string;
   label?: string;
 }) {

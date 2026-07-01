@@ -1,18 +1,10 @@
+import type { StaffData, StaffCardVariantType } from '@nexus/contracts';
 import Image from 'next/image';
 import Link from 'next/link';
 
-export type StaffCardVariant = 'principal' | 'grid' | 'compact';
-
-export interface StaffCardProps {
-  variant?: StaffCardVariant;
-  name: string;
-  title: string;
-  tenure?: string;
-  quote?: string;
-  imageSrc?: string;
-  imageAlt?: string;
-  portfolio?: string;
-  href?: string;
+export interface StaffCardProps extends Omit<StaffData, 'variant'> {
+  variant?: StaffCardVariantType;
+  className?: string;
 }
 
 // Principal variant

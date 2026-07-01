@@ -15,8 +15,7 @@ export function SectionErrorBoundary({
 }: SectionErrorBoundaryProps) {
   const [hasError, setHasError] = useState(false);
 
-  const handleError = useCallback((error: Error) => {
-    console.error(`Error in ${sectionName} section:`, error);
+  const handleError = useCallback(() => {
     setHasError(true);
   }, [sectionName]);
 
@@ -30,7 +29,8 @@ export function SectionErrorBoundary({
         <section className="py-12 px-4">
           <div className="max-w-2xl mx-auto text-center">
             <p className="text-gray-600">
-              The {sectionName} section encountered an error. Please try refreshing the page.
+              The {sectionName} section encountered an error. Please try
+              refreshing the page.
             </p>
             <button
               onClick={resetError}
@@ -59,7 +59,10 @@ interface ErrorBoundaryWrapperProps {
   onError: (error: Error) => void;
 }
 
-function ErrorBoundaryWrapper({ children, onError }: ErrorBoundaryWrapperProps) {
+function ErrorBoundaryWrapper({
+  children,
+  onError,
+}: ErrorBoundaryWrapperProps) {
   // In React 19, error catching is implicit through async/Suspense boundaries
   // For additional safety, wrap in a try-catch during rendering
   try {

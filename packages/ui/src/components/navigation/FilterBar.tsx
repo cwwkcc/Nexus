@@ -1,19 +1,15 @@
 // packages/ui/src/components/feedback/FilterBar.tsx
 'use client';
 
-import { cn } from '../../utilities/cn';
+import type { FilterOptionData } from '@nexus/contracts';
 
-export interface FilterOption {
-  value: string;
-  label: string;
-  count?: number;
-}
+import { cn } from '../../utilities/cn';
 
 export type FilterBarVariant = 'category-tabs' | 'year-selector';
 
 export interface FilterBarProps {
   variant?: FilterBarVariant;
-  options: FilterOption[];
+  options: FilterOptionData[];
   value: string;
   onChange: (value: string) => void;
   /** Optional "All" label — shown as first tab when provided */
@@ -29,7 +25,7 @@ export function FilterBar({
   allLabel,
   className,
 }: FilterBarProps) {
-  const allOption: FilterOption | null = allLabel
+  const allOption: FilterOptionData | null = allLabel
     ? { value: '', label: allLabel }
     : null;
   const allOptions = allOption ? [allOption, ...options] : options;
