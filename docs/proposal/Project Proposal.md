@@ -168,12 +168,12 @@ The school receives the complete Nexus platform at **zero development cost**. Th
 
 The following services are part of the operational stack and currently operate within their free tiers:
 
-| Service | Purpose |
-|----------|----------|
-| GitHub | School-owned source code repository and version control |
-| GitHub Actions | Automated testing, building, and deployment pipeline |
-| GitHub Container Registry | Docker image hosting for deployments |
-| Sentry (Optional) | Error monitoring and diagnostics |
+| Service                   | Purpose                                                 |
+| ------------------------- | ------------------------------------------------------- |
+| GitHub                    | School-owned source code repository and version control |
+| GitHub Actions            | Automated testing, building, and deployment pipeline    |
+| GitHub Container Registry | Docker image hosting for deployments                    |
+| Sentry (Optional)         | Error monitoring and diagnostics                        |
 
 These services currently carry no recurring cost but depend on the continued availability of their respective free tiers.
 
