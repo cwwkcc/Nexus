@@ -47,7 +47,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
       {/* Crest explained */}
       <CrestExplained crest={content.crest} />
       {/* Alumni Legacy */}
-      <AlumniLegacy />
+      <AlumniLegacy alumni={content.alumni} />
       {/* Spirit of Kannangara & Physical Heritage */}
       <Legacy legacy={content.legacy} />
       {/* School Anthem */}

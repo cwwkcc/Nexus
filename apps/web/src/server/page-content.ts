@@ -9,6 +9,7 @@ import type {
   AboutEthosData,
   AboutValuesData,
   AboutCrestData,
+  AboutAlumniData,
   AboutLegacyData,
   AboutAnthemData,
   AboutClosingData,
@@ -26,6 +27,7 @@ export interface AboutPageContent {
   ethos: AboutEthosData;
   values: AboutValuesData;
   crest: AboutCrestData;
+  alumni: AboutAlumniData;
   legacy: AboutLegacyData;
   anthem: AboutAnthemData;
   closing: AboutClosingData;
@@ -46,6 +48,11 @@ export const getAboutPageContent = cache(
       ethos: sections['about.ethos'] as AboutEthosData,
       values: sections['about.values'] as AboutValuesData,
       crest: sections['about.crest'] as AboutCrestData,
+      alumni: (sections['about.alumni'] as AboutAlumniData | undefined) ?? {
+        eyebrow: '',
+        heading: '',
+        profiles: [],
+      },
       legacy: sections['about.legacy'] as AboutLegacyData,
       anthem: sections['about.anthem'] as AboutAnthemData,
       closing: sections['about.closing'] as AboutClosingData,
