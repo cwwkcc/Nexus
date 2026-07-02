@@ -13,7 +13,7 @@
 // Public procedures return only `status: 'published'` entries.
 // Admin procedures return all statuses and are gated by adminSecret.
 
-// eslint-disable-next-line @nx/enforce-module-boundaries
+ 
 import {
   LocaleSchema,
   getAllSectionSchemas,
