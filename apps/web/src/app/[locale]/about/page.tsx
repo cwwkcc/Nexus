@@ -16,14 +16,18 @@ import {
 } from '../../../server/page-content';
 
 interface AboutPageProps {
-  params: {
-    locale: string;
-  };
+  // FIX: Next.js 15 makes `params` a Promise. This was typed as a plain
+  // object and read synchronously (`params.locale`), which either resolved
+  // to `undefined` or forced an implicit `any` depending on the Next
+  // version — either way the requested locale was never actually reaching
+  // getAboutPageContent.
+  params: Promise<{ locale: string }>;
 }
 
 export default async function AboutPage({ params }: AboutPageProps) {
+  const { locale } = await params;
   const content: AboutPageContent = await getAboutPageContent(
-    params.locale as 'en' | 'si' | 'ta',
+    locale as 'en' | 'si' | 'ta',
   );
 
   return (
@@ -31,7 +35,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
       {/* Hero Section */}
       <AboutHero hero={content.hero} />
       {/* StatsStrip */}
-      <AboutStatsStrip />
+      <AboutStatsStrip stats={content.stats} />
       {/* Founding narrative + Kannangara */}
       <OurNameSake aboutKannangara={content.aboutKannangara} />
       <OurStory story={content.story} />
@@ -44,7 +48,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
       <CrestExplained crest={content.crest} />
       {/* Alumni Legacy */}
       <AlumniLegacy />
-      {/* Spirit of Kannangara & Physical Heritage – static section, no keys needed */}
+      {/* Spirit of Kannangara & Physical Heritage */}
       <Legacy legacy={content.legacy} />
       {/* School Anthem */}
       <SchoolAnthem anthem={content.anthem} />

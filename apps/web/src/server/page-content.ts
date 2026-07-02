@@ -2,6 +2,7 @@ import { createServerCaller } from '@nexus/api';
 import type {
   Locale,
   AboutHeroData,
+  AboutStatsData,
   AboutStoryData,
   AboutKannangaraData,
   AboutTimelineData,
@@ -18,6 +19,7 @@ import { cache } from 'react';
 
 export interface AboutPageContent {
   hero: AboutHeroData;
+  stats: AboutStatsData;
   story: AboutStoryData;
   aboutKannangara: AboutKannangaraData;
   timeline: AboutTimelineData;
@@ -37,6 +39,7 @@ export const getAboutPageContent = cache(
     });
     return {
       hero: sections['about.hero'] as AboutHeroData,
+      stats: sections['about.stats'] as AboutStatsData,
       story: sections['about.story'] as AboutStoryData,
       aboutKannangara: sections['about.aboutKannangara'] as AboutKannangaraData,
       timeline: sections['about.timeline'] as AboutTimelineData,

@@ -2,16 +2,20 @@
 
 import { z } from 'zod';
 
-import { AnthemSchema, type AnthemData } from '../../blocks/anthem.js';
-import { CrestSchema, type CrestData } from '../../blocks/crest.js';
-import { HeroSchema, type HeroData } from '../../blocks/hero.js';
-import { TimelineItemSchema } from '../../blocks/timeline.js';
-import type { PageRegistry } from '../types.js';
+import { AnthemSchema, type AnthemData } from '../../blocks/anthem.ts';
+import { CrestSchema, type CrestData } from '../../blocks/crest.ts';
+import { HeroSchema, type HeroData } from '../../blocks/hero.ts';
+import { StatsSchema, type StatsData } from '../../blocks/stats.ts';
+import { TimelineItemSchema } from '../../blocks/timeline.ts';
+import type { PageRegistry } from '../types.ts';
 
 // ── Section schemas ─────────────────────────────────────────────────────
 
 export const AboutHeroSchema = HeroSchema;
 export type AboutHeroData = HeroData;
+
+export const AboutStatsSchema = StatsSchema;
+export type AboutStatsData = StatsData;
 
 export const AboutCrestSchema = CrestSchema;
 export type AboutCrestData = CrestData;
@@ -84,13 +88,15 @@ export const AboutLegacySchema = z.object({
     eyebrow: z.string(),
     heading: z.string(),
     caption: z.string(),
-    images: z.array(
-      z.object({
-        src: z.string(),
-        alt: z.string(),
-        year: z.string().optional(),
-      })
-    ),
+    images: z
+      .array(
+        z.object({
+          src: z.string(),
+          alt: z.string(),
+          year: z.string().optional(),
+        }),
+      )
+      .default([]),
   }),
 });
 export type AboutLegacyData = z.infer<typeof AboutLegacySchema>;
@@ -119,6 +125,14 @@ export const aboutRegistry: PageRegistry = {
       description:
         'Eyebrow text (e.g. "Est. 1873 · Mathugama"), page headline, optional emphasised word, and subtitle shown at the top of the page.',
       schema: AboutHeroSchema,
+    },
+    {
+      key: 'about.stats',
+      blockKey: 'stats',
+      label: 'Stats Strip',
+      description:
+        'The counter strip below the hero (student count, staff count, etc). Each stat has a target number, label, and optional prefix/suffix.',
+      schema: AboutStatsSchema,
     },
     {
       key: 'about.story',
@@ -173,7 +187,7 @@ export const aboutRegistry: PageRegistry = {
       blockKey: 'richText',
       label: 'Legacy',
       description:
-        'Two sub-sections: "Spirit of Kannangara" (eyebrow, heading, paragraph, pull-quote) and "Physical Heritage" (eyebrow, heading, caption).',
+        'Two sub-sections: "Spirit of Kannangara" (eyebrow, heading, paragraph, pull-quote) and "Physical Heritage" (eyebrow, heading, caption, optional photo grid).',
       schema: AboutLegacySchema,
     },
     {
