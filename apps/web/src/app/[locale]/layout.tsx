@@ -1,5 +1,5 @@
 import type { Locale } from '@nexus/contracts';
-import { cn, Footer, Navigation, BackToTopButton } from '@nexus/ui';
+import { cn, Footer, BackToTopButton } from '@nexus/ui';
 import {
   Cormorant_Garamond,
   Cormorant_Upright,
@@ -14,10 +14,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 
 import { routing } from '../../i18n/routing';
-import {
-  getFooterContent,
-  getNavigationContent,
-} from '../../server/global-content';
+import { getFooterContent } from '../../server/global-content';
 
 import '../global.css';
 
@@ -84,10 +81,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   // as hardcoded defaults in @nexus/ui. If the DB has no published row yet
   // (e.g. seed hasn't run), these resolve to `null` and the components
   // below fall back to their own built-in defaults.
-  const [navigation, footer] = await Promise.all([
-    getNavigationContent(locale as Locale),
-    getFooterContent(locale as Locale),
-  ]);
+  const [footer] = await Promise.all([getFooterContent(locale as Locale)]);
 
   return (
     <html lang={locale}>
@@ -105,11 +99,6 @@ export default async function LocaleLayout({ children, params }: Props) {
         )}
       >
         <NextIntlClientProvider messages={messages}>
-          <Navigation
-            variant="transparent-overlay"
-            locale={locale}
-            links={navigation?.links ?? undefined}
-          />
           {children}
         </NextIntlClientProvider>
         <BackToTopButton />
