@@ -4,9 +4,7 @@ import { getRequestConfig } from 'next-intl/server';
 
 import { routing } from './routing';
 
-// Namespaces actually consumed via useTranslations(). Extend as more
-// blocks adopt next-intl message keys.
-const NAMESPACES = ['about'] as const;
+const NAMESPACES = [] as const;
 
 async function loadMessages(locale: Locale) {
   const messages: Record<string, unknown> = {};
@@ -15,7 +13,6 @@ async function loadMessages(locale: Locale) {
       const module = await import(`./messages/${locale}/${ns}.json`);
       messages[ns] = module.default;
     } catch {
-      // Fallback to empty object if message file doesn't exist
       messages[ns] = {};
     }
   }
