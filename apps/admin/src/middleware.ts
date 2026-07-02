@@ -1,4 +1,12 @@
-// Next.js middleware for apps/admin (F-062)
-// Checks every request for a valid Auth.js session.
-// Redirects unauthenticated requests to /login.
-// The public site (apps/web) has NO middleware — only admin is protected.
+import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
+
+// Auth session check not yet wired (F-062/F-063). Pass through until
+// Google Workspace OAuth lands; replace with redirect-to-/login logic then.
+export function middleware(_request: NextRequest) {
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: ['/((?!api|_next|_vercel|.*\\..*).*)'],
+};
