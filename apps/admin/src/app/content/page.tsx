@@ -9,6 +9,8 @@ import { PAGE_REGISTRY } from '@nexus/contracts';
 import { Container, Heading, SectionHeader, Text } from '@nexus/ui';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 export default async function ContentIndexPage() {
   const caller = createServerCaller();
 

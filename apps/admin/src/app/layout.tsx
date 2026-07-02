@@ -15,7 +15,6 @@ import {
   Noto_Serif_Sinhala,
   Noto_Serif_Tamil,
 } from 'next/font/google';
-import Link from 'next/link';
 
 const cormorantGaramond = Cormorant_Garamond({
   subsets: ['latin'],
@@ -62,13 +61,13 @@ export const metadata = {
   description: 'Admin panel for Nexus',
 };
 
-const navLinks = [
-  { href: '/', label: 'Dashboard' },
-  { href: '/content', label: 'Content' },
-  // Future nav items:
-  // { href: '/settings', label: 'Site Settings' },
-  // { href: '/global', label: 'Global Content' },
-];
+// const navLinks = [
+//   { href: '/', label: 'Dashboard' },
+//   { href: '/content', label: 'Content' },
+//   // Future nav items:
+//   // { href: '/settings', label: 'Site Settings' },
+//   // { href: '/global', label: 'Global Content' },
+// ];
 
 export default function RootLayout({
   children,
@@ -90,30 +89,8 @@ export default function RootLayout({
           notoSerifTamilBody.variable,
         )}
       >
-        <div className="min-h-screen lg:grid lg:grid-cols-[280px_1fr]">
-          <aside className="border-slate-800 border-b border-r bg-slate-900 px-6 py-8 lg:border-b-0">
-            <div className="mb-10">
-              <Link href="/" className="font-semibold text-xl text-white">
-                Nexus Admin
-              </Link>
-              <p className="mt-2 text-sm text-slate-400">
-                Content management and site settings.
-              </p>
-            </div>
-            <nav className="space-y-2">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="block rounded-lg px-4 py-3 text-sm font-medium text-slate-200 transition hover:bg-slate-800"
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
-          </aside>
-          <main className="px-6 py-8">{children}</main>
-        </div>
+        {children}
+
         <BackToTopButton />
       </body>
     </html>

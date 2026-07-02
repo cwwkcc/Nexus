@@ -19,7 +19,6 @@
 import { createServerCaller } from '@nexus/api';
 import { PAGE_REGISTRY, getPageRegistry } from '@nexus/contracts';
 import {
-  Badge,
   Button,
   Container,
   Heading,
@@ -29,6 +28,8 @@ import {
 } from '@nexus/ui';
 import { revalidatePath } from 'next/cache';
 import { notFound } from 'next/navigation';
+
+export const dynamic = 'force-dynamic';
 
 interface PageEditorProps {
   params: Promise<{ pageKey: string }>;
@@ -179,7 +180,7 @@ export default async function PageEditorPage({
 
               {/* Section meta */}
               <Text color="muted" className="mb-4 font-mono text-xs">
-                {section.key} · {section.contentType} · {locale}
+                {section.key} · {section.blockKey} · {locale}
               </Text>
 
               {/* Edit form */}
@@ -189,11 +190,12 @@ export default async function PageEditorPage({
                 <input
                   type="hidden"
                   name="contentType"
-                  value={section.contentType}
+                  value={section.blockKey}
                 />
                 <input type="hidden" name="locale" value={locale} />
 
                 <Textarea
+                  label={section.label}
                   name="data"
                   defaultValue={
                     existingData !== undefined
