@@ -8,6 +8,7 @@
     "resolveJsonModule": true,
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
+    "allowImportingTsExtensions": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
@@ -25,7 +26,6 @@
       "@nexus/contracts": ["../../packages/contracts/src/index.ts"]
     },
     "outDir": "dist",
-    "rootDir": "src",
     "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
   },
   "include": [
@@ -35,6 +35,8 @@
     "src/**/*.jsx",
     "../../apps/admin/.next/types/**/*.ts",
     "../../dist/apps/admin/.next/types/**/*.ts",
+    "../../packages/ui/src/**/*.ts",
+    "../../packages/ui/src/**/*.tsx",
     "next-env.d.ts"
   ],
   "exclude": [

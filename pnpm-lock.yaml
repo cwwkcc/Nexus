@@ -142,9 +142,18 @@ importers:
 
   apps/admin:
     dependencies:
+      '@nexus/api':
+        specifier: workspace:*
+        version: link:../../packages/api
       '@nexus/config':
         specifier: workspace:*
         version: link:../../packages/config
+      '@nexus/contracts':
+        specifier: workspace:*
+        version: link:../../packages/contracts
+      '@nexus/db':
+        specifier: workspace:*
+        version: link:../../packages/database
       '@nexus/ui':
         specifier: workspace:*
         version: link:../../packages/ui

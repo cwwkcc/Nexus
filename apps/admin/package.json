@@ -3,13 +3,16 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3001",
-    "build": "next build",
+    "dev": "next dev --webpack -p 3001",
+    "build": "next build --webpack",
     "start": "next start"
   },
   "dependencies": {
     "@nexus/config": "workspace:*",
     "@nexus/ui": "workspace:*",
+    "@nexus/api": "workspace:*",
+    "@nexus/contracts": "workspace:*",
+    "@nexus/db": "workspace:*",
     "framer-motion": "^12.38.0",
     "next": "^16.2.9",
     "react": "^19.0.0",
