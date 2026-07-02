@@ -1,11 +1,16 @@
 /**
  * packages/database/prisma/seed-about.ts
  *
- * Seeds all About page ContentEntry rows for en / si / ta.
- * Covers every key registered in ABOUT_SECTION_SCHEMAS:
- *   about.hero · about.story · about.aboutKannangara · about.timeline
- *   about.ethos · about.values · about.crest · about.legacy
- *   about.anthem · about.closing
+ * Seeds ALL About page ContentEntry rows for en / si / ta in one pass.
+ * Covers every key registered in aboutRegistry:
+ *   about.hero · about.stats · about.story · about.aboutKannangara
+ *   about.timeline · about.ethos · about.values · about.crest
+ *   about.legacy · about.anthem · about.closing
+ *
+ * about.stats is new — it didn't exist in the registry until AboutStatsStrip
+ * was migrated off next-intl onto ContentEntry. Only its `en` copy is
+ * authored here; si/ta fall back to English (F-074) until translated via
+ * the admin panel, same as everything else prior to first admin edit.
  *
  * Usage (standalone):
  *   pnpm --filter @nexus/db exec tsx prisma/seed-about.ts
@@ -32,7 +37,9 @@ type Locale = 'en' | 'si' | 'ta';
 interface SectionSeed {
   sectionKey: string;
   contentType?: string;
-  data: Record<Locale, unknown>;
+  /** Partial: sections without translated copy yet just omit si/ta and fall
+   *  back to English via getByScope (F-074). */
+  data: Partial<Record<Locale, unknown>>;
 }
 
 const sections: SectionSeed[] = [
@@ -61,6 +68,45 @@ const sections: SectionSeed[] = [
         titleEm: 'பற்றி',
         subtitle:
           'இலங்கையின் முதலாவது மத்திய மகா வித்தியாலயம் — தேசத்தை உருவாக்கிய அறிஞர்களை உருவாக்கிய 153 வருட அசைக்க முடியாத பெருமை.',
+      },
+    },
+  },
+
+  // ── about.stats ───────────────────────────────────────────────────────────
+  {
+    sectionKey: 'about.stats',
+    contentType: 'stats',
+    data: {
+      en: {
+        stats: [
+          {
+            id: 'students',
+            target: 5000,
+            suffix: '+',
+            label: 'Students',
+            description: 'Enrolled across all grades',
+          },
+          {
+            id: 'staff',
+            target: 200,
+            suffix: '+',
+            label: 'Staff',
+            description: 'Teaching & support',
+          },
+          {
+            id: 'years',
+            target: 153,
+            label: 'Years',
+            description: 'Of free education',
+          },
+          {
+            id: 'societies',
+            target: 20,
+            suffix: '+',
+            label: 'Societies',
+            description: 'Clubs & societies',
+          },
+        ],
       },
     },
   },
@@ -407,8 +453,6 @@ const sections: SectionSeed[] = [
   },
 
   // ── about.values ──────────────────────────────────────────────────────────
-  // Note: Schema expects values as array<{id,english,latin,desc}>.
-  // The locale JSON uses an object keyed by name — we normalise to array here.
   {
     sectionKey: 'about.values',
     contentType: 'values',
@@ -637,6 +681,10 @@ const sections: SectionSeed[] = [
           eyebrow: 'Physical Heritage',
           heading: 'The Campus Through Time',
           caption: 'Historical photographs of the campus coming soon.',
+          // FIX: schema requires `images` — was missing entirely, which is
+          // exactly what crashed Legacy.tsx's `.map()`. Explicit [] here,
+          // on top of the schema's own .default([]).
+          images: [],
         },
       },
       si: {
@@ -652,6 +700,7 @@ const sections: SectionSeed[] = [
           eyebrow: 'භෞතික උරුමය',
           heading: 'කාලය හරහා පාසල් භූමිය',
           caption: 'ඉතිහාස ඡායාරූප ඉදිරියේදී එකතු කෙරේ.',
+          images: [],
         },
       },
       ta: {
@@ -668,6 +717,7 @@ const sections: SectionSeed[] = [
           eyebrow: 'பௌதீக மரபு',
           heading: 'காலத்தினூடாக பாடசாலை வளாகம்',
           caption: 'வரலாற்று புகைப்படங்கள் விரைவில் சேர்க்கப்படும்.',
+          images: [],
         },
       },
     },
@@ -686,7 +736,7 @@ const sections: SectionSeed[] = [
         playerTitle: 'KCC School Anthem',
         playerSubtitle: 'Performed by KCC School Choir',
         lyricsSinhala:
-          'ශ්‍රීයෙන දින දින වැජඹේ මතුගම \n මැදි මහ විදුහල් මාතා පෙම්බර \n සිසුනට සැම දින විදුරැස පතුරන \n ඔබෙ නම සමරමු සැමදා……….// \n\n කඳු මුදුනින් සිප එන සිහිලැල් \n රන් මිණි මුතු පිරි දිය සුනිමල්………….//\nකළු ගංගා රාණී සිරි දුව ගේ\nආසිරි නිති ලබනා\nඹබවේ පෙම්බර විදුහල් මාතා………//\n\nශ්‍රීයෙන දින දින ……………………………………..',
+          'ශ්‍රීයෙන දින දින වැජඹේ මතුගම \\n මැදි මහ විදුහල් මාතා පෙම්බර \\n සිසුනට සැම දින විදුරැස පතුරන \\n ඔබෙ නම සමරමු සැමදා……….// \\n\\n කඳු මුදුනින් සිප එන සිහිලැල් \\n රන් මිණි මුතු පිරි දිය සුනිමල්………….//\\nකළු ගංගා රාණී සිරි දුව ගේ\\nආසිරි නිති ලබනා\\nඹබවේ පෙම්බර විදුහල් මාතා………//\\n\\nශ්‍රීයෙන දින දින ……………………………………..',
         anthemSrc: '/media/anthem.mp3',
       },
       si: {
@@ -697,7 +747,7 @@ const sections: SectionSeed[] = [
         playerTitle: 'කන්නන්ගර මධ්‍ය මහා විද්‍යාලයීය ගීතය',
         playerSubtitle: 'ගායනය: කන්නන්ගර මධ්‍ය මහා විද්‍යාලයීය ගායනා කණ්ඩායම',
         lyricsSinhala:
-          'ශ්‍රීයෙන දින දින වැජඹේ මතුගම \n මැදි මහ විදුහල් මාතා පෙම්බර \n සිසුනට සැම දින විදුරැස පතුරන \n ඔබෙ නම සමරමු සැමදා……….// \n\n කඳු මුදුනින් සිප එන සිහිලැල් \n රන් මිණි මුතු පිරි දිය සුනිමල්………….//\nකළු ගංගා රාණී සිරි දුව ගේ\nආසිරි නිති ලබනා\nඹබවේ පෙම්බර විදුහල් මාතා………//\n\nශ්‍රීයෙන දින දින ……………………………………..',
+          'ශ්‍රීයෙන දින දින වැජඹේ මතුගම \\n මැදි මහ විදුහල් මාතා පෙම්බර \\n සිසුනට සැම දින විදුරැස පතුරන \\n ඔබෙ නම සමරමු සැමදා……….// \\n\\n කඳු මුදුනින් සිප එන සිහිලැල් \\n රන් මිණි මුතු පිරි දිය සුනිමල්………….//\\nකළු ගංගා රාණී සිරි දුව ගේ\\nආසිරි නිති ලබනා\\nඹබවේ පෙම්බර විදුහල් මාතා………//\\n\\nශ්‍රීයෙන දින දින ……………………………………..',
         anthemSrc: '/media/anthem.mp3',
       },
       ta: {
@@ -708,7 +758,7 @@ const sections: SectionSeed[] = [
         playerTitle: 'கண்ணங்கர மத்திய மகா வித்தியாலய கீதம்',
         playerSubtitle: 'பாடியவர்கள்: பாடசாலைப் பாடகர் குழு',
         lyricsSinhala:
-          'ශ්‍රීයෙන දින දින වැජඹේ මතුගම \n මැදි මහ විදුහල් මාතා පෙම්බර \n සිසුනට සැම දින විදුරැස පතුරන \n ඔබෙ නම සමරමු සැමදා……….// \n\n කඳු මුදුනින් සිප එන සිහිලැල් \n රන් මිණි මුතු පිරි දිය සුනිමල්………….//\nකළු ගංගා රාණී සිරි දුව ගේ\nආසිරි නිති ලබනා\nඹබවේ පෙම්බර විදුහල් මාතා………//\n\nශ්‍රීයෙන දින දින ……………………………………..',
+          'ශ්‍රීයෙන දින දින වැජඹේ මතුගම \\n මැදි මහ විදුහල් මාතා පෙම්බර \\n සිසුනට සැම දින විදුරැස පතුරන \\n ඔබෙ නම සමරමු සැමදා……….// \\n\\n කඳු මුදුනින් සිප එන සිහිලැල් \\n රන් මිණි මුතු පිරි දිය සුනිමල්………….//\\nකළු ගංගා රාණී සිරි දුව ගේ\\nආසිරි නිති ලබනා\\nඹබවේ පෙම්බර විදුහල් මාතා………//\\n\\nශ්‍රීයෙන දින දින ……………………………………..',
         anthemSrc: '/media/anthem.mp3',
       },
     },
@@ -750,13 +800,16 @@ export async function seedAbout(db: PrismaClient): Promise<void> {
 
   for (const section of sections) {
     for (const locale of locales) {
+      const localeData = section.data[locale];
+      if (!localeData) continue; // e.g. about.stats: si/ta not authored yet — falls back to en via getByScope
+
       const payload = {
         scope: SCOPE,
         sectionKey: section.sectionKey,
         contentType: section.contentType ?? CONTENT_TYPE,
         locale,
         status: STATUS,
-        data: section.data[locale] as object,
+        data: localeData as object,
         version: 1,
       };
 
