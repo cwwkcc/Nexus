@@ -16,8 +16,8 @@ import {
   Slider,
   Textarea,
   Toggle,
+  FormValidationSummary,
 } from '@nexus/ui';
-import { FormValidationSummary } from '../../../../../../../packages/ui/src/components/forms/FormValidationSummary';
 import { useState } from 'react';
 
 function DemoSection({
