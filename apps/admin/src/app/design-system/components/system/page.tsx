@@ -18,8 +18,6 @@ import { DemoSection } from '../_components/DemoSection';
 
 export default function SystemPage() {
   const [showLoading, setShowLoading] = useState(false);
-  const [showEmptyAction, setShowEmptyAction] = useState(false);
-  const [showErrorRetry, setShowErrorRetry] = useState(false);
 
   return (
     <div className="min-h-screen bg-surface-base py-space-12">

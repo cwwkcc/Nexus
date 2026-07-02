@@ -8,7 +8,6 @@ import {
   FormErrorMessage,
   FormFieldGroup,
   FormSectionWrapper,
-  FormValidationSummary,
   Input,
   ProgressIndicator,
   Radio,
@@ -18,6 +17,7 @@ import {
   Textarea,
   Toggle,
 } from '@nexus/ui';
+import { FormValidationSummary } from '../../../../../../../packages/ui/src/components/forms/FormValidationSummary';
 import { useState } from 'react';
 
 function DemoSection({

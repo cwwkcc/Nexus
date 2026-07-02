@@ -74,7 +74,6 @@ export default function AccessibilityPage() {
               <Button
                 variant="secondary"
                 onClick={() => {
-                  const modal = document.createElement('div');
                   // Simple modal demo – in practice use the Modal component
                   alert(
                     'Modal keyboard trap demo: open the real Modal component',

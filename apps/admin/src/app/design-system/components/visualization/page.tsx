@@ -14,9 +14,9 @@ import { DemoSection } from '../_components/DemoSection';
 
 export default function VisualizationPage() {
   const sampleColumns = [
-    { key: 'name', header: 'Name', sortable: true },
-    { key: 'grade', header: 'Grade', sortable: true },
-    { key: 'attendance', header: 'Attendance (%)' },
+    { key: 'name' as const, header: 'Name', sortable: true },
+    { key: 'grade' as const, header: 'Grade', sortable: true },
+    { key: 'attendance' as const, header: 'Attendance (%)' },
   ];
   const sampleData = [
     { name: 'Kusal Perera', grade: 'A', attendance: 95 },

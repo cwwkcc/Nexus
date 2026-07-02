@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, cn, Icon } from '@nexus/ui';
+import { ButtonLink, cn, Icon } from '@nexus/ui';
 
 export interface DemoSectionProps {
   title: string;
@@ -62,14 +62,14 @@ export function DemoSection({
 
         {sourceHref && (
           <div className={cn('mt-space-6', isCenter && 'flex justify-center')}>
-            <Button
+            <ButtonLink
               href={sourceHref}
               variant="ghost"
               size="sm"
               leftIcon={<Icon name="code" size="sm" />}
             >
               View Code
-            </Button>
+            </ButtonLink>
           </div>
         )}
       </div>

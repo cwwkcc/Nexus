@@ -47,7 +47,7 @@ export default function CardsDemoPage() {
         {/* AcademicStreamCard */}
         <DemoSection title="AcademicStreamCard">
           <AcademicStreamCard
-            stream="science"
+            id="science"
             name="Science"
             description="For future doctors, engineers and researchers."
             careerPaths={['Medicine', 'Engineering', 'Research']}
@@ -55,7 +55,7 @@ export default function CardsDemoPage() {
             subjectCount={4}
           />
           <AcademicStreamCard
-            stream="technology"
+            id="technology"
             name="Technology"
             description="ICT, engineering technology and biosystems."
             careerPaths={['Software', 'Networking', 'BioTech']}
@@ -63,7 +63,7 @@ export default function CardsDemoPage() {
             subjectCount={6}
           />
           <AcademicStreamCard
-            stream="commerce"
+            id="commerce"
             name="Commerce"
             description="Accounting, economics, business studies."
             careerPaths={['Accountant', 'Banker', 'Entrepreneur']}
@@ -71,7 +71,7 @@ export default function CardsDemoPage() {
             subjectCount={4}
           />
           <AcademicStreamCard
-            stream="arts"
+            id="arts"
             name="Arts"
             description="Humanities, languages, social sciences."
             careerPaths={['Law', 'Teaching', 'Civil Service']}
@@ -140,6 +140,7 @@ export default function CardsDemoPage() {
         {/* EventCard */}
         <DemoSection title="EventCard – Standard">
           <EventCard
+            id="event-pasdun-2026"
             variant="standard"
             title="Pasdun Cricket Battle"
             description="Annual cricket match against Sri Palee Vidyalaya"
@@ -152,6 +153,7 @@ export default function CardsDemoPage() {
             relativeTime="In 3 days"
           />
           <EventCard
+            id="event-prize-giving"
             variant="standard"
             title="Annual Prize Giving"
             date="2026-07-20"
@@ -163,6 +165,7 @@ export default function CardsDemoPage() {
             relativeTime="Registration open"
           />
           <EventCard
+            id="event-science-exhibition-2025"
             variant="standard"
             title="Science Exhibition 2025"
             date="2025-02-10"
@@ -175,6 +178,7 @@ export default function CardsDemoPage() {
         <DemoSection title="EventCard – Compact">
           <div className="w-80">
             <EventCard
+              id="event-ptm"
               variant="compact"
               title="Parent-Teacher Meeting"
               date="2026-06-20"
@@ -184,6 +188,7 @@ export default function CardsDemoPage() {
               href="/events/ptm"
             />
             <EventCard
+              id="event-pool-hours"
               variant="compact"
               title="Swimming Pool Public Hours"
               date="2026-06-10"
@@ -197,6 +202,7 @@ export default function CardsDemoPage() {
 
         <DemoSection title="EventCard – Featured">
           <EventCard
+            id="event-nexus-launch"
             variant="featured"
             title="KITS Nexus Launch Ceremony"
             description="Official launch of the school's new digital platform, built entirely by students."

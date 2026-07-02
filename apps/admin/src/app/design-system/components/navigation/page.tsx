@@ -1,5 +1,6 @@
 'use client';
 
+import type { SearchResultData } from '@nexus/contracts';
 import {
   Accordion,
   Breadcrumb,
@@ -11,17 +12,16 @@ import {
   SearchInput,
   TableOfContents,
   Tabs,
-  type SearchResult,
 } from '@nexus/ui';
 import { useState } from 'react';
 
 import { DemoSection } from '../_components/DemoSection';
 
 // Mock search function for SearchInput demo
-const mockSearch = async (query: string): Promise<SearchResult[]> => {
+const mockSearch = async (query: string): Promise<SearchResultData[]> => {
   // Simulate API delay
   await new Promise((resolve) => setTimeout(resolve, 300));
-  const results: SearchResult[] = [
+  const results: SearchResultData[] = [
     { id: '1', label: 'About KCC', href: '/about' },
     { id: '2', label: 'Academic Streams', href: '/academics' },
     { id: '3', label: 'Admissions Process', href: '/admissions' },
@@ -107,7 +107,7 @@ export default function NavigationComponentsPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [activeFilter, setActiveFilter] = useState('all');
-  const [activeTab, setActiveTab] = useState('tab1');
+  const [, setActiveTab] = useState('tab1');
 
   const mobileNavItems = [
     { label: 'Home', href: '/' },
@@ -157,15 +157,16 @@ export default function NavigationComponentsPage() {
               { label: 'Navigation' },
             ]}
           />
-          <Breadcrumb
-            items={[
-              { label: 'Home', href: '/' },
-              { label: 'Academics', href: '/academics' },
-              { label: 'Science Stream' },
-            ]}
-            onDark
-            className="bg-green-base p-space-4 rounded-md"
-          />
+          <div className="bg-green-base p-space-4 rounded-md">
+            <Breadcrumb
+              items={[
+                { label: 'Home', href: '/' },
+                { label: 'Academics', href: '/academics' },
+                { label: 'Science Stream' },
+              ]}
+              onDark
+            />
+          </div>
         </DemoSection>
 
         {/* FilterBar */}

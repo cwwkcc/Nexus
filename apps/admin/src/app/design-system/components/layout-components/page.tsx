@@ -315,7 +315,7 @@ export default function LayoutComponentsPage() {
                     </p>
                     <Divider
                       axis="horizontal"
-                      accentVariant="gold-accent-short"
+                      accentVariant="gold-accent-narrow"
                     />
                     <p className="font-body text-body-sm text-text-muted">
                       Section content
@@ -663,7 +663,11 @@ export default function LayoutComponentsPage() {
           <Navigation variant="solid" />
         </DemoSection>
 
-        <DemoSection title="QuickAccessPortal"></DemoSection>
+        <DemoSection title="QuickAccessPortal">
+          <p className="font-body text-body-sm text-text-muted">
+            Quick access portal demo coming soon.
+          </p>
+        </DemoSection>
 
         <DemoSection title="VStack & HStack – All Options">
           <div className="space-y-8 w-size-full">
