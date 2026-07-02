@@ -5,7 +5,8 @@
     "rootDir": "src",
     "outDir": "dist",
     "module": "nodenext",
-    "moduleResolution": "nodenext"
+    "moduleResolution": "nodenext",
+    "allowImportingTsExtensions": true
   },
   "include": ["src/**/*.ts"]
 }

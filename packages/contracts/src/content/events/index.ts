@@ -1,3 +1,3 @@
-export * from './calendar.js';
-export * from './category.js';
-export * from './event.js';
+export * from './calendar.ts';
+export * from './category.ts';
+export * from './event.ts';

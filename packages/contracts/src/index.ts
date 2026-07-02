@@ -1,7 +1,7 @@
 // packages/contracts/src/index.ts
 
-export * from './core/index.js';
-export * from './blocks/index.js';
-export * from './school/index.js';
-export * from './content/index.js';
-export * from './registry/index.js';
+export * from './core/index.ts';
+export * from './blocks/index.ts';
+export * from './school/index.ts';
+export * from './content/index.ts';
+export * from './registry/index.ts';

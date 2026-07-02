@@ -1,2 +1,2 @@
-export * from './facility.js';
-export * from './panoramic.js';
+export * from './facility.ts';
+export * from './panoramic.ts';

@@ -1,3 +1,3 @@
-export * from './feedback.js';
-export * from './form.js';
-export * from './info.js';
+export * from './feedback.ts';
+export * from './form.ts';
+export * from './info.ts';

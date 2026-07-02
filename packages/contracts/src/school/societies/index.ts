@@ -1,3 +1,3 @@
-export * from './achievement.js';
-export * from './member.js';
-export * from './society.js';
+export * from './achievement.ts';
+export * from './member.ts';
+export * from './society.ts';

@@ -1,2 +1,2 @@
-export * from './achievement.js';
-export * from './activity.js';
+export * from './achievement.ts';
+export * from './activity.ts';

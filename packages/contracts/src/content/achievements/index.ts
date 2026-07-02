@@ -1,2 +1,2 @@
-export * from './achievement.js';
-export * from './ticker.js';
+export * from './achievement.ts';
+export * from './ticker.ts';
