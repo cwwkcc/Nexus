@@ -101,6 +101,24 @@ export const AboutLegacySchema = z.object({
 });
 export type AboutLegacyData = z.infer<typeof AboutLegacySchema>;
 
+export const AboutAlumniProfileSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  graduationYear: z.union([z.number(), z.string()]),
+  position: z.string(),
+  quote: z.string(),
+  portraitSrc: z.string().optional(),
+  portraitAlt: z.string().optional(),
+});
+export type AboutAlumniProfileData = z.infer<typeof AboutAlumniProfileSchema>;
+
+export const AboutAlumniSchema = z.object({
+  eyebrow: z.string(),
+  heading: z.string(),
+  profiles: z.array(AboutAlumniProfileSchema).default([]),
+});
+export type AboutAlumniData = z.infer<typeof AboutAlumniSchema>;
+
 export const AboutClosingSchema = z.object({
   eyebrow: z.string(),
   heading: z.string(),
@@ -181,6 +199,14 @@ export const aboutRegistry: PageRegistry = {
       description:
         'Eyebrow, heading, intro paragraph, and list of crest symbols. Each symbol has a name, meaning, and position label.',
       schema: AboutCrestSchema,
+    },
+    {
+      key: 'about.alumni',
+      blockKey: 'alumni',
+      label: 'Alumni Legacy',
+      description:
+        'Notable alumni carousel — section eyebrow and heading, plus a list of alumni profiles (name, graduation year, position, quote, optional portrait).',
+      schema: AboutAlumniSchema,
     },
     {
       key: 'about.legacy',
