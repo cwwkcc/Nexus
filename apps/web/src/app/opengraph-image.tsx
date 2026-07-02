@@ -1,2 +1,13 @@
-// Default OG image for root (F-094)
-// Fallback branded image when no page-specific OG image exists.
+import {
+  createDefaultOgImage,
+  ogImageContentType,
+  ogImageSize,
+} from '../lib/default-og-image';
+
+export const alt = 'CWW Kannangara Central College';
+export const size = ogImageSize;
+export const contentType = ogImageContentType;
+
+export default function Image() {
+  return createDefaultOgImage();
+}
