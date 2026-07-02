@@ -1,23 +1,25 @@
 // packages/contracts/src/registry/globals/navigation.ts
-//
-// Main navigation content schema.
-//
-// Should contain:
-//   NavLinkSchema            — id, label, href (relative path)
-//   NavGroupSchema           — id, label, href?, children?: NavLink[]
-//                              children enable one-level dropdown menus
-//   NavigationContentSchema  — links: NavGroup[], ctaLabel?, ctaHref?
-//   NavigationContentData    — z.infer type
-//   NavGroup                 — z.infer type
-//   NavLink                  — z.infer type
-//
-// Notes:
-//   Stored in ContentEntry: sectionKey 'navigation.main', scope 'global:navigation'.
-//   The Navigation component in @nexus/ui reads NavigationContentData.
-//   Migrate from packages/validation/src/global-registry/index.ts.
 
+import { z } from 'zod';
 
+export interface NavLinkData {
+  id: string;
+  label: string;
+  href: string;
+  children?: NavLinkData[];
+}
 
-// TODO: implement
+// z.lazy is required here because NavLinkSchema references itself (children).
+export const NavLinkSchema: z.ZodType<NavLinkData> = z.lazy(() =>
+  z.object({
+    id: z.string(),
+    label: z.string(),
+    href: z.string(),
+    children: z.array(NavLinkSchema).optional(),
+  }),
+);
 
-export type Navigation = unknown;
+export const NavigationContentSchema = z.object({
+  links: z.array(NavLinkSchema),
+});
+export type NavigationContentData = z.infer<typeof NavigationContentSchema>;
