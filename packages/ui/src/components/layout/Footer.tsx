@@ -16,21 +16,50 @@ import { NavLink } from '../navigation/NavLink';
 import { Heading } from '../typography/Heading';
 import { Text } from '../typography/Text';
 
+// Social icons are stored as a string key in ContentEntry (JSON can't hold
+// a component reference) — this map resolves the key to the actual icon.
+// Keep in sync with FooterSocialLinkSchema's `icon` enum in @nexus/contracts.
+const ICON_MAP: Record<string, React.ReactNode> = {
+  facebook: <FacebookColor />,
+  instagram: <InstagramGlyphGradient />,
+  youtube: <YouTubeColor />,
+  github: <GitHubInvertocatBlack />,
+  linkedin: <LinkedInColor />,
+};
+
+interface FooterLink {
+  label: string;
+  href: string;
+}
+
 interface FooterColumn {
   heading: string;
-  links: { label: string; href: string }[];
+  links: FooterLink[];
 }
 
 interface SocialLink {
   label: string;
   href: string;
-  icon: React.ReactNode;
+  icon: keyof typeof ICON_MAP;
+}
+
+interface ContactLine {
+  label: string;
+  href?: string;
 }
 
 interface FooterProps {
+  schoolName?: string;
+  tagline?: string;
+  contactLines?: ContactLine[];
   columns?: FooterColumn[];
   socialLinks?: SocialLink[];
+  copyright?: string;
+  legalLinks?: FooterLink[];
 }
+
+const DEFAULT_SCHOOL_NAME = 'C.W.W. Kannangara Central College';
+const DEFAULT_TAGLINE = '"Wisdom is All Wealth"';
 
 const DEFAULT_COLUMNS: FooterColumn[] = [
   {
@@ -69,49 +98,47 @@ const DEFAULT_COLUMNS: FooterColumn[] = [
 ];
 
 const DEFAULT_SOCIAL_LINKS: SocialLink[] = [
-  {
-    label: 'Facebook',
-    href: 'https://facebook.com/cwwkcc',
-    icon: <FacebookColor />,
-  },
+  { label: 'Facebook', href: 'https://facebook.com/cwwkcc', icon: 'facebook' },
   {
     label: 'Instagram',
     href: 'https://instagram.com/cwwkcc',
-    icon: <InstagramGlyphGradient />,
+    icon: 'instagram',
   },
-  {
-    label: 'YouTube',
-    href: 'https://youtube.com/@cwwkcc',
-    icon: <YouTubeColor />,
-  },
-  {
-    label: 'GitHub',
-    href: 'https://github.com/cwwkcc',
-    icon: <GitHubInvertocatBlack />,
-  },
+  { label: 'YouTube', href: 'https://youtube.com/@cwwkcc', icon: 'youtube' },
+  { label: 'GitHub', href: 'https://github.com/cwwkcc', icon: 'github' },
   {
     label: 'LinkedIn',
     href: 'https://linkedin.com/school/cwwkcc',
-    icon: <LinkedInColor />,
+    icon: 'linkedin',
   },
 ];
 
-const CONTACT_LINES: {
-  label: string;
-  isLink?: boolean;
-  href?: string;
-}[] = [
+const DEFAULT_CONTACT_LINES: ContactLine[] = [
   { label: 'Mathugama' },
   { label: 'Kalutara District' },
   { label: 'Western Province' },
   { label: 'Sri Lanka' },
-  { label: '+94 123 456 789', isLink: true, href: 'tel:+94123456789' },
-  { label: 'info@cwwkcc.lk', isLink: true, href: 'mailto:info@cwwkcc.lk' },
+  { label: '+94 123 456 789', href: 'tel:+94123456789' },
+  { label: 'info@cwwkcc.lk', href: 'mailto:info@cwwkcc.lk' },
+];
+
+const DEFAULT_COPYRIGHT =
+  'C.W.W. Kannangara Central College. All rights reserved.';
+
+const DEFAULT_LEGAL_LINKS: FooterLink[] = [
+  { label: 'Privacy Policy', href: '/privacy-policy' },
+  { label: 'Terms', href: '/terms' },
+  { label: 'KITS', href: '/societies/kits' },
 ];
 
 export function Footer({
+  schoolName = DEFAULT_SCHOOL_NAME,
+  tagline = DEFAULT_TAGLINE,
+  contactLines = DEFAULT_CONTACT_LINES,
   columns = DEFAULT_COLUMNS,
   socialLinks = DEFAULT_SOCIAL_LINKS,
+  copyright = DEFAULT_COPYRIGHT,
+  legalLinks = DEFAULT_LEGAL_LINKS,
 }: FooterProps) {
   const currentYear = new Date().getFullYear();
 
@@ -131,10 +158,10 @@ export function Footer({
                   <SchoolLogo />
                 </Container>
                 <Heading level="h4" color="gold" className="text-center">
-                  C.W.W. Kannangara Central College
+                  {schoolName}
                 </Heading>
                 <Text className="text-center" color="primary">
-                  "Wisdom is All Wealth"
+                  {tagline}
                 </Text>
               </VStack>
             </GridItem>
@@ -151,9 +178,9 @@ export function Footer({
                   </Heading>
 
                   <VStack as="ul" align="center" spacing={0}>
-                    {CONTACT_LINES.map((item) => (
+                    {contactLines.map((item) => (
                       <li key={item.label}>
-                        {item.isLink ? (
+                        {item.href ? (
                           <a href={item.href}>
                             <Text
                               variant="body-sm"
@@ -222,7 +249,7 @@ export function Footer({
                     className="text-text-primary hover:text-gold-base transition-colors duration-fast"
                     aria-label={link.label}
                   >
-                    {link.icon}
+                    {ICON_MAP[link.icon]}
                   </a>
                 ))}
               </HStack>
@@ -235,27 +262,18 @@ export function Footer({
         {/* Copyright bar */}
         <VStack wrap align="center" className="lg:flex-row lg:justify-between">
           <Text variant="caption" className="text-center">
-            © {currentYear} C.W.W. Kannangara Central College. All rights
-            reserved.
+            © {currentYear} {copyright}
           </Text>
 
           <HStack spacing={1} justify="between">
-            <NavLink href="/privacy-policy">
-              <Text variant="caption">Privacy Policy</Text>
-            </NavLink>
-            <Text className="px-space-2">·</Text>
-            <NavLink href="/terms">
-              <Text variant="caption">Terms</Text>
-            </NavLink>
-            <Text className="px-space-2">·</Text>
-            <NavLink href="/societies/kits">
-              <Text variant="caption">
-                Built by
-                <span className="text-gold-base hover:text-gold-light">
-                  &nbsp; KITS
-                </span>
-              </Text>
-            </NavLink>
+            {legalLinks.map((link, i) => (
+              <HStack key={link.href} spacing={1}>
+                {i > 0 && <Text className="px-space-2">·</Text>}
+                <NavLink href={link.href}>
+                  <Text variant="caption">{link.label}</Text>
+                </NavLink>
+              </HStack>
+            ))}
           </HStack>
         </VStack>
       </Container>
