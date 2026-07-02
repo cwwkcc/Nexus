@@ -1,6 +1,7 @@
 'use client';
 
 import { PortableText, type PortableTextComponents } from '@portabletext/react';
+import type { ComponentProps } from 'react';
 
 import { InlineLink } from './InlineLink';
 import { QuoteBlock } from './QuoteBlock';
@@ -96,7 +97,10 @@ export function RichTextRenderer({ value, className }: RichTextRendererProps) {
   if (!value) return null;
   return (
     <div className={cn('max-w-none', className)}>
-      <PortableText value={value} components={components} />
+      <PortableText
+        value={value as ComponentProps<typeof PortableText>['value']}
+        components={components}
+      />
     </div>
   );
 }
