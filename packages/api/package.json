@@ -19,6 +19,6 @@
     "zod": "^4.3.6",
     "@trpc/server": "^11.13.4",
     "tslib": "^2.3.0",
-    "@nexus/contracts": "0.0.1"
+    "@nexus/contracts": "workspace:*"
   }
 }
