@@ -160,6 +160,8 @@ Features are grouped by concern. The build order is defined in the **Engineerin
 
 **F-055 · Registry Helper Functions** `getPageRegistry()`, `getSectionDefinition()`, `getAllSectionSchemas()`, `getGlobalSection()`, `getGlobalSectionSchemas()`: merge the page and global registries into the lookup tables the ContentEntry Router (F-065) uses to validate an incoming write — given just a `sectionKey`, the router can find the right schema without knowing in advance whether it belongs to a page or a global.
 
+**F-196 · Section-Level Content Ownership (not planned)** The original architecture review proposed an `ownerRoles` / `ownerGroups` / `editableBy` field on `SectionDefinition` or `PageRegistry` entries, so that e.g. only Science Society staff could edit `page:societies#science` while the Principal could edit anything. This is explicitly **not** built and has no target phase — access control today is coarse-grained (F-075: Admin vs. Editor, platform-wide), and content ownership is handled organisationally, not technically, via F-192 (Content Governance Document) and the roles/users system (F-075, F-171). Recorded here only so the idea isn't lost if per-department delegated editing is ever needed; it is not a commitment to build it.
+
 ---
 
 ## Group 8 — Database (`packages/database`)
@@ -205,6 +207,12 @@ Features are grouped by concern. The build order is defined in the **Engineerin
 **F-072 · Draft/Publish/Archive Workflow** Live today: every `ContentEntry` row carries a `status` of `draft`, `published`, or `archived`(default `draft`). `getByScope` (public) only ever returns `published` rows; `adminGetByScope` returns everything so the editor can show status badges. `setStatus` changes status without touching content, and `update` snapshots the prior version (F-056) before overwriting regardless of status, so a draft-in-progress is never lost either. This is the three-state workflow actually wired up; F-046 covers the more elaborate five-state review/approval workflow that's contracted but not yet built on top of it.
 
 **Depends on:** F-056 (Current Prisma Schema), F-065 (ContentEntry Router).
+
+**F-195 · ContentEntry Cache & Revalidation** Public reads of `ContentEntry` data (via the per-page typed fetchers described in F-141–F-161) are wrapped in Next.js Data Cache with a tag equal to the entry's `scope` (e.g. `page:about`, `global:navigation`). `ContentEntry.update` (F-065) calls `revalidateTag(scope)` after a successful write, so published changes are reflected on the public site on the next request without a redeploy or a fixed TTL. This is the caching mechanism the original CMS architecture specified from the outset; it lacked its own entry because it had been treated as an implementation detail of F-065 rather than a distinct behaviour worth tracking.
+
+**Depends on:** F-065 (ContentEntry Router) — `update` is what triggers invalidation; F-056 (`scope` is the cache tag key).
+
+_Numbered out of sequence — appended at the end of the registry per the stable-number rule (see How to Read This Document), rather than renumbering Group 9, since it was identified after F-001–F-194 were already assigned._
 
 ---
 
@@ -444,7 +452,7 @@ Features are grouped by concern. The build order is defined in the **Engineerin
 
 **F-162 · Admin Shell Layout** Persistent sidebar navigation, topbar with user avatar and session info, breadcrumb navigation, responsive mobile drawer. Every admin module lives inside this shell. The shell is the first thing built — before any module.
 
-**F-163 · Dashboard** Section counts by status (total/published/draft `ContentEntry` rows), a feed of recent `ContentEntryVersion`saves, pages in the registry, and quick links into each page editor. Audit-log activity and pending-moderation summaries (unapproved alumni profiles, and similar) are added back once their backing models exist (see Deferred Domain Models) — the dashboard only queries models present in the current schema.
+**F-163 · Dashboard** Every page from the Page Registry (F-052) listed with a per-page fill status (Empty / Partially Filled / Complete), computed from its sections' `ContentEntry` status rows — this is the `/admin/content` page-list view the original CMS architecture specified. Below it: section counts by status (total/published/draft `ContentEntry` rows) platform-wide, a feed of recent `ContentEntryVersion` saves, and quick links into each page editor. Audit-log activity and pending-moderation summaries (unapproved alumni profiles, and similar) are added back once their backing models exist (see Deferred Domain Models) — the dashboard only queries models present in the current schema.
 
 **F-164 · News Module** List view with status badges, search and filter by category and date, bulk actions. Create/edit with Tiptap rich text editor, cover image via media library, category, status workflow (draft → review → published → archived), SEO preview. Validates against `NewsArticleSchema`.
 
@@ -536,7 +544,7 @@ Features are grouped by concern. The build order is defined in the **Engineerin
 |Contracts: Editorial & Domain Schemas|F-048 – F-051|4|
 |Contracts: Page & Global Content Registry|F-052 – F-055|4|
 |Database|F-056 – F-063|8|
-|API Layer|F-064 – F-072|9|
+|API Layer|F-064 – F-072, F-195|10|
 |Authentication & Access Control|F-073 – F-082|10|
 |Internationalisation|F-083 – F-089|7|
 |Error Handling & Resilience|F-090 – F-094|5|
@@ -551,8 +559,13 @@ Features are grouped by concern. The build order is defined in the **Engineerin
 |Admin Panel|F-162 – F-183|22|
 |PWA & Offline Support|F-184 – F-186|3|
 |Comprehensive Project Documentation|F-187 – F-194|8|
-|**Total**||**194**|
+|Contracts: Page & Global Content Registry (addendum)|F-196|1|
+|**Total**||**196**|
 
 ### Changes from the previous revision
 
 The `packages/validation` group (3 features) has been replaced by four `packages/contracts` groups (14 features) reflecting the actual package structure: Core & Common, Reusable Content Block Library, Editorial & Domain Schemas, and Page & Global Content Registry. The Database and API Layer groups have been rewritten against the current schema (`ContentEntry` / `ContentEntryVersion` / `SiteSetting` only — every other domain model is explicitly tracked as deferred, not silently dropped). The old `PageConfig` model and `pageConfigRouter` are removed outright, superseded by the code-defined Page Registry. New, previously unlisted capabilities that are already live have been given numbers: the Global Content Registry, the Site Settings Registry, and the Draft/Publish/Archive workflow. All cross-references throughout the document have been updated to the new numbering.
+
+### Changes in this revision
+
+A full audit against the original Nexus CMS architecture document (the pre-`ContentEntry` design doc and its follow-up architecture review) turned up two items that were implemented in spirit but never given their own entry: **F-195 (ContentEntry Cache & Revalidation)**, covering the `unstable_cache`/`revalidateTag` mechanism the architecture always specified, and **F-196 (Section-Level Content Ownership)**, recording the review's per-department delegated-editing idea as explicitly not planned rather than silently dropped. Both are numbered past F-194 rather than renumbering existing groups, per the stable-number rule. **F-163 (Dashboard)** was expanded to explicitly state the per-page fill-status list (`/admin/content`) that the original architecture's "Page List" section described — it was previously only implied by "pages in the registry."
