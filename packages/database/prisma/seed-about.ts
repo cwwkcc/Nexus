@@ -160,7 +160,7 @@ const sections: SectionSeed[] = [
         position: 'Minister of Education · Father of Free Education',
         portraitAlt: 'Dr. C.W.W. Kannangara portrait',
         portraitCaption: 'Dr. C.W.W. Kannangara (1884–1969)',
-        portraitSrc: null,
+        portraitSrc: '/assets/images/ironman.jpg',
         paragraph:
           'Cyril Wimalasiri Wijesinghe Kannangara was born in 1884 in Randombe, Hikkaduwa, and would go on to become the most transformative figure in Sri Lankan educational history. As Minister of Education from 1931, he championed a radical idea: that birth and wealth should not determine whether a child received an education. His Central College system — of which this institution is the original, established in 1941 — created pathways to secondary education for children across the island. A defining moment came in 1903, when Kannangara led the British Empire list in Mathematics at Cambridge Senior exams, proving that rural-born students could excel at the highest level. We carry his name not merely as a label, but as a commitment.',
         quote:
@@ -173,7 +173,7 @@ const sections: SectionSeed[] = [
         position: 'අධ්‍යාපන අමාත්‍ය · නිදහස් අධ්‍යාපනයේ පියා',
         portraitAlt: 'ආචාර්ය සී.ඩබ්ලිව්.ඩබ්ලිව්. කන්නන්ගර මැතිතුමාගේ ඡායාරූපය',
         portraitCaption: 'ආචාර්ය සී.ඩබ්ලිව්.ඩබ්ලිව්. කන්නන්ගර (1884–1969)',
-        portraitSrc: null,
+        portraitSrc: '/assets/images/ironman.jpg',
         paragraph:
           'සිරිල් විමලසිරි විජේසිංහ කන්නන්ගර මැතිතුමා 1884 දී හික්කඩුවේ රන්දොඹේදී උපත ලැබූ අතර, ශ්‍රී ලංකා අධ්‍යාපන ඉතිහාසයේ වඩාත්ම පරිවර්තනීය චරිතය බවට පත්විය. 1931 සිට අධ්‍යාපන අමාත්‍යවරයා ලෙස, ඔහු විප්ලවීය අදහසක් වෙනුවෙන් පෙනී සිටියේය: එනම්, දරුවෙකුට අධ්‍යාපනයක් ලැබෙනවාද නැද්ද යන්න ඔහුගේ උපත සහ ධනය මත තීරණය නොවිය යුතු බවයි.',
         quote:
@@ -186,7 +186,7 @@ const sections: SectionSeed[] = [
         position: 'கல்வி அமைச்சர் · இலவசக் கல்வியின் தந்தை',
         portraitAlt: 'கலாநிதி சி.டபிள்யு.டபிள்யு. கண்ணங்கர உருவப்படம்',
         portraitCaption: 'கலாநிதி சி.டபிள்யு.டபிள்யு. கண்ணங்கர (1884–1969)',
-        portraitSrc: null,
+        portraitSrc: '/assets/images/ironman.jpg',
         paragraph:
           'சிரில் விமலசிறி விஜேசிங்க கண்ணங்கர அவர்கள் 1884 இல் ஹிக்கடுவை, ரந்தொம்பேயில் பிறந்தார். இவர் இலங்கை கல்வி வரலாற்றில் மிகவும் மாற்றத்தை ஏற்படுத்திய நபராக மாறினார். 1931 முதல் கல்வி அமைச்சராகப் பணியாற்றிய அவர், ஒரு குழந்தையின் பிறப்போ அல்லது செல்வமோ அவனுக்குக் கல்வி கிடைக்குமா என்பதைத் தீர்மானிக்கக்கூடாது என்ற புரட்சிகரமான கருத்தை முன்வைத்தார்.',
         quote:
@@ -681,10 +681,12 @@ const sections: SectionSeed[] = [
           eyebrow: 'Physical Heritage',
           heading: 'The Campus Through Time',
           caption: 'Historical photographs of the campus coming soon.',
-          // FIX: schema requires `images` — was missing entirely, which is
-          // exactly what crashed Legacy.tsx's `.map()`. Explicit [] here,
-          // on top of the schema's own .default([]).
-          images: [],
+          images: [
+            { src: '/assets/images/ironman.jpg', alt: 'Campus view 1' },
+            { src: '/assets/images/ironman.jpg', alt: 'Campus view 2' },
+            { src: '/assets/images/ironman.jpg', alt: 'Campus view 3' },
+            { src: '/assets/images/ironman.jpg', alt: 'Campus view 4' },
+          ],
         },
       },
       si: {
@@ -700,7 +702,12 @@ const sections: SectionSeed[] = [
           eyebrow: 'භෞතික උරුමය',
           heading: 'කාලය හරහා පාසල් භූමිය',
           caption: 'ඉතිහාස ඡායාරූප ඉදිරියේදී එකතු කෙරේ.',
-          images: [],
+          images: [
+            { src: '/assets/images/ironman.jpg', alt: 'Campus view 1' },
+            { src: '/assets/images/ironman.jpg', alt: 'Campus view 2' },
+            { src: '/assets/images/ironman.jpg', alt: 'Campus view 3' },
+            { src: '/assets/images/ironman.jpg', alt: 'Campus view 4' },
+          ],
         },
       },
       ta: {
@@ -717,7 +724,12 @@ const sections: SectionSeed[] = [
           eyebrow: 'பௌதீக மரபு',
           heading: 'காலத்தினூடாக பாடசாலை வளாகம்',
           caption: 'வரலாற்று புகைப்படங்கள் விரைவில் சேர்க்கப்படும்.',
-          images: [],
+          images: [
+            { src: '/assets/images/ironman.jpg', alt: 'Campus view 1' },
+            { src: '/assets/images/ironman.jpg', alt: 'Campus view 2' },
+            { src: '/assets/images/ironman.jpg', alt: 'Campus view 3' },
+            { src: '/assets/images/ironman.jpg', alt: 'Campus view 4' },
+          ],
         },
       },
     },
