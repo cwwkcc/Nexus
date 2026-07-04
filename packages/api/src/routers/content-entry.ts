@@ -13,7 +13,6 @@
 // Public procedures return only `status: 'published'` entries.
 // Admin procedures return all statuses and are gated by adminSecret.
 
- 
 import {
   LocaleSchema,
   getAllSectionSchemas,
@@ -78,7 +77,7 @@ export const contentEntryRouter = router({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const bySectionKey = new Map<string, any>(
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        fallback.map((row: any) => [row.sectionKey, row]),
+        fallback.map((row: any): [string, any] => [row.sectionKey, row]),
       );
       for (const row of localized) bySectionKey.set(row.sectionKey, row);
 
