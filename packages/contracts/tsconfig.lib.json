@@ -7,13 +7,10 @@
     "emitDeclarationOnly": false,
     "module": "nodenext",
     "moduleResolution": "nodenext",
+    "allowImportingTsExtensions": true,
+    "rewriteRelativeImportExtensions": true,
     "forceConsistentCasingInFileNames": true,
     "types": ["node"]
   },
-  "include": ["src/**/*.ts"],
-  "references": [
-    {
-      "path": "../contracts"
-    }
-  ]
+  "include": ["src/**/*.ts"]
 }
