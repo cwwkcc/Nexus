@@ -1,2 +1,6 @@
-# robots.txt (F-092)
-# Allows all public pages. Disallows admin and API routes.
+# apps/web/public/robots.txt
+
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api
