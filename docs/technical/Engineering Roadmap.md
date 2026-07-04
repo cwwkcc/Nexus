@@ -45,13 +45,13 @@ The principle throughout is simple: **build the rules before building the contai
 
 This document covers the full journey from the very beginning so that any future developer — or any auditor of the work — can understand every decision made.
 
-This roadmap defines the build order. **`Feature Registry.md` defines the build scope** — it is the single authoritative, numbered list (F-001 through F-181) of every feature Nexus will include. Nothing is built that isn't listed there. The two documents must stay in sync: every task below exists to build one or more registry features, and every registry feature has a home in one of the phases below. When the two disagree, the Feature Registry wins and this document is updated to match.
+This roadmap defines the build order. **`Feature Registry.md` defines the build scope** — it is the single authoritative, numbered list (F-001 through F-196; F-195 and F-196 are appended past F-194 rather than renumbering, per that document's stable-number rule) of every feature Nexus will include. Nothing is built that isn't listed there. The two documents must stay in sync: every task below exists to build one or more registry features, and every registry feature has a home in one of the phases below. When the two disagree, the Feature Registry wins and this document is updated to match.
 
 ---
 
 ## Phase 0 — Concept and Planning
 
-*Before writing a single line of code*
+_Before writing a single line of code_
 
 ### Purpose
 
@@ -65,8 +65,8 @@ Articulate in one paragraph what Nexus is. Not a list of features. A mission sta
 
 List every page and module the final platform will contain. Do this before touching technology. For Nexus this means defining:
 
-- All public pages: Home, About, News, Events, Societies, Facilities, Admissions, Results, Contact, Gallery, Archive, Alumni Directory
-- All admin modules: News CMS, Staff CMS, Events CMS, Societies CMS, Results upload, Media library, Page configuration, Analytics, User management, Audit log
+- All public pages: Home, About, News, Events, Societies, Facilities, Admissions, Contact, Gallery, Archive, Alumni Directory
+- All admin modules: News CMS, Staff CMS, Events CMS, Societies CMS, Media library, ContentEntry editor, Analytics, User management, Audit log
 - All supporting infrastructure: Authentication, Search, Notifications, Analytics, Asset storage, CI/CD
 
 Completing this prevents scope creep and scope blindness in equal measure.
@@ -118,23 +118,23 @@ ADRs are written once and never edited — if a decision is reversed, a new ADR 
 
 The initial ADRs to write:
 
-| ADR | Topic | Why It Matters |
-|-----|-------|----------------|
-| ADR-001 | Monorepo Architecture | Why pnpm workspaces over separate repos |
-| ADR-002 | Next.js App Router | Why Next.js over alternatives |
-| ADR-003 | PostgreSQL Selection | Why PostgreSQL over other databases |
-| ADR-004 | tRPC Selection | Why tRPC over REST or GraphQL |
-| ADR-005 | Zod Validation Strategy | Why Zod as the single source of truth |
-| ADR-006 | R2 Storage Selection | Why Cloudflare R2 over S3 |
-| ADR-007 | Analytics Strategy | Why custom analytics + Umami |
-| ADR-008 | Multilingual Font Architecture | Why CSS variable stacking over per-component fonts |
-| ADR-009 | Page Content Architecture | Why database-backed content over static i18n files |
+|ADR|Topic|Why It Matters|
+|---|---|---|
+|ADR-001|Monorepo Architecture|Why pnpm workspaces over separate repos|
+|ADR-002|Next.js App Router|Why Next.js over alternatives|
+|ADR-003|PostgreSQL Selection|Why PostgreSQL over other databases|
+|ADR-004|tRPC Selection|Why tRPC over REST or GraphQL|
+|ADR-005|Zod Validation Strategy|Why Zod as the single source of truth|
+|ADR-006|R2 Storage Selection|Why Cloudflare R2 over S3|
+|ADR-007|Analytics Strategy|Why custom analytics + Umami|
+|ADR-008|Multilingual Font Architecture|Why CSS variable stacking over per-component fonts|
+|ADR-009|Page Content Architecture|Why database-backed content over static i18n files|
 
 ---
 
 ## Phase 1 — Repository and Monorepo Foundation
 
-*Setting up the codebase infrastructure*
+_Setting up the codebase infrastructure_
 
 ### Purpose
 
@@ -172,7 +172,7 @@ Create `tsconfig.base.json` at the root with shared compiler options:
 
 - `strict: true` — maximum type safety
 - `moduleResolution: "bundler"` — for Next.js compatibility
-- Path aliases for every package: `@nexus/ui`, `@nexus/config`, `@nexus/validation`, `@nexus/db`, `@nexus/api`
+- Path aliases for every package: `@nexus/ui`, `@nexus/config`, `@nexus/contracts`, `@nexus/db`, `@nexus/api`
 - `noImplicitReturns`, `noUnusedLocals`, `noUnusedParameters`
 
 Every package and application extends this base. This ensures consistent TypeScript behaviour across the entire monorepo.
@@ -233,7 +233,7 @@ Write placeholder files for each. The complete content will be filled as each ph
 
 ## Phase 2 — Design System Foundation
 
-*Building the visual language of the institution*
+_Building the visual language of the institution_
 
 ### Purpose
 
@@ -243,15 +243,15 @@ Establish the complete design token system before building any component. Tokens
 
 Establish the full color palette:
 
-| Category | Tokens |
-|----------|--------|
-| **Core** | Forest green, gold, warm cream |
-| **Surfaces** | Base, default, deep, elevated, inverse |
-| **Text** | Primary, muted, inverse, link |
-| **Semantic** | Success, error, warning, info (base + surface) |
-| **Glass** | Light, medium (opacity-only, no backdrop-filter) |
-| **Overlay** | Light, medium, heavy |
-| **States** | Hover, active, disabled |
+|Category|Tokens|
+|---|---|
+|**Core**|Forest green, gold, warm cream|
+|**Surfaces**|Base, default, deep, elevated, inverse|
+|**Text**|Primary, muted, inverse, link|
+|**Semantic**|Success, error, warning, info (base + surface)|
+|**Glass**|Light, medium (opacity-only, no backdrop-filter)|
+|**Overlay**|Light, medium, heavy|
+|**States**|Hover, active, disabled|
 
 Every color must exist as a named token. No hardcoded hex values anywhere in the codebase after this point.
 
@@ -259,11 +259,11 @@ Every color must exist as a named token. No hardcoded hex values anywhere in the
 
 Choose the typefaces and lock the font stack:
 
-| Script | Display Font | Body Font | Quote Font |
-|--------|--------------|-----------|------------|
-| English | Cormorant Garamond | Inter | Cormorant Upright |
-| Sinhala | Maname | Noto Serif Sinhala | Maname |
-| Tamil | Noto Serif Tamil | Noto Serif Tamil | Noto Serif Tamil |
+|Script|Display Font|Body Font|Quote Font|
+|---|---|---|---|
+|English|Cormorant Garamond|Inter|Cormorant Upright|
+|Sinhala|Maname|Noto Serif Sinhala|Maname|
+|Tamil|Noto Serif Tamil|Noto Serif Tamil|Noto Serif Tamil|
 
 Define the complete type scale from display size down to caption. Define line heights, letter spacing, and font weights for each scale step.
 
@@ -277,11 +277,11 @@ Establish a consistent spacing scale based on a 4px unit. Every margin, padding,
 
 Define animation tokens:
 
-| Category | Tokens |
-|----------|--------|
-| **Durations** | instant (80ms), fast (150ms), standard (300ms), gentle (500ms), slow (800ms), ceremonial (1200ms), epic (2400ms) |
-| **Easings** | snap, out, in-out, ceremonial, ember |
-| **Transforms** | scale-press (0.98), scale-card-hover (1.02) |
+|Category|Tokens|
+|---|---|
+|**Durations**|instant (80ms), fast (150ms), standard (300ms), gentle (500ms), slow (800ms), ceremonial (1200ms), epic (2400ms)|
+|**Easings**|snap, out, in-out, ceremonial, ember|
+|**Transforms**|scale-press (0.98), scale-card-hover (1.02)|
 
 The institutional character of the site requires that animations feel deliberate and dignified — not playful, not instant.
 
@@ -289,23 +289,23 @@ The institutional character of the site requires that animations feel deliberate
 
 The visual identity of Nexus is built on the glass morphism treatment — a dark forest green base with translucent layered surfaces.
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `glass-surface-light` | `rgba(255,255,255,0.85)` | Light floating panels |
-| `glass-surface-medium` | `rgba(255,255,255,0.7)` | Medium translucency |
-| `glass-border` | `border-light` + `border-sm` | Glass panel border |
-| `glass-shadow` | `shadow-elevation-2` | Glass panel shadow |
+|Token|Value|Usage|
+|---|---|---|
+|`glass-surface-light`|`rgba(255,255,255,0.85)`|Light floating panels|
+|`glass-surface-medium`|`rgba(255,255,255,0.7)`|Medium translucency|
+|`glass-border`|`border-light` + `border-sm`|Glass panel border|
+|`glass-shadow`|`shadow-elevation-2`|Glass panel shadow|
 
 **Important:** Glass never uses `backdrop-filter`. Glass is achieved through opacity and shadows only.
 
 ### Task 2.6 — Define Shadow Elevations
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `shadow-elevation-1` | `0 2px 4px rgba(28,26,22,0.08)` | Buttons, chips |
-| `shadow-elevation-2` | `0 8px 20px rgba(28,26,22,0.12)` | Cards |
-| `shadow-elevation-3` | `0 16px 40px rgba(28,26,22,0.15)` | Modals, dropdowns |
-| `shadow-elevation-5` | `0 32px 80px rgba(28,26,22,0.22)` | Hero glass containers |
+|Token|Value|Usage|
+|---|---|---|
+|`shadow-elevation-1`|`0 2px 4px rgba(28,26,22,0.08)`|Buttons, chips|
+|`shadow-elevation-2`|`0 8px 20px rgba(28,26,22,0.12)`|Cards|
+|`shadow-elevation-3`|`0 16px 40px rgba(28,26,22,0.15)`|Modals, dropdowns|
+|`shadow-elevation-5`|`0 32px 80px rgba(28,26,22,0.22)`|Hero glass containers|
 
 ### Task 2.7 — Build the Token Generator
 
@@ -364,7 +364,7 @@ A developer who has never opened the admin panel should still be able to underst
 
 ## Phase 3 — Component Library
 
-*Building the UI building blocks*
+_Building the UI building blocks_
 
 ### Purpose
 
@@ -374,28 +374,28 @@ Build every reusable component before building any page. Pages are compositions 
 
 Define the component categorisation:
 
-| Category | Components | Why Separate |
-|----------|------------|--------------|
-| **Atoms** | Button, Badge, Avatar, Tag | Smallest units — everything builds on them |
-| **Spinners** | BeatLoader, ScaleLoader, BarLoader | Loading states, distinct from other UI |
-| **Forms** | Input, Select, Textarea, Checkbox, Toggle, FileUpload | Complex state management, validation |
-| **Cards** | NewsCard, StaffCard, EventCard, SocietyCard | Primary content containers |
-| **Layout** | Container, Grid, Hero, Navigation, Footer | Structural components |
-| **Brand** | CrestAnimation, CrestDiagram, SchoolLogo | Institutional identity — special treatment |
-| **Social Icons** | Facebook, Instagram, LinkedIn, YouTube, WhatsApp, GitHub | Brand-specific icons |
-| **Icon Registry** | `<Icon name="..." />` | Unified icon API over Lucide |
-| **Visualization** | DataTable, ResultsDisplay, ComparisonBar | Data-heavy components |
-| **Page States** | LoadingScreen, ErrorState, EmptyState, NotFound | Full-page states |
-| **Notifications** | Alert, Toast, AnnouncementBanner | Time-sensitive messaging |
-| **Overlays** | Modal, Drawer, DropDownMenu, ShareSheet, ToolTip | Focus-trapping, scroll-locking |
-| **Navigation** | Accordion, Breadcrumb, FilterBar, Pagination, Tabs | Wayfinding components |
-| **Media** | AudioPlayer, Lightbox, MapEmbed, VideoFrame | Rich media handling |
-| **Sections** | StatsStrip, PrincipalMessage, Timeline | Composite page blocks |
-| **Typography** | Heading, Text, QuoteBlock, RichTextRenderer | Consistent text styling |
-| **Utilities** | BackToTopButton, CountdownTimer, ScrollProgressBar | Quality-of-life additions |
-| **Ambient Effects** | AmbientEmbers | Atmospheric, performance-sensitive |
-| **Hooks** | useCountUp, useInView, useActiveSection | Shared logic |
-| **cn Utility** | clsx + tailwind-merge | Conditional class names |
+|Category|Components|Why Separate|
+|---|---|---|
+|**Atoms**|Button, Badge, Avatar, Tag|Smallest units — everything builds on them|
+|**Spinners**|BeatLoader, ScaleLoader, BarLoader|Loading states, distinct from other UI|
+|**Forms**|Input, Select, Textarea, Checkbox, Toggle, FileUpload|Complex state management, validation|
+|**Cards**|NewsCard, StaffCard, EventCard, SocietyCard|Primary content containers|
+|**Layout**|Container, Grid, Hero, Navigation, Footer|Structural components|
+|**Brand**|CrestAnimation, CrestDiagram, SchoolLogo|Institutional identity — special treatment|
+|**Social Icons**|Facebook, Instagram, LinkedIn, YouTube, WhatsApp, GitHub|Brand-specific icons|
+|**Icon Registry**|`<Icon name="..." />`|Unified icon API over Lucide|
+|**Visualization**|DataTable, ComparisonBar|Data-heavy components|
+|**Page States**|LoadingScreen, ErrorState, EmptyState, NotFound|Full-page states|
+|**Notifications**|Alert, Toast, AnnouncementBanner|Time-sensitive messaging|
+|**Overlays**|Modal, Drawer, DropDownMenu, ShareSheet, ToolTip|Focus-trapping, scroll-locking|
+|**Navigation**|Accordion, Breadcrumb, FilterBar, Pagination, Tabs|Wayfinding components|
+|**Media**|AudioPlayer, Lightbox, MapEmbed, VideoFrame|Rich media handling|
+|**Sections**|StatsStrip, PrincipalMessage, Timeline|Composite page blocks|
+|**Typography**|Heading, Text, QuoteBlock, RichTextRenderer|Consistent text styling|
+|**Utilities**|BackToTopButton, CountdownTimer, ScrollProgressBar|Quality-of-life additions|
+|**Ambient Effects**|AmbientEmbers|Atmospheric, performance-sensitive|
+|**Hooks**|useCountUp, useInView, useActiveSection|Shared logic|
+|**cn Utility**|clsx + tailwind-merge|Conditional class names|
 
 ### Task 3.2 — Build Atoms First
 
@@ -405,7 +405,6 @@ Build the smallest components first because everything else depends on them:
 - Badge
 - Avatar
 - Tag
-- ResultsGradeBadge
 - InlineHelpText
 
 Each component must have:
@@ -433,20 +432,20 @@ These are used in both the public contact form and the entire admin panel. Build
 
 Build every card variant the platform needs:
 
-| Component | Variants |
-|-----------|----------|
-| NewsCard | standard, compact, featured |
-| StaffCard | principal, grid, compact |
-| EventCard | standard, compact, featured |
-| SocietyCard | hub-grid, featured |
-| SocietyBanner | — |
-| FacilityCard | standard, schedule |
-| GalleryAlbumCard | — |
-| AchievementCard | ticker-item, archive-post |
-| ExtracurricularCard | — |
-| AcademicStreamCard | — |
-| StatCard | — |
-| DownloadableDocumentItem | — |
+|Component|Variants|
+|---|---|
+|NewsCard|standard, compact, featured|
+|StaffCard|principal, grid, compact|
+|EventCard|standard, compact, featured|
+|SocietyCard|hub-grid, featured|
+|SocietyBanner|—|
+|FacilityCard|standard, schedule|
+|GalleryAlbumCard|—|
+|AchievementCard|ticker-item, archive-post|
+|ExtracurricularCard|—|
+|AcademicStreamCard|—|
+|StatCard|—|
+|DownloadableDocumentItem|—|
 
 Cards are the primary display format for database content on the public site.
 
@@ -479,14 +478,14 @@ These must be built from the official SVG artwork, not approximated. The crest a
 
 Build social media icons as React SVG components from official brand kits:
 
-| Platform | Variants |
-|----------|----------|
-| Facebook | color, white |
-| Instagram | glyph gradient, glyph black, glyph white |
-| LinkedIn | black, color, inline color, white |
-| YouTube | black, color, inline variants, white |
-| WhatsApp | glyph black, green, white; stacked variants |
-| GitHub | Invertocat and lockup variants |
+|Platform|Variants|
+|---|---|
+|Facebook|color, white|
+|Instagram|glyph gradient, glyph black, glyph white|
+|LinkedIn|black, color, inline color, white|
+|YouTube|black, color, inline variants, white|
+|WhatsApp|glyph black, green, white; stacked variants|
+|GitHub|Invertocat and lockup variants|
 
 Never use icon fonts or third-party libraries for brand icons — use official SVG brand kits.
 
@@ -495,6 +494,7 @@ Never use icon fonts or third-party libraries for brand icons — use official S
 Build `Icon.tsx` and `registry.ts` as a unified icon API sitting on top of Lucide. Every place in the codebase that needs a generic icon (search, chevron, calendar, close) uses `<Icon name="search" />` rather than importing directly from `lucide-react`.
 
 Benefits:
+
 - Single registry means the icon set can be extended or swapped in one place
 - No hunting down scattered imports across both apps
 - Type-safe with autocomplete
@@ -503,16 +503,15 @@ Benefits:
 
 Build the data display components:
 
-| Component | Purpose |
-|-----------|---------|
-| DataTable | Sortable, paginated table |
-| ResultsDisplay | Exam results with grade badges |
-| ComparisonBar | Stream comparison (side-by-side) |
-| ProgressArc | Circular progress for performance stats |
-| StudentJourneyFlow | Interactive Grade 10 → 11 → A/L flow |
-| StreamComparisonTable | Side-by-side stream comparison |
-| TimetableGrid | Weekly timetable display |
-| ProcessSteps | Numbered step sequence |
+|Component|Purpose|
+|---|---|
+|DataTable|Sortable, paginated table|
+|ComparisonBar|Stream comparison (side-by-side)|
+|ProgressArc|Circular progress for performance stats|
+|StudentJourneyFlow|Interactive Grade 10 → 11 → A/L flow|
+|StreamComparisonTable|Side-by-side stream comparison|
+|TimetableGrid|Weekly timetable display|
+|ProcessSteps|Numbered step sequence|
 
 These serve the academic and institutional data needs of the platform.
 
@@ -520,68 +519,68 @@ These serve the academic and institutional data needs of the platform.
 
 Build the full-page state components:
 
-| Component | Purpose |
-|-----------|---------|
-| LoadingScreen | Full-page loading with CrestAnimation |
-| LoadingSkeleton | Content placeholders (card, table-row, section) |
-| ErrorState | Inline and section variants with retry |
-| EmptyState | "No content yet" with next action |
-| NotFound | 404 page with institutional treatment |
-| OfflineBanner | Connectivity lost notification |
-| CookieConsentBanner | GDPR-compliant consent banner |
+|Component|Purpose|
+|---|---|
+|LoadingScreen|Full-page loading with CrestAnimation|
+|LoadingSkeleton|Content placeholders (card, table-row, section)|
+|ErrorState|Inline and section variants with retry|
+|EmptyState|"No content yet" with next action|
+|NotFound|404 page with institutional treatment|
+|OfflineBanner|Connectivity lost notification|
+|CookieConsentBanner|GDPR-compliant consent banner|
 
 Every possible application state must have a designed response — a user should never see a blank white screen or an unhandled browser error.
 
 ### Task 3.11 — Build Notification Components
 
-| Component | Purpose |
-|-----------|---------|
-| Alert | Inline messaging (info/success/warning/error) |
-| Toast | Transient feedback (appears and disappears) |
-| AnnouncementBanner | Urgent school-wide communications at top of every page |
+|Component|Purpose|
+|---|---|
+|Alert|Inline messaging (info/success/warning/error)|
+|Toast|Transient feedback (appears and disappears)|
+|AnnouncementBanner|Urgent school-wide communications at top of every page|
 
 The AnnouncementBanner is how the school publishes urgent information — exam dates, closures — to all visitors.
 
 ### Task 3.12 — Build Overlay Components
 
-| Component | Purpose | Accessibility Requirements |
-|-----------|---------|---------------------------|
-| Modal | Focus-trapped dialog | Focus trap, Escape to close, aria-modal |
-| Drawer | Side panel overlay | Focus trap, Escape to close, scroll lock |
-| DropDownMenu | Contextual dropdown | Keyboard navigation, Escape to close |
-| ShareSheet | Share panel with social links | Focus management, Escape to close |
-| ToolTip | Hover/focus tooltip | ARIA-describedby, keyboard dismiss |
+|Component|Purpose|Accessibility Requirements|
+|---|---|---|
+|Modal|Focus-trapped dialog|Focus trap, Escape to close, aria-modal|
+|Drawer|Side panel overlay|Focus trap, Escape to close, scroll lock|
+|DropDownMenu|Contextual dropdown|Keyboard navigation, Escape to close|
+|ShareSheet|Share panel with social links|Focus management, Escape to close|
+|ToolTip|Hover/focus tooltip|ARIA-describedby, keyboard dismiss|
 
 Every one of these must handle focus trapping, keyboard navigation, and scroll locking correctly. These are the components most likely to break accessibility if built carelessly.
 
 ### Task 3.13 — Build Navigation Components
 
-| Component | Purpose |
-|-----------|---------|
-| Accordion | Expand/collapse for FAQs |
-| Breadcrumb | Hierarchical page path |
-| FilterBar | Horizontal pill/tab filter row |
-| LanguageSwitcher | EN / සිං / தமி locale toggle |
-| MobileMenu | Full-screen mobile nav overlay |
-| NavLink | Internal/external link with active state |
-| Pagination | Page number controls with ellipsis |
-| SearchInput | Search bar with icon and placeholder |
-| TableOfContents | Sticky in-page section jump links |
-| Tabs | Horizontal tab group (line/pills) |
+|Component|Purpose|
+|---|---|
+|Accordion|Expand/collapse for FAQs|
+|Breadcrumb|Hierarchical page path|
+|FilterBar|Horizontal pill/tab filter row|
+|LanguageSwitcher|EN / සිං / தமி locale toggle|
+|MobileMenu|Full-screen mobile nav overlay|
+|NavLink|Internal/external link with active state|
+|Pagination|Page number controls with ellipsis|
+|SearchInput|Search bar with icon and placeholder|
+|TableOfContents|Sticky in-page section jump links|
+|Tabs|Horizontal tab group (line/pills)|
 
 These work correctly in all three languages and across all device sizes.
 
 ### Task 3.14 — Build Media Components
 
-| Component | Purpose |
-|-----------|---------|
-| AudioPlayer | School anthem with visualiser and lyrics |
-| Caption | Image/video caption with credit |
-| ImageFrame | Aspect-ratio-enforced image container |
-| Lightbox | Full-screen gallery viewer |
-| MapEmbed | Google Maps / OpenStreetMap embed |
-| PanoramicFacilityViewer | 360° draggable campus viewer |
-| VideoFrame | YouTube/Vimeo embed with aspect ratio |
+|Component|Purpose|
+|---|---|
+|AudioPlayer|School anthem with visualiser and lyrics|
+|Caption|Image/video caption with credit|
+|ImageFrame|Aspect-ratio-enforced image container|
+|Lightbox|Full-screen gallery viewer|
+|MapEmbed|Google Maps / OpenStreetMap embed|
+|PanoramicFacilityViewer|360° draggable campus viewer|
+|VideoFrame|YouTube/Vimeo embed with aspect ratio|
 
 These handle every rich media type the platform needs with consistent design treatment.
 
@@ -589,41 +588,41 @@ These handle every rich media type the platform needs with consistent design tre
 
 Build the larger composite sections:
 
-| Component | Used On |
-|-----------|---------|
-| AchievementTicker | Home (auto-scrolling achievements) |
-| AdmissionsKeyDatesTimeline | Admissions (vertical timeline) |
-| AdmissionsProcessSteps | Admissions (step sequence) |
-| AlumniLegacyBlock | About, Home (notable alumni) |
-| LifeAtKCCPhotoStrip | Home (horizontal scrollable photos) |
-| PrincipalMessage | Home (principal portrait + quote) |
-| SectionSlider | Various (carousel wrapper) |
-| StatsStrip | Home, About (auto-counting stats) |
-| Timeline | About (historical milestones) |
+|Component|Used On|
+|---|---|
+|AchievementTicker|Home (auto-scrolling achievements)|
+|AdmissionsKeyDatesTimeline|Admissions (vertical timeline)|
+|AdmissionsProcessSteps|Admissions (step sequence)|
+|AlumniLegacyBlock|About, Home (notable alumni)|
+|LifeAtKCCPhotoStrip|Home (horizontal scrollable photos)|
+|PrincipalMessage|Home (principal portrait + quote)|
+|SectionSlider|Various (carousel wrapper)|
+|StatsStrip|Home, About (auto-counting stats)|
+|Timeline|About (historical milestones)|
 
 These sit one level above cards and layout primitives — each one is a self-contained block that a page composes rather than a piece a page assembles from smaller parts.
 
 ### Task 3.16 — Build Typography Components
 
-| Component | Purpose |
-|-----------|---------|
-| EyebrowLabel | All-caps label above headings |
-| Heading | h1–h6 mapped to design tokens |
-| InlineLink | Styled anchor for body copy |
-| QuoteBlock | Styled blockquote (pull-quote, ceremonial) |
-| RichTextRenderer | Renders Tiptap JSON with tokens |
-| SectionHeader | Eyebrow + Heading + subtitle combo |
-| Text | Body copy, captions, labels |
+|Component|Purpose|
+|---|---|
+|EyebrowLabel|All-caps label above headings|
+|Heading|h1–h6 mapped to design tokens|
+|InlineLink|Styled anchor for body copy|
+|QuoteBlock|Styled blockquote (pull-quote, ceremonial)|
+|RichTextRenderer|Renders Tiptap JSON with tokens|
+|SectionHeader|Eyebrow + Heading + subtitle combo|
+|Text|Body copy, captions, labels|
 
 These enforce consistent typographic treatment across the entire platform — a developer never hardcodes a font size or picks a heading level arbitrarily.
 
 ### Task 3.17 — Build Utility Components
 
-| Component | Purpose |
-|-----------|---------|
-| BackToTopButton | Floating scroll-to-top |
-| CountdownTimer | Live countdown to event/deadline |
-| ScrollProgressBar | Thin page-top progress bar |
+|Component|Purpose|
+|---|---|
+|BackToTopButton|Floating scroll-to-top|
+|CountdownTimer|Live countdown to event/deadline|
+|ScrollProgressBar|Thin page-top progress bar|
 
 Small quality-of-life additions that add polish to the public experience.
 
@@ -635,15 +634,15 @@ Build a subtle particle effect used in specific hero contexts. Reinforces the `e
 
 Build the shared hooks:
 
-| Hook | Purpose |
-|------|---------|
-| `useCountUp` | Animated number counting for statistics |
-| `useInView` | Intersection observer for scroll-triggered animations |
-| `useActiveSection` | Scroll tracking for navigation highlighting |
-| `useScrollDirection` | Show/hide navigation bar |
-| `useMediaQuery` | Reactive CSS media query matcher |
-| `useLocalStorage` | Persistent state via localStorage |
-| `useFormField` | Generates IDs and described-by attributes |
+|Hook|Purpose|
+|---|---|
+|`useCountUp`|Animated number counting for statistics|
+|`useInView`|Intersection observer for scroll-triggered animations|
+|`useActiveSection`|Scroll tracking for navigation highlighting|
+|`useScrollDirection`|Show/hide navigation bar|
+|`useMediaQuery`|Reactive CSS media query matcher|
+|`useLocalStorage`|Persistent state via localStorage|
+|`useFormField`|Generates IDs and described-by attributes|
 
 Build the `cn` utility (clsx + tailwind-merge combination) — used in virtually every component to allow conditional class names without Tailwind conflicts.
 
@@ -666,47 +665,34 @@ Fix every failure. This audit is the quality gate between the component library 
 
 ## Phase 4 — Architecture Hardening
 
-*Making the foundation production-grade*
+_Making the foundation production-grade_
 
 ### Purpose
 
 Before connecting the database and building the admin panel, the codebase must be hardened against the categories of failure that affect real production systems.
 
-### Task 4.1 — Create packages/validation
+### Task 4.1 — Create packages/contracts
 
-Create the Zod validation schema package. Every domain entity in the system has a Zod schema:
+Create the Zod schema package (named `contracts`, not `validation` — it holds more than validation logic; it's the single source of truth for every data shape in the system, including inferred TypeScript types via `z.infer<>`, no separate interface files).
 
-| Entity | Schema |
-|--------|--------|
-| User | `UserSchema` |
-| StaffMember | `StaffMemberSchema` |
-| NewsArticle | `NewsArticleSchema` |
-| SchoolEvent | `SchoolEventSchema` |
-| GalleryAlbum | `GalleryAlbumSchema` |
-| GalleryPhoto | `GalleryPhotoSchema` |
-| Achievement | `AchievementSchema` |
-| AlumniProfile | `AlumniProfileSchema` |
-| MediaAsset | `MediaAssetSchema` |
-| AuditLog | `AuditLogSchema` |
-| Announcement | `AnnouncementSchema` |
-| Society | `SocietySchema` |
-| PageContent | `PageContentSchema` |
+Seed it with what's needed immediately — the primitives every later schema will build on (address, date, enum, image, link, locale, media, pagination, rich-text, SEO — F-042) and the `User` schema, since Phase 6's authentication work depends on it. Everything else grows into this package incrementally rather than being written up front:
 
-TypeScript types are inferred from these schemas using `z.infer<>` — no separate interface files.
+- The reusable content block library (`hero`, `richText`, `timeline`, and the rest — F-047) is added in Task 6.8, alongside the `ContentEntry` system it validates.
+- Each domain entity schema (`NewsArticle`, `StaffMember`, `SchoolEvent`, `GalleryAlbum`, `Achievement`, `AlumniProfile`, `Society`, and so on) is added in the Phase 7 task that builds its admin module, in step with its Prisma model (see Task 6.1's deferred-model note).
 
-This is the single source of truth for data shapes. The admin form validation, the API route validation, and the database output validation all use the same schema. Inconsistency between these three is the most common source of data corruption bugs in CMS systems.
+The admin form validation, the API route validation, and the database output validation all use whatever schema exists in this package at the time — there is never a second, parallel definition of a shape once it's here. Inconsistency between these layers is the most common source of data corruption bugs in CMS systems.
 
 ### Task 4.2 — Error Boundaries
 
 Add Next.js error boundary files to both applications:
 
-| File | Purpose |
-|------|---------|
-| `error.tsx` at `[locale]` layout | Catches component crashes in pages — shows ErrorState with retry |
-| `global-error.tsx` at root | Catches crashes in the root layout itself — minimal fallback (no design system) |
-| `not-found.tsx` at root | Handles 404s with a designed page |
+|File|Purpose|
+|---|---|
+|`error.tsx` at `[locale]` layout|Catches component crashes in pages — shows ErrorState with retry|
+|`global-error.tsx` at root|Catches crashes in the root layout itself — minimal fallback (no design system)|
+|`not-found.tsx` at root|Handles 404s with a designed page|
 
-Beyond these three page-level files, wrap major page sections (News, Gallery, Results) in their own React `ErrorBoundary` components so a failure in one section does not take down the whole page.
+Beyond these three page-level files, wrap major page sections (News, Gallery) in their own React `ErrorBoundary` components so a failure in one section does not take down the whole page.
 
 These four layers together are the difference between a platform that fails gracefully and one that shows a blank screen to users.
 
@@ -736,17 +722,17 @@ Fix all known issues before adding more code:
 
 Establish the complete i18n architecture using next-intl:
 
-| Step | Action |
-|------|--------|
-| 1 | Define locale routing (`/en/`, `/si/`, `/ta/`) |
-| 2 | Create message file structure: separate JSON files per locale per feature area |
-| 3 | Fill English messages completely |
-| 4 | Create Sinhala message files with placeholder strings for every key |
-| 5 | Create Tamil message files with placeholder strings for every key |
+|Step|Action|
+|---|---|
+|1|Define locale routing (`/en/`, `/si/`, `/ta/`)|
+|2|Create message file structure: separate JSON files per locale per feature area|
+|3|Fill English messages completely|
+|4|Create Sinhala message files with placeholder strings for every key|
+|5|Create Tamil message files with placeholder strings for every key|
 
 The rule: every message key that exists in English must exist in Sinhala and Tamil, even if the translation is a placeholder.
 
-Feature areas: navigation, common, home, about, news, events, societies, facilities, admissions, results, contact, gallery.
+Feature areas: navigation, common, home, about, news, events, societies, facilities, admissions, contact, gallery.
 
 ### Task 4.6b — Document the Translation Workflow
 
@@ -771,7 +757,7 @@ Pure functions and hooks are the cheapest to test and the most valuable to cover
 
 ## Phase 5 — Principal Presentation and Formal Approval
 
-*Securing the mandate to build the full platform*
+_Securing the mandate to build the full platform_
 
 ### Purpose
 
@@ -822,16 +808,16 @@ Present to the principal. The ask is:
 
 Immediately after approval, collect:
 
-| Item | Responsible Party | Format |
-|------|-------------------|--------|
-| Principal's biography | Principal / Administration | Text |
-| Principal's portrait | Principal | High-res photo |
-| Staff list | Administration | Structured data |
-| Department structure | Administration | Structured data |
-| School crest (vector) | Administration | SVG |
-| Historical photographs | Archive | Digital scans |
-| School anthem audio | Music Department | MP3 |
-| Seed news articles (5) | Administration / KITS | Text + Photos |
+|Item|Responsible Party|Format|
+|---|---|---|
+|Principal's biography|Principal / Administration|Text|
+|Principal's portrait|Principal|High-res photo|
+|Staff list|Administration|Structured data|
+|Department structure|Administration|Structured data|
+|School crest (vector)|Administration|SVG|
+|Historical photographs|Archive|Digital scans|
+|School anthem audio|Music Department|MP3|
+|Seed news articles (5)|Administration / KITS|Text + Photos|
 
 Content collection is always the longest-lead-time item in any web project.
 
@@ -839,35 +825,28 @@ Content collection is always the longest-lead-time item in any web project.
 
 ## Phase 6 — Database and Backend
 
-*Building the data foundation*
+_Building the data foundation_
 
 ### Purpose
 
 No page on the public website will serve real content until the database exists and the API layer can read from it. This entire phase must be complete before the public pages are connected to live data.
 
-### Task 6.1 — Define the Complete Prisma Schema
+### Task 6.1 — Define the Current Prisma Schema
 
-Write the full database schema in `packages/database/prisma/schema.prisma`.
+Write the schema in `packages/database/prisma/schema.prisma` for what the platform actually needs on day one: content, not domain records. Three models only:
 
-| Model | Purpose |
-|-------|---------|
-| `User` | Admin authentication, roles |
-| `News` | News articles with slug, content (JSON), status, category |
-| `Staff` | Staff profiles with role, department, order |
-| `Society` | Societies with category, member count, logo |
-| `Event` | Events with date, venue, status |
-| `GalleryAlbum` | Gallery albums with year, cover photo |
-| `GalleryPhoto` | Photos belonging to albums |
-| `Achievement` | Achievement records with category, year |
-| `AlumniProfile` | Alumni profiles with approval status |
-| `ExamResult` | Exam results with index number, year, subjects (JSON) |
-| `PageConfig` | Page section configuration (visibility, order) |
-| `PageContent` | Page content sections (versioned, locale-aware) |
-| `MediaAsset` | Media library assets (R2 URLs, metadata) |
-| `AuditLog` | Append-only change tracking |
-| `Announcement` | Announcements with variant, expiry |
+|Model|Purpose|
+|---|---|
+|`User`|Admin authentication, roles|
+|`ContentEntry`|Every piece of editorial content — page sections, global content (nav, footer), keyed by `scope` + `key` + `locale`, carrying `status` (draft/published/archived) and `contentType`|
+|`ContentEntryVersion`|Immutable snapshot taken on every `ContentEntry` write — powers rollback and history|
+|`SiteSetting`|Non-content configuration values (school name, contact details, social links), keyed the same way as `ContentEntry`|
 
-Define all relations, indices, and constraints. The schema, once migrated to production, is expensive to change — get it right here.
+Everything else — `News`, `Staff`, `Society`, `Event`, `GalleryAlbum`, `GalleryPhoto`, `Achievement`, `AlumniProfile`, `MediaAsset`, `AuditLog`, `Announcement` — is a **deferred domain model**. It is not skipped, it is scheduled: each one is added to the schema, with its own migration, in the phase where its admin module is actually built (Phase 7) rather than all at once here. This keeps the schema that ships in this task small enough to review carefully, and means no table exists before something in the codebase reads or writes it.
+
+There is no `PageConfig` model and never will be — section order and visibility per page are defined once in code, in the Page Registry (`packages/contracts`), not configured at runtime through a database row. There is no `ExamResult` model — the exam results portal was cut from scope entirely.
+
+Define all relations, indices, and constraints for the three models above. The schema, once migrated to production, is expensive to change — get it right here.
 
 ### Task 6.2 — Run Initial Migration
 
@@ -885,17 +864,17 @@ Set up Auth.js with the Prisma adapter and the Google provider as the primary si
 
 Create the middleware that protects all admin routes and redirects unauthenticated users to the login page.
 
-### Task 6.3a — Configure Google Cloud Console
+### Task 6.4 — Configure Google Cloud Console
 
 Create OAuth 2.0 credentials in Google Cloud Console:
 
 1. Configure the consent screen with school branding (school name, logo, support email)
 2. Set authorized redirect URIs:
-   - Production: `https://cwwkcc.lk/api/auth/callback/google`, `https://admin.cwwkcc.lk/api/auth/callback/google`
-   - Development: `http://localhost:3000/api/auth/callback/google`
+    - Production: `https://cwwkcc.lk/api/auth/callback/google`, `https://admin.cwwkcc.lk/api/auth/callback/google`
+    - Development: `http://localhost:3000/api/auth/callback/google`
 3. Document the setup steps in `docs/operations/Google OAuth Setup.md`
 
-### Task 6.3b — Seed the Break-Glass Admin Account and Implement TOTP
+### Task 6.5 — Seed the Break-Glass Admin Account and Implement TOTP
 
 Seed one Credentials-based super-admin account from environment variables (`ADMIN_EMAIL`, `ADMIN_PASSWORD`, bcrypt-hashed) at first deploy.
 
@@ -910,66 +889,50 @@ Seed one Credentials-based super-admin account from environment variables (`ADMI
 
 No other admin account needs TOTP — every other admin's account security is inherited from the school's own Google Workspace 2FA enforcement.
 
-### Task 6.4 — Implement tRPC
+### Task 6.6 — Implement tRPC
 
-Set up the tRPC server in `packages/api`. Define the router structure:
+Set up the tRPC server in `packages/api`. Define the router structure for what exists after Task 6.1:
 
-| Router | Purpose |
-|--------|---------|
-| `newsRouter` | News CRUD, publish, archive, featured |
-| `staffRouter` | Staff CRUD, reorder |
-| `eventsRouter` | Events CRUD, publish, past/future |
-| `societiesRouter` | Societies CRUD |
-| `galleryRouter` | Albums and photos CRUD |
-| `achievementsRouter` | Achievement CRUD |
-| `alumniRouter` | Alumni CRUD, approve, reject |
-| `resultsRouter` | Results upload, search |
-| `academicsRouter` | Academic programs config |
-| `extracurricularsRouter` | Extracurriculars CRUD |
-| `facilitiesRouter` | Facilities CRUD |
-| `archiveRouter` | Digital archive CRUD |
-| `mediaRouter` | Media upload, list, delete |
-| `pageConfigRouter` | Page section config |
-| `pageContentRouter` | Page content CRUD, versioning |
-| `analyticsRouter` | Analytics data |
-| `auditRouter` | Audit log viewer |
-| `notificationRouter` | Announcement CRUD |
-| `userRouter` | User management, invites |
+|Router|Purpose|
+|---|---|
+|`contentEntryRouter`|`getByScope` (public, published-only), `adminGetByScope` (all statuses), `update` (upsert + version snapshot + `revalidateTag`), `setStatus`|
+|`siteSettingRouter`|Read/write `SiteSetting` rows|
+|`mediaRouter`|Media upload, list, delete|
+|`auditRouter`|Audit log viewer|
+|`userRouter`|User management, invites|
 
-Each router defines procedures for list, getById, create, update, delete, and domain-specific operations (publish, archive, approve).
+Every other router (`newsRouter`, `staffRouter`, `eventsRouter`, `societiesRouter`, `galleryRouter`, `achievementsRouter`, `alumniRouter`, `academicsRouter`, `extracurricularsRouter`, `facilitiesRouter`, `archiveRouter`, `notificationRouter`) is planned, not built here — each is added alongside its Prisma model and its Phase 7 admin module. There is no `resultsRouter` and no `pageConfigRouter`; both are cut, for the same reasons given in Task 6.1.
 
-### Task 6.4b — Implement Platform-Wide Rate Limiting
+Each router defines procedures for list, getById, create, update, delete, and domain-specific operations (publish, archive, approve) once it exists.
+
+### Task 6.7 — Implement Platform-Wide Rate Limiting
 
 Implement rate limiting as Next.js middleware:
 
-| Endpoint | Limit | Implementation |
-|----------|-------|----------------|
-| Results Portal | 10 requests/minute/IP | Middleware |
-| Contact Form | 5 requests/hour/IP | Middleware |
-| General API | Configurable baseline | Middleware |
+|Endpoint|Limit|Implementation|
+|---|---|---|
+|Contact Form|5 requests/hour/IP|Middleware|
+|General API|Configurable baseline|Middleware|
 
 No external rate-limiting service is required at this traffic scale — in-memory or lightweight middleware-based limiting is sufficient.
 
-### Task 6.5 — Implement the Page Configuration System
+### Task 6.8 — Implement the ContentEntry & Registry System
 
-Create the `PageConfig` table and corresponding tRPC procedures. Stores, for each page, an ordered list of sections with their enabled/disabled status. The admin panel exposes a simple UI to reorder sections and toggle their visibility. The public site reads this configuration at request time and renders only the enabled sections in the specified order.
+Build the system that replaces both a page-ordering table and a page-content table with one coherent model:
 
-### Task 6.5b — Implement the Page Content System
+- **Page order and visibility are code, not data.** Each page's sections and their order are declared once in the Page Registry (`packages/contracts`) as a typed array. There is no admin UI to reorder sections and no database row that controls it — changing section order is a code change and a deploy, by design (see ADR-005/ADR-009 for the reasoning).
+- **Content is the `ContentEntry` table.** One Zod schema per block type (`packages/contracts`), not one per page — a `hero` block is the same shape wherever it's used. Content shapes fall into the same three buckets the old design anticipated: flat prose (story, closing statements), repeatable lists (timeline milestones, crest symbols, FAQ items), and structured short fields (mission/vision/ethos text, anthem lyrics) — they just live under the block library now (F-047) instead of one bespoke schema per section key.
 
-Create the `PageContent` table and its Zod schemas (one per `sectionKey` shape):
+Add `contentEntryRouter` with:
 
-- Flat prose (story, closing statements)
-- Repeatable lists (timeline milestones, crest symbols, FAQ items)
-- Structured short fields (mission/vision/ethos text, anthem lyrics)
+- `getByScope`: Returns every entry for a scope (a page, or a global area like navigation) in the requested locale, falling back to English, published rows only
+- `adminGetByScope`: Same, but all statuses, for the editor
+- `update`: Upserts one entry, writes a `ContentEntryVersion` snapshot, and calls `revalidateTag(scope)` on success
+- `setStatus`: Moves an entry between draft/published/archived without touching its content
 
-Add `pageContentRouter` with:
+Write the one-time migration script that reads the existing `en`/`si`/`ta` message JSON for every non-chrome namespace and seeds it into `ContentEntry` as version 1.
 
-- `getByPage`: Returns every section for a page in the requested locale, falling back to English
-- `update`: Upserts one section, writing a version snapshot
-
-Write the one-time migration script that reads the existing `en`/`si`/`ta` message JSON for every non-chrome namespace and seeds it into `PageContent` as version 1.
-
-### Task 6.6 — Implement the Media Library
+### Task 6.9 — Implement the Media Library
 
 Create the media management system:
 
@@ -978,7 +941,7 @@ Create the media management system:
 3. The `MediaAsset` table stores the R2 URL, original filename, file size, MIME type, alt text, tags, and usage tracking
 4. Every image in the CMS references a MediaAsset, not a raw URL string
 
-### Task 6.7 — Implement the Announcement System
+### Task 6.10 — Implement the Announcement System
 
 Build a simple announcement system:
 
@@ -986,7 +949,7 @@ Build a simple announcement system:
 - The admin panel allows creating and scheduling announcements
 - The public site renders an AnnouncementBanner at the top of every page when an active announcement exists
 
-### Task 6.8 — Implement Audit Logging
+### Task 6.11 — Implement Audit Logging
 
 Every write operation in the tRPC API creates an audit log entry:
 
@@ -997,15 +960,15 @@ Every write operation in the tRPC API creates an audit log entry:
 
 The audit log is append-only and never deleted. This is not optional — when multiple editors are making changes to a live school platform, the ability to answer "who changed this and when" is essential.
 
-### Task 6.9 — Database Hardening
+### Task 6.12 — Database Hardening
 
 Three things must be in place before the database carries real traffic:
 
-1. **Soft-delete pattern**: Content is never hard-deleted. A `deletedAt` timestamp marks records as archived. Admin panel deletions trigger soft-deletes.
-2. **Connection pooling**: Configured for the production environment, so the results portal does not exhaust connections on results day.
-3. **Scheduled cleanup jobs**: Remove expired sessions, soft-deleted records past retention, unused media asset references — never touching real content.
+1. **Status-based archiving, not soft-delete**: `ContentEntry` has no `deletedAt` column. "Deleting" a section means setting its `status` to `archived` via `setStatus` — the row and its full version history stay put. Admin panel "delete" actions call this, never a raw `DELETE`.
+2. **Connection pooling**: Configured for the production environment ahead of any traffic spike (open house, admissions period, news going viral).
+3. **Scheduled cleanup jobs**: Remove expired sessions and unused media asset references — never touching `ContentEntry` or its version history.
 
-### Task 6.10 — Integration Tests for the API Layer
+### Task 6.13 — Integration Tests for the API Layer
 
 Write integration tests for the tRPC routers against a real test database (not mocked). Verify:
 
@@ -1019,7 +982,7 @@ Unit tests (Task 4.7) cover isolated logic; these tests cover the seams between 
 
 ## Phase 7 — Admin Panel
 
-*Building the content management interface*
+_Building the content management interface_
 
 ### Purpose
 
@@ -1038,137 +1001,118 @@ Every admin module lives inside this shell.
 
 ### Task 7.2 — Dashboard Overview
 
-Build the admin dashboard:
+Build the admin dashboard. Before the domain models in Task 6.1's deferred list exist, this is a `ContentEntry`-only dashboard:
 
-| Section | Content |
-|---------|---------|
-| Content counts | Total news, staff, events, societies |
-| Recent activity | Last 10 changes from the audit log |
-| Quick actions | New article, new event, new announcement |
-| Pending items | Draft articles, unapproved alumni profiles |
+|Section|Content|
+|---|---|
+|Page list|Every page in the Page Registry with a fill status — Empty / Partially Filled / Complete — computed from its sections' `ContentEntry` status; this is the primary view until other modules exist|
+|Content counts|Total/published/draft `ContentEntry` rows|
+|Recent activity|Last 10 `ContentEntryVersion` saves|
+|Quick links|Into each page's editor|
+
+Once a module in Task 6.1's deferred list is built (news, staff, events, societies), fold its counts, quick actions, and pending items (draft articles, unapproved alumni profiles) into this same dashboard.
 
 ### Task 7.3 — News Module
 
 Build the full news CRUD interface:
 
-| Feature | Description |
-|---------|-------------|
-| List view | Status badges (Draft, Under Review, Published, Archived), search, filter by category and date, bulk actions |
-| Create/Edit | Tiptap rich text editor, cover image via media library, category selection |
-| Status workflow | Draft → Submit for Review → Publish → Archive |
-| SEO preview | Shows how the article will appear in search results |
-| Validation | Form validates against `NewsArticleSchema` on both client and server |
+|Feature|Description|
+|---|---|
+|List view|Status badges (Draft, Under Review, Published, Archived), search, filter by category and date, bulk actions|
+|Create/Edit|Tiptap rich text editor, cover image via media library, category selection|
+|Status workflow|Draft → Submit for Review → Publish → Archive|
+|SEO preview|Shows how the article will appear in search results|
+|Validation|Form validates against `NewsArticleSchema` on both client and server|
 
 ### Task 7.4 — Staff Module
 
 Build the staff management interface:
 
-| Feature | Description |
-|---------|-------------|
-| List view | Sorted by role hierarchy (Principal, Deputy Principals, HODs, Teachers) |
-| Create/Edit | Name, title, role, department, tenure, quote, portrait via media library |
-| Reorder | Drag-and-drop interface (`order` field determines public site sequence) |
+|Feature|Description|
+|---|---|
+|List view|Sorted by role hierarchy (Principal, Deputy Principals, HODs, Teachers)|
+|Create/Edit|Name, title, role, department, tenure, quote, portrait via media library|
+|Reorder|Drag-and-drop interface (`order` field determines public site sequence)|
 
 ### Task 7.5 — Events Module
 
 Build the events management interface:
 
-| Feature | Description |
-|---------|-------------|
-| Views | Calendar view and list view |
-| Create/Edit | Title, description, date, time, venue, category, status, optional registration link |
-| Status | Draft → Published → Past (automatic based on date) |
+|Feature|Description|
+|---|---|
+|Views|Calendar view and list view|
+|Create/Edit|Title, description, date, time, venue, category, status, optional registration link|
+|Status|Draft → Published → Past (automatic based on date)|
 
 ### Task 7.6 — Societies Module
 
 Build the societies management interface:
 
-| Feature | Description |
-|---------|-------------|
-| Create/Edit | Name, slug, category, tagline, description, member count, founding year, logo upload, banner upload, advisor staff member selection |
+|Feature|Description|
+|---|---|
+|Create/Edit|Name, slug, category, tagline, description, member count, founding year, logo upload, banner upload, advisor staff member selection|
 
 ### Task 7.7 — Gallery Module
 
 Build the gallery management interface:
 
-| Feature | Description |
-|---------|-------------|
-| Album creation | Title, year, category, cover photo selection |
-| Batch upload | Multiple photos to R2 with progress indicators |
-| Per-photo alt text | Required — accessibility compliance |
-| Reorder | Drag-and-drop album reordering |
+|Feature|Description|
+|---|---|
+|Album creation|Title, year, category, cover photo selection|
+|Batch upload|Multiple photos to R2 with progress indicators|
+|Per-photo alt text|Required — accessibility compliance|
+|Reorder|Drag-and-drop album reordering|
 
-### Task 7.8 — Results Module
-
-Build the exam results interface:
-
-| Feature | Description |
-|---------|-------------|
-| CSV upload | Bulk result entry with preview and validation before committing |
-| Individual entry | Per-student result entry form |
-| Association | Results associated with exam type and year |
-| Search | Interface to test the public-facing results lookup |
-
-### Task 7.9 — Media Library Module
+### Task 7.8 — Media Library Module
 
 Build the central media library interface:
 
-| Feature | Description |
-|---------|-------------|
-| Grid view | All uploaded assets with search and tag filtering |
-| Upload | Automatic compression (resize to max display dimensions, WebP conversion) |
-| Alt text | Editing interface |
-| Usage tracking | Shows which content items use each asset |
-| Bulk delete | With usage warning (prevents accidental deletion of in-use assets) |
+|Feature|Description|
+|---|---|
+|Grid view|All uploaded assets with search and tag filtering|
+|Upload|Automatic compression (resize to max display dimensions, WebP conversion)|
+|Alt text|Editing interface|
+|Usage tracking|Shows which content items use each asset|
+|Bulk delete|With usage warning (prevents accidental deletion of in-use assets)|
 
-### Task 7.10 — Page Configuration Module
+### Task 7.9 — ContentEntry Module
 
-Build the page configuration interface:
+Build the content editing interface. There is no separate "page configuration" screen — section order and visibility are fixed in code (Task 6.8), so this module only ever edits content, never structure:
 
-- For each configurable page, show the current section order as a list of draggable cards
-- Each card shows the section name, a preview thumbnail, and an enable/disable toggle
-- Changes save to `PageConfig` and take effect on the next public page load
-
-### Task 7.10b — Page Content Module
-
-Build the page content editing interface:
-
-- For each page, list its content sections grouped the same way the page itself is organised
+- For each page, list its content sections grouped the same way the page itself is organised, driven by structured forms from `FieldDefinition`/`FieldMeta` metadata (F-043) rather than a hand-built form per section
 - Each section's editor matches its shape:
-  - Rich text field for prose blocks
-  - Repeatable-list editor with drag-to-reorder for timeline milestones, crest symbols, FAQ items
-  - Plain form for short structured fields (mission/vision/ethos, anthem lyrics)
-- Every save creates a version snapshot, viewable and revertible
+    - Rich text field for prose blocks
+    - Repeatable-list editor with drag-to-reorder for timeline milestones, crest symbols, FAQ items
+    - Plain form for short structured fields (mission/vision/ethos, anthem lyrics)
+- Every save creates a `ContentEntryVersion` snapshot, viewable and revertible
 - Locale switcher lets an editor see and edit all three languages without leaving the page
+- Status control (draft/published/archived) per section
 
-### Task 7.11 — Analytics Module
+### Task 7.10 — Analytics Module
 
-Build the custom analytics dashboard:
+There is no custom event collector to build. Umami runs as a self-hosted Docker container (part of Task 11.3's Compose stack) and does the actual tracking, cookie-free, with no third-party script leaving the school's own infrastructure. This task is the admin-panel dashboard that surfaces Umami's data inside Nexus rather than sending editors to a separate tool:
 
-| Metric | Description |
-|--------|-------------|
-| Page views | By day, week, month |
-| Top pages | With trend indicators |
-| Search terms | Entered by users and their result counts |
-| Results usage | How many result lookups per day |
-| Content performance | Which news articles get the most views |
-| Language distribution | What percentage of users use each locale |
-| Device type | Mobile vs desktop vs tablet |
+|Metric|Description|
+|---|---|
+|Page views|By day, week, month, pulled from Umami|
+|Top pages|With trend indicators|
+|Search terms|Entered by users and their result counts, pulled from Umami|
+|Content performance|Which news articles get the most views|
+|Language distribution|What percentage of users use each locale|
+|Device type|Mobile vs desktop vs tablet|
 
-The analytics data is collected by a lightweight server-side event collector built into the Next.js middleware — no third-party JavaScript on the public site.
-
-### Task 7.12 — User Management Module
+### Task 7.11 — User Management Module
 
 Build the user administration interface:
 
-| Feature | Description |
-|---------|-------------|
-| User list | All admin users with their roles |
-| Invite | Add `@cwwkcc.lk` email to allowlist — user signs in with Google |
-| Role assignment | Admin (full access) vs Editor (create/edit content only) |
-| Deactivation | Never delete users — deactivated users are retained for audit log integrity |
+|Feature|Description|
+|---|---|
+|User list|All admin users with their roles|
+|Invite|Add `@cwwkcc.lk` email to allowlist — user signs in with Google|
+|Role assignment|Admin (full access) vs Editor (create/edit content only)|
+|Deactivation|Never delete users — deactivated users are retained for audit log integrity|
 
-### Task 7.12a — New Admin Onboarding
+### Task 7.12 — New Admin Onboarding
 
 When a user is added to the allowlist and logs in for the first time:
 
@@ -1199,14 +1143,14 @@ Build the audit log viewer:
 
 Build the global platform settings interface:
 
-| Setting | Purpose |
-|---------|---------|
-| School name | Used in footer, metadata |
-| Address | Footer, JSON-LD |
-| Contact details | Footer, contact page |
-| Social media URLs | Footer, sharing |
-| Founding year | Footer, JSON-LD |
-| Motto | Footer, metadata |
+|Setting|Purpose|
+|---|---|
+|School name|Used in footer, metadata|
+|Address|Footer, JSON-LD|
+|Contact details|Footer, contact page|
+|Social media URLs|Footer, sharing|
+|Founding year|Footer, JSON-LD|
+|Motto|Footer, metadata|
 
 These values are read by the public site for the footer, JSON-LD structured data, and metadata.
 
@@ -1217,7 +1161,6 @@ Build a config-style screen (same pattern as Settings Module):
 - Fixed set of stream entries: Bio Science, Physical Science, Commerce, Arts, Technology
 - Editable: description, subject list, image, contact department
 - No create, no delete, no draft/publish workflow
-- Performance statistics are computed live from `ExamResult` data
 
 ### Task 7.17 — Extracurriculars Module
 
@@ -1231,13 +1174,13 @@ Build the extracurriculars management interface:
 
 Build the alumni management interface:
 
-| Feature | Description |
-|---------|-------------|
-| Two entry paths | Admin-direct entry; public self-submissions awaiting moderation |
-| Filtering | By status (pending/approved/rejected), graduation year, profession |
-| Approve | Publishes immediately to the public directory |
-| Reject | Discards with optional logged reason |
-| Edit | Editable before approving (public submissions may be incomplete) |
+|Feature|Description|
+|---|---|
+|Two entry paths|Admin-direct entry; public self-submissions awaiting moderation|
+|Filtering|By status (pending/approved/rejected), graduation year, profession|
+|Approve|Publishes immediately to the public directory|
+|Reject|Discards with optional logged reason|
+|Edit|Editable before approving (public submissions may be incomplete)|
 
 ### Task 7.19 — Achievement Module
 
@@ -1252,12 +1195,12 @@ Build the achievement database management interface:
 
 Build the digital archive management interface:
 
-| Feature | Description |
-|---------|-------------|
-| Curated layer | Over the Media Library, not a replacement |
-| Entry fields | Title, year, category (photograph/magazine/prize-giving record/prefect list), description |
-| File upload | Through the standard Media Library pipeline |
-| Search | Year and category are what the public Digital Archive page filters and searches by |
+|Feature|Description|
+|---|---|
+|Curated layer|Over the Media Library, not a replacement|
+|Entry fields|Title, year, category (photograph/magazine/prize-giving record/prefect list), description|
+|File upload|Through the standard Media Library pipeline|
+|Search|Year and category are what the public Digital Archive page filters and searches by|
 
 ### Task 7.21 — Facilities Module
 
@@ -1270,13 +1213,13 @@ Build the facilities management interface:
 
 Build a lightweight social media management interface:
 
-| Feature | Description |
-|---------|-------------|
-| Post drafting | Create posts with text, images (from Media Library), and optional links |
-| Scheduling | Set publishing dates/times (future scheduling) |
-| Calendar view | Content calendar for planned posts |
-| Approval workflow | Approve or reject post suggestions from other editors |
-| Publishing | Manual copy to each platform with "Mark as Published" button (API integration is a future enhancement) |
+|Feature|Description|
+|---|---|
+|Post drafting|Create posts with text, images (from Media Library), and optional links|
+|Scheduling|Set publishing dates/times (future scheduling)|
+|Calendar view|Content calendar for planned posts|
+|Approval workflow|Approve or reject post suggestions from other editors|
+|Publishing|Manual copy to each platform with "Mark as Published" button (API integration is a future enhancement)|
 
 This ensures social media is treated as a first-class content type alongside news and events.
 
@@ -1284,7 +1227,7 @@ This ensures social media is treated as a first-class content type alongside new
 
 ## Phase 8 — Public Pages (Connected to Live Data)
 
-*The website the world sees*
+_The website the world sees_
 
 ### Purpose
 
@@ -1294,40 +1237,40 @@ Now that the database has data and the admin panel can manage it, the public pag
 
 Build the home page as a composition of server-rendered blocks:
 
-| Section | Component | Source |
-|---------|-----------|--------|
-| Hero | CrestAnimation, headline, CTA | Static |
-| Statistics | StatsStrip | Database |
-| Principal's Message | PrincipalMessage | Staff table (principal role) |
-| Latest News | NewsCard (3 latest) | News table |
-| Upcoming Events | EventCard (3 next) | Events table |
-| Quick Access | QuickAccessPortal | Static links |
-| Announcement | AnnouncementBanner | Announcements table |
+|Section|Component|Source|
+|---|---|---|
+|Hero|CrestAnimation, headline, CTA|Static|
+|Statistics|StatsStrip|Database|
+|Principal's Message|PrincipalMessage|Staff table (principal role)|
+|Latest News|NewsCard (3 latest)|News table|
+|Upcoming Events|EventCard (3 next)|Events table|
+|Quick Access|QuickAccessPortal|Static links|
+|Announcement|AnnouncementBanner|Announcements table|
 
-The page configuration system controls which blocks appear and in what order.
+Section order and visibility are fixed in the Page Registry (`packages/contracts`, Task 6.8) — there is no runtime admin control over which blocks appear or in what order.
 
 ### Task 8.2 — About Page
 
 Build the About page as a composition of server-rendered blocks:
 
-| Section | Component | Source |
-|---------|-----------|--------|
-| Hero | CrestAnimation, eyebrow, title | Static |
-| Stats | StatsStrip | Database |
-| Founding Narrative | OurStory | PageContent |
-| Dr. Kannangara | OurNameSake | PageContent |
-| Timeline | Timeline | PageContent |
-| Ethos, Values | Ethos + Values | PageContent |
-| Crest Diagram | CrestDiagram | Static/PageContent |
-| Alumni Legacy | AlumniLegacyBlock | AlumniProfile table |
-| School Anthem | AudioPlayer | Static |
-| Closing | ClosingStatement | PageContent |
+|Section|Component|Source|
+|---|---|---|
+|Hero|CrestAnimation, eyebrow, title|Static|
+|Stats|StatsStrip|Database|
+|Founding Narrative|OurStory|ContentEntry|
+|Dr. Kannangara|OurNameSake|ContentEntry|
+|Timeline|Timeline|ContentEntry|
+|Ethos, Values|Ethos + Values|ContentEntry|
+|Crest Diagram|CrestDiagram|Static/ContentEntry|
+|Alumni Legacy|AlumniLegacyBlock|AlumniProfile table|
+|School Anthem|AudioPlayer|Static|
+|Closing|ClosingStatement|ContentEntry|
 
-Connect all sections to live data sources. Migrate content from static i18n files to PageContent.
+Connect all sections to live data sources. Migrate content from static i18n files to `ContentEntry`.
 
-### Task 8.2b — Migrate Static Pages to PageContent
+### Task 8.3 — Migrate Static Pages to ContentEntry
 
-Replace hardcoded content in `messages/` with database-backed `PageContent` for:
+Replace hardcoded content in `messages/` with database-backed `ContentEntry` rows for:
 
 - About
 - Administration
@@ -1335,159 +1278,136 @@ Replace hardcoded content in `messages/` with database-backed `PageContent` for:
 - Facilities
 - Extracurriculars
 
-Run the migration script from Task 6.5b to seed initial content from existing message files. Ensure the admin panel's Page Content Module (Task 7.10b) can edit these sections. Remove the corresponding message keys from the `messages/` JSON files.
+Run the migration script from Task 6.8 to seed initial content from existing message files. Ensure the admin panel's ContentEntry Module (Task 7.9) can edit these sections. Remove the corresponding message keys from the `messages/` JSON files.
 
-### Task 8.3 — News Pages
+### Task 8.4 — News Pages
 
 Build the news listing page and individual article pages:
 
-| Feature | Description |
-|---------|-------------|
-| Listing | Category filter, pagination, search |
-| Article | Rich text rendering, author attribution, related articles, social sharing |
-| Static generation | `generateStaticParams` for published articles |
-| Metadata | `generateMetadata` for OG and Twitter cards |
+|Feature|Description|
+|---|---|
+|Listing|Category filter, pagination, search|
+|Article|Rich text rendering, author attribution, related articles, social sharing|
+|Static generation|`generateStaticParams` for published articles|
+|Metadata|`generateMetadata` for OG and Twitter cards|
 
-### Task 8.4 — Events Pages
+### Task 8.5 — Events Pages
 
 Build the events listing and individual event pages:
 
-| Feature | Description |
-|---------|-------------|
-| Listing | Calendar view and list view, filterable by category and month |
-| Event detail | Full description, venue map link, registration link |
+|Feature|Description|
+|---|---|
+|Listing|Calendar view and list view, filterable by category and month|
+|Event detail|Full description, venue map link, registration link|
 
-### Task 8.5 — Societies Hub
+### Task 8.6 — Societies Hub
 
 Build the societies listing and individual society pages:
 
-| Feature | Description |
-|---------|-------------|
-| Listing | Filterable by category |
-| Society detail | Banner, description, advisor staff card, recent events, gallery preview |
-| Static generation | `generateStaticParams` for individual society pages |
+|Feature|Description|
+|---|---|
+|Listing|Filterable by category|
+|Society detail|Banner, description, advisor staff card, recent events, gallery preview|
+|Static generation|`generateStaticParams` for individual society pages|
 
-### Task 8.6 — Facilities Page
+### Task 8.7 — Facilities Page
 
 Build the facilities page using FacilityCard components. Content is managed through the Facilities Module (Task 7.21).
 
-### Task 8.7 — Admissions Page
+### Task 8.8 — Admissions Page
 
 Build the admissions information page:
 
-| Feature | Component | Source |
-|---------|-----------|--------|
-| Process steps | ProcessSteps | Static |
-| Key dates | AdmissionsKeyDatesTimeline | Events table (academic category) |
-| Requirements | RequirementsChecklist | Static |
-| Enquiry form | ContactForm | API route |
+|Feature|Component|Source|
+|---|---|---|
+|Process steps|ProcessSteps|Static|
+|Key dates|AdmissionsKeyDatesTimeline|Events table (academic category)|
+|Requirements|RequirementsChecklist|Static|
+|Enquiry form|ContactForm|API route|
 
-### Task 8.8 — Gallery
+### Task 8.9 — Gallery
 
 Build the gallery listing and individual album pages:
 
-| Feature | Description |
-|---------|-------------|
-| Listing | Albums sorted by year |
-| Album | Photo grid with lightbox |
-| Images | All via `next/image` with proper sizing and blur placeholders |
-| Static generation | `generateStaticParams` for individual albums |
-
-### Task 8.9 — Results Portal
-
-Build the exam results public search interface:
-
-| Feature | Description |
-|---------|-------------|
-| Search | User enters index number and selects exam year |
-| Rate limiting | 10 requests per minute per IP |
-| Response | Only the specific result for the queried index number |
-| Display | ResultsDisplay component with grade badges |
-
-### Task 8.9a — Results Portal Security & Privacy
-
-Implement additional security measures:
-
-| Measure | Description |
-|---------|-------------|
-| Rate limiting | With exponential backoff after repeated failures (5 failed attempts locks IP for 30 minutes) |
-| Audit logging | All result lookups logged (which IP searched which index number) |
-| Data retention | Results kept for 5 years, then archived and removed from live database |
-| CSV validation | Uploaded CSVs validated for correct headers, data types, no missing fields |
+|Feature|Description|
+|---|---|
+|Listing|Albums sorted by year|
+|Album|Photo grid with lightbox|
+|Images|All via `next/image` with proper sizing and blur placeholders|
+|Static generation|`generateStaticParams` for individual albums|
 
 ### Task 8.10 — Contact Page
 
 Build the contact page:
 
-| Feature | Description |
-|---------|-------------|
-| ContactForm | Wired to Resend API route |
-| FeedbackForm | For general feedback |
-| Validation | Zod schema on both client and server |
-| Rate limiting | 5 requests per hour per IP |
+|Feature|Description|
+|---|---|
+|ContactForm|Wired to Resend API route|
+|FeedbackForm|For general feedback|
+|Validation|Zod schema on both client and server|
+|Rate limiting|5 requests per hour per IP|
 
 ### Task 8.11 — Alumni Directory
 
 Build the public alumni directory:
 
-| Feature | Description |
-|---------|-------------|
-| Search | By graduation year, profession, country |
-| Display | Name, graduation year, position, quote — no private contact info |
-| Submission | Form for alumni to submit profiles (enters admin approval queue) |
+|Feature|Description|
+|---|---|
+|Search|By graduation year, profession, country|
+|Display|Name, graduation year, position, quote — no private contact info|
+|Submission|Form for alumni to submit profiles (enters admin approval queue)|
 
 ### Task 8.12 — Digital Archive
 
 Build the digital archive:
 
-| Feature | Description |
-|---------|-------------|
-| Content | Historical photographs, old annual magazines (PDFs), prize-giving records, prefect lists |
-| Browsing | By year |
-| Search | Full-text search across metadata |
-| Unique value | A 150-year-old school with a properly organised digital memory |
+|Feature|Description|
+|---|---|
+|Content|Historical photographs, old annual magazines (PDFs), prize-giving records, prefect lists|
+|Browsing|By year|
+|Search|Full-text search across metadata|
+|Unique value|A 150-year-old school with a properly organised digital memory|
 
 ### Task 8.13 — Achievement Database
 
 Build the achievement database:
 
-| Feature | Description |
-|---------|-------------|
-| Categories | Academic, sports, arts, cultural, competitions |
-| Filtering | By year, category, student name |
-| Search | Full-text search |
+|Feature|Description|
+|---|---|
+|Categories|Academic, sports, arts, cultural, competitions|
+|Filtering|By year, category, student name|
+|Search|Full-text search|
 
 ### Task 8.14 — Search
 
 Build the unified search interface:
 
-| Feature | Description |
-|---------|-------------|
-| Access | Search box accessible from every page via navigation |
-| Content types | News, events, staff, societies, gallery, archive, achievements |
-| Technology | PostgreSQL full-text search with Sinhala/Tamil/English support |
-| Results | Grouped by type, ranked by relevance |
+|Feature|Description|
+|---|---|
+|Access|Search box accessible from every page via navigation|
+|Content types|News, events, staff, societies, gallery, archive, achievements|
+|Technology|PostgreSQL full-text search with Sinhala/Tamil/English support|
+|Results|Grouped by type, ranked by relevance|
 
 ### Task 8.15 — Academics Page
 
 Build the academics page:
 
-| Feature | Component | Source |
-|---------|-----------|--------|
-| Streams | AcademicStreamCard | Academic Programs Admin Screen |
-| Comparison | StreamComparisonTable | Academic Programs data |
-| Performance | Visualizations (pass rates, entrance rates) | `ExamResult` data (live computed) |
+|Feature|Component|Source|
+|---|---|---|
+|Streams|AcademicStreamCard|Academic Programs Admin Screen|
+|Comparison|StreamComparisonTable|Academic Programs data|
 
 ### Task 8.16 — Administration Page
 
 Build the administration page:
 
-| Section | Component | Source |
-|---------|-----------|--------|
-| Principal | StaffCard (principal variant) | Staff table |
-| Deputy Principals | StaffCard (grid variant) | Staff table |
-| Heads of Department | StaffCard (grid variant) | Staff table |
-| Board of Management | StaffCard | Staff table |
+|Section|Component|Source|
+|---|---|---|
+|Principal|StaffCard (principal variant)|Staff table|
+|Deputy Principals|StaffCard (grid variant)|Staff table|
+|Heads of Department|StaffCard (grid variant)|Staff table|
+|Board of Management|StaffCard|Staff table|
 
 No new admin module — administrators are entered as staff like anyone else.
 
@@ -1495,25 +1415,25 @@ No new admin module — administrators are entered as staff like anyone else.
 
 Build the extracurriculars page:
 
-| Section | Component | Source |
-|---------|-----------|--------|
-| Sports | ExtracurricularCard | Extracurriculars Module |
-| Performing Arts | ExtracurricularCard | Extracurriculars Module |
-| Scouting | ExtracurricularCard | Extracurriculars Module |
-| Cadets | ExtracurricularCard | Extracurriculars Module |
+|Section|Component|Source|
+|---|---|---|
+|Sports|ExtracurricularCard|Extracurriculars Module|
+|Performing Arts|ExtracurricularCard|Extracurriculars Module|
+|Scouting|ExtracurricularCard|Extracurriculars Module|
+|Cadets|ExtracurricularCard|Extracurriculars Module|
 
 ### Task 8.18 — Launch Official Social Media Accounts
 
 Establish the school's official social media presence:
 
-| Step | Action |
-|------|--------|
-| Account creation | Create official accounts on Facebook, Instagram, YouTube, LinkedIn, WhatsApp Channel using school's official name, crest, brand colours |
-| Account coordination | Where unofficial accounts exist, coordinate with administration to request transfer (with approval and documentation) |
-| Brand alignment | Update all profiles with official description, cover images, link to `cwwkcc.lk` |
-| Content seeding | Draft initial posts (welcome message, school history highlights, upcoming events) |
-| Ownership | Ensure accounts owned by school (using school email addresses), not individual students |
-| Governance | Define social media content approval workflow in Content Governance document |
+|Step|Action|
+|---|---|
+|Account creation|Create official accounts on Facebook, Instagram, YouTube, LinkedIn, WhatsApp Channel using school's official name, crest, brand colours|
+|Account coordination|Where unofficial accounts exist, coordinate with administration to request transfer (with approval and documentation)|
+|Brand alignment|Update all profiles with official description, cover images, link to `cwwkcc.lk`|
+|Content seeding|Draft initial posts (welcome message, school history highlights, upcoming events)|
+|Ownership|Ensure accounts owned by school (using school email addresses), not individual students|
+|Governance|Define social media content approval workflow in Content Governance document|
 
 This is critical because social media is a core component of Nexus.
 
@@ -1521,7 +1441,7 @@ This is critical because social media is a core component of Nexus.
 
 ## Phase 9 — PWA and Offline Support
 
-*Making the platform reliable on poor connections*
+_Making the platform reliable on poor connections_
 
 ### Purpose
 
@@ -1531,11 +1451,11 @@ A significant proportion of the community accesses this platform on mobile devic
 
 Add `next-pwa` or a custom service worker configuration:
 
-| Strategy | Description |
-|----------|-------------|
-| Shell caching | Cache navigation, footer, CSS, fonts on first load |
-| Static caching | Cache home and about pages for offline access |
-| Network-first | Dynamic pages (news, events) with cached fallback |
+|Strategy|Description|
+|---|---|
+|Shell caching|Cache navigation, footer, CSS, fonts on first load|
+|Static caching|Cache home and about pages for offline access|
+|Network-first|Dynamic pages (news, events) with cached fallback|
 
 ### Task 9.2 — Web App Manifest
 
@@ -1561,7 +1481,7 @@ Build a designed offline page cached by the service worker:
 
 ## Phase 10 — SEO and Structured Data
 
-*Making the platform discoverable*
+_Making the platform discoverable_
 
 ### Purpose
 
@@ -1590,23 +1510,22 @@ Generate Open Graph images programmatically per page using Next.js image generat
 
 Implement JSON-LD schema markup:
 
-| Content Type | Schema |
-|--------------|--------|
-| School | `EducationalOrganization` with name, address, founding year, social profiles |
-| News articles | `NewsArticle` |
-| Events | `Event` |
-| Staff | `Person` |
-| Results Portal | `WebApplication` |
+|Content Type|Schema|
+|---|---|
+|School|`EducationalOrganization` with name, address, founding year, social profiles|
+|News articles|`NewsArticle`|
+|Events|`Event`|
+|Staff|`Person`|
+|Site|`WebApplication` (PWA — see Phase 9)|
 
 ### Task 10.3 — Sitemap Generation
 
 Implement `sitemap.ts` using Next.js conventions:
 
-| Included | Excluded |
-|----------|----------|
-| All static pages | Admin panel |
-| All dynamic pages (news, societies, gallery) | API routes |
-| | Results portal (privacy) |
+|Included|Excluded|
+|---|---|
+|All static pages|Admin panel|
+|All dynamic pages (news, societies, gallery)|API routes|
 
 ### Task 10.3a — CDN Cache Invalidation
 
@@ -1627,20 +1546,22 @@ Create `robots.txt`:
 
 Run Lighthouse on home, about, and news pages from simulated mobile connection:
 
-| Target | Score |
-|--------|-------|
-| Performance | ≥ 90 |
-| Accessibility | ≥ 90 |
-| Best Practices | ≥ 90 |
-| SEO | ≥ 90 |
+|Target|Score|
+|---|---|
+|Performance|≥ 90|
+|Accessibility|≥ 90|
+|Best Practices|≥ 90|
+|SEO|≥ 90|
 
 Common fixes:
+
 - Images without explicit dimensions → layout shift
 - Render-blocking resources
 - Fonts loading before content
 - JavaScript bundles too large
 
 Use:
+
 - Dynamic imports for heavy components (CrestAnimation, AudioPlayer, Tiptap)
 - `optimizePackageImports` for `@nexus/ui` and `framer-motion`
 
@@ -1648,7 +1569,7 @@ Use:
 
 ## Phase 11 — Infrastructure and Deployment
 
-*Taking the platform from localhost to the internet*
+_Taking the platform from localhost to the internet_
 
 ### Purpose
 
@@ -1656,12 +1577,12 @@ Every technical decision made in the infrastructure phase affects the platform's
 
 ### Task 11.1 — Configure Cloudflare R2
 
-| Step | Action |
-|------|--------|
-| 1 | Create the R2 bucket for media storage |
-| 2 | Configure CORS to allow uploads from the admin panel domain |
-| 3 | Set up a public access URL for serving media files |
-| 4 | Update Next.js image configuration to allow the R2 domain as an image source |
+|Step|Action|
+|---|---|
+|1|Create the R2 bucket for media storage|
+|2|Configure CORS to allow uploads from the admin panel domain|
+|3|Set up a public access URL for serving media files|
+|4|Update Next.js image configuration to allow the R2 domain as an image source|
 
 R2 is chosen over S3 because it has no egress fees — serving images from R2 to the browser costs nothing beyond the storage fee.
 
@@ -1669,10 +1590,10 @@ R2 is chosen over S3 because it has no egress fees — serving images from R2 to
 
 Write multi-stage Dockerfiles for both `apps/web` and `apps/admin`:
 
-| Stage | Purpose |
-|-------|---------|
-| Build | Install dependencies, build the application |
-| Runtime | Minimal image with only the built output |
+|Stage|Purpose|
+|---|---|
+|Build|Install dependencies, build the application|
+|Runtime|Minimal image with only the built output|
 
 Multi-stage builds produce small final images by discarding build tools from the production image.
 
@@ -1689,35 +1610,36 @@ Add `/api/health` route to both apps that:
 
 Write `docker-compose.yml` defining six services:
 
-| Service | Purpose |
-|---------|---------|
-| `postgres` | Database with named volume for persistence |
-| `nexus-web` | Public website |
-| `nexus-admin` | Admin panel |
-| `umami` | Self-hosted analytics backup |
-| `caddy` | Reverse proxy with automatic HTTPS via Let's Encrypt |
+|Service|Purpose|
+|---|---|
+|`postgres`|Database with named volume for persistence|
+|`nexus-web`|Public website|
+|`nexus-admin`|Admin panel|
+|`umami`|Self-hosted analytics backup|
+|`caddy`|Reverse proxy with automatic HTTPS via Let's Encrypt|
 
 Define:
+
 - Environment variable references for secrets
 - Health checks for each service
 - Restart policies
 
 ### Task 11.4 — Provision the Hetzner Server
 
-| Step | Action |
-|------|--------|
-| 1 | Create the Hetzner cloud server (CPX22: 2 vCPU, 4GB RAM, 40GB SSD) |
-| 2 | Install Docker and Docker Compose |
-| 3 | Configure firewall to allow only ports 80, 443, 22 |
-| 4 | Set up SSH key authentication, disable password authentication |
-| 5 | Create a deployment user with minimal permissions |
+|Step|Action|
+|---|---|
+|1|Create the Hetzner cloud server (CPX22: 2 vCPU, 4GB RAM, 40GB SSD)|
+|2|Install Docker and Docker Compose|
+|3|Configure firewall to allow only ports 80, 443, 22|
+|4|Set up SSH key authentication, disable password authentication|
+|5|Create a deployment user with minimal permissions|
 
 ### Task 11.5 — Configure DNS
 
-| Domain | Points To |
-|--------|-----------|
-| `cwwkcc.lk` | Hetzner server IP |
-| `admin.cwwkcc.lk` | Hetzner server IP |
+|Domain|Points To|
+|---|---|
+|`cwwkcc.lk`|Hetzner server IP|
+|`admin.cwwkcc.lk`|Hetzner server IP|
 
 Configure Caddyfile to route each subdomain to the correct Docker service and provision TLS certificates automatically.
 
@@ -1753,14 +1675,14 @@ Run Lighthouse CI as a step in `ci.yml`:
 
 Create `.env.example` files for both apps documenting every required variable:
 
-| Category | Variables |
-|----------|-----------|
-| Database | `DATABASE_URL`, `POSTGRES_USER`, `POSTGRES_PASSWORD` |
-| Auth | `NEXTAUTH_SECRET`, `NEXTAUTH_URL`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` |
-| Storage | `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET_NAME`, `R2_PUBLIC_URL` |
-| Email | `RESEND_API_KEY` |
-| Analytics | `UMAMI_URL`, `UMAMI_WEBSITE_ID` |
-| Optional | `SENTRY_DSN` |
+|Category|Variables|
+|---|---|
+|Database|`DATABASE_URL`, `POSTGRES_USER`, `POSTGRES_PASSWORD`|
+|Auth|`NEXTAUTH_SECRET`, `NEXTAUTH_URL`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`|
+|Storage|`R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET_NAME`, `R2_PUBLIC_URL`|
+|Email|`RESEND_API_KEY`|
+|Analytics|`UMAMI_URL`, `UMAMI_WEBSITE_ID`|
+|Optional|`SENTRY_DSN`|
 
 Never commit real secrets to the repository. Configure GitHub repository secrets for the CI/CD pipeline. Configure environment variables on the Hetzner server.
 
@@ -1777,19 +1699,19 @@ This is optional — the platform must remain fully functional without any exter
 
 Verify TLS certificate provisioning. Configure security headers in Caddy:
 
-| Header | Value |
-|--------|-------|
-| Strict-Transport-Security | `max-age=31536000; includeSubDomains; preload` |
-| Content-Security-Policy | Strict policy (defined in Task 4.3b) |
-| X-Frame-Options | `DENY` |
-| X-Content-Type-Options | `nosniff` |
-| Referrer-Policy | `strict-origin-when-cross-origin` |
+|Header|Value|
+|---|---|
+|Strict-Transport-Security|`max-age=31536000; includeSubDomains; preload`|
+|Content-Security-Policy|Strict policy — no inline scripts, external resources limited to approved origins (Feature Registry F-127)|
+|X-Frame-Options|`DENY`|
+|X-Content-Type-Options|`nosniff`|
+|Referrer-Policy|`strict-origin-when-cross-origin`|
 
 ---
 
 ## Phase 12 — Launch Preparation
 
-*The final checks before going live*
+_The final checks before going live_
 
 ### Purpose
 
@@ -1810,16 +1732,16 @@ Run this suite in CI before every deployment and manually against the launch-can
 
 Populate the database with real content before launch:
 
-| Content | Quantity |
-|---------|----------|
-| Principal biography and portrait | 1 |
-| Full staff list with photos | All staff |
-| Recent news articles with images | 10+ |
-| Upcoming events | 5+ |
-| Societies with logos and descriptions | All |
-| Gallery albums | 3+ |
-| School statistics | All |
-| Alumni profiles | 20+ |
+|Content|Quantity|
+|---|---|
+|Principal biography and portrait|1|
+|Full staff list with photos|All staff|
+|Recent news articles with images|10+|
+|Upcoming events|5+|
+|Societies with logos and descriptions|All|
+|Gallery albums|3+|
+|School statistics|All|
+|Alumni profiles|20+|
 
 The site must not launch empty. An empty site signals abandonment, not freshness.
 
@@ -1836,75 +1758,76 @@ Verify every page works correctly in all three languages:
 
 Conduct a full accessibility audit:
 
-| Tool | Check |
-|------|-------|
-| Axe | Automated checks |
-| Manual | Keyboard navigation testing |
-| Visual | Colour contrast (WCAG AA) |
-| Assistive | Screen reader testing |
+|Tool|Check|
+|---|---|
+|Axe|Automated checks|
+|Manual|Keyboard navigation testing|
+|Visual|Colour contrast (WCAG AA)|
+|Assistive|Screen reader testing|
 
 ### Task 12.4 — Security Review
 
 Review the security posture:
 
 - Admin panel not accessible without authentication
-- Results portal has rate limiting
+- Contact form has rate limiting
 - No sensitive data in API responses
 - Database credentials not in committed files
 - R2 bucket does not have public write access
 
 ### Task 12.4a — PII Compliance Review
 
-Review data storage for Results Portal:
+Review data storage across every surface that touches personal information — there is no single Results Portal to audit, so this now spans several modules:
 
-- Index numbers are school-specific identifiers, not PII on their own
-- No names, addresses, or other PII stored unencrypted
-- Data retention policy documented (5 years)
-- GDPR/Sri Lanka PDPA compliance
+- Alumni Directory (F-154): only what alumni themselves submitted, no private contact information exposed publicly
+- Achievement Database and Digital Archive: student names in historical records — confirm consent/anonymisation policy for anything not already public record
+- Contact form submissions: retention period documented, not kept indefinitely
+- Cookie consent banner (F-158) covers Umami analytics correctly
+- GDPR/Sri Lanka PDPA compliance across all of the above
 
 ### Task 12.5 — Load Testing
 
-Simulate peak load on the results portal:
+Simulate peak load on the public site during a high-traffic event (news going viral, admissions period, open house):
 
-| Target | Value |
-|--------|-------|
-| Concurrent users | 100 |
-| Response time | <3 seconds on mobile connection |
-| Database queries | 1000 in 60 seconds without timeouts |
+|Target|Value|
+|---|---|
+|Concurrent users|100|
+|Response time|<3 seconds on mobile connection|
+|Database queries|1000 in 60 seconds without timeouts|
 
 Use k6 or Artillery to simulate.
 
 ### Task 12.6 — Cross-Browser and Device Testing
 
-| Browser | Platform |
-|---------|----------|
-| Chrome | Android |
-| Safari | iOS |
-| Chrome | Desktop |
-| Firefox | Desktop |
-| Samsung Internet | Android |
+|Browser|Platform|
+|---|---|
+|Chrome|Android|
+|Safari|iOS|
+|Chrome|Desktop|
+|Firefox|Desktop|
+|Samsung Internet|Android|
 
 Test with slow network simulation.
 
 ### Task 12.7 — Set Up Monitoring
 
-| Service | Frequency | Alert |
-|---------|-----------|-------|
-| UptimeRobot (`cwwkcc.lk`) | 5 minutes | Email + SMS |
-| UptimeRobot (`admin.cwwkcc.lk`) | 5 minutes | Email + SMS |
-| SSL Certificate Expiry | 30 days before | Email |
-| Database backups | Nightly | Verify restorable |
+|Service|Frequency|Alert|
+|---|---|---|
+|UptimeRobot (`cwwkcc.lk`)|5 minutes|Email + SMS|
+|UptimeRobot (`admin.cwwkcc.lk`)|5 minutes|Email + SMS|
+|SSL Certificate Expiry|30 days before|Email|
+|Database backups|Nightly|Verify restorable|
 
 ### Task 12.8 — The Launch
 
-| Step | Action |
-|------|--------|
-| 1 | Change DNS |
-| 2 | Verify both applications responding |
-| 3 | Verify TLS valid |
-| 4 | Verify database has content |
-| 5 | Verify results portal works |
-| 6 | Monitor server logs for first 24 hours |
+|Step|Action|
+|---|---|
+|1|Change DNS|
+|2|Verify both applications responding|
+|3|Verify TLS valid|
+|4|Verify database has content|
+|5|Verify results portal works|
+|6|Monitor server logs for first 24 hours|
 
 The launch is not an event — it is the beginning of the platform's operational life.
 
@@ -1912,7 +1835,7 @@ The launch is not an event — it is the beginning of the platform's operational
 
 ## Phase 13 — Stabilisation
 
-*Observing reality and fixing what the plan missed*
+_Observing reality and fixing what the plan missed_
 
 ### Purpose
 
@@ -1930,13 +1853,13 @@ Create a simple feedback collection mechanism:
 
 After two weeks of live traffic, review the analytics dashboard:
 
-| Question | Action |
-|----------|--------|
-| Which pages have high exit rates? | Content not matching expectations — revise |
-| Which search queries return no results? | Content gaps — fill |
-| Results portal usage pattern? | Caching improvements |
-| Mobile vs desktop split? | Layout adjustments |
-| Which locale is most used? | Prioritise translations |
+|Question|Action|
+|---|---|
+|Which pages have high exit rates?|Content not matching expectations — revise|
+|Which search queries return no results?|Content gaps — fill|
+|Which pages stay in Draft longest?|Follow up with the owning editor|
+|Mobile vs desktop split?|Layout adjustments|
+|Which locale is most used?|Prioritise translations|
 
 ### Task 13.3 — Review Failed Searches
 
@@ -1954,11 +1877,11 @@ Sit with at least two staff editors and watch them use the admin panel without g
 
 Triage all discovered issues:
 
-| Priority | Response Time | Examples |
-|----------|---------------|----------|
-| Critical | 24 hours | Broken functionality, data errors, accessibility failures |
-| High | 1 week | Workflow confusion, performance issues, content gaps |
-| Low | Before handover | Cosmetic issues, minor UX improvements |
+|Priority|Response Time|Examples|
+|---|---|---|
+|Critical|24 hours|Broken functionality, data errors, accessibility failures|
+|High|1 week|Workflow confusion, performance issues, content gaps|
+|Low|Before handover|Cosmetic issues, minor UX improvements|
 
 ### Task 13.6 — Performance Validation Under Real Load
 
@@ -1979,7 +1902,7 @@ Review the site in all three languages with a native speaker of Sinhala and a na
 
 ## Phase 14 — Post-Launch and Handover
 
-*Ensuring the platform outlasts its creator*
+_Ensuring the platform outlasts its creator_
 
 ### Purpose
 
@@ -1989,16 +1912,15 @@ The highest risk to this platform is not a technical failure. It is developer gr
 
 Define, in writing, who owns each content type and what their responsibility is:
 
-| Content Type | Owner | Responsibility |
-|--------------|-------|----------------|
-| **News** | School administration + KITS editors | Minimum 2 articles/month |
-| **Events** | Society leaders + class teachers | Create events 2 weeks before occurrence |
-| **Gallery** | Media unit or photography club | Upload photos within 1 week of events |
-| **Results** | Authorised administrative staff only | Upload within 24 hours of official release |
-| **Digital Archive** | History committee (teachers + OBA) | Ongoing digitisation |
-| **Staff** | School administration | Update when staff join or leave |
-| **Announcements** | School administration only | Post as needed, expire promptly |
-| **Social Media** | Designated editors | As per social media content strategy |
+|Content Type|Owner|Responsibility|
+|---|---|---|
+|**News**|School administration + KITS editors|Minimum 2 articles/month|
+|**Events**|Society leaders + class teachers|Create events 2 weeks before occurrence|
+|**Gallery**|Media unit or photography club|Upload photos within 1 week of events|
+|**Digital Archive**|History committee (teachers + OBA)|Ongoing digitisation|
+|**Staff**|School administration|Update when staff join or leave|
+|**Announcements**|School administration only|Post as needed, expire promptly|
+|**Social Media**|Designated editors|As per social media content strategy|
 
 Document this governance plan and get it signed by the principal before handover.
 
@@ -2006,14 +1928,14 @@ Document this governance plan and get it signed by the principal before handover
 
 Document the recovery procedure for every failure mode. This document lives at `docs/operations/Disaster Recovery.md`.
 
-| Failure Mode | Recovery Time | Procedure |
-|--------------|--------------|-----------|
-| **Server failure** | 2-4 hours | Provision new server, restore from backup |
-| **Database corruption** | 1-2 hours | Stop services, restore from backup, verify integrity |
-| **Accidental deletion** | Minutes | Soft-delete recovery from database |
-| **Domain loss** | Hours-Days | Contact LK domain registry with proof of ownership |
-| **R2 failure** | Hours | Restore from secondary backup |
-| **GitHub loss** | Hours | Every clone is a full copy; mirror to second location |
+|Failure Mode|Recovery Time|Procedure|
+|---|---|---|
+|**Server failure**|2-4 hours|Provision new server, restore from backup|
+|**Database corruption**|1-2 hours|Stop services, restore from backup, verify integrity|
+|**Accidental deletion**|Minutes|Restore from `ContentEntryVersion` snapshot; for anything merely archived (not deleted), `setStatus` back to published — there is no soft-delete column to recover from (see Task 6.1)|
+|**Domain loss**|Hours-Days|Contact LK domain registry with proof of ownership|
+|**R2 failure**|Hours|Restore from secondary backup|
+|**GitHub loss**|Hours|Every clone is a full copy; mirror to second location|
 
 Every recovery procedure must be tested before handover. A backup that has never been restored is not a backup.
 
@@ -2021,13 +1943,13 @@ Every recovery procedure must be tested before handover. A backup that has never
 
 Train 2-3 KITS members and at least 2 staff editors on the admin panel:
 
-| Module | Covered |
-|--------|---------|
-| News | Draft → Publish workflow |
-| Gallery | Uploading photos to albums |
-| Events | Creating and managing events |
-| Media Library | Uploading and using assets |
-| Audit Log | Understanding who changed what |
+|Module|Covered|
+|---|---|
+|News|Draft → Publish workflow|
+|Gallery|Uploading photos to albums|
+|Events|Creating and managing events|
+|Media Library|Uploading and using assets|
+|Audit Log|Understanding who changed what|
 
 Training must be recorded or documented step-by-step. Future staff must be able to train themselves from this documentation.
 
@@ -2096,13 +2018,13 @@ Seed the directory with 10-20 notable alumni profiles before launch to demonstra
 
 Formally hand over the platform to the school:
 
-| Item | Recipient |
-|------|-----------|
-| DNS management | School administration |
-| Hosting credentials | School administration |
-| R2 access | School administration |
-| GitHub repository ownership | School GitHub organisation |
-| Domain registrar credentials | School administration |
+|Item|Recipient|
+|---|---|
+|DNS management|School administration|
+|Hosting credentials|School administration|
+|R2 access|School administration|
+|GitHub repository ownership|School GitHub organisation|
+|Domain registrar credentials|School administration|
 
 Provide the school with a printed copy of the runbook and the disaster recovery plan. Conduct a final demonstration with the principal showing the complete platform.
 
@@ -2116,17 +2038,17 @@ Every task in this roadmap should be completed to one standard: no future develo
 
 That means:
 
-| Area | Standard |
-|------|----------|
-| Components | Correct TypeScript types |
-| Pages | Complete metadata |
-| Images | Alt text on every image |
-| Forms | Validation on both client and server |
-| Database | Error handling on every operation |
-| API | Authentication required where appropriate |
-| Deployment | Fully automated |
-| Secrets | In environment variables, never committed |
-| Decisions | Documented in ADRs |
+|Area|Standard|
+|---|---|
+|Components|Correct TypeScript types|
+|Pages|Complete metadata|
+|Images|Alt text on every image|
+|Forms|Validation on both client and server|
+|Database|Error handling on every operation|
+|API|Authentication required where appropriate|
+|Deployment|Fully automated|
+|Secrets|In environment variables, never committed|
+|Decisions|Documented in ADRs|
 
 This is not perfectionism for its own sake. It is the baseline quality required for a platform that will be maintained by multiple developers over many years without the original author present to explain decisions.
 
@@ -2136,23 +2058,39 @@ This is not perfectionism for its own sake. It is the baseline quality required 
 
 This timeline assumes work begins in June 2026:
 
-| Month | Focus Areas |
-|-------|-------------|
-| **June** | Phase 0-1 (Concept, Repository), Phase 2 (Design System) |
-| **July** | Phase 3 (Component Library), Phase 4 (Architecture Hardening) |
-| **August** | Phase 5 (Principal Presentation), Phase 6 (Database & Backend) |
-| **September** | Phase 7 (Admin Panel) |
-| **October** | Phase 8 (Public Pages), Phase 9 (PWA) |
-| **November** | Phase 10 (SEO), Phase 11 (Infrastructure) |
-| **December** | Phase 12 (Launch Preparation) |
-| **January** | Launch |
-| **February** | Phase 13 (Stabilisation) |
-| **March** | Phase 14 (Handover) |
+|Month|Focus Areas|
+|---|---|
+|**June**|Phase 0-1 (Concept, Repository), Phase 2 (Design System)|
+|**July**|Phase 3 (Component Library), Phase 4 (Architecture Hardening)|
+|**August**|Phase 5 (Principal Presentation), Phase 6 (Database & Backend)|
+|**September**|Phase 7 (Admin Panel)|
+|**October**|Phase 8 (Public Pages), Phase 9 (PWA)|
+|**November**|Phase 10 (SEO), Phase 11 (Infrastructure)|
+|**December**|Phase 12 (Launch Preparation)|
+|**January**|Launch|
+|**February**|Phase 13 (Stabilisation)|
+|**March**|Phase 14 (Handover)|
 
-*Adjust based on actual start date and available resources.*
+_Adjust based on actual start date and available resources._
 
 ---
 
 **C.W.W. Kannangara Central College, Est. 1873. "Wisdom is All Wealth."**
 
-*Nexus Platform — Kannangara ICT Society (KITS)*
+_Nexus Platform — Kannangara ICT Society (KITS)_
+
+---
+
+## Changelog
+
+**This revision** — audited against Feature Registry F-001–F-196 (source of truth) and corrected to match:
+
+- Removed six tasks describing features cut from scope entirely: the Page Configuration System (old Task 6.5), Page Configuration Module (old Task 7.10), Results Module (old Task 7.8), Results Portal and Results Portal Security & Privacy (old Tasks 8.9/8.9a). Every remaining task in Phases 6, 7, and 8 has been renumbered sequentially — task numbers referenced elsewhere in this document have been updated to match.
+- Renamed and rewrote the tasks that build the actual replacement system: `packages/validation` → `packages/contracts` (Task 4.1), `PageContent` → `ContentEntry` throughout (Task 6.8, formerly 6.5b; Task 7.9, formerly 7.10b; Task 8.3, formerly 8.2b).
+- Rewrote Task 6.1's schema table and Task 6.4/6.6's router table to reflect the actual current-vs-deferred split (F-056/F-057/F-064/F-068/F-069): only `User`, `ContentEntry`, `ContentEntryVersion`, and `SiteSetting` exist today; every other domain model and router is added alongside its own Phase 7 module, not built in one pass.
+- Rewrote Task 6.9/6.12's disaster-recovery language and Task 14.0b's accidental-deletion procedure to reflect status-based archiving (F-063) — there is no `deletedAt` soft-delete column.
+- Rewrote Task 7.11/7.10's Analytics Module to reflect the Umami-based approach (F-101/F-102) rather than a custom in-house event collector.
+- Repurposed Task 12.4a from a Results-Portal-specific PII review into a platform-wide one (Alumni Directory, Achievement Database, Digital Archive, Contact form, cookie consent).
+- Removed remaining scattered references to the cut Results Portal / `ExamResult` (Task 0.2 scope inventory, Task 4.2 error boundaries, Task 4.6 i18n feature areas, Task 3.9/3.2 component lists, Task 8.15 Academics Page, Task 10.2 JSON-LD, Task 10.3 sitemap, Task 12.4 security review, Task 13.2 analytics review, Task 14.0 content governance).
+- Fixed a dangling cross-reference to a non-existent "Task 4.3b" in Task 11.8's CSP row.
+- Updated the intro's registry range from "F-001 through F-181" to "F-001 through F-196," noting F-195/F-196 are appended past F-194 per the registry's stable-number rule rather than causing a renumber.
