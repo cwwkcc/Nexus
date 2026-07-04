@@ -11,11 +11,11 @@ Every page on Nexus serves a specific emotional and functional purpose. No page 
 
 **The three visitor types every page must serve:**
 
-| Visitor                | Primary need                                                                              |
-| ---------------------- | ----------------------------------------------------------------------------------------- |
-| **Parent**             | Evaluating the school for their child. Needs trust, clarity, and operational information. |
-| **Student**            | Curious about life at KCC. Needs belonging, inspiration, and identity.                    |
-| **Alumni / Community** | Reconnecting or engaging. Needs pride, continuity, and relevance.                         |
+|Visitor|Primary need|
+|---|---|
+|**Parent**|Evaluating the school for their child. Needs trust, clarity, and operational information.|
+|**Student**|Curious about life at KCC. Needs belonging, inspiration, and identity.|
+|**Alumni / Community**|Reconnecting or engaging. Needs pride, continuity, and relevance.|
 
 ---
 
@@ -31,13 +31,16 @@ Every page on Nexus serves a specific emotional and functional purpose. No page 
 /en/admissions         → Admissions
 /en/news               → News & Announcements
 /en/news/[slug]        → Full article page
-/en/results            → Results Portal
 /en/facilities         → Facilities
 /en/extracurriculars   → Extracurriculars
 /en/societies          → Societies Hub
 /en/societies/[slug]   → Individual society page
 /en/gallery            → Gallery
 /en/contact            → Contact
+/en/search             → Unified Search
+/en/achievements       → Achievement Database
+/en/alumni             → Alumni Directory
+/en/digital-archive    → Digital Archive
 ```
 
 All routes are prefixed with locale (`/en`, `/si`, `/ta`). English is the launch locale; Sinhala and Tamil infrastructure are ready.
@@ -80,35 +83,34 @@ interface HeroProps {
 
 ## Sitemap Priority (for `sitemap.xml`)
 
-| Route                               | Priority | Change frequency       |
-| ----------------------------------- | -------- | ---------------------- |
-| `/` (Home)                          | `1.0`    | weekly                 |
-| `/about`                            | `0.9`    | monthly                |
-| `/academics`                        | `0.9`    | monthly                |
-| `/admissions`                       | `0.9`    | weekly (during intake) |
-| `/news`                             | `0.8`    | daily                  |
-| `/societies/*` (individual society) | `0.7`    | monthly                |
-| `/gallery`                          | `0.6`    | monthly                |
-| `/contact`                          | `0.5`    | yearly                 |
+|Route|Priority|Change frequency|
+|---|---|---|
+|`/` (Home)|`1.0`|weekly|
+|`/about`|`0.9`|monthly|
+|`/academics`|`0.9`|monthly|
+|`/admissions`|`0.9`|weekly (during intake)|
+|`/news`|`0.8`|daily|
+|`/societies/*` (individual society)|`0.7`|monthly|
+|`/gallery`|`0.6`|monthly|
+|`/contact`|`0.5`|yearly|
 
 ---
 
 ## Page Status Tracking
 
-| Page             | Status           | Owner                               | Target completion |
-| ---------------- | ---------------- | ----------------------------------- | ----------------- |
-| Home             | Complete         | Administration + KITS               | v1.0              |
-| About            | Complete         | Administration                      | v1.0              |
-| Administration   | Planned          | Administration                      | v1.1              |
-| Academics        | Planned          | Academic Section Heads              | v1.1              |
-| Admissions       | Planned          | Admissions Office                   | v1.0              |
-| News             | Planned (CMS)    | Editorial Team                      | v1.0              |
-| Results          | Planned (secure) | Examinations Office                 | v1.1              |
-| Facilities       | Planned          | Administration                      | v1.1              |
-| Extracurriculars | Planned          | Sports / Cultural units             | v1.2              |
-| Societies Hub    | Planned          | Society Advisor + Student Committee | v1.1              |
-| Gallery          | Planned          | Media Unit                          | v1.2              |
-| Contact          | Complete         | Administration                      | v1.0              |
+|Page|Status|Owner|Target completion|
+|---|---|---|---|
+|Home|Complete|Administration + KITS|v1.0|
+|About|Complete|Administration|v1.0|
+|Administration|Planned|Administration|v1.1|
+|Academics|Planned|Academic Section Heads|v1.1|
+|Admissions|Planned|Admissions Office|v1.0|
+|News|Planned (CMS)|Editorial Team|v1.0|
+|Facilities|Planned|Administration|v1.1|
+|Extracurriculars|Planned|Sports / Cultural units|v1.2|
+|Societies Hub|Planned|Society Advisor + Student Committee|v1.1|
+|Gallery|Planned|Media Unit|v1.2|
+|Contact|Complete|Administration|v1.0|
 
 ---
 
@@ -138,18 +140,18 @@ interface HeroProps {
 
 ### Section Map
 
-| Section             | Component                                           | Content / Data                                                        | Visitor focus      |
-| ------------------- | --------------------------------------------------- | --------------------------------------------------------------------- | ------------------ |
-| Hero                | `Hero` (homepage variant)                           | Eyebrow, tagline, CTA buttons, optional video background              | All                |
-| Stats Strip         | `StatsStrip`                                        | Students, staff, years, university entrances (auto‑counting)          | Parents, alumni    |
-| Principal's Message | `PrincipalMessage`                                  | Portrait, name, tenure, quote, full message link                      | Parents, community |
-| Latest News         | `NewsCard` (featured + standard)                    | Latest 3 news items from CMS, linked to `/news`                       | All                |
-| Academic Streams    | `AcademicStreamCard` (grid of 4)                    | Science, Commerce, Arts, Technology – name, description, career paths | Students, parents  |
-| Life at KCC         | `LifeAtKCCPhotoStrip`                               | Horizontal scroll of photos (sports, events, performances, academic)  | Students, parents  |
-| Campus Showcase     | `PanoramicFacilityViewer` or `FacilityPreviewStrip` | Highlights of main building, library, swimming pool, sports ground    | Parents, alumni    |
-| Achievement Ticker  | `AchievementTicker`                                 | Marquee of recent achievements (e.g., “Gold Medal – SLIIT Codefest”)  | Alumni, parents    |
-| Societies Preview   | `SocietyCard` (hub‑grid, 3–4 featured)              | Society name, tagline, category, image                                | Students, alumni   |
-| Footer              | `Footer`                                            | Contact, links, social icons, copyright, built‑by KITS                | All                |
+|Section|Component|Content / Data|Visitor focus|
+|---|---|---|---|
+|Hero|`Hero` (homepage variant)|Eyebrow, tagline, CTA buttons, optional video background|All|
+|Stats Strip|`StatsStrip`|Students, staff, years, university entrances (auto‑counting)|Parents, alumni|
+|Principal's Message|`PrincipalMessage`|Portrait, name, tenure, quote, full message link|Parents, community|
+|Latest News|`NewsCard` (featured + standard)|Latest 3 news items from CMS, linked to `/news`|All|
+|Academic Streams|`AcademicStreamCard` (grid of 4)|Science, Commerce, Arts, Technology – name, description, career paths|Students, parents|
+|Life at KCC|`LifeAtKCCPhotoStrip`|Horizontal scroll of photos (sports, events, performances, academic)|Students, parents|
+|Campus Showcase|`PanoramicFacilityViewer` or `FacilityPreviewStrip`|Highlights of main building, library, swimming pool, sports ground|Parents, alumni|
+|Achievement Ticker|`AchievementTicker`|Marquee of recent achievements (e.g., “Gold Medal – SLIIT Codefest”)|Alumni, parents|
+|Societies Preview|`SocietyCard` (hub‑grid, 3–4 featured)|Society name, tagline, category, image|Students, alumni|
+|Footer|`Footer`|Contact, links, social icons, copyright, built‑by KITS|All|
 
 ---
 
@@ -171,19 +173,19 @@ interface HeroProps {
 
 ### Section Map
 
-| Section                                  | Component                          | Content / Data                                                                | Notes                                    |
-| ---------------------------------------- | ---------------------------------- | ----------------------------------------------------------------------------- | ---------------------------------------- |
-| Hero                                     | `Hero` (subpage variant)           | Eyebrow, title, subtitle, breadcrumb                                          | Glass overlay, optional background image |
-| Stats Strip                              | `StatsStrip`                       | Founded, students, staff, years – static stats                                | Count‑up animation on scroll             |
-| Founding Narrative                       | `OurStory` (custom block)          | Paragraph, quote (Dr. Kannangara)                                             | Uses `QuoteBlock`                        |
-| Dr. Kannangara                           | `OurNameSake` (custom block)       | Portrait, biography, quote                                                    | Two‑column layout                        |
-| Interactive Timeline                     | `Timeline`                         | Milestones from 1873 to present with era‑based image treatments               | Scroll‑snap horizontal                   |
-| Vision, Mission, Values                  | `Ethos` + `Values` (custom blocks) | Vision, mission, motto, core values (Wisdom, Integrity, Excellence, Service)  | Use `QuoteBlock`, `Grid`                 |
-| Crest Explained                          | `CrestDiagram`                     | Interactive annotated crest with hotspots (Lamp, Lotus, Dharmachakra, Laurel) | Mobile fallback to grid                  |
-| Alumni Legacy                            | `AlumniLegacyBlock`                | Carousel of alumni quotes, optional portrait, graduation year, position       | Filter by year                           |
-| Spirit of Kannangara / Physical Heritage | `Legacy` (custom block)            | Text + heritage photo grid                                                    | Two‑column on desktop                    |
-| School Anthem                            | `AudioPlayer`                      | Audio player with visualiser, lyrics (English + Sinhala), download link       | Ceremonial                               |
-| Closing Statement                        | `ClosingStatement` (custom block)  | Final reflective paragraph, gold rule, motto                                  | Centred, minimal                         |
+|Section|Component|Content / Data|Notes|
+|---|---|---|---|
+|Hero|`Hero` (subpage variant)|Eyebrow, title, subtitle, breadcrumb|Glass overlay, optional background image|
+|Stats Strip|`StatsStrip`|Founded, students, staff, years – static stats|Count‑up animation on scroll|
+|Founding Narrative|`OurStory` (custom block)|Paragraph, quote (Dr. Kannangara)|Uses `QuoteBlock`|
+|Dr. Kannangara|`OurNameSake` (custom block)|Portrait, biography, quote|Two‑column layout|
+|Interactive Timeline|`Timeline`|Milestones from 1873 to present with era‑based image treatments|Scroll‑snap horizontal|
+|Vision, Mission, Values|`Ethos` + `Values` (custom blocks)|Vision, mission, motto, core values (Wisdom, Integrity, Excellence, Service)|Use `QuoteBlock`, `Grid`|
+|Crest Explained|`CrestDiagram`|Interactive annotated crest with hotspots (Lamp, Lotus, Dharmachakra, Laurel)|Mobile fallback to grid|
+|Alumni Legacy|`AlumniLegacyBlock`|Carousel of alumni quotes, optional portrait, graduation year, position|Filter by year|
+|Spirit of Kannangara / Physical Heritage|`Legacy` (custom block)|Text + heritage photo grid|Two‑column on desktop|
+|School Anthem|`AudioPlayer`|Audio player with visualiser, lyrics (English + Sinhala), download link|Ceremonial|
+|Closing Statement|`ClosingStatement` (custom block)|Final reflective paragraph, gold rule, motto|Centred, minimal|
 
 ---
 
@@ -211,15 +213,15 @@ interface HeroProps {
 
 ### Section Map
 
-| Section                      | Component                           | Content / Data                                          |
-| ---------------------------- | ----------------------------------- | ------------------------------------------------------- |
-| Hero                         | `Hero` (subpage)                    | Eyebrow, title, subtitle, breadcrumb                    |
-| Institutional Statement      | `Text` (centred, short)             | One‑sentence philosophy of administration               |
-| Principal                    | `StaffCard` (principal variant)     | Portrait, name, title, tenure, quote, full message link |
-| Deputy Principals            | `StaffCard` (grid variant, 2‑3)     | Portrait, name, title, portfolio, tenure                |
-| Assistant Principals         | `StaffCard` (grid variant, up to 6) | Portrait, name, title, portfolio                        |
-| Head Prefects (Current Year) | `StaffCard` (compact variant, 2‑3)  | Name, title, portrait (optional)                        |
-| School Development Society   | `Text` + `Button`                   | Description, contact, link to SDS page                  |
+|Section|Component|Content / Data|
+|---|---|---|
+|Hero|`Hero` (subpage)|Eyebrow, title, subtitle, breadcrumb|
+|Institutional Statement|`Text` (centred, short)|One‑sentence philosophy of administration|
+|Principal|`StaffCard` (principal variant)|Portrait, name, title, tenure, quote, full message link|
+|Deputy Principals|`StaffCard` (grid variant, 2‑3)|Portrait, name, title, portfolio, tenure|
+|Assistant Principals|`StaffCard` (grid variant, up to 6)|Portrait, name, title, portfolio|
+|Head Prefects (Current Year)|`StaffCard` (compact variant, 2‑3)|Name, title, portrait (optional)|
+|School Development Society|`Text` + `Button`|Description, contact, link to SDS page|
 
 ---
 
@@ -232,10 +234,10 @@ interface HeroProps {
 **SEO metadata:**
 
 - Title pattern: `Academic Programmes – Science, Commerce, Arts, Technology`
-- Description: `Explore our A/L streams, subject offerings, career pathways, and outstanding examination results.`
+- Description: `Explore our A/L streams, subject offerings, career pathways, and academic excellence.`
 - Open Graph image: Students in lab or classroom.
 
-**Data sources:** Academic Programs admin screen for stream descriptions and subject lists — a fixed set of streams (Bio Science, Physical Science, Commerce, Arts, Technology) defined by the national A/L system, editable content only, no create/delete. Performance statistics (pass rates, university entrances) are computed live from `ExamResult` data, never manually entered, so they cannot drift from the Results Portal's own numbers. Revalidate daily.
+**Data sources:** Academic Programs admin screen for stream descriptions and subject lists — a fixed set of streams (Bio Science, Physical Science, Commerce, Arts, Technology) defined by the national A/L system, editable content only, no create/delete. There is no live performance-statistics feed (no pass rates, no university-entrance counts) — the exam results portal that would have backed such numbers was cut from scope entirely. Revalidate daily.
 
 **Loading / empty / error states:**
 
@@ -247,15 +249,15 @@ interface HeroProps {
 
 ### Section Map
 
-| Section                 | Component                        | Content / Data                                                                             |
-| ----------------------- | -------------------------------- | ------------------------------------------------------------------------------------------ |
-| Hero                    | `Hero` (subpage)                 | Eyebrow, title, subtitle, breadcrumb                                                       |
-| Academic Culture Intro  | `Text` (short)                   | Brief statement on holistic education (Head, Heart, Hand)                                  |
-| Four Stream Sections    | `AcademicStreamCard` (grid of 4) | Science, Commerce, Arts, Technology – each with subjects, career paths, entry requirements |
-| Stream Comparison Table | `StreamComparisonTable`          | Responsive table comparing streams (subjects, career paths, pass rates)                    |
-| Student Journey Flow    | `StudentJourneyFlow`             | Diagram from Grade 6 to A/L, showing streams and transitions                               |
-| Performance Statistics  | `StatsStrip` + `ProgressArc`     | Pass rates, university entrances, district ranking                                         |
-| Real Outcomes           | `AchievementCard` (archive‑post) | Testimonials or notable alumni outcomes (optional)                                         |
+|Section|Component|Content / Data|
+|---|---|---|
+|Hero|`Hero` (subpage)|Eyebrow, title, subtitle, breadcrumb|
+|Academic Culture Intro|`Text` (short)|Brief statement on holistic education (Head, Heart, Hand)|
+|Four Stream Sections|`AcademicStreamCard` (grid of 4)|Science, Commerce, Arts, Technology – each with subjects, career paths, entry requirements|
+|Stream Comparison Table|`StreamComparisonTable`|Responsive table comparing streams (subjects, career paths, pass rates)|
+|Student Journey Flow|`StudentJourneyFlow`|Diagram from Grade 6 to A/L, showing streams and transitions|
+|Performance Statistics|`StatsStrip` + `ProgressArc`|Pass rates, university entrances, district ranking|
+|Real Outcomes|`AchievementCard` (archive‑post)|Testimonials or notable alumni outcomes (optional)|
 
 ---
 
@@ -279,17 +281,17 @@ interface HeroProps {
 
 ### Section Map
 
-| Section                      | Component                         | Content / Data                                                               |
-| ---------------------------- | --------------------------------- | ---------------------------------------------------------------------------- |
-| Hero                         | `Hero` (subpage)                  | Eyebrow, title, subtitle, breadcrumb                                         |
-| Admissions Process Steps     | `AdmissionsProcessSteps`          | 4–5 steps (Apply Online → Interview → Documents → Acceptance)                |
-| Key Dates Timeline           | `AdmissionsKeyDatesTimeline`      | Vertical timeline with dates (applications open, deadline, interview dates)  |
-| Requirements Checklist       | `RequirementsChecklist`           | Printable checklist of required documents, with required/optional indicators |
-| Downloadable Documents       | `DownloadableDocumentItem` (list) | Application form, prospectus, fee structure (PDFs from R2)                   |
-| FAQ                          | `Accordion`                       | Common questions (age limits, scholarships, transport)                       |
-| Enquiry Form                 | `ContactForm` (or custom)         | Name, email, phone, message → Resend to admissions office                    |
-| Dedicated Admissions Contact | `Text` + `InlineLink`             | Phone, email, office hours                                                   |
-| Transport and Accessibility  | `Text` + `MapEmbed`               | School transport routes, accessibility features                              |
+|Section|Component|Content / Data|
+|---|---|---|
+|Hero|`Hero` (subpage)|Eyebrow, title, subtitle, breadcrumb|
+|Admissions Process Steps|`AdmissionsProcessSteps`|4–5 steps (Apply Online → Interview → Documents → Acceptance)|
+|Key Dates Timeline|`AdmissionsKeyDatesTimeline`|Vertical timeline with dates (applications open, deadline, interview dates)|
+|Requirements Checklist|`RequirementsChecklist`|Printable checklist of required documents, with required/optional indicators|
+|Downloadable Documents|`DownloadableDocumentItem` (list)|Application form, prospectus, fee structure (PDFs from R2)|
+|FAQ|`Accordion`|Common questions (age limits, scholarships, transport)|
+|Enquiry Form|`ContactForm` (or custom)|Name, email, phone, message → Resend to admissions office|
+|Dedicated Admissions Contact|`Text` + `InlineLink`|Phone, email, office hours|
+|Transport and Accessibility|`Text` + `MapEmbed`|School transport routes, accessibility features|
 
 ---
 
@@ -319,49 +321,18 @@ interface HeroProps {
 
 ### Section Map
 
-| Section                               | Component                                      | Content / Data                                                                           |
-| ------------------------------------- | ---------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| Announcement Banner                   | `AnnouncementBanner` (optional, dismissible)   | Urgent notice (e.g., “School reopens 5 May”) – controlled by CMS flag                    |
-| Featured Article                      | `NewsCard` (featured variant)                  | Latest post with `featured = true`, large image, excerpt                                 |
-| Filter Bar                            | `FilterBar` (category tabs)                    | Categories: All, Academic, Sports, Events, Achievements                                  |
-| Search Input                          | `SearchInput`                                  | Client‑side search on title + excerpt; results link to full article                      |
-| News Feed                             | `NewsCard` (standard variant) – paginated grid | 6–12 posts per page, with infinite scroll or pagination                                  |
-| Full Article Page (`/en/news/[slug]`) | `RichTextRenderer`                             | Tiptap JSON from the custom CMS; includes heading, body, images, captions, share buttons |
+|Section|Component|Content / Data|
+|---|---|---|
+|Announcement Banner|`AnnouncementBanner` (optional, dismissible)|Urgent notice (e.g., “School reopens 5 May”) – controlled by CMS flag|
+|Featured Article|`NewsCard` (featured variant)|Latest post with `featured = true`, large image, excerpt|
+|Filter Bar|`FilterBar` (category tabs)|Categories: All, Academic, Sports, Events, Achievements|
+|Search Input|`SearchInput`|Client‑side search on title + excerpt; results link to full article|
+|News Feed|`NewsCard` (standard variant) – paginated grid|6–12 posts per page, with infinite scroll or pagination|
+|Full Article Page (`/en/news/[slug]`)|`RichTextRenderer`|Tiptap JSON from the custom CMS; includes heading, body, images, captions, share buttons|
 
 ---
 
-## 07 – Results Portal (`/en/results`)
-
-**Purpose:** Allow students and parents to securely access exam results. High‑traffic resilience (results day).
-
-**Owner:** Examinations Office
-
-**SEO metadata:** Use `noindex` on search pages; index only landing page with descriptive title: `Results Portal – C.W.W. Kannangara Central College`
-
-**Data source:** PostgreSQL (exam records), PDFs stored in Cloudflare R2. Authentication optional (via index number + date of birth). No public login.
-
-**Loading / empty / error states:**
-
-- Loading: Spinner inside search button.
-- Empty (search returns no results): “No results found. Please check your index number and exam type.”
-- Error: “Failed to retrieve results. Please try again later or contact the examinations office.”
-
-**i18n keys:** `results.hero`, `results.search`, `results.examTypes`
-
-**Design mandate:** Minimalist, fast, secure. No decorative elements. Results display must be printable.
-
-### Section Map
-
-| Section              | Component                                                         | Content / Data                                                                   |
-| -------------------- | ----------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| Hero                 | `Hero` (minimal variant)                                          | Eyebrow, title, subtitle – no background image, just forest gradient             |
-| Results Search Block | `Select` (exam type) + `Input` (index number) + `Button` (search) | Form submission → server action → return result or error                         |
-| Results Display Card | `ResultsDisplay`                                                  | Student name, index number, exam type, year, subject grades, download PDF button |
-| Past Results Archive | `Accordion` (by year)                                             | Links to PDFs of past years’ results (summary statistics, not individual)        |
-
----
-
-## 08 – Facilities (`/en/facilities`)
+## 07 – Facilities (`/en/facilities`)
 
 **Purpose:** Trust‑building for parents evaluating the school. Every facility must feel like a _space_, not a bullet point.
 
@@ -389,21 +360,21 @@ interface HeroProps {
 
 One section per facility, repeated. Use `FacilityCard` (standard or schedule variant).
 
-| Facility                   | Special treatment                                             |
-| -------------------------- | ------------------------------------------------------------- |
-| Main Building and Grounds  | Standard card                                                 |
-| Science Laboratories       | Standard card                                                 |
-| ICT Laboratories           | Standard card                                                 |
-| Auditorium                 | Standard card                                                 |
-| Sports Grounds and Stadium | Standard card                                                 |
-| Swimming Pool              | `FacilityCard` (schedule variant) + `PanoramicFacilityViewer` |
-| Library                    | Standard card                                                 |
+|Facility|Special treatment|
+|---|---|
+|Main Building and Grounds|Standard card|
+|Science Laboratories|Standard card|
+|ICT Laboratories|Standard card|
+|Auditorium|Standard card|
+|Sports Grounds and Stadium|Standard card|
+|Swimming Pool|`FacilityCard` (schedule variant) + `PanoramicFacilityViewer`|
+|Library|Standard card|
 
 Each card includes: hero image, name, description, key features list, capacity/stats where relevant, link to detail page (optional).
 
 ---
 
-## 09 – Extracurriculars (`/en/extracurriculars`)
+## 08 – Extracurriculars (`/en/extracurriculars`)
 
 **Purpose:** Whole‑child development – Head, Heart, Hand made visible.
 
@@ -427,17 +398,17 @@ Each card includes: hero image, name, description, key features list, capacity/s
 
 ### Section Map
 
-| Category             | Component                                                     | Notes                                                 |
-| -------------------- | ------------------------------------------------------------- | ----------------------------------------------------- |
-| Hero                 | `Hero` (subpage)                                              | Eyebrow, title, subtitle, breadcrumb                  |
-| Sports               | `ExtracurricularCard` (sport variant) + `LifeAtKCCPhotoStrip` | Cricket, athletics, volleyball, etc.                  |
-| Performing Arts      | `ExtracurricularCard` (performing‑arts variant)               | Western band, Eastern band, drama, etc.               |
-| Scouts               | `ExtracurricularCard` (leadership variant)                    | History, President’s Award winners, teacher in charge |
-| National Cadet Corps | `ExtracurricularCard` (leadership variant)                    | Annual camps, achievements                            |
+|Category|Component|Notes|
+|---|---|---|
+|Hero|`Hero` (subpage)|Eyebrow, title, subtitle, breadcrumb|
+|Sports|`ExtracurricularCard` (sport variant) + `LifeAtKCCPhotoStrip`|Cricket, athletics, volleyball, etc.|
+|Performing Arts|`ExtracurricularCard` (performing‑arts variant)|Western band, Eastern band, drama, etc.|
+|Scouts|`ExtracurricularCard` (leadership variant)|History, President’s Award winners, teacher in charge|
+|National Cadet Corps|`ExtracurricularCard` (leadership variant)|Annual camps, achievements|
 
 ---
 
-## 10 – Societies Hub (`/en/societies`)
+## 09 – Societies Hub (`/en/societies`)
 
 **Purpose:** Showcase student‑led organisations. Encourage participation and belonging.
 
@@ -464,32 +435,32 @@ Each card includes: hero image, name, description, key features list, capacity/s
 
 ### Hub Page Section Map
 
-| Section          | Component                        | Content                                                                    |
-| ---------------- | -------------------------------- | -------------------------------------------------------------------------- |
-| Hero             | `Hero` (subpage)                 | Eyebrow, title, subtitle, breadcrumb                                       |
-| Society Grid     | `SocietyCard` (hub‑grid variant) | All societies, filterable by category (Academic, Sports, Arts, Technology) |
-| Featured Society | `SocietyCard` (featured variant) | KITS – highlighted at top or bottom of grid                                |
+|Section|Component|Content|
+|---|---|---|
+|Hero|`Hero` (subpage)|Eyebrow, title, subtitle, breadcrumb|
+|Society Grid|`SocietyCard` (hub‑grid variant)|All societies, filterable by category (Academic, Sports, Arts, Technology)|
+|Featured Society|`SocietyCard` (featured variant)|KITS – highlighted at top or bottom of grid|
 
 ### Individual Society Pages (`/en/societies/[slug]`)
 
 Mandatory sections (canonical order):
 
-| Section       | Component                                       | Content / Data                                |
-| ------------- | ----------------------------------------------- | --------------------------------------------- |
-| Banner        | `SocietyBanner`                                 | Full‑width image, society name, founding year |
-| About         | `Text` (rich)                                   | Purpose, activities, meeting schedule         |
-| Leadership    | `StaffCard` (grid variant)                      | Current committee – photo, name, role, tenure |
-| Membership    | `StatCard` (single)                             | Number of active members + how to join        |
-| Achievements  | `AchievementCard` (ticker‑item or archive‑post) | Notable wins, awards, records                 |
-| Recent Events | `EventCard` (compact or standard)               | Last 3 events with photos and recap           |
-| Gallery       | `MasonryGrid` + `Lightbox`                      | Photo grid from society events                |
-| How to Join   | `Text` + `Button` (link to form or contact)     | Process, contact person                       |
+|Section|Component|Content / Data|
+|---|---|---|
+|Banner|`SocietyBanner`|Full‑width image, society name, founding year|
+|About|`Text` (rich)|Purpose, activities, meeting schedule|
+|Leadership|`StaffCard` (grid variant)|Current committee – photo, name, role, tenure|
+|Membership|`StatCard` (single)|Number of active members + how to join|
+|Achievements|`AchievementCard` (ticker‑item or archive‑post)|Notable wins, awards, records|
+|Recent Events|`EventCard` (compact or standard)|Last 3 events with photos and recap|
+|Gallery|`MasonryGrid` + `Lightbox`|Photo grid from society events|
+|How to Join|`Text` + `Button` (link to form or contact)|Process, contact person|
 
 **KITS page special treatment:** Featured society card on hub, dedicated page with additional emphasis on tech achievements and Nexus.
 
 ---
 
-## 11 – Gallery (`/en/gallery`)
+## 10 – Gallery (`/en/gallery`)
 
 **Purpose:** Visual storytelling of school life. Celebratory and archival.
 
@@ -515,18 +486,18 @@ Mandatory sections (canonical order):
 
 ### Section Map
 
-| Section              | Component                    | Content                                                                     |
-| -------------------- | ---------------------------- | --------------------------------------------------------------------------- |
-| Hero                 | `Hero` (subpage)             | Eyebrow, title, subtitle, breadcrumb                                        |
-| Featured Albums Grid | `GalleryAlbumCard` (grid)    | Curated albums, filterable by category (Events, Sports, Academic, Cultural) |
-| Filter Bar           | `FilterBar` (category tabs)  | All, Events, Sports, Academic, Cultural                                     |
-| Photo Grid           | `MasonryGrid` + `ImageFrame` | Thumbnails from selected album, clicking opens `Lightbox`                   |
-| Lightbox             | `Lightbox`                   | Full‑screen image viewer with captions and navigation                       |
-| Video Section        | `VideoFrame` (embed)         | YouTube playlist embed of school event videos (optional)                    |
+|Section|Component|Content|
+|---|---|---|
+|Hero|`Hero` (subpage)|Eyebrow, title, subtitle, breadcrumb|
+|Featured Albums Grid|`GalleryAlbumCard` (grid)|Curated albums, filterable by category (Events, Sports, Academic, Cultural)|
+|Filter Bar|`FilterBar` (category tabs)|All, Events, Sports, Academic, Cultural|
+|Photo Grid|`MasonryGrid` + `ImageFrame`|Thumbnails from selected album, clicking opens `Lightbox`|
+|Lightbox|`Lightbox`|Full‑screen image viewer with captions and navigation|
+|Video Section|`VideoFrame` (embed)|YouTube playlist embed of school event videos (optional)|
 
 ---
 
-## 12 – Contact (`/en/contact`)
+## 11 – Contact (`/en/contact`)
 
 **Purpose:** Provide clear, accessible contact information for all stakeholders. Encourage enquiries and feedback.
 
@@ -546,19 +517,19 @@ Mandatory sections (canonical order):
 
 ### Section Map
 
-| Section                             | Component             | Content                                                                           |
-| ----------------------------------- | --------------------- | --------------------------------------------------------------------------------- |
-| Hero                                | `Hero` (subpage)      | Eyebrow, title, subtitle, breadcrumb                                              |
-| Department Contacts Table           | `DataTable`           | Department name, phone, email, extension                                          |
-| Google Maps Embed                   | `MapEmbed`            | Location of school, optional nearby note                                          |
-| General Enquiry Form                | `ContactForm`         | Name, email, subject, message → sent to info@cwwkcc.lk                            |
-| Feedback and Complaints Form        | `FeedbackForm`        | Name (optional), category, message, anonymous toggle → sent to principal's office |
-| Office Hours and Emergency Contacts | `Text` + `InlineLink` | Timings, emergency numbers, after‑hours protocol                                  |
-| Transport and Directions            | `Text`                | Bus routes, train station, parking, accessibility                                 |
+|Section|Component|Content|
+|---|---|---|
+|Hero|`Hero` (subpage)|Eyebrow, title, subtitle, breadcrumb|
+|Department Contacts Table|`DataTable`|Department name, phone, email, extension|
+|Google Maps Embed|`MapEmbed`|Location of school, optional nearby note|
+|General Enquiry Form|`ContactForm`|Name, email, subject, message → sent to info@cwwkcc.lk|
+|Feedback and Complaints Form|`FeedbackForm`|Name (optional), category, message, anonymous toggle → sent to principal's office|
+|Office Hours and Emergency Contacts|`Text` + `InlineLink`|Timings, emergency numbers, after‑hours protocol|
+|Transport and Directions|`Text`|Bus routes, train station, parking, accessibility|
 
 ---
 
-## 13 – 404 Page
+## 12 – 404 Page
 
 **Purpose:** Dignified interruption – consistent with identity, not a gimmick.
 
@@ -586,37 +557,36 @@ Mandatory sections (canonical order):
 
 The following content types must be defined in the custom CMS (PostgreSQL via Prisma, `packages/database`) to support the pages above:
 
-| Content type         | Used on pages                                                        |
-| -------------------- | -------------------------------------------------------------------- |
-| `newsArticle`        | Home, News                                                           |
-| `society`            | Home, Societies Hub, Society detail                                  |
-| `staffProfile`       | Administration, Society detail (leadership), About (alumni optional) |
-| `achievement`        | Home, About (alumni), Society detail                                 |
-| `facility`           | Facilities                                                           |
-| `extracurricular`    | Extracurriculars                                                     |
-| `galleryAlbum`       | Gallery                                                              |
-| `announcementBanner` | Home, News (optional)                                                |
+|Content type|Used on pages|
+|---|---|
+|`newsArticle`|Home, News|
+|`society`|Home, Societies Hub, Society detail|
+|`staffProfile`|Administration, Society detail (leadership), About (alumni optional)|
+|`achievement`|Home, About (alumni), Society detail|
+|`facility`|Facilities|
+|`extracurricular`|Extracurriculars|
+|`galleryAlbum`|Gallery|
+|`announcementBanner`|Home, News (optional)|
 
-Each content type must include appropriate fields (title, slug, body (Tiptap JSON), images, categories, dates, relationships). Detailed schemas are documented in `packages/validation` and `packages/database/prisma/schema.prisma`.
+Each content type must include appropriate fields (title, slug, body (Tiptap JSON), images, categories, dates, relationships). Detailed schemas are documented in `packages/contracts` and `packages/database/prisma/schema.prisma`.
 
 ---
 
 ## Dynamic Content & Data Fetching Notes
 
-| Page             | Data source                                                 | Revalidation strategy             |
-| ---------------- | ----------------------------------------------------------- | --------------------------------- |
-| Home             | Custom CMS (principal message, news, societies) + static    | ISR 1 hour, on‑demand for updates |
-| About            | Static (i18n) + CMS for alumni profiles                     | Static (build‑time)               |
-| Administration   | Staff Module (filtered query, no separate content type)     | On‑demand                         |
-| Academics        | Admin config (streams) + computed (stats from `ExamResult`) | Daily                             |
-| Admissions       | Static + CMS (documents)                                    | On‑demand for dates               |
-| News             | CMS                                                         | ISR 1 hour                        |
-| Results          | PostgreSQL + R2                                             | Real‑time (secure)                |
-| Facilities       | CMS                                                         | Daily                             |
-| Extracurriculars | CMS                                                         | Daily                             |
-| Societies        | CMS                                                         | Daily                             |
-| Gallery          | CMS + R2                                                    | Daily                             |
-| Contact          | Static + form handler                                       | N/A                               |
+|Page|Data source|Revalidation strategy|
+|---|---|---|
+|Home|Custom CMS (principal message, news, societies) + static|ISR 1 hour, on‑demand for updates|
+|About|`ContentEntry` (editorial content) + CMS for alumni profiles|Static (build‑time), tag-based revalidation on publish|
+|Administration|Staff Module (filtered query, no separate content type)|On‑demand|
+|Academics|Admin config (streams only — no live results-derived stats)|Daily|
+|Admissions|Static + CMS (documents)|On‑demand for dates|
+|News|CMS|ISR 1 hour|
+|Facilities|CMS|Daily|
+|Extracurriculars|CMS|Daily|
+|Societies|CMS|Daily|
+|Gallery|CMS + R2|Daily|
+|Contact|Static + form handler|N/A|
 
 ---
 
@@ -627,9 +597,22 @@ Placeholder links to design mockups (to be added once available):
 - [Homepage wireframe](https://claude.ai/chat/bd3a2f4a-fada-4cad-b465-362d416d5b50#)
 - [About page wireframe](https://claude.ai/chat/bd3a2f4a-fada-4cad-b465-362d416d5b50#)
 - [Admissions process](https://claude.ai/chat/bd3a2f4a-fada-4cad-b465-362d416d5b50#)
-- [Results portal](https://claude.ai/chat/bd3a2f4a-fada-4cad-b465-362d416d5b50#)
 - [Society page template](https://claude.ai/chat/bd3a2f4a-fada-4cad-b465-362d416d5b50#)
 
 ---
 
-_C.W.W. Kannangara Central College – Est. 1873 – Wisdom is All Wealth_ `
+_C.W.W. Kannangara Central College – Est. 1873 – Wisdom is All Wealth_
+
+---
+
+## Changelog
+
+**This revision** — audited against Feature Registry F-001–F-196 (source of truth):
+
+- Removed the entire "07 – Results Portal" page specification section. Sections 08–13 renumbered to 07–12.
+- Removed `/en/results` from the Route Structure list and the Results row from Page Status Tracking and the Dynamic Content & Data Fetching Notes table.
+- Fixed the Academics page spec (`## 04`) — removed the claim that performance statistics are "computed live from `ExamResult` data"; there is no live results feed. Softened the SEO description accordingly.
+- Fixed the About page's data-source description in the fetching notes table to say `ContentEntry` instead of "Static (i18n)," matching ADR-009.
+- Fixed a `packages/validation` reference to `packages/contracts`.
+- Removed the "Results portal" placeholder wireframe link.
+- Added routes for pages that exist in the Feature Registry but had no entry here: `/en/search`, `/en/achievements`, `/en/alumni`, `/en/digital-archive`. **Note:** these four pages still have no full page-specification section (Purpose/Owner/SEO/Data sources/Section Map) in this document — only Results had one, now removed. Writing those four from scratch wasn't attempted here since it means authoring new design decisions, not correcting stale ones; flagging as a follow-up.
