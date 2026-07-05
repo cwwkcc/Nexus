@@ -299,7 +299,7 @@ export const FOOTER_SEED_TA: FooterContentData = {
 
 // ─── Export all locales ──────────────────────────────────────────────────────
 
-export const FOOTER_SEED_ALL = {
+export const FOOTER_SEED = {
   en: FOOTER_SEED_EN,
   si: FOOTER_SEED_SI,
   ta: FOOTER_SEED_TA,

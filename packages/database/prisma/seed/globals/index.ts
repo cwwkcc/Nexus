@@ -1,18 +1,14 @@
-/**
- * packages/database/prisma/seed/globals/index.ts
- *
- * Seeds global content (navigation, footer) for all three locales.
- */
+// packages/database/prisma/seed/globals/index.ts
 
-import { FOOTER_SEED_ALL } from './footer.js';
+import { SUPPORTED_LOCALES } from '@nexus/contracts';
+
+import { FOOTER_SEED } from './footer.js';
 import { NAVIGATION_SEED } from './navigation.js';
 import type { PrismaClient } from '../../../src/generated/prisma/client.js';
 
-const LOCALES = ['en', 'si', 'ta'] as const;
-
 export async function seedGlobals(db: PrismaClient) {
-  for (const locale of LOCALES) {
-    // ─── Footer ──────────────────────────────────────────────────────────────
+  for (const locale of SUPPORTED_LOCALES) {
+    //  Footer
     await db.contentEntry.upsert({
       where: {
         scope_sectionKey_locale: {
@@ -22,7 +18,7 @@ export async function seedGlobals(db: PrismaClient) {
         },
       },
       update: {
-        data: FOOTER_SEED_ALL[locale] as object,
+        data: FOOTER_SEED[locale] as object,
         status: 'published',
       },
       create: {
@@ -30,14 +26,13 @@ export async function seedGlobals(db: PrismaClient) {
         sectionKey: 'footer.main',
         contentType: 'footer',
         locale,
-        data: FOOTER_SEED_ALL[locale] as object,
+        data: FOOTER_SEED[locale] as object,
         status: 'published',
         version: 1,
       },
     });
 
-    // ─── Navigation (English-only for now) ──────────────────────────────────
-    // Navigation stays English for all locales until translations are ready.
+    //  Navigation
     await db.contentEntry.upsert({
       where: {
         scope_sectionKey_locale: {
@@ -47,7 +42,7 @@ export async function seedGlobals(db: PrismaClient) {
         },
       },
       update: {
-        data: NAVIGATION_SEED as object,
+        data: NAVIGATION_SEED[locale] as object,
         status: 'published',
       },
       create: {
@@ -55,7 +50,7 @@ export async function seedGlobals(db: PrismaClient) {
         sectionKey: 'navigation.main',
         contentType: 'navigation',
         locale,
-        data: NAVIGATION_SEED as object,
+        data: NAVIGATION_SEED[locale] as object,
         status: 'published',
         version: 1,
       },
