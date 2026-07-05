@@ -13,14 +13,9 @@ import Values from '../../../blocks/about/Values';
 import {
   getAboutPageContent,
   type AboutPageContent,
-} from '../../../server/page-content';
+} from '../../../server/content';
 
 interface AboutPageProps {
-  // FIX: Next.js 15 makes `params` a Promise. This was typed as a plain
-  // object and read synchronously (`params.locale`), which either resolved
-  // to `undefined` or forced an implicit `any` depending on the Next
-  // version — either way the requested locale was never actually reaching
-  // getAboutPageContent.
   params: Promise<{ locale: string }>;
 }
 

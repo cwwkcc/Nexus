@@ -1,0 +1,12 @@
+<!-- apps/web/src/
+├── lib/                     # KEEP — for client + server shared utils
+│   ├── date-helpers.ts      # formatDateForLocale, etc. (used by both)
+│   ├── string-helpers.ts    # truncate, slugify, etc.
+│   └── ...
+├── server/                  # SERVER‑ONLY (must never import client hooks)
+│   ├── content/             # page/global data fetchers
+│   ├── lib/                 # server‑only helpers (CDN resolution, URL construction)
+│   │   └── cdn.ts           # resolve R2 key → CDN URL
+│   └── metadata/            # OG image generation
+│       └── default-og.tsx   # (moved from lib/default-og-image.tsx)
+└── app/                     # Next.js App Router -->
