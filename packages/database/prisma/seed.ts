@@ -2,16 +2,19 @@
  * packages/database/prisma/seed.ts
  *
  * Master database seeder.
- * Calls all individual seed modules in sequence.
+ * Imports all seed functions from the `seed/` directory and runs them in order.
  */
 
 import 'dotenv/config';
-
-import { seedAbout } from './seed-about.js';
+import { seedGlobals, seedPages } from './seed/index.js';
 import { db } from '../src/lib/db.js';
 
 async function main() {
-  await seedAbout(db);
+  // 1. Seed global content (navigation, footer)
+  await seedGlobals(db);
+
+  // 2. Seed page content (about, home, etc.)
+  await seedPages(db);
 }
 
 main()

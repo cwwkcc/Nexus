@@ -20,9 +20,9 @@
  *   await seedAbout(prisma);
  */
 
-import { PrismaClient } from '../src/generated/prisma/client.js';
+import { PrismaClient } from '../../../src/generated/prisma/client.js';
 import 'dotenv/config';
-import { db } from '../src/lib/db.js';
+import { db } from '../../../src/lib/db.js';
 
 // ---------------------------------------------------------------------------
 // Helpers
