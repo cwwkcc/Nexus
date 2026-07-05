@@ -68,7 +68,7 @@ curl https://admin.cwwkcc.lk/api/health
 - [ ] The admin panel loads (`https://admin.cwwkcc.lk`)
 - [ ] The home page loads correctly
 - [ ] A sample news article loads correctly
-- [ ] The results portal loads correctly
+- [ ] The digital archive loads correctly
 - [ ] The gallery loads correctly
 - [ ] The contact form works (test submission)
 - [ ] The search works (test a sample query)
@@ -128,3 +128,8 @@ docker compose up -d nexus-web nexus-admin
 
 ---
 
+---
+
+## Changelog
+
+**This revision** — replaced "The results portal loads correctly" with a digital archive check; the results portal was cut from scope.

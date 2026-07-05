@@ -19,13 +19,13 @@ Nexus is the official digital institution of C.W.W. Kannangara Central College. 
 
 ### What to Read First
 
-| Document | Why |
-|----------|-----|
-| [README.md](./README.md) | Project overview |
-| [Engineering-Roadmap.md](./Engineering-Roadmap.md) | Complete build plan |
-| [Feature-Registry.md](./Feature-Registry.md) | Complete feature list |
-| [Technical-Architecture.md](./Technical-Architecture.md) | System architecture |
-| [Design-System-Summary.md](./Design-System-Summary.md) | Visual identity |
+| Document                      | Why                   |
+| ----------------------------- | --------------------- |
+| [README.md]()                 | Project overview      |
+| [Engineering-Roadmap.md]()    | Complete build plan   |
+| [Feature-Registry.md]()       | Complete feature list |
+| [Technical-Architecture.md]() | System architecture   |
+| [Design-System-Summary.md]()  | Visual identity       |
 
 ---
 
@@ -34,7 +34,7 @@ Nexus is the official digital institution of C.W.W. Kannangara Central College. 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/kits/nexus.git
+git clone https://github.com/cwwkcc/nexus.git
 cd nexus
 ```
 
@@ -116,10 +116,14 @@ nexus/
 │   │   │   ├── tokens/          # Color, typography, spacing, etc.
 │   │   │   └── nexus-preset.ts  # Tailwind preset
 │   │   └── tokens.css           # Generated CSS custom properties
-│   ├── validation/              # Zod schemas
+│   ├── contracts/                # Zod schemas — validation + inferred types + registries
 │   │   └── src/
-│   │       ├── schemas/         # Domain entity schemas
-│   │       └── index.ts         # Public exports
+│   │       ├── core/             # Common primitives, cms, api, auth, permissions, storage
+│   │       ├── blocks/           # One schema per reusable content block (hero, richText, ...)
+│   │       ├── content/          # Editorial domain schemas (news, events, gallery, ...)
+│   │       ├── school/           # School-specific domain schemas
+│   │       ├── registry/         # Page Registry, Global Registry, Site Settings Registry
+│   │       └── index.ts          # Public exports
 │   ├── database/                # Prisma
 │   │   ├── prisma/
 │   │   │   ├── schema.prisma    # Database schema
@@ -158,7 +162,7 @@ nexus/
 ### Adding a New API Endpoint
 
 1. Add procedure to the appropriate router in `packages/api/src/routers/`
-2. Add validation schema to `packages/validation/src/schemas/`
+2. Add or reuse a schema in `packages/contracts/src/` — under `blocks/` for a content block type, `school/` or `content/` for a domain entity, `core/` for a shared primitive
 3. Use `protectedProcedure` or `adminProcedure` for authenticated endpoints
 
 ### Running Commands
@@ -223,7 +227,7 @@ pnpm prisma db seed
 
 - Use strict mode — no `any` without a very good reason
 - Infer types from Zod schemas using `z.infer<>`
-- Export types from `packages/validation` rather than redefining them
+- Export types from `packages/contracts` rather than redefining them
 
 ### Components
 
@@ -250,17 +254,17 @@ pnpm prisma db seed
 
 The project uses ADRs to document important technical decisions. Before making a significant architectural change, review the existing ADRs in `docs/adr/`:
 
-| ADR | Topic |
-|-----|-------|
-| ADR-001 | Monorepo Architecture |
-| ADR-002 | Next.js App Router |
-| ADR-003 | PostgreSQL Selection |
-| ADR-004 | tRPC Selection |
-| ADR-005 | Zod Validation Strategy |
-| ADR-006 | R2 Storage Selection |
-| ADR-007 | Analytics Strategy |
-| ADR-008 | Multilingual Font Architecture |
-| ADR-009 | Page Content Architecture |
+|ADR|Topic|
+|---|---|
+|ADR-001|Monorepo Architecture|
+|ADR-002|Next.js App Router|
+|ADR-003|PostgreSQL Selection|
+|ADR-004|tRPC Selection|
+|ADR-005|Zod Contracts Strategy|
+|ADR-006|R2 Storage Selection|
+|ADR-007|Analytics Strategy|
+|ADR-008|Multilingual Font Architecture|
+|ADR-009|ContentEntry Architecture|
 
 If you need to change a decision, write a new ADR explaining the reversal.
 
@@ -278,3 +282,14 @@ If you need to change a decision, write a new ADR explaining the reversal.
 **C.W.W. Kannangara Central College, Est. 1873. "Wisdom is All Wealth."**
 
 ---
+
+---
+
+## Changelog
+
+**This revision** — audited against Feature Registry F-001–F-196 (source of truth):
+
+- Fixed the repo directory tree — `packages/validation/src/schemas/` was renamed to `packages/contracts`, restructured into `core/`, `blocks/`, `content/`, `school/`, `registry/` (F-042–F-055), not a flat `schemas/` folder.
+- Fixed "Adding a New API Endpoint" step 2 to point at the correct `packages/contracts` subfolder.
+- Fixed the type-export guidance line to say `packages/contracts`.
+- Fixed the ADR reference table — ADR-005 is "Zod Contracts Strategy" and ADR-009 is "ContentEntry Architecture," matching the renamed files.

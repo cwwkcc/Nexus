@@ -6,15 +6,15 @@
 
 ## Table of Contents
 
-1. [Deploying Changes](#deploying-changes)
-2. [Rolling Back a Deployment](#rolling-back-a-deployment)
-3. [Restoring from Database Backup](#restoring-from-database-backup)
-4. [Adding a New Admin User](#adding-a-new-admin-user)
-5. [Adding a New Language](#adding-a-new-language)
-6. [Debugging a Failing API Route](#debugging-a-failing-api-route)
-7. [Renewing a TLS Certificate](#renewing-a-tls-certificate)
-8. [Scaling the Server](#scaling-the-server)
-9. [Monitoring Server Health](#monitoring-server-health)
+1. [Deploying Changes]
+2. [Rolling Back a Deployment]
+3. [Restoring from Database Backup]
+4. [Adding a New Admin User]
+5. [Adding a New Language]
+6. [Debugging a Failing API Route]
+7. [Renewing a TLS Certificate]
+8. [Scaling the Server]
+9. [Monitoring Server Health]
 
 ---
 
@@ -58,7 +58,7 @@ curl https://admin.cwwkcc.lk/api/health
 2. Check the admin panel loads: `https://admin.cwwkcc.lk`
 3. Check the health endpoints return `{"status":"ok"}`
 4. Check the database is accessible (visit any page that queries data)
-5. Check the results portal works (search for a known result)
+5. Check a `ContentEntry`-backed page renders its published content correctly (e.g. About page)
 
 ---
 
@@ -174,14 +174,14 @@ docker compose up -d
 
 ### Role Permissions
 
-| Permission | Admin | Editor |
-|------------|-------|--------|
-| Create/edit content | ✅ | ✅ |
-| Publish content | ✅ | ✅ |
-| Delete content | ✅ | ❌ |
-| Manage users | ✅ | ❌ |
-| Access settings | ✅ | ❌ |
-| View audit log | ✅ | ✅ |
+|Permission|Admin|Editor|
+|---|---|---|
+|Create/edit content|✅|✅|
+|Publish content|✅|✅|
+|Delete content|✅|❌|
+|Manage users|✅|❌|
+|Access settings|✅|❌|
+|View audit log|✅|✅|
 
 ---
 
@@ -195,25 +195,26 @@ docker compose up -d
 ### Procedure
 
 1. **Update the next-intl configuration**
-   - Add the new locale to `i18n/routing.ts`
-   - Add the locale to the `locales` array
-
+    
+    - Add the new locale to `i18n/routing.ts`
+    - Add the locale to the `locales` array
 2. **Add translation files**
-   - Create new JSON files in `apps/web/src/i18n/messages/[locale]/`
-   - Copy all keys from English and translate them
-   - Every key that exists in English must exist in the new locale
-
+    
+    - Create new JSON files in `apps/web/src/i18n/messages/[locale]/`
+    - Copy all keys from English and translate them
+    - Every key that exists in English must exist in the new locale
 3. **Add font support**
-   - Add the new script's fonts to `next/font` configuration
-   - Update the font stack in `packages/config`
-
+    
+    - Add the new script's fonts to `next/font` configuration
+    - Update the font stack in `packages/config`
 4. **Update the LanguageSwitcher component**
-   - Add the new language option
-
+    
+    - Add the new language option
 5. **Test thoroughly**
-   - Every page must work in the new locale
-   - Check for text overflow (some scripts take more space)
-   - Check for correct font rendering
+    
+    - Every page must work in the new locale
+    - Check for text overflow (some scripts take more space)
+    - Check for correct font rendering
 
 ---
 
@@ -247,12 +248,12 @@ docker compose restart nexus-web
 
 ### Common Issues
 
-| Symptom | Likely Cause | Solution |
-|---------|--------------|----------|
-| Database connection error | `DATABASE_URL` is wrong | Check environment variables |
-| Authentication error | Google OAuth misconfigured | Check `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` |
-| Image not loading | R2 bucket not accessible | Check R2 credentials and CORS configuration |
-| 404 on API route | tRPC router not registered | Check the router is exported and imported correctly |
+|Symptom|Likely Cause|Solution|
+|---|---|---|
+|Database connection error|`DATABASE_URL` is wrong|Check environment variables|
+|Authentication error|Google OAuth misconfigured|Check `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`|
+|Image not loading|R2 bucket not accessible|Check R2 credentials and CORS configuration|
+|404 on API route|tRPC router not registered|Check the router is exported and imported correctly|
 
 ---
 
@@ -283,11 +284,11 @@ curl -vI https://cwwkcc.lk
 
 ### Certificate Details
 
-| Detail | Value |
-|--------|-------|
-| Issuer | Let's Encrypt |
-| Renewal Frequency | 90 days (auto-renewal at 30 days) |
-| Domains | `cwwkcc.lk`, `admin.cwwkcc.lk` |
+|Detail|Value|
+|---|---|
+|Issuer|Let's Encrypt|
+|Renewal Frequency|90 days (auto-renewal at 30 days)|
+|Domains|`cwwkcc.lk`, `admin.cwwkcc.lk`|
 
 ---
 
@@ -297,7 +298,7 @@ curl -vI https://cwwkcc.lk
 
 - When traffic exceeds current capacity
 - When the database response times degrade
-- When the results portal is slow on results day
+- During a high-traffic event (news going viral, admissions period, open house)
 
 ### Scaling Options
 
@@ -321,7 +322,7 @@ curl -vI https://cwwkcc.lk
 1. Check the PostgreSQL slow query log
 2. Add database indexes for slow queries
 3. Increase connection pool size
-4. Consider read replicas for the results portal
+4. Consider read replicas if `ContentEntry` reads become a bottleneck (unlikely given tag-based caching, F-195)
 
 ---
 
@@ -329,11 +330,11 @@ curl -vI https://cwwkcc.lk
 
 ### Health Checks
 
-| Service | Check Command |
-|---------|---------------|
-| Public site | `curl -f https://cwwkcc.lk/api/health` |
-| Admin panel | `curl -f https://admin.cwwkcc.lk/api/health` |
-| Database | `docker compose exec postgres pg_isready` |
+|Service|Check Command|
+|---|---|
+|Public site|`curl -f https://cwwkcc.lk/api/health`|
+|Admin panel|`curl -f https://admin.cwwkcc.lk/api/health`|
+|Database|`docker compose exec postgres pg_isready`|
 
 ### Alerts
 
@@ -343,12 +344,12 @@ curl -vI https://cwwkcc.lk
 
 ### Common Issues and Solutions
 
-| Issue | Solution |
-|-------|----------|
-| High CPU usage | Check for a memory leak; restart the affected service |
-| High memory usage | Restart the affected service; consider upgrading server |
-| Slow page loads | Check database query performance; add indexes |
-| Out of disk space | Clean up old Docker images: `docker system prune` |
+|Issue|Solution|
+|---|---|
+|High CPU usage|Check for a memory leak; restart the affected service|
+|High memory usage|Restart the affected service; consider upgrading server|
+|Slow page loads|Check database query performance; add indexes|
+|Out of disk space|Clean up old Docker images: `docker system prune`|
 
 ---
 
@@ -356,3 +357,8 @@ curl -vI https://cwwkcc.lk
 
 ---
 
+---
+
+## Changelog
+
+**This revision** — audited against Feature Registry F-001–F-196 (source of truth): replaced three results-portal references (deployment verification step, scaling triggers, read-replica rationale) with equivalents that match the actual `ContentEntry`/tag-based-caching architecture (F-056, F-195); the results portal was cut from scope.
