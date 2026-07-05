@@ -1,13 +1,6 @@
-// packages/contracts/src/registry/globals/footer.ts
-//
-// Footer content schema. Mirrors packages/ui/src/components/layout/Footer.tsx,
-// which currently renders hardcoded defaults — this is the target shape for
-// when it's wired to ContentEntry (sectionKey 'footer.main', scope 'global:footer').
-//
-// Social icons are stored as a string key, not a component reference —
-// the @nexus/ui icon registry resolves the key to the actual icon.
-
 import { z } from 'zod';
+
+// ─── Schemas ────────────────────────────────────────────────────────────────
 
 export const FooterLinkSchema = z.object({
   id: z.string(),

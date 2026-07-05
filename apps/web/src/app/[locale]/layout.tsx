@@ -1,5 +1,5 @@
-import type { Locale } from '@nexus/contracts';
-import { cn, Footer, BackToTopButton } from '@nexus/ui';
+import { SUPPORTED_LOCALES, type Locale } from '@nexus/contracts';
+import { cn, BackToTopButton } from '@nexus/ui';
 import {
   Cormorant_Garamond,
   Cormorant_Upright,
@@ -13,8 +13,8 @@ import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 
+import { Footer } from '../../components/layout/Footer';
 import { routing } from '../../i18n/routing';
-import { getFooterContent } from '../../server/global-content';
 
 import '../global.css';
 
@@ -69,19 +69,14 @@ type Props = {
 
 export default async function LocaleLayout({ children, params }: Props) {
   const { locale } = await params;
-
+  const safeLocale: Locale = SUPPORTED_LOCALES.includes(locale as Locale)
+    ? (locale as Locale)
+    : 'en';
   if (!routing.locales.includes(locale as 'en' | 'si' | 'ta')) {
     notFound();
   }
 
   const messages = await getMessages();
-
-  // Global chrome content (nav + footer) now comes from ContentEntry
-  // (scope 'global:navigation' / 'global:footer') instead of living only
-  // as hardcoded defaults in @nexus/ui. If the DB has no published row yet
-  // (e.g. seed hasn't run), these resolve to `null` and the components
-  // below fall back to their own built-in defaults.
-  const [footer] = await Promise.all([getFooterContent(locale as Locale)]);
 
   return (
     <html lang={locale}>
@@ -102,15 +97,7 @@ export default async function LocaleLayout({ children, params }: Props) {
           {children}
         </NextIntlClientProvider>
         <BackToTopButton />
-        <Footer
-          schoolName={footer?.schoolName}
-          tagline={footer?.tagline}
-          contactLines={footer?.contactLines}
-          columns={footer?.columns}
-          socialLinks={footer?.socialLinks}
-          copyright={footer?.copyright}
-          legalLinks={footer?.legalLinks}
-        />
+        <Footer locale={safeLocale} />
       </body>
     </html>
   );

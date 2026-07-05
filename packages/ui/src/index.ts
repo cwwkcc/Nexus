@@ -93,7 +93,6 @@ export * from './components/icons';
 // ============================================================================
 export { Container } from './components/layout/Container';
 export { Divider } from './components/layout/Divider';
-export { Footer } from './components/layout/Footer';
 export { Grid, GridItem } from './components/layout/Grid';
 export { Hero } from './components/layout/Hero';
 export { MasonryGrid } from './components/layout/MasonryGrid';
