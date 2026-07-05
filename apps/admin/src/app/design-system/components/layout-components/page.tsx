@@ -6,7 +6,6 @@ import {
   Container,
   Divider,
   Drawer,
-  Footer,
   Grid,
   GridItem,
   Hero,
@@ -412,11 +411,6 @@ export default function LayoutComponentsPage() {
           <Drawer persistent size="sm" className="relative h-size-48">
             <div className="p-space-4">Persistent sidebar demo</div>
           </Drawer>
-        </DemoSection>
-
-        {/* Footer */}
-        <DemoSection title="Footer">
-          <Footer />
         </DemoSection>
 
         {/* Grid */}

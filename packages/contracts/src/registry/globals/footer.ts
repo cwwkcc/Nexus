@@ -30,10 +30,16 @@ export const FooterContactLineSchema = z.object({
 });
 export type FooterContactLine = z.infer<typeof FooterContactLineSchema>;
 
+export const FooterContactSchema = z.object({
+  title: z.string(),
+  lines: z.array(FooterContactLineSchema),
+});
+export type FooterContact = z.infer<typeof FooterContactSchema>;
+
 export const FooterContentSchema = z.object({
   schoolName: z.string(),
   tagline: z.string().optional(),
-  contactLines: z.array(FooterContactLineSchema).optional(),
+  contact: FooterContactSchema,
   columns: z.array(FooterColumnSchema),
   socialLinks: z.array(FooterSocialLinkSchema).optional(),
   copyright: z.string().optional(),

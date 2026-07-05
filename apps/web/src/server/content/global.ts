@@ -2,13 +2,14 @@ import { createServerCaller } from '@nexus/api';
 import type {
   FooterContentData,
   NavigationContentData,
+  Locale,
 } from '@nexus/contracts';
 import { cache } from 'react';
 
 // ─── Footer ─────────────────────────────────────────────────────────────────
 
 export const getFooterContent = cache(
-  async (locale: 'en' | 'si' | 'ta'): Promise<FooterContentData | null> => {
+  async (locale: Locale): Promise<FooterContentData | null> => {
     const sections = await createServerCaller().contentEntry.getByScope({
       scope: 'global:footer',
       locale,

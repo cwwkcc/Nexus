@@ -19,8 +19,6 @@ import {
 
 import { getFooterContent } from '@/server/content/global';
 
-// ─── Icon Resolution ────────────────────────────────────────────────────────
-
 type IconName = FooterSocialLink['icon'];
 
 const ICON_MAP: Record<IconName, React.ReactNode> = {
@@ -67,7 +65,7 @@ export async function Footer({ locale }: FooterProps) {
   const {
     schoolName,
     tagline,
-    contactLines,
+    contact,
     columns,
     socialLinks = [],
     copyright,
@@ -109,10 +107,10 @@ export async function Footer({ locale }: FooterProps) {
                     color="gold"
                     className="mb-space-3 text-center"
                   >
-                    Contact Us
+                    {contact.title}
                   </Heading>
                   <VStack as="ul" align="center" spacing={0}>
-                    {contactLines?.map((item) => (
+                    {contact.lines?.map((item) => (
                       <li key={item.label}>
                         {item.href ? (
                           <a href={item.href}>

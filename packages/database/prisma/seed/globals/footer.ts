@@ -5,14 +5,17 @@ import type { FooterContentData } from '@nexus/contracts';
 export const FOOTER_SEED_EN: FooterContentData = {
   schoolName: 'C.W.W. Kannangara Central College',
   tagline: '"Wisdom is All Wealth"',
-  contactLines: [
-    { label: 'Mathugama' },
-    { label: 'Kalutara District' },
-    { label: 'Western Province' },
-    { label: 'Sri Lanka' },
-    { label: '+94 123 456 789', href: 'tel:+94123456789' },
-    { label: 'info@cwwkcc.lk', href: 'mailto:info@cwwkcc.lk' },
-  ],
+  contact: {
+    title: 'Contact Us',
+    lines: [
+      { label: 'Mathugama' },
+      { label: 'Kalutara District' },
+      { label: 'Western Province' },
+      { label: 'Sri Lanka' },
+      { label: 'info@cwwkcc.lk', href: 'mailto:info@cwwkcc.lk' },
+      { label: '+94 123 456 789', href: 'tel:+94123456789' },
+    ],
+  },
   columns: [
     {
       id: 'the-school',
@@ -101,14 +104,17 @@ export const FOOTER_SEED_EN: FooterContentData = {
 export const FOOTER_SEED_SI: FooterContentData = {
   schoolName: 'කන්නන්ගර මධ්‍ය මහා විද්‍යාලය',
   tagline: '"සුඛෝ පඤ්ඤාය පඨිලාභෝ"',
-  contactLines: [
-    { label: 'මතුගම' },
-    { label: 'කළුතර දිස්ත්‍රික්කය' },
-    { label: 'බස්නාහිර පළාත' },
-    { label: 'ශ්‍රී ලංකාව' },
-    { label: '+94 123 456 789', href: 'tel:+94123456789' },
-    { label: 'info@cwwkcc.lk', href: 'mailto:info@cwwkcc.lk' },
-  ],
+  contact: {
+    title: 'අප අමතන්න',
+    lines: [
+      { label: 'මතුගම' },
+      { label: 'කළුතර දිස්ත්‍රික්කය' },
+      { label: 'බස්නාහිර පළාත' },
+      { label: 'ශ්‍රී ලංකාව' },
+      { label: '+94 123 456 789', href: 'tel:+94123456789' },
+      { label: 'info@cwwkcc.lk', href: 'mailto:info@cwwkcc.lk' },
+    ],
+  },
   columns: [
     {
       id: 'the-school',
@@ -197,14 +203,17 @@ export const FOOTER_SEED_SI: FooterContentData = {
 export const FOOTER_SEED_TA: FooterContentData = {
   schoolName: 'C.W.W. Kannangara Central College',
   tagline: '"Wisdom is All Wealth"',
-  contactLines: [
-    { label: 'Mathugama' },
-    { label: 'Kalutara District' },
-    { label: 'Western Province' },
-    { label: 'Sri Lanka' },
-    { label: '+94 123 456 789', href: 'tel:+94123456789' },
-    { label: 'info@cwwkcc.lk', href: 'mailto:info@cwwkcc.lk' },
-  ],
+  contact: {
+    title: 'Contact Us',
+    lines: [
+      { label: 'Mathugama' },
+      { label: 'Kalutara District' },
+      { label: 'Western Province' },
+      { label: 'Sri Lanka' },
+      { label: '+94 123 456 789', href: 'tel:+94123456789' },
+      { label: 'info@cwwkcc.lk', href: 'mailto:info@cwwkcc.lk' },
+    ],
+  },
   columns: [
     {
       id: 'the-school',
