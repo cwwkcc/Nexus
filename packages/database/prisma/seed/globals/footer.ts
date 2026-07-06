@@ -1,8 +1,12 @@
-import type { FooterContentData } from '@nexus/contracts';
+// packages/database/prisma/seed/globals/footer.ts
+
+import { type FooterContentData, Locale } from '@nexus/contracts';
+
+import type { PrismaClient } from '../../../src/generated/prisma/client.js';
 
 // ─── English Footer ──────────────────────────────────────────────────────────
 
-export const FOOTER_SEED_EN: FooterContentData = {
+const FOOTER_SEED_EN: FooterContentData = {
   schoolName: 'C.W.W. Kannangara Central College',
   tagline: '"Wisdom is All Wealth"',
   contact: {
@@ -101,7 +105,7 @@ export const FOOTER_SEED_EN: FooterContentData = {
 
 // ─── Sinhala Footer ──────────────────────────────────────────────────────────
 
-export const FOOTER_SEED_SI: FooterContentData = {
+const FOOTER_SEED_SI: FooterContentData = {
   schoolName: 'කන්නන්ගර මධ්‍ය මහා විද්‍යාලය',
   tagline: '"සුඛෝ පඤ්ඤාය පඨිලාභෝ"',
   contact: {
@@ -198,9 +202,9 @@ export const FOOTER_SEED_SI: FooterContentData = {
   ],
 };
 
-// ─── Tamil Footer (English placeholder — ready for translation) ─────────────
+// ─── Tamil Footer ──────────────────────────────────────────────────────────
 
-export const FOOTER_SEED_TA: FooterContentData = {
+const FOOTER_SEED_TA: FooterContentData = {
   schoolName: 'C.W.W. Kannangara Central College',
   tagline: '"Wisdom is All Wealth"',
   contact: {
@@ -297,10 +301,51 @@ export const FOOTER_SEED_TA: FooterContentData = {
   ],
 };
 
-// ─── Export all locales ──────────────────────────────────────────────────────
+// Helpers
 
-export const FOOTER_SEED = {
+const FOOTER_SEED = {
   en: FOOTER_SEED_EN,
   si: FOOTER_SEED_SI,
   ta: FOOTER_SEED_TA,
 };
+
+const SCOPE = 'global:footer';
+const STATUS = 'published';
+const CONTENT_TYPE = 'footer';
+const SECTION_KEY = 'footer.main';
+
+export async function seedFooter(
+  db: PrismaClient,
+  locales: readonly Locale[],
+): Promise<void> {
+  for (const locale of locales) {
+    const localeData = FOOTER_SEED[locale];
+    if (!localeData) continue;
+
+    const payload = {
+      scope: SCOPE,
+      sectionKey: SECTION_KEY,
+      locale,
+      status: STATUS,
+      data: localeData as object,
+      contentType: CONTENT_TYPE,
+      version: 1,
+    };
+
+    await db.contentEntry.upsert({
+      where: {
+        scope_sectionKey_locale: {
+          scope: payload.scope,
+          sectionKey: payload.sectionKey,
+          locale: payload.locale,
+        },
+      },
+      update: {
+        data: payload.data,
+        contentType: payload.contentType,
+        status: payload.status,
+      },
+      create: payload,
+    });
+  }
+}

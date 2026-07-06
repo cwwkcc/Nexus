@@ -1,6 +1,10 @@
-import type { NavigationContentData } from '@nexus/contracts';
+// packages/database/prisma/seed/globals/navigation.ts
 
-export const NAVIGATION_SEED_EN: NavigationContentData = {
+import type { NavigationContentData, Locale } from '@nexus/contracts';
+
+import type { PrismaClient } from '../../../src/generated/prisma/client.js';
+
+const NAVIGATION_SEED_EN: NavigationContentData = {
   links: [
     { id: 'about', label: 'About', href: '/about' },
     { id: 'academics', label: 'Academics', href: '/academics' },
@@ -13,7 +17,7 @@ export const NAVIGATION_SEED_EN: NavigationContentData = {
   ],
 };
 
-export const NAVIGATION_SEED_SI: NavigationContentData = {
+const NAVIGATION_SEED_SI: NavigationContentData = {
   links: [
     { id: 'about', label: 'පිළිබඳව', href: '/about' },
     { id: 'academics', label: 'අධ්‍යාපනික', href: '/academics' },
@@ -26,7 +30,7 @@ export const NAVIGATION_SEED_SI: NavigationContentData = {
   ],
 };
 
-export const NAVIGATION_SEED_TA: NavigationContentData = {
+const NAVIGATION_SEED_TA: NavigationContentData = {
   links: [
     { id: 'about', label: 'பற்றி', href: '/about' },
     { id: 'academics', label: 'கல்வித்துறை', href: '/academics' },
@@ -39,8 +43,51 @@ export const NAVIGATION_SEED_TA: NavigationContentData = {
   ],
 };
 
-export const NAVIGATION_SEED = {
+const NAVIGATION_SEED = {
   en: NAVIGATION_SEED_EN,
   si: NAVIGATION_SEED_SI,
   ta: NAVIGATION_SEED_TA,
 };
+
+// Helpers
+
+const SCOPE = 'global:navigation';
+const STATUS = 'published';
+const CONTENT_TYPE = 'navigation';
+const SECTION_KEY = 'navigation.main';
+
+export async function seedNavigation(
+  db: PrismaClient,
+  locales: readonly Locale[],
+): Promise<void> {
+  for (const locale of locales) {
+    const localeData = NAVIGATION_SEED[locale];
+    if (!localeData) continue;
+
+    const payload = {
+      scope: SCOPE,
+      sectionKey: SECTION_KEY,
+      locale,
+      status: STATUS,
+      data: localeData as object,
+      contentType: CONTENT_TYPE,
+      version: 1,
+    };
+
+    await db.contentEntry.upsert({
+      where: {
+        scope_sectionKey_locale: {
+          scope: payload.scope,
+          sectionKey: payload.sectionKey,
+          locale: payload.locale,
+        },
+      },
+      update: {
+        data: payload.data,
+        contentType: payload.contentType,
+        status: payload.status,
+      },
+      create: payload,
+    });
+  }
+}
