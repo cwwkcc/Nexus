@@ -1,46 +1,86 @@
-// packages/contracts/src/registry/pages/academics.ts
-//
-// Page registry for: Academics
-//
-// Should contain:
-//   academicsRegistry — PageRegistry object:
-//     page:        'academics'
-//     scope:       'page:academics'
-//     label:       'Academics'
-//     description: What this page is and who manages it
-//     sections:    SectionDefinition[] — one entry per block on this page
-//
-// Each SectionDefinition:
-//   key:         'academics.{sectionName}'  → stored as ContentEntry.sectionKey
-//   blockKey:    key from BLOCKS registry (e.g. 'hero', 'stats', 'timeline')
-//   label:       Section name shown in the admin editor
-//   description: Help text for content editors explaining what this section is
-//   schema:      The block schema — either a BLOCKS schema directly, or a
-//                page-specific extension: HeroSchema.extend({ extraField: z.string() })
-//
-// When adding a section:
-//   1. Add a SectionDefinition entry here
-//   2. Add seed data in packages/database/prisma/seed-academics.ts
-//   3. Update the page fetcher in apps/web/src/server/content.ts
-//   4. Build the block in apps/web/src/blocks/academics/
+import { z } from 'zod';
 
+import { CtaSchema, type CtaData } from '../../blocks/cta.ts';
+import { HeroSchema, type HeroData } from '../../blocks/hero.ts';
+import { StreamSchema, StreamComparisonSchema } from '../../school/academics/stream.ts';
 import type { PageRegistry } from '../types.js';
+
+export const AcademicsHeroSchema = HeroSchema;
+export type AcademicsHeroData = HeroData;
+
+export const AcademicsStreamCardsSchema = z.object({
+  eyebrow: z.string().optional(),
+  heading: z.string().optional(),
+  streams: z.array(StreamSchema),
+});
+export type AcademicsStreamCardsData = z.infer<typeof AcademicsStreamCardsSchema>;
+
+export const AcademicsStreamComparisonSchema = z.object({
+  eyebrow: z.string().optional(),
+  heading: z.string().optional(),
+  comparisons: z.array(StreamComparisonSchema),
+});
+export type AcademicsStreamComparisonData = z.infer<typeof AcademicsStreamComparisonSchema>;
+
+export const AcademicsDepartmentContactSchema = z.object({
+  id: z.string(),
+  department: z.string(),
+  headOfDepartment: z.string(),
+  email: z.string(),
+  phone: z.string().optional(),
+});
+export type AcademicsDepartmentContactData = z.infer<typeof AcademicsDepartmentContactSchema>;
+
+export const AcademicsContactsSchema = z.object({
+  eyebrow: z.string().optional(),
+  heading: z.string().optional(),
+  contacts: z.array(AcademicsDepartmentContactSchema),
+});
+export type AcademicsContactsData = z.infer<typeof AcademicsContactsSchema>;
+
+export const AcademicsCtaSchema = CtaSchema;
+export type AcademicsCtaData = CtaData;
 
 export const academicsRegistry: PageRegistry = {
   page: 'academics',
   scope: 'page:academics',
   label: 'Academics',
-  description: '', // TODO: add a description for the admin panel
+  description: 'Manage the Academic streams, comparisons, and department contacts.',
   sections: [
-    // TODO: add SectionDefinition entries as blocks are designed and built
-    //
-    // Example:
-    // {
-    //   key: 'academics.hero',
-    //   blockKey: 'hero',
-    //   label: 'Hero Banner',
-    //   description: 'Top-of-page headline and eyebrow text.',
-    //   schema: HeroSchema,
-    // },
+    {
+      key: 'academics.hero',
+      blockKey: 'hero',
+      label: 'Hero Banner',
+      description: 'Top-of-page headline and eyebrow text.',
+      schema: AcademicsHeroSchema,
+    },
+    {
+      key: 'academics.streams',
+      blockKey: 'richText', // Reusing a generic blockKey since it is a custom schema
+      label: 'Stream Cards',
+      description: 'Grid of academic stream cards.',
+      schema: AcademicsStreamCardsSchema,
+    },
+    {
+      key: 'academics.comparison',
+      blockKey: 'richText',
+      label: 'Stream Comparison',
+      description: 'Table comparing academic streams.',
+      schema: AcademicsStreamComparisonSchema,
+    },
+    {
+      key: 'academics.contacts',
+      blockKey: 'richText',
+      label: 'Department Contacts',
+      description: 'List of departmental contact information.',
+      schema: AcademicsContactsSchema,
+    },
+    {
+      key: 'academics.cta',
+      blockKey: 'cta',
+      label: 'Call to Action',
+      description: 'Call to action section at the bottom of the page.',
+      schema: AcademicsCtaSchema,
+    },
   ],
 };
