@@ -24,23 +24,51 @@
 //   3. Update the page fetcher in apps/web/src/server/content.ts
 //   4. Build the block in apps/web/src/blocks/contact/
 
+import {
+  ContactInfoBlockSchema,
+  type ContactInfoBlockData,
+} from '../../blocks/contact-info.ts';
+import { CtaSchema, type CtaData } from '../../blocks/cta.ts';
+import { HeroSchema, type HeroData } from '../../blocks/hero.ts';
 import type { PageRegistry } from '../types.js';
+
+export const ContactHeroSchema = HeroSchema;
+export type ContactHeroData = HeroData;
+
+export const ContactInfoSchema = ContactInfoBlockSchema;
+export type ContactInfoData = ContactInfoBlockData;
+
+export const ContactCtaSchema = CtaSchema;
+export type ContactCtaData = CtaData;
 
 export const contactRegistry: PageRegistry = {
   page: 'contact',
   scope: 'page:contact',
   label: 'Contact',
-  description: '', // TODO: add a description for the admin panel
+  description:
+    'Manage the Contact page content, including hero, contact details, and enquiry CTA.',
   sections: [
-    // TODO: add SectionDefinition entries as blocks are designed and built
-    //
-    // Example:
-    // {
-    //   key: 'contact.hero',
-    //   blockKey: 'hero',
-    //   label: 'Hero Banner',
-    //   description: 'Top-of-page headline and eyebrow text.',
-    //   schema: HeroSchema,
-    // },
+    {
+      key: 'contact.hero',
+      blockKey: 'hero',
+      label: 'Hero Banner',
+      description: 'Top-of-page headline and eyebrow text.',
+      schema: ContactHeroSchema,
+    },
+    {
+      key: 'contact.info',
+      blockKey: 'contact-info',
+      label: 'Contact Information',
+      description:
+        'School contact details, address, admissions contact and map.',
+      schema: ContactInfoSchema,
+    },
+    {
+      key: 'contact.cta',
+      blockKey: 'cta',
+      label: 'Call to Action',
+      description: 'Bottom of page call-to-action for enquiries.',
+      schema: ContactCtaSchema,
+    },
   ],
 };
