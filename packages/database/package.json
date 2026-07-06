@@ -28,7 +28,8 @@
     "dotenv": "16.4.7",
     "prisma": "7.8.0",
     "tslib": "^2.3.0",
-    "@nexus/contracts": "workspace:*"
+    "@nexus/contracts": "workspace:*",
+    "@prisma/client": "7.8.0"
   },
   "devDependencies": {
     "prisma": "7.8.0"
