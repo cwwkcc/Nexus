@@ -1,8 +1,9 @@
 // Unit tests for useCountUp hook (F-124)
 // Tests animation logic, start/end values, duration handling.
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+
 import { useCountUp } from '../hooks/useCountUp';
 
 describe('useCountUp', () => {

@@ -1,8 +1,9 @@
 // Unit tests for useInView hook (F-124)
 // Tests IntersectionObserver wiring with mock.
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook } from '@testing-library/react';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+
 import { useInView } from '../hooks/useInView';
 
 describe('useInView', () => {
