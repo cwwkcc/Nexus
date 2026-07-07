@@ -8,19 +8,30 @@ datasource db {
   provider = "postgresql"
 }
 
+enum Locale {
+  en
+  si
+  ta
+}
 
+enum ContentStatus {
+  draft
+  published
+  archived
+}
 
 model ContentEntry {
   id          String   @id @default(cuid())
   scope       String   
   sectionKey  String   
+  locale      Locale   
   contentType String   
-  locale      String   
-  status      String   @default("draft")
+  status      ContentStatus   @default(draft)
   data        Json
   version     Int      @default(1)
   updatedAt   DateTime @updatedAt
   updatedBy   String? 
+
   versions    ContentEntryVersion[]
 
   @@unique([scope, sectionKey, locale])
@@ -37,12 +48,12 @@ model ContentEntryVersion {
   changedAt      DateTime     @default(now())
   changedBy      String?
 
-  @@index([contentEntryId, version])
+  @@unique([contentEntryId, version])
 }
 
 model SiteSetting {
   key       String   
-  locale    String 
+  locale    Locale 
   value     Json
   updatedAt DateTime @updatedAt
   updatedBy String?
