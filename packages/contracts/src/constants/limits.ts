@@ -1,0 +1,11 @@
+// packages/contracts/src/constants/limits.ts
+//
+// Pure compile-time constants that are not schemas and not runtime configuration.
+
+export const DEFAULT_PAGE_SIZE = 20;
+export const MAX_GALLERY_IMAGES = 50;
+export const MIN_PASSWORD_LENGTH = 8;
+export const DEFAULT_UPLOAD_LIMIT = 10 * 1024 * 1024; // 10MB in bytes
+export const MAX_RICH_TEXT_LENGTH = 100000;
+export const MAX_TITLE_LENGTH = 200;
+export const MAX_DESCRIPTION_LENGTH = 500;
