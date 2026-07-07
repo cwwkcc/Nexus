@@ -1,8 +1,12 @@
 // packages/contracts/src/blocks/contact-info.ts
+//
+// Contact information block.
 
 import { z } from 'zod';
+import { CONTACT_INFO_BLOCK } from './block-type.js';
 
-export const ContactInfoBlockSchema = z.object({
+export const ContactInfoSchema = z.object({
+  blockType: z.literal(CONTACT_INFO_BLOCK),
   address: z.object({
     street: z.string(),
     city: z.string(),
@@ -17,4 +21,4 @@ export const ContactInfoBlockSchema = z.object({
   mapEmbedUrl: z.string().optional(),
 });
 
-export type ContactInfoBlockData = z.infer<typeof ContactInfoBlockSchema>;
+export type ContactInfoData = z.infer<typeof ContactInfoSchema>;
