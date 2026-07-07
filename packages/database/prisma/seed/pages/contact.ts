@@ -1,3 +1,5 @@
+// packages/database/prisma/seed/pages/contact.ts
+
 import { SUPPORTED_LOCALES } from '@nexus/contracts';
 import type {
   ContactHeroData,
@@ -7,6 +9,8 @@ import type {
 
 import type { PrismaClient } from '../../../src/generated/prisma/client.js';
 
+// ─── Constants ────────────────────────────────────────────────────────────────
+
 const SCOPE = 'page:contact';
 const STATUS = 'published';
 
@@ -15,6 +19,8 @@ type ContactPageSeed = {
   info: ContactInfoData;
   cta: ContactCtaData;
 };
+
+// ─── English ──────────────────────────────────────────────────────────────────
 
 const CONTACT_SEED_EN: ContactPageSeed = {
   hero: {
@@ -50,7 +56,9 @@ const CONTACT_SEED_EN: ContactPageSeed = {
   },
 };
 
-const CONTACT_SEED_SI = {
+// ─── Sinhala ──────────────────────────────────────────────────────────────────
+
+const CONTACT_SEED_SI: ContactPageSeed = {
   hero: {
     eyebrow: 'සම්බන්ධ වන්න',
     title: 'අප අමතන්න',
@@ -58,10 +66,22 @@ const CONTACT_SEED_SI = {
       'අපගේ ඇතුළුකිරීම්, සහාය හෝ සාමාන්‍ය විමසීම් කණ්ඩායම සම්බන්ධ කරගන්න.',
   },
   info: {
-    ...CONTACT_SEED_EN.info,
+    address: {
+      street: 'Nexus College, 123 Kandy Road',
+      city: 'Kandy',
+      postalCode: '20000',
+      country: 'Sri Lanka',
+    },
+    phone: '+94 11 222 3333',
+    email: 'info@nexus.edu',
+    officeHours: 'සඳුදා – සිකුරාදා, 8:30 පෙ.ව – 4:30 ප.ව',
+    admissionsPhone: '+94 11 222 3334',
+    admissionsEmail: 'admissions@nexus.edu',
+    mapEmbedUrl:
+      'https://maps.google.com/maps?q=Kandy%20Sri%20Lanka&output=embed',
   },
   cta: {
-    eyebrow: 'දැනටමත් උපකාර අවශ්‍යද?',
+    eyebrow: 'දැන් උදව් අවශ්‍යද?',
     title: 'අපි උදව් කිරීමට සූදානම්',
     subtitle:
       'ඔබේ ප්‍රශ්නවලට පිළිතුරු දීමට සහ ඔබගේ අයදුම්පතට සහය වීමට අපගේ කණ්ඩායම සූදානම්යි.',
@@ -72,7 +92,9 @@ const CONTACT_SEED_SI = {
   },
 };
 
-const CONTACT_SEED_TA = {
+// ─── Tamil ──────────────────────────────────────────────────────────────────
+
+const CONTACT_SEED_TA: ContactPageSeed = {
   hero: {
     eyebrow: 'தொடர்பு கொள்ளுங்கள்',
     title: 'எங்களை தொடர்பு கொள்ளுங்கள்',
@@ -80,18 +102,38 @@ const CONTACT_SEED_TA = {
       'உங்கள் சேர்க்கை, ஆதரவு அல்லது பொது விசாரணைகளுக்காக எங்களை அணுகவும்.',
   },
   info: {
-    ...CONTACT_SEED_EN.info,
+    address: {
+      street: 'Nexus College, 123 Kandy Road',
+      city: 'Kandy',
+      postalCode: '20000',
+      country: 'Sri Lanka',
+    },
+    phone: '+94 11 222 3333',
+    email: 'info@nexus.edu',
+    officeHours: 'திங்கள் – வெள்ளி, 8:30 AM – 4:30 PM',
+    admissionsPhone: '+94 11 222 3334',
+    admissionsEmail: 'admissions@nexus.edu',
+    mapEmbedUrl:
+      'https://maps.google.com/maps?q=Kandy%20Sri%20Lanka&output=embed',
   },
   cta: {
     eyebrow: 'இப்போது உதவி தேவையா?',
-    title: 'நாம் உதவ தயாராக உள்ளோம்',
+    title: 'நாங்கள் உதவ தயாராக உள்ளோம்',
     subtitle:
-      'உங்கள் கேள்விகளுக்கு பதில் அளிக்கவும் மற்றும் உங்கள் விண்ணப்பத்திற்கு ஆதரவளிக்கவும் எங்கள் குழு தயாராக உள்ளது.',
+      'உங்கள் கேள்விகளுக்கு பதிலளிக்கவும் உங்கள் விண்ணப்பத்தை ஆதரிக்கவும் எங்கள் குழு தயாராக உள்ளது.',
     buttonLabel: 'சேர்க்கை மின்னஞ்சல்',
     buttonHref: 'mailto:admissions@nexus.edu',
     secondaryButtonLabel: 'எங்களை அழைக்கவும்',
     secondaryButtonHref: 'tel:+94112223334',
   },
+};
+
+// ─── Seed Function ────────────────────────────────────────────────────────────
+
+const SECTION_CONFIG = {
+  hero: { sectionKey: 'contact.hero', contentType: 'hero' },
+  info: { sectionKey: 'contact.info', contentType: 'contact-info' },
+  cta: { sectionKey: 'contact.cta', contentType: 'cta' },
 };
 
 const CONTACT_SEED = {
@@ -100,45 +142,37 @@ const CONTACT_SEED = {
   ta: CONTACT_SEED_TA,
 };
 
-const SECTION_CONFIG = {
-  hero: { sectionKey: 'contact.hero', contentType: 'hero' },
-  info: { sectionKey: 'contact.info', contentType: 'contact-info' },
-  cta: { sectionKey: 'contact.cta', contentType: 'cta' },
-};
-
 export async function seedContact(db: PrismaClient): Promise<void> {
   for (const locale of SUPPORTED_LOCALES) {
-    const localeData = CONTACT_SEED[locale as keyof typeof CONTACT_SEED];
+    const localeData = CONTACT_SEED[locale];
     if (!localeData) continue;
 
     for (const [sectionName, sectionData] of Object.entries(localeData)) {
       const config = SECTION_CONFIG[sectionName as keyof typeof SECTION_CONFIG];
       if (!config) continue;
 
-      const payload = {
-        scope: SCOPE,
-        sectionKey: config.sectionKey,
-        locale,
-        status: STATUS,
-        data: sectionData as object,
-        contentType: config.contentType,
-        version: 1,
-      };
-
       await db.contentEntry.upsert({
         where: {
           scope_sectionKey_locale: {
-            scope: payload.scope,
-            sectionKey: payload.sectionKey,
-            locale: payload.locale,
+            scope: SCOPE,
+            sectionKey: config.sectionKey,
+            locale,
           },
         },
         update: {
-          data: payload.data,
-          contentType: payload.contentType,
-          status: payload.status,
+          data: sectionData as object,
+          contentType: config.contentType,
+          status: STATUS,
         },
-        create: payload,
+        create: {
+          scope: SCOPE,
+          sectionKey: config.sectionKey,
+          contentType: config.contentType,
+          locale,
+          status: STATUS,
+          data: sectionData as object,
+          version: 1,
+        },
       });
     }
   }

@@ -308,7 +308,6 @@ const FOOTER_SEED = {
   si: FOOTER_SEED_SI,
   ta: FOOTER_SEED_TA,
 };
-
 const SCOPE = 'global:footer';
 const STATUS = 'published';
 const CONTENT_TYPE = 'footer';

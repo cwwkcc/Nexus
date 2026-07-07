@@ -1,17 +1,30 @@
 // packages/database/prisma/seed/pages/facilities.ts
 
 import { SUPPORTED_LOCALES } from '@nexus/contracts';
+import type {
+  FacilitiesHeroData,
+  FacilitiesStatsData,
+  FacilitiesGridData,
+  FacilitiesCtaData,
+} from '@nexus/contracts';
 
 import type { PrismaClient } from '../../../src/generated/prisma/client.js';
 
-// Helpers
+// ─── Constants ────────────────────────────────────────────────────────────────
 
 const SCOPE = 'page:facilities';
 const STATUS = 'published';
 
-// ─── English Facilities ───────────────────────────────────────────────────────
+type FacilitiesPageSeed = {
+  hero: FacilitiesHeroData;
+  stats: FacilitiesStatsData;
+  grid: FacilitiesGridData;
+  cta: FacilitiesCtaData;
+};
 
-const FACILITIES_SEED_EN = {
+// ─── English ──────────────────────────────────────────────────────────────────
+
+const FACILITIES_SEED_EN: FacilitiesPageSeed = {
   hero: {
     eyebrow: 'Campus Infrastructure',
     title: 'Our',
@@ -83,11 +96,7 @@ const FACILITIES_SEED_EN = {
         description:
           'A comprehensive library with over 15,000 books, digital resources, and quiet study areas.',
         capacity: '100 students',
-        features: [
-          '15,000+ books',
-          'Digital resources',
-          'Study areas',
-        ],
+        features: ['15,000+ books', 'Digital resources', 'Study areas'],
       },
       {
         id: 'auditorium',
@@ -95,11 +104,7 @@ const FACILITIES_SEED_EN = {
         description:
           'A 500-seat auditorium for assemblies, cultural events, and academic presentations.',
         capacity: '500 seats',
-        features: [
-          'Sound system',
-          'Stage lighting',
-          'Multi-purpose use',
-        ],
+        features: ['Sound system', 'Stage lighting', 'Multi-purpose use'],
       },
       {
         id: 'sports-complex',
@@ -107,11 +112,7 @@ const FACILITIES_SEED_EN = {
         description:
           'Comprehensive sports facilities including a cricket ground, football field, basketball courts, and more.',
         capacity: 'Multiple teams',
-        features: [
-          'Cricket ground',
-          'Football field',
-          'Basketball courts',
-        ],
+        features: ['Cricket ground', 'Football field', 'Basketball courts'],
       },
       {
         id: 'canteen',
@@ -137,15 +138,15 @@ const FACILITIES_SEED_EN = {
   },
 };
 
-// ─── Sinhala Facilities ───────────────────────────────────────────────────────
+// ─── Sinhala ──────────────────────────────────────────────────────────────────
 
-const FACILITIES_SEED_SI = {
+const FACILITIES_SEED_SI: FacilitiesPageSeed = {
   hero: {
-    eyebrow: 'පරිපාලන පහසුකම්',
+    eyebrow: 'උපකරණ සහ පහසුකම්',
     title: 'අපගේ',
     titleEm: 'පහසුකම්',
     subtitle:
-      'විද්‍යාලයේ නවීන ඉගෙනුම් පරිසරය සහ සිසුන්ගේ සමස්ත සංවර්ධනයට උපකාරී පහසුකම්.',
+      'විශිෂ්ටත්වය උත්තේජනය කිරීමට සහ සිසුන්ගේ පූර්ණ සංවර්ධනයට සහාය වීමට නිර්මාණය කර ඇති නවීන ඉගෙනුම් පරිසරයන්.',
   },
   stats: {
     stats: [
@@ -153,127 +154,107 @@ const FACILITIES_SEED_SI = {
         id: 'classrooms',
         target: 50,
         suffix: '+',
-        label: 'Classrooms',
-        description: 'Modern learning spaces',
+        label: 'පන්ති කාමර',
+        description: 'නවීන ඉගෙනුම් අවකාශයන්',
       },
       {
         id: 'labs',
         target: 10,
         suffix: '+',
-        label: 'Laboratories',
-        description: 'Science & computer labs',
+        label: 'විද්‍යාගාර',
+        description: 'විද්‍යා හා පරිගණක විද්‍යාගාර',
       },
       {
         id: 'library',
         target: 1,
-        label: 'Main Library',
-        description: '15,000+ books & resources',
+        label: 'ප්‍රධාන පුස්තකාලය',
+        description: 'පොත් 15,000+ හා සම්පත්',
       },
       {
         id: 'sports',
         target: 5,
-        label: 'Sports Facilities',
-        description: 'Grounds & courts',
+        label: 'ක්‍රීඩා පහසුකම්',
+        description: 'පිටි හා ක්‍රීඩාංගණ',
       },
     ],
   },
   grid: {
-    eyebrow: 'ඉගෙනුම් පරිසරය',
-    heading: 'ලෝක මට්ටමේ පහසුකම්',
+    eyebrow: 'ඉගෙනුම් අවකාශයන්',
+    heading: 'ලෝක මට්ටමේ යටිතල පහසුකම්',
     facilities: [
       {
         id: 'science-labs',
-        name: 'විද්‍යා පර්යේත්‍රාගාර',
+        name: 'විද්‍යා විද්‍යාගාර',
         description:
-          'නවීන උපකරණ සහ ආරක්ෂක විශේෂාංග සහිත භෞතික විද්‍යා, රසායන විද්‍යා සහ ජීව විද්‍යා පර්යේත්‍රාගාර.',
-        capacity: 'පර්යේත්‍රාගාරයකට සිසුන් 40',
-        features: [
-          'නවීන උපකරණ',
-          'ආරක්ෂක පියවර',
-          'ප්‍රායෝගික ඉගෙනුම',
-        ],
+          'නවීන උපකරණ සහ ආරක්ෂක විශේෂාංග සහිත භෞතික විද්‍යා, රසායන විද්‍යා සහ ජීව විද්‍යා විද්‍යාගාර.',
+        capacity: 'විද්‍යාගාරයකට සිසුන් 40ක්',
+        features: ['නවීන උපකරණ', 'ආරක්ෂක ප්‍රමිති', 'ප්‍රායෝගික ඉගෙනුම'],
       },
       {
         id: 'computer-labs',
-        name: 'පරිගණක පර්යේත්‍රාගාර',
+        name: 'පරිගණක විද්‍යාගාර',
         description:
-          'ඉහළ වේග අන්තර්ජාලය සහ නවීනතම මෘදුකාංග සහිත පරිගණක පර්යේත්‍රාගාර.',
-        capacity: 'පර්යේත්‍රාගාරයකට සිසුන් 30',
+          'අධිවේගී අන්තර්ජාලය සහ තොරතුරු තාක්ෂණ අධ්‍යාපනය සඳහා නවතම මෘදුකාංග සහිත පරිගණක විද්‍යාගාර.',
+        capacity: 'විද්‍යාගාරයකට සිසුන් 30ක්',
         features: [
-          'ඉහළ වේග අන්තර්ජාලය',
-          'නවීනතම මෘදුකාංග',
-          'KITS වැඩසටහන් කේන්ද්‍රය',
+          'අධිවේගී අන්තර්ජාලය',
+          'නවතම මෘදුකාංග',
+          'KITS වැඩසටහන් මධ්‍යස්ථානය',
         ],
       },
       {
         id: 'library',
         name: 'ප්‍රධාන පුස්තකාලය',
         description:
-          'පොත් 15,000කට වැඩි, ඩිජිටල් සම්පත් සහ නිශ්ශබ්ද අධ්‍යයන ක්ෂේත්‍ර සහිත පුස්තකාලය.',
-        capacity: 'සිසුන් 100',
-        features: [
-          'පොත් 15,000+',
-          'ඩිජිටල් සම්පත්',
-          'අධ්‍යයන ක්ෂේත්‍ර',
-        ],
+          'පොත් 15,000කට වැඩි, ඩිජිටල් සම්පත් සහ නිශ්ශබ්ද අධ්‍යයන ප්‍රදේශ සහිත පුස්තකාලයකි.',
+        capacity: 'සිසුන් 100ක්',
+        features: ['පොත් 15,000+', 'ඩිජිටල් සම්පත්', 'අධ්‍යයන ප්‍රදේශ'],
       },
       {
         id: 'auditorium',
-        name: 'විද්‍යාල ශාලාව',
+        name: 'විද්‍යාල ශ්‍රවණාගාරය',
         description:
-          'රැස්වීම්, සංස්කෘතික කටයුතු සහ අධ්‍යාපනික ඉදිරිපත් කිරීම් සඳහා ආසන 500ක් සහිත ශාලාව.',
+          'රැස්වීම්, සංස්කෘතික උත්සව සහ අධ්‍යාපනික ඉදිරිපත් කිරීම් සඳහා ආසන 500ක ශ්‍රවණාගාරයකි.',
         capacity: 'ආසන 500',
-        features: [
-          'ශබ්ද පද්ධතිය',
-          'රංග ප්‍රදීපනය',
-          'බහු-උද්දේශක භාවිතය',
-        ],
+        features: ['ශබ්ද පද්ධතිය', 'වේදිකා ආලෝකකරණය', 'බහුකාර්ය භාවිතය'],
       },
       {
         id: 'sports-complex',
         name: 'ක්‍රීඩා සංකීර්ණය',
         description:
-          'ක්‍රිකට් ක්‍රීඩාංගණය, පැසිපන්බල් පිටිය, පැසිපන්බල් පිටි සහ තවත් බොහෝ දේ සහිත ක්‍රීඩා පහසුකම්.',
-        capacity: 'කණ්ඩායම් කිහිපයක්',
-        features: [
-          'ක්‍රිකට් ක්‍රීඩාංගණය',
-          'පැසිපන්බල් පිටිය',
-          'පැසිපන්බල් පිටි',
-        ],
+          'ක්‍රිකට් පිටිය, පාපන්දු පිටිය, පැසිපන්දු පිටි ඇතුළු පුළුල් ක්‍රීඩා පහසුකම්.',
+        capacity: 'කණ්ඩායම් බොහොමයක්',
+        features: ['ක්‍රිකට් පිටිය', 'පාපන්දු පිටිය', 'පැසිපන්දු පිටි'],
       },
       {
         id: 'canteen',
-        name: 'සිසු ආහාර ශාලාව',
+        name: 'ශිෂ්‍ය ආපන ශාලාව',
         description:
-          'සිසුන්ට සහ කාර්ය මණ්ඩලයට පෝෂක ආහාර සැපයීම සඳහා සෞඛ්‍ය සම්පන්න සහ පහසු මිල ආහාර සේවාව.',
-        capacity: 'සිසුන් 200',
-        features: [
-          'සෞඛ්‍ය සම්පන්න සකස් කිරීම',
-          'පහසු මිල',
-          'පෝෂක ආහාර',
-        ],
+          'සිසුන්ට සහ කාර්ය මණ්ඩලයට පෝෂ්‍යදායී ආහාර සපයන සනීපාරක්ෂක හා මිල අඩු ආහාර සේවාවකි.',
+        capacity: 'සිසුන් 200ක්',
+        features: ['සනීපාරක්ෂක සැකසුම', 'මිල අඩු', 'පෝෂ්‍යදායී ආහාර'],
       },
     ],
   },
   cta: {
-    eyebrow: 'අප හමුවන්න',
-    title: 'අපගේ විද්‍යාලය බලන්න',
+    eyebrow: 'අප බලන්න එන්න',
+    title: 'අපගේ විද්‍යාලය අත්දකින්න',
     subtitle:
-      'අපි අනාගත සිසුන් සහ දෙමාපියන්ට අපගේ විද්‍යාලය නැරඹීමට සහ අපගේ පහසුකම් දැක බැලීමට ආරාධනා කරමු.',
-    buttonLabel: 'සංචාරයක් සැකසීම',
+      'අනාගත සිසුන්ට සහ දෙමාපියන්ට අපගේ විද්‍යාලය නැරඹීමට සහ අපගේ පහසුකම් ස්වයංක්‍රීයව දැක බැලීමට අපි ආරාධනා කරමු.',
+    buttonLabel: 'සංචාරයක් සැලසුම් කරන්න',
     buttonHref: '/contact',
   },
 };
 
-// ─── Tamil Facilities ─────────────────────────────────────────────────────────
+// ─── Tamil ──────────────────────────────────────────────────────────────────
 
-const FACILITIES_SEED_TA = {
+const FACILITIES_SEED_TA: FacilitiesPageSeed = {
   hero: {
-    eyebrow: 'வளாகம் உள்கட்டமைப்பு',
+    eyebrow: 'வளாக உள்கட்டமைப்பு',
     title: 'எங்கள்',
     titleEm: 'வசதிகள்',
     subtitle:
-      'சிறப்பை ஊக்குவிக்கவும் மாணவர்களின் ஒட்டுமொத்த வளர்ச்சிக்கும் வடிவமைக்கப்பட்ட நவீன கற்றல் சூழல்கள்.',
+      'சிறப்பை ஊக்குவிக்கவும் மாணவர்களின் முழுமையான வளர்ச்சிக்கும் வடிவமைக்கப்பட்ட நவீன கற்றல் சூழல்கள்.',
   },
   stats: {
     stats: [
@@ -281,27 +262,27 @@ const FACILITIES_SEED_TA = {
         id: 'classrooms',
         target: 50,
         suffix: '+',
-        label: 'Classrooms',
-        description: 'Modern learning spaces',
+        label: 'வகுப்பறைகள்',
+        description: 'நவீன கற்றல் இடங்கள்',
       },
       {
         id: 'labs',
         target: 10,
         suffix: '+',
-        label: 'Laboratories',
-        description: 'Science & computer labs',
+        label: 'ஆய்வகங்கள்',
+        description: 'அறிவியல் & கணினி ஆய்வகங்கள்',
       },
       {
         id: 'library',
         target: 1,
-        label: 'Main Library',
-        description: '15,000+ books & resources',
+        label: 'முதன்மை நூலகம்',
+        description: '15,000+ புத்தகங்கள் & வளங்கள்',
       },
       {
         id: 'sports',
         target: 5,
-        label: 'Sports Facilities',
-        description: 'Grounds & courts',
+        label: 'விளையாட்டு வசதிகள்',
+        description: 'மைதானங்கள் & ஆடுகளங்கள்',
       },
     ],
   },
@@ -315,17 +296,13 @@ const FACILITIES_SEED_TA = {
         description:
           'நவீன உபகரணங்கள் மற்றும் பாதுகாப்பு அம்சங்களுடன் இயற்பியல், வேதியியல் மற்றும் உயிரியல் ஆய்வகங்கள்.',
         capacity: 'ஒரு ஆய்வகத்திற்கு 40 மாணவர்கள்',
-        features: [
-          'நவீன உபகரணங்கள்',
-          'பாதுகாப்பு இணக்கம்',
-          'நடைமுறை கற்றல்',
-        ],
+        features: ['நவீன உபகரணங்கள்', 'பாதுகாப்பு இணக்கம்', 'நடைமுறை கற்றல்'],
       },
       {
         id: 'computer-labs',
         name: 'கணினி ஆய்வகங்கள்',
         description:
-          'அதிவேக இணையம் மற்றும் ஐசிடி வகுப்புகளுக்கான புதிய மென்பொருள்களுடன் நவீன கணினி ஆய்வகங்கள்.',
+          'அதிவேக இணையம் மற்றும் ஐசிடி கல்விக்கான புதிய மென்பொருள்களுடன் நவீன கணினி ஆய்வகங்கள்.',
         capacity: 'ஒரு ஆய்வகத்திற்கு 30 மாணவர்கள்',
         features: [
           'அதிவேக இணையம்',
@@ -335,9 +312,9 @@ const FACILITIES_SEED_TA = {
       },
       {
         id: 'library',
-        name: 'முதன்மை புத்தகாலயம்',
+        name: 'முதன்மை நூலகம்',
         description:
-          '15,000 க்கும் மேற்பட்ட புத்தகங்கள், டிஜிட்டல் வளங்கள் மற்றும் அமைதியான படிப்பு பகுதிகளுடன் ஒரு விரிவான புத்தகாலயம்.',
+          '15,000 க்கும் மேற்பட்ட புத்தகங்கள், டிஜிட்டல் வளங்கள் மற்றும் அமைதியான படிப்பு பகுதிகளுடன் ஒரு விரிவான நூலகம்.',
         capacity: '100 மாணவர்கள்',
         features: [
           '15,000+ புத்தகங்கள்',
@@ -351,11 +328,7 @@ const FACILITIES_SEED_TA = {
         description:
           'கூட்டங்கள், கலாச்சார நிகழ்வுகள் மற்றும் கல்வி விளக்கக்காட்சிகளுக்கான 500 இருக்கைகள் கொண்ட அரங்கம்.',
         capacity: '500 இருக்கைகள்',
-        features: [
-          'ஒலி அமைப்பு',
-          'மேடை ஒளி',
-          'பல நோக்க பயன்பாடு',
-        ],
+        features: ['ஒலி அமைப்பு', 'மேடை ஒளி', 'பல நோக்க பயன்பாடு'],
       },
       {
         id: 'sports-complex',
@@ -373,13 +346,9 @@ const FACILITIES_SEED_TA = {
         id: 'canteen',
         name: 'மாணவர் உணவகம்',
         description:
-          'மாணவர்கள் மற்றும் ஊழியர்களுக்கு ஊட்டக்குழைப்பு உணவுகளை வழங்கும் சுகாதாரமான மற்றும் மலிவான உணவு சேவை.',
+          'மாணவர்கள் மற்றும் ஊழியர்களுக்கு சத்தான உணவுகளை வழங்கும் சுகாதாரமான மற்றும் மலிவான உணவு சேவை.',
         capacity: '200 மாணவர்கள்',
-        features: [
-          'சுகாதாரமான தயாரிப்பு',
-          'மலிவான விலை',
-          'ஊட்டக்குழைப்பு உணவு',
-        ],
+        features: ['சுகாதாரமான தயாரிப்பு', 'மலிவான விலை', 'சத்தான உணவு'],
       },
     ],
   },
@@ -387,27 +356,25 @@ const FACILITIES_SEED_TA = {
     eyebrow: 'எங்களை சந்திக்கவும்',
     title: 'எங்கள் வளாகத்தை அனுபவிக்கவும்',
     subtitle:
-      'எங்கள் வளாகத்தை பார்வையிட மற்றும் எங்கள் வசதிகளை நேரடியாகக் காண வரும் எதிர்கால மாணவர்கள் மற்றும் பெற்றோர்களை நாங்கள் வரவேற்கிறோம்.',
+      'எதிர்கால மாணவர்கள் மற்றும் பெற்றோர்கள் எங்கள் வளாகத்தை பார்வையிடவும், எங்கள் வசதிகளை நேரில் காணவும் நாங்கள் வரவேற்கிறோம்.',
     buttonLabel: 'ஒரு விஜயத்தை ஏற்பாடு செய்யவும்',
     buttonHref: '/contact',
   },
 };
 
-// Helpers
-
-const FACILITIES_SEED = {
-  en: FACILITIES_SEED_EN,
-  si: FACILITIES_SEED_SI,
-  ta: FACILITIES_SEED_TA,
-};
-
-// Seed function
+// ─── Seed Function ────────────────────────────────────────────────────────────
 
 const SECTION_CONFIG = {
   hero: { sectionKey: 'facilities.hero', contentType: 'hero' },
   stats: { sectionKey: 'facilities.stats', contentType: 'stats' },
   grid: { sectionKey: 'facilities.grid', contentType: 'facilitiesGrid' },
   cta: { sectionKey: 'facilities.cta', contentType: 'cta' },
+};
+
+const FACILITIES_SEED = {
+  en: FACILITIES_SEED_EN,
+  si: FACILITIES_SEED_SI,
+  ta: FACILITIES_SEED_TA,
 };
 
 export async function seedFacilities(db: PrismaClient): Promise<void> {
@@ -419,30 +386,28 @@ export async function seedFacilities(db: PrismaClient): Promise<void> {
       const config = SECTION_CONFIG[sectionName as keyof typeof SECTION_CONFIG];
       if (!config) continue;
 
-      const payload = {
-        scope: SCOPE,
-        sectionKey: config.sectionKey,
-        locale,
-        status: STATUS,
-        data: sectionData as object,
-        contentType: config.contentType,
-        version: 1,
-      };
-
       await db.contentEntry.upsert({
         where: {
           scope_sectionKey_locale: {
-            scope: payload.scope,
-            sectionKey: payload.sectionKey,
-            locale: payload.locale,
+            scope: SCOPE,
+            sectionKey: config.sectionKey,
+            locale,
           },
         },
         update: {
-          data: payload.data,
-          contentType: payload.contentType,
-          status: payload.status,
+          data: sectionData as object,
+          contentType: config.contentType,
+          status: STATUS,
         },
-        create: payload,
+        create: {
+          scope: SCOPE,
+          sectionKey: config.sectionKey,
+          contentType: config.contentType,
+          locale,
+          status: STATUS,
+          data: sectionData as object,
+          version: 1,
+        },
       });
     }
   }
