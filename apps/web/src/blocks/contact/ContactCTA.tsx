@@ -3,22 +3,22 @@ import { ButtonLink } from '@nexus/ui';
 
 export default function ContactCTA({ data }: { data: ContactCtaData }) {
   return (
-    <section className="py-24 bg-green-base text-center text-white overflow-hidden">
-      <div className="container mx-auto px-4 max-w-3xl">
+    <section className="py-space-24 bg-green-base text-center text-inverse overflow-hidden">
+      <div className="container mx-auto px-space-4 max-w-3xl">
         <div className="mb-8">
           <p className="text-sm font-semibold uppercase tracking-wider text-gold-base">
             {data.eyebrow}
           </p>
-          <h2 className="mt-4 text-4xl font-display font-bold md:text-5xl">
+          <h2 className="mt-space-4 text-4xl font-display font-bold md:text-5xl">
             {data.title}
           </h2>
           {data.subtitle && (
-            <p className="mt-4 text-lg font-light leading-relaxed text-white/90">
+            <p className="mt-space-4 text-lg font-light leading-relaxed text-white/90">
               {data.subtitle}
             </p>
           )}
         </div>
-        <div className="flex flex-col items-center justify-center gap-4 sm:flex-row sm:justify-center">
+        <div className="flex flex-col items-center justify-center gap-space-4 sm:flex-row sm:justify-center">
           <ButtonLink
             href={data.buttonHref}
             variant="primary"

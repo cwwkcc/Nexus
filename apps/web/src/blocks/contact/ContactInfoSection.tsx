@@ -17,12 +17,12 @@ export default function ContactInfoSection({
   } = data;
 
   return (
-    <section className="py-16 md:py-24">
-      <div className="container mx-auto px-4">
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_420px]">
+    <section className="py-space-16 md:py-space-24">
+      <div className="container mx-auto px-space-4">
+        <div className="grid gap-space-10 lg:grid-cols-[minmax(0,1fr)_420px]">
           <div>
-            <div className="mb-10 text-center lg:text-left">
-              <p className="mb-4 text-sm font-semibold uppercase tracking-wider text-green-base">
+            <div className="mb-space-10 text-center lg:text-left">
+              <p className="mb-space-4 text-sm font-semibold uppercase tracking-wider text-green-base">
                 Contact Details
               </p>
               <h2 className="text-3xl font-bold tracking-tight md:text-4xl text-text-primary font-display">
@@ -30,8 +30,8 @@ export default function ContactInfoSection({
               </h2>
             </div>
 
-            <div className="grid gap-8 sm:grid-cols-2">
-              <div className="rounded-3xl bg-surface-elevated border border-border-light p-8 shadow-sm">
+            <div className="grid gap-space-8 sm:grid-cols-2">
+              <div className="rounded-xl bg-surface-elevated border border-border-light p-8 shadow-sm">
                 <h3 className="mb-4 text-xl font-semibold text-text-primary">
                   School Address
                 </h3>
@@ -45,7 +45,7 @@ export default function ContactInfoSection({
                 </address>
               </div>
 
-              <div className="rounded-3xl bg-surface-elevated border border-border-light p-8 shadow-sm">
+              <div className="rounded-xl bg-surface-elevated border border-border-light p-8 shadow-sm">
                 <h3 className="mb-4 text-xl font-semibold text-text-primary">
                   General Enquiries
                 </h3>
@@ -85,7 +85,7 @@ export default function ContactInfoSection({
             </div>
 
             {(admissionsPhone || admissionsEmail) && (
-              <div className="mt-10 rounded-3xl bg-surface-elevated border border-border-light p-8 shadow-sm">
+              <div className="mt-space-10 rounded-3xl bg-surface-elevated border border-border-light p-8 shadow-sm">
                 <h3 className="mb-4 text-xl font-semibold text-text-primary">
                   Admissions
                 </h3>
