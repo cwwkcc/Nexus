@@ -1,20 +1,4 @@
 // apps/admin/src/app/content/[pageKey]/page.tsx
-//
-// Registry-driven page editor. Reads PAGE_REGISTRY for structure;
-// calls contentEntry.adminGetByScope for stored content (all statuses).
-//
-// URL: /admin/content/about  → About page editor
-//      /admin/content/home   → Home page editor (etc.)
-//
-// Each section card shows:
-//   - Section label + description
-//   - Status badge (draft / published / archived / empty)
-//   - Version number
-//   - JSON textarea (temporary — DynamicFormFields is Phase 2)
-//   - Save as Draft | Publish buttons
-//
-// Cache invalidation: revalidatePath() is called after every save so the
-// Next.js Data Cache for apps/web is busted immediately.
 
 import { createServerCaller } from '@nexus/api';
 import { PAGE_REGISTRY, getPageRegistry } from '@nexus/contracts';

@@ -1,8 +1,4 @@
 // apps/admin/src/app/content/page.tsx
-//
-// Content management landing page.
-// Lists all registered pages with fill-status indicators.
-// Clicking a page navigates to /admin/content/[pageKey].
 
 import { createServerCaller } from '@nexus/api';
 import { PAGE_REGISTRY } from '@nexus/contracts';
@@ -13,12 +9,8 @@ export const dynamic = 'force-dynamic';
 
 export default async function ContentIndexPage() {
   const caller = createServerCaller();
-
-  // Check fill status for all pages across all three locales.
-  // One DB query per page (not per section) — acceptable at this scale.
   const pageStatuses = await Promise.all(
     PAGE_REGISTRY.map(async (registry) => {
-      // Fetch published entries for EN (the baseline locale) to count sections.
       const enEntries = await caller.contentEntry.adminGetByScope({
         scope: registry.scope,
         locale: 'en',
