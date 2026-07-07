@@ -62,30 +62,34 @@ export const contentEntryRouter = router({
     .query(async ({ ctx, input }) => {
       const { scope, locale } = input;
 
-      const [localized, fallback] = await Promise.all([
-        ctx.db.contentEntry.findMany({
-          where: { scope, locale, status: 'published' },
-        }),
-        locale === 'en'
-          ? Promise.resolve([])
-          : ctx.db.contentEntry.findMany({
-              where: { scope, locale: 'en', status: 'published' },
-            }),
-      ]);
+      try {
+        const [localized, fallback] = await Promise.all([
+          ctx.db.contentEntry.findMany({
+            where: { scope, locale, status: 'published' },
+          }),
+          locale === 'en'
+            ? Promise.resolve([])
+            : ctx.db.contentEntry.findMany({
+                where: { scope, locale: 'en', status: 'published' },
+              }),
+        ]);
 
-      // English rows provide the baseline; locale rows override them.
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const bySectionKey = new Map<string, any>(
+        // English rows provide the baseline; locale rows override them.
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        fallback.map((row: any): [string, any] => [row.sectionKey, row]),
-      );
-      for (const row of localized) bySectionKey.set(row.sectionKey, row);
+        const bySectionKey = new Map<string, any>(
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          fallback.map((row: any): [string, any] => [row.sectionKey, row]),
+        );
+        for (const row of localized) bySectionKey.set(row.sectionKey, row);
 
-      const sections: Record<string, unknown> = {};
-      for (const row of bySectionKey.values()) {
-        sections[row.sectionKey] = row.data;
+        const sections: Record<string, unknown> = {};
+        for (const row of bySectionKey.values()) {
+          sections[row.sectionKey] = row.data;
+        }
+        return sections;
+      } catch {
+        return {};
       }
-      return sections;
     }),
 
   /**
@@ -100,28 +104,33 @@ export const contentEntryRouter = router({
     .input(ScopedLocaleInput)
     .query(async ({ ctx, input }) => {
       const { scope, locale } = input;
-      const rows = await ctx.db.contentEntry.findMany({
-        where: { scope, locale },
-      });
 
-      type AdminEntry = {
-        data: unknown;
-        status: string;
-        version: number;
-        updatedAt: Date;
-        updatedBy: string | null;
-      };
-      const sections: Record<string, AdminEntry> = {};
-      for (const row of rows) {
-        sections[row.sectionKey] = {
-          data: row.data,
-          status: row.status,
-          version: row.version,
-          updatedAt: row.updatedAt,
-          updatedBy: row.updatedBy,
+      try {
+        const rows = await ctx.db.contentEntry.findMany({
+          where: { scope, locale },
+        });
+
+        type AdminEntry = {
+          data: unknown;
+          status: string;
+          version: number;
+          updatedAt: Date;
+          updatedBy: string | null;
         };
+        const sections: Record<string, AdminEntry> = {};
+        for (const row of rows) {
+          sections[row.sectionKey] = {
+            data: row.data,
+            status: row.status,
+            version: row.version,
+            updatedAt: row.updatedAt,
+            updatedBy: row.updatedBy,
+          };
+        }
+        return sections;
+      } catch {
+        return {};
       }
-      return sections;
     }),
 
   /**

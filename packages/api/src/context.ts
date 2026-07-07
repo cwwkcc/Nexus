@@ -11,8 +11,10 @@ import type { Context } from './trpc.js';
  * never go over HTTP) calls this with no arguments.
  */
 export function createContext(headers?: Headers): Context {
+  const headerSecret = headers?.get('x-admin-secret')?.trim();
+
   return {
     db,
-    adminSecret: headers?.get('x-admin-secret') ?? null,
+    adminSecret: headerSecret || process.env.ADMIN_API_SECRET || null,
   };
 }

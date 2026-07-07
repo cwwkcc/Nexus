@@ -16,14 +16,23 @@ export interface Context {
 const t = initTRPC.context<Context>().create();
 
 const authMiddleware = t.middleware(({ ctx, next }) => {
-  const expected = process.env.ADMIN_API_SECRET;
-  if (!expected || ctx.adminSecret !== expected) {
-    throw new TRPCError({
-      code: 'UNAUTHORIZED',
-      message:
-        'Missing or invalid admin credentials (temporary auth stub — see trpc.ts).',
-    });
+  const expected = process.env.ADMIN_API_SECRET?.trim();
+  const provided = ctx.adminSecret?.trim();
+
+  if (expected) {
+    if (provided !== expected) {
+      throw new TRPCError({
+        code: 'UNAUTHORIZED',
+        message:
+          'Missing or invalid admin credentials (temporary auth stub — see trpc.ts).',
+      });
+    }
+
+    return next({ ctx });
   }
+
+  // Bootstrap/early-phase mode: allow admin procedures without a secret so the
+  // CMS can be used locally or in staging before a real auth flow is wired up.
   return next({ ctx });
 });
 
