@@ -3,16 +3,34 @@
   "version": "0.0.1",
   "private": true,
   "type": "module",
-  "main": "./src/index.ts",
-  "types": "./src/index.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "@nexus/source": "./src/index.ts",
-      "require": "./src/index.ts",
-      "import": "./src/index.ts",
-      "default": "./src/index.ts",
-      "types": "./src/index.ts"
-    }
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./next": {
+      "types": "./dist/next.d.ts",
+      "require": "./dist/next.js",
+      "import": "./dist/next.js",
+      "default": "./dist/next.js"
+    },
+    "./env": {
+      "types": "./dist/env.d.ts",
+      "require": "./dist/env.js",
+      "import": "./dist/env.js",
+      "default": "./dist/env.js"
+    },
+    "./constants": {
+      "types": "./dist/constants.d.ts",
+      "require": "./dist/constants.js",
+      "import": "./dist/constants.js",
+      "default": "./dist/constants.js"
+    },
+    "./package.json": "./package.json"
   },
   "scripts": {
     "dev": "tsc --watch",
@@ -26,6 +44,8 @@
     "typescript": "~5.9.2"
   },
   "dependencies": {
-    "tailwindcss": "3.4.3"
+    "@nexus/contracts": "workspace:*",
+    "tailwindcss": "3.4.3",
+    "zod": "^3.23.8"
   }
 }
