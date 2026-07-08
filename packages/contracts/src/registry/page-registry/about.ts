@@ -3,16 +3,16 @@
 import { z } from 'zod';
 
 import {
+  HeroSchema,
+  type HeroData,
+  StatsSchema,
+  type StatsData,
   AnthemSchema,
   type AnthemData,
-} from '../../blocks/page-specific/anthem.ts';
-import {
   CrestSchema,
   type CrestData,
-} from '../../blocks/page-specific/crest-symbol.ts';
-import { HeroSchema, type HeroData } from '../../blocks/hero.ts';
-import { StatsSchema, type StatsData } from '../../blocks/generic/stats.ts';
-import { TimelineItemSchema } from '../../blocks/page-specific/timeline.ts';
+  TimelineItemSchema,
+} from '../../blocks/index.ts';
 import type { PageRegistry } from '../types.ts';
 
 // ── Section schemas ─────────────────────────────────────────────────────
