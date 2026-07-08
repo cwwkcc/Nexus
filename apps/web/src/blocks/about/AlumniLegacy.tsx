@@ -1,7 +1,5 @@
 import type { AboutAlumniData } from '@nexus/contracts';
-import { Container, SectionHeader } from '@nexus/ui';
-
-import { AlumniLegacyBlock } from '../../components/domain/AlumniLegacyBlock';
+import { Container, SectionHeader, AlumniLegacyBlock } from '@nexus/ui';
 
 export default function AlumniLegacy({ alumni }: { alumni: AboutAlumniData }) {
   return (
