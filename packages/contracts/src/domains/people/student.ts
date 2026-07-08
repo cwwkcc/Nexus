@@ -13,7 +13,8 @@
 //   Review docs/governance/Data Privacy Policy.md before adding fields.
 
 import { z } from 'zod';
-import { ALStreamEnum } from '../identity/school/stream';
+
+import { ALStreamEnum } from '../identity/school/stream.ts';
 
 export const StudentSchema = z.object({
   id: z.string().min(1),

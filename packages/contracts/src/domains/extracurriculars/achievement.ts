@@ -8,7 +8,8 @@
 //   ExtracurricularAchievementData   — z.infer type
 
 import { z } from 'zod';
-import { AchievementLevel } from '../../editorial/achievements/achievement';
+
+import { AchievementLevel } from '../../editorial/achievements/achievement.js';
 
 export const ExtracurricularAchievementSchema = z.object({
   id: z.string().min(1),

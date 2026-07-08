@@ -1,5 +1,5 @@
 'use client';
-
+import type { CrestSymbol } from '@nexus/contracts';
 import { motion } from 'framer-motion';
 import { useState, useRef, useEffect, useCallback } from 'react';
 
@@ -15,18 +15,12 @@ type HotspotPosition =
   | 'bottom-right'
   | 'top-left'
   | 'bottom-left';
-type DiagramVariant = 'ambient' | 'hold' | 'click';
 
-export interface CrestSymbol {
-  id: string;
-  name: string;
-  meaning: string;
-  position: HotspotPosition;
-}
+type DiagramVariant = 'ambient' | 'hold' | 'click';
 
 export interface CrestDiagramProps {
   symbols?: CrestSymbol[];
-  variant?: DiagramVariant; // 👈 'ambient' | 'hold' | 'click'
+  variant?: DiagramVariant;
   debug?: boolean;
   className?: string;
 }

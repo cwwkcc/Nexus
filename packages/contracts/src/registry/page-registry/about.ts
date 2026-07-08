@@ -2,11 +2,17 @@
 
 import { z } from 'zod';
 
-import { AnthemSchema, type AnthemData } from '../../blocks/anthem.ts';
-import { CrestSchema, type CrestData } from '../../blocks/crest.ts';
+import {
+  AnthemSchema,
+  type AnthemData,
+} from '../../blocks/page-specific/anthem.ts';
+import {
+  CrestSchema,
+  type CrestData,
+} from '../../blocks/page-specific/crest-symbol.ts';
 import { HeroSchema, type HeroData } from '../../blocks/hero.ts';
-import { StatsSchema, type StatsData } from '../../blocks/stats.ts';
-import { TimelineItemSchema } from '../../blocks/timeline.ts';
+import { StatsSchema, type StatsData } from '../../blocks/generic/stats.ts';
+import { TimelineItemSchema } from '../../blocks/page-specific/timeline.ts';
 import type { PageRegistry } from '../types.ts';
 
 // ── Section schemas ─────────────────────────────────────────────────────

@@ -1,6 +1,9 @@
-// packages/contracts/src/blocks/members.ts
+// packages/contracts/src/blocks/page-specific/staff-grid.ts
+// Defines the schema for staff-grid blocks and member entries.
 
 import { z } from 'zod';
+
+import { STAFF_GRID_BLOCK } from '../block-type.js';
 
 export const MemberSchema = z.object({
   id: z.string(),
@@ -11,6 +14,7 @@ export const MemberSchema = z.object({
 });
 
 export const MembersSchema = z.object({
+  blockType: z.literal(STAFF_GRID_BLOCK),
   eyebrow: z.string().optional(),
   heading: z.string().optional(),
   members: z.array(MemberSchema),

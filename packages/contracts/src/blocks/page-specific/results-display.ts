@@ -1,6 +1,9 @@
-// packages/contracts/src/blocks/results-display.ts
+// packages/contracts/src/blocks/page-specific/results-display.ts
+// Defines the schema for academic results display blocks.
 
 import { z } from 'zod';
+
+import { RESULTS_DISPLAY_BLOCK } from '../block-type.js';
 
 export const ResultsSummarySchema = z.object({
   examType: z.enum(['OL', 'AL']),
@@ -11,6 +14,7 @@ export const ResultsSummarySchema = z.object({
 });
 
 export const ResultsDisplaySchema = z.object({
+  blockType: z.literal(RESULTS_DISPLAY_BLOCK),
   eyebrow: z.string().optional(),
   heading: z.string().optional(),
   summaries: z.array(ResultsSummarySchema),

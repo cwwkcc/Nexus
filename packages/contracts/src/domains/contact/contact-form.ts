@@ -14,7 +14,8 @@
 //   Never store contact form submissions in the DB — email them directly.
 
 import { z } from 'zod';
-import { LocaleEnum } from '../../primitives/locale';
+
+import { LocaleEnum } from '../../primitives/locale.js';
 
 export const ContactFormSchema = z.object({
   name: z.string().min(2),

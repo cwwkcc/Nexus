@@ -2,9 +2,9 @@
 
 import { z } from 'zod';
 
-import { CtaSchema, type CtaData } from '../../blocks/cta.ts';
+import { CtaSchema, type CtaData } from '../../blocks/generic/cta.ts';
 import { HeroSchema, type HeroData } from '../../blocks/hero.ts';
-import { StatsSchema, type StatsData } from '../../blocks/stats.ts';
+import { StatsSchema, type StatsData } from '../../blocks/generic/stats.ts';
 import type { PageRegistry } from '../types.ts';
 
 // ── Section schemas ─────────────────────────────────────────────────────

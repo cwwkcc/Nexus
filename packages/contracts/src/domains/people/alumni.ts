@@ -15,7 +15,8 @@
 //   Migrate from packages/validation/src/people/.
 
 import { z } from 'zod';
-import { ALStreamEnum } from '../identity/school/stream';
+
+import { ALStreamEnum } from '../identity/school/stream.ts';
 
 export const AlumniSchema = z.object({
   id: z.string().min(1),

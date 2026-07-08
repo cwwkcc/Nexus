@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { CtaSchema, type CtaData } from '../../blocks/cta.ts';
+import { CtaSchema, type CtaData } from '../../blocks/generic/cta.ts';
 import { HeroSchema, type HeroData } from '../../blocks/hero.ts';
 import { StaffSchema } from '../../school/people/staff.ts';
 import type { PageRegistry } from '../types.js';
@@ -13,14 +13,18 @@ export const AdministrationPrincipalSchema = z.object({
   heading: z.string().optional(),
   principal: StaffSchema,
 });
-export type AdministrationPrincipalData = z.infer<typeof AdministrationPrincipalSchema>;
+export type AdministrationPrincipalData = z.infer<
+  typeof AdministrationPrincipalSchema
+>;
 
 export const AdministrationStaffGridSchema = z.object({
   eyebrow: z.string().optional(),
   heading: z.string().optional(),
   staff: z.array(StaffSchema),
 });
-export type AdministrationStaffGridData = z.infer<typeof AdministrationStaffGridSchema>;
+export type AdministrationStaffGridData = z.infer<
+  typeof AdministrationStaffGridSchema
+>;
 
 export const AdministrationAdvisoryBoardSchema = z.object({
   eyebrow: z.string().optional(),
@@ -28,7 +32,9 @@ export const AdministrationAdvisoryBoardSchema = z.object({
   description: z.string().optional(),
   members: z.array(StaffSchema),
 });
-export type AdministrationAdvisoryBoardData = z.infer<typeof AdministrationAdvisoryBoardSchema>;
+export type AdministrationAdvisoryBoardData = z.infer<
+  typeof AdministrationAdvisoryBoardSchema
+>;
 
 export const AdministrationContactSchema = CtaSchema;
 export type AdministrationContactData = CtaData;
@@ -37,7 +43,8 @@ export const administrationRegistry: PageRegistry = {
   page: 'administration',
   scope: 'page:administration',
   label: 'Administration',
-  description: 'Manage the Administration page content including the Principal, Vice Principals, Heads of Department, and Advisory Board.',
+  description:
+    'Manage the Administration page content including the Principal, Vice Principals, Heads of Department, and Advisory Board.',
   sections: [
     {
       key: 'administration.hero',

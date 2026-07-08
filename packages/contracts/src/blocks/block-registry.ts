@@ -4,11 +4,11 @@
 // The block identifier system is now part of the single content-type system in
 // registry/content-type-key.ts. This file is kept for backward compatibility but
 // should be removed once the full content-type system is implemented.
+//
+// Backward-compatible mapping from block identifiers to renderer names.
 
 import { type BlockTypeEnumData } from './block-type.js';
 
-// Renderer map: block type → renderer component name
-// NOTE: This mapping should live in packages/ui, not here.
 export const BLOCK_RENDERER_MAP = {
   hero: 'HeroBlock',
   stats: 'StatsBlock',
@@ -31,4 +31,3 @@ export const BLOCK_RENDERER_MAP = {
   anthem: 'AnthemBlock',
   'values-grid': 'ValuesGridBlock',
 } as const satisfies Record<BlockTypeEnumData, string>;
-

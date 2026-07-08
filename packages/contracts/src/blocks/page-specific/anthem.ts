@@ -1,8 +1,12 @@
-// packages/contracts/src/blocks/anthem.ts
+// packages/contracts/src/blocks/page-specific/anthem.ts
+// Defines the data shape for anthem-style page blocks.
 
 import { z } from 'zod';
 
+import { ANTHEM_BLOCK } from '../block-type.js';
+
 export const AnthemSchema = z.object({
+  blockType: z.literal(ANTHEM_BLOCK),
   eyebrow: z.string().optional(),
   heading: z.string(),
   paragraph: z.string().optional(),

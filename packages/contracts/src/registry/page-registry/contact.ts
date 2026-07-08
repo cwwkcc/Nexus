@@ -27,8 +27,8 @@
 import {
   ContactInfoBlockSchema,
   type ContactInfoBlockData,
-} from '../../blocks/contact-info.ts';
-import { CtaSchema, type CtaData } from '../../blocks/cta.ts';
+} from '../../blocks/page-specific/contact-info.ts';
+import { CtaSchema, type CtaData } from '../../blocks/generic/cta.ts';
 import { HeroSchema, type HeroData } from '../../blocks/hero.ts';
 import type { PageRegistry } from '../types.js';
 

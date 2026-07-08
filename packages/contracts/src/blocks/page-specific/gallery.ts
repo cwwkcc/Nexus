@@ -1,6 +1,9 @@
-// packages/contracts/src/blocks/gallery.ts
+// packages/contracts/src/blocks/page-specific/gallery.ts
+// Defines the schema for gallery blocks and their image items.
 
 import { z } from 'zod';
+
+import { GALLERY_BLOCK } from '../block-type.js';
 
 export const GalleryImageSchema = z.object({
   id: z.string(),
@@ -10,6 +13,7 @@ export const GalleryImageSchema = z.object({
 });
 
 export const GallerySchema = z.object({
+  blockType: z.literal(GALLERY_BLOCK),
   eyebrow: z.string().optional(),
   heading: z.string().optional(),
   images: z.array(GalleryImageSchema),

@@ -1,8 +1,11 @@
 import { z } from 'zod';
 
-import { CtaSchema, type CtaData } from '../../blocks/cta.ts';
+import { CtaSchema, type CtaData } from '../../blocks/generic/cta.ts';
 import { HeroSchema, type HeroData } from '../../blocks/hero.ts';
-import { StreamSchema, StreamComparisonSchema } from '../../school/academics/stream.ts';
+import {
+  StreamSchema,
+  StreamComparisonSchema,
+} from '../../school/academics/stream.ts';
 import type { PageRegistry } from '../types.js';
 
 export const AcademicsHeroSchema = HeroSchema;
@@ -13,14 +16,18 @@ export const AcademicsStreamCardsSchema = z.object({
   heading: z.string().optional(),
   streams: z.array(StreamSchema),
 });
-export type AcademicsStreamCardsData = z.infer<typeof AcademicsStreamCardsSchema>;
+export type AcademicsStreamCardsData = z.infer<
+  typeof AcademicsStreamCardsSchema
+>;
 
 export const AcademicsStreamComparisonSchema = z.object({
   eyebrow: z.string().optional(),
   heading: z.string().optional(),
   comparisons: z.array(StreamComparisonSchema),
 });
-export type AcademicsStreamComparisonData = z.infer<typeof AcademicsStreamComparisonSchema>;
+export type AcademicsStreamComparisonData = z.infer<
+  typeof AcademicsStreamComparisonSchema
+>;
 
 export const AcademicsDepartmentContactSchema = z.object({
   id: z.string(),
@@ -29,7 +36,9 @@ export const AcademicsDepartmentContactSchema = z.object({
   email: z.string(),
   phone: z.string().optional(),
 });
-export type AcademicsDepartmentContactData = z.infer<typeof AcademicsDepartmentContactSchema>;
+export type AcademicsDepartmentContactData = z.infer<
+  typeof AcademicsDepartmentContactSchema
+>;
 
 export const AcademicsContactsSchema = z.object({
   eyebrow: z.string().optional(),
@@ -45,7 +54,8 @@ export const academicsRegistry: PageRegistry = {
   page: 'academics',
   scope: 'page:academics',
   label: 'Academics',
-  description: 'Manage the Academic streams, comparisons, and department contacts.',
+  description:
+    'Manage the Academic streams, comparisons, and department contacts.',
   sections: [
     {
       key: 'academics.hero',

@@ -1,6 +1,4 @@
 // packages/contracts/src/constants/limits.ts
-//
-// Pure compile-time constants that are not schemas and not runtime configuration.
 
 export const DEFAULT_PAGE_SIZE = 20;
 export const MAX_GALLERY_IMAGES = 50;

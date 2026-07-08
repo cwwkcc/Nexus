@@ -1,6 +1,7 @@
 // packages/contracts/src/blocks/block-type.ts
 //
 // The single closed enum of every valid block identifier.
+// Central contract for the canonical block-type values and shared constants.
 
 import { z } from 'zod';
 

@@ -1,6 +1,9 @@
-// packages/contracts/src/blocks/downloads.ts
+// packages/contracts/src/blocks/generic/downloads.ts
+// Defines the schema for downloadable content lists and their items.
 
 import { z } from 'zod';
+
+import { DOWNLOADS_BLOCK } from '../block-type.js';
 
 export const DownloadItemSchema = z.object({
   id: z.string(),
@@ -12,6 +15,7 @@ export const DownloadItemSchema = z.object({
 });
 
 export const DownloadsSchema = z.object({
+  blockType: z.literal(DOWNLOADS_BLOCK),
   eyebrow: z.string().optional(),
   heading: z.string().optional(),
   items: z.array(DownloadItemSchema),

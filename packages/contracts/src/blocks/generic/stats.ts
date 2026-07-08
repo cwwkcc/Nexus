@@ -1,6 +1,9 @@
-// packages/contracts/src/blocks/stats.ts
+// packages/contracts/src/blocks/generic/stats.ts
+// Defines the schema for statistics blocks and their metric items.
 
 import { z } from 'zod';
+
+import { STATS_BLOCK } from '../block-type.js';
 
 export const StatItemSchema = z.object({
   id: z.string(),
@@ -14,6 +17,7 @@ export const StatItemSchema = z.object({
 });
 
 export const StatsSchema = z.object({
+  blockType: z.literal(STATS_BLOCK),
   stats: z.array(StatItemSchema),
 });
 
