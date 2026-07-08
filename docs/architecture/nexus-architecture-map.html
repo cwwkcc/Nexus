@@ -1,0 +1,745 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NEXUS — System Architecture</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --blue-deep: #0a2540;
+        --blue-mid: #0d2f4f;
+        --blue-panel: #123a5e;
+        --cyan: #7fd4ff;
+        --cyan-dim: #4a90c2;
+        --ink: #eef6fb;
+        --ink-muted: #9fc4de;
+        --hair: rgba(127, 212, 255, 0.18);
+        --err: #ff9d7f;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: var(--blue-deep);
+        color: var(--ink);
+        font-family: "IBM Plex Mono", monospace;
+      }
+
+      body {
+        background-image:
+          linear-gradient(var(--hair) 1px, transparent 1px),
+          linear-gradient(90deg, var(--hair) 1px, transparent 1px),
+          linear-gradient(rgba(127, 212, 255, 0.08) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(127, 212, 255, 0.08) 1px, transparent 1px);
+        background-size:
+          88px 88px,
+          88px 88px,
+          22px 22px,
+          22px 22px;
+        background-position: -1px -1px;
+      }
+
+      .wrap {
+        max-width: 1700px;
+        margin: 0 auto;
+        padding: 56px 32px 40px;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        border-bottom: 2px solid var(--cyan);
+        padding-bottom: 22px;
+        margin-bottom: 8px;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+
+      .title-block h1 {
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: 700;
+        font-size: clamp(28px, 4vw, 44px);
+        letter-spacing: 0.5px;
+        margin: 0 0 6px 0;
+        color: var(--ink);
+      }
+      .title-block h1 span {
+        color: var(--cyan);
+      }
+
+      .title-block p {
+        margin: 0;
+        color: var(--ink-muted);
+        font-size: 13px;
+        letter-spacing: 0.4px;
+        max-width: 640px;
+        line-height: 1.5;
+      }
+
+      .meta {
+        text-align: right;
+        font-size: 11px;
+        color: var(--ink-muted);
+        line-height: 1.8;
+        letter-spacing: 0.5px;
+      }
+      .meta div b {
+        color: var(--cyan);
+        font-weight: 600;
+      }
+
+      .legend {
+        display: flex;
+        gap: 28px;
+        flex-wrap: wrap;
+        margin: 22px 0 44px;
+        font-size: 11.5px;
+        color: var(--ink-muted);
+        letter-spacing: 0.3px;
+      }
+      .legend .item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .swatch {
+        width: 26px;
+        height: 0;
+        border-top: 2px solid var(--cyan);
+        display: inline-block;
+      }
+      .swatch.dashed {
+        border-top: 2px dashed var(--cyan-dim);
+      }
+
+      /* Sheet container */
+      .sheet {
+        border: 1px solid var(--cyan-dim);
+        background: rgba(13, 47, 79, 0.55);
+        margin-bottom: 56px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Fullscreen adjustments for the sheet */
+      .sheet:fullscreen,
+      .sheet:-webkit-full-screen {
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        border: none;
+        background: var(--blue-deep);
+      }
+
+      .sheet-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 22px;
+        border-bottom: 1px solid var(--cyan-dim);
+        background: rgba(
+          10,
+          37,
+          64,
+          1
+        ); /* solid so grid lines don't show through in fullscreen */
+        flex-wrap: wrap;
+        gap: 12px;
+        flex-shrink: 0;
+      }
+      .sheet-header h2 {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 16px;
+        letter-spacing: 0.6px;
+        margin: 0;
+        color: var(--ink);
+        text-transform: uppercase;
+      }
+
+      /* Body acts as the panning/scrolling viewport */
+      .sheet-body {
+        padding: 28px;
+        overflow: auto;
+        max-height: 82vh;
+        cursor: grab; /* default hand tool cursor */
+      }
+      .sheet:fullscreen .sheet-body,
+      .sheet:-webkit-full-screen .sheet-body {
+        max-height: none;
+        flex: 1; /* stretches to fill remaining vertical space */
+      }
+
+      /* When actively dragging, change cursor and prevent text highlighting */
+      .sheet-body.is-dragging {
+        cursor: grabbing;
+        user-select: none;
+      }
+
+      .diagram-target {
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+      }
+
+      .diagram-target svg {
+        max-width: none !important;
+        height: auto !important;
+        flex-shrink: 0;
+        display: block;
+        /* allow pointer events on the SVG for tooltips, but disable text selection during pan */
+        pointer-events: auto;
+      }
+
+      .diagram-status {
+        color: var(--ink-muted);
+        font-size: 13px;
+        letter-spacing: 0.3px;
+      }
+      .diagram-status.err {
+        color: var(--err);
+        white-space: pre-wrap;
+      }
+
+      .zoom-toolbar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .zoom-btn {
+        width: 30px;
+        height: 30px;
+        border: 1px solid var(--cyan-dim);
+        background: var(--blue-panel);
+        color: var(--cyan);
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 16px;
+        line-height: 1;
+        cursor: pointer;
+        border-radius: 3px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .zoom-btn:hover {
+        background: var(--cyan-dim);
+        color: var(--blue-deep);
+      }
+      .zoom-btn.text-btn {
+        width: auto;
+        padding: 0 10px;
+        font-size: 11px;
+        letter-spacing: 0.5px;
+      }
+      .zoom-label {
+        font-size: 11px;
+        color: var(--ink-muted);
+        min-width: 42px;
+        text-align: center;
+      }
+
+      .sheet-footer {
+        padding: 0 28px 24px;
+        background: rgba(13, 47, 79, 0.55);
+        flex-shrink: 0;
+      }
+      .sheet:fullscreen .sheet-footer,
+      .sheet:-webkit-full-screen .sheet-footer {
+        background: rgba(10, 37, 64, 1);
+      }
+
+      .titleblock-footer {
+        border-top: 2px solid var(--cyan);
+        margin-top: 12px;
+        padding-top: 16px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        font-size: 10.5px;
+        color: var(--ink-muted);
+        letter-spacing: 0.5px;
+      }
+      .titleblock-footer div b {
+        display: block;
+        color: var(--cyan);
+        font-size: 9px;
+        letter-spacing: 1px;
+        margin-bottom: 4px;
+        text-transform: uppercase;
+      }
+
+      @media (max-width: 700px) {
+        .legend {
+          gap: 16px;
+        }
+        .titleblock-footer {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <div class="title-block">
+          <h1>NEXUS <span>/ SYSTEM ARCHITECTURE</span></h1>
+          <p>
+            C.W.W. Kannangara Central College — trilingual school platform (EN /
+            SI / TA). Nx monorepo, single Hetzner VPS, Docker Compose behind
+            Caddy.
+          </p>
+        </div>
+        <div class="meta">
+          <div><b>PROJECT</b> KITS — NEXUS</div>
+          <div><b>DRAWING TYPE</b> Component &amp; Interaction</div>
+          <div><b>REV</b> B</div>
+        </div>
+      </header>
+
+      <div class="legend">
+        <div class="item">
+          <span class="swatch"></span> runtime request / data flow
+        </div>
+        <div class="item">
+          <span class="swatch dashed"></span> build-time import or
+          eventual/next-cycle interaction
+        </div>
+        <div class="item">
+          ▭ dashed outer box = Docker Compose boundary (one VPS)
+        </div>
+      </div>
+
+      <section class="sheet" id="sheet1">
+        <div class="sheet-header">
+          <h2>Sheet 01 — Component &amp; Interaction Diagram</h2>
+          <div class="zoom-toolbar" data-sheet="1">
+            <button class="zoom-btn" data-action="out" title="Zoom Out">
+              −
+            </button>
+            <span class="zoom-label">100%</span>
+            <button class="zoom-btn" data-action="in" title="Zoom In">+</button>
+            <button
+              class="zoom-btn text-btn"
+              data-action="reset"
+              title="Reset Zoom"
+            >
+              RESET
+            </button>
+            <div
+              style="
+                width: 1px;
+                height: 20px;
+                background: var(--cyan-dim);
+                margin: 0 4px;
+              "
+            ></div>
+            <button
+              class="zoom-btn"
+              data-action="fullscreen"
+              title="Full Screen"
+            >
+              [ ]
+            </button>
+          </div>
+        </div>
+        <div class="sheet-body">
+          <div id="diagram1" class="diagram-target">
+            <span class="diagram-status">Rendering diagram…</span>
+          </div>
+        </div>
+        <div class="sheet-footer">
+          <div class="titleblock-footer">
+            <div>
+              <b>Zones 2/3/5/6</b>Run as separate containers under one Docker
+              Compose stack, one Hetzner VPS
+            </div>
+            <div>
+              <b>Zone 4</b>Contracts + UI are compiled in at build time — not
+              runtime services
+            </div>
+            <div>
+              <b>External</b>Google OAuth &amp; Cloudflare R2 sit outside the
+              Compose boundary
+            </div>
+            <div>
+              <b>Core loop</b>See Sheet 02 for the edit-publish-read cycle in
+              detail
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sheet" id="sheet2">
+        <div class="sheet-header">
+          <h2>Sheet 02 — Edit → Publish → Visitor Sees It</h2>
+          <div class="zoom-toolbar" data-sheet="2">
+            <button class="zoom-btn" data-action="out" title="Zoom Out">
+              −
+            </button>
+            <span class="zoom-label">100%</span>
+            <button class="zoom-btn" data-action="in" title="Zoom In">+</button>
+            <button
+              class="zoom-btn text-btn"
+              data-action="reset"
+              title="Reset Zoom"
+            >
+              RESET
+            </button>
+            <div
+              style="
+                width: 1px;
+                height: 20px;
+                background: var(--cyan-dim);
+                margin: 0 4px;
+              "
+            ></div>
+            <button
+              class="zoom-btn"
+              data-action="fullscreen"
+              title="Full Screen"
+            >
+              [ ]
+            </button>
+          </div>
+        </div>
+        <div class="sheet-body">
+          <div id="diagram2" class="diagram-target">
+            <span class="diagram-status">Rendering diagram…</span>
+          </div>
+        </div>
+        <div class="sheet-footer">
+          <div class="titleblock-footer">
+            <div>
+              <b>Snapshot first</b>Old row always written to ContentEntryVersion
+              before the new row lands
+            </div>
+            <div>
+              <b>Cache tag</b>Revalidation is the only signal the Public Website
+              needs
+            </div>
+            <div>
+              <b>No redeploy</b>Next request reads straight from Postgres
+            </div>
+            <div>
+              <b>Fallback</b>Missing locale content falls back to English at
+              read time
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js"></script>
+    <script>
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: "base",
+        themeVariables: {
+          background: "#0d2f4f",
+          primaryColor: "#123a5e",
+          primaryTextColor: "#eef6fb",
+          primaryBorderColor: "#7fd4ff",
+          lineColor: "#7fd4ff",
+          secondaryColor: "#0a2540",
+          tertiaryColor: "#0a2540",
+          clusterBkg: "rgba(10,37,64,0.65)",
+          clusterBorder: "#4a90c2",
+          edgeLabelBackground: "#0d2f4f",
+          fontFamily: "IBM Plex Mono, monospace",
+          fontSize: "22px",
+          actorBkg: "#123a5e",
+          actorBorder: "#7fd4ff",
+          actorTextColor: "#eef6fb",
+          signalColor: "#7fd4ff",
+          signalTextColor: "#eef6fb",
+          labelBoxBkgColor: "#123a5e",
+          labelBoxBorderColor: "#7fd4ff",
+          labelTextColor: "#eef6fb",
+          loopTextColor: "#9fc4de",
+          noteBkgColor: "#0a2540",
+          noteTextColor: "#9fc4de",
+          noteBorderColor: "#4a90c2",
+        },
+        flowchart: {
+          curve: "basis",
+          htmlLabels: true,
+          useMaxWidth: false,
+          nodeSpacing: 85,
+          rankSpacing: 110,
+          padding: 24,
+        },
+        sequence: {
+          useMaxWidth: false,
+          actorFontSize: 18,
+          actorFontWeight: 600,
+          messageFontSize: 17,
+          noteFontSize: 15,
+          boxMargin: 14,
+          messageMargin: 55,
+          actorMargin: 90,
+        },
+        securityLevel: "loose",
+      });
+
+      const diagram1 = `flowchart TB
+
+subgraph Z1["ZONE 1 - Clients"]
+    Visitor(["Site Visitor (browser)"])
+    Editor(["Staff Editor (browser)"])
+end
+
+subgraph DOCKER["Docker Compose - single Hetzner VPS"]
+    subgraph Z2["ZONE 2 - Edge"]
+        Caddy["Caddy reverse proxy<br/>auto-HTTPS via Let's Encrypt<br/>cwwkcc.lk to Web<br/>admin.cwwkcc.lk to Admin"]
+    end
+
+    subgraph Z3["ZONE 3 - Applications (Next.js)"]
+        Web["Public Website<br/>apps/web - EN/SI/TA - read-only"]
+        Admin["Admin Panel<br/>apps/admin - session-protected"]
+    end
+
+    subgraph Z5["ZONE 5 - API Layer"]
+        TRPCPub["tRPC public procedures<br/>(read-only)"]
+        TRPCAdmin["tRPC admin procedures<br/>(auth-required CRUD)"]
+        CERouter["ContentEntry Router<br/>getByScope - adminGetByScope<br/>update - setStatus - getVersionHistory"]
+    end
+
+    subgraph Z6["ZONE 6 - Data and Analytics"]
+        PG[("PostgreSQL<br/>ContentEntry - ContentEntryVersion - SiteSetting")]
+        Umami["Umami<br/>(self-hosted analytics container)"]
+    end
+end
+
+subgraph Z4["ZONE 4 - Shared packages (build-time only, not services)"]
+    Contracts["@nexus/contracts<br/>Zod schemas + inferred types"]
+    UI["UI component library"]
+end
+
+OAuth["Google Workspace OAuth<br/>@cwwkcc.lk restricted, invite-gated"]
+R2[("Cloudflare R2<br/>object storage - presigned uploads")]
+
+Visitor -->|HTTPS request| Caddy
+Editor -->|HTTPS request| Caddy
+Caddy -->|routes cwwkcc.lk| Web
+Caddy -->|routes admin.cwwkcc.lk| Admin
+
+Web -->|"getByScope(scope, locale)"| TRPCPub
+TRPCPub --> CERouter
+CERouter -->|"SELECT published rows,<br/>locale-aware + EN fallback"| PG
+PG -->|rows| CERouter --> TRPCPub --> Web
+Web -->|rendered page| Visitor
+
+Admin -->|login redirect| OAuth
+OAuth -->|domain + invite-list check| Admin
+Admin -->|session cookie issued| Editor
+
+Editor -->|edits section| Admin
+Admin -.->|form fields generated from| Contracts
+Admin -.->|validate client-side| Contracts
+Admin -->|"adminGetByScope / update()"| TRPCAdmin
+TRPCAdmin -.->|validate server-side| Contracts
+TRPCAdmin --> CERouter
+CERouter -->|"1 snapshot old row"| PG
+CERouter -->|"2 write new row"| PG
+CERouter -->|"3 revalidate cache tag"| Web
+
+Visitor -.->|next request - cache miss| Web
+
+Editor -->|upload image| Admin
+Admin -->|request presigned URL| TRPCAdmin
+TRPCAdmin -->|presigned URL| Admin
+Admin -.->|browser uploads file directly| R2
+R2 -.->|upload confirmed| TRPCAdmin
+TRPCAdmin -->|asset registered| PG
+
+Visitor -.->|page views logged| Umami
+Umami -.->|surfaced in Analytics Dashboard| Admin
+
+Web -.->|build-time import| UI
+Admin -.->|build-time import| UI
+Web -.->|build-time import| Contracts
+Admin -.->|build-time import| Contracts
+TRPCPub -.->|build-time import| Contracts
+TRPCAdmin -.->|build-time import| Contracts
+`;
+
+      const diagram2 = `sequenceDiagram
+    actor Editor as Staff Editor
+    participant Admin as Admin Panel
+    participant Contracts as @nexus/contracts
+    participant API as tRPC Admin (ContentEntry.update)
+    participant DB as PostgreSQL
+    participant Pub as Public Website
+    participant PubAPI as tRPC Public (getByScope)
+    actor Visitor as Site Visitor
+
+    Editor->>Admin: Edit content section
+    Admin->>Contracts: Validate form data (client)
+    Contracts-->>Admin: OK
+    Admin->>API: update(sectionId, data)
+    API->>Contracts: Validate payload (server)
+    Contracts-->>API: OK
+    API->>DB: INSERT old row into ContentEntryVersion (snapshot)
+    API->>DB: Write new ContentEntry row
+    API->>Pub: Revalidate cache tag for that scope
+    API-->>Admin: Success
+    Admin-->>Editor: "Published"
+
+    Note over Visitor,Pub: Later - next page load
+    Visitor->>Pub: GET page
+    Pub->>Pub: Cache check - tag invalidated, miss
+    Pub->>PubAPI: getByScope(scope, locale)
+    PubAPI->>DB: SELECT published row (locale-aware, EN fallback)
+    DB-->>PubAPI: Row data
+    PubAPI-->>Pub: Content
+    Pub-->>Visitor: Rendered page with update - no redeploy
+`;
+
+      // --- PANNING / HAND TOOL LOGIC ---
+      function enablePanning(container) {
+        let isDown = false;
+        let startX, startY, scrollLeft, scrollTop;
+
+        container.addEventListener("mousedown", (e) => {
+          isDown = true;
+          container.classList.add("is-dragging");
+          startX = e.pageX - container.offsetLeft;
+          startY = e.pageY - container.offsetTop;
+          scrollLeft = container.scrollLeft;
+          scrollTop = container.scrollTop;
+        });
+
+        container.addEventListener("mouseleave", () => {
+          isDown = false;
+          container.classList.remove("is-dragging");
+        });
+
+        container.addEventListener("mouseup", () => {
+          isDown = false;
+          container.classList.remove("is-dragging");
+        });
+
+        container.addEventListener("mousemove", (e) => {
+          if (!isDown) return;
+          e.preventDefault(); // Prevents accidental text selection while dragging
+          const x = e.pageX - container.offsetLeft;
+          const y = e.pageY - container.offsetTop;
+          const walkX = x - startX; // 1:1 scroll ratio
+          const walkY = y - startY;
+          container.scrollLeft = scrollLeft - walkX;
+          container.scrollTop = scrollTop - walkY;
+        });
+      }
+
+      // --- FULLSCREEN LOGIC ---
+      function toggleFullscreen(element) {
+        if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+          // Enter fullscreen
+          if (element.requestFullscreen) {
+            element.requestFullscreen();
+          } else if (element.webkitRequestFullscreen) {
+            /* Safari */
+            element.webkitRequestFullscreen();
+          }
+        } else {
+          // Exit fullscreen
+          if (document.exitFullscreen) {
+            document.exitFullscreen();
+          } else if (document.webkitExitFullscreen) {
+            /* Safari */
+            document.webkitExitFullscreen();
+          }
+        }
+      }
+
+      // --- ZOOM CONTROL ENGINE ---
+      function makeZoomable(svg, sheetElement, defaultScale) {
+        svg.removeAttribute("style");
+
+        // Setup Hand Tool
+        const scrollContainer = sheetElement.querySelector(".sheet-body");
+        enablePanning(scrollContainer);
+
+        let baseW = 1000;
+        if (
+          svg.viewBox &&
+          svg.viewBox.baseVal &&
+          svg.viewBox.baseVal.width > 0
+        ) {
+          baseW = svg.viewBox.baseVal.width;
+        } else {
+          baseW = svg.getBoundingClientRect().width || 1000;
+        }
+
+        let scale = defaultScale;
+        const toolbar = sheetElement.querySelector(".zoom-toolbar");
+        const label = toolbar.querySelector(".zoom-label");
+
+        function apply() {
+          const newWidth = Math.round(baseW * scale) + "px";
+          svg.style.width = newWidth;
+          svg.style.minWidth = newWidth;
+          svg.style.height = "auto";
+          label.textContent = Math.round(scale * 100) + "%";
+        }
+
+        apply();
+
+        toolbar.querySelectorAll(".zoom-btn").forEach((btn) => {
+          btn.onclick = () => {
+            const action = btn.dataset.action;
+            if (action === "in") {
+              scale = Math.min(scale + 0.25, 6);
+              apply();
+            } else if (action === "out") {
+              scale = Math.max(scale - 0.25, 0.3);
+              apply();
+            } else if (action === "reset") {
+              scale = defaultScale;
+              apply();
+            } else if (action === "fullscreen") {
+              toggleFullscreen(sheetElement);
+            }
+          };
+        });
+      }
+
+      // --- RENDER ENGINE ---
+      async function renderDiagram(targetId, source, defaultScale) {
+        const target = document.getElementById(targetId);
+        const sheet = target.closest(".sheet");
+        try {
+          const { svg } = await mermaid.render(targetId + "-svg", source);
+          target.innerHTML = svg;
+          const svgEl = target.querySelector("svg");
+          makeZoomable(svgEl, sheet, defaultScale);
+        } catch (err) {
+          target.innerHTML =
+            '<span class="diagram-status err">Diagram failed to render:\n' +
+            (err && err.message ? err.message : err) +
+            "</span>";
+          console.error("Mermaid render error for " + targetId, err);
+        }
+      }
+
+      // --- INITIALIZE ---
+      (async () => {
+        // Render and size slightly up initially so text is legible
+        await renderDiagram("diagram1", diagram1, 1.4);
+        await renderDiagram("diagram2", diagram2, 1.5);
+      })();
+    </script>
+  </body>
+</html>

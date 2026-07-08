@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexus — Feature Registry System Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --parchment:#f2ecdc;
+    --parchment-deep:#e8dfc7;
+    --ink:#25231b;
+    --ink-muted:#6d6753;
+    --forest-deep:#152a20;
+    --forest:#25452f;
+    --forest-mid:#3a6146;
+    --forest-light:#5c8468;
+    --gold:#b3872f;
+    --gold-soft:#e3c98a;
+    --rust:#a24c34;
+    --slate:#5c6b78;
+    --line: rgba(37,35,27,0.14);
+    --radius: 3px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--parchment);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    margin:0;
+    color:var(--forest-deep);
+  }
+  .mono{ font-family:'IBM Plex Mono', monospace; }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:56px 20px 40px;
+    background:
+      radial-gradient(ellipse at 20% -10%, rgba(179,135,47,0.16), transparent 55%),
+      linear-gradient(180deg, var(--forest-deep), var(--forest) 140%);
+    color:var(--parchment);
+    border-bottom:4px solid var(--gold);
+  }
+  .hero-eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--gold-soft);
+    margin-bottom:10px;
+  }
+  .hero h1{
+    color:var(--parchment);
+    font-size:44px;
+    line-height:1.05;
+    letter-spacing:0.01em;
+  }
+  .hero h1 em{ color:var(--gold-soft); font-style:italic; }
+  .hero p.sub{
+    max-width:640px;
+    margin:14px 0 0;
+    color:rgba(242,236,220,0.78);
+    font-size:15.5px;
+  }
+  .stat-row{
+    display:flex; flex-wrap:wrap; gap:10px;
+    margin-top:28px;
+  }
+  .stat{
+    background:rgba(242,236,220,0.06);
+    border:1px solid rgba(242,236,220,0.18);
+    border-radius:var(--radius);
+    padding:12px 16px;
+    min-width:112px;
+  }
+  .stat .n{ font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:700; color:var(--gold-soft); line-height:1; }
+  .stat .l{ font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:rgba(242,236,220,0.65); margin-top:4px; }
+
+  /* ---------- STRATA (layer cross-section) ---------- */
+  .strata-wrap{ padding:36px 20px 10px; max-width:920px; margin:0 auto; }
+  .strata-title{ font-size:13px; text-transform:uppercase; letter-spacing:0.14em; color:var(--ink-muted); margin-bottom:4px; }
+  .strata-sub{ font-size:13px; color:var(--ink-muted); margin-bottom:22px; }
+  .stratum{
+    border:1px solid var(--line);
+    border-left:6px solid var(--layer-color, var(--forest));
+    background:rgba(255,255,255,0.35);
+    border-radius:var(--radius);
+    padding:14px 16px 16px;
+    margin-bottom:10px;
+  }
+  .stratum-head{
+    display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;
+  }
+  .stratum-idx{ font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--layer-color, var(--forest)); font-weight:500;}
+  .stratum-head h3{ font-size:21px; color:var(--ink); flex:1; min-width:160px;}
+  .stratum-count{ font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--ink-muted); }
+  .stratum-bar{ height:6px; background:rgba(37,35,27,0.08); border-radius:3px; margin:10px 0 10px; overflow:hidden;}
+  .stratum-fill{ height:100%; background:var(--layer-color, var(--forest)); border-radius:3px; }
+  .stratum-blurb{ font-size:13.5px; color:var(--ink-muted); margin:0 0 10px; max-width:640px; }
+  .stratum-chips{ display:flex; flex-wrap:wrap; gap:6px; }
+  .chip{
+    font-size:12px; padding:4px 10px; border-radius:20px;
+    border:1px solid var(--layer-color, var(--forest));
+    color:var(--layer-color, var(--forest));
+    background:transparent;
+    cursor:pointer;
+    font-family:'Inter',sans-serif;
+    transition:background .15s, color .15s;
+  }
+  .chip:hover{ background:var(--layer-color, var(--forest)); color:var(--parchment); }
+  .focus-tag{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px; color:var(--gold);
+    border:1px dashed var(--gold);
+    padding:2px 8px; border-radius:20px;
+  }
+
+  /* ---------- GROUP GRID ---------- */
+  .groups-wrap{ padding:20px 20px 50px; max-width:1120px; margin:0 auto; }
+  .layer-heading{
+    display:flex; align-items:center; gap:10px;
+    margin:38px 0 14px;
+  }
+  .layer-heading .dot{ width:11px; height:11px; border-radius:50%; background:var(--layer-color); flex-shrink:0;}
+  .layer-heading h2{ font-size:24px; color:var(--ink); }
+  .layer-heading .blurb-inline{ font-size:12.5px; color:var(--ink-muted); font-family:'Inter',sans-serif; }
+  .card-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+    gap:12px;
+  }
+  .card{
+    border:1px solid var(--line);
+    background:#fbf8ee;
+    border-radius:var(--radius);
+    overflow:hidden;
+    transition:box-shadow .15s;
+  }
+  .card.open{ box-shadow:0 4px 18px rgba(37,35,27,0.10); }
+  .card-head{
+    padding:14px 15px;
+    cursor:pointer;
+    display:flex; justify-content:space-between; gap:10px;
+    align-items:flex-start;
+  }
+  .card-head:hover{ background:rgba(37,35,27,0.03); }
+  .card-num{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--layer-color); }
+  .card-head h3{ font-size:17px; margin-top:2px; color:var(--ink); line-height:1.2;}
+  .card-range{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--ink-muted); margin-top:3px; display:block;}
+  .card-count{
+    font-family:'IBM Plex Mono',monospace; font-size:11px;
+    color:var(--layer-color); border:1px solid var(--layer-color);
+    border-radius:20px; padding:2px 8px; white-space:nowrap; height:fit-content;
+  }
+  .card-caret{ font-size:11px; color:var(--ink-muted); margin-left:6px; }
+  .card-body{
+    max-height:0; overflow:hidden;
+    transition:max-height .25s ease;
+    border-top:1px solid transparent;
+  }
+  .card.open .card-body{ border-top:1px solid var(--line); }
+  .feature-row{
+    display:flex; gap:8px; align-items:baseline;
+    padding:7px 15px; font-size:12.8px;
+    border-bottom:1px solid rgba(37,35,27,0.06);
+  }
+  .feature-row:last-child{ border-bottom:none; }
+  .f-id{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-muted); flex-shrink:0; width:56px;}
+  .f-name{ flex:1; color:var(--ink); }
+  .f-status{
+    font-family:'IBM Plex Mono',monospace; font-size:9.5px; text-transform:uppercase;
+    letter-spacing:0.04em; padding:1px 6px; border-radius:10px; flex-shrink:0; height:fit-content;
+  }
+  .st-live{ display:none; }
+  .st-scaffolded{ background:rgba(179,135,47,0.15); color:var(--gold); border:1px solid var(--gold);}
+  .st-planned{ background:rgba(92,107,120,0.13); color:var(--slate); border:1px solid var(--slate);}
+  .st-not-planned{ background:rgba(162,76,52,0.13); color:var(--rust); border:1px solid var(--rust);}
+
+  /* ---------- LEGEND / FOOTER ---------- */
+  .legend{
+    display:flex; flex-wrap:wrap; gap:16px; align-items:center;
+    padding:16px 20px; max-width:1120px; margin:0 auto;
+    font-size:12px; color:var(--ink-muted);
+  }
+  .legend span.k{ display:inline-flex; align-items:center; gap:6px; }
+  .legend .swatch{ width:9px; height:9px; border-radius:50%; display:inline-block; }
+  footer{
+    text-align:center; padding:30px 20px 60px; color:var(--ink-muted); font-size:12px;
+    border-top:1px solid var(--line); max-width:1120px; margin:20px auto 0;
+  }
+  @media (max-width:600px){
+    .hero h1{ font-size:32px; }
+    .stat{ min-width:96px; padding:10px 12px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-eyebrow">C.W.W. Kannangara Central College · Kannangara ICT Society</div>
+  <h1><em>Nexus</em> — Feature Registry</h1>
+  <p class="sub">A system map of every feature, grouped by architectural layer, from monorepo tooling up through the public site and admin panel. Tap any group to see its features and build status.</p>
+  <div class="stat-row" id="statRow"></div>
+</div>
+
+<div class="strata-wrap">
+  <div class="strata-title">Cross-Section</div>
+  <div class="strata-sub">Seven layers, built roughly bottom-up — each one depends on what's below it.</div>
+  <div id="strata"></div>
+</div>
+
+<div class="legend" id="legend"></div>
+
+<div class="groups-wrap" id="groupsWrap"></div>
+
+<footer>196 features across 23 groups · derived from the Nexus Complete Feature Registry · tap a group heading to expand</footer>
+
+<script>
+const LAYERS = [
+  { key:'foundation', label:'Foundation & Tooling', color:'#5c6b78',
+    blurb:'Monorepo scaffolding, lint/format rules, CI/CD, and the design-token source of truth everything else builds on.' },
+  { key:'components', label:'Component Library', color:'#3a6146',
+    blurb:'The shared UI vocabulary — every button, card, and layout primitive used by both apps, built once.' },
+  { key:'contracts', label:'Contracts', color:'#b3872f',
+    blurb:'Zod schemas and inferred types — the single source of truth for shape and validation, enforced at compile time.' },
+  { key:'data', label:'Data & Backend', color:'#25452f',
+    blurb:'Prisma schema, tRPC routers, and Google Workspace auth — where content actually lives and is guarded.' },
+  { key:'platform', label:'Platform Concerns', color:'#5c8468',
+    blurb:'i18n, resilience, observability, SEO, performance, infrastructure, security, testing — cross-cutting, not page-specific.' },
+  { key:'apps', label:'Applications', color:'#a24c34',
+    blurb:'The public website, the admin panel, and PWA support — where everything above becomes a page someone actually uses.' },
+  { key:'docs', label:'Documentation', color:'#6d6753',
+    blurb:'ADRs, runbooks, governance — the record that outlives any one developer.' },
+];
+
+// status codes: s = scaffolded, p = planned/not-yet-built, n = not planned. omit = live.
+const GROUPS = [
+ {num:1, layer:'foundation', name:'Monorepo & Developer Tooling', range:'F-001–F-011', f:[
+   ['F-001','pnpm Monorepo with Nx Orchestration'],['F-002','Shared TypeScript Base Configuration'],
+   ['F-003','Root TypeScript Project References'],['F-004','Shared ESLint Configuration'],
+   ['F-005','Prettier Code Formatting'],['F-006','EditorConfig'],
+   ['F-007','Environment Variable Documentation'],['F-008','Automated Dependency Vulnerability Scanning'],
+   ['F-009','GitHub Actions CI Pipeline'],['F-010','GitHub Actions CD Pipeline'],
+   ['F-011','Build-Time Automation Framework']]},
+ {num:2, layer:'foundation', name:'Design System Tokens', range:'F-012–F-020', f:[
+   ['F-012','Color Token System'],['F-013','Typography Token System'],
+   ['F-014','Trilingual CSS Variable Font Stack'],['F-015','Spacing and Sizing Token System'],
+   ['F-016','Motion Token System'],['F-017','Utility & Effect Token System'],
+   ['F-018','Tailwind nexusPreset'],['F-019','tokens.css Generator'],
+   ['F-020','Design System Viewer']]},
+ {num:3, layer:'components', name:'Component Library', range:'F-021–F-041', f:[
+   ['F-021','Atom Components'],['F-022','Spinner Components'],['F-023','Form Components'],
+   ['F-024','Card Components'],['F-025','Layout Components'],['F-026','Brand Components'],
+   ['F-027','Social Media Icon Components'],['F-028','Icon Registry System'],
+   ['F-029','Visualization Components'],['F-030','Page State Components'],
+   ['F-031','Notification Components'],['F-032','Overlay Components'],
+   ['F-033','Navigation Components'],['F-034','Media Components'],
+   ['F-035','Section Components'],['F-036','Public Domain Components'],
+   ['F-037','Typography Components'],['F-038','Utility Components'],
+   ['F-039','AmbientEmbers Effect'],['F-040','Shared Hooks'],['F-041','cn() Utility']]},
+ {num:4, layer:'contracts', name:'Contracts: Core & Common', range:'F-042–F-046', focus:true, f:[
+   ['F-042','Common Primitive Schemas'],['F-043','CMS Core Contracts'],
+   ['F-044','Typed API Boundary Contracts'],
+   ['F-045','Auth, Permissions & Storage Contracts','s'],
+   ['F-046','Content Approval Workflow Contracts','s']]},
+ {num:5, layer:'contracts', name:'Contracts: Reusable Content Block Library', range:'F-047', f:[
+   ['F-047','Reusable Content Block Schemas']]},
+ {num:6, layer:'contracts', name:'Contracts: Editorial & Domain Schemas', range:'F-048–F-051', f:[
+   ['F-048','Editorial Content Schemas'],['F-049','Display & Interaction Contracts'],
+   ['F-050','Admin Form Schema Variants'],['F-051','School Domain Type Contracts']]},
+ {num:7, layer:'contracts', name:'Contracts: Page & Global Content Registry', range:'F-052–F-055, F-196', f:[
+   ['F-052','Page Registry'],['F-053','Global Content Registry'],
+   ['F-054','Site Settings Registry'],['F-055','Registry Helper Functions'],
+   ['F-196','Section-Level Content Ownership','n']]},
+ {num:8, layer:'data', name:'Database', range:'F-056–F-063', f:[
+   ['F-056','Current Prisma Schema (ContentEntry / Version / SiteSetting)'],
+   ['F-057','Deferred Domain Models','p'],
+   ['F-058','Prisma Client Singleton'],['F-059','Database Migrations'],
+   ['F-060','Database Seed Script'],['F-061','Automated Database Backups'],
+   ['F-062','Automated Database Cleanup Tasks'],['F-063','Status-Based Archiving Pattern']]},
+ {num:9, layer:'data', name:'API Layer', range:'F-064–F-072, F-195', f:[
+   ['F-064','tRPC Server Setup'],['F-065','ContentEntry Router'],
+   ['F-066','Site Settings Router','p'],['F-067','Media Upload Router','p'],
+   ['F-068','System Routers','p'],['F-069','Domain Content Routers','p'],
+   ['F-070','Input Validation on Every Procedure'],['F-071','Rate Limiting'],
+   ['F-072','Draft/Publish/Archive Workflow'],['F-195','ContentEntry Cache & Revalidation']]},
+ {num:10, layer:'data', name:'Authentication & Access Control', range:'F-073–F-082', f:[
+   ['F-073','Google Workspace OAuth via Auth.js'],['F-074','Invite-Based Access Control'],
+   ['F-075','Role-Based Access Control'],['F-076','Admin Route Protection Middleware'],
+   ['F-077','Admin Login Page'],['F-078','Break-Glass Admin Account'],
+   ['F-079','Break-Glass Password Rotation'],['F-080','TOTP Two-Factor Authentication'],
+   ['F-081','User Deactivation'],['F-082','Secret Management']]},
+ {num:11, layer:'platform', name:'Internationalisation', range:'F-083–F-089', f:[
+   ['F-083','next-intl Locale Routing'],['F-084','Per-Feature Message Files'],
+   ['F-085','Complete English Translations'],['F-086','Complete Sinhala Translations'],
+   ['F-087','Complete Tamil Translations'],['F-088','Automatic Locale Fallback'],
+   ['F-089','LanguageSwitcher Component']]},
+ {num:12, layer:'platform', name:'Error Handling & Resilience', range:'F-090–F-094', f:[
+   ['F-090','Locale-Level Error Boundary'],['F-091','Root-Level Error Boundary'],
+   ['F-092','Designed 404 Page'],['F-093','Section-Level Error Boundaries'],
+   ['F-094','OfflineBanner']]},
+ {num:13, layer:'platform', name:'Logging & Monitoring', range:'F-095–F-100', f:[
+   ['F-095','Audit Logging'],['F-096','Audit Log Viewer'],
+   ['F-097','Structured Server-Side Logging'],['F-098','UptimeRobot Monitoring'],
+   ['F-099','Optional Sentry Error Tracking'],['F-100','Docker Healthchecks']]},
+ {num:14, layer:'platform', name:'Analytics', range:'F-101–F-102', f:[
+   ['F-101','Umami Self-Hosted Analytics'],['F-102','Analytics Dashboard']]},
+ {num:15, layer:'platform', name:'SEO & Discoverability', range:'F-103–F-108', f:[
+   ['F-103','generateMetadata for Every Page'],['F-104','JSON-LD Structured Data'],
+   ['F-105','Dynamic Sitemap'],['F-106','robots.txt'],
+   ['F-107','Sitemap Ping on Content Publish'],['F-108','Open Graph Image Generation']]},
+ {num:16, layer:'platform', name:'Performance', range:'F-109–F-115', f:[
+   ['F-109','next/image for All Images'],['F-110','Dynamic Imports for Heavy Components'],
+   ['F-111','Package Import Optimisation'],['F-112','Static Generation for Content Pages'],
+   ['F-113','Cloudflare R2 CDN for Media'],['F-114','Performance Budget Monitoring'],
+   ['F-115','Image Optimisation Pipeline']]},
+ {num:17, layer:'platform', name:'Infrastructure & Deployment', range:'F-116–F-125', f:[
+   ['F-116','Multi-Stage Dockerfiles'],['F-117','Docker Compose Orchestration'],
+   ['F-118','Caddy Reverse Proxy with Automatic HTTPS'],['F-119','Hetzner CX22 VPS'],
+   ['F-120','Cloudflare R2 Media Storage'],['F-121','Resend Transactional Email'],
+   ['F-122','Security Headers via Caddy'],['F-123','Server Firewall'],
+   ['F-124','SSH Key Authentication'],['F-125','GitHub Container Registry']]},
+ {num:18, layer:'platform', name:'Security', range:'F-126–F-137', f:[
+   ['F-126','Security Architecture Principles'],['F-127','Content Security Policy'],
+   ['F-128','CSRF Protection'],['F-129','Secure Session Management'],
+   ['F-130','File Upload Security'],['F-131','Server-Side Authorization Verification'],
+   ['F-132','Security Audit Trail'],['F-133','Dependency Security Monitoring'],
+   ['F-134','Backup Encryption'],['F-135','Secrets Rotation Procedures'],
+   ['F-136','Security Incident Response Plan'],['F-137','Security Review Before Launch']]},
+ {num:19, layer:'platform', name:'Testing', range:'F-138–F-140', f:[
+   ['F-138','Unit Tests'],['F-139','Integration Tests'],['F-140','End-to-End Tests']]},
+ {num:20, layer:'apps', name:'Public Website', range:'F-141–F-161', f:[
+   ['F-141','Home Page'],['F-142','About Page'],['F-143','News Listing Page'],
+   ['F-144','News Article Page'],['F-145','Events Listing Page'],['F-146','Event Detail Page'],
+   ['F-147','Societies Hub'],['F-148','Society Detail Page'],['F-149','Facilities Page'],
+   ['F-150','Admissions Page'],['F-151','Gallery Listing Page'],['F-152','Gallery Album Page'],
+   ['F-153','Contact Page'],['F-154','Alumni Directory'],['F-155','Digital Archive'],
+   ['F-156','Achievement Database'],['F-157','Unified Search'],['F-158','Cookie Consent Banner'],
+   ['F-159','Academics Page'],['F-160','Administration Page'],['F-161','Extracurriculars Page']]},
+ {num:21, layer:'apps', name:'Admin Panel', range:'F-162–F-183', f:[
+   ['F-162','Admin Shell Layout'],['F-163','Dashboard'],['F-164','News Module'],
+   ['F-165','Staff Module'],['F-166','Events Module'],['F-167','Societies Module'],
+   ['F-168','Gallery Module'],['F-169','Media Library'],['F-170','Analytics Dashboard Module'],
+   ['F-171','User Management Module'],['F-172','Announcements Module'],
+   ['F-173','Audit Log Viewer Module'],['F-174','Settings Module'],
+   ['F-175','Content Preview Mode'],['F-176','Content Versioning'],
+   ['F-177','ContentEntry Module'],['F-178','Academic Programs Admin Screen'],
+   ['F-179','Extracurriculars Module'],['F-180','Alumni Module'],
+   ['F-181','Achievement Module'],['F-182','Digital Archive Module'],
+   ['F-183','Facilities Module']]},
+ {num:22, layer:'apps', name:'PWA & Offline Support', range:'F-184–F-186', f:[
+   ['F-184','Service Worker'],['F-185','Web App Manifest'],['F-186','Designed Offline Page']]},
+ {num:23, layer:'docs', name:'Comprehensive Project Documentation', range:'F-187–F-194', f:[
+   ['F-187','Architecture Decision Records (ADRs)'],['F-188','Developer Knowledge Map'],
+   ['F-189','Engineering Roadmap'],['F-190','Operational Runbook'],
+   ['F-191','Disaster Recovery Plan'],['F-192','Content Governance Document'],
+   ['F-193','Design System Documentation'],['F-194','Complete Trilingual Content Documentation']]},
+];
+
+const STATUS_LABEL = { s:'Scaffolded', p:'Planned', n:'Not planned' };
+const STATUS_CLASS = { s:'st-scaffolded', p:'st-planned', n:'st-not-planned' };
+
+const layerByKey = Object.fromEntries(LAYERS.map(l => [l.key, l]));
+const totalFeatures = GROUPS.reduce((a,g) => a + g.f.length, 0);
+const counts = { s:0, p:0, n:0 };
+GROUPS.forEach(g => g.f.forEach(x => { if (x[2]) counts[x[2]]++; }));
+const liveCount = totalFeatures - counts.s - counts.p - counts.n;
+
+// ---- Hero stats ----
+document.getElementById('statRow').innerHTML = `
+  <div class="stat"><div class="n">${totalFeatures}</div><div class="l">Total features</div></div>
+  <div class="stat"><div class="n">23</div><div class="l">Groups</div></div>
+  <div class="stat"><div class="n">${liveCount}</div><div class="l">Live / built</div></div>
+  <div class="stat"><div class="n">${counts.p + counts.s}</div><div class="l">Planned / scaffolded</div></div>
+`;
+
+// ---- Legend ----
+document.getElementById('legend').innerHTML = `
+  <span class="k"><span class="swatch" style="background:${layerByKey.foundation.color}"></span>live = no badge</span>
+  <span class="k"><span class="f-status ${STATUS_CLASS.s}">Scaffolded</span> contract exists, nothing built on it yet</span>
+  <span class="k"><span class="f-status ${STATUS_CLASS.p}">Planned</span> designed, not implemented</span>
+  <span class="k"><span class="f-status ${STATUS_CLASS.n}">Not planned</span> considered, explicitly out of scope</span>
+`;
+
+// ---- Strata ----
+const strataEl = document.getElementById('strata');
+const maxCount = Math.max(...LAYERS.map(l => GROUPS.filter(g=>g.layer===l.key).reduce((a,g)=>a+g.f.length,0)));
+strataEl.innerHTML = LAYERS.map((l, i) => {
+  const layerGroups = GROUPS.filter(g => g.layer === l.key);
+  const count = layerGroups.reduce((a,g) => a + g.f.length, 0);
+  const pct = Math.round((count / maxCount) * 100);
+  const chips = layerGroups.map(g => `<span class="chip" data-scroll="group-${g.num}">${g.num}. ${g.name}</span>`).join('');
+  return `
+  <div class="stratum" style="--layer-color:${l.color}">
+    <div class="stratum-head">
+      <span class="stratum-idx">${String(i+1).padStart(2,'0')}</span>
+      <h3>${l.label}</h3>
+      <span class="stratum-count">${count} features</span>
+    </div>
+    <div class="stratum-bar"><div class="stratum-fill" style="width:${pct}%"></div></div>
+    <p class="stratum-blurb">${l.blurb}</p>
+    <div class="stratum-chips">${chips}</div>
+  </div>`;
+}).join('');
+
+// ---- Group cards, organised by layer ----
+const groupsWrap = document.getElementById('groupsWrap');
+groupsWrap.innerHTML = LAYERS.map(l => {
+  const layerGroups = GROUPS.filter(g => g.layer === l.key);
+  const cards = layerGroups.map(g => {
+    const rows = g.f.map(([id,name,st]) => `
+      <div class="feature-row">
+        <span class="f-id">${id}</span>
+        <span class="f-name">${name}</span>
+        ${st ? `<span class="f-status ${STATUS_CLASS[st]}">${STATUS_LABEL[st]}</span>` : ''}
+      </div>`).join('');
+    return `
+    <div class="card" id="group-${g.num}" style="--layer-color:${l.color}">
+      <div class="card-head" data-toggle="group-${g.num}">
+        <div>
+          <span class="card-num">GROUP ${g.num}${g.focus ? ' · <span class=\"focus-tag\">current focus</span>' : ''}</span>
+          <h3>${g.name}</h3>
+          <span class="card-range">${g.range}</span>
+        </div>
+        <div style="display:flex;align-items:center;">
+          <span class="card-count">${g.f.length}</span>
+          <span class="card-caret">▸</span>
+        </div>
+      </div>
+      <div class="card-body">${rows}</div>
+    </div>`;
+  }).join('');
+  return `
+  <div class="layer-heading" style="--layer-color:${l.color}">
+    <span class="dot"></span>
+    <h2>${l.label}</h2>
+  </div>
+  <div class="card-grid">${cards}</div>`;
+}).join('');
+
+// ---- Interactions ----
+document.querySelectorAll('[data-toggle]').forEach(head => {
+  head.addEventListener('click', () => {
+    const card = document.getElementById(head.dataset.toggle);
+    const body = card.querySelector('.card-body');
+    const caret = card.querySelector('.card-caret');
+    const isOpen = card.classList.toggle('open');
+    body.style.maxHeight = isOpen ? body.scrollHeight + 'px' : '0px';
+    caret.textContent = isOpen ? '▾' : '▸';
+  });
+});
+document.querySelectorAll('[data-scroll]').forEach(chip => {
+  chip.addEventListener('click', () => {
+    const card = document.getElementById(chip.dataset.scroll);
+    card.scrollIntoView({ behavior:'smooth', block:'center' });
+    if (!card.classList.contains('open')) {
+      card.querySelector('.card-head').click();
+    } else {
+      card.style.boxShadow = '0 0 0 2px ' + getComputedStyle(card).getPropertyValue('--layer-color');
+      setTimeout(() => card.style.boxShadow = '', 900);
+    }
+  });
+});
+</script>
+</body>
+</html>
