@@ -4,7 +4,7 @@
 
 import { z } from 'zod';
 
-export const TERM_VALUES = ['first', 'second', 'third'] as const;
+export const TERM_VALUES = ['Term 1', 'Term 2', 'Term 3'] as const;
 
 export const TermEnum = z.enum(TERM_VALUES);
 

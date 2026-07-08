@@ -1,3 +1,4 @@
-export * from './school-identity.ts';
-export * from './academic-year.ts';
-export * from './stream.ts';
+export * from './school-identity.js';
+export * from './academic-year.js';
+export * from './stream.js';
+export * from '../term.js';

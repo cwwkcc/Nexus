@@ -8,8 +8,18 @@
 //                              date (ISO), awardedBy?, image? (R2 key)
 //   SocietyAchievementData   — z.infer type
 
+import { z } from 'zod';
+import { AchievementLevel } from '../../editorial/achievements/achievement';
 
+export const SocietyAchievementSchema = z.object({
+  id: z.string().min(1),
+  title: z.string().min(1),
+  description: z.string().optional(),
+  level: AchievementLevel,
+  date: z.string().min(1),
+  awardedBy: z.string().optional(),
+  image: z.string().optional(),
+});
 
-// TODO: implement
-
-export type SocietyAchievement = unknown;
+export type SocietyAchievementData = z.infer<typeof SocietyAchievementSchema>;
+export type SocietyAchievement = SocietyAchievementData;

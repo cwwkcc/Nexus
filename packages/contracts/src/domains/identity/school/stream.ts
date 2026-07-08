@@ -11,8 +11,24 @@
 // Used by: academics page, admissions requirements, results display
 // Note: Combined Maths stream is you. Don't get the subjects wrong.
 
+import { z } from 'zod';
 
+export const ALStreamEnum = z.enum([
+  'combined-maths',
+  'bio-science',
+  'commerce',
+  'arts',
+  'technology',
+]);
 
-// TODO: implement
+export const StreamSchema = z.object({
+  key: ALStreamEnum,
+  name: z.string().min(1),
+  subjects: z.array(z.string()),
+  description: z.string().optional(),
+  icon: z.string().optional(),
+});
 
-export type AcademicStream = unknown;
+export type ALStream = z.infer<typeof ALStreamEnum>;
+export type StreamData = z.infer<typeof StreamSchema>;
+export type AcademicStream = StreamData;

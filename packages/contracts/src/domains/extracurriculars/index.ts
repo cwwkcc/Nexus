@@ -1,1 +1,1 @@
-export * from './activity.ts';
+export * from './activity.js';

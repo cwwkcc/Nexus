@@ -1,3 +1,2 @@
-export * from './school/index.ts';
-export * from './timetable.ts';
-export * from './term.ts';
+export * from './school/index.js';
+export * from './timetable.js';

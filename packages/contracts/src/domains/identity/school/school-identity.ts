@@ -13,8 +13,19 @@
 //   Individual settings are read via getSiteSettingGroups() + SITE_SETTING_SCHEMAS.
 //   Migrate from packages/validation/src/school/.
 
+import { z } from 'zod';
+import { AddressSchema } from '../../../primitives/address';
 
+export const SchoolSchema = z.object({
+  name: z.string().min(1),
+  shortName: z.string().min(1),
+  motto: z.string().min(1),
+  established: z.string().min(1),
+  address: AddressSchema,
+  phone: z.string().min(1),
+  email: z.string().email(),
+  mapEmbedUrl: z.string().url().optional(),
+});
 
-// TODO: implement
-
-export type Identity = unknown;
+export type SchoolData = z.infer<typeof SchoolSchema>;
+export type Identity = SchoolData;

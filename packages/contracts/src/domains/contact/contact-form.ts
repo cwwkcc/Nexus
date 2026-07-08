@@ -13,8 +13,17 @@
 //   .min() / .max() constraints are read by the UI for validation feedback.
 //   Never store contact form submissions in the DB — email them directly.
 
+import { z } from 'zod';
+import { LocaleEnum } from '../../primitives/locale';
 
+export const ContactFormSchema = z.object({
+  name: z.string().min(2),
+  email: z.string().email(),
+  phone: z.string().optional(),
+  subject: z.string().min(5),
+  message: z.string().min(20).max(2000),
+  locale: LocaleEnum,
+});
 
-// TODO: implement
-
-export type Form = unknown;
+export type ContactFormInput = z.infer<typeof ContactFormSchema>;
+export type Form = ContactFormInput;

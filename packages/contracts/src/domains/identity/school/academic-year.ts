@@ -1,20 +1,23 @@
-// packages/contracts/src/features/school/academic-year.ts
+// packages/contracts/src/domains/identity/school/academic-year.ts
 //
-// Academic year and term contracts.
+// Academic year contract.
 //
 // Should contain:
-//   TermName           — z.enum(['Term 1', 'Term 2', 'Term 3'])
-//   TermSchema         — name (TermName), startDate (ISO), endDate (ISO)
 //   AcademicYearSchema — year ('2024/2025'), startDate, endDate, terms: Term[]
-//   AcademicYear       — z.infer type
-//   Term               — z.infer type
+//   AcademicYearData   — z.infer type
 //
 // Notes:
 //   Sri Lankan school year: January–November, three terms.
 //   Used by editorial/events/calendar.ts and features/academics/timetable.ts.
 
+import { z } from 'zod';
+import { TermSchema } from '../term.js';
 
+export const AcademicYearSchema = z.object({
+  year: z.string().min(1),
+  startDate: z.string().min(1),
+  endDate: z.string().min(1),
+  terms: z.array(TermSchema),
+});
 
-// TODO: implement
-
-export type AcademicYear = unknown;
+export type AcademicYearData = z.infer<typeof AcademicYearSchema>;
