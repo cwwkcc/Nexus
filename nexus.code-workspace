@@ -37,4 +37,7 @@
       "path": ".",
     },
   ],
+  "settings": {
+    "liveServer.settings.multiRootWorkspaceName": "ROOT",
+  },
 }
