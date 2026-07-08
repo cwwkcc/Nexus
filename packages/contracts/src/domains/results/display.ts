@@ -12,8 +12,29 @@
 //   The admin composes a ResultsPage from available OLResult and ALResult records.
 //   GradeBadge is rendered by the ResultsGradeBadge component in @nexus/ui.
 
+import { z } from 'zod';
+import { OLResultSchema } from './ol-aggregate-statistics';
+import { ALResultSchema } from './al-aggregate-statistics';
 
+export const GradeBadgeSchema = z.object({
+  grade: z.string().min(1),
+  count: z.number().int().nonnegative().optional(),
+});
 
-// TODO: implement
+export const ResultsYearSchema = z.object({
+  year: z.string().min(1),
+  olResult: OLResultSchema.optional(),
+  alResult: ALResultSchema.optional(),
+});
 
-export type Display = unknown;
+export const ResultsPageSchema = z.object({
+  eyebrow: z.string().optional(),
+  heading: z.string().optional(),
+  years: z.array(ResultsYearSchema),
+  disclaimer: z.string().optional(),
+});
+
+export type GradeBadgeData = z.infer<typeof GradeBadgeSchema>;
+export type ResultsYearData = z.infer<typeof ResultsYearSchema>;
+export type ResultsPageData = z.infer<typeof ResultsPageSchema>;
+export type Display = ResultsPageData;
