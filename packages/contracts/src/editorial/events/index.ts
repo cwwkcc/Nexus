@@ -1,3 +1,3 @@
-export * from './event.ts';
-export * from './recurrence-rule.ts';
-export * from './category.ts';
+export * from './event.js';
+export * from './recurrence-rule.js';
+export * from './category.js';

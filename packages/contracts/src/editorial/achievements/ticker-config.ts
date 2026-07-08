@@ -11,8 +11,20 @@
 //   Items are manually curated — not auto-generated from all achievements.
 //   Stored in ContentEntry: sectionKey 'home.ticker', scope 'page:home'.
 
+import { z } from 'zod';
 
+export const TickerItemSchema = z.object({
+  id: z.string().min(1),
+  text: z.string().min(1).max(80),
+  category: z.string().optional(),
+  href: z.string().url().optional(),
+});
 
-// TODO: implement
+export const TickerSchema = z.object({
+  items: z.array(TickerItemSchema),
+  speed: z.string().optional(),
+});
 
-export type Ticker = unknown;
+export type TickerItemData = z.infer<typeof TickerItemSchema>;
+export type TickerData = z.infer<typeof TickerSchema>;
+export type Ticker = TickerData;

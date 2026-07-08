@@ -1,2 +1,2 @@
-export * from './article.ts';
-export * from './category.ts';
+export * from './article.js';
+export * from './category.js';
