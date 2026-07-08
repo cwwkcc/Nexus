@@ -8,8 +8,26 @@
 //   DepartmentSchema — key (DepartmentKey), name, head? (staff name), subjects?: string[]
 //   DepartmentData   — z.infer type
 
+import { z } from 'zod';
 
+export const DepartmentKeyEnum = z.enum([
+  'mathematics',
+  'science',
+  'languages',
+  'commerce',
+  'arts',
+  'technology',
+  'physical-education',
+  'religion',
+]);
 
-// TODO: implement
+export const DepartmentSchema = z.object({
+  key: DepartmentKeyEnum,
+  name: z.string().min(1),
+  head: z.string().optional(),
+  subjects: z.array(z.string()).optional(),
+});
 
-export type Department = unknown;
+export type DepartmentKey = z.infer<typeof DepartmentKeyEnum>;
+export type DepartmentData = z.infer<typeof DepartmentSchema>;
+export type Department = DepartmentData;

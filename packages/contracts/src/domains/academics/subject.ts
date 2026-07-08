@@ -8,8 +8,22 @@
 //                   streams?: ALStream[], department? (DepartmentKey), description?
 //   SubjectData   — z.infer type
 
+import { z } from 'zod';
+import { DepartmentKeyEnum } from './department';
+import { StreamSchema } from './al-stream';
 
+export const SubjectLevelEnum = z.enum(['OL', 'AL', 'both']);
 
-// TODO: implement
+export const SubjectSchema = z.object({
+  id: z.string().min(1),
+  name: z.string().min(1),
+  code: z.string().optional(),
+  level: SubjectLevelEnum,
+  streams: z.array(StreamSchema).optional(),
+  department: DepartmentKeyEnum.optional(),
+  description: z.string().optional(),
+});
 
-export type Subject = unknown;
+export type SubjectLevel = z.infer<typeof SubjectLevelEnum>;
+export type SubjectData = z.infer<typeof SubjectSchema>;
+export type Subject = SubjectData;
