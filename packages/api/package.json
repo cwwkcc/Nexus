@@ -15,6 +15,7 @@
     }
   },
   "dependencies": {
+    "@nexus/config": "workspace:*",
     "@nexus/db": "workspace:*",
     "zod": "^4.3.6",
     "@trpc/server": "^11.13.4",
