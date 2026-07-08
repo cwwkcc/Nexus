@@ -1,3 +1,3 @@
-export * from './error-envelope.ts';
-export * from './response-envelope.ts';
-export * from './pagination-meta.ts';
+export * from './error-envelope.js';
+export * from './response-envelope.js';
+export * from './pagination-meta.js';

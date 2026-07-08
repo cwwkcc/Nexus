@@ -1,2 +1,2 @@
-export * from './role.ts';
-export * from './permission.ts';
+export * from './role.js';
+export * from './permission.js';
