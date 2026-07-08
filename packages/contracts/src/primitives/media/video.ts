@@ -1,6 +1,4 @@
 // packages/contracts/src/primitives/media/video.ts
-//
-// Video media reference for R2-stored video files.
 
 import { z } from 'zod';
 

@@ -14,8 +14,11 @@
 //   If you switch to Tiptap JSON format later, update this schema and
 //   RichTextRenderer together.
 
+import { z } from 'zod';
 
+export const RichTextSchema = z.object({
+  content: z.string().min(1),
+});
 
-// TODO: implement
-
-export type CoreRichText2 = unknown;
+export type RichTextData = z.infer<typeof RichTextSchema>;
+export type CoreRichText2 = RichTextData;

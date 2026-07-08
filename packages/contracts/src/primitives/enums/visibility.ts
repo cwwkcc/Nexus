@@ -1,6 +1,4 @@
 // packages/contracts/src/primitives/enums/visibility.ts
-//
-// Visibility enum for content access control.
 
 import { z } from 'zod';
 

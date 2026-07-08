@@ -14,8 +14,27 @@
 //   blocks/downloads.ts        — downloadable document hrefs
 //   registry/globals/navigation.ts — nav link hrefs
 
+import { z } from 'zod';
 
+export const InternalLinkSchema = z.object({
+  type: z.literal('internal'),
+  href: z.string().min(1),
+  label: z.string().min(1),
+});
 
-// TODO: implement
+export const ExternalLinkSchema = z.object({
+  type: z.literal('external'),
+  href: z.string().url(),
+  label: z.string().min(1),
+  openInNewTab: z.boolean().optional(),
+});
 
-export type Link = unknown;
+export const LinkSchema = z.discriminatedUnion('type', [
+  InternalLinkSchema,
+  ExternalLinkSchema,
+]);
+
+export type InternalLinkData = z.infer<typeof InternalLinkSchema>;
+export type ExternalLinkData = z.infer<typeof ExternalLinkSchema>;
+export type LinkData = z.infer<typeof LinkSchema>;
+export type Link = LinkData;

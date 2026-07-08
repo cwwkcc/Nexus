@@ -1,6 +1,4 @@
 // packages/contracts/src/primitives/enums/sort-direction.ts
-//
-// Sort direction enum for query ordering.
 
 import { z } from 'zod';
 

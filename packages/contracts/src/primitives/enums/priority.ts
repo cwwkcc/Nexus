@@ -1,6 +1,4 @@
 // packages/contracts/src/primitives/enums/priority.ts
-//
-// Priority enum for task and content prioritization.
 
 import { z } from 'zod';
 

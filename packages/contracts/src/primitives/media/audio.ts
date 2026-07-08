@@ -1,6 +1,4 @@
 // packages/contracts/src/primitives/media/audio.ts
-//
-// Audio media reference for R2-stored audio files.
 
 import { z } from 'zod';
 

@@ -1,6 +1,4 @@
 // packages/contracts/src/primitives/media/document.ts
-//
-// Document media reference for downloadable files.
 
 import { z } from 'zod';
 
