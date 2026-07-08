@@ -1,35 +1,25 @@
-// packages/contracts/src/registry/globals/index.ts
+// packages/contracts/src/registry/global-registry/index.ts
 
-import type { GlobalSectionDefinition } from '../types.ts';
-import { FooterContentSchema } from './footer.ts';
-import { NavigationContentSchema } from './navigation.ts';
-
-export * from './footer.ts';
-export * from './navigation.ts';
+export * from './footer.js';
+export * from './navigation.js';
 
 /**
- * Every global (non-page-scoped) content section, in the same shape
- * PAGE_REGISTRY uses for pages. Consumed by getGlobalSectionSchemas() /
- * getGlobalSection() so the ContentEntry router can validate writes to
- * `global:*` scopes without special-casing them.
+ * Every global (non-page-scoped) content section.
+ * TODO: Update to use proper SectionDefinitionData once registry is fully implemented.
  */
-export const GLOBAL_REGISTRY: GlobalSectionDefinition[] = [
+export const GLOBAL_REGISTRY = [
   {
-    key: 'navigation.main',
+    sectionKey: 'navigation.main',
     scope: 'global:navigation',
-    contentType: 'navigation',
-    label: 'Main Navigation',
-    description:
-      'Top navigation links, including one level of dropdown children.',
-    schema: NavigationContentSchema,
+    contentTypeKey: 'navigation',
+    order: 1,
+    localeRequired: false,
   },
   {
-    key: 'footer.main',
+    sectionKey: 'footer.main',
     scope: 'global:footer',
-    contentType: 'footer',
-    label: 'Site Footer',
-    description:
-      'School name, tagline, contact lines, footer link columns, social links, and copyright.',
-    schema: FooterContentSchema,
+    contentTypeKey: 'footer',
+    order: 2,
+    localeRequired: false,
   },
 ];

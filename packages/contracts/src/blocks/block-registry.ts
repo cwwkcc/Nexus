@@ -1,13 +1,14 @@
 // packages/contracts/src/blocks/block-registry.ts
 //
-// The schema map, the renderer map, and the combined discriminated-union schema over every block.
-//
-// NOTE: This is a simplified version. All block schemas need to be updated to include
-// the blockType discriminant field before the full discriminated union can be built.
+// NOTE: According to the documentation, blocks should not have a separate registry file.
+// The block identifier system is now part of the single content-type system in
+// registry/content-type-key.ts. This file is kept for backward compatibility but
+// should be removed once the full content-type system is implemented.
 
 import { type BlockTypeEnumData } from './block-type.js';
 
 // Renderer map: block type → renderer component name
+// NOTE: This mapping should live in packages/ui, not here.
 export const BLOCK_RENDERER_MAP = {
   hero: 'HeroBlock',
   stats: 'StatsBlock',
@@ -30,6 +31,4 @@ export const BLOCK_RENDERER_MAP = {
   anthem: 'AnthemBlock',
   'values-grid': 'ValuesGridBlock',
 } as const satisfies Record<BlockTypeEnumData, string>;
-
-// TODO: Build BLOCK_SCHEMA_MAP and BlockContentSchema once all block schemas have blockType discriminant
 
