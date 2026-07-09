@@ -1,5 +1,5 @@
 // packages/contracts/src/utils/schema.ts
-//
+
 // Generic, concept-agnostic helpers for building a discriminated-union schema
 // and a keyed lookup record from a single ordered tuple of schemas.
 
@@ -20,4 +20,3 @@ export function buildLookupRecord<T extends z.ZodTypeAny, K extends string, V>(
   }
   return record;
 }
-
