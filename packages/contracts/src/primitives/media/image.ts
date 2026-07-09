@@ -1,4 +1,4 @@
-// packages/contracts/src/core/common/image.ts
+// packages/contracts/src/primitieves/image.ts
 //
 // Shared image contract used across all feature areas and blocks.
 //
@@ -30,5 +30,3 @@ export const AvatarSchema = z.object({
 
 export type ImageData = z.infer<typeof ImageSchema>;
 export type AvatarData = z.infer<typeof AvatarSchema>;
-export type Image = ImageData;
-export type Avatar = AvatarData;

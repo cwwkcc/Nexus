@@ -3,14 +3,10 @@
 
 import { z } from 'zod';
 
+import { ImageSchema } from '../../primitives/index.ts';
 import { GALLERY_BLOCK } from '../block-type.js';
 
-export const GalleryImageSchema = z.object({
-  id: z.string(),
-  src: z.string(),
-  alt: z.string(),
-  caption: z.string().optional(),
-});
+export const GalleryImageSchema = ImageSchema.extend({ id: z.string() });
 
 export const GallerySchema = z.object({
   blockType: z.literal(GALLERY_BLOCK),

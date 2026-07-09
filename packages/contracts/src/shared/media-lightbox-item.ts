@@ -9,10 +9,12 @@
 
 import { z } from 'zod';
 
-export const LightboxImageSchema = z.object({
-  src: z.string(),
-  alt: z.string(),
-  caption: z.string().optional(),
+import { ImageSchema } from '../primitives/index.ts';
+
+export const LightboxImageSchema = ImageSchema.pick({
+  src: true,
+  alt: true,
+  caption: true,
 });
 
 export type LightboxImageData = z.infer<typeof LightboxImageSchema>;
