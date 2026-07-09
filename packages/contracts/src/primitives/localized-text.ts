@@ -4,10 +4,8 @@
 
 import { z } from 'zod';
 
-export const LocalizedTextSchema = z.object({
-  en: z.string(),
-  si: z.string(),
-  ta: z.string(),
-});
+import { SUPPORTED_LOCALES } from './locale.ts';
+
+export const LocalizedTextSchema = SUPPORTED_LOCALES;
 
 export type LocalizedTextData = z.infer<typeof LocalizedTextSchema>;

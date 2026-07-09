@@ -1,5 +1,5 @@
-// packages/contracts/src/core/common/pagination.ts
-//
+// packages/contracts/src/primitieves/pagination.ts
+
 // Pagination contracts for list endpoints and admin tables.
 //
 // Should contain:

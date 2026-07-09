@@ -1,5 +1,5 @@
-// packages/contracts/src/core/common/seo.ts
-//
+// packages/contracts/src/primitieves/seo.ts
+
 // SEO metadata contract attached to every public page.
 //
 // Should contain:

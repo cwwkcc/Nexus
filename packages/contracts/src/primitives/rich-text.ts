@@ -1,5 +1,5 @@
-// packages/contracts/src/core/common/rich-text.ts
-//
+// packages/contracts/src/primitieves/rich-text.ts
+
 // Rich text content contract for Tiptap-authored HTML.
 //
 // Should contain:
@@ -21,4 +21,3 @@ export const RichTextSchema = z.object({
 });
 
 export type RichTextData = z.infer<typeof RichTextSchema>;
-export type CoreRichText2 = RichTextData;
