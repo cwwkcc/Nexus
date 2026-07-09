@@ -1,5 +1,5 @@
 // packages/contracts/src/content/search.ts
-//
+
 // Search result contract.
 //
 // Should contain:
