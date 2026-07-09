@@ -1,5 +1,5 @@
 // packages/contracts/src/system/auth/session.ts
-//
+
 // An active login session.
 
 import { z } from 'zod';

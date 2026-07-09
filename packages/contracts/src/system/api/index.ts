@@ -1,2 +1,2 @@
-export * from './error-envelope.js';
-export * from './response-envelope.js';
+export * from './error-envelope.ts';
+export * from './response-envelope.ts';

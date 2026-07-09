@@ -1,2 +1,2 @@
-export * from './upload.js';
-export * from './object-key.js';
+export * from './upload.ts';
+export * from './object-key.ts';
