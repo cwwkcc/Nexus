@@ -1,5 +1,5 @@
 // packages/contracts/src/core/common/address.ts
-//
+
 // Physical address contract. Reused across contact info and facility locations.
 //
 // Should contain:

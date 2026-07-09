@@ -1,8 +1,10 @@
 // packages/contracts/src/utils/content.ts
-//
+
 // Pure predicates/transforms over primitive shapes.
 
-export function isLocalized(value: unknown): value is { en: string; si: string; ta: string } {
+export function isLocalized(
+  value: unknown,
+): value is { en: string; si: string; ta: string } {
   return (
     typeof value === 'object' &&
     value !== null &&
