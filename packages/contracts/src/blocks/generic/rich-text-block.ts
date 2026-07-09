@@ -5,8 +5,8 @@ import { z } from 'zod';
 
 import { RICH_TEXT_BLOCK } from '../block-type.js';
 
-export const RichTextSchema = z.object({
+export const RichTextBlockSchema = z.object({
   blockType: z.literal(RICH_TEXT_BLOCK),
   content: z.string(),
 });
-export type RichTextData = z.infer<typeof RichTextSchema>;
+export type RichTextBlockData = z.infer<typeof RichTextBlockSchema>;
