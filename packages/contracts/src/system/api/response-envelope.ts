@@ -12,6 +12,12 @@ export const ResponseEnvelopeSchema = <T extends z.ZodType>(dataSchema: T) =>
     error: ErrorEnvelopeSchema.optional(),
   });
 
+export type ResponseEnvelopeData<T> = {
+  success: boolean;
+  data?: T;
+  error?: z.infer<typeof ErrorEnvelopeSchema>;
+};
+
 export const PaginatedResponseEnvelopeSchema = <T extends z.ZodType>(
   itemSchema: T,
 ) =>
@@ -26,8 +32,11 @@ export const PaginatedResponseEnvelopeSchema = <T extends z.ZodType>(
     error: ErrorEnvelopeSchema.optional(),
   });
 
-export type ResponseEnvelopeData<T> = {
+export type PaginatedResponseEnvelopeData<T> = {
   success: boolean;
-  data?: T;
+  data?: {
+    items: T[];
+    meta: z.infer<typeof PaginationMetaSchema>;
+  };
   error?: z.infer<typeof ErrorEnvelopeSchema>;
 };
