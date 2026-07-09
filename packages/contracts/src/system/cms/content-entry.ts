@@ -15,6 +15,8 @@
 
 import { z } from 'zod';
 
+import { PublishStatusEnum } from '../../primitives/enums/publish-status.ts';
+
 export const ContentEntrySchema = z.object({
   id: z.string(),
   sectionKey: z.string(),
@@ -23,6 +25,7 @@ export const ContentEntrySchema = z.object({
   contentType: z.string(),
   data: z.unknown(),
   createdAt: z.string(),
+  status: PublishStatusEnum,
   updatedAt: z.string(),
   publishedAt: z.string().optional(),
 });

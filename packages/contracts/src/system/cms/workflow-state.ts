@@ -4,15 +4,11 @@
 
 import { z } from 'zod';
 
-export const WORKFLOW_STATE_VALUES = ['draft', 'in-review', 'published', 'archived'] as const;
-
-export const WorkflowStateEnum = z.enum(WORKFLOW_STATE_VALUES);
-
-export type WorkflowStateEnumData = z.infer<typeof WorkflowStateEnum>;
+import { PublishStatusEnum } from '../../primitives/enums/publish-status.ts';
 
 export const WorkflowTransitionSchema = z.object({
-  from: WorkflowStateEnum,
-  to: WorkflowStateEnum,
+  from: PublishStatusEnum,
+  to: PublishStatusEnum,
   triggeredBy: z.string(),
 });
 
