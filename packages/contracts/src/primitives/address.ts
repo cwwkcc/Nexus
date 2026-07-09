@@ -1,25 +1,18 @@
-// packages/contracts/src/primitieves/address.ts
+// packages/contracts/src/primitives/address.ts
 
-// Physical address contract. Reused across contact info and facility locations.
+// Physical address contract. Reused across contact info (domains/contact)
+// and facility locations (domains/facilities) — lives in primitives/ rather
+// than either domain because tier-4 siblings can't import each other.
 //
-// Should contain:
-//   AddressSchema  — street, city, province, postalCode?, country (default 'Sri Lanka')
-//   AddressData    — z.infer<typeof AddressSchema>
-//
-// Notes:
-//   Currently defined inline in registry/site-settings/index.ts.
-//   Extracted here so features/contact/info.ts and features/facilities/facility.ts
-//   can reference the same shape without duplication.
 
 import { z } from 'zod';
 
 export const AddressSchema = z.object({
   street: z.string().min(1),
   city: z.string().min(1),
-  province: z.string().min(1),
+  region: z.string().min(1),
   postalCode: z.string().optional(),
-  country: z.string().default('Sri Lanka'),
+  country: z.string().min(1),
 });
 
 export type AddressData = z.infer<typeof AddressSchema>;
-export type Address = AddressData;

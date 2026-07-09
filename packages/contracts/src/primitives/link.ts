@@ -39,4 +39,3 @@ export const LinkSchema = z.discriminatedUnion('type', [
 export type InternalLinkData = z.infer<typeof InternalLinkSchema>;
 export type ExternalLinkData = z.infer<typeof ExternalLinkSchema>;
 export type LinkData = z.infer<typeof LinkSchema>;
-export type Link = LinkData;

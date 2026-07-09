@@ -34,4 +34,3 @@ export const SeoSchema = z.object({
 
 export type OpenGraphData = z.infer<typeof OpenGraphSchema>;
 export type SeoData = z.infer<typeof SeoSchema>;
-export type Seo = SeoData;
