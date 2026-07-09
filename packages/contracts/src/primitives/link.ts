@@ -1,4 +1,4 @@
-// packages/contracts/src/core/common/link.ts
+// packages/contracts/src/primitieves/link.ts
 //
 // Shared link contracts for navigation, CTAs, and inline links.
 //
@@ -16,6 +16,8 @@
 
 import { z } from 'zod';
 
+import { LinkTargetEnum } from './enums/link-target.js';
+
 export const InternalLinkSchema = z.object({
   type: z.literal('internal'),
   href: z.string().min(1),
@@ -26,7 +28,7 @@ export const ExternalLinkSchema = z.object({
   type: z.literal('external'),
   href: z.string().url(),
   label: z.string().min(1),
-  openInNewTab: z.boolean().optional(),
+  openIn: LinkTargetEnum.default('self'),
 });
 
 export const LinkSchema = z.discriminatedUnion('type', [
