@@ -2,16 +2,13 @@
 //
 // Individual photo within an album.
 //
-// Should contain:
-//   PhotoSchema — id, albumId, src (R2 key), alt, caption?,
-//                 takenAt? (ISO datetime), order (number)
-//   PhotoData   — z.infer type
-//
 // Notes:
 //   src is an R2 key resolved to a CDN URL at render time.
 //   order determines display sequence within the album lightbox.
 
 import { z } from 'zod';
+
+export const GALLERY_PHOTO_CONTENT_TYPE = 'gallery-photo';
 
 export const PhotoSchema = z.object({
   id: z.string().min(1),
@@ -24,4 +21,3 @@ export const PhotoSchema = z.object({
 });
 
 export type PhotoData = z.infer<typeof PhotoSchema>;
-export type Photo = PhotoData;
