@@ -2,27 +2,56 @@
 //
 // News article contract.
 //
-// Should contain:
-//   ArticleCategory    — z.enum(['academic','sports','cultural','community',
-//                                'announcement','achievement'])
-//   ArticleSchema      — id, title, slug, excerpt, content (RichText HTML),
-//                        coverImage? (R2 key), category (ArticleCategory),
-//                        author?, publishedAt (ISO datetime), tags?: string[],
-//                        seo? (SeoData), locale (Locale)
-//   ArticleCardSchema  — lighter projection for list views:
-//                        id, title, slug, excerpt, coverImage?, category, publishedAt
-//   ArticleData        — z.infer type
-//   ArticleCardData    — z.infer type
+// NewsArticleSchema     — the full entity: id, title, slug, excerpt,
+//                         content (RichText HTML), coverImage? (R2 key),
+//                         category (NewsCategoryKey), author?, publishedAt (ISO),
+//                         tags?: string[], seo? (SeoData), locale
+// ArticleCardSchema     — lighter projection for list views (used by @nexus/ui)
 //
 // Notes:
 //   Articles are stored as ContentEntry rows with scope 'editorial:news'.
 //   Full content is Tiptap HTML — render with RichTextRenderer in @nexus/ui.
+//   Category reuses NewsCategorySchema from category.ts rather than a
+//   separate ArticleCategory enum.
 
 import { z } from 'zod';
 
+import { NewsCategorySchema } from './category.ts';
+import {
+  MAX_TITLE_LENGTH,
+  MAX_DESCRIPTION_LENGTH,
+} from '../../constants/index.ts';
+import {
+  ImageSchema,
+  LocaleEnum,
+  RichTextSchema,
+  SeoSchema,
+} from '../../primitives/index.ts';
+
+export const NEWS_ARTICLE_CONTENT_TYPE = 'news-article';
+
+// The full entity — CMS/admin CRUD and ContentEntry storage.
+export const NewsArticleSchema = z.object({
+  id: z.string(),
+  title: z.string().max(MAX_TITLE_LENGTH),
+  slug: z.string(),
+  excerpt: z.string().max(MAX_DESCRIPTION_LENGTH),
+  content: RichTextSchema,
+  coverImage: ImageSchema.optional(),
+  category: NewsCategorySchema,
+  author: z.string().optional(),
+  publishedAt: z.string(), // ISO datetime
+  tags: z.array(z.string()).optional(),
+  seo: SeoSchema.optional(),
+  locale: LocaleEnum,
+});
+
+export type NewsArticleData = z.infer<typeof NewsArticleSchema>;
+
 export const NewsCardVariant = z.enum(['featured', 'standard', 'compact']);
 
-export const ArticleSchema = z.object({
+// Card projection — matches @nexus/ui's NewsCardProps exactly.
+export const ArticleCardSchema = z.object({
   variant: NewsCardVariant.optional(),
   title: z.string(),
   excerpt: z.string().optional(),
@@ -34,8 +63,7 @@ export const ArticleSchema = z.object({
   readTime: z.string().optional(),
 });
 
-export type ArticleData = z.infer<typeof ArticleSchema>;
+export type ArticleCardData = z.infer<typeof ArticleCardSchema>;
 export type NewsCardVariantType = z.infer<typeof NewsCardVariant>;
 
-// Runtime enum values for comparisons
 export const NewsCardVariantValues = NewsCardVariant.enum;
