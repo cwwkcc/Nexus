@@ -1,13 +1,4 @@
 // packages/contracts/src/domains/facilities/facility-profile.ts
-//
-// Facility profile contracts for the Facilities page (section 07 of
-// docs/Design System/Page Specifications.md). Seven facilities are shown
-// today (Main Building, Science Labs, ICT Labs, Auditorium, Sports Grounds,
-// Swimming Pool, Library); the Swimming Pool is the only one with a
-// schedule, per FacilityCard's two variants (standard / schedule) in
-// Component Reference.md — that's why `schedule` is optional rather than a
-// stored variant flag: whether a facility has one is a fact about the
-// facility, not a presentation choice made separately from it.
 
 import { z } from 'zod';
 
@@ -51,6 +42,8 @@ export const FacilityCardSchema = z.object({
 });
 
 export type FacilityTypeEnumData = z.infer<typeof FacilityTypeEnum>;
-export type FacilityScheduleSlotData = z.infer<typeof FacilityScheduleSlotSchema>;
+export type FacilityScheduleSlotData = z.infer<
+  typeof FacilityScheduleSlotSchema
+>;
 export type FacilityData = z.infer<typeof FacilitySchema>;
 export type FacilityCardData = z.infer<typeof FacilityCardSchema>;
