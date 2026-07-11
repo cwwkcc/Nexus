@@ -1,34 +1,34 @@
-// packages/contracts/src/features/extracurriculars/activity.ts
+// packages/contracts/src/domains/extracurriculars/activity.ts
 //
-// Extracurricular activity contract.
-// Informal activities distinct from registered societies.
-//
-// Should contain:
-//   ActivityCategory  — z.enum(['sports','arts','community','academic','other'])
-//   ActivitySchema    — id, name, category, description, image? (R2 key),
-//                       coordinator?, schedule?, locale
-//   ActivityCardSchema — id, name, category, image?
-//   ActivityData      — z.infer type
+// Extracurricular activity contracts for the Extracurriculars page (section
+// 08 of docs/Design System/Page Specifications.md). Three categories match
+// ExtracurricularCard's own variant vocabulary in Component Reference.md —
+// 'sports', 'performing-arts', 'leadership' — with Scouts and the National
+// Cadet Corps both filed under 'leadership' rather than getting their own
+// categories, matching how the actual card component group them.
 
 import { z } from 'zod';
 
-export const ExtracurricularVariant = z.enum(['sport', 'performing-arts', 'leadership']);
+import { ImageSchema } from '../../primitives/media/index.ts';
+
+export const ExtracurricularCategoryEnum = z.enum([
+  'sports',
+  'performing-arts',
+  'leadership',
+]);
 
 export const ActivitySchema = z.object({
-  variant: ExtracurricularVariant.optional(),
-  name: z.string(),
-  description: z.string(),
-  recentAchievements: z.array(z.string()).optional(),
+  id: z.string().min(1),
+  name: z.string().min(1),
+  category: ExtracurricularCategoryEnum,
+  description: z.string().min(1),
+  image: ImageSchema.optional(),
   teacherInCharge: z.string().optional(),
+  achievements: z.array(z.string()).optional(),
   studentQuote: z.string().optional(),
-  season: z.string().optional(),
-  href: z.string().optional(),
-  imageSrc: z.string().optional(),
-  imageAlt: z.string().optional(),
 });
 
+export type ExtracurricularCategoryEnumData = z.infer<
+  typeof ExtracurricularCategoryEnum
+>;
 export type ActivityData = z.infer<typeof ActivitySchema>;
-export type ExtracurricularVariantType = z.infer<typeof ExtracurricularVariant>;
-
-// Runtime enum values for comparisons
-export const ExtracurricularVariantValues = ExtracurricularVariant.enum;

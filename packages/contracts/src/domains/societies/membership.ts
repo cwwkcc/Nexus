@@ -9,7 +9,10 @@
 //
 // Notes:
 //   Members are stored as part of the society ContentEntry data.
-//   Not linked to features/people/student.ts — no foreign key relationship.
+//   Members are recorded here directly, by name — there's no student roster
+//   or enrollment concept anywhere in this package for it to link to, and
+//   nothing in the Feature Registry calls for one. Keep it that way unless
+//   an actual student-facing feature gets scoped in.
 
 import { z } from 'zod';
 
@@ -30,6 +33,5 @@ export const SocietyMemberSchema = z.object({
   year: z.string().optional(),
 });
 
-export type SocietyMemberRole = z.infer<typeof SocietyMemberRoleEnum>;
+export type SocietyMemberRoleEnumData = z.infer<typeof SocietyMemberRoleEnum>;
 export type SocietyMemberData = z.infer<typeof SocietyMemberSchema>;
-export type Member = SocietyMemberData;

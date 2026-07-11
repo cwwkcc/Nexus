@@ -1,2 +1,2 @@
-export * from './facility-profile.js';
-export * from './panoramic-viewer.js';
+export * from './facility-profile.ts';
+export * from './panoramic-viewer.ts';

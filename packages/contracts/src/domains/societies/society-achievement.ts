@@ -10,7 +10,7 @@
 
 import { z } from 'zod';
 
-import { AchievementLevel } from '../../editorial/achievements/achievement.js';
+import { AchievementLevel } from '../../editorial/achievements/achievement.ts';
 
 export const SocietyAchievementSchema = z.object({
   id: z.string().min(1),
@@ -23,4 +23,3 @@ export const SocietyAchievementSchema = z.object({
 });
 
 export type SocietyAchievementData = z.infer<typeof SocietyAchievementSchema>;
-export type SocietyAchievement = SocietyAchievementData;

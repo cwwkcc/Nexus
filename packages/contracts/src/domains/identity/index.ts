@@ -1,2 +1,1 @@
-export * from './school/index.js';
-export * from './timetable.js';
+export * from './school-identity.ts';

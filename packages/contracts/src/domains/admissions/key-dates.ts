@@ -23,7 +23,6 @@ export const AdmissionsCalendarSchema = z.object({
   dates: z.array(AdmissionsDateSchema),
 });
 
-export type AdmissionsDateCategory = z.infer<typeof AdmissionsDateCategoryEnum>;
+export type AdmissionsDateCategoryEnumData = z.infer<typeof AdmissionsDateCategoryEnum>;
 export type AdmissionsDateData = z.infer<typeof AdmissionsDateSchema>;
 export type AdmissionsCalendarData = z.infer<typeof AdmissionsCalendarSchema>;
-export type KeyDates = AdmissionsCalendarData;

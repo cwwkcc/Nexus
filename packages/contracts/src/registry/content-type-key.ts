@@ -5,6 +5,7 @@
 // together with the schema map and renderer map built over that full union.
 
 import { z } from 'zod';
+
 import { BLOCK_TYPE_VALUES } from '../blocks/block-type.js';
 
 // Content type keys are the union of all block types plus editorial and domain content types

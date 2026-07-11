@@ -15,7 +15,7 @@
 
 import { z } from 'zod';
 
-import { LocaleEnum } from '../../primitives/locale.js';
+import { LocaleEnum } from '../../primitives/locale.ts';
 
 export const ContactFormSchema = z.object({
   name: z.string().min(2),
@@ -27,4 +27,3 @@ export const ContactFormSchema = z.object({
 });
 
 export type ContactFormInput = z.infer<typeof ContactFormSchema>;
-export type Form = ContactFormInput;

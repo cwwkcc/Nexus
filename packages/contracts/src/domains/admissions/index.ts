@@ -1,3 +1,3 @@
-export * from './key-dates.js';
-export * from './process-steps.js';
-export * from './eligibility-requirements.js';
+export * from './key-dates.ts';
+export * from './process-steps.ts';
+export * from './eligibility-requirements.ts';

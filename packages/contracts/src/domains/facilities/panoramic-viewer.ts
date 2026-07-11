@@ -30,4 +30,3 @@ export const PanoramicViewerSchema = z.object({
 
 export type HotspotData = z.infer<typeof HotspotSchema>;
 export type PanoramicViewerData = z.infer<typeof PanoramicViewerSchema>;
-export type Panoramic = PanoramicViewerData;

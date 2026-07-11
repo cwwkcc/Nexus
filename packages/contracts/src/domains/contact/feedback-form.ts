@@ -30,6 +30,5 @@ export const FeedbackFormSchema = z.object({
   email: z.string().email().optional(),
 });
 
-export type FeedbackCategory = z.infer<typeof FeedbackCategoryEnum>;
+export type FeedbackCategoryEnumData = z.infer<typeof FeedbackCategoryEnum>;
 export type FeedbackFormInput = z.infer<typeof FeedbackFormSchema>;
-export type Feedback = FeedbackFormInput;

@@ -9,7 +9,7 @@
 
 import { z } from 'zod';
 
-import { AchievementLevel } from '../../editorial/achievements/achievement.js';
+import { AchievementLevel } from '../../editorial/achievements/achievement.ts';
 
 export const ExtracurricularAchievementSchema = z.object({
   id: z.string().min(1),
@@ -24,4 +24,3 @@ export const ExtracurricularAchievementSchema = z.object({
 export type ExtracurricularAchievementData = z.infer<
   typeof ExtracurricularAchievementSchema
 >;
-export type ExtracurricularAchievement = ExtracurricularAchievementData;

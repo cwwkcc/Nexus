@@ -24,7 +24,6 @@ export const EligibilitySchema = z.object({
   cutoffMark: z.number().int().min(0).max(100).optional(),
 });
 
-export type GradeLevel = z.infer<typeof GradeLevelEnum>;
+export type GradeLevelEnumData = z.infer<typeof GradeLevelEnum>;
 export type RequirementData = z.infer<typeof RequirementSchema>;
 export type EligibilityData = z.infer<typeof EligibilitySchema>;
-export type Requirements = EligibilityData;

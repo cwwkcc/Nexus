@@ -28,6 +28,5 @@ export const DepartmentSchema = z.object({
   subjects: z.array(z.string()).optional(),
 });
 
-export type DepartmentKey = z.infer<typeof DepartmentKeyEnum>;
+export type DepartmentKeyEnumData = z.infer<typeof DepartmentKeyEnum>;
 export type DepartmentData = z.infer<typeof DepartmentSchema>;
-export type Department = DepartmentData;

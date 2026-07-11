@@ -1,4 +1,3 @@
-export * from './al-aggregate-statistics.js';
-export * from './ol-aggregate-statistics.js';
-export * from './aggregates.js';
-export * from './display.js';
+export * from './al-aggregate-statistics.ts';
+export * from './ol-aggregate-statistics.ts';
+export * from './display.ts';

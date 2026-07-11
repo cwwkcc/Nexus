@@ -18,4 +18,3 @@ export const AdmissionsProcessSchema = z.object({
 
 export type AdmissionsStepData = z.infer<typeof AdmissionsStepSchema>;
 export type AdmissionsProcessData = z.infer<typeof AdmissionsProcessSchema>;
-export type Process = AdmissionsProcessData;

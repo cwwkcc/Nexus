@@ -1,38 +1,50 @@
-// packages/contracts/src/features/people/staff.ts
+// packages/contracts/src/domains/people/staff-member.ts
 //
-// Staff member contracts.
+// Staff directory contracts. Backs the Administration page (principal,
+// deputy/assistant principals, head prefects) and the Society detail page's
+// leadership section — anywhere a person is shown with a designation and
+// portrait. See docs/Design System/Page Specifications.md sections 03 and 09,
+// and Component Reference.md's StaffCard entry.
 //
-// Should contain:
-//   StaffRole       — z.enum(['teacher','admin','support'])
-//   StaffSchema     — id, name, role (StaffRole), department? (DepartmentKey),
-//                     subject?, image? (R2 key), bio?, joinedYear?
-//   StaffCardSchema — id, name, role, department?, image?
-//   StaffData       — z.infer type
-//   StaffCardData   — z.infer type
-//
-// Notes:
-//   email is admin-only — never expose in StaffCardSchema.
-//   The public staff directory shows StaffCardData only.
-//   Migrate from packages/validation/src/people/.
+// 'head-prefect' is a real StaffRole value even though prefects are students,
+// not employees — the Administration page shows them through the same
+// Staff Module query and the same StaffCard component, per section 03's
+// data source note.
 
 import { z } from 'zod';
 
-export const StaffCardVariant = z.enum(['principal', 'grid', 'compact']);
+import { AvatarSchema } from '../../primitives/media/index.ts';
+import { DepartmentKeyEnum } from '../academics/department.ts';
+
+export const StaffRoleEnum = z.enum([
+  'principal',
+  'deputy-principal',
+  'assistant-principal',
+  'head-prefect',
+  'teacher',
+  'support',
+]);
 
 export const StaffSchema = z.object({
-  variant: StaffCardVariant.optional(),
-  name: z.string(),
-  title: z.string(),
+  id: z.string().min(1),
+  name: z.string().min(1),
+  role: StaffRoleEnum,
+  designation: z.string().min(1),
+  department: DepartmentKeyEnum.optional(),
+  portfolio: z.string().optional(),
   tenure: z.string().optional(),
   quote: z.string().optional(),
-  imageSrc: z.string().optional(),
-  imageAlt: z.string().optional(),
-  portfolio: z.string().optional(),
-  href: z.string().optional(),
+  bio: z.string().optional(),
+  portrait: AvatarSchema.optional(),
+  contactEmail: z.string().email().optional(),
+  joinedYear: z.string().optional(),
 });
 
-export type StaffData = z.infer<typeof StaffSchema>;
-export type StaffCardVariantType = z.infer<typeof StaffCardVariant>;
+export const StaffCardSchema = StaffSchema.omit({
+  bio: true,
+  joinedYear: true,
+});
 
-// Runtime enum values for comparisons
-export const StaffCardVariantValues = StaffCardVariant.enum;
+export type StaffRoleEnumData = z.infer<typeof StaffRoleEnum>;
+export type StaffData = z.infer<typeof StaffSchema>;
+export type StaffCardData = z.infer<typeof StaffCardSchema>;

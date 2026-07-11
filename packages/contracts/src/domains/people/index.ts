@@ -1,3 +1,3 @@
-export * from './staff-member.js';
-export * from './principal-profile.js';
-export * from './alumni.js';
+export * from './staff-member.ts';
+export * from './principal-profile.ts';
+export * from './alumni.ts';

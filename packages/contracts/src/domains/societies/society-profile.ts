@@ -1,38 +1,52 @@
-// packages/contracts/src/features/societies/society.ts
+// packages/contracts/src/domains/societies/society-profile.ts
 //
-// Society profile contract.
+// Society profile contracts for the Societies Hub and individual society
+// pages (sections 09 of docs/Design System/Page Specifications.md, routed
+// at /societies/[slug]). Category values match the hub's own filter options
+// (Academic, Sports, Arts, Technology).
 //
-// Should contain:
-//   SocietyType      — z.enum(['academic','sports','cultural','service','religious','other'])
-//   SocietySchema    — id, slug, name, type, description, coverImage? (R2 key),
-//                      logo? (R2 key), founded? (year string), advisor?,
-//                      memberCount?, meetingSchedule?, locale
-//   SocietyCardSchema — id, slug, name, type, coverImage?, memberCount?
-//   SocietyData      — z.infer type
-//   SocietyCardData  — z.infer type
-//
-// Notes:
-//   Each society gets a detail page at /societies/{slug}.
+// Leadership, achievements, recent events, and gallery are deliberately not
+// embedded here — they're separate content (StaffSchema, SocietyAchievement,
+// editorial events, gallery albums) queried by this society's id, per the
+// package's rule against one tier-4 schema embedding another directly.
 
 import { z } from 'zod';
 
-export const SocietyCardVariant = z.enum(['hub-grid', 'featured']);
+import { AvatarSchema, ImageSchema } from '../../primitives/media/index.ts';
+
+export const SocietyCategoryEnum = z.enum([
+  'academic',
+  'sports',
+  'arts',
+  'technology',
+]);
 
 export const SocietySchema = z.object({
-  variant: SocietyCardVariant.optional(),
-  name: z.string(),
-  tagline: z.string(),
-  category: z.string(),
-  href: z.string(),
-  imageSrc: z.string().optional(),
-  imageAlt: z.string().optional(),
+  id: z.string().min(1),
+  slug: z.string().min(1),
+  name: z.string().min(1),
+  tagline: z.string().optional(),
+  category: SocietyCategoryEnum,
+  foundingYear: z.string().optional(),
+  description: z.string().optional(),
+  meetingSchedule: z.string().optional(),
+  memberCount: z.number().int().nonnegative().optional(),
+  howToJoin: z.string().optional(),
+  bannerImage: ImageSchema.optional(),
+  logo: AvatarSchema.optional(),
   isFeatured: z.boolean().optional(),
-  memberCount: z.number().optional(),
-  founded: z.string().optional(),
 });
 
-export type SocietyData = z.infer<typeof SocietySchema>;
-export type SocietyCardVariantType = z.infer<typeof SocietyCardVariant>;
+export const SocietyCardSchema = z.object({
+  id: z.string().min(1),
+  slug: z.string().min(1),
+  name: z.string().min(1),
+  tagline: z.string().optional(),
+  category: SocietyCategoryEnum,
+  logo: AvatarSchema.optional(),
+  isFeatured: z.boolean().optional(),
+});
 
-// Runtime enum values for comparisons
-export const SocietyCardVariantValues = SocietyCardVariant.enum;
+export type SocietyCategoryEnumData = z.infer<typeof SocietyCategoryEnum>;
+export type SocietyData = z.infer<typeof SocietySchema>;
+export type SocietyCardData = z.infer<typeof SocietyCardSchema>;

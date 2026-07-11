@@ -32,4 +32,3 @@ export const PrincipalMessageSchema = z.object({
 
 export type PrincipalData = z.infer<typeof PrincipalSchema>;
 export type PrincipalMessageData = z.infer<typeof PrincipalMessageSchema>;
-export type Principal = PrincipalData;

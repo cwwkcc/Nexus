@@ -29,7 +29,6 @@ export const OLResultSchema = z.object({
   subjectResults: z.array(OLSubjectResultSchema).optional(),
 });
 
-export type OLGrade = z.infer<typeof OLGradeEnum>;
+export type OLGradeEnumData = z.infer<typeof OLGradeEnum>;
 export type OLSubjectResultData = z.infer<typeof OLSubjectResultSchema>;
 export type OLResultData = z.infer<typeof OLResultSchema>;
-export type Ol = OLResultData;
