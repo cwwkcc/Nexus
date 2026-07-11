@@ -1,46 +1,62 @@
-// packages/contracts/src/registry/pages/events.ts
+// packages/contracts/src/registry/page-registry/events.ts
 //
-// Page registry for: Events
-//
-// Should contain:
-//   eventsRegistry — PageRegistry object:
-//     page:        'events'
-//     scope:       'page:events'
-//     label:       'Events'
-//     description: What this page is and who manages it
-//     sections:    SectionDefinition[] — one entry per block on this page
-//
-// Each SectionDefinition:
-//   key:         'events.{sectionName}'  → stored as ContentEntry.sectionKey
-//   blockKey:    key from BLOCKS registry (e.g. 'hero', 'stats', 'timeline')
-//   label:       Section name shown in the admin editor
-//   description: Help text for content editors explaining what this section is
-//   schema:      The block schema — either a BLOCKS schema directly, or a
-//                page-specific extension: HeroSchema.extend({ extraField: z.string() })
-//
-// When adding a section:
-//   1. Add a SectionDefinition entry here
-//   2. Add seed data in packages/database/prisma/seed-events.ts
-//   3. Update the page fetcher in apps/web/src/server/content.ts
-//   4. Build the block in apps/web/src/blocks/events/
+// Page registry for: Events. Not covered in docs/Design System/Page
+// Specifications.md (sections 01-12 don't include it), but it's one of the
+// 13 real pages per the Feature Registry (F-052) and PAGE_KEY_VALUES, and
+// editorial/events/calendar.ts's own comment already assumes it exists
+// ("The events page and home page upcoming strip both read from this").
+// Worth getting Page Specifications.md updated to cover it properly —
+// this section list is a reasonable best guess from the real EventSchema/
+// EventCardSchema, not a transcription of a written spec.
 
-import type { PageRegistry } from '../types.js';
+import { z } from 'zod';
+
+import { HeroSchema } from '../../blocks/index.ts';
+import { EventCardSchema } from '../../editorial/events/event.ts';
+import type { PageRegistry } from '../types.ts';
+
+export const EventsHeroSchema = HeroSchema;
+
+export const EventsUpcomingSchema = z.object({
+  eyebrow: z.string().optional(),
+  heading: z.string().optional(),
+  events: z.array(EventCardSchema),
+});
+export type EventsUpcomingData = z.infer<typeof EventsUpcomingSchema>;
+
+export const EventsPastSchema = z.object({
+  heading: z.string().optional(),
+  events: z.array(EventCardSchema),
+});
+export type EventsPastData = z.infer<typeof EventsPastSchema>;
 
 export const eventsRegistry: PageRegistry = {
   page: 'events',
   scope: 'page:events',
   label: 'Events',
-  description: '', // TODO: add a description for the admin panel
+  description:
+    'Manage the Events page \u2014 upcoming and past events, filterable by category. The same calendar data also feeds the homepage upcoming strip.',
   sections: [
-    // TODO: add SectionDefinition entries as blocks are designed and built
-    //
-    // Example:
-    // {
-    //   key: 'events.hero',
-    //   blockKey: 'hero',
-    //   label: 'Hero Banner',
-    //   description: 'Top-of-page headline and eyebrow text.',
-    //   schema: HeroSchema,
-    // },
+    {
+      key: 'events.hero',
+      blockKey: 'hero',
+      label: 'Hero Banner',
+      description: 'Top-of-page headline and eyebrow text.',
+      schema: EventsHeroSchema,
+    },
+    {
+      key: 'events.upcoming',
+      blockKey: 'rich-text-block',
+      label: 'Upcoming Events',
+      description: 'Events with a future date, soonest first.',
+      schema: EventsUpcomingSchema,
+    },
+    {
+      key: 'events.past',
+      blockKey: 'rich-text-block',
+      label: 'Past Events',
+      description: 'Completed events, most recent first.',
+      schema: EventsPastSchema,
+    },
   ],
 };

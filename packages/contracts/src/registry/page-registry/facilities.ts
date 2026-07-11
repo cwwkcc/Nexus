@@ -1,42 +1,26 @@
-// packages/contracts/src/registry/pages/facilities.ts
+// packages/contracts/src/registry/page-registry/facilities.ts
+//
+// Page registry for: Facilities (docs/Design System/Page Specifications.md
+// section 07).
 
 import { z } from 'zod';
 
-import { CtaSchema, type CtaData } from '../../blocks/generic/cta.ts';
-import { HeroSchema, type HeroData } from '../../blocks/hero.ts';
-import { StatsSchema, type StatsData } from '../../blocks/generic/stats.ts';
+import { CtaSchema, HeroSchema, StatsSchema } from '../../blocks/index.ts';
+import { FacilitySchema } from '../../domains/facilities/facility-profile.ts';
 import type { PageRegistry } from '../types.ts';
 
-// ── Section schemas ─────────────────────────────────────────────────────
-
 export const FacilitiesHeroSchema = HeroSchema;
-export type FacilitiesHeroData = HeroData;
 
 export const FacilitiesStatsSchema = StatsSchema;
-export type FacilitiesStatsData = StatsData;
-
-export const FacilityCardSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  description: z.string(),
-  icon: z.string().optional(),
-  imageSrc: z.string().optional(),
-  imageAlt: z.string().optional(),
-  capacity: z.string().optional(),
-  features: z.array(z.string()).optional(),
-});
 
 export const FacilitiesGridSchema = z.object({
   eyebrow: z.string(),
   heading: z.string(),
-  facilities: z.array(FacilityCardSchema),
+  facilities: z.array(FacilitySchema),
 });
 export type FacilitiesGridData = z.infer<typeof FacilitiesGridSchema>;
 
 export const FacilitiesCtaSchema = CtaSchema;
-export type FacilitiesCtaData = CtaData;
-
-// ── Page registry ───────────────────────────────────────────────────────
 
 export const facilitiesRegistry: PageRegistry = {
   page: 'facilities',
@@ -63,10 +47,10 @@ export const facilitiesRegistry: PageRegistry = {
     },
     {
       key: 'facilities.grid',
-      blockKey: 'richText',
+      blockKey: 'rich-text-block',
       label: 'Facilities Grid',
       description:
-        'Grid of facility cards — each with name, description, optional icon/image, capacity, and features list.',
+        'One card per facility (Main Building, Science Labs, ICT Labs, Auditorium, Sports Grounds, Swimming Pool, Library). The Swimming Pool is the only one with a schedule.',
       schema: FacilitiesGridSchema,
     },
     {

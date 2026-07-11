@@ -30,4 +30,6 @@ export const BLOCK_RENDERER_MAP = {
   'crest-symbols': 'CrestSymbolsBlock',
   anthem: 'AnthemBlock',
   'values-grid': 'ValuesGridBlock',
+  footer: 'FooterBlock',
+  navigation: 'NavigationBlock',
 } as const satisfies Record<BlockTypeEnumData, string>;

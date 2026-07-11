@@ -1,46 +1,41 @@
-// packages/contracts/src/registry/pages/results.ts
+// packages/contracts/src/registry/page-registry/results.ts
 //
-// Page registry for: Results
-//
-// Should contain:
-//   resultsRegistry — PageRegistry object:
-//     page:        'results'
-//     scope:       'page:results'
-//     label:       'Results'
-//     description: What this page is and who manages it
-//     sections:    SectionDefinition[] — one entry per block on this page
-//
-// Each SectionDefinition:
-//   key:         'results.{sectionName}'  → stored as ContentEntry.sectionKey
-//   blockKey:    key from BLOCKS registry (e.g. 'hero', 'stats', 'timeline')
-//   label:       Section name shown in the admin editor
-//   description: Help text for content editors explaining what this section is
-//   schema:      The block schema — either a BLOCKS schema directly, or a
-//                page-specific extension: HeroSchema.extend({ extraField: z.string() })
-//
-// When adding a section:
-//   1. Add a SectionDefinition entry here
-//   2. Add seed data in packages/database/prisma/seed-results.ts
-//   3. Update the page fetcher in apps/web/src/server/content.ts
-//   4. Build the block in apps/web/src/blocks/results/
+// Page registry for: Results. Also not in docs/Design System/Page
+// Specifications.md's 12 written sections, same gap as events.ts — but
+// confirmed real by the Feature Registry (F-051, F-052) and PAGE_KEY_VALUES.
+// This is the aggregate O/L and A/L results page — island rank, subject
+// pass rates, stream performance, never individual student grades (see
+// domains/results/ol-aggregate-statistics.ts's own header note). Distinct
+// from the Academics page's small manual stats strip, which has no live
+// results feed behind it at all.
 
-import type { PageRegistry } from '../types.js';
+import { HeroSchema } from '../../blocks/index.ts';
+import { ResultsPageSchema } from '../../domains/results/display.ts';
+import type { PageRegistry } from '../types.ts';
+
+export const ResultsHeroSchema = HeroSchema;
 
 export const resultsRegistry: PageRegistry = {
   page: 'results',
   scope: 'page:results',
   label: 'Results',
-  description: '', // TODO: add a description for the admin panel
+  description:
+    'Manage the Results page \u2014 aggregate O/L and A/L exam statistics by year. Composed from OLResult and ALResult records; never individual student data.',
   sections: [
-    // TODO: add SectionDefinition entries as blocks are designed and built
-    //
-    // Example:
-    // {
-    //   key: 'results.hero',
-    //   blockKey: 'hero',
-    //   label: 'Hero Banner',
-    //   description: 'Top-of-page headline and eyebrow text.',
-    //   schema: HeroSchema,
-    // },
+    {
+      key: 'results.hero',
+      blockKey: 'hero',
+      label: 'Hero Banner',
+      description: 'Top-of-page headline and eyebrow text.',
+      schema: ResultsHeroSchema,
+    },
+    {
+      key: 'results.page',
+      blockKey: 'results-display',
+      label: 'Results by Year',
+      description:
+        'One entry per year, each with optional O/L and A/L aggregate result data, plus an optional disclaimer.',
+      schema: ResultsPageSchema,
+    },
   ],
 };

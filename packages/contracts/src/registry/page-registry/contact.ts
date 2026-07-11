@@ -1,45 +1,61 @@
-// packages/contracts/src/registry/pages/contact.ts
+// packages/contracts/src/registry/page-registry/contact.ts
 //
-// Page registry for: Contact
-//
-// Should contain:
-//   contactRegistry — PageRegistry object:
-//     page:        'contact'
-//     scope:       'page:contact'
-//     label:       'Contact'
-//     description: What this page is and who manages it
-//     sections:    SectionDefinition[] — one entry per block on this page
-//
-// Each SectionDefinition:
-//   key:         'contact.{sectionName}'  → stored as ContentEntry.sectionKey
-//   blockKey:    key from BLOCKS registry (e.g. 'hero', 'stats', 'timeline')
-//   label:       Section name shown in the admin editor
-//   description: Help text for content editors explaining what this section is
-//   schema:      The block schema — either a BLOCKS schema directly, or a
-//                page-specific extension: HeroSchema.extend({ extraField: z.string() })
-//
-// When adding a section:
-//   1. Add a SectionDefinition entry here
-//   2. Add seed data in packages/database/prisma/seed-contact.ts
-//   3. Update the page fetcher in apps/web/src/server/content.ts
-//   4. Build the block in apps/web/src/blocks/contact/
+// Page registry for: Contact (docs/Design System/Page Specifications.md
+// section 11).
 
-import {
-  ContactInfoBlockSchema,
-  type ContactInfoBlockData,
-} from '../../blocks/page-specific/contact-info.ts';
-import { CtaSchema, type CtaData } from '../../blocks/generic/cta.ts';
-import { HeroSchema, type HeroData } from '../../blocks/hero.ts';
-import type { PageRegistry } from '../types.js';
+import { z } from 'zod';
+
+import { CtaSchema, HeroSchema } from '../../blocks/index.ts';
+import { DepartmentKeyEnum } from '../../domains/academics/department.ts';
+import { ContactFormSchema } from '../../domains/contact/contact-form.ts';
+import { FeedbackFormSchema } from '../../domains/contact/feedback-form.ts';
+import type { PageRegistry } from '../types.ts';
 
 export const ContactHeroSchema = HeroSchema;
-export type ContactHeroData = HeroData;
 
-export const ContactInfoSchema = ContactInfoBlockSchema;
-export type ContactInfoData = ContactInfoBlockData;
+export const ContactDepartmentEntrySchema = z.object({
+  department: DepartmentKeyEnum,
+  phone: z.string().optional(),
+  email: z.string().email().optional(),
+  extension: z.string().optional(),
+});
+
+export const ContactDepartmentsTableSchema = z.object({
+  eyebrow: z.string().optional(),
+  heading: z.string().optional(),
+  departments: z.array(ContactDepartmentEntrySchema),
+});
+export type ContactDepartmentsTableData = z.infer<
+  typeof ContactDepartmentsTableSchema
+>;
+
+export const ContactMapSchema = z.object({
+  mapEmbedUrl: z.string(),
+  note: z.string().optional(),
+});
+export type ContactMapData = z.infer<typeof ContactMapSchema>;
+
+export const ContactEnquiryFormSchema = ContactFormSchema;
+export const ContactFeedbackFormSchema = FeedbackFormSchema;
+
+export const ContactHoursSchema = z.object({
+  officeHours: z.string(),
+  emergencyContacts: z.array(
+    z.object({ label: z.string(), phone: z.string() }),
+  ),
+  afterHoursProtocol: z.string().optional(),
+});
+export type ContactHoursData = z.infer<typeof ContactHoursSchema>;
+
+export const ContactTransportSchema = z.object({
+  busRoutes: z.string().optional(),
+  trainStation: z.string().optional(),
+  parking: z.string().optional(),
+  accessibilityNotes: z.string().optional(),
+});
+export type ContactTransportData = z.infer<typeof ContactTransportSchema>;
 
 export const ContactCtaSchema = CtaSchema;
-export type ContactCtaData = CtaData;
 
 export const contactRegistry: PageRegistry = {
   page: 'contact',
@@ -56,12 +72,47 @@ export const contactRegistry: PageRegistry = {
       schema: ContactHeroSchema,
     },
     {
-      key: 'contact.info',
-      blockKey: 'contact-info',
-      label: 'Contact Information',
+      key: 'contact.departments',
+      blockKey: 'rich-text-block',
+      label: 'Department Contacts',
+      description: 'Department name, phone, email, and extension table.',
+      schema: ContactDepartmentsTableSchema,
+    },
+    {
+      key: 'contact.map',
+      blockKey: 'map',
+      label: 'Map',
+      description: 'Google Maps embed of the campus location.',
+      schema: ContactMapSchema,
+    },
+    {
+      key: 'contact.generalEnquiry',
+      blockKey: 'rich-text-block',
+      label: 'General Enquiry Form',
+      description: 'Name, email, subject, message — sent to info@cwwkcc.lk.',
+      schema: ContactEnquiryFormSchema,
+    },
+    {
+      key: 'contact.feedback',
+      blockKey: 'rich-text-block',
+      label: 'Feedback and Complaints Form',
       description:
-        'School contact details, address, admissions contact and map.',
-      schema: ContactInfoSchema,
+        "Name (optional), category, message, anonymous toggle — sent to the principal's office.",
+      schema: ContactFeedbackFormSchema,
+    },
+    {
+      key: 'contact.officeHours',
+      blockKey: 'rich-text-block',
+      label: 'Office Hours and Emergency Contacts',
+      description: 'Timings, emergency numbers, after-hours protocol.',
+      schema: ContactHoursSchema,
+    },
+    {
+      key: 'contact.transport',
+      blockKey: 'rich-text-block',
+      label: 'Transport and Directions',
+      description: 'Bus routes, train station, parking, accessibility.',
+      schema: ContactTransportSchema,
     },
     {
       key: 'contact.cta',

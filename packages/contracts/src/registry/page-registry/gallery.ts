@@ -1,46 +1,58 @@
-// packages/contracts/src/registry/pages/gallery.ts
+// packages/contracts/src/registry/page-registry/gallery.ts
 //
-// Page registry for: Gallery
-//
-// Should contain:
-//   galleryRegistry — PageRegistry object:
-//     page:        'gallery'
-//     scope:       'page:gallery'
-//     label:       'Gallery'
-//     description: What this page is and who manages it
-//     sections:    SectionDefinition[] — one entry per block on this page
-//
-// Each SectionDefinition:
-//   key:         'gallery.{sectionName}'  → stored as ContentEntry.sectionKey
-//   blockKey:    key from BLOCKS registry (e.g. 'hero', 'stats', 'timeline')
-//   label:       Section name shown in the admin editor
-//   description: Help text for content editors explaining what this section is
-//   schema:      The block schema — either a BLOCKS schema directly, or a
-//                page-specific extension: HeroSchema.extend({ extraField: z.string() })
-//
-// When adding a section:
-//   1. Add a SectionDefinition entry here
-//   2. Add seed data in packages/database/prisma/seed-gallery.ts
-//   3. Update the page fetcher in apps/web/src/server/content.ts
-//   4. Build the block in apps/web/src/blocks/gallery/
+// Page registry for: Gallery (docs/Design System/Page Specifications.md
+// section 10). The Instagram embed and YouTube video section are optional,
+// static-config sections — no CMS content type needed for either.
 
-import type { PageRegistry } from '../types.js';
+import { z } from 'zod';
+
+import { HeroSchema } from '../../blocks/index.ts';
+import { GalleryAlbumCardSchema } from '../../editorial/gallery/album.ts';
+import type { PageRegistry } from '../types.ts';
+
+export const GalleryHeroSchema = HeroSchema;
+
+export const GalleryAlbumsGridSchema = z.object({
+  eyebrow: z.string().optional(),
+  heading: z.string().optional(),
+  albums: z.array(GalleryAlbumCardSchema),
+});
+export type GalleryAlbumsGridData = z.infer<typeof GalleryAlbumsGridSchema>;
+
+export const GalleryVideoSectionSchema = z.object({
+  heading: z.string().optional(),
+  youtubePlaylistUrl: z.string(),
+});
+export type GalleryVideoSectionData = z.infer<typeof GalleryVideoSectionSchema>;
 
 export const galleryRegistry: PageRegistry = {
   page: 'gallery',
   scope: 'page:gallery',
   label: 'Gallery',
-  description: '', // TODO: add a description for the admin panel
+  description:
+    'Manage the Gallery page — featured albums grid and the optional video section. Individual photos live inside each album, not as page sections.',
   sections: [
-    // TODO: add SectionDefinition entries as blocks are designed and built
-    //
-    // Example:
-    // {
-    //   key: 'gallery.hero',
-    //   blockKey: 'hero',
-    //   label: 'Hero Banner',
-    //   description: 'Top-of-page headline and eyebrow text.',
-    //   schema: HeroSchema,
-    // },
+    {
+      key: 'gallery.hero',
+      blockKey: 'hero',
+      label: 'Hero Banner',
+      description: 'Top-of-page headline and eyebrow text.',
+      schema: GalleryHeroSchema,
+    },
+    {
+      key: 'gallery.albums',
+      blockKey: 'gallery',
+      label: 'Featured Albums Grid',
+      description:
+        'Curated albums, filterable by category (Events, Sports, Academic, Cultural).',
+      schema: GalleryAlbumsGridSchema,
+    },
+    {
+      key: 'gallery.video',
+      blockKey: 'rich-text-block',
+      label: 'Video Section',
+      description: 'Optional YouTube playlist embed of school event videos.',
+      schema: GalleryVideoSectionSchema,
+    },
   ],
 };

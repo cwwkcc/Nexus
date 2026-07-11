@@ -13,6 +13,7 @@ import {
   type CrestData,
   TimelineItemSchema,
 } from '../../blocks/index.ts';
+import { AlumniSchema } from '../../domains/people/alumni.ts';
 import type { PageRegistry } from '../types.ts';
 
 // ── Section schemas ─────────────────────────────────────────────────────
@@ -107,21 +108,10 @@ export const AboutLegacySchema = z.object({
 });
 export type AboutLegacyData = z.infer<typeof AboutLegacySchema>;
 
-export const AboutAlumniProfileSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  graduationYear: z.union([z.number(), z.string()]),
-  position: z.string(),
-  quote: z.string(),
-  portraitSrc: z.string().optional(),
-  portraitAlt: z.string().optional(),
-});
-export type AboutAlumniProfileData = z.infer<typeof AboutAlumniProfileSchema>;
-
 export const AboutAlumniSchema = z.object({
   eyebrow: z.string(),
   heading: z.string(),
-  profiles: z.array(AboutAlumniProfileSchema).default([]),
+  profiles: z.array(AlumniSchema).default([]),
 });
 export type AboutAlumniData = z.infer<typeof AboutAlumniSchema>;
 
@@ -160,7 +150,7 @@ export const aboutRegistry: PageRegistry = {
     },
     {
       key: 'about.story',
-      blockKey: 'richText',
+      blockKey: 'rich-text-block',
       label: 'Our Story',
       description:
         'The founding narrative of KCC — eyebrow, heading, body paragraph, and optional pull-quote with attribution.',
@@ -168,7 +158,7 @@ export const aboutRegistry: PageRegistry = {
     },
     {
       key: 'about.aboutKannangara',
-      blockKey: 'richText',
+      blockKey: 'rich-text-block',
       label: 'Our Namesake',
       description:
         'Profile of Dr. C.W.W. Kannangara — name, title, portrait image, biography paragraph, and optional quote.',
@@ -192,7 +182,7 @@ export const aboutRegistry: PageRegistry = {
     },
     {
       key: 'about.values',
-      blockKey: 'values',
+      blockKey: 'values-grid',
       label: 'Core Values',
       description:
         'The four school values. Each has an English name, a Latin name, and a description.',
@@ -200,7 +190,7 @@ export const aboutRegistry: PageRegistry = {
     },
     {
       key: 'about.crest',
-      blockKey: 'crest',
+      blockKey: 'crest-symbols',
       label: 'Crest Explained',
       description:
         'Eyebrow, heading, intro paragraph, and list of crest symbols. Each symbol has a name, meaning, and position label.',
@@ -208,15 +198,15 @@ export const aboutRegistry: PageRegistry = {
     },
     {
       key: 'about.alumni',
-      blockKey: 'alumni',
+      blockKey: 'rich-text-block',
       label: 'Alumni Legacy',
       description:
-        'Notable alumni carousel — section eyebrow and heading, plus a list of alumni profiles (name, graduation year, position, quote, optional portrait).',
+        'Notable alumni carousel — section eyebrow and heading, plus a list of alumni profiles (name, graduation year, current role/org, quote, optional portrait). Only entries marked isFeatureworthy show here.',
       schema: AboutAlumniSchema,
     },
     {
       key: 'about.legacy',
-      blockKey: 'richText',
+      blockKey: 'rich-text-block',
       label: 'Legacy',
       description:
         'Two sub-sections: "Spirit of Kannangara" (eyebrow, heading, paragraph, pull-quote) and "Physical Heritage" (eyebrow, heading, caption, optional photo grid).',
@@ -232,7 +222,7 @@ export const aboutRegistry: PageRegistry = {
     },
     {
       key: 'about.closing',
-      blockKey: 'richText',
+      blockKey: 'rich-text-block',
       label: 'Closing Statement',
       description:
         'Eyebrow, final heading, body paragraph, and footnote rule shown at the very bottom of the page.',

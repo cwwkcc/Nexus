@@ -1,46 +1,67 @@
-// packages/contracts/src/registry/pages/extracurriculars.ts
+// packages/contracts/src/registry/page-registry/extracurriculars.ts
 //
-// Page registry for: Extracurriculars
-//
-// Should contain:
-//   extracurricularsRegistry — PageRegistry object:
-//     page:        'extracurriculars'
-//     scope:       'page:extracurriculars'
-//     label:       'Extracurriculars'
-//     description: What this page is and who manages it
-//     sections:    SectionDefinition[] — one entry per block on this page
-//
-// Each SectionDefinition:
-//   key:         'extracurriculars.{sectionName}'  → stored as ContentEntry.sectionKey
-//   blockKey:    key from BLOCKS registry (e.g. 'hero', 'stats', 'timeline')
-//   label:       Section name shown in the admin editor
-//   description: Help text for content editors explaining what this section is
-//   schema:      The block schema — either a BLOCKS schema directly, or a
-//                page-specific extension: HeroSchema.extend({ extraField: z.string() })
-//
-// When adding a section:
-//   1. Add a SectionDefinition entry here
-//   2. Add seed data in packages/database/prisma/seed-extracurriculars.ts
-//   3. Update the page fetcher in apps/web/src/server/content.ts
-//   4. Build the block in apps/web/src/blocks/extracurriculars/
+// Page registry for: Extracurriculars (docs/Design System/Page
+// Specifications.md section 08). The page spec names four subsections
+// (Sports, Performing Arts, Scouts, National Cadet Corps), but
+// ExtracurricularCategoryEnum has three values — Scouts and the NCC are
+// both 'leadership', matching the real ExtracurricularCard component's own
+// variant vocabulary (see Component Reference.md). They're still two
+// separate ActivitySchema entries, just sharing a category.
 
-import type { PageRegistry } from '../types.js';
+import { z } from 'zod';
+
+import { HeroSchema } from '../../blocks/index.ts';
+import { ActivitySchema } from '../../domains/extracurriculars/activity.ts';
+import type { PageRegistry } from '../types.ts';
+
+export const ExtracurricularsHeroSchema = HeroSchema;
+
+export const ExtracurricularsGridSchema = z.object({
+  eyebrow: z.string().optional(),
+  heading: z.string().optional(),
+  activities: z.array(ActivitySchema),
+});
+export type ExtracurricularsGridData = z.infer<
+  typeof ExtracurricularsGridSchema
+>;
 
 export const extracurricularsRegistry: PageRegistry = {
   page: 'extracurriculars',
   scope: 'page:extracurriculars',
   label: 'Extracurriculars',
-  description: '', // TODO: add a description for the admin panel
+  description:
+    'Manage Extracurriculars — sports, performing arts, scouts, and the National Cadet Corps.',
   sections: [
-    // TODO: add SectionDefinition entries as blocks are designed and built
-    //
-    // Example:
-    // {
-    //   key: 'extracurriculars.hero',
-    //   blockKey: 'hero',
-    //   label: 'Hero Banner',
-    //   description: 'Top-of-page headline and eyebrow text.',
-    //   schema: HeroSchema,
-    // },
+    {
+      key: 'extracurriculars.hero',
+      blockKey: 'hero',
+      label: 'Hero Banner',
+      description: 'Top-of-page headline and eyebrow text.',
+      schema: ExtracurricularsHeroSchema,
+    },
+    {
+      key: 'extracurriculars.sports',
+      blockKey: 'rich-text-block',
+      label: 'Sports',
+      description:
+        'Cricket, athletics, volleyball, etc. ActivitySchema entries with category = sports.',
+      schema: ExtracurricularsGridSchema,
+    },
+    {
+      key: 'extracurriculars.performingArts',
+      blockKey: 'rich-text-block',
+      label: 'Performing Arts',
+      description:
+        'Western band, Eastern band, drama, etc. ActivitySchema entries with category = performing-arts.',
+      schema: ExtracurricularsGridSchema,
+    },
+    {
+      key: 'extracurriculars.leadership',
+      blockKey: 'rich-text-block',
+      label: 'Scouts and National Cadet Corps',
+      description:
+        'History, President\u2019s Award winners, teacher in charge, annual camps. ActivitySchema entries with category = leadership.',
+      schema: ExtracurricularsGridSchema,
+    },
   ],
 };

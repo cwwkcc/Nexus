@@ -1,46 +1,67 @@
-// packages/contracts/src/registry/pages/news.ts
+// packages/contracts/src/registry/page-registry/news.ts
 //
-// Page registry for: News
-//
-// Should contain:
-//   newsRegistry — PageRegistry object:
-//     page:        'news'
-//     scope:       'page:news'
-//     label:       'News'
-//     description: What this page is and who manages it
-//     sections:    SectionDefinition[] — one entry per block on this page
-//
-// Each SectionDefinition:
-//   key:         'news.{sectionName}'  → stored as ContentEntry.sectionKey
-//   blockKey:    key from BLOCKS registry (e.g. 'hero', 'stats', 'timeline')
-//   label:       Section name shown in the admin editor
-//   description: Help text for content editors explaining what this section is
-//   schema:      The block schema — either a BLOCKS schema directly, or a
-//                page-specific extension: HeroSchema.extend({ extraField: z.string() })
-//
-// When adding a section:
-//   1. Add a SectionDefinition entry here
-//   2. Add seed data in packages/database/prisma/seed-news.ts
-//   3. Update the page fetcher in apps/web/src/server/content.ts
-//   4. Build the block in apps/web/src/blocks/news/
+// Page registry for: News and Announcements (docs/Design System/Page
+// Specifications.md section 06). The full article page
+// (/news/[slug]) renders NewsArticleSchema directly — it isn't a registry
+// section, since it's one article at a time, not a page composed of
+// interchangeable sections.
 
-import type { PageRegistry } from '../types.js';
+import { z } from 'zod';
+
+import { AnnouncementSchema, HeroSchema } from '../../blocks/index.ts';
+import { ArticleCardSchema } from '../../editorial/news/article.ts';
+import type { PageRegistry } from '../types.ts';
+
+export const NewsHeroSchema = HeroSchema;
+
+export const NewsAnnouncementSchema = AnnouncementSchema;
+
+export const NewsFeaturedSchema = z.object({
+  article: ArticleCardSchema,
+});
+export type NewsFeaturedData = z.infer<typeof NewsFeaturedSchema>;
+
+export const NewsFeedSchema = z.object({
+  articles: z.array(ArticleCardSchema),
+});
+export type NewsFeedData = z.infer<typeof NewsFeedSchema>;
 
 export const newsRegistry: PageRegistry = {
   page: 'news',
   scope: 'page:news',
-  label: 'News',
-  description: '', // TODO: add a description for the admin panel
+  label: 'News and Announcements',
+  description:
+    'Manage the News page — the optional announcement banner, featured article, and the paginated news feed.',
   sections: [
-    // TODO: add SectionDefinition entries as blocks are designed and built
-    //
-    // Example:
-    // {
-    //   key: 'news.hero',
-    //   blockKey: 'hero',
-    //   label: 'Hero Banner',
-    //   description: 'Top-of-page headline and eyebrow text.',
-    //   schema: HeroSchema,
-    // },
+    {
+      key: 'news.hero',
+      blockKey: 'hero',
+      label: 'Hero Banner',
+      description: 'Top-of-page headline and eyebrow text.',
+      schema: NewsHeroSchema,
+    },
+    {
+      key: 'news.announcement',
+      blockKey: 'announcement',
+      label: 'Announcement Banner',
+      description:
+        'Optional dismissible urgent notice (e.g. "School reopens 5 May").',
+      schema: NewsAnnouncementSchema,
+    },
+    {
+      key: 'news.featured',
+      blockKey: 'rich-text-block',
+      label: 'Featured Article',
+      description: 'The latest post with featured = true.',
+      schema: NewsFeaturedSchema,
+    },
+    {
+      key: 'news.feed',
+      blockKey: 'rich-text-block',
+      label: 'News Feed',
+      description:
+        '6\u201312 posts per page, filterable by category (Academic, Sports, Events, Achievements).',
+      schema: NewsFeedSchema,
+    },
   ],
 };

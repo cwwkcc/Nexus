@@ -26,6 +26,8 @@ export const BLOCK_TYPE_VALUES = [
   'crest-symbols',
   'anthem',
   'values-grid',
+  'footer',
+  'navigation',
 ] as const;
 
 export const BlockTypeEnum = z.enum(BLOCK_TYPE_VALUES);
@@ -53,3 +55,5 @@ export const KEY_DATES_BLOCK = 'key-dates';
 export const CREST_SYMBOLS_BLOCK = 'crest-symbols';
 export const ANTHEM_BLOCK = 'anthem';
 export const VALUES_GRID_BLOCK = 'values-grid';
+export const FOOTER_BLOCK = 'footer';
+export const NAVIGATION_BLOCK = 'navigation';

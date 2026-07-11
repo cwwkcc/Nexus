@@ -1,12 +1,12 @@
 // packages/contracts/src/registry/content-type-key.ts
 //
-// The exhaustive union of every content-type identifier in the system (every block type,
-// plus every editorial and domain content type that can be stored as a ContentEntry),
-// together with the schema map and renderer map built over that full union.
+// The exhaustive union of every content-type identifier in the system: every
+// block type, plus every editorial and domain content type that can be
+// stored as a ContentEntry.
 
 import { z } from 'zod';
 
-import { BLOCK_TYPE_VALUES } from '../blocks/block-type.js';
+import { BLOCK_TYPE_VALUES } from '../blocks/block-type.ts';
 
 // Content type keys are the union of all block types plus editorial and domain content types
 export const CONTENT_TYPE_KEY_VALUES = [
@@ -26,6 +26,7 @@ export const CONTENT_TYPE_KEY_VALUES = [
   'stream',
   'staff-member',
   'facility',
+  'extracurricular',
   'society',
   'contact-form',
   'feedback-form',
@@ -35,4 +36,6 @@ export const ContentTypeKeyEnum = z.enum(CONTENT_TYPE_KEY_VALUES);
 
 export type ContentTypeKeyEnumData = z.infer<typeof ContentTypeKeyEnum>;
 
-// TODO: Build schema map and renderer map once all content types are properly defined
+// The schema map and renderer map over the block-type subset now live in
+// lookup.ts (BLOCK_SCHEMA_MAP, BLOCK_RENDERER_MAP). Editorial and domain
+// content types aren't mapped yet — that's the remaining TODO.
