@@ -18,10 +18,6 @@ This package is pure. It defines shapes and pure validation/lookup functions onl
 - **shared/** — a small set of cross-cutting content utilities that are neither foundational primitives nor page blocks: search results, the navigation content shape, the media lightbox item, and the reusable "step" primitive.
 - **registry/** — the composition layer. Defines every page and every global section, ties each section to a content-type identifier (the single identifier space spanning blocks, domain entities, and editorial content alike) and a database `(scope, sectionKey)` pair, and is the only folder allowed to depend on everything else. It has no knowledge of renderer components — `packages/ui` owns its own registry mapping the same identifiers to actual components.
 
-## A note on `@nexus/contracts-restricted`
-
-The admissions application form and the student directory record are personally identifiable and must never reach `apps/web`, even transitively. Because Nx module boundaries tag whole projects rather than individual files, that guarantee can't be made real by tagging two files inside this package — so those two concepts live in a separate sibling package, `@nexus/contracts-restricted`, that only `apps/admin` and the admin-facing side of `packages/api` depend on. This package never imports from it.
-
 ## How to import
 
 Every top-level folder is re-exported from the package root as its own namespace, so a consumer always writes `Blocks.Hero.HeroSchema` or `Domains.Academics.DepartmentSchema` rather than a flat, collision-prone import. Never import a file from deep inside another folder directly — always go through that folder's namespace on the root barrel. This keeps every consumer's import statements stable even as files move around inside a folder.

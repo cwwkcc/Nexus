@@ -29,23 +29,6 @@ export const fontFamily = {
   mono: ['var(--font-mono)', 'Menlo', 'monospace'],
 } satisfies Record<string, string[]>;
 
-// =============================================================================
-// Font Sizes – all languages, all variants
-//
-// The clamp() values below use the standard `rem + vw` fluid-type formula,
-// not a bare `Nvw` term. A bare `clamp(MIN, Nvw, MAX)` only behaves
-// "fluidly" in the narrow viewport band where Nvw actually sits between
-// MIN and MAX — outside that band it's just a constant. With min/max pairs
-// this close together (e.g. display was 3.86rem → 4rem) that band was only
-// ~20px wide, so every heading was effectively a fixed size on both phones
-// and desktops, with mobile getting near-desktop-scale text.
-//
-// Each tier below is interpolated linearly between a 320px floor viewport
-// and a 1440px ceiling viewport: below 320px it holds at MIN, above 1440px
-// it holds at MAX, and in between it scales smoothly. Smaller tiers (h5,
-// h6) get a gentler min/max ratio than display/h1, since small text needs
-// far less viewport-based scaling than hero text.
-// =============================================================================
 export const fontSize = {
   // ── English ────────────────────────────────────────────────────────────────
   display: [
