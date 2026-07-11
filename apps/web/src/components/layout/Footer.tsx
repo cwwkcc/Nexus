@@ -1,4 +1,4 @@
-import type { FooterSocialLink, Locale } from '@nexus/contracts';
+import type { FooterSocialLinkData, LocaleEnumData } from '@nexus/contracts';
 import {
   Container,
   Divider,
@@ -19,7 +19,7 @@ import {
 
 import { getFooterContent } from '@/server/content/global';
 
-type IconName = FooterSocialLink['icon'];
+type IconName = FooterSocialLinkData['icon'];
 
 const ICON_MAP: Record<IconName, React.ReactNode> = {
   facebook: <FacebookColor />,
@@ -47,7 +47,7 @@ function MinimalFooter() {
 // ─── Main Component ──────────────────────────────────────────────────────────
 
 interface FooterProps {
-  locale: Locale;
+  locale: LocaleEnumData;
 }
 
 export async function Footer({ locale }: FooterProps) {

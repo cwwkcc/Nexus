@@ -14,7 +14,7 @@
 // Admin procedures return all statuses and are gated by adminSecret.
 
 import {
-  LocaleSchema,
+  LocaleEnum,
   getAllSectionSchemas,
   getGlobalSectionSchemas,
 } from '@nexus/contracts';
@@ -22,9 +22,9 @@ import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 
 import {
-  publicProcedure,
   adminProcedure,
   adminMutation,
+  publicProcedure,
   router,
 } from '../trpc.js';
 
@@ -32,13 +32,13 @@ import {
 
 const ScopedLocaleInput = z.object({
   scope: z.string().min(1),
-  locale: LocaleSchema,
+  locale: LocaleEnum,
 });
 
 const SectionLocaleInput = z.object({
   scope: z.string().min(1),
   sectionKey: z.string().min(1),
-  locale: LocaleSchema,
+  locale: LocaleEnum,
 });
 
 const StatusSchema = z
@@ -169,7 +169,7 @@ export const contentEntryRouter = router({
         scope: z.string().min(1),
         sectionKey: z.string().min(1),
         contentType: z.string().min(1),
-        locale: LocaleSchema,
+        locale: LocaleEnum,
         data: z.unknown(),
         status: StatusSchema,
       }),
@@ -247,7 +247,7 @@ export const contentEntryRouter = router({
       z.object({
         scope: z.string().min(1),
         sectionKey: z.string().min(1),
-        locale: LocaleSchema,
+        locale: LocaleEnum,
         status: z.enum(['draft', 'published', 'archived']),
       }),
     )

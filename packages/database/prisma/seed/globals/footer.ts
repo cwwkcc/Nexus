@@ -1,6 +1,6 @@
 // packages/database/prisma/seed/globals/footer.ts
 
-import { type FooterContentData, Locale } from '@nexus/contracts';
+import { type FooterContentData, LocaleEnumData } from '@nexus/contracts';
 
 import type { PrismaClient } from '../../../src/generated/prisma/client.js';
 
@@ -315,7 +315,7 @@ const SECTION_KEY = 'footer.main';
 
 export async function seedFooter(
   db: PrismaClient,
-  locales: readonly Locale[],
+  locales: readonly LocaleEnumData[],
 ): Promise<void> {
   for (const locale of locales) {
     const localeData = FOOTER_SEED[locale];
@@ -329,7 +329,7 @@ export async function seedFooter(
       data: localeData as object,
       contentType: CONTENT_TYPE,
       version: 1,
-    };
+    } as const;
 
     await db.contentEntry.upsert({
       where: {

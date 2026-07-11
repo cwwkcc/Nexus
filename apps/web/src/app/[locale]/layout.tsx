@@ -1,4 +1,4 @@
-import { SUPPORTED_LOCALES, type Locale } from '@nexus/contracts';
+import { SUPPORTED_LOCALES, type LocaleEnumData } from '@nexus/contracts';
 import { cn, BackToTopButton } from '@nexus/ui';
 import {
   Cormorant_Garamond,
@@ -69,8 +69,10 @@ type Props = {
 
 export default async function LocaleLayout({ children, params }: Props) {
   const { locale } = await params;
-  const safeLocale: Locale = SUPPORTED_LOCALES.includes(locale as Locale)
-    ? (locale as Locale)
+  const safeLocale: LocaleEnumData = SUPPORTED_LOCALES.includes(
+    locale as LocaleEnumData,
+  )
+    ? (locale as LocaleEnumData)
     : 'en';
   if (!routing.locales.includes(locale as 'en' | 'si' | 'ta')) {
     notFound();

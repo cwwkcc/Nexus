@@ -1,9 +1,11 @@
+// packages/api/src/__tests__/auth.test.ts
+
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import { createContext } from '../context.js';
-import { adminProcedure, createCallerFactory, router } from '../trpc.js';
 import { contentEntryRouter } from '../routers/content-entry.js';
+import { adminProcedure, createCallerFactory, router } from '../trpc.js';
 
 test('server-side callers can authenticate with the configured admin secret', async () => {
   process.env.ADMIN_API_SECRET = 'test-secret';
@@ -39,7 +41,7 @@ test('content entry reads degrade gracefully when the database is unavailable', 
   const createCaller = createCallerFactory(testRouter);
   const caller = createCaller(createContext());
 
-  const result = await caller.contentEntry.getByScope({
+  const result = await caller.contentEntry.adminGetByScope({
     scope: 'page:home',
     locale: 'en',
   });

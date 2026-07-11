@@ -1,6 +1,6 @@
 // packages/database/prisma/seed/globals/navigation.ts
 
-import type { NavigationContentData, Locale } from '@nexus/contracts';
+import type { NavigationContentData, LocaleEnumData } from '@nexus/contracts';
 
 import type { PrismaClient } from '../../../src/generated/prisma/client.js';
 
@@ -58,7 +58,7 @@ const SECTION_KEY = 'navigation.main';
 
 export async function seedNavigation(
   db: PrismaClient,
-  locales: readonly Locale[],
+  locales: readonly LocaleEnumData[],
 ): Promise<void> {
   for (const locale of locales) {
     const localeData = NAVIGATION_SEED[locale];
@@ -72,7 +72,7 @@ export async function seedNavigation(
       data: localeData as object,
       contentType: CONTENT_TYPE,
       version: 1,
-    };
+    } as const;
 
     await db.contentEntry.upsert({
       where: {
