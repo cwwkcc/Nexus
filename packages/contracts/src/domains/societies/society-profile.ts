@@ -1,14 +1,4 @@
 // packages/contracts/src/domains/societies/society-profile.ts
-//
-// Society profile contracts for the Societies Hub and individual society
-// pages (sections 09 of docs/Design System/Page Specifications.md, routed
-// at /societies/[slug]). Category values match the hub's own filter options
-// (Academic, Sports, Arts, Technology).
-//
-// Leadership, achievements, recent events, and gallery are deliberately not
-// embedded here — they're separate content (StaffSchema, SocietyAchievement,
-// editorial events, gallery albums) queried by this society's id, per the
-// package's rule against one tier-4 schema embedding another directly.
 
 import { z } from 'zod';
 

@@ -1,18 +1,6 @@
 // packages/contracts/src/features/societies/member.ts
-//
+
 // Society membership contracts.
-//
-// Should contain:
-//   SocietyMemberRole   — z.enum(['president','secretary','treasurer','member','alumni'])
-//   SocietyMemberSchema — id, name, role, image? (R2 key), bio?, year?
-//   SocietyMemberData   — z.infer type
-//
-// Notes:
-//   Members are stored as part of the society ContentEntry data.
-//   Members are recorded here directly, by name — there's no student roster
-//   or enrollment concept anywhere in this package for it to link to, and
-//   nothing in the Feature Registry calls for one. Keep it that way unless
-//   an actual student-facing feature gets scoped in.
 
 import { z } from 'zod';
 
