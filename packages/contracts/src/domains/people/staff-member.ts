@@ -1,15 +1,6 @@
 // packages/contracts/src/domains/people/staff-member.ts
-//
-// Staff directory contracts. Backs the Administration page (principal,
-// deputy/assistant principals, head prefects) and the Society detail page's
-// leadership section — anywhere a person is shown with a designation and
-// portrait. See docs/Design System/Page Specifications.md sections 03 and 09,
-// and Component Reference.md's StaffCard entry.
-//
+
 // 'head-prefect' is a real StaffRole value even though prefects are students,
-// not employees — the Administration page shows them through the same
-// Staff Module query and the same StaffCard component, per section 03's
-// data source note.
 
 import { z } from 'zod';
 
