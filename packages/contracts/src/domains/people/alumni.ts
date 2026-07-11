@@ -16,7 +16,7 @@
 
 import { z } from 'zod';
 
-import { ALStreamEnum } from '../identity/school/stream.ts';
+import { ALStreamEnum } from '../academics/al-stream.ts';
 
 export const AlumniSchema = z.object({
   id: z.string().min(1),
@@ -40,4 +40,3 @@ export const AlumniCardSchema = z.object({
 
 export type AlumniData = z.infer<typeof AlumniSchema>;
 export type AlumniCardData = z.infer<typeof AlumniCardSchema>;
-export type Alumni = AlumniData;

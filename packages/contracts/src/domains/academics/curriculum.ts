@@ -12,7 +12,7 @@
 //   High-level only. Detailed syllabus documents are managed as Downloads blocks.
 
 import { z } from 'zod';
-import { StreamSchema } from './al-stream';
+import { ALStreamSchema } from './al-stream.ts';
 
 export const CurriculumLevelEnum = z.enum(['OL', 'AL']);
 
@@ -25,11 +25,10 @@ export const SyllabusSchema = z.object({
 
 export const CurriculumSchema = z.object({
   level: CurriculumLevelEnum,
-  streams: z.array(StreamSchema).optional(),
+  streams: z.array(ALStreamSchema).optional(),
   subjects: z.array(SyllabusSchema),
 });
 
-export type CurriculumLevel = z.infer<typeof CurriculumLevelEnum>;
+export type CurriculumLevelEnumData = z.infer<typeof CurriculumLevelEnum>;
 export type SyllabusData = z.infer<typeof SyllabusSchema>;
 export type CurriculumData = z.infer<typeof CurriculumSchema>;
-export type Curriculum = CurriculumData;

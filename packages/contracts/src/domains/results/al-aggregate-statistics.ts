@@ -15,7 +15,7 @@
 //   islandRanks = number of students who achieved island-level rankings.
 
 import { z } from 'zod';
-import { ALStreamEnum } from '../identity/school/stream';
+import { ALStreamEnum } from '../academics/al-stream.ts';
 
 export const ALGradeEnum = z.enum(['A', 'B', 'C', 'S', 'F', 'AB']);
 
@@ -33,7 +33,6 @@ export const ALResultSchema = z.object({
   totalUniversityQualified: z.number().int().nonnegative().optional(),
 });
 
-export type ALGrade = z.infer<typeof ALGradeEnum>;
+export type ALGradeEnumData = z.infer<typeof ALGradeEnum>;
 export type ALStreamResultData = z.infer<typeof ALStreamResultSchema>;
 export type ALResultData = z.infer<typeof ALResultSchema>;
-export type Al = ALResultData;
