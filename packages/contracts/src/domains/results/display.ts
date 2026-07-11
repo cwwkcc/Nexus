@@ -1,14 +1,12 @@
-// packages/contracts/src/features/results/display.ts
-
-// Results page display contracts — editorial layer over raw results data.
+// packages/contracts/src/domains/results/display.ts
 
 import { z } from 'zod';
 
-import { ALResultSchema } from './al-aggregate-statistics.ts';
-import { OLResultSchema } from './ol-aggregate-statistics.ts';
+import { ALResultSchema, ALGradeEnum } from './al-aggregate-statistics.ts';
+import { OLResultSchema, OLGradeEnum } from './ol-aggregate-statistics.ts';
 
 export const GradeBadgeSchema = z.object({
-  grade: z.string().min(1),
+  grade: z.union([OLGradeEnum, ALGradeEnum]),
   count: z.number().int().nonnegative().optional(),
 });
 
