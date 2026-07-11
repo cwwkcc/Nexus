@@ -10,7 +10,8 @@ async function main() {
 }
 
 main()
-  .catch(() => {
+  .catch((err) => {
+    console.error(err);
     process.exit(1);
   })
   .finally(async () => {
