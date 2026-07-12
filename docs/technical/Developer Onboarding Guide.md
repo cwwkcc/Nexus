@@ -91,54 +91,7 @@ pnpm dev:admin # Admin panel on http://localhost:3001
 ## Project Structure
 
 ```
-nexus/
-├── apps/
-│   ├── web/                     # Public website
-│   │   ├── src/
-│   │   │   ├── app/             # Next.js pages (App Router)
-│   │   │   ├── components/      # Page-specific components
-│   │   │   ├── lib/             # Utilities, API clients
-│   │   │   └── i18n/            # Translation files
-│   │   └── public/              # Static assets
-│   └── admin/                   # Admin panel
-│       └── src/
-│           ├── app/             # Next.js pages
-│           ├── components/      # Admin components
-│           └── lib/             # Utilities
-├── packages/
-│   ├── ui/                      # Shared component library
-│   │   ├── src/
-│   │   │   ├── components/      # All UI components
-│   │   │   └── hooks/           # Shared React hooks
-│   │   └── index.ts             # Public exports
-│   ├── config/                  # Design tokens
-│   │   ├── src/
-│   │   │   ├── tokens/          # Color, typography, spacing, etc.
-│   │   │   └── nexus-preset.ts  # Tailwind preset
-│   │   └── tokens.css           # Generated CSS custom properties
-│   ├── contracts/                # Zod schemas — validation + inferred types + registries
-│   │   └── src/
-│   │       ├── core/             # Common primitives, cms, api, auth, permissions, storage
-│   │       ├── blocks/           # One schema per reusable content block (hero, richText, ...)
-│   │       ├── content/          # Editorial domain schemas (news, events, gallery, ...)
-│   │       ├── school/           # School-specific domain schemas
-│   │       ├── registry/         # Page Registry, Global Registry, Site Settings Registry
-│   │       └── index.ts          # Public exports
-│   ├── database/                # Prisma
-│   │   ├── prisma/
-│   │   │   ├── schema.prisma    # Database schema
-│   │   │   └── seed.ts          # Seed script
-│   │   └── src/                 # Prisma client
-│   └── api/                     # tRPC
-│       └── src/
-│           ├── routers/         # tRPC routers
-│           └── index.ts         # Public exports
-├── docs/                        # Documentation
-│   ├── adr/                     # Architecture Decision Records
-│   ├── design-system/           # Design documentation
-│   └── operations/              # Runbook and disaster recovery
-├── docker-compose.yml           # Docker orchestration
-└── package.json                 # Root package.json
+
 ```
 
 ---
@@ -254,17 +207,17 @@ pnpm prisma db seed
 
 The project uses ADRs to document important technical decisions. Before making a significant architectural change, review the existing ADRs in `docs/adr/`:
 
-|ADR|Topic|
-|---|---|
-|ADR-001|Monorepo Architecture|
-|ADR-002|Next.js App Router|
-|ADR-003|PostgreSQL Selection|
-|ADR-004|tRPC Selection|
-|ADR-005|Zod Contracts Strategy|
-|ADR-006|R2 Storage Selection|
-|ADR-007|Analytics Strategy|
-|ADR-008|Multilingual Font Architecture|
-|ADR-009|ContentEntry Architecture|
+| ADR     | Topic                          |
+| ------- | ------------------------------ |
+| ADR-001 | Monorepo Architecture          |
+| ADR-002 | Next.js App Router             |
+| ADR-003 | PostgreSQL Selection           |
+| ADR-004 | tRPC Selection                 |
+| ADR-005 | Zod Contracts Strategy         |
+| ADR-006 | R2 Storage Selection           |
+| ADR-007 | Analytics Strategy             |
+| ADR-008 | Multilingual Font Architecture |
+| ADR-009 | ContentEntry Architecture      |
 
 If you need to change a decision, write a new ADR explaining the reversal.
 
@@ -281,15 +234,3 @@ If you need to change a decision, write a new ADR explaining the reversal.
 
 **C.W.W. Kannangara Central College, Est. 1873. "Wisdom is All Wealth."**
 
----
-
----
-
-## Changelog
-
-**This revision** — audited against Feature Registry F-001–F-196 (source of truth):
-
-- Fixed the repo directory tree — `packages/validation/src/schemas/` was renamed to `packages/contracts`, restructured into `core/`, `blocks/`, `content/`, `school/`, `registry/` (F-042–F-055), not a flat `schemas/` folder.
-- Fixed "Adding a New API Endpoint" step 2 to point at the correct `packages/contracts` subfolder.
-- Fixed the type-export guidance line to say `packages/contracts`.
-- Fixed the ADR reference table — ADR-005 is "Zod Contracts Strategy" and ADR-009 is "ContentEntry Architecture," matching the renamed files.

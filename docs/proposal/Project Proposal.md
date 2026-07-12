@@ -34,11 +34,13 @@ Nexus will be designed and developed entirely **by the Kannangara ICT Society (K
 
 ## 3. The Case for Change
 
-- Fragmented visual identity and inconsistent user experience across web and social media.
-- Poor mobile performance and accessibility.
-- Security risks of unmaintained legacy systems.
-- Administrative friction – updates require technical intervention.
-- Unofficial social media accounts that do not follow the school's visual identity or content standards.
+- The school’s digital presence does not fully reflect its heritage, reputation, and educational excellence.
+- Information is distributed across multiple platforms, making it difficult to maintain a single authoritative source.
+- Existing digital channels lack a consistent visual identity and institutional branding.
+- Content updates depend on technical assistance, creating unnecessary administrative overhead.
+- The school’s achievements, history, societies, and activities are not showcased through a unified digital platform.
+- Parents, students, alumni, and prospective families increasingly expect accurate, accessible, and mobile-friendly online information.
+- A modern, secure, and sustainable digital platform is essential to strengthen communication, preserve institutional heritage, and support the school’s long-term digital growth. 
 
 Nexus solves all these with a modern, secure, and easy-to-manage digital institution.
 
@@ -67,7 +69,7 @@ The majority of the research, architecture design, component development, and pl
 | **Official Social Media** | Managed presence on Facebook, Instagram, YouTube, LinkedIn, and WhatsApp Channel. Where unofficial accounts already exist, KITS will coordinate the transfer of administration to bring them under school oversight and align them with the school's official visual identity. |
 | **Technical Foundation** | Infrastructure, database, and architecture that allows the school to grow its digital presence for the next decade. |
 
-> **Scope note:** The table above describes what stakeholders will see and interact with at launch. It is not the full technical scope. The complete engineering build — including infrastructure, design system internals, accessibility, performance, and administrative tooling — is defined in `Feature Registry.md`, the single authoritative list of all **181 features** Nexus will include. Approving this proposal approves that full scope.
+> **Scope note:** The table above describes what stakeholders will see and interact with at launch. It is not the full technical scope. The complete engineering build — including infrastructure, design system internals, accessibility, performance, and administrative tooling — is defined in `Feature Registry.md`, the single authoritative list of all **196 features** Nexus will include. Approving this proposal approves that full scope.
 
 > **Scope note (Social Media):** Social media is a core component of Nexus, not an add-on. Official account creation, management, and the coordinated transfer of any existing unofficial accounts (where appropriate and approved by the school) are approved as part of this proposal (see Section 13.3). Social media _management_ is an operational activity and is not listed in the Feature Registry, which covers the web platform only.
 
