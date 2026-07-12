@@ -1,6 +1,12 @@
 // packages/database/prisma/seed/pages/about.ts
 
-import { SUPPORTED_LOCALES } from '@nexus/contracts';
+import {
+  SUPPORTED_LOCALES,
+  HERO_BLOCK,
+  STATS_BLOCK,
+  CREST_SYMBOLS_BLOCK,
+  ANTHEM_BLOCK,
+} from '@nexus/contracts';
 import type {
   AboutHeroData,
   AboutStatsData,
@@ -42,6 +48,7 @@ type AboutPageSeed = {
 
 const ABOUT_SEED_EN: AboutPageSeed = {
   hero: {
+    blockType: HERO_BLOCK,
     eyebrow: 'Est. 1873 · Mathugama, Sri Lanka',
     title: 'About',
     titleEm: 'KCC',
@@ -49,6 +56,7 @@ const ABOUT_SEED_EN: AboutPageSeed = {
       "Sri Lanka's first Central College — 153 years of shaping the minds that shaped a nation.",
   },
   stats: {
+    blockType: STATS_BLOCK,
     stats: [
       {
         id: 'students',
@@ -212,6 +220,7 @@ const ABOUT_SEED_EN: AboutPageSeed = {
     ],
   },
   crest: {
+    blockType: CREST_SYMBOLS_BLOCK,
     eyebrow: 'Heraldry & Meaning',
     heading: 'The Crest Explained',
     intro:
@@ -255,11 +264,13 @@ const ABOUT_SEED_EN: AboutPageSeed = {
       {
         id: 'alum-1',
         name: 'Dr. A. Silva',
-        graduationYear: 1990,
-        position: 'Doctor',
+        graduationYear: '1990',
+        currentRole: 'Doctor',
         quote: 'KCC shaped my future.',
-        portraitSrc: '/assets/images/ironman.jpg',
-        portraitAlt: 'Dr. A. Silva',
+        portrait: {
+          src: '/assets/images/ironman.jpg',
+          alt: 'Dr. A. Silva',
+        },
       },
     ],
   },
@@ -285,6 +296,7 @@ const ABOUT_SEED_EN: AboutPageSeed = {
     },
   },
   anthem: {
+    blockType: ANTHEM_BLOCK,
     eyebrow: 'Our Anthem',
     heading: 'The School Song',
     paragraph:
@@ -307,6 +319,7 @@ const ABOUT_SEED_EN: AboutPageSeed = {
 
 const ABOUT_SEED_SI: AboutPageSeed = {
   hero: {
+    blockType: HERO_BLOCK,
     eyebrow: 'ස්ථාපිතය 1873 · මතුගම, ශ්‍රී ලංකාව',
     title: 'අප',
     titleEm: 'ගැන',
@@ -314,6 +327,7 @@ const ABOUT_SEED_SI: AboutPageSeed = {
       'ශ්‍රී ලංකාවේ ප්‍රථම මධ්‍ය මහා විද්‍යාලය — ජාතිය හැඩගැස්වූ බුද්ධිමතුන් බිහිකළ වසර 153ක අභිමානය.',
   },
   stats: {
+    blockType: STATS_BLOCK,
     stats: [
       {
         id: 'students',
@@ -477,6 +491,7 @@ const ABOUT_SEED_SI: AboutPageSeed = {
     ],
   },
   crest: {
+    blockType: CREST_SYMBOLS_BLOCK,
     eyebrow: 'හෙරල්ඩ්‍රි සහ අර්ථය',
     heading: 'ලාංඡනය විස්තර කර ඇත',
     intro:
@@ -519,11 +534,13 @@ const ABOUT_SEED_SI: AboutPageSeed = {
       {
         id: 'alum-1',
         name: 'ආචාර්ය ඒ. සිල්වා',
-        graduationYear: 1990,
-        position: 'වෛද්‍යවරයා',
+        graduationYear: '1990',
+        currentRole: 'වෛද්‍යවරයා',
         quote: 'කේ.සී.සී. මගේ අනාගතය හැඩගස්වා ගත්තා.',
-        portraitSrc: '/assets/images/ironman.jpg',
-        portraitAlt: 'ආචාර්ය ඒ. සිල්වා',
+        portrait: {
+          src: '/assets/images/ironman.jpg',
+          alt: 'ආචාර්ය ඒ. සිල්වා',
+        },
       },
     ],
   },
@@ -549,6 +566,7 @@ const ABOUT_SEED_SI: AboutPageSeed = {
     },
   },
   anthem: {
+    blockType: ANTHEM_BLOCK,
     eyebrow: 'අපගේ ජාතික ගීය',
     heading: 'පාසල් ගීතය',
     paragraph:
@@ -571,6 +589,7 @@ const ABOUT_SEED_SI: AboutPageSeed = {
 
 const ABOUT_SEED_TA: AboutPageSeed = {
   hero: {
+    blockType: HERO_BLOCK,
     eyebrow: 'நிறுவப்பட்டது 1873 · மத்துகம, இலங்கை',
     title: 'எங்களை',
     titleEm: 'பற்றி',
@@ -578,6 +597,7 @@ const ABOUT_SEED_TA: AboutPageSeed = {
       'இலங்கையின் முதலாவது மத்திய மகா வித்தியாலயம் — தேசத்தை உருவாக்கிய அறிஞர்களை உருவாக்கிய 153 வருட அசைக்க முடியாத பெருமை.',
   },
   stats: {
+    blockType: STATS_BLOCK,
     stats: [
       {
         id: 'students',
@@ -741,6 +761,7 @@ const ABOUT_SEED_TA: AboutPageSeed = {
     ],
   },
   crest: {
+    blockType: CREST_SYMBOLS_BLOCK,
     eyebrow: 'பூதுவர் மற்றும் பொருள்',
     heading: 'பூதுவர் விளக்கப்பட்டது',
     intro:
@@ -783,11 +804,13 @@ const ABOUT_SEED_TA: AboutPageSeed = {
       {
         id: 'alum-1',
         name: 'டாக்டர் ஏ. சில்வா',
-        graduationYear: 1990,
-        position: 'மருத்துவர்',
+        graduationYear: '1990',
+        currentRole: 'மருத்துவர்',
         quote: 'KCC என் எதிர்காலத்தை வடிவமைத்தது.',
-        portraitSrc: '/assets/images/ironman.jpg',
-        portraitAlt: 'டாக்டர் ஏ. சில்வா',
+        portrait: {
+          src: '/assets/images/ironman.jpg',
+          alt: 'டாக்டர் ஏ. சில்வா',
+        },
       },
     ],
   },
@@ -813,6 +836,7 @@ const ABOUT_SEED_TA: AboutPageSeed = {
     },
   },
   anthem: {
+    blockType: ANTHEM_BLOCK,
     eyebrow: 'எமது பாடல்',
     heading: 'பள்ளி பாடல்',
     paragraph:

@@ -205,6 +205,9 @@ importers:
 
   packages/api:
     dependencies:
+      '@nexus/config':
+        specifier: workspace:*
+        version: link:../config
       '@nexus/contracts':
         specifier: workspace:*
         version: link:../contracts
