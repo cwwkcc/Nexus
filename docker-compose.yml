@@ -16,3 +16,78 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    networks:
+      - nexus-network
+
+  nexus-web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    container_name: nexus-web
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://nexus:nexus@postgres:5432/nexus
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - nexus-network
+
+  nexus-admin:
+    build:
+      context: .
+      dockerfile: apps/admin/Dockerfile
+    container_name: nexus-admin
+    restart: unless-stopped
+    ports:
+      - '3001:3001'
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://nexus:nexus@postgres:5432/nexus
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - nexus-network
+
+  caddy:
+    image: caddy:latest
+    container_name: nexus-caddy
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./infra/caddy/Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - nexus-web
+      - nexus-admin
+    networks:
+      - nexus-network
+
+  migrate:
+    build:
+      context: .
+      dockerfile: apps/migrate/Dockerfile
+    container_name: nexus-migrate
+    command: pnpm --filter @nexus/database migrate:deploy
+    environment:
+      DATABASE_URL: postgresql://nexus:nexus@postgres:5432/nexus
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - nexus-network
+
+networks:
+  nexus-network:
+    driver: bridge
+
+volumes:
+  caddy_data:
+  caddy_config:

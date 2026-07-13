@@ -46,10 +46,10 @@ jobs:
       matrix:
         include:
           - app: web
-            dockerfile: Dockerfile.web
+            dockerfile: apps/web/Dockerfile
             image: nexus-web
           - app: admin
-            dockerfile: Dockerfile.admin
+            dockerfile: apps/admin/Dockerfile
             image: nexus-admin
     steps:
       - name: Checkout
@@ -124,6 +124,9 @@ jobs:
 
             docker compose pull
             docker compose up -d --wait --wait-timeout 120
+
+            # Run migrations after deployment
+            docker compose exec -T nexus-web pnpm --filter @nexus/database migrate:deploy
 
             # docker compose --wait already gates on the container
             # healthchecks; this also confirms Caddy is routing correctly.

@@ -1,0 +1,41 @@
+FROM node:22-alpine AS builder
+WORKDIR /app
+
+# Install pnpm
+RUN corepack enable pnpm && corepack prepare pnpm@10.32.1 --activate
+
+# Copy package files
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY apps/admin/package.json ./apps/admin/
+COPY packages/config/package.json ./packages/config/
+COPY packages/ui/package.json ./packages/ui/
+COPY packages/contracts/package.json ./packages/contracts/
+COPY packages/database/package.json ./packages/database/
+
+# Install dependencies
+RUN pnpm install --frozen-lockfile
+
+# Copy source files
+COPY apps/admin ./apps/admin
+COPY packages/config ./packages/config
+COPY packages/ui ./packages/ui
+COPY packages/contracts ./packages/contracts
+COPY packages/database ./packages/database
+
+# Build admin app
+RUN pnpm --filter @nexus/admin build
+
+# Production stage
+FROM node:22-alpine AS runner
+WORKDIR /app
+
+ENV NODE_ENV=production
+
+# Copy built app
+COPY --from=builder /app/apps/admin/.next/standalone ./
+COPY --from=builder /app/apps/admin/.next/static ./.next/static
+COPY --from=builder /app/apps/admin/public ./public
+
+EXPOSE 3001
+
+CMD ["node", "server.js"]

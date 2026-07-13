@@ -1,4 +1,0 @@
-# Caddy reverse proxy configuration (F-104)
-# cwwkcc.lk → nexus-web (port 3000)
-# admin.cwwkcc.lk → nexus-admin (port 3001)
-# Automatic TLS via Lets Encrypt. Security headers (F-108): HSTS, CSP, X-Frame-Options, etc.
