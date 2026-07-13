@@ -174,13 +174,14 @@ html:lang(ta) {
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+    background: var(--bg-gradient-radial-canopy);
   }
 
   body {
     font-family: var(--font-family-body);
     line-height: 1.6;
     margin: 0;
-    background-color: var(--bg-gradient-hero-deep);
+    background: var(--color-surface-glass);
     color: var(--color-text-primary);
   }
 

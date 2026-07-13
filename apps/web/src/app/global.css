@@ -151,14 +151,7 @@ html:lang(ta) {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
     min-height: 100%;
-    background: radial-gradient(
-      140% 140% at 0% 0%,
-      #8eb69b 0%,
-      #235347 25%,
-      #163832 50%,
-      #0b2b26 75%,
-      #051f20 100%
-    );
+    background: var(--bg-gradient-radial-canopy);
   }
 
   body {

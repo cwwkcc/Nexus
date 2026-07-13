@@ -15,32 +15,34 @@ export const semantic = {
     glow: primitives.gold.glow,
   },
   surface: {
-    base:     primitives.forest[900],     // #051F20 — deepest, html bg
-    default:  primitives.forest[800],     // #0B2B26 — default dark surface
-    deep:     primitives.forest[700],     // #163832 — visibly deeper panel
-    elevated: primitives.forest[500],     // #2E6B5A — raised above default (cards, dropdowns)
-    glass:          'rgba(5,31,32,0.52)',
-    'glass-subtle': 'rgba(11,43,38,0.40)',
-    'glass-medium': 'rgba(22,56,50,0.55)',
-    'glass-card':   'rgba(22,56,50,0.58)',
-    inverse:  primitives.forest[200],     // #DAF1DE — light surface for badges on dark bg
-    hover:    primitives.forest[600],     // #235347 — subtle lift on hover (between deep & elevated)
-    active:   primitives.forest[700],     // #163832 — pressed/active pushes back down
-    disabled: primitives.forest[800],     // #0B2B26 — disabled = default opacity
+    base:     primitives.forest[900],     // #0A1F1C — deep forest floor
+    default:  primitives.forest[800],     // #0F2A26 — default dark surface
+    deep:     primitives.forest[700],     // #1A3A32 — deep panel
+    elevated: primitives.forest[500],     // #3D5C52 — raised surface (lighter)
+    canopy:   primitives.forest[300],     // #8FA898 — light canopy surface (NEW)
+    glass:          'rgba(26,60,50,0.45)',  // lighter glass
+    'glass-canopy': 'rgba(184,205,184,0.35)',  // very light top glass (NEW)
+    'glass-subtle': 'rgba(15,42,38,0.40)',
+    'glass-medium': 'rgba(26,60,50,0.55)',
+    'glass-card':   'rgba(42,74,62,0.50)',
+    inverse:  primitives.forest[200],     // #B8CDB8 — light surface for badges on dark bg
+    hover:    primitives.forest[600],     // #2A4A3E — subtle lift on hover
+    active:   primitives.forest[700],     // #1A3A32 — pressed/active pushes back down
+    disabled: primitives.forest[800],     // #0F2A26 — disabled = default opacity
   },
   text: {
-    primary:  primitives.forest[200],     // #DAF1DE — pale mint, primary readable text
-    muted:    primitives.forest[400],     // #8EB69B — soft sage, secondary/meta text
-    subtle:   primitives.forest[300],     // #B8D8C4 — tertiary, placeholder text
-    inverse:  primitives.forest[900],     // #051F20 — dark text on light surfaces
-    heading:  primitives.forest[100],     // #F0FAF2 — near-white, headings pop more than body
+    primary:  primitives.forest[200],     // #B8CDB8 — pale mint, primary readable text
+    muted:    primitives.forest[300],     // #8FA898 — pale sage, secondary/meta text
+    subtle:   primitives.forest[400],     // #6B8C7A — soft sage, tertiary/placeholder text
+    inverse:  primitives.forest[900],     // #0A1F1C — dark text on light surfaces
+    heading:  primitives.forest[100],     // #E8F0E8 — near-white, headings pop more than body
     gold:     primitives.gold[80],        // #E8B84B — accent/highlight text
   },
   border: {
-    default:   primitives.border.default,   // rgba(218,241,222,0.12) — barely-there
-    light:     primitives.border.light,     // rgba(218,241,222,0.07) — ghost border
-    strong:    'rgba(218,241,222,0.20)',     // visible border
-    highlight: 'rgba(218,241,222,0.28)',    // top/left edge highlight on glass
+    default:   primitives.border.default,   // rgba(184,205,184,0.12) — barely-there
+    light:     primitives.border.light,     // rgba(184,205,184,0.07) — ghost border
+    strong:    'rgba(184,205,184,0.20)',     // visible border
+    highlight: 'rgba(184,205,184,0.28)',    // top/left edge highlight on glass
   },
   semantic: {
     success: primitives.success,

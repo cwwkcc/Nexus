@@ -1,16 +1,16 @@
 // packages/config/src/tokens/primitives.ts
 export const primitives = {
-  // Forest palette — dark base (from the chosen reference gradient)
+  // Forest palette — prestige sunlit canopy (lighter, warm dappled light)
   forest: {
-    900: '#051F20', // deepest — base html bg
-    800: '#0B2B26', // very dark green
-    700: '#163832', // dark green
-    600: '#235347', // mid forest green
-    500: '#2E6B5A', // medium green
-    400: '#8EB69B', // soft sage / mint
-    300: '#B8D8C4', // pale sage
-    200: '#DAF1DE', // pale mint — primary text
-    100: '#F0FAF2', // near white mint
+    900: '#0A1F1C', // deep forest floor (lighter than before)
+    800: '#0F2A26', // very dark green
+    700: '#1A3A32', // dark green
+    600: '#2A4A3E', // mid forest green
+    500: '#3D5C52', // medium green (lighter than before)
+    400: '#6B8C7A', // soft sage
+    300: '#8FA898', // pale sage
+    200: '#B8CDB8', // pale mint text
+    100: '#E8F0E8', // near-white mint (canopy light)
   },
   green: {
     100: '#1A4A2E',
@@ -22,7 +22,7 @@ export const primitives = {
     60: '#F2D98A',
     40: '#D6A645',
     20: '#B7852F',
-    glow: 'rgba(201,151,58,0.28)',
+    glow: 'rgba(201,151,58,0.32)', // enhanced for warmth
   },
   // Dark-mode neutrals
   neutral: {
@@ -37,12 +37,12 @@ export const primitives = {
     cream: '#DAF1DE', // primary text on dark bg
   },
   border: {
-    default: 'rgba(218,241,222,0.12)',
-    light: 'rgba(218,241,222,0.07)',
+    default: 'rgba(184,205,184,0.12)',
+    light: 'rgba(184,205,184,0.07)',
   },
   success: {
     base: '#5DBB8A',
-    surface: 'rgba(11,43,38,0.55)',
+    surface: 'rgba(15,42,38,0.55)',
   },
   error: {
     base: '#E07070',
@@ -57,8 +57,8 @@ export const primitives = {
     surface: 'rgba(20,50,70,0.45)',
   },
   overlay: {
-    light:  'rgba(22,56,50,0.40)',   // warm forest tint — tooltips, hover overlays
-    medium: 'rgba(5,31,32,0.62)',    // neutral dark green — modal backdrops, drawers
-    heavy:  'rgba(2,10,11,0.84)',    // near-black — full-screen takeovers, lightbox
+    light:  'rgba(26,60,50,0.40)',   // warm forest tint — tooltips, hover overlays
+    medium: 'rgba(10,31,28,0.62)',    // neutral dark green — modal backdrops, drawers
+    heavy:  'rgba(5,15,12,0.84)',    // near-black — full-screen takeovers, lightbox
   },
 } as const;
