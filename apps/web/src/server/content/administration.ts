@@ -1,7 +1,7 @@
 import { createServerCaller } from '@nexus/api';
 import type {
-  Locale,
-  AdministrationHeroData,
+  LocaleEnumData,
+  HeroData,
   AdministrationPrincipalData,
   AdministrationStaffGridData,
   AdministrationAdvisoryBoardData,
@@ -10,7 +10,7 @@ import type {
 import { cache } from 'react';
 
 export interface AdministrationPageContent {
-  hero: AdministrationHeroData;
+  hero: HeroData;
   principal: AdministrationPrincipalData;
   vicePrincipals: AdministrationStaffGridData;
   headsOfDepartment: AdministrationStaffGridData;
@@ -19,17 +19,25 @@ export interface AdministrationPageContent {
 }
 
 export const getAdministrationPageContent = cache(
-  async (locale: Locale): Promise<AdministrationPageContent> => {
+  async (locale: LocaleEnumData): Promise<AdministrationPageContent> => {
     const sections = await createServerCaller().contentEntry.getByScope({
       scope: 'page:administration',
       locale,
     });
     return {
-      hero: sections['administration.hero'] as AdministrationHeroData,
-      principal: sections['administration.principal'] as AdministrationPrincipalData,
-      vicePrincipals: sections['administration.vicePrincipals'] as AdministrationStaffGridData,
-      headsOfDepartment: sections['administration.headsOfDepartment'] as AdministrationStaffGridData,
-      advisoryBoard: sections['administration.advisoryBoard'] as AdministrationAdvisoryBoardData,
+      hero: sections['administration.hero'] as HeroData,
+      principal: sections[
+        'administration.principal'
+      ] as AdministrationPrincipalData,
+      vicePrincipals: sections[
+        'administration.vicePrincipals'
+      ] as AdministrationStaffGridData,
+      headsOfDepartment: sections[
+        'administration.headsOfDepartment'
+      ] as AdministrationStaffGridData,
+      advisoryBoard: sections[
+        'administration.advisoryBoard'
+      ] as AdministrationAdvisoryBoardData,
       contact: sections['administration.contact'] as AdministrationContactData,
     };
   },

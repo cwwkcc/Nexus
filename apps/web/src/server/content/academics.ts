@@ -1,36 +1,38 @@
 import { createServerCaller } from '@nexus/api';
 import type {
-  Locale,
-  AcademicsHeroData,
+  LocaleEnumData,
+  HeroData,
   AcademicsStreamCardsData,
   AcademicsStreamComparisonData,
   AcademicsContactsData,
-  AcademicsCtaData,
+  CtaData,
 } from '@nexus/contracts';
 import { cache } from 'react';
 
 // ── Academics page ───────────────────────────────────────────────────────────
 
 export interface AcademicsPageContent {
-  hero: AcademicsHeroData;
+  hero: HeroData;
   streams: AcademicsStreamCardsData;
   comparison: AcademicsStreamComparisonData;
   contacts: AcademicsContactsData;
-  cta: AcademicsCtaData;
+  cta: CtaData;
 }
 
 export const getAcademicsPageContent = cache(
-  async (locale: Locale): Promise<AcademicsPageContent> => {
+  async (locale: LocaleEnumData): Promise<AcademicsPageContent> => {
     const sections = await createServerCaller().contentEntry.getByScope({
       scope: 'page:academics',
       locale,
     });
     return {
-      hero: sections['academics.hero'] as AcademicsHeroData,
+      hero: sections['academics.hero'] as HeroData,
       streams: sections['academics.streams'] as AcademicsStreamCardsData,
-      comparison: sections['academics.comparison'] as AcademicsStreamComparisonData,
+      comparison: sections[
+        'academics.comparison'
+      ] as AcademicsStreamComparisonData,
       contacts: sections['academics.contacts'] as AcademicsContactsData,
-      cta: sections['academics.cta'] as AcademicsCtaData,
+      cta: sections['academics.cta'] as CtaData,
     };
   },
 );

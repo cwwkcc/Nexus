@@ -1,6 +1,6 @@
 import { createServerCaller } from '@nexus/api';
 import type {
-  Locale,
+  LocaleEnumData,
   AboutHeroData,
   AboutStatsData,
   AboutStoryData,
@@ -34,7 +34,7 @@ export interface AboutPageContent {
 }
 
 export const getAboutPageContent = cache(
-  async (locale: Locale): Promise<AboutPageContent> => {
+  async (locale: LocaleEnumData): Promise<AboutPageContent> => {
     const sections = await createServerCaller().contentEntry.getByScope({
       scope: 'page:about',
       locale,
