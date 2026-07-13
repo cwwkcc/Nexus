@@ -1,5 +1,8 @@
-import { ButtonLink, ImageFrame, QuoteBlock } from '@nexus/ui';
 import clsx from 'clsx';
+
+import { ButtonLink } from '../atoms/ButtonLink';
+import { ImageFrame } from '../media/ImageFrame';
+import { QuoteBlock } from '../typography/QuoteBlock';
 
 export interface PrincipalMessageProps {
   name: string;

@@ -23,10 +23,7 @@ export { ScaleLoader } from './components/atoms/Spinners/ScaleLoader';
 // BRAND
 // ============================================================================
 export { CrestAnimation } from './components/icons/brand/CrestAnimation';
-export {
-  CrestDiagram,
-  type CrestSymbol,
-} from './components/icons/brand/CrestDiagram';
+export { CrestDiagram } from './components/icons/brand/CrestDiagram';
 export { SchoolLogo } from './components/icons/brand/SchoolLogo';
 
 // ============================================================================
@@ -96,7 +93,7 @@ export { Divider } from './components/layout/Divider';
 export { Grid, GridItem } from './components/layout/Grid';
 export { Hero } from './components/layout/Hero';
 export { MasonryGrid } from './components/layout/MasonryGrid';
-export { Navigation } from './components/layout/Navigation';
+export { Navigation } from './components/navigation/Navigation';
 export { VStack, HStack } from './components/layout/Stack';
 
 // ============================================================================

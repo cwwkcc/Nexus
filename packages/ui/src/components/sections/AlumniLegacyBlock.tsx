@@ -1,8 +1,13 @@
 // packages/ui/src/components/sections/AlumniLegacyBlock.tsx
 'use client';
 
-import { cn, Icon, Container, HStack, VStack, ImageFrame } from '@nexus/ui';
 import { useState } from 'react';
+
+import { cn } from '../../utilities/cn';
+import { Icon } from '../icons';
+import { Container } from '../layout/Container';
+import { HStack, VStack } from '../layout/Stack';
+import { ImageFrame } from '../media/ImageFrame';
 
 interface AlumniProfile {
   id: string;
