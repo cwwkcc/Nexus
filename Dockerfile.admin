@@ -1,2 +1,0 @@
-# Multi-stage Dockerfile for apps/admin (F-102)
-# Same pattern as Dockerfile.web. Separate image so the two apps deploy independently.

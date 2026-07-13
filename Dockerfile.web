@@ -1,4 +1,0 @@
-# Multi-stage Dockerfile for apps/web (F-102)
-# Stage 1 (builder): pnpm install, pnpm build.
-# Stage 2 (runner): minimal Node.js runtime, copies only .next/standalone.
-# No build tools in production image.
