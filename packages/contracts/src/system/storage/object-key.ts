@@ -6,6 +6,6 @@ import { z } from 'zod';
 
 export const ObjectKeySchema = z
   .string()
-  .regex(/^[a-zA-Z0-9\-_\/\.]+$/, 'Invalid R2 object key format');
+  .regex(new RegExp('^[a-zA-Z0-9\\-_/.]+$'), 'Invalid R2 object key format');
 
 export type ObjectKeyData = z.infer<typeof ObjectKeySchema>;
