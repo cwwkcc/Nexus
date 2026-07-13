@@ -1,12 +1,12 @@
 // packages/database/prisma/seed/pages/academics.ts
 
-import { SUPPORTED_LOCALES } from '@nexus/contracts';
+import { SUPPORTED_LOCALES, HERO_BLOCK, CTA_BLOCK } from '@nexus/contracts';
 import type {
-  AcademicsHeroData,
+  HeroData,
+  CtaData,
   AcademicsStreamCardsData,
   AcademicsStreamComparisonData,
   AcademicsContactsData,
-  AcademicsCtaData,
 } from '@nexus/contracts';
 
 import type { PrismaClient } from '../../../src/generated/prisma/client.js';
@@ -16,18 +16,24 @@ import type { PrismaClient } from '../../../src/generated/prisma/client.js';
 const SCOPE = 'page:academics';
 const STATUS = 'published';
 
+// NOTE: The registry (registry/page-registry/academics.ts) also defines
+// `academics.intro` and `academics.stats` sections, but neither is consumed
+// by apps/web/src/server/content/academics.ts yet, so — same as before —
+// they're intentionally left unseeded here. Add them once a consumer exists.
+
 type AcademicsPageSeed = {
-  hero: AcademicsHeroData;
+  hero: HeroData;
   streams: AcademicsStreamCardsData;
   comparison: AcademicsStreamComparisonData;
   contacts: AcademicsContactsData;
-  cta: AcademicsCtaData;
+  cta: CtaData;
 };
 
 // ─── English ──────────────────────────────────────────────────────────────────
 
 const ACADEMICS_SEED_EN: AcademicsPageSeed = {
   hero: {
+    blockType: HERO_BLOCK,
     eyebrow: 'Academic Excellence',
     title: 'Academic Programs',
     subtitle:
@@ -38,73 +44,76 @@ const ACADEMICS_SEED_EN: AcademicsPageSeed = {
     heading: 'Academic Streams',
     streams: [
       {
-        id: 'bio-science',
-        stream: 'science',
+        key: 'bio-science',
         name: 'Biological Science',
         description:
           'Prepare for a career in medicine, biology, or agriculture with our advanced bio-science curriculum.',
+        subjects: ['Biology', 'Chemistry', 'Physics'],
         careerPaths: [
           'Medicine',
           'Biomedical Engineering',
           'Agriculture',
           'Veterinary Science',
         ],
-        subjectCount: 3,
       },
       {
-        id: 'physical-science',
-        stream: 'science',
+        key: 'physical-science',
         name: 'Physical Science',
         description:
           'For students aspiring to be engineers, physicists, or computer scientists.',
+        subjects: ['Combined Mathematics', 'Physics', 'Chemistry'],
         careerPaths: [
           'Engineering',
           'Computer Science',
           'Physics',
           'Mathematics',
         ],
-        subjectCount: 3,
       },
       {
-        id: 'commerce',
-        stream: 'commerce',
+        key: 'commerce',
         name: 'Commerce',
         description:
           'Build a strong foundation in business, accounting, and economics.',
+        subjects: ['Accounting', 'Business Studies', 'Economics'],
         careerPaths: [
           'Accounting',
           'Business Management',
           'Economics',
           'Banking',
         ],
-        subjectCount: 3,
       },
       {
-        id: 'arts',
-        stream: 'arts',
+        key: 'arts',
         name: 'Arts',
         description:
           'Explore humanities, languages, and social sciences to become a well-rounded thinker.',
+        subjects: [
+          'Political Science',
+          'Logic & Scientific Method',
+          'Geography',
+        ],
         careerPaths: [
           'Law',
           'Journalism',
           'Education',
           'Public Administration',
         ],
-        subjectCount: 3,
       },
       {
-        id: 'technology',
-        stream: 'technology',
+        key: 'technology',
         name: 'Technology',
         description:
           'Practical, hands-on learning for the technologists of tomorrow.',
+        subjects: [
+          'Science for Technology',
+          'Engineering Technology',
+          'Information & Communication Technology',
+        ],
         careerPaths: [
           'Information Technology',
           'Bio Systems Technology',
           'Engineering Technology',
         ],
-        subjectCount: 3,
       },
     ],
   },
@@ -113,28 +122,30 @@ const ACADEMICS_SEED_EN: AcademicsPageSeed = {
     heading: 'Stream Comparison',
     comparisons: [
       {
-        id: 'comp-bio',
-        name: 'Biological Science',
-        subjects: ['Biology', 'Chemistry', 'Physics / Agriculture'],
-        careerPaths: ['Medicine', 'Biotech'],
-        entryRequirements: 'Minimum 3 A passes including Science',
-        passRate: 98,
+        stream1: 'Physical Science',
+        stream2: 'Biological Science',
+        subjectOverlap: ['Chemistry', 'Physics'],
+        subjectDifferences: [
+          {
+            subject: 'Combined Mathematics',
+            inStream1: true,
+            inStream2: false,
+          },
+          { subject: 'Biology', inStream1: false, inStream2: true },
+        ],
+        recommendedFor:
+          'Students deciding between engineering and medicine-oriented pathways',
       },
       {
-        id: 'comp-physical',
-        name: 'Physical Science',
-        subjects: ['Combined Mathematics', 'Chemistry / CS', 'Physics'],
-        careerPaths: ['Engineering', 'Software'],
-        entryRequirements: 'Minimum 3 A passes including Math',
-        passRate: 96,
-      },
-      {
-        id: 'comp-commerce',
-        name: 'Commerce',
-        subjects: ['Accounting', 'Business Studies', 'Economics'],
-        careerPaths: ['Finance', 'Management'],
-        entryRequirements: 'Minimum 5 B passes',
-        passRate: 95,
+        stream1: 'Commerce',
+        stream2: 'Arts',
+        subjectOverlap: ['Economics'],
+        subjectDifferences: [
+          { subject: 'Accounting', inStream1: true, inStream2: false },
+          { subject: 'Political Science', inStream1: false, inStream2: true },
+        ],
+        recommendedFor:
+          'Students weighing business-focused careers against humanities and public-service pathways',
       },
     ],
   },
@@ -143,15 +154,13 @@ const ACADEMICS_SEED_EN: AcademicsPageSeed = {
     heading: 'Department Contacts',
     contacts: [
       {
-        id: 'dept-science',
-        department: 'Science Department',
+        department: 'science',
         headOfDepartment: 'Dr. A. Perera',
         email: 'science@nexus.edu',
         phone: '+94 11 222 3333',
       },
       {
-        id: 'dept-commerce',
-        department: 'Commerce Department',
+        department: 'commerce',
         headOfDepartment: 'Mr. B. Silva',
         email: 'commerce@nexus.edu',
         phone: '+94 11 222 3334',
@@ -159,6 +168,7 @@ const ACADEMICS_SEED_EN: AcademicsPageSeed = {
     ],
   },
   cta: {
+    blockType: CTA_BLOCK,
     title: 'Ready to apply?',
     subtitle: 'Take the first step towards a bright future at Nexus.',
     buttonLabel: 'Apply Now',
@@ -170,6 +180,7 @@ const ACADEMICS_SEED_EN: AcademicsPageSeed = {
 
 const ACADEMICS_SEED_SI: AcademicsPageSeed = {
   hero: {
+    blockType: HERO_BLOCK,
     eyebrow: 'ශාස්ත්‍රීය විශිෂ්ටත්වය',
     title: 'ශාස්ත්‍රීය වැඩසටහන්',
     subtitle:
@@ -180,67 +191,70 @@ const ACADEMICS_SEED_SI: AcademicsPageSeed = {
     heading: 'ශාස්ත්‍රීය අංශ',
     streams: [
       {
-        id: 'bio-science',
-        stream: 'science',
+        key: 'bio-science',
         name: 'ජීව විද්‍යා විද්‍යාව',
         description:
           'අපගේ උසස් ජීව විද්‍යා විෂය මාලාව සමඟ වෛද්‍ය විද්‍යාව, ජීව විද්‍යාව හෝ කෘෂිකර්මාන්තයේ වෘත්තියක් සඳහා සූදානම් වන්න.',
+        subjects: ['ජීව විද්‍යාව', 'රසායන විද්‍යාව', 'භෞතික විද්‍යාව'],
         careerPaths: [
           'වෛද්‍ය විද්‍යාව',
           'ජෛව වෛද්‍ය ඉංජිනේරු විද්‍යාව',
           'කෘෂිකර්මය',
           'පශු වෛද්‍ය විද්‍යාව',
         ],
-        subjectCount: 3,
       },
       {
-        id: 'physical-science',
-        stream: 'science',
+        key: 'physical-science',
         name: 'භෞතික විද්‍යාව',
         description:
           'ඉංජිනේරුවන්, භෞතික විද්‍යාඥයින් හෝ පරිගණක විද්‍යාඥයින් වීමට උත්සාහ කරන සිසුන් සඳහා.',
+        subjects: ['සංකලන ගණිතය', 'භෞතික විද්‍යාව', 'රසායන විද්‍යාව'],
         careerPaths: [
           'ඉංජිනේරු විද්‍යාව',
           'පරිගණක විද්‍යාව',
           'භෞතික විද්‍යාව',
           'ගණිතය',
         ],
-        subjectCount: 3,
       },
       {
-        id: 'commerce',
-        stream: 'commerce',
+        key: 'commerce',
         name: 'වාණිජ්‍යය',
         description:
           'ව්‍යාපාර, ගණකාධිකරණය සහ ආර්ථික විද්‍යාව පිළිබඳ ශක්තිමත් පදනමක් ගොඩනඟන්න.',
+        subjects: ['ගණකාධිකරණය', 'ව්‍යාපාර අධ්‍යයනය', 'ආර්ථික විද්‍යාව'],
         careerPaths: [
           'ගණකාධිකරණය',
           'ව්‍යාපාර කළමනාකරණය',
           'ආර්ථික විද්‍යාව',
           'බැංකුකරණය',
         ],
-        subjectCount: 3,
       },
       {
-        id: 'arts',
-        stream: 'arts',
+        key: 'arts',
         name: 'කලා',
         description:
           'මානව ශාස්ත්‍ර, භාෂා සහ සමාජ විද්‍යාවන් ගවේෂණය කර සමබර චින්තකයෙකු වන්න.',
+        subjects: [
+          'රාජ්‍ය විද්‍යාව',
+          'තර්ක ශාස්ත්‍රය හා විද්‍යාත්මක ක්‍රමය',
+          'භූගෝල විද්‍යාව',
+        ],
         careerPaths: ['නීතිය', 'මාධ්‍යවේදය', 'අධ්‍යාපනය', 'පොදු පරිපාලනය'],
-        subjectCount: 3,
       },
       {
-        id: 'technology',
-        stream: 'technology',
+        key: 'technology',
         name: 'තාක්ෂණය',
         description: 'හෙට දිනයේ තාක්ෂණඥයින් සඳහා ප්‍රායෝගික, අතින් කරන ඉගෙනීම.',
+        subjects: [
+          'තාක්ෂණය සඳහා විද්‍යාව',
+          'ඉංජිනේරු තාක්ෂණය',
+          'තොරතුරු හා සන්නිවේදන තාක්ෂණය',
+        ],
         careerPaths: [
           'තොරතුරු තාක්ෂණය',
           'ජෛව පද්ධති තාක්ෂණය',
           'ඉංජිනේරු තාක්ෂණය',
         ],
-        subjectCount: 3,
       },
     ],
   },
@@ -249,36 +263,26 @@ const ACADEMICS_SEED_SI: AcademicsPageSeed = {
     heading: 'අංශ සංසන්දනය',
     comparisons: [
       {
-        id: 'comp-bio',
-        name: 'ජීව විද්‍යා විද්‍යාව',
-        subjects: [
-          'ජීව විද්‍යාව',
-          'රසායන විද්‍යාව',
-          'භෞතික විද්‍යාව / කෘෂිකර්මය',
+        stream1: 'භෞතික විද්‍යාව',
+        stream2: 'ජීව විද්‍යා විද්‍යාව',
+        subjectOverlap: ['රසායන විද්‍යාව', 'භෞතික විද්‍යාව'],
+        subjectDifferences: [
+          { subject: 'සංකලන ගණිතය', inStream1: true, inStream2: false },
+          { subject: 'ජීව විද්‍යාව', inStream1: false, inStream2: true },
         ],
-        careerPaths: ['වෛද්‍ය විද්‍යාව', 'ජෛව තාක්ෂණය'],
-        entryRequirements: 'විද්‍යාව ඇතුළු අවම A ගුණත්ව 3ක්',
-        passRate: 98,
+        recommendedFor:
+          'ඉංජිනේරු විද්‍යාව සහ වෛද්‍ය විද්‍යාව අතර තීරණය කරන සිසුන් සඳහා',
       },
       {
-        id: 'comp-physical',
-        name: 'භෞතික විද්‍යාව',
-        subjects: [
-          'සංකලන ගණිතය',
-          'රසායන විද්‍යාව / පරිගණක විද්‍යාව',
-          'භෞතික විද්‍යාව',
+        stream1: 'වාණිජ්‍යය',
+        stream2: 'කලා',
+        subjectOverlap: ['ආර්ථික විද්‍යාව'],
+        subjectDifferences: [
+          { subject: 'ගණකාධිකරණය', inStream1: true, inStream2: false },
+          { subject: 'රාජ්‍ය විද්‍යාව', inStream1: false, inStream2: true },
         ],
-        careerPaths: ['ඉංජිනේරු විද්‍යාව', 'මෘදුකාංග'],
-        entryRequirements: 'ගණිතය ඇතුළු අවම A ගුණත්ව 3ක්',
-        passRate: 96,
-      },
-      {
-        id: 'comp-commerce',
-        name: 'වාණිජ්‍යය',
-        subjects: ['ගණකාධිකරණය', 'ව්‍යාපාර අධ්‍යයනය', 'ආර්ථික විද්‍යාව'],
-        careerPaths: ['මූල්‍ය', 'කළමනාකරණය'],
-        entryRequirements: 'අවම B ගුණත්ව 5ක්',
-        passRate: 95,
+        recommendedFor:
+          'ව්‍යාපාරික වෘත්තීන් සහ මානවශාස්ත්‍ර / රාජ්‍ය සේවා මාර්ග අතර සලකා බලන සිසුන් සඳහා',
       },
     ],
   },
@@ -287,15 +291,13 @@ const ACADEMICS_SEED_SI: AcademicsPageSeed = {
     heading: 'දෙපාර්තමේන්තු සම්බන්ධතා',
     contacts: [
       {
-        id: 'dept-science',
-        department: 'විද්‍යා දෙපාර්තමේන්තුව',
+        department: 'science',
         headOfDepartment: 'ආචාර්ය ඒ. පෙරේරා',
         email: 'science@nexus.edu',
         phone: '+94 11 222 3333',
       },
       {
-        id: 'dept-commerce',
-        department: 'වාණිජ්‍ය දෙපාර්තමේන්තුව',
+        department: 'commerce',
         headOfDepartment: 'බී. සිල්වා මහතා',
         email: 'commerce@nexus.edu',
         phone: '+94 11 222 3334',
@@ -303,6 +305,7 @@ const ACADEMICS_SEED_SI: AcademicsPageSeed = {
     ],
   },
   cta: {
+    blockType: CTA_BLOCK,
     title: 'අයදුම් කිරීමට සූදානම්ද?',
     subtitle: 'නෙක්සස් හි දීප්තිමත් අනාගතයක් කරා පළමු පියවර ගන්න.',
     buttonLabel: 'දැන් අයදුම් කරන්න',
@@ -314,6 +317,7 @@ const ACADEMICS_SEED_SI: AcademicsPageSeed = {
 
 const ACADEMICS_SEED_TA: AcademicsPageSeed = {
   hero: {
+    blockType: HERO_BLOCK,
     eyebrow: 'கல்வி சிறப்பு',
     title: 'கல்வி திட்டங்கள்',
     subtitle:
@@ -324,63 +328,66 @@ const ACADEMICS_SEED_TA: AcademicsPageSeed = {
     heading: 'கல்வி பிரிவுகள்',
     streams: [
       {
-        id: 'bio-science',
-        stream: 'science',
+        key: 'bio-science',
         name: 'உயிரியல் அறிவியல்',
         description:
           'எங்கள் மேம்பட்ட உயிரியல் பாடத்திட்டத்துடன் மருத்துவம், உயிரியல் அல்லது விவசாயத்தில் ஒரு வாழ்க்கைக்கு தயாராகுங்கள்.',
+        subjects: ['உயிரியல்', 'வேதியியல்', 'இயற்பியல்'],
         careerPaths: [
           'மருத்துவம்',
           'உயிரி மருத்துவ பொறியியல்',
           'விவசாயம்',
           'கால்நடை மருத்துவம்',
         ],
-        subjectCount: 3,
       },
       {
-        id: 'physical-science',
-        stream: 'science',
+        key: 'physical-science',
         name: 'இயற்பியல் அறிவியல்',
         description:
           'பொறியாளர்கள், இயற்பியலாளர்கள் அல்லது கணினி விஞ்ஞானிகளாக ஆக விரும்பும் மாணவர்களுக்கு.',
+        subjects: ['ஒருங்கிணைந்த கணிதம்', 'இயற்பியல்', 'வேதியியல்'],
         careerPaths: ['பொறியியல்', 'கணினி அறிவியல்', 'இயற்பியல்', 'கணிதம்'],
-        subjectCount: 3,
       },
       {
-        id: 'commerce',
-        stream: 'commerce',
+        key: 'commerce',
         name: 'வணிகவியல்',
         description:
           'வணிகம், கணக்கியல் மற்றும் பொருளாதாரத்தில் வலுவான அடித்தளத்தை உருவாக்குங்கள்.',
+        subjects: ['கணக்கியல்', 'வணிக ஆய்வுகள்', 'பொருளாதாரம்'],
         careerPaths: [
           'கணக்கியல்',
           'வணிக மேலாண்மை',
           'பொருளாதாரம்',
           'வங்கித்தொழில்',
         ],
-        subjectCount: 3,
       },
       {
-        id: 'arts',
-        stream: 'arts',
+        key: 'arts',
         name: 'கலை',
         description:
           'மனிதநேயம், மொழிகள் மற்றும் சமூக அறிவியல்களை ஆராய்ந்து ஒரு நன்கு வட்டமான சிந்தனையாளராகுங்கள்.',
+        subjects: [
+          'அரசியல் அறிவியல்',
+          'தர்க்கவியல் மற்றும் அறிவியல் முறை',
+          'புவியியல்',
+        ],
         careerPaths: ['சட்டம்', 'பத்திரிகையியல்', 'கல்வி', 'பொது நிர்வாகம்'],
-        subjectCount: 3,
       },
       {
-        id: 'technology',
-        stream: 'technology',
+        key: 'technology',
         name: 'தொழில்நுட்பம்',
         description:
           'நாளைய தொழில்நுட்ப வல்லுநர்களுக்கான நடைமுறை, கைகளால் செய்யும் கற்றல்.',
+        subjects: [
+          'தொழில்நுட்பத்திற்கான அறிவியல்',
+          'பொறியியல் தொழில்நுட்பம்',
+          'தகவல் மற்றும் தொடர்பாடல் தொழில்நுட்பம்',
+        ],
         careerPaths: [
           'தகவல் தொழில்நுட்பம்',
           'உயிர் அமைப்பு தொழில்நுட்பம்',
           'பொறியியல் தொழில்நுட்பம்',
         ],
-        subjectCount: 3,
       },
     ],
   },
@@ -389,32 +396,26 @@ const ACADEMICS_SEED_TA: AcademicsPageSeed = {
     heading: 'பிரிவு ஒப்பீடு',
     comparisons: [
       {
-        id: 'comp-bio',
-        name: 'உயிரியல் அறிவியல்',
-        subjects: ['உயிரியல்', 'வேதியியல்', 'இயற்பியல் / வேளாண்மை'],
-        careerPaths: ['மருத்துவம்', 'உயிரித் தொழில்நுட்பம்'],
-        entryRequirements: 'அறிவியல் உட்பட குறைந்தது 3 A தரங்கள்',
-        passRate: 98,
-      },
-      {
-        id: 'comp-physical',
-        name: 'இயற்பியல் அறிவியல்',
-        subjects: [
-          'ஒருங்கிணைந்த கணிதம்',
-          'வேதியியல் / கணினி அறிவியல்',
-          'இயற்பியல்',
+        stream1: 'இயற்பியல் அறிவியல்',
+        stream2: 'உயிரியல் அறிவியல்',
+        subjectOverlap: ['வேதியியல்', 'இயற்பியல்'],
+        subjectDifferences: [
+          { subject: 'ஒருங்கிணைந்த கணிதம்', inStream1: true, inStream2: false },
+          { subject: 'உயிரியல்', inStream1: false, inStream2: true },
         ],
-        careerPaths: ['பொறியியல்', 'மென்பொருள்'],
-        entryRequirements: 'கணிதம் உட்பட குறைந்தது 3 A தரங்கள்',
-        passRate: 96,
+        recommendedFor:
+          'பொறியியல் மற்றும் மருத்துவம் சார்ந்த பாதைகளுக்கு இடையே முடிவெடுக்கும் மாணவர்களுக்கு',
       },
       {
-        id: 'comp-commerce',
-        name: 'வணிகவியல்',
-        subjects: ['கணக்கியல்', 'வணிக ஆய்வுகள்', 'பொருளாதாரம்'],
-        careerPaths: ['நிதி', 'மேலாண்மை'],
-        entryRequirements: 'குறைந்தது 5 B தரங்கள்',
-        passRate: 95,
+        stream1: 'வணிகவியல்',
+        stream2: 'கலை',
+        subjectOverlap: ['பொருளாதாரம்'],
+        subjectDifferences: [
+          { subject: 'கணக்கியல்', inStream1: true, inStream2: false },
+          { subject: 'அரசியல் அறிவியல்', inStream1: false, inStream2: true },
+        ],
+        recommendedFor:
+          'வணிக சார்ந்த தொழில்களையும் மனிதவியல் / அரசுப் பணிப் பாதைகளையும் ஒப்பிடும் மாணவர்களுக்கு',
       },
     ],
   },
@@ -423,15 +424,13 @@ const ACADEMICS_SEED_TA: AcademicsPageSeed = {
     heading: 'துறை தொடர்புகள்',
     contacts: [
       {
-        id: 'dept-science',
-        department: 'அறிவியல் துறை',
+        department: 'science',
         headOfDepartment: 'டாக்டர் ஏ. பெரேரா',
         email: 'science@nexus.edu',
         phone: '+94 11 222 3333',
       },
       {
-        id: 'dept-commerce',
-        department: 'வணிகவியல் துறை',
+        department: 'commerce',
         headOfDepartment: 'திரு. பி. சில்வா',
         email: 'commerce@nexus.edu',
         phone: '+94 11 222 3334',
@@ -439,6 +438,7 @@ const ACADEMICS_SEED_TA: AcademicsPageSeed = {
     ],
   },
   cta: {
+    blockType: CTA_BLOCK,
     title: 'விண்ணப்பிக்க தயாரா?',
     subtitle: 'நெக்ஸஸில் ஒரு பிரகாசமான எதிர்காலத்திற்கு முதல் படியை எடுங்கள்.',
     buttonLabel: 'இப்போது விண்ணப்பிக்கவும்',
