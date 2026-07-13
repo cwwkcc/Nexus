@@ -1,6 +1,6 @@
+# Nexus — Complete Feature Registry
 
-
-**C.W.W. Kannangara Central College Digital Platform** _Kannangara ICT Society (KITS) · Mathugama_
+**C.W.W. Kannangara Central College Digital Platform** *Kannangara ICT Society (KITS) · Mathugama*
 
 This document is the single authoritative list of every feature, system, and capability that Nexus will include. Every item here has a home in the Engineering Roadmap. Nothing is built that is not listed here. Nothing listed here is omitted from the build.
 
@@ -544,31 +544,30 @@ _Numbered out of sequence — appended at the end of the registry per the stable
 
 ## Summary Table
 
-|Group|Range|Count|
-|---|---|---|
-|Monorepo & Developer Tooling|F-001 – F-011|11|
-|Design System Tokens|F-012 – F-020|9|
-|Component Library|F-021 – F-041|21|
-|Contracts: Core & Common|F-042 – F-046|5|
-|Contracts: Reusable Content Block Library|F-047 – F-047|1|
-|Contracts: Editorial & Domain Schemas|F-048 – F-051|4|
-|Contracts: Page & Global Content Registry|F-052 – F-055|4|
-|Database|F-056 – F-063|8|
-|API Layer|F-064 – F-072, F-195|10|
-|Authentication & Access Control|F-073 – F-082|10|
-|Internationalisation|F-083 – F-089|7|
-|Error Handling & Resilience|F-090 – F-094|5|
-|Logging & Monitoring|F-095 – F-100|6|
-|Analytics|F-101 – F-102|2|
-|SEO & Discoverability|F-103 – F-108|6|
-|Performance|F-109 – F-115|7|
-|Infrastructure & Deployment|F-116 – F-125|10|
-|Security|F-126 – F-137|12|
-|Testing|F-138 – F-140|3|
-|Public Website|F-141 – F-161|21|
-|Admin Panel|F-162 – F-183|22|
-|PWA & Offline Support|F-184 – F-186|3|
-|Comprehensive Project Documentation|F-187 – F-194|8|
-|Contracts: Page & Global Content Registry (addendum)|F-196|1|
-|**Total**||**196**|
-
+| Group                                                 | Range                | Count   |
+| ----------------------------------------------------- | -------------------- | ------- |
+| Monorepo & Developer Tooling                          | F-001 – F-011        | 11      |
+| Design System Tokens                                  | F-012 – F-020        | 9       |
+| Component Library                                     | F-021 – F-041        | 21      |
+| Contracts: Primitives, System & Shared Utilities      | F-042 – F-046        | 5       |
+| Contracts: Reusable Content Block Library             | F-047 – F-047        | 1       |
+| Contracts: Editorial, Shared Display & Domain Schemas | F-048 – F-051        | 4       |
+| Contracts: Page & Global Content Registry             | F-052 – F-055        | 4       |
+| Database                                              | F-056 – F-063        | 8       |
+| API Layer                                             | F-064 – F-072, F-195 | 10      |
+| Authentication & Access Control                       | F-073 – F-082        | 10      |
+| Internationalisation                                  | F-083 – F-089        | 7       |
+| Error Handling & Resilience                           | F-090 – F-094        | 5       |
+| Logging & Monitoring                                  | F-095 – F-100        | 6       |
+| Analytics                                             | F-101 – F-102        | 2       |
+| SEO & Discoverability                                 | F-103 – F-108        | 6       |
+| Performance                                           | F-109 – F-115        | 7       |
+| Infrastructure & Deployment                           | F-116 – F-125        | 10      |
+| Security                                              | F-126 – F-137        | 12      |
+| Testing                                               | F-138 – F-140        | 3       |
+| Public Website                                        | F-141 – F-161        | 21      |
+| Admin Panel                                           | F-162 – F-183        | 22      |
+| PWA & Offline Support                                 | F-184 – F-186        | 3       |
+| Comprehensive Project Documentation                   | F-187 – F-194        | 8       |
+| Contracts: Page & Global Content Registry (addendum)  | F-196 – F-197        | 2       |
+| **Total**                                             |                      | **197** |
