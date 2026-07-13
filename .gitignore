@@ -83,7 +83,5 @@ Thumbs.db
 .claude/settings.local.json
 
 # PostgreSQL data directory
-infra/postgres/*
+infra/postgres/
 
-
-docs/new-feature.md
