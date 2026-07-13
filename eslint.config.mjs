@@ -1,12 +1,20 @@
 import nx from '@nx/eslint-plugin';
 import importPlugin from 'eslint-plugin-import';
+import tailwindcss from 'eslint-plugin-tailwindcss';
 
 export default [
   ...nx.configs['flat/base'],
   ...nx.configs['flat/typescript'],
   ...nx.configs['flat/javascript'],
   {
-    ignores: ['**/dist', '**/out-tsc', '**/vite.config.*.timestamp*'],
+    ignores: [
+      '**/dist',
+      '**/out-tsc',
+      '**/vite.config.*.timestamp*',
+      '**/.next',
+      '**/.nx',
+      '**/.turbo',
+    ],
   },
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
@@ -61,6 +69,19 @@ export default [
           alphabetize: { order: 'asc', caseInsensitive: true },
         },
       ],
+    },
+  },
+  {
+    files: [
+      'apps/web/src/**/*.{ts,tsx,js,jsx}',
+      'apps/admin/src/**/*.{ts,tsx,js,jsx}',
+      'packages/ui/src/**/*.{ts,tsx,js,jsx}',
+    ],
+    plugins: {
+      tailwindcss: tailwindcss,
+    },
+    rules: {
+      ...tailwindcss.configs.recommended.rules,
     },
   },
 ];

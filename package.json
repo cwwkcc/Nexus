@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "license": "MIT",
+  "packageManager": "pnpm@10.32.1",
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "scripts": {
     "postinstall": "pnpm db:generate",
@@ -23,7 +24,7 @@
     "format:check": "prettier --check .",
     "affected:build": "nx affected -t build",
     "affected:lint": "nx affected -t lint",
-    "docker:up": "docker compose up -d",
+    "docker:up": "docker compose build nexus-web && docker compose build nexus-admin && docker compose build migrate && docker compose up -d",
     "docker:down": "docker compose down",
     "docker:clean": "docker compose down -v",
     "docker:logs": "docker compose logs -f",
@@ -80,6 +81,7 @@
     "eslint-plugin-jsx-a11y": "6.10.1",
     "eslint-plugin-react": "7.35.0",
     "eslint-plugin-react-hooks": "5.0.0",
+    "eslint-plugin-tailwindcss": "^3.18.3",
     "jsonc-eslint-parser": "^3.1.0",
     "nx": "22.6.0",
     "postcss": "8.4.38",
