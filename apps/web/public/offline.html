@@ -1,4 +1,261 @@
+<!doctype html>
 <!-- apps/web/public/offline.html -->
-<!-- Designed Offline Page (F-173)
-Shown when user visits an uncached page without connectivity.
-Institutional design. Links to cached pages. No browser default error. -->
+<!--
+  Designed offline fallback (F-173 / Task 9.3).
+  Served by sw.js when the user navigates to an uncached page while offline.
+  No <script> tags on purpose — the site's CSP disallows inline scripts, and
+  this file is a static asset with no per-request nonce to satisfy it. The
+  "Try again" control below is a plain anchor (full navigation), not JS.
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#1A4A2E" />
+    <title>You're Offline – C.W.W. Kannangara Central College</title>
+    <style>
+      @font-face {
+        font-family: 'Cormorant Garamond';
+        src: url('/fonts/CormorantGaramond-SemiBold.woff2') format('woff2');
+        font-weight: 600;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Inter';
+        src: url('/fonts/Inter-Regular.woff2') format('woff2');
+        font-weight: 400;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Inter';
+        src: url('/fonts/Inter-Medium.woff2') format('woff2');
+        font-weight: 500;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Noto Serif Sinhala';
+        src: url('/fonts/NotoSerifSinhala-Regular.woff2') format('woff2');
+        font-weight: 400;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Noto Serif Tamil';
+        src: url('/fonts/NotoSerifTamil-Regular.woff2') format('woff2');
+        font-weight: 400;
+        font-display: swap;
+      }
+
+      :root {
+        --green-base: #1a4a2e;
+        --green-light: #235c3a;
+        --gold-base: #c9973a;
+        --gold-light: #e8b84b;
+        --gold-pale: #f2d98a;
+        --cream: #f7f3ec;
+        --cream-alt: #ede8df;
+        --text-primary: #1c1a16;
+        --text-muted: #4a5c4d;
+        --border: #d4c9b8;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 24px;
+        background: var(--cream);
+        color: var(--text-primary);
+        font-family:
+          'Inter',
+          system-ui,
+          -apple-system,
+          sans-serif;
+        line-height: 1.5;
+      }
+
+      .card {
+        width: 100%;
+        max-width: 480px;
+        background: var(--cream-alt);
+        border: 1px solid var(--border);
+        border-top: 4px solid var(--gold-base);
+        border-radius: 8px;
+        padding: 40px 32px;
+        text-align: center;
+      }
+
+      .emblem {
+        width: 64px;
+        height: 64px;
+        margin: 0 auto 20px;
+        display: block;
+      }
+
+      h1 {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-weight: 600;
+        font-size: 32px;
+        margin: 0 0 4px;
+        color: var(--green-base);
+      }
+
+      .lang-line {
+        margin: 0 0 2px;
+        font-size: 17px;
+        color: var(--text-muted);
+      }
+
+      .lang-line[lang='si'] {
+        font-family: 'Noto Serif Sinhala', serif;
+      }
+      .lang-line[lang='ta'] {
+        font-family: 'Noto Serif Tamil', serif;
+      }
+
+      p.explain {
+        margin: 20px 0 28px;
+        font-size: 15px;
+        color: var(--text-muted);
+      }
+
+      .actions {
+        margin-bottom: 28px;
+      }
+
+      .retry {
+        display: inline-block;
+        padding: 10px 28px;
+        background: var(--green-base);
+        color: var(--cream);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 14px;
+        border-radius: 4px;
+        letter-spacing: 0.02em;
+      }
+
+      .retry:hover,
+      .retry:focus-visible {
+        background: var(--green-light);
+      }
+
+      .quick-links {
+        border-top: 1px solid var(--border);
+        padding-top: 20px;
+      }
+
+      .quick-links p {
+        margin: 0 0 10px;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--text-muted);
+      }
+
+      .quick-links ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px 18px;
+      }
+
+      .quick-links a {
+        color: var(--green-base);
+        font-weight: 500;
+        font-size: 14px;
+        text-decoration: none;
+        border-bottom: 1px solid var(--gold-base);
+      }
+
+      .quick-links a:hover,
+      .quick-links a:focus-visible {
+        color: var(--gold-base);
+      }
+
+      footer {
+        margin-top: 28px;
+        font-size: 12px;
+        color: var(--text-muted);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <svg
+        class="emblem"
+        viewBox="0 0 64 64"
+        xmlns="http://www.w3.org/2000/svg"
+        role="img"
+        aria-label="School emblem"
+      >
+        <circle
+          cx="32"
+          cy="32"
+          r="30"
+          fill="var(--green-base, #1A4A2E)"
+          stroke="var(--gold-base, #C9973A)"
+          stroke-width="2"
+        />
+        <path
+          d="M32 16 C 27 22, 26 28, 30 33 C 27 34, 25 37, 25 41 C 25 46, 28 49, 32 49 C 36 49, 39 46, 39 41 C 39 37, 37 34, 34 33 C 38 28, 37 22, 32 16 Z"
+          fill="var(--gold-light, #E8B84B)"
+        />
+        <path
+          d="M16 45 C 21 42, 26 41, 32 41 C 38 41, 43 42, 48 45"
+          fill="none"
+          stroke="var(--gold-pale, #F2D98A)"
+          stroke-width="2"
+          stroke-linecap="round"
+        />
+      </svg>
+
+      <h1>You're Offline</h1>
+      <p class="lang-line" lang="si">
+        ඔබගේ අන්තර්ජාල සම්බන්ධතාවය විසන්ධි වී ඇත
+      </p>
+      <p class="lang-line" lang="ta">
+        உங்கள் இணைய இணைப்பு துண்டிக்கப்பட்டுள்ளது
+      </p>
+
+      <p class="explain">
+        It looks like you've lost your connection. Some pages you've already
+        visited may still work below, and this page will refresh automatically
+        once you're back online.
+      </p>
+
+      <div class="actions">
+        <a class="retry" href="/">Try again</a>
+      </div>
+
+      <nav class="quick-links" aria-label="Available offline">
+        <p>Available offline</p>
+        <ul>
+          <li><a href="/en">Home (English)</a></li>
+          <li><a href="/en/about">About</a></li>
+          <li><a href="/si" lang="si">මුල් පිටුව</a></li>
+          <li><a href="/ta" lang="ta">முகப்பு</a></li>
+        </ul>
+      </nav>
+
+      <footer>
+        C.W.W. Kannangara Central College, Est. 1873. &ldquo;Wisdom is All
+        Wealth.&rdquo;
+      </footer>
+    </main>
+  </body>
+</html>

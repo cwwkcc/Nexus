@@ -1,7 +1,7 @@
 // apps/web/next.config.js
+const { sharedNextConfig } = require('@nexus/config/next');
 const { composePlugins, withNx } = require('@nx/next');
 const createNextIntlPlugin = require('next-intl/plugin');
-const { sharedNextConfig } = require('@nexus/config/next');
 
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
