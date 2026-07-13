@@ -151,7 +151,6 @@ export default function AtomsPage() {
             src="/images/white.jpg"
             name="John Doe"
             size="lg"
-            onError={() => console.log('Image failed')}
           />
           <Avatar name="No Image" size="lg" />
           <Avatar name="" size="lg" />

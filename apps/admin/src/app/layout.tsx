@@ -4,8 +4,7 @@
 // Nav links updated to reflect the new /content routing structure.
 
 import './global.css';
-import { cn } from '@nexus/ui';
-import { BackToTopButton } from '@nexus/ui';
+import { cn, BackToTopButton } from '@nexus/ui';
 import {
   Cormorant_Garamond,
   Cormorant_Upright,

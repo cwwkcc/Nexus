@@ -1,7 +1,7 @@
 //@ts-check
 
-const { composePlugins, withNx } = require('@nx/next');
 const { sharedNextConfig } = require('@nexus/config/next');
+const { composePlugins, withNx } = require('@nx/next');
 
 /**
  * @type {import('@nx/next/plugins/with-nx').WithNxOptions}

@@ -195,7 +195,7 @@ export default function NavigationComponentsPage() {
                 { value: '2024', label: '2024' },
               ]}
               value="2026"
-              onChange={(val) => console.log('Year changed:', val)}
+              onChange={() => { /* no-op */ }}
             />
           </div>
         </DemoSection>
