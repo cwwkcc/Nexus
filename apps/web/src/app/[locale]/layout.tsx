@@ -1,5 +1,5 @@
 import { SUPPORTED_LOCALES, type LocaleEnumData } from '@nexus/contracts';
-import { cn, BackToTopButton, Navigation } from '@nexus/ui';
+import { cn, BackToTopButton } from '@nexus/ui';
 import {
   Cormorant_Garamond,
   Cormorant_Upright,
@@ -95,7 +95,6 @@ export default async function LocaleLayout({ children, params }: Props) {
           notoSerifTamilBody.variable,
         )}
       >
-        <Navigation locale={safeLocale} />
         <NextIntlClientProvider messages={messages}>
           {children}
         </NextIntlClientProvider>

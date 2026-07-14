@@ -157,6 +157,9 @@ importers:
       '@nexus/db':
         specifier: workspace:*
         version: link:../../packages/database
+      '@nexus/env':
+        specifier: workspace:*
+        version: link:../../packages/env
       '@nexus/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -184,6 +187,9 @@ importers:
       '@nexus/contracts':
         specifier: workspace:*
         version: link:../../packages/contracts
+      '@nexus/env':
+        specifier: workspace:*
+        version: link:../../packages/env
       '@nexus/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -208,15 +214,18 @@ importers:
 
   packages/api:
     dependencies:
-      '@nexus/config':
-        specifier: workspace:*
-        version: link:../config
       '@nexus/contracts':
         specifier: workspace:*
         version: link:../contracts
       '@nexus/db':
         specifier: workspace:*
         version: link:../database
+      '@nexus/env':
+        specifier: workspace:*
+        version: link:../env
+      '@nexus/tokens':
+        specifier: workspace:*
+        version: link:../tokens
       '@trpc/server':
         specifier: ^11.13.4
         version: 11.18.0(typescript@5.9.3)
@@ -229,15 +238,15 @@ importers:
 
   packages/config:
     dependencies:
+      '@nexus/tokens':
+        specifier: workspace:*
+        version: link:../tokens
       next:
         specifier: 16.2.9
         version: 16.2.9(@babel/core@7.29.7)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.101.0)
       tailwindcss:
         specifier: 3.4.3
         version: 3.4.3
-      zod:
-        specifier: ^3.23.8
-        version: 3.25.76
     devDependencies:
       tsx:
         specifier: ^4.22.4
@@ -277,6 +286,22 @@ importers:
         specifier: 20.19.9
         version: 20.19.9
 
+  packages/env:
+    dependencies:
+      zod:
+        specifier: ^3.23.8
+        version: 3.25.76
+    devDependencies:
+      typescript:
+        specifier: ~5.9.2
+        version: 5.9.3
+
+  packages/tokens:
+    devDependencies:
+      typescript:
+        specifier: ~5.9.2
+        version: 5.9.3
+
   packages/ui:
     dependencies:
       '@hookform/resolvers':
@@ -313,6 +338,9 @@ importers:
       '@nexus/contracts':
         specifier: workspace:*
         version: link:../contracts
+      '@nexus/tokens':
+        specifier: workspace:*
+        version: link:../tokens
       '@testing-library/react':
         specifier: ^16.3.2
         version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)

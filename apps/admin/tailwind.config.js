@@ -1,4 +1,4 @@
-import { nexusPreset } from '@nexus/config';
+import { nexusPreset } from '@nexus/config/tailwind';
 
 /** @type {import('tailwindcss').Config} */
 export default {

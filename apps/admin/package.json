@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@nexus/config": "workspace:*",
+    "@nexus/env": "workspace:*",
     "@nexus/ui": "workspace:*",
     "@nexus/api": "workspace:*",
     "@nexus/contracts": "workspace:*",
