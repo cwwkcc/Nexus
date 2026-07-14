@@ -13,10 +13,7 @@ interface AlertProps {
   className?: string;
 }
 
-const variantStyles: Record<
-  AlertVariant,
-  { bg: string; border: string; text: string; icon: ReactNode }
-> = {
+const variantStyles: Record<AlertVariant, { bg: string; border: string; text: string; icon: ReactNode }> = {
   info: {
     bg: 'bg-semantic-info-surface',
     border: 'border-semantic-info-base',
@@ -43,43 +40,16 @@ const variantStyles: Record<
   },
 };
 
-export function Alert({
-  variant = 'info',
-  title,
-  children,
-  icon,
-  className,
-}: AlertProps) {
+export function Alert({ variant = 'info', title, children, icon, className }: AlertProps) {
   const styles = variantStyles[variant];
 
   return (
-    <div
-      role="alert"
-      className={cn(
-        'p-space-4 border-l-4 rounded-r-md',
-        styles.bg,
-        styles.border,
-        className,
-      )}
-    >
+    <div role="alert" className={cn('p-space-4 border-l-4 rounded-r-md', styles.bg, styles.border, className)}>
       <div className="flex items-start gap-space-3">
-        <span className={cn('flex-shrink-0 text-lg', styles.text)}>
-          {icon || styles.icon}
-        </span>
+        <span className={cn('flex-shrink-0 text-lg', styles.text)}>{icon || styles.icon}</span>
         <div>
-          {title && (
-            <h4
-              className={cn(
-                'font-display font-semibold mb-space-1',
-                styles.text,
-              )}
-            >
-              {title}
-            </h4>
-          )}
-          <div className={cn('font-body text-body-sm', styles.text)}>
-            {children}
-          </div>
+          {title && <h4 className={cn('font-display font-semibold mb-space-1', styles.text)}>{title}</h4>}
+          <div className={cn('font-body text-body-sm', styles.text)}>{children}</div>
         </div>
       </div>
     </div>

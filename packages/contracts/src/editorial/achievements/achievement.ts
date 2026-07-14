@@ -13,27 +13,14 @@
 
 import { z } from 'zod';
 
-import {
-  MAX_TITLE_LENGTH,
-  MAX_DESCRIPTION_LENGTH,
-} from '../../constants/index.ts';
+import { MAX_TITLE_LENGTH, MAX_DESCRIPTION_LENGTH } from '../../constants/index.ts';
 import { ImageSchema, LocaleEnum } from '../../primitives/index.ts';
 
 export const ACHIEVEMENT_CONTENT_TYPE = 'achievement';
 
-export const AchievementLevel = z.enum([
-  'national',
-  'provincial',
-  'district',
-  'school',
-]);
+export const AchievementLevel = z.enum(['national', 'provincial', 'district', 'school']);
 
-export const AchievementCategory = z.enum([
-  'academic',
-  'sports',
-  'cultural',
-  'other',
-]);
+export const AchievementCategory = z.enum(['academic', 'sports', 'cultural', 'other']);
 
 // The full entity — CMS/admin CRUD and ContentEntry storage.
 export const AchievementSchema = z.object({

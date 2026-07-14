@@ -21,17 +21,7 @@ interface SvgDebugGridProps {
   show?: boolean;
 }
 
-export function SvgDebugGrid({
-  width = 480,
-  height = 420,
-  step = 10,
-  color = 'var(--color-text-primary)',
-  strokeWidth = 0.1,
-  opacity = 1,
-  majorEvery = 5,
-  showLabels = true,
-  show = true,
-}: SvgDebugGridProps) {
+export function SvgDebugGrid({ width = 480, height = 420, step = 10, color = 'var(--color-text-primary)', strokeWidth = 0.1, opacity = 1, majorEvery = 5, showLabels = true, show = true }: SvgDebugGridProps) {
   if (!show) return null;
 
   const verticalLines = Math.floor(width / step);
@@ -43,59 +33,31 @@ export function SvgDebugGrid({
       {Array.from({ length: verticalLines + 1 }).map((_, i) => {
         const x = i * step;
         const isMajor = i % majorEvery === 0;
-        return (
-          <line
-            key={`v-${i}`}
-            x1={x}
-            y1={0}
-            x2={x}
-            y2={height}
-            stroke={color}
-            strokeWidth={isMajor ? strokeWidth * 2 : strokeWidth}
-          />
-        );
+        return <line key={`v-${i}`} x1={x} y1={0} x2={x} y2={height} stroke={color} strokeWidth={isMajor ? strokeWidth * 2 : strokeWidth} />;
       })}
 
       {/* Horizontal lines */}
       {Array.from({ length: horizontalLines + 1 }).map((_, i) => {
         const y = i * step;
         const isMajor = i % majorEvery === 0;
-        return (
-          <line
-            key={`h-${i}`}
-            x1={0}
-            y1={y}
-            x2={width}
-            y2={y}
-            stroke={color}
-            strokeWidth={isMajor ? strokeWidth * 2 : strokeWidth}
-          />
-        );
+        return <line key={`h-${i}`} x1={0} y1={y} x2={width} y2={y} stroke={color} strokeWidth={isMajor ? strokeWidth * 2 : strokeWidth} />;
       })}
 
       {/* Coordinate labels at major intersections */}
       {showLabels &&
-        Array.from({ length: Math.floor(verticalLines / majorEvery) + 1 }).map(
-          (_, xi) =>
-            Array.from({
-              length: Math.floor(horizontalLines / majorEvery) + 1,
-            }).map((_, yi) => {
-              const x = xi * step * majorEvery;
-              const y = yi * step * majorEvery;
-              if (x === 0 && y === 0) return null;
-              return (
-                <text
-                  key={`label-${x}-${y}`}
-                  x={x + 2}
-                  y={y - 2}
-                  fontSize={2}
-                  fill={color}
-                  fontFamily="monospace"
-                >
-                  {x},{y}
-                </text>
-              );
-            }),
+        Array.from({ length: Math.floor(verticalLines / majorEvery) + 1 }).map((_, xi) =>
+          Array.from({
+            length: Math.floor(horizontalLines / majorEvery) + 1,
+          }).map((_, yi) => {
+            const x = xi * step * majorEvery;
+            const y = yi * step * majorEvery;
+            if (x === 0 && y === 0) return null;
+            return (
+              <text key={`label-${x}-${y}`} x={x + 2} y={y - 2} fontSize={2} fill={color} fontFamily="monospace">
+                {x},{y}
+              </text>
+            );
+          }),
         )}
     </g>
   );

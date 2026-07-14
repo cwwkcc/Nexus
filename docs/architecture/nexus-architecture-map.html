@@ -6,10 +6,7 @@
     <title>NEXUS — System Architecture</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
     <style>
       :root {
         --blue-deep: #0a2540;
@@ -33,15 +30,11 @@
         padding: 0;
         background: var(--blue-deep);
         color: var(--ink);
-        font-family: "IBM Plex Mono", monospace;
+        font-family: 'IBM Plex Mono', monospace;
       }
 
       body {
-        background-image:
-          linear-gradient(var(--hair) 1px, transparent 1px),
-          linear-gradient(90deg, var(--hair) 1px, transparent 1px),
-          linear-gradient(rgba(127, 212, 255, 0.08) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(127, 212, 255, 0.08) 1px, transparent 1px);
+        background-image: linear-gradient(var(--hair) 1px, transparent 1px), linear-gradient(90deg, var(--hair) 1px, transparent 1px), linear-gradient(rgba(127, 212, 255, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(127, 212, 255, 0.08) 1px, transparent 1px);
         background-size:
           88px 88px,
           88px 88px,
@@ -68,7 +61,7 @@
       }
 
       .title-block h1 {
-        font-family: "Space Grotesk", sans-serif;
+        font-family: 'Space Grotesk', sans-serif;
         font-weight: 700;
         font-size: clamp(28px, 4vw, 44px);
         letter-spacing: 0.5px;
@@ -150,18 +143,13 @@
         align-items: center;
         padding: 14px 22px;
         border-bottom: 1px solid var(--cyan-dim);
-        background: rgba(
-          10,
-          37,
-          64,
-          1
-        ); /* solid so grid lines don't show through in fullscreen */
+        background: rgba(10, 37, 64, 1); /* solid so grid lines don't show through in fullscreen */
         flex-wrap: wrap;
         gap: 12px;
         flex-shrink: 0;
       }
       .sheet-header h2 {
-        font-family: "Space Grotesk", sans-serif;
+        font-family: 'Space Grotesk', sans-serif;
         font-size: 16px;
         letter-spacing: 0.6px;
         margin: 0;
@@ -224,7 +212,7 @@
         border: 1px solid var(--cyan-dim);
         background: var(--blue-panel);
         color: var(--cyan);
-        font-family: "IBM Plex Mono", monospace;
+        font-family: 'IBM Plex Mono', monospace;
         font-size: 16px;
         line-height: 1;
         cursor: pointer;
@@ -295,11 +283,7 @@
       <header>
         <div class="title-block">
           <h1>NEXUS <span>/ SYSTEM ARCHITECTURE</span></h1>
-          <p>
-            C.W.W. Kannangara Central College — trilingual school platform (EN /
-            SI / TA). Nx monorepo, single Hetzner VPS, Docker Compose behind
-            Caddy.
-          </p>
+          <p>C.W.W. Kannangara Central College — trilingual school platform (EN / SI / TA). Nx monorepo, single Hetzner VPS, Docker Compose behind Caddy.</p>
         </div>
         <div class="meta">
           <div><b>PROJECT</b> KITS — NEXUS</div>
@@ -309,49 +293,21 @@
       </header>
 
       <div class="legend">
-        <div class="item">
-          <span class="swatch"></span> runtime request / data flow
-        </div>
-        <div class="item">
-          <span class="swatch dashed"></span> build-time import or
-          eventual/next-cycle interaction
-        </div>
-        <div class="item">
-          ▭ dashed outer box = Docker Compose boundary (one VPS)
-        </div>
+        <div class="item"><span class="swatch"></span> runtime request / data flow</div>
+        <div class="item"><span class="swatch dashed"></span> build-time import or eventual/next-cycle interaction</div>
+        <div class="item">▭ dashed outer box = Docker Compose boundary (one VPS)</div>
       </div>
 
       <section class="sheet" id="sheet1">
         <div class="sheet-header">
           <h2>Sheet 01 — Component &amp; Interaction Diagram</h2>
           <div class="zoom-toolbar" data-sheet="1">
-            <button class="zoom-btn" data-action="out" title="Zoom Out">
-              −
-            </button>
+            <button class="zoom-btn" data-action="out" title="Zoom Out">−</button>
             <span class="zoom-label">100%</span>
             <button class="zoom-btn" data-action="in" title="Zoom In">+</button>
-            <button
-              class="zoom-btn text-btn"
-              data-action="reset"
-              title="Reset Zoom"
-            >
-              RESET
-            </button>
-            <div
-              style="
-                width: 1px;
-                height: 20px;
-                background: var(--cyan-dim);
-                margin: 0 4px;
-              "
-            ></div>
-            <button
-              class="zoom-btn"
-              data-action="fullscreen"
-              title="Full Screen"
-            >
-              [ ]
-            </button>
+            <button class="zoom-btn text-btn" data-action="reset" title="Reset Zoom">RESET</button>
+            <div style="width: 1px; height: 20px; background: var(--cyan-dim); margin: 0 4px"></div>
+            <button class="zoom-btn" data-action="fullscreen" title="Full Screen">[ ]</button>
           </div>
         </div>
         <div class="sheet-body">
@@ -361,22 +317,10 @@
         </div>
         <div class="sheet-footer">
           <div class="titleblock-footer">
-            <div>
-              <b>Zones 2/3/5/6</b>Run as separate containers under one Docker
-              Compose stack, one Hetzner VPS
-            </div>
-            <div>
-              <b>Zone 4</b>Contracts + UI are compiled in at build time — not
-              runtime services
-            </div>
-            <div>
-              <b>External</b>Google OAuth &amp; Cloudflare R2 sit outside the
-              Compose boundary
-            </div>
-            <div>
-              <b>Core loop</b>See Sheet 02 for the edit-publish-read cycle in
-              detail
-            </div>
+            <div><b>Zones 2/3/5/6</b>Run as separate containers under one Docker Compose stack, one Hetzner VPS</div>
+            <div><b>Zone 4</b>Contracts + UI are compiled in at build time — not runtime services</div>
+            <div><b>External</b>Google OAuth &amp; Cloudflare R2 sit outside the Compose boundary</div>
+            <div><b>Core loop</b>See Sheet 02 for the edit-publish-read cycle in detail</div>
           </div>
         </div>
       </section>
@@ -385,33 +329,12 @@
         <div class="sheet-header">
           <h2>Sheet 02 — Edit → Publish → Visitor Sees It</h2>
           <div class="zoom-toolbar" data-sheet="2">
-            <button class="zoom-btn" data-action="out" title="Zoom Out">
-              −
-            </button>
+            <button class="zoom-btn" data-action="out" title="Zoom Out">−</button>
             <span class="zoom-label">100%</span>
             <button class="zoom-btn" data-action="in" title="Zoom In">+</button>
-            <button
-              class="zoom-btn text-btn"
-              data-action="reset"
-              title="Reset Zoom"
-            >
-              RESET
-            </button>
-            <div
-              style="
-                width: 1px;
-                height: 20px;
-                background: var(--cyan-dim);
-                margin: 0 4px;
-              "
-            ></div>
-            <button
-              class="zoom-btn"
-              data-action="fullscreen"
-              title="Full Screen"
-            >
-              [ ]
-            </button>
+            <button class="zoom-btn text-btn" data-action="reset" title="Reset Zoom">RESET</button>
+            <div style="width: 1px; height: 20px; background: var(--cyan-dim); margin: 0 4px"></div>
+            <button class="zoom-btn" data-action="fullscreen" title="Full Screen">[ ]</button>
           </div>
         </div>
         <div class="sheet-body">
@@ -421,21 +344,10 @@
         </div>
         <div class="sheet-footer">
           <div class="titleblock-footer">
-            <div>
-              <b>Snapshot first</b>Old row always written to ContentEntryVersion
-              before the new row lands
-            </div>
-            <div>
-              <b>Cache tag</b>Revalidation is the only signal the Public Website
-              needs
-            </div>
-            <div>
-              <b>No redeploy</b>Next request reads straight from Postgres
-            </div>
-            <div>
-              <b>Fallback</b>Missing locale content falls back to English at
-              read time
-            </div>
+            <div><b>Snapshot first</b>Old row always written to ContentEntryVersion before the new row lands</div>
+            <div><b>Cache tag</b>Revalidation is the only signal the Public Website needs</div>
+            <div><b>No redeploy</b>Next request reads straight from Postgres</div>
+            <div><b>Fallback</b>Missing locale content falls back to English at read time</div>
           </div>
         </div>
       </section>
@@ -445,35 +357,35 @@
     <script>
       mermaid.initialize({
         startOnLoad: false,
-        theme: "base",
+        theme: 'base',
         themeVariables: {
-          background: "#0d2f4f",
-          primaryColor: "#123a5e",
-          primaryTextColor: "#eef6fb",
-          primaryBorderColor: "#7fd4ff",
-          lineColor: "#7fd4ff",
-          secondaryColor: "#0a2540",
-          tertiaryColor: "#0a2540",
-          clusterBkg: "rgba(10,37,64,0.65)",
-          clusterBorder: "#4a90c2",
-          edgeLabelBackground: "#0d2f4f",
-          fontFamily: "IBM Plex Mono, monospace",
-          fontSize: "22px",
-          actorBkg: "#123a5e",
-          actorBorder: "#7fd4ff",
-          actorTextColor: "#eef6fb",
-          signalColor: "#7fd4ff",
-          signalTextColor: "#eef6fb",
-          labelBoxBkgColor: "#123a5e",
-          labelBoxBorderColor: "#7fd4ff",
-          labelTextColor: "#eef6fb",
-          loopTextColor: "#9fc4de",
-          noteBkgColor: "#0a2540",
-          noteTextColor: "#9fc4de",
-          noteBorderColor: "#4a90c2",
+          background: '#0d2f4f',
+          primaryColor: '#123a5e',
+          primaryTextColor: '#eef6fb',
+          primaryBorderColor: '#7fd4ff',
+          lineColor: '#7fd4ff',
+          secondaryColor: '#0a2540',
+          tertiaryColor: '#0a2540',
+          clusterBkg: 'rgba(10,37,64,0.65)',
+          clusterBorder: '#4a90c2',
+          edgeLabelBackground: '#0d2f4f',
+          fontFamily: 'IBM Plex Mono, monospace',
+          fontSize: '22px',
+          actorBkg: '#123a5e',
+          actorBorder: '#7fd4ff',
+          actorTextColor: '#eef6fb',
+          signalColor: '#7fd4ff',
+          signalTextColor: '#eef6fb',
+          labelBoxBkgColor: '#123a5e',
+          labelBoxBorderColor: '#7fd4ff',
+          labelTextColor: '#eef6fb',
+          loopTextColor: '#9fc4de',
+          noteBkgColor: '#0a2540',
+          noteTextColor: '#9fc4de',
+          noteBorderColor: '#4a90c2',
         },
         flowchart: {
-          curve: "basis",
+          curve: 'basis',
           htmlLabels: true,
           useMaxWidth: false,
           nodeSpacing: 85,
@@ -490,7 +402,7 @@
           messageMargin: 55,
           actorMargin: 90,
         },
-        securityLevel: "loose",
+        securityLevel: 'loose',
       });
 
       const diagram1 = `flowchart TB
@@ -612,26 +524,26 @@ TRPCAdmin -.->|build-time import| Contracts
         let isDown = false;
         let startX, startY, scrollLeft, scrollTop;
 
-        container.addEventListener("mousedown", (e) => {
+        container.addEventListener('mousedown', (e) => {
           isDown = true;
-          container.classList.add("is-dragging");
+          container.classList.add('is-dragging');
           startX = e.pageX - container.offsetLeft;
           startY = e.pageY - container.offsetTop;
           scrollLeft = container.scrollLeft;
           scrollTop = container.scrollTop;
         });
 
-        container.addEventListener("mouseleave", () => {
+        container.addEventListener('mouseleave', () => {
           isDown = false;
-          container.classList.remove("is-dragging");
+          container.classList.remove('is-dragging');
         });
 
-        container.addEventListener("mouseup", () => {
+        container.addEventListener('mouseup', () => {
           isDown = false;
-          container.classList.remove("is-dragging");
+          container.classList.remove('is-dragging');
         });
 
-        container.addEventListener("mousemove", (e) => {
+        container.addEventListener('mousemove', (e) => {
           if (!isDown) return;
           e.preventDefault(); // Prevents accidental text selection while dragging
           const x = e.pageX - container.offsetLeft;
@@ -666,50 +578,46 @@ TRPCAdmin -.->|build-time import| Contracts
 
       // --- ZOOM CONTROL ENGINE ---
       function makeZoomable(svg, sheetElement, defaultScale) {
-        svg.removeAttribute("style");
+        svg.removeAttribute('style');
 
         // Setup Hand Tool
-        const scrollContainer = sheetElement.querySelector(".sheet-body");
+        const scrollContainer = sheetElement.querySelector('.sheet-body');
         enablePanning(scrollContainer);
 
         let baseW = 1000;
-        if (
-          svg.viewBox &&
-          svg.viewBox.baseVal &&
-          svg.viewBox.baseVal.width > 0
-        ) {
+        if (svg.viewBox && svg.viewBox.baseVal && svg.viewBox.baseVal.width > 0) {
           baseW = svg.viewBox.baseVal.width;
         } else {
           baseW = svg.getBoundingClientRect().width || 1000;
         }
 
         let scale = defaultScale;
-        const toolbar = sheetElement.querySelector(".zoom-toolbar");
-        const label = toolbar.querySelector(".zoom-label");
+        const toolbar = sheetElement.querySelector('.zoom-toolbar');
+        const label = toolbar.querySelector('.zoom-label');
 
         function apply() {
-          const newWidth = Math.round(baseW * scale) + "px";
+          const newWidth = Math.round(baseW * scale) + 'px';
           svg.style.width = newWidth;
           svg.style.minWidth = newWidth;
-          svg.style.height = "auto";
-          label.textContent = Math.round(scale * 100) + "%";
+          svg.style.height = 'auto';
+          label.textContent = Math.round(scale * 100) + '%';
         }
 
         apply();
 
-        toolbar.querySelectorAll(".zoom-btn").forEach((btn) => {
+        toolbar.querySelectorAll('.zoom-btn').forEach((btn) => {
           btn.onclick = () => {
             const action = btn.dataset.action;
-            if (action === "in") {
+            if (action === 'in') {
               scale = Math.min(scale + 0.25, 6);
               apply();
-            } else if (action === "out") {
+            } else if (action === 'out') {
               scale = Math.max(scale - 0.25, 0.3);
               apply();
-            } else if (action === "reset") {
+            } else if (action === 'reset') {
               scale = defaultScale;
               apply();
-            } else if (action === "fullscreen") {
+            } else if (action === 'fullscreen') {
               toggleFullscreen(sheetElement);
             }
           };
@@ -719,26 +627,23 @@ TRPCAdmin -.->|build-time import| Contracts
       // --- RENDER ENGINE ---
       async function renderDiagram(targetId, source, defaultScale) {
         const target = document.getElementById(targetId);
-        const sheet = target.closest(".sheet");
+        const sheet = target.closest('.sheet');
         try {
-          const { svg } = await mermaid.render(targetId + "-svg", source);
+          const { svg } = await mermaid.render(targetId + '-svg', source);
           target.innerHTML = svg;
-          const svgEl = target.querySelector("svg");
+          const svgEl = target.querySelector('svg');
           makeZoomable(svgEl, sheet, defaultScale);
         } catch (err) {
-          target.innerHTML =
-            '<span class="diagram-status err">Diagram failed to render:\n' +
-            (err && err.message ? err.message : err) +
-            "</span>";
-          console.error("Mermaid render error for " + targetId, err);
+          target.innerHTML = '<span class="diagram-status err">Diagram failed to render:\n' + (err && err.message ? err.message : err) + '</span>';
+          console.error('Mermaid render error for ' + targetId, err);
         }
       }
 
       // --- INITIALIZE ---
       (async () => {
         // Render and size slightly up initially so text is legible
-        await renderDiagram("diagram1", diagram1, 1.4);
-        await renderDiagram("diagram2", diagram2, 1.5);
+        await renderDiagram('diagram1', diagram1, 1.4);
+        await renderDiagram('diagram2', diagram2, 1.5);
       })();
     </script>
   </body>

@@ -174,14 +174,14 @@ docker compose up -d
 
 ### Role Permissions
 
-|Permission|Admin|Editor|
-|---|---|---|
-|Create/edit content|✅|✅|
-|Publish content|✅|✅|
-|Delete content|✅|❌|
-|Manage users|✅|❌|
-|Access settings|✅|❌|
-|View audit log|✅|✅|
+| Permission          | Admin | Editor |
+| ------------------- | ----- | ------ |
+| Create/edit content | ✅    | ✅     |
+| Publish content     | ✅    | ✅     |
+| Delete content      | ✅    | ❌     |
+| Manage users        | ✅    | ❌     |
+| Access settings     | ✅    | ❌     |
+| View audit log      | ✅    | ✅     |
 
 ---
 
@@ -195,26 +195,25 @@ docker compose up -d
 ### Procedure
 
 1. **Update the next-intl configuration**
-    
-    - Add the new locale to `i18n/routing.ts`
-    - Add the locale to the `locales` array
+   - Add the new locale to `i18n/routing.ts`
+   - Add the locale to the `locales` array
+
 2. **Add translation files**
-    
-    - Create new JSON files in `apps/web/src/i18n/messages/[locale]/`
-    - Copy all keys from English and translate them
-    - Every key that exists in English must exist in the new locale
+   - Create new JSON files in `apps/web/src/i18n/messages/[locale]/`
+   - Copy all keys from English and translate them
+   - Every key that exists in English must exist in the new locale
+
 3. **Add font support**
-    
-    - Add the new script's fonts to `next/font` configuration
-    - Update the font stack in `packages/config`
+   - Add the new script's fonts to `next/font` configuration
+   - Update the font stack in `packages/config`
+
 4. **Update the LanguageSwitcher component**
-    
-    - Add the new language option
+   - Add the new language option
+
 5. **Test thoroughly**
-    
-    - Every page must work in the new locale
-    - Check for text overflow (some scripts take more space)
-    - Check for correct font rendering
+   - Every page must work in the new locale
+   - Check for text overflow (some scripts take more space)
+   - Check for correct font rendering
 
 ---
 
@@ -248,12 +247,12 @@ docker compose restart nexus-web
 
 ### Common Issues
 
-|Symptom|Likely Cause|Solution|
-|---|---|---|
-|Database connection error|`DATABASE_URL` is wrong|Check environment variables|
-|Authentication error|Google OAuth misconfigured|Check `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`|
-|Image not loading|R2 bucket not accessible|Check R2 credentials and CORS configuration|
-|404 on API route|tRPC router not registered|Check the router is exported and imported correctly|
+| Symptom                   | Likely Cause               | Solution                                            |
+| ------------------------- | -------------------------- | --------------------------------------------------- |
+| Database connection error | `DATABASE_URL` is wrong    | Check environment variables                         |
+| Authentication error      | Google OAuth misconfigured | Check `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` |
+| Image not loading         | R2 bucket not accessible   | Check R2 credentials and CORS configuration         |
+| 404 on API route          | tRPC router not registered | Check the router is exported and imported correctly |
 
 ---
 
@@ -284,11 +283,11 @@ curl -vI https://cwwkcc.lk
 
 ### Certificate Details
 
-|Detail|Value|
-|---|---|
-|Issuer|Let's Encrypt|
-|Renewal Frequency|90 days (auto-renewal at 30 days)|
-|Domains|`cwwkcc.lk`, `admin.cwwkcc.lk`|
+| Detail            | Value                             |
+| ----------------- | --------------------------------- |
+| Issuer            | Let's Encrypt                     |
+| Renewal Frequency | 90 days (auto-renewal at 30 days) |
+| Domains           | `cwwkcc.lk`, `admin.cwwkcc.lk`    |
 
 ---
 
@@ -330,11 +329,11 @@ curl -vI https://cwwkcc.lk
 
 ### Health Checks
 
-|Service|Check Command|
-|---|---|
-|Public site|`curl -f https://cwwkcc.lk/api/health`|
-|Admin panel|`curl -f https://admin.cwwkcc.lk/api/health`|
-|Database|`docker compose exec postgres pg_isready`|
+| Service     | Check Command                                |
+| ----------- | -------------------------------------------- |
+| Public site | `curl -f https://cwwkcc.lk/api/health`       |
+| Admin panel | `curl -f https://admin.cwwkcc.lk/api/health` |
+| Database    | `docker compose exec postgres pg_isready`    |
 
 ### Alerts
 
@@ -344,12 +343,12 @@ curl -vI https://cwwkcc.lk
 
 ### Common Issues and Solutions
 
-|Issue|Solution|
-|---|---|
-|High CPU usage|Check for a memory leak; restart the affected service|
-|High memory usage|Restart the affected service; consider upgrading server|
-|Slow page loads|Check database query performance; add indexes|
-|Out of disk space|Clean up old Docker images: `docker system prune`|
+| Issue             | Solution                                                |
+| ----------------- | ------------------------------------------------------- |
+| High CPU usage    | Check for a memory leak; restart the affected service   |
+| High memory usage | Restart the affected service; consider upgrading server |
+| Slow page loads   | Check database query performance; add indexes           |
+| Out of disk space | Clean up old Docker images: `docker system prune`       |
 
 ---
 

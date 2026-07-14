@@ -22,38 +22,16 @@ export function Breadcrumb({ items, onDark = false }: BreadcrumbProps) {
           return (
             <li key={i} className="flex items-center gap-space-1p5">
               {i > 0 && (
-                <span
-                  aria-hidden="true"
-                  className={clsx(
-                    'font-body text-xs',
-                    onDark ? 'text-text-inverse/30' : 'text-text-muted',
-                  )}
-                >
+                <span aria-hidden="true" className={clsx('font-body text-xs', onDark ? 'text-text-inverse/30' : 'text-text-muted')}>
                   ›
                 </span>
               )}
               {isLast || !item.href ? (
-                <span
-                  aria-current={isLast ? 'page' : undefined}
-                  className={clsx(
-                    'font-body text-caption uppercase tracking-caption',
-                    isLast
-                      ? onDark
-                        ? 'text-text-inverse/85'
-                        : 'text-text-primary'
-                      : onDark
-                        ? 'text-text-inverse/45'
-                        : 'text-text-muted',
-                  )}
-                >
+                <span aria-current={isLast ? 'page' : undefined} className={clsx('font-body text-caption uppercase tracking-caption', isLast ? (onDark ? 'text-text-inverse/85' : 'text-text-primary') : onDark ? 'text-text-inverse/45' : 'text-text-muted')}>
                   {item.label}
                 </span>
               ) : (
-                <NavLink
-                  href={item.href}
-                  onDark={onDark}
-                  className="font-body text-caption uppercase tracking-caption"
-                >
+                <NavLink href={item.href} onDark={onDark} className="font-body text-caption uppercase tracking-caption">
                   {item.label}
                 </NavLink>
               )}

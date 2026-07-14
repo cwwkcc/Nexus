@@ -3,22 +3,15 @@ import AdministrationHero from '../../../blocks/administration/AdministrationHer
 import AdvisoryBoardSection from '../../../blocks/administration/AdvisoryBoardSection';
 import PrincipalSection from '../../../blocks/administration/PrincipalSection';
 import StaffGridSection from '../../../blocks/administration/StaffGridSection';
-import {
-  getAdministrationPageContent,
-  type AdministrationPageContent,
-} from '../../../server/content';
+import { getAdministrationPageContent, type AdministrationPageContent } from '../../../server/content';
 
 interface AdministrationPageProps {
   params: Promise<{ locale: string }>;
 }
 
-export default async function AdministrationPage({
-  params,
-}: AdministrationPageProps) {
+export default async function AdministrationPage({ params }: AdministrationPageProps) {
   const { locale } = await params;
-  const content: AdministrationPageContent = await getAdministrationPageContent(
-    locale as 'en' | 'si' | 'ta',
-  );
+  const content: AdministrationPageContent = await getAdministrationPageContent(locale as 'en' | 'si' | 'ta');
 
   return (
     <>

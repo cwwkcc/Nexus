@@ -14,13 +14,13 @@ Social media is a core component of Nexus — it is the school's digital face al
 
 ### Official Accounts
 
-| Platform | Account Name | Username | Owner |
-|----------|--------------|----------|-------|
-| Facebook | C.W.W. Kannangara Central College | @cwwkcc | School Administration |
-| Instagram | C.W.W. Kannangara Central College | @cwwkcc | School Administration |
-| YouTube | C.W.W. Kannangara Central College | @cwwkcc | School Administration |
-| LinkedIn | C.W.W. Kannangara Central College | @cwwkcc | School Administration |
-| WhatsApp Channel | KCC Announcements | [Link] | School Administration |
+| Platform         | Account Name                      | Username | Owner                 |
+| ---------------- | --------------------------------- | -------- | --------------------- |
+| Facebook         | C.W.W. Kannangara Central College | @cwwkcc  | School Administration |
+| Instagram        | C.W.W. Kannangara Central College | @cwwkcc  | School Administration |
+| YouTube          | C.W.W. Kannangara Central College | @cwwkcc  | School Administration |
+| LinkedIn         | C.W.W. Kannangara Central College | @cwwkcc  | School Administration |
+| WhatsApp Channel | KCC Announcements                 | [Link]   | School Administration |
 
 ### Account Ownership
 
@@ -47,23 +47,23 @@ When creating new accounts:
 
 ### Content Pillars
 
-| Pillar | Description | Example |
-|--------|-------------|---------|
-| **Achievements** | Student and school accomplishments | Exam results, sports wins |
-| **Community** | School life, events, activities | Sports meets, cultural events |
-| **Heritage** | School history, traditions, values | Founder's legacy, anthem |
-| **Information** | Important announcements | Exam dates, admissions |
-| **Engagement** | Interactive content | Polls, Q&A, alumni spotlights |
+| Pillar           | Description                        | Example                       |
+| ---------------- | ---------------------------------- | ----------------------------- |
+| **Achievements** | Student and school accomplishments | Exam results, sports wins     |
+| **Community**    | School life, events, activities    | Sports meets, cultural events |
+| **Heritage**     | School history, traditions, values | Founder's legacy, anthem      |
+| **Information**  | Important announcements            | Exam dates, admissions        |
+| **Engagement**   | Interactive content                | Polls, Q&A, alumni spotlights |
 
 ### Content Mix
 
-| Platform | Content Mix | Frequency |
-|----------|-------------|-----------|
-| Facebook | 60% Community, 20% Information, 20% Achievements | 3-5 posts/week |
-| Instagram | 70% Community, 20% Achievements, 10% Engagement | 3-5 posts/week |
-| YouTube | 50% Events, 30% Heritage, 20% Achievements | 1-2 videos/month |
-| LinkedIn | 40% Achievements, 30% Alumni, 30% News | 1-2 posts/week |
-| WhatsApp Channel | 80% Information, 20% Urgent | As needed |
+| Platform         | Content Mix                                      | Frequency        |
+| ---------------- | ------------------------------------------------ | ---------------- |
+| Facebook         | 60% Community, 20% Information, 20% Achievements | 3-5 posts/week   |
+| Instagram        | 70% Community, 20% Achievements, 10% Engagement  | 3-5 posts/week   |
+| YouTube          | 50% Events, 30% Heritage, 20% Achievements       | 1-2 videos/month |
+| LinkedIn         | 40% Achievements, 30% Alumni, 30% News           | 1-2 posts/week   |
+| WhatsApp Channel | 80% Information, 20% Urgent                      | As needed        |
 
 ### Prohibited Content
 
@@ -80,6 +80,7 @@ When creating new accounts:
 ### Post Structure
 
 **Facebook/Instagram:**
+
 - 1-2 sentence introduction
 - 2-3 paragraphs of content
 - 1-3 high-quality images
@@ -87,34 +88,36 @@ When creating new accounts:
 - Call to action
 
 **YouTube:**
+
 - Title: Event name + description
 - 1-2 paragraph description
 - Relevant tags
 - End screen with school logo and website
 
 **WhatsApp Channel:**
+
 - Short, direct message
 - Clear call to action
 - Link to website for details
 
 ### Frequency
 
-| Platform | Minimum | Recommended |
-|----------|---------|-------------|
-| Facebook | 3 posts/week | 5 posts/week |
-| Instagram | 3 posts/week | 5 posts/week |
-| YouTube | 1 video/month | 2 videos/month |
-| LinkedIn | 1 post/week | 2 posts/week |
-| WhatsApp Channel | 1 post/week | As needed |
+| Platform         | Minimum       | Recommended    |
+| ---------------- | ------------- | -------------- |
+| Facebook         | 3 posts/week  | 5 posts/week   |
+| Instagram        | 3 posts/week  | 5 posts/week   |
+| YouTube          | 1 video/month | 2 videos/month |
+| LinkedIn         | 1 post/week   | 2 posts/week   |
+| WhatsApp Channel | 1 post/week   | As needed      |
 
 ### Best Times to Post
 
-| Platform | Best Times |
-|----------|------------|
-| Facebook | Weekdays 9 AM – 12 PM, 6 PM – 9 PM |
-| Instagram | Weekdays 11 AM – 2 PM, 6 PM – 9 PM |
-| YouTube | Weekends 10 AM – 12 PM |
-| LinkedIn | Weekdays 8 AM – 10 AM, 12 PM – 2 PM |
+| Platform  | Best Times                          |
+| --------- | ----------------------------------- |
+| Facebook  | Weekdays 9 AM – 12 PM, 6 PM – 9 PM  |
+| Instagram | Weekdays 11 AM – 2 PM, 6 PM – 9 PM  |
+| YouTube   | Weekends 10 AM – 12 PM              |
+| LinkedIn  | Weekdays 8 AM – 10 AM, 12 PM – 2 PM |
 
 ---
 
@@ -148,21 +151,21 @@ When creating new accounts:
 
 ### Responding to Comments
 
-| Response Type | Action |
-|---------------|--------|
-| Positive comments | Like and respond with gratitude |
+| Response Type     | Action                               |
+| ----------------- | ------------------------------------ |
+| Positive comments | Like and respond with gratitude      |
 | Negative comments | Respond professionally, take offline |
-| Questions | Answer promptly and accurately |
-| Spam | Delete and block |
+| Questions         | Answer promptly and accurately       |
+| Spam              | Delete and block                     |
 
 ### Response Times
 
-| Platform | Response Time |
-|----------|---------------|
-| Facebook | Within 24 hours |
-| Instagram | Within 24 hours |
-| YouTube | Within 48 hours |
-| WhatsApp Channel | Broadcast only |
+| Platform         | Response Time   |
+| ---------------- | --------------- |
+| Facebook         | Within 24 hours |
+| Instagram        | Within 24 hours |
+| YouTube          | Within 48 hours |
+| WhatsApp Channel | Broadcast only  |
 
 ### Crisis Communication
 
@@ -202,20 +205,20 @@ When creating new accounts:
 
 ### Key Metrics
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Post reach | 1,000+ per post | Platform analytics |
-| Engagement rate | 5%+ | Platform analytics |
-| Follower growth | 10%+ monthly | Platform analytics |
-| Click-through rate | 2%+ | Platform analytics |
-| Website referrals | 100+ monthly | Google Analytics |
+| Metric             | Target          | Measurement        |
+| ------------------ | --------------- | ------------------ |
+| Post reach         | 1,000+ per post | Platform analytics |
+| Engagement rate    | 5%+             | Platform analytics |
+| Follower growth    | 10%+ monthly    | Platform analytics |
+| Click-through rate | 2%+             | Platform analytics |
+| Website referrals  | 100+ monthly    | Google Analytics   |
 
 ### Reporting Schedule
 
-| Report | Frequency | Recipient |
-|--------|-----------|-----------|
-| Weekly summary | Weekly | Staff Advisor |
-| Monthly report | Monthly | Principal |
+| Report           | Frequency | Recipient      |
+| ---------------- | --------- | -------------- |
+| Weekly summary   | Weekly    | Staff Advisor  |
+| Monthly report   | Monthly   | Principal      |
 | Quarterly review | Quarterly | Administration |
 
 ---
@@ -224,11 +227,11 @@ When creating new accounts:
 
 This social media governance document is approved by:
 
-| Role | Name | Signature | Date |
-|------|------|-----------|------|
-| Principal | | | |
-| Staff Advisor | Mrs. Tharindrie Perera | | |
-| Social Media Lead | | | |
+| Role              | Name                   | Signature | Date |
+| ----------------- | ---------------------- | --------- | ---- |
+| Principal         |                        |           |      |
+| Staff Advisor     | Mrs. Tharindrie Perera |           |      |
+| Social Media Lead |                        |           |      |
 
 ---
 
@@ -237,4 +240,3 @@ This social media governance document is approved by:
 ---
 
 # governance/Data-Privacy-Policy.md
-

@@ -5,10 +5,7 @@ interface AdminPlaceholderProps {
   description?: string;
 }
 
-export function AdminPlaceholder({
-  title,
-  description = 'This admin module is under construction.',
-}: AdminPlaceholderProps) {
+export function AdminPlaceholder({ title, description = 'This admin module is under construction.' }: AdminPlaceholderProps) {
   return (
     <Container size="lg" padding="lg">
       <Heading level="h1" className="mb-space-4">

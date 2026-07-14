@@ -2,14 +2,7 @@
 
 import { createServerCaller } from '@nexus/api';
 import { PAGE_REGISTRY, getPageRegistry } from '@nexus/contracts';
-import {
-  Button,
-  Container,
-  Heading,
-  SectionHeader,
-  Text,
-  Textarea,
-} from '@nexus/ui';
+import { Button, Container, Heading, SectionHeader, Text, Textarea } from '@nexus/ui';
 import { revalidatePath } from 'next/cache';
 import { notFound } from 'next/navigation';
 
@@ -28,10 +21,7 @@ async function saveSection(formData: FormData) {
   const scope = formData.get('scope')?.toString() ?? '';
   const sectionKey = formData.get('sectionKey')?.toString() ?? '';
   const contentType = formData.get('contentType')?.toString() ?? '';
-  const locale = (formData.get('locale')?.toString() ?? 'en') as
-    | 'en'
-    | 'si'
-    | 'ta';
+  const locale = (formData.get('locale')?.toString() ?? 'en') as 'en' | 'si' | 'ta';
   const rawData = formData.get('data')?.toString() ?? '{}';
   const statusAction = formData.get('statusAction')?.toString() ?? 'draft';
 
@@ -65,15 +55,10 @@ async function saveSection(formData: FormData) {
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 
-export default async function PageEditorPage({
-  params,
-  searchParams,
-}: PageEditorProps) {
+export default async function PageEditorPage({ params, searchParams }: PageEditorProps) {
   const { pageKey } = await params;
   const { locale: localeParam } = await searchParams;
-  const locale = (
-    ['en', 'si', 'ta'].includes(localeParam ?? '') ? localeParam! : 'en'
-  ) as 'en' | 'si' | 'ta';
+  const locale = (['en', 'si', 'ta'].includes(localeParam ?? '') ? localeParam! : 'en') as 'en' | 'si' | 'ta';
 
   const registry = getPageRegistry(pageKey);
   if (!registry) notFound();
@@ -88,25 +73,12 @@ export default async function PageEditorPage({
 
   return (
     <Container size="full" padding="lg" className="space-y-10">
-      <SectionHeader
-        eyebrow="Content Editor"
-        title={registry.label}
-        description={registry.description}
-      />
+      <SectionHeader eyebrow="Content Editor" title={registry.label} description={registry.description} />
 
       {/* Locale tabs */}
       <nav className="flex gap-2 border-b border-slate-800 pb-4">
         {(['en', 'si', 'ta'] as const).map((loc) => (
-          <a
-            key={loc}
-            href={`?locale=${loc}`}
-            className={[
-              'rounded-lg px-4 py-2 text-sm font-medium transition',
-              locale === loc
-                ? 'bg-slate-700 text-white'
-                : 'text-slate-400 hover:bg-slate-800 hover:text-white',
-            ].join(' ')}
-          >
+          <a key={loc} href={`?locale=${loc}`} className={['rounded-lg px-4 py-2 text-sm font-medium transition', locale === loc ? 'bg-slate-700 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'].join(' ')}>
             {localeLabels[loc]}
           </a>
         ))}
@@ -127,10 +99,7 @@ export default async function PageEditorPage({
           };
 
           return (
-            <section
-              key={section.key}
-              className="rounded-3xl bg-slate-900 p-6 shadow-lg shadow-slate-950/30"
-            >
+            <section key={section.key} className="rounded-3xl bg-slate-900 p-6 shadow-lg shadow-slate-950/30">
               {/* Section header */}
               <div className="mb-1 flex flex-wrap items-start justify-between gap-3">
                 <div>
@@ -142,20 +111,9 @@ export default async function PageEditorPage({
                   )}
                 </div>
                 <div className="flex items-center gap-2">
-                  <span
-                    className={[
-                      'rounded-full border px-3 py-0.5 text-xs font-medium',
-                      statusColors[status] ?? statusColors.empty,
-                    ].join(' ')}
-                  >
-                    {status}
-                  </span>
+                  <span className={['rounded-full border px-3 py-0.5 text-xs font-medium', statusColors[status] ?? statusColors.empty].join(' ')}>{status}</span>
                   {version !== undefined && (
-                    <Text
-                      as="span"
-                      color="muted"
-                      className="text-xs tabular-nums"
-                    >
+                    <Text as="span" color="muted" className="text-xs tabular-nums">
                       v{version}
                     </Text>
                   )}
@@ -171,41 +129,16 @@ export default async function PageEditorPage({
               <form action={saveSection} className="space-y-4">
                 <input type="hidden" name="scope" value={registry.scope} />
                 <input type="hidden" name="sectionKey" value={section.key} />
-                <input
-                  type="hidden"
-                  name="contentType"
-                  value={section.blockKey}
-                />
+                <input type="hidden" name="contentType" value={section.blockKey} />
                 <input type="hidden" name="locale" value={locale} />
 
-                <Textarea
-                  label={section.label}
-                  name="data"
-                  defaultValue={
-                    existingData !== undefined
-                      ? JSON.stringify(existingData, null, 2)
-                      : ''
-                  }
-                  rows={14}
-                  placeholder={`Paste JSON content for ${section.label}…`}
-                  className="min-h-[280px] w-full rounded-2xl bg-slate-950 p-4 font-mono text-sm text-slate-100 placeholder:text-slate-600"
-                />
+                <Textarea label={section.label} name="data" defaultValue={existingData !== undefined ? JSON.stringify(existingData, null, 2) : ''} rows={14} placeholder={`Paste JSON content for ${section.label}…`} className="min-h-[280px] w-full rounded-2xl bg-slate-950 p-4 font-mono text-sm text-slate-100 placeholder:text-slate-600" />
 
                 <div className="flex gap-3">
-                  <Button
-                    type="submit"
-                    name="statusAction"
-                    value="draft"
-                    variant="secondary"
-                  >
+                  <Button type="submit" name="statusAction" value="draft" variant="secondary">
                     Save as Draft
                   </Button>
-                  <Button
-                    type="submit"
-                    name="statusAction"
-                    value="published"
-                    variant="primary"
-                  >
+                  <Button type="submit" name="statusAction" value="published" variant="primary">
                     Publish
                   </Button>
                 </div>

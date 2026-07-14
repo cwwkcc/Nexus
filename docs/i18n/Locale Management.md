@@ -12,11 +12,11 @@ This document covers how to add a new locale to the Nexus platform. Currently su
 
 ## Current Locales
 
-| Locale | Language | Script | Status |
-|--------|----------|--------|--------|
-| `en` | English | Latin | Complete |
-| `si` | Sinhala | Sinhala | In Progress |
-| `ta` | Tamil | Tamil | In Progress |
+| Locale | Language | Script  | Status      |
+| ------ | -------- | ------- | ----------- |
+| `en`   | English  | Latin   | Complete    |
+| `si`   | Sinhala  | Sinhala | In Progress |
+| `ta`   | Tamil    | Tamil   | In Progress |
 
 ---
 
@@ -56,13 +56,7 @@ const newFont = NewFont({
 });
 
 // Add to font stack
-const displayFontStack = [
-  'var(--font-display)',
-  'var(--font-sinhala-display)',
-  'var(--font-tamil-body)',
-  'var(--font-new)',
-  'Georgia, serif',
-].join(', ');
+const displayFontStack = ['var(--font-display)', 'var(--font-sinhala-display)', 'var(--font-tamil-body)', 'var(--font-new)', 'Georgia, serif'].join(', ');
 ```
 
 ### Step 4: Update Language Switcher
@@ -104,7 +98,7 @@ All current locales are LTR. If adding an RTL locale:
 
 ```css
 /* Add RTL support */
-[dir="rtl"] {
+[dir='rtl'] {
   /* RTL-specific styles */
 }
 ```

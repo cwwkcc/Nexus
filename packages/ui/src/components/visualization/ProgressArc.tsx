@@ -21,16 +21,7 @@ const variantColors = {
   gold: { stroke: 'var(--color-gold-base)', track: 'var(--border-light)' },
 };
 
-export function ProgressArc({
-  value,
-  size = 120,
-  strokeWidth = 8,
-  showPercentage = true,
-  label,
-  animate = true,
-  variant = 'green',
-  className,
-}: ProgressArcProps) {
+export function ProgressArc({ value, size = 120, strokeWidth = 8, showPercentage = true, label, animate = true, variant = 'green', className }: ProgressArcProps) {
   const [progress, setProgress] = useState(animate ? 0 : value);
   const ref = useRef<HTMLDivElement>(null);
   const animated = useRef(false);
@@ -75,48 +66,16 @@ export function ProgressArc({
   const displayValue = Math.round(animate ? progress : value);
 
   return (
-    <div
-      ref={ref}
-      className={cn('flex flex-col items-center justify-center', className)}
-    >
+    <div ref={ref} className={cn('flex flex-col items-center justify-center', className)}>
       <div className="relative" style={{ width: size, height: size }}>
-        <svg
-          width={size}
-          height={size}
-          viewBox={`0 0 ${size} ${size}`}
-          className="transform -rotate-90"
-        >
-          <circle
-            cx={size / 2}
-            cy={size / 2}
-            r={radius}
-            fill="none"
-            stroke={colors.track}
-            strokeWidth={strokeWidth}
-          />
-          <circle
-            cx={size / 2}
-            cy={size / 2}
-            r={radius}
-            fill="none"
-            stroke={colors.stroke}
-            strokeWidth={strokeWidth}
-            strokeLinecap="round"
-            strokeDasharray={circumference}
-            strokeDashoffset={offset}
-            className="transition-all duration-75 ease-out"
-          />
+        <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="transform -rotate-90">
+          <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke={colors.track} strokeWidth={strokeWidth} />
+          <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke={colors.stroke} strokeWidth={strokeWidth} strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={offset} className="transition-all duration-75 ease-out" />
         </svg>
         {showPercentage && (
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="font-display text-h2 font-semibold text-text-primary">
-              {displayValue}%
-            </span>
-            {label && (
-              <span className="font-body text-caption uppercase tracking-caption text-text-muted">
-                {label}
-              </span>
-            )}
+            <span className="font-display text-h2 font-semibold text-text-primary">{displayValue}%</span>
+            {label && <span className="font-body text-caption uppercase tracking-caption text-text-muted">{label}</span>}
           </div>
         )}
       </div>

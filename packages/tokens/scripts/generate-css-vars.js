@@ -2,27 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-import {
-  colors,
-  spacing,
-  fontSize,
-  letterSpacing,
-  lineHeight,
-  transitionDuration,
-  transitionTimingFunction,
-  borderRadius,
-  boxShadow,
-  zIndex,
-  opacity,
-  blur,
-  aspectRatio,
-  backgroundImage,
-  sizing,
-  fontFamily,
-  transformScale,
-  glass,
-  focusRing,
-} from '../src/tokens/index.js';
+import { colors, spacing, fontSize, letterSpacing, lineHeight, transitionDuration, transitionTimingFunction, borderRadius, boxShadow, zIndex, opacity, blur, aspectRatio, backgroundImage, sizing, fontFamily, transformScale, glass, focusRing } from '../src/tokens/index.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -75,17 +55,13 @@ function writeTokensToFile(outputPath) {
   // (the generic tracking/leading utility scale).
   const fontSizeKeys = new Set(Object.keys(fontSize));
 
-  addComment(
-    'Standalone letter spacing (utility scale, independent of font-size tokens)',
-  );
+  addComment('Standalone letter spacing (utility scale, independent of font-size tokens)');
   for (const [key, value] of Object.entries(letterSpacing)) {
     if (fontSizeKeys.has(key)) continue;
     css += `  --letter-spacing-${key}: ${value};\n`;
   }
 
-  addComment(
-    'Standalone line height (utility scale, independent of font-size tokens)',
-  );
+  addComment('Standalone line height (utility scale, independent of font-size tokens)');
   for (const [key, value] of Object.entries(lineHeight)) {
     if (fontSizeKeys.has(key)) continue;
     css += `  --line-height-${key}: ${value};\n`;
@@ -180,10 +156,7 @@ function writeTokensToFile(outputPath) {
 }
 
 const webPath = path.resolve(__dirname, '../../../apps/web/src/app/tokens.css');
-const adminPath = path.resolve(
-  __dirname,
-  '../../../apps/admin/src/app/tokens.css',
-);
+const adminPath = path.resolve(__dirname, '../../../apps/admin/src/app/tokens.css');
 
 writeTokensToFile(webPath);
 writeTokensToFile(adminPath);

@@ -11,11 +11,7 @@ export interface UseInViewOptions {
   triggerOnce?: boolean;
 }
 
-export function useInView<T extends HTMLElement = HTMLElement>({
-  rootMargin = '0px',
-  threshold = 0,
-  triggerOnce = true,
-}: UseInViewOptions = {}) {
+export function useInView<T extends HTMLElement = HTMLElement>({ rootMargin = '0px', threshold = 0, triggerOnce = true }: UseInViewOptions = {}) {
   const ref = useRef<T>(null);
   const [isInView, setIsInView] = useState(false);
   const observerRef = useRef<IntersectionObserver | null>(null);

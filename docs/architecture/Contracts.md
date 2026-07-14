@@ -31,7 +31,7 @@ This package explicitly does **not**:
 
 - Contain business logic of any kind. It has no side effects; every export is either a Zod schema, a value derived purely from one, or a pure function that takes a value and returns a value.
 - Touch a database, a filesystem, or the network.
-- Import or export any React component — and, just as importantly, it does not know the _names_ of renderer components either, even as plain strings. A renderer's name is a UI-layer naming decision; contracts has no reason to be edited when `packages/ui` renames a component. `packages/ui` owns the mapping from a content-type identifier to the component that renders it, keyed off the identifier this package defines, but the mapping itself lives entirely outside this package.
+- Import or export any React component — and, just as importantly, it does not know the *names* of renderer components either, even as plain strings. A renderer's name is a UI-layer naming decision; contracts has no reason to be edited when `packages/ui` renames a component. `packages/ui` owns the mapping from a content-type identifier to the component that renders it, keyed off the identifier this package defines, but the mapping itself lives entirely outside this package.
 - Perform database access, even read-only convenience queries.
 
 ---
@@ -39,201 +39,191 @@ This package explicitly does **not**:
 ## 2. The complete directory tree
 
 - **primitives/** — foundational, dependency-free value shapes used across every other folder.
-    
-    - locale.ts — the closed `LocaleEnum` (en, si, ta) and its runtime value list.
-    - localized-text.ts — the reusable field-level shape for a short string that must exist in all three locales.
-    - image.ts — a still image reference: source, per-locale alt text, dimensions, blur placeholder, optional caption.
-    - link.ts — an internal or external link with a per-locale label.
-    - address.ts — a physical address shape.
-    - seo.ts — page-level SEO metadata (per-locale title/description, canonical URL, social image).
-    - pagination.ts — generic pagination request parameters (page/cursor, page size) used by any listing query.
-    - rich-text.ts — the constrained, serializable rich-text document shape used wherever long-form authored prose appears.
-    - media/
-        - audio.ts — an audio media reference.
-        - video.ts — a video media reference.
-        - document.ts — a downloadable document reference (PDF, DOCX, and so on).
-        - index.ts
-    - enums/
-        - publish-status.ts — draft / in-review / published / archived.
-        - visibility.ts — public / internal / admin-only.
-        - priority.ts — low / medium / high / urgent.
-        - sort-direction.ts — ascending / descending, for query ordering.
-        - index.ts
+  - locale.ts — the closed `LocaleEnum` (en, si, ta) and its runtime value list.
+  - localized-text.ts — the reusable field-level shape for a short string that must exist in all three locales.
+  - image.ts — a still image reference: source, per-locale alt text, dimensions, blur placeholder, optional caption.
+  - link.ts — an internal or external link with a per-locale label.
+  - address.ts — a physical address shape.
+  - seo.ts — page-level SEO metadata (per-locale title/description, canonical URL, social image).
+  - pagination.ts — generic pagination request parameters (page/cursor, page size) used by any listing query.
+  - rich-text.ts — the constrained, serializable rich-text document shape used wherever long-form authored prose appears.
+  - media/
+    - audio.ts — an audio media reference.
+    - video.ts — a video media reference.
+    - document.ts — a downloadable document reference (PDF, DOCX, and so on).
     - index.ts
+  - enums/
+    - publish-status.ts — draft / in-review / published / archived.
+    - visibility.ts — public / internal / admin-only.
+    - priority.ts — low / medium / high / urgent.
+    - sort-direction.ts — ascending / descending, for query ordering.
+    - index.ts
+  - index.ts
 - **constants/** — pure compile-time constants that are not schemas and not runtime configuration.
-    
-    - limits.ts — `DEFAULT_PAGE_SIZE`, `MAX_GALLERY_IMAGES`, `MIN_PASSWORD_LENGTH`, `DEFAULT_UPLOAD_LIMIT`, and any other fixed numeric/string limit referenced from more than one schema.
-    - index.ts
+  - limits.ts — `DEFAULT_PAGE_SIZE`, `MAX_GALLERY_IMAGES`, `MIN_PASSWORD_LENGTH`, `DEFAULT_UPLOAD_LIMIT`, and any other fixed numeric/string limit referenced from more than one schema.
+  - index.ts
 - **utils/** — pure helper functions. Depends only on `primitives/` and `constants/`; nothing here touches Zod's runtime-parsing surface beyond composing schemas that are passed in.
-    
-    - schema.ts — generic, concept-agnostic helpers for building a discriminated-union schema and a keyed lookup record from a single ordered tuple of schemas (see section 6) — reusable anywhere this package needs that pattern, not just in the registry.
-    - enum.ts — helpers for pairing a Zod enum with its runtime value list, and the `assertNever` exhaustiveness helper used at the bottom of any `switch` that must handle every enum member.
-    - content.ts — `isLocalized()`, `normalizeRichText()`, and similar pure predicates/transforms over primitive shapes.
-    - response.ts — `createResponseEnvelope()` and the paginated-envelope factory, parameterized over a payload schema.
-    - index.ts
+  - schema.ts — generic, concept-agnostic helpers for building a discriminated-union schema and a keyed lookup record from a single ordered tuple of schemas (see section 6) — reusable anywhere this package needs that pattern, not just in the registry.
+  - enum.ts — helpers for pairing a Zod enum with its runtime value list, and the `assertNever` exhaustiveness helper used at the bottom of any `switch` that must handle every enum member.
+  - content.ts — `isLocalized()`, `normalizeRichText()`, and similar pure predicates/transforms over primitive shapes.
+  - response.ts — `createResponseEnvelope()` and the paginated-envelope factory, parameterized over a payload schema.
+  - index.ts
 - **system/** — cross-cutting platform contracts, tied to no single business domain.
-    
-    - auth/
-        - user.ts — an authenticated user account.
-        - session.ts — an active login session.
-        - index.ts
-    - rbac/
-        - role.ts — the closed set of built-in roles and the role assignment shape.
-        - permission.ts — a resource/action permission pair.
-        - index.ts
-    - storage/
-        - upload.ts — the upload request and upload result shapes.
-        - object-key.ts — the validated, R2-style object key format.
-        - index.ts
-    - api/
-        - error-envelope.ts — the standard API error shape (code, message, optional field errors).
-        - response-envelope.ts — the generic success/error response wrapper, parameterized over a payload schema (built on `utils/response.ts`).
-        - pagination-meta.ts — the response-side pagination metadata (total items, total pages, current page).
-        - index.ts
-    - cms/
-        - content-entry.ts — the generic content entry shape mirroring the database row: section key, scope, locale, content-type identifier, opaque data payload, status.
-        - content-entry-version.ts — a single version-history row for a content entry.
-        - field-definition.ts — the metadata shape describing one editable field for the admin dynamic form builder.
-        - workflow-state.ts — the draft/review/publish workflow state enum and the set of legal transitions between states.
-        - index.ts
+  - auth/
+    - user.ts — an authenticated user account.
+    - session.ts — an active login session.
     - index.ts
+  - rbac/
+    - role.ts — the closed set of built-in roles and the role assignment shape.
+    - permission.ts — a resource/action permission pair.
+    - index.ts
+  - storage/
+    - upload.ts — the upload request and upload result shapes.
+    - object-key.ts — the validated, R2-style object key format.
+    - index.ts
+  - api/
+    - error-envelope.ts — the standard API error shape (code, message, optional field errors).
+    - response-envelope.ts — the generic success/error response wrapper, parameterized over a payload schema (built on `utils/response.ts`).
+    - pagination-meta.ts — the response-side pagination metadata (total items, total pages, current page).
+    - index.ts
+  - cms/
+    - content-entry.ts — the generic content entry shape mirroring the database row: section key, scope, locale, content-type identifier, opaque data payload, status.
+    - content-entry-version.ts — a single version-history row for a content entry.
+    - field-definition.ts — the metadata shape describing one editable field for the admin dynamic form builder.
+    - workflow-state.ts — the draft/review/publish workflow state enum and the set of legal transitions between states.
+    - index.ts
+  - index.ts
 - **blocks/** — the ~20 reusable, page-agnostic content blocks. Each file is a self-contained concept: a schema, its inferred type, and its own content-type constant. There is deliberately no aggregator file in this folder — aggregation across every block happens once, in `registry/content-type-key.ts` (see section 6).
-    
-    - hero.ts
-    - stats.ts
-    - timeline.ts
-    - quote.ts
-    - faq.ts
-    - cta.ts
-    - gallery.ts
-    - downloads.ts
-    - announcement.ts
-    - contact-info.ts
-    - map.ts
-    - staff-grid.ts
-    - photo-strip.ts
-    - process-steps.ts
-    - results-display.ts
-    - rich-text-block.ts
-    - key-dates.ts
-    - crest-symbols.ts
-    - anthem.ts
-    - values-grid.ts
-    - index.ts — explicit named exports of every block's schema, data type, and content-type constant.
+  - hero.ts
+  - stats.ts
+  - timeline.ts
+  - quote.ts
+  - faq.ts
+  - cta.ts
+  - gallery.ts
+  - downloads.ts
+  - announcement.ts
+  - contact-info.ts
+  - map.ts
+  - staff-grid.ts
+  - photo-strip.ts
+  - process-steps.ts
+  - results-display.ts
+  - rich-text-block.ts
+  - key-dates.ts
+  - crest-symbols.ts
+  - anthem.ts
+  - values-grid.ts
+  - index.ts — explicit named exports of every block's schema, data type, and content-type constant.
 - **domains/** — school business entities.
-    
-    - academics/
-        - curriculum.ts
-        - department.ts
-        - subject.ts
-        - al-stream.ts
-        - stream-comparison.ts
-        - index.ts
-    - admissions/ — _the application form itself lives outside this package; see section 8._
-        - key-dates.ts
-        - process-steps.ts — built from `shared/process-step.ts`.
-        - eligibility-requirements.ts
-        - index.ts
-    - people/ — _the student record itself lives outside this package; see section 8._
-        - staff-member.ts
-        - principal-profile.ts
-        - alumni.ts
-        - index.ts
-    - facilities/
-        - facility-profile.ts
-        - panoramic-viewer.ts
-        - index.ts
-    - extracurriculars/
-        - activity.ts
-        - index.ts
-    - societies/
-        - society-profile.ts
-        - membership.ts
-        - society-achievement.ts — a society's own achievements (renamed from `achievement.ts` specifically to avoid sharing a bare filename with the unrelated concept in `editorial/achievements/achievement.ts`).
-        - index.ts
-    - results/
-        - ol-aggregate-statistics.ts
-        - al-aggregate-statistics.ts
-        - index.ts
-    - contact/
-        - contact-form.ts
-        - feedback-form.ts
-        - index.ts
-    - identity/
-        - school-identity.ts
-        - academic-year.ts
-        - term.ts
-        - timetable.ts
-        - index.ts
+  - academics/
+    - curriculum.ts
+    - department.ts
+    - subject.ts
+    - al-stream.ts
+    - stream-comparison.ts
     - index.ts
+  - admissions/ — *the application form itself lives outside this package; see section 8.*
+    - key-dates.ts
+    - process-steps.ts — built from `shared/process-step.ts`.
+    - eligibility-requirements.ts
+    - index.ts
+  - people/ — *the student record itself lives outside this package; see section 8.*
+    - staff-member.ts
+    - principal-profile.ts
+    - alumni.ts
+    - index.ts
+  - facilities/
+    - facility-profile.ts
+    - panoramic-viewer.ts
+    - index.ts
+  - extracurriculars/
+    - activity.ts
+    - index.ts
+  - societies/
+    - society-profile.ts
+    - membership.ts
+    - society-achievement.ts — a society's own achievements (renamed from `achievement.ts` specifically to avoid sharing a bare filename with the unrelated concept in `editorial/achievements/achievement.ts`).
+    - index.ts
+  - results/
+    - ol-aggregate-statistics.ts
+    - al-aggregate-statistics.ts
+    - index.ts
+  - contact/
+    - contact-form.ts
+    - feedback-form.ts
+    - index.ts
+  - identity/
+    - school-identity.ts
+    - academic-year.ts
+    - term.ts
+    - timetable.ts
+    - index.ts
+  - index.ts
 - **editorial/** — CMS-authored content types that are not page-composition blocks.
-    
-    - news/
-        - article.ts — includes featured-pin fields (`isPinned`, `pinnedOrder`) directly.
-        - category.ts
-        - index.ts
-    - events/
-        - event.ts
-        - recurrence-rule.ts
-        - category.ts
-        - index.ts
-    - gallery/
-        - album.ts
-        - photo.ts
-        - index.ts
-    - achievements/
-        - achievement.ts — a school-wide achievement.
-        - ticker-config.ts
-        - index.ts
+  - news/
+    - article.ts — includes featured-pin fields (`isPinned`, `pinnedOrder`) directly.
+    - category.ts
     - index.ts
+  - events/
+    - event.ts
+    - recurrence-rule.ts
+    - category.ts
+    - index.ts
+  - gallery/
+    - album.ts
+    - photo.ts
+    - index.ts
+  - achievements/
+    - achievement.ts — a school-wide achievement.
+    - ticker-config.ts
+    - index.ts
+  - index.ts
 - **shared/** — small, cross-cutting content utilities that are neither foundational primitives nor page-composition blocks.
-    
-    - search-result.ts
-    - nav-structure.ts
-    - media-lightbox-item.ts
-    - process-step.ts
-    - index.ts
+  - search-result.ts
+  - nav-structure.ts
+  - media-lightbox-item.ts
+  - process-step.ts
+  - index.ts
 - **registry/** — the composition layer; the only folder permitted to depend on every other folder.
-    
-    - section-definition.ts — the atomic unit of page/global composition (section key, scope, content-type identifier, order). Locale-requirement is _not_ declared here — it is intrinsic to the content type itself and is looked up from `content-type-key.ts`, not re-declared per section.
-    - page-definition.ts — a full page's section list plus its SEO defaults, keyed by a closed `PageKeyEnum`.
-    - content-type-key.ts — the single identifier system for every content type in the package (see section 6 for the full construction pattern). Contains, in order: the ordered tuple of every registrable schema; the derived `ContentTypeKeyEnum`; the derived all-content discriminated-union schema; the derived `CONTENT_TYPE_REGISTRY` record of `ContentTypeDefinition` values.
-    - lookup.ts — the only supported way to query the registry: `getContentSchema()`, `getContentTypeDefinition()`, `getContentTypesByCategory()`, `getSectionDefinition()`, `getPageDefinition()`, `getGlobalSection()`. Nothing outside this file indexes `CONTENT_TYPE_REGISTRY`, `PAGE_REGISTRY`, or `GLOBAL_REGISTRY` directly.
-    - page-registry/
-        - about.ts
-        - home.ts
-        - academics.ts
-        - administration.ts
-        - admissions.ts
-        - contact.ts
-        - events.ts
-        - extracurriculars.ts
-        - facilities.ts
-        - gallery.ts
-        - news.ts
-        - results.ts
-        - societies.ts
-        - index.ts — builds and exports `PAGE_REGISTRY`, exhaustively checked against `PageKeyEnum`.
-    - global-registry/
-        - navigation.ts
-        - footer.ts
-        - index.ts — builds and exports `GLOBAL_REGISTRY`.
-    - index.ts
+  - section-definition.ts — the atomic unit of page/global composition (section key, scope, content-type identifier, order). Locale-requirement is *not* declared here — it is intrinsic to the content type itself and is looked up from `content-type-key.ts`, not re-declared per section.
+  - page-definition.ts — a full page's section list plus its SEO defaults, keyed by a closed `PageKeyEnum`.
+  - content-type-key.ts — the single identifier system for every content type in the package (see section 6 for the full construction pattern). Contains, in order: the ordered tuple of every registrable schema; the derived `ContentTypeKeyEnum`; the derived all-content discriminated-union schema; the derived `CONTENT_TYPE_REGISTRY` record of `ContentTypeDefinition` values.
+  - lookup.ts — the only supported way to query the registry: `getContentSchema()`, `getContentTypeDefinition()`, `getContentTypesByCategory()`, `getSectionDefinition()`, `getPageDefinition()`, `getGlobalSection()`. Nothing outside this file indexes `CONTENT_TYPE_REGISTRY`, `PAGE_REGISTRY`, or `GLOBAL_REGISTRY` directly.
+  - page-registry/
+    - about.ts
+    - home.ts
+    - academics.ts
+    - administration.ts
+    - admissions.ts
+    - contact.ts
+    - events.ts
+    - extracurriculars.ts
+    - facilities.ts
+    - gallery.ts
+    - news.ts
+    - results.ts
+    - societies.ts
+    - index.ts — builds and exports `PAGE_REGISTRY`, exhaustively checked against `PageKeyEnum`.
+  - global-registry/
+    - navigation.ts
+    - footer.ts
+    - index.ts — builds and exports `GLOBAL_REGISTRY`.
+  - index.ts
 - **index.ts** — the package root barrel. Re-exports each top-level folder as its own namespace (`Primitives`, `Constants`, `Utils`, `System`, `Blocks`, `Domains`, `Editorial`, `Shared`, `Registry`), each namespace itself built from explicit named exports, never a wildcard re-export at any level.
-    
 
 ---
 
 ## 3. Dependency rules
 
-|Tier|Folder|May import from|
-|---|---|---|
-|0|primitives/, constants/|nothing internal (only the `zod` package)|
-|1|utils/|primitives/, constants/|
-|2|system/|primitives/, constants/, utils/|
-|3|shared/|primitives/, constants/, utils/, system/|
-|4|blocks/, domains/, editorial/|primitives/, constants/, utils/, system/, shared/|
-|5|registry/|everything below it|
+| Tier | Folder                        | May import from                                   |
+| ---- | ----------------------------- | ------------------------------------------------- |
+| 0    | primitives/, constants/       | nothing internal (only the `zod` package)         |
+| 1    | utils/                        | primitives/, constants/                           |
+| 2    | system/                       | primitives/, constants/, utils/                   |
+| 3    | shared/                       | primitives/, constants/, utils/, system/          |
+| 4    | blocks/, domains/, editorial/ | primitives/, constants/, utils/, system/, shared/ |
+| 5    | registry/                     | everything below it                               |
 
 Forbidden import directions:
 
@@ -242,7 +232,7 @@ Forbidden import directions:
 - **Any tier-4 module importing a sibling module's concept type directly** (`editorial/news/article.ts` importing `domains/academics/department.ts`). Cross-references are made by an opaque identifier string field, never by importing the other schema.
 - **Anything importing registry/.** Registry is composition-only; nothing inside `@nexus/contracts` needs to import it back.
 
-**Exception for genuine aggregators.** A file whose entire stated purpose is to aggregate across a tier it does not itself belong to — currently, the only such file in the package is `registry/content-type-key.ts`, importing across `blocks/`, `domains/`, and `editorial/` — is not violating the tier rules at all, since registry sits above tier 4 and is explicitly permitted to depend on it. This is worth stating plainly because an earlier draft of this package kept a block-only aggregator (`blocks/block-registry.ts`) living _inside_ tier 4, which would have been a same-tier sibling import masquerading as an aggregation step. Folding the block identifier system into the single content-type system (section 6) removed that file entirely, along with the contradiction it caused. Should a genuine need for a same-tier aggregator ever arise again, it must say so explicitly in its own doc comment as a stated exception to the sibling-import rule — the rule itself has no silent exceptions.
+**Exception for genuine aggregators.** A file whose entire stated purpose is to aggregate across a tier it does not itself belong to — currently, the only such file in the package is `registry/content-type-key.ts`, importing across `blocks/`, `domains/`, and `editorial/` — is not violating the tier rules at all, since registry sits above tier 4 and is explicitly permitted to depend on it. This is worth stating plainly because an earlier draft of this package kept a block-only aggregator (`blocks/block-registry.ts`) living *inside* tier 4, which would have been a same-tier sibling import masquerading as an aggregation step. Folding the block identifier system into the single content-type system (section 6) removed that file entirely, along with the contradiction it caused. Should a genuine need for a same-tier aggregator ever arise again, it must say so explicitly in its own doc comment as a stated exception to the sibling-import rule — the rule itself has no silent exceptions.
 
 Enforcement is two separate mechanisms, matched to two separate scopes:
 
@@ -253,21 +243,21 @@ Enforcement is two separate mechanisms, matched to two separate scopes:
 
 ## 4. Naming conventions
 
-|Subject|Convention|Example|
-|---|---|---|
-|File names|kebab-case, always ending in an explicit `.ts` extension in relative imports|`staff-grid.ts`|
-|Schema constant|`PascalCase` name ending in the literal word `Schema`|`HeroSchema`|
-|Inferred type|The schema name with `Schema` replaced by `Data`, applied with zero exceptions|`HeroData`|
-|Content-type constant|`SCREAMING_SNAKE_CASE`, ending in `_CONTENT_TYPE`, declared once in the concept's own file and imported everywhere else it's needed|`HERO_CONTENT_TYPE`, `NEWS_ARTICLE_CONTENT_TYPE`|
-|Enums (Zod side)|`PascalCase` name ending in `Enum`|`PublishStatusEnum`|
-|Enums (inferred type)|Same `Data` rule as any other inferred type|`PublishStatusEnumData`|
-|Enums (runtime values)|A `SCREAMING_SNAKE_CASE` constant array holding the literal values, declared once and passed into the enum builder|`PUBLISH_STATUS_VALUES`|
-|Barrels|Every `index.ts`, at every depth, uses an explicit named-export list. A wildcard re-export (`export * from`) never appears anywhere in this package, at any depth|—|
-|Root package export|The root `index.ts` re-exports each top-level folder as a namespace object|`import { Blocks, Domains } from '@nexus/contracts'`|
+| Subject                | Convention                                                                                                                                                        | Example                                              |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| File names             | kebab-case, always ending in an explicit `.ts` extension in relative imports                                                                                      | `staff-grid.ts`                                      |
+| Schema constant        | `PascalCase` name ending in the literal word `Schema`                                                                                                             | `HeroSchema`                                         |
+| Inferred type          | The schema name with `Schema` replaced by `Data`, applied with zero exceptions                                                                                    | `HeroData`                                           |
+| Content-type constant  | `SCREAMING_SNAKE_CASE`, ending in `_CONTENT_TYPE`, declared once in the concept's own file and imported everywhere else it's needed                               | `HERO_CONTENT_TYPE`, `NEWS_ARTICLE_CONTENT_TYPE`     |
+| Enums (Zod side)       | `PascalCase` name ending in `Enum`                                                                                                                                | `PublishStatusEnum`                                  |
+| Enums (inferred type)  | Same `Data` rule as any other inferred type                                                                                                                       | `PublishStatusEnumData`                              |
+| Enums (runtime values) | A `SCREAMING_SNAKE_CASE` constant array holding the literal values, declared once and passed into the enum builder                                                | `PUBLISH_STATUS_VALUES`                              |
+| Barrels                | Every `index.ts`, at every depth, uses an explicit named-export list. A wildcard re-export (`export * from`) never appears anywhere in this package, at any depth | —                                                    |
+| Root package export    | The root `index.ts` re-exports each top-level folder as a namespace object                                                                                        | `import { Blocks, Domains } from '@nexus/contracts'` |
 
 **Why `XData` and never a bare `X`:** several concepts this package needs — `Document`, `Event`, `Location`, `History`, `Storage`, `Range`, `Text` — are also global TS/DOM types. A blanket `Data` suffix removes the need to judge collisions file-by-file.
 
-**Why every registrable concept exports its own content-type constant:** the constant is the one place a content type's identifier string is declared. `registry/content-type-key.ts` _imports_ these constants to assemble its tuple (section 6) rather than inventing the literal strings itself — so a content type's identifier is never typed as a free-floating string literal in two different files.
+**Why every registrable concept exports its own content-type constant:** the constant is the one place a content type's identifier string is declared. `registry/content-type-key.ts` *imports* these constants to assemble its tuple (section 6) rather than inventing the literal strings itself — so a content type's identifier is never typed as a free-floating string literal in two different files.
 
 **Directory/file collision rule:** no two concepts may ever share both a directory name and a sibling file name for the same subject in the same parent, and no folder may repeat its own parent's name one level down. Where two unrelated concepts would otherwise land on the identical filename in different folders (as `domains/societies/achievement.ts` and `editorial/achievements/achievement.ts` originally did), the filename itself is made specific enough to disambiguate without needing a comment — hence `society-achievement.ts`.
 
@@ -296,7 +286,7 @@ Every schema file in the package follows the same internal shape and ordering:
 
 A single identifier system, not two. Every concept that can be stored as a `ContentEntry` — whether it's a page block (`hero`), an editorial content type (`news-article`), or a domain content type (`staff-member`) — is a member of one closed enum, `ContentTypeKeyEnum`, built in `registry/content-type-key.ts`. Blocks are not a separate identifier universe with their own registry; they are simply the subset of content types whose `category` is `"block"`.
 
-**Construction pattern.** `registry/content-type-key.ts` declares one ordered array literal — an `as const` tuple, not a plain array — listing every registrable concept's already-exported schema and content-type constant, one entry per concept (`HeroSchema` alongside `HERO_CONTENT_TYPE`, `NewsArticleSchema` alongside `NEWS_ARTICLE_CONTENT_TYPE`, and so on for every block, domain, and editorial concept). Three further artifacts are then _derived_ from that one tuple, using the generic helper in `utils/schema.ts`, and never independently declared:
+**Construction pattern.** `registry/content-type-key.ts` declares one ordered array literal — an `as const` tuple, not a plain array — listing every registrable concept's already-exported schema and content-type constant, one entry per concept (`HeroSchema` alongside `HERO_CONTENT_TYPE`, `NewsArticleSchema` alongside `NEWS_ARTICLE_CONTENT_TYPE`, and so on for every block, domain, and editorial concept). Three further artifacts are then *derived* from that one tuple, using the generic helper in `utils/schema.ts`, and never independently declared:
 
 - The `ContentTypeKeyEnum` itself, built from the tuple's content-type constants.
 - The all-content discriminated-union schema, built directly over the tuple's schemas.
@@ -322,8 +312,8 @@ Declaring the tuple first and deriving the enum, the union, and the record from 
 
 - **`LocaleEnum`**, in `primitives/locale.ts`, is the single closed set of supported locales — English, Sinhala, Tamil.
 - Two distinct, non-overlapping patterns cover every case of locale-scoped data:
-    1. **Row-level locale scoping**, used for anything stored as a `ContentEntry`: one full row per locale, sharing the same `sectionKey` and `scope`, distinguished by the `locale` column on the entry itself. Whether a given content type uses this pattern is recorded once, on its `ContentTypeDefinition` (`localeRequired`), not per placement.
-    2. **Field-level locale scoping**, used inside a single schema for short translatable strings that travel alongside locale-independent structural data, modeled through `primitives/localized-text.ts`. All three locales are required — a missing translation fails validation immediately rather than silently falling back at render time.
+  1. **Row-level locale scoping**, used for anything stored as a `ContentEntry`: one full row per locale, sharing the same `sectionKey` and `scope`, distinguished by the `locale` column on the entry itself. Whether a given content type uses this pattern is recorded once, on its `ContentTypeDefinition` (`localeRequired`), not per placement.
+  2. **Field-level locale scoping**, used inside a single schema for short translatable strings that travel alongside locale-independent structural data, modeled through `primitives/localized-text.ts`. All three locales are required — a missing translation fails validation immediately rather than silently falling back at render time.
 - A single concept never mixes both patterns.
 - Enum values themselves are never locale-scoped; any user-facing label for an enum value is a separate lookup owned by the UI/i18n layer (`messages/` JSON), never something this package produces.
 

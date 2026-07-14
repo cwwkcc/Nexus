@@ -1,14 +1,7 @@
 // packages/database/prisma/seed/pages/administration.ts
 
 import { SUPPORTED_LOCALES, HERO_BLOCK, CTA_BLOCK } from '@nexus/contracts';
-import type {
-  HeroData,
-  CtaData,
-  AdministrationStatementData,
-  AdministrationPrincipalData,
-  AdministrationStaffGridData,
-  AdministrationSdsData,
-} from '@nexus/contracts';
+import type { HeroData, CtaData, AdministrationStatementData, AdministrationPrincipalData, AdministrationStaffGridData, AdministrationSdsData } from '@nexus/contracts';
 
 import type { PrismaClient } from '../../../src/generated/prisma/client.js';
 
@@ -54,8 +47,7 @@ const ADMINISTRATION_SEED_EN: AdministrationPageSeed = {
       role: 'principal',
       designation: 'Principal',
       tenure: '2018 - Present',
-      quote:
-        'Education is not just about academics; it is about building character and fostering a lifelong love for learning.',
+      quote: 'Education is not just about academics; it is about building character and fostering a lifelong love for learning.',
       portrait: {
         src: '/images/staff/principal.jpg',
         alt: 'Portrait of Dr. Jane Smith',
@@ -155,16 +147,14 @@ const ADMINISTRATION_SEED_EN: AdministrationPageSeed = {
     ],
   },
   sds: {
-    description:
-      'The School Development Society brings together parents, alumni, and staff to support infrastructure projects and extracurricular development beyond the annual government budget.',
+    description: 'The School Development Society brings together parents, alumni, and staff to support infrastructure projects and extracurricular development beyond the annual government budget.',
     contact: 'sds@nexus.edu',
     linkHref: '/administration/sds',
   },
   contact: {
     blockType: CTA_BLOCK,
     title: 'Contact Administration',
-    subtitle:
-      'Get in touch with the school office for any administrative queries.',
+    subtitle: 'Get in touch with the school office for any administrative queries.',
     buttonLabel: 'Contact Us',
     buttonHref: '/contact',
   },
@@ -190,8 +180,7 @@ const ADMINISTRATION_SEED_SI: AdministrationPageSeed = {
       role: 'principal',
       designation: 'විදුහල්පතිතුමිය',
       tenure: '2018 - වර්තමානය',
-      quote:
-        'අධ්‍යාපනය යනු හුදෙක් ශාස්ත්‍රීය දැනුම පමණක් නොවේ; එය චරිතය ගොඩනැගීම සහ ඉගෙනීමට ජීවිත කාලය පුරාම ආදරය කිරීමයි.',
+      quote: 'අධ්‍යාපනය යනු හුදෙක් ශාස්ත්‍රීය දැනුම පමණක් නොවේ; එය චරිතය ගොඩනැගීම සහ ඉගෙනීමට ජීවිත කාලය පුරාම ආදරය කිරීමයි.',
       portrait: {
         src: '/images/staff/principal.jpg',
         alt: 'ආචාර්ය ජේන් ස්මිත් මහත්මියගේ ඡායාරූපය',
@@ -291,8 +280,7 @@ const ADMINISTRATION_SEED_SI: AdministrationPageSeed = {
     ],
   },
   sds: {
-    description:
-      'පාසල් සංවර්ධන සංගමය මගින් වාර්ෂික රජයේ අයවැයෙන් ඔබ්බට යටිතල පහසුකම් ව්‍යාපෘති සහ විෂය බාහිර සංවර්ධනයට සහාය වීම සඳහා දෙමාපියන්, ආදි ශිෂ්‍යයින් සහ කාර්ය මණ්ඩලය එක්සත් කරයි.',
+    description: 'පාසල් සංවර්ධන සංගමය මගින් වාර්ෂික රජයේ අයවැයෙන් ඔබ්බට යටිතල පහසුකම් ව්‍යාපෘති සහ විෂය බාහිර සංවර්ධනයට සහාය වීම සඳහා දෙමාපියන්, ආදි ශිෂ්‍යයින් සහ කාර්ය මණ්ඩලය එක්සත් කරයි.',
     contact: 'sds@nexus.edu',
     linkHref: '/administration/sds',
   },
@@ -325,8 +313,7 @@ const ADMINISTRATION_SEED_TA: AdministrationPageSeed = {
       role: 'principal',
       designation: 'அதிபர்',
       tenure: '2018 - தற்போது',
-      quote:
-        'கல்வி என்பது வெறும் கல்வியியல் மட்டுமல்ல; அது குணத்தை உருவாக்குவது மற்றும் வாழ்நாள் முழுவதும் கற்பதில் ஆர்வத்தை வளர்ப்பது.',
+      quote: 'கல்வி என்பது வெறும் கல்வியியல் மட்டுமல்ல; அது குணத்தை உருவாக்குவது மற்றும் வாழ்நாள் முழுவதும் கற்பதில் ஆர்வத்தை வளர்ப்பது.',
       portrait: {
         src: '/images/staff/principal.jpg',
         alt: 'டாக்டர் ஜேன் ஸ்மித்தின் புகைப்படம்',
@@ -426,16 +413,14 @@ const ADMINISTRATION_SEED_TA: AdministrationPageSeed = {
     ],
   },
   sds: {
-    description:
-      'பள்ளி வளர்ச்சி சங்கம், ஆண்டு அரசாங்க பட்ஜெட்டிற்கு அப்பால் உள்கட்டமைப்பு திட்டங்கள் மற்றும் பாடநெறிக்கு அப்பாற்பட்ட வளர்ச்சிக்கு ஆதரவளிக்க பெற்றோர், முன்னாள் மாணவர்கள் மற்றும் ஊழியர்களை ஒன்றிணைக்கிறது.',
+    description: 'பள்ளி வளர்ச்சி சங்கம், ஆண்டு அரசாங்க பட்ஜெட்டிற்கு அப்பால் உள்கட்டமைப்பு திட்டங்கள் மற்றும் பாடநெறிக்கு அப்பாற்பட்ட வளர்ச்சிக்கு ஆதரவளிக்க பெற்றோர், முன்னாள் மாணவர்கள் மற்றும் ஊழியர்களை ஒன்றிணைக்கிறது.',
     contact: 'sds@nexus.edu',
     linkHref: '/administration/sds',
   },
   contact: {
     blockType: CTA_BLOCK,
     title: 'நிர்வாகத்தை தொடர்பு கொள்ள',
-    subtitle:
-      'எந்தவொரு நிர்வாக வினவல்களுக்கும் பள்ளி அலுவலகத்தை தொடர்பு கொள்ளவும்.',
+    subtitle: 'எந்தவொரு நிர்வாக வினவல்களுக்கும் பள்ளி அலுவலகத்தை தொடர்பு கொள்ளவும்.',
     buttonLabel: 'தொடர்பு கொள்ள',
     buttonHref: '/contact',
   },

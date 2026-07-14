@@ -139,41 +139,21 @@ const semanticTokens = [
 
 const BAR_MAX = 320; // max visual bar width in px
 
-function ScaleGroup({
-  label,
-  description,
-  tokens,
-  barColor = 'var(--color-gold-pale)',
-  borderColor = 'var(--color-gold-base)',
-}: {
-  label: string;
-  description: string;
-  tokens: Token[];
-  barColor?: string;
-  borderColor?: string;
-}) {
+function ScaleGroup({ label, description, tokens, barColor = 'var(--color-gold-pale)', borderColor = 'var(--color-gold-base)' }: { label: string; description: string; tokens: Token[]; barColor?: string; borderColor?: string }) {
   const maxPx = Math.max(...tokens.map((t) => t.px));
   return (
     <div className="mb-space-12">
       <h3 className="font-display text-h3 mb-space-1">{label}</h3>
-      <p className="font-body text-caption text-text-muted mb-space-4">
-        {description}
-      </p>
+      <p className="font-body text-caption text-text-muted mb-space-4">{description}</p>
       <div className="flex flex-col gap-space-1p5">
         {tokens.map(({ token, value, px }) => {
           const barWidth = Math.max((px / maxPx) * BAR_MAX, 2);
           return (
             <div key={token} className="flex items-center gap-space-4">
-              <span
-                className="font-mono text-caption text-text-muted shrink-0"
-                style={{ width: 88 }}
-              >
+              <span className="font-mono text-caption text-text-muted shrink-0" style={{ width: 88 }}>
                 {token}
               </span>
-              <span
-                className="font-mono text-caption text-text-primary shrink-0 text-right"
-                style={{ width: 44 }}
-              >
+              <span className="font-mono text-caption text-text-primary shrink-0 text-right" style={{ width: 44 }}>
                 {value}
               </span>
               <div
@@ -195,11 +175,7 @@ function ScaleGroup({
 }
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
-  return (
-    <h2 className="font-display text-h3 mt-space-16 mb-space-6 pb-space-2 border-b border-border-light">
-      {children}
-    </h2>
-  );
+  return <h2 className="font-display text-h3 mt-space-16 mb-space-6 pb-space-2 border-b border-border-light">{children}</h2>;
 }
 
 // ─── Page ──────────────────────────────────────────────────────────────────────
@@ -208,104 +184,42 @@ export default function SizingPage() {
   return (
     <div>
       <h2 className="font-display text-h2 mb-space-4">Sizing Tokens</h2>
-      <p className="font-body text-body text-text-muted mb-space-4">
-        Width, height, min‑/max‑width, and min‑/max‑height tokens on a 4 px base
-        scale.
-      </p>
+      <p className="font-body text-body text-text-muted mb-space-4">Width, height, min‑/max‑width, and min‑/max‑height tokens on a 4 px base scale.</p>
       <div className="flex flex-wrap gap-space-2 mb-space-12">
-        {[
-          'w-size-*',
-          'h-size-*',
-          'min-w-size-*',
-          'max-w-size-*',
-          'min-h-size-*',
-          'max-h-size-*',
-        ].map((u) => (
-          <code
-            key={u}
-            className="font-mono text-caption bg-surface-default px-space-2 py-space-1 rounded-sm border border-border-light"
-          >
+        {['w-size-*', 'h-size-*', 'min-w-size-*', 'max-w-size-*', 'min-h-size-*', 'max-h-size-*'].map((u) => (
+          <code key={u} className="font-mono text-caption bg-surface-default px-space-2 py-space-1 rounded-sm border border-border-light">
             {u}
           </code>
         ))}
-        <code className="font-mono text-caption bg-surface-default px-space-2 py-space-1 rounded-sm border border-border-light">
-          var(--size-*)
-        </code>
+        <code className="font-mono text-caption bg-surface-default px-space-2 py-space-1 rounded-sm border border-border-light">var(--size-*)</code>
       </div>
 
       {/* ── Scale groups ─────────────────────────────────────────── */}
       <SectionTitle>Scale Groups</SectionTitle>
 
-      <ScaleGroup
-        label="Stroke / Sub-pixel"
-        description="1–14 px — borders, dividers, hairlines, icon strokes"
-        tokens={strokeTokens}
-        barColor="var(--color-green-pale, #e8f5e9)"
-        borderColor="var(--color-green-base)"
-      />
+      <ScaleGroup label="Stroke / Sub-pixel" description="1–14 px — borders, dividers, hairlines, icon strokes" tokens={strokeTokens} barColor="var(--color-green-pale, #e8f5e9)" borderColor="var(--color-green-base)" />
 
-      <ScaleGroup
-        label="Component"
-        description="16–64 px — icons, avatar, button height, input height, small UI pieces"
-        tokens={componentTokens}
-      />
+      <ScaleGroup label="Component" description="16–64 px — icons, avatar, button height, input height, small UI pieces" tokens={componentTokens} />
 
-      <ScaleGroup
-        label="Block"
-        description="80–192 px — card thumbnails, sidebar widths, avatar groups, medium panels"
-        tokens={blockTokens}
-        barColor="var(--color-gold-pale)"
-        borderColor="var(--color-gold-base)"
-      />
+      <ScaleGroup label="Block" description="80–192 px — card thumbnails, sidebar widths, avatar groups, medium panels" tokens={blockTokens} barColor="var(--color-gold-pale)" borderColor="var(--color-gold-base)" />
 
-      <ScaleGroup
-        label="Section"
-        description="224–384 px — modal widths, sidebar panels, form max-widths"
-        tokens={sectionTokens}
-        barColor="var(--color-green-pale, #e8f5e9)"
-        borderColor="var(--color-green-base)"
-      />
+      <ScaleGroup label="Section" description="224–384 px — modal widths, sidebar panels, form max-widths" tokens={sectionTokens} barColor="var(--color-green-pale, #e8f5e9)" borderColor="var(--color-green-base)" />
 
-      <ScaleGroup
-        label="Layout"
-        description="400–768 px — content column widths, main area constraints"
-        tokens={layoutTokens}
-      />
+      <ScaleGroup label="Layout" description="400–768 px — content column widths, main area constraints" tokens={layoutTokens} />
 
-      <ScaleGroup
-        label="Container"
-        description="800–1536 px — full-width containers, page max-widths, hero sections"
-        tokens={containerTokens}
-        barColor="var(--color-green-pale, #e8f5e9)"
-        borderColor="var(--color-green-base)"
-      />
+      <ScaleGroup label="Container" description="800–1536 px — full-width containers, page max-widths, hero sections" tokens={containerTokens} barColor="var(--color-green-pale, #e8f5e9)" borderColor="var(--color-green-base)" />
 
       {/* ── Icon sizes ────────────────────────────────────────────── */}
       <SectionTitle>Icon Sizes</SectionTitle>
       <p className="font-body text-caption text-text-muted mb-space-6">
-        Semantic icon-size tokens — prefer these over raw{' '}
-        <code className="font-mono bg-surface-default px-space-1 rounded-sm">
-          size-*
-        </code>{' '}
-        tokens when sizing icons. CSS var:{' '}
-        <code className="font-mono bg-surface-default px-space-1 rounded-sm">
-          var(--icon-*)
-        </code>
-        .
+        Semantic icon-size tokens — prefer these over raw <code className="font-mono bg-surface-default px-space-1 rounded-sm">size-*</code> tokens when sizing icons. CSS var: <code className="font-mono bg-surface-default px-space-1 rounded-sm">var(--icon-*)</code>.
       </p>
       <div className="flex items-end gap-space-8 flex-wrap">
         {iconTokens.map(({ token, value, px }) => (
           <div key={token} className="flex flex-col items-center gap-space-2">
-            <div
-              className="bg-gold-base rounded-sm"
-              style={{ width: px, height: px }}
-            />
-            <span className="font-mono text-caption text-text-primary">
-              {token}
-            </span>
-            <span className="font-mono text-caption text-text-muted">
-              {value}
-            </span>
+            <div className="bg-gold-base rounded-sm" style={{ width: px, height: px }} />
+            <span className="font-mono text-caption text-text-primary">{token}</span>
+            <span className="font-mono text-caption text-text-muted">{value}</span>
           </div>
         ))}
       </div>
@@ -313,41 +227,18 @@ export default function SizingPage() {
       {/* ── Border widths ─────────────────────────────────────────── */}
       <SectionTitle>Border Widths</SectionTitle>
       <p className="font-body text-caption text-text-muted mb-space-6">
-        Semantic border-width tokens. Tailwind utility:{' '}
-        <code className="font-mono bg-surface-default px-space-1 rounded-sm">
-          border-border-*
-        </code>
-        . CSS var:{' '}
-        <code className="font-mono bg-surface-default px-space-1 rounded-sm">
-          var(--border-*)
-        </code>
-        .
+        Semantic border-width tokens. Tailwind utility: <code className="font-mono bg-surface-default px-space-1 rounded-sm">border-border-*</code>. CSS var: <code className="font-mono bg-surface-default px-space-1 rounded-sm">var(--border-*)</code>.
       </p>
       <div className="flex flex-col gap-space-3">
         {borderWidthTokens.map(({ token, value, px }) => (
           <div key={token} className="flex items-center gap-space-4">
-            <span
-              className="font-mono text-caption text-text-muted shrink-0"
-              style={{ width: 88 }}
-            >
+            <span className="font-mono text-caption text-text-muted shrink-0" style={{ width: 88 }}>
               {token}
             </span>
-            <span
-              className="font-mono text-caption text-text-primary shrink-0 text-right"
-              style={{ width: 32 }}
-            >
+            <span className="font-mono text-caption text-text-primary shrink-0 text-right" style={{ width: 32 }}>
               {value}
             </span>
-            {px > 0 ? (
-              <div
-                className="bg-gold-base rounded-sm"
-                style={{ width: 160, height: px }}
-              />
-            ) : (
-              <span className="font-mono text-caption text-text-muted italic">
-                (no border)
-              </span>
-            )}
+            {px > 0 ? <div className="bg-gold-base rounded-sm" style={{ width: 160, height: px }} /> : <span className="font-mono text-caption text-text-muted italic">(no border)</span>}
           </div>
         ))}
       </div>
@@ -355,36 +246,21 @@ export default function SizingPage() {
       {/* ── Viewport fractions ────────────────────────────────────── */}
       <SectionTitle>Viewport Fractions</SectionTitle>
       <p className="font-body text-caption text-text-muted mb-space-6">
-        Tokens from{' '}
-        <code className="font-mono bg-surface-default px-space-1 rounded-sm">
-          size-screen-w-*
-        </code>{' '}
-        (viewport width) and{' '}
-        <code className="font-mono bg-surface-default px-space-1 rounded-sm">
-          size-screen-h-*
-        </code>{' '}
-        (viewport height), in 5 % steps.
+        Tokens from <code className="font-mono bg-surface-default px-space-1 rounded-sm">size-screen-w-*</code> (viewport width) and <code className="font-mono bg-surface-default px-space-1 rounded-sm">size-screen-h-*</code> (viewport height), in 5 % steps.
       </p>
       <div className="grid grid-cols-2 gap-space-8">
         {/* vw */}
         <div>
-          <h4 className="font-body text-label text-text-muted mb-space-3">
-            Width (vw)
-          </h4>
+          <h4 className="font-body text-label text-text-muted mb-space-3">Width (vw)</h4>
           <div className="flex flex-col gap-space-1">
             {Array.from({ length: 20 }, (_, i) => {
               const pct = (i + 1) * 5;
               return (
                 <div key={pct} className="flex items-center gap-space-4">
-                  <span
-                    className="font-mono text-caption text-text-muted shrink-0"
-                    style={{ width: 148 }}
-                  >
+                  <span className="font-mono text-caption text-text-muted shrink-0" style={{ width: 148 }}>
                     size-screen-w-{pct}
                   </span>
-                  <span className="font-mono text-caption text-text-primary">
-                    {pct}vw
-                  </span>
+                  <span className="font-mono text-caption text-text-primary">{pct}vw</span>
                 </div>
               );
             })}
@@ -392,23 +268,16 @@ export default function SizingPage() {
         </div>
         {/* vh */}
         <div>
-          <h4 className="font-body text-label text-text-muted mb-space-3">
-            Height (vh)
-          </h4>
+          <h4 className="font-body text-label text-text-muted mb-space-3">Height (vh)</h4>
           <div className="flex flex-col gap-space-1">
             {Array.from({ length: 20 }, (_, i) => {
               const pct = (i + 1) * 5;
               return (
                 <div key={pct} className="flex items-center gap-space-4">
-                  <span
-                    className="font-mono text-caption text-text-muted shrink-0"
-                    style={{ width: 148 }}
-                  >
+                  <span className="font-mono text-caption text-text-muted shrink-0" style={{ width: 148 }}>
                     size-screen-h-{pct}
                   </span>
-                  <span className="font-mono text-caption text-text-primary">
-                    {pct}vh
-                  </span>
+                  <span className="font-mono text-caption text-text-primary">{pct}vh</span>
                 </div>
               );
             })}
@@ -418,25 +287,17 @@ export default function SizingPage() {
 
       {/* ── Percentage fractions ──────────────────────────────────── */}
       <SectionTitle>Percentage Fractions</SectionTitle>
-      <p className="font-body text-caption text-text-muted mb-space-6">
-        Relative to parent — useful for flex/grid children and overlays.
-      </p>
+      <p className="font-body text-caption text-text-muted mb-space-6">Relative to parent — useful for flex/grid children and overlays.</p>
       <div className="flex flex-col gap-space-1">
         {Array.from({ length: 20 }, (_, i) => {
           const pct = (i + 1) * 5;
           const barWidth = (pct / 100) * BAR_MAX;
           return (
             <div key={pct} className="flex items-center gap-space-4">
-              <span
-                className="font-mono text-caption text-text-muted shrink-0"
-                style={{ width: 100 }}
-              >
+              <span className="font-mono text-caption text-text-muted shrink-0" style={{ width: 100 }}>
                 size-pct-{pct}
               </span>
-              <span
-                className="font-mono text-caption text-text-primary shrink-0 text-right"
-                style={{ width: 36 }}
-              >
+              <span className="font-mono text-caption text-text-primary shrink-0 text-right" style={{ width: 36 }}>
                 {pct}%
               </span>
               <div
@@ -457,25 +318,14 @@ export default function SizingPage() {
       <SectionTitle>Semantic Values</SectionTitle>
       <div className="flex flex-col gap-space-2">
         {semanticTokens.map(({ token, value, usage }) => (
-          <div
-            key={token}
-            className="flex items-start gap-space-6 p-space-3 bg-surface-elevated border border-border-light rounded-md"
-          >
-            <code
-              className="font-mono text-caption text-text-primary shrink-0"
-              style={{ width: 88 }}
-            >
+          <div key={token} className="flex items-start gap-space-6 p-space-3 bg-surface-elevated border border-border-light rounded-md">
+            <code className="font-mono text-caption text-text-primary shrink-0" style={{ width: 88 }}>
               {token}
             </code>
-            <code
-              className="font-mono text-caption text-gold-base shrink-0"
-              style={{ width: 96 }}
-            >
+            <code className="font-mono text-caption text-gold-base shrink-0" style={{ width: 96 }}>
               {value}
             </code>
-            <span className="font-body text-caption text-text-muted">
-              {usage}
-            </span>
+            <span className="font-body text-caption text-text-muted">{usage}</span>
           </div>
         ))}
       </div>

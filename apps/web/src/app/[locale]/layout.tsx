@@ -1,14 +1,6 @@
 import { SUPPORTED_LOCALES, type LocaleEnumData } from '@nexus/contracts';
 import { cn, BackToTopButton } from '@nexus/ui';
-import {
-  Cormorant_Garamond,
-  Cormorant_Upright,
-  Inter,
-  IBM_Plex_Mono,
-  Maname,
-  Noto_Serif_Sinhala,
-  Noto_Serif_Tamil,
-} from 'next/font/google';
+import { Cormorant_Garamond, Cormorant_Upright, Inter, IBM_Plex_Mono, Maname, Noto_Serif_Sinhala, Noto_Serif_Tamil } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
@@ -69,11 +61,7 @@ type Props = {
 
 export default async function LocaleLayout({ children, params }: Props) {
   const { locale } = await params;
-  const safeLocale: LocaleEnumData = SUPPORTED_LOCALES.includes(
-    locale as LocaleEnumData,
-  )
-    ? (locale as LocaleEnumData)
-    : 'en';
+  const safeLocale: LocaleEnumData = SUPPORTED_LOCALES.includes(locale as LocaleEnumData) ? (locale as LocaleEnumData) : 'en';
   if (!routing.locales.includes(locale as 'en' | 'si' | 'ta')) {
     notFound();
   }
@@ -82,22 +70,8 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     <html lang={locale}>
-      <body
-        className={cn(
-          'min-w-size-64',
-          cormorantGaramond.variable,
-          cormorantUpright.variable,
-          inter.variable,
-          ibmPlexMono.variable,
-          maname.variable,
-          notoSerifSinhala.variable,
-          notoSerifTamilDisplay.variable,
-          notoSerifTamilBody.variable,
-        )}
-      >
-        <NextIntlClientProvider messages={messages}>
-          {children}
-        </NextIntlClientProvider>
+      <body className={cn('min-w-size-64', cormorantGaramond.variable, cormorantUpright.variable, inter.variable, ibmPlexMono.variable, maname.variable, notoSerifSinhala.variable, notoSerifTamilDisplay.variable, notoSerifTamilBody.variable)}>
+        <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
         <BackToTopButton />
         <Footer locale={safeLocale} />
       </body>

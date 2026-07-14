@@ -60,19 +60,7 @@ const REDUCED_TRANSITION = { duration: 0 };
 
 function ChevronIcon({ className }: { className?: string }) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      className={className}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className={className}>
       <polyline points="9 18 15 12 9 6" />
     </svg>
   );
@@ -80,9 +68,7 @@ function ChevronIcon({ className }: { className?: string }) {
 
 // ─── Type guard ───────────────────────────────────────────────────────────────
 
-function isSlidingVariant(
-  variant: SectionSliderVariant,
-): variant is 'full' | 'image' | 'text' {
+function isSlidingVariant(variant: SectionSliderVariant): variant is 'full' | 'image' | 'text' {
   return ['full', 'image', 'text'].includes(variant);
 }
 
@@ -98,15 +84,7 @@ interface SlidingSliderProps {
   ariaLabel?: string;
 }
 
-function SlidingSlider({
-  id,
-  variant,
-  direction,
-  children,
-  loop,
-  className,
-  ariaLabel,
-}: SlidingSliderProps) {
+function SlidingSlider({ id, variant, direction, children, loop, className, ariaLabel }: SlidingSliderProps) {
   const slides = useMemo(() => Children.toArray(children), [children]);
   const count = slides.length;
   const [active, setActive] = useState(0);
@@ -165,35 +143,17 @@ function SlidingSlider({
 
   // ── Variant container widths ─────────────────────────────────────────────────
 
-  const containerClass = cn(
-    variant === 'full' && 'w-full',
-    variant === 'image' && 'max-w-wide mx-auto w-full',
-    variant === 'text' && 'max-w-content mx-auto w-full',
-    className,
-  );
+  const containerClass = cn(variant === 'full' && 'w-full', variant === 'image' && 'max-w-wide mx-auto w-full', variant === 'text' && 'max-w-content mx-auto w-full', className);
 
   const canPrev = loop || active > 0;
   const canNext = loop || active < count - 1;
 
-  const motionVariants = reduced
-    ? slideVariantsReduced
-    : isVertical
-      ? slideVariantsVertical
-      : slideVariants;
+  const motionVariants = reduced ? slideVariantsReduced : isVertical ? slideVariantsVertical : slideVariants;
 
   const motionTransition = reduced ? REDUCED_TRANSITION : SLIDE_TRANSITION;
 
   return (
-    <div
-      id={id}
-      role="region"
-      aria-label={ariaLabel}
-      aria-roledescription="carousel"
-      aria-live="polite"
-      tabIndex={0}
-      onKeyDown={handleKeyDown}
-      className={cn('relative outline-none', containerClass)}
-    >
+    <div id={id} role="region" aria-label={ariaLabel} aria-roledescription="carousel" aria-live="polite" tabIndex={0} onKeyDown={handleKeyDown} className={cn('relative outline-none', containerClass)}>
       {/* Viewport — clips the sliding content */}
       <div className="overflow-hidden rounded-sm">
         <AnimatePresence initial={false} custom={dragDir} mode="wait">
@@ -226,35 +186,13 @@ function SlidingSlider({
       </div>
 
       {/* Controls */}
-      <div
-        className={cn(
-          'flex items-center gap-space-3 mt-space-6',
-          isVertical ? 'flex-col' : 'flex-row justify-center',
-        )}
-      >
-        <Button
-          variant="outline"
-          size="icon-md"
-          onClick={prev}
-          disabled={!canPrev}
-          aria-label="Previous slide"
-          className={cn(
-            'rounded-full',
-            isVertical ? 'rotate-90' : 'rotate-180',
-          )}
-        >
+      <div className={cn('flex items-center gap-space-3 mt-space-6', isVertical ? 'flex-col' : 'flex-row justify-center')}>
+        <Button variant="outline" size="icon-md" onClick={prev} disabled={!canPrev} aria-label="Previous slide" className={cn('rounded-full', isVertical ? 'rotate-90' : 'rotate-180')}>
           <ChevronIcon />
         </Button>
 
         {/* Dot indicators */}
-        <div
-          role="tablist"
-          aria-label="Slides"
-          className={cn(
-            'flex gap-space-2 items-center',
-            isVertical && 'flex-col',
-          )}
-        >
+        <div role="tablist" aria-label="Slides" className={cn('flex gap-space-2 items-center', isVertical && 'flex-col')}>
           {Array.from({ length: count }).map((_, i) => (
             <motion.button
               key={i}
@@ -265,42 +203,22 @@ function SlidingSlider({
               onClick={() => goTo(i)}
               animate={{
                 width: i === active ? 16 : 8,
-                backgroundColor:
-                  i === active
-                    ? 'var(--color-gold-base)'
-                    : 'var(--color-border-default)',
+                backgroundColor: i === active ? 'var(--color-gold-base)' : 'var(--color-border-default)',
               }}
               transition={{ duration: 0.2, ease: 'easeOut' }}
-              className={cn(
-                'h-size-2 rounded-full cursor-pointer',
-                'focus-visible:outline-none focus-visible:ring-2',
-                'focus-visible:ring-gold-base focus-visible:ring-offset-2',
-                'hover:opacity-80',
-              )}
+              className={cn('h-size-2 rounded-full cursor-pointer', 'focus-visible:outline-none focus-visible:ring-2', 'focus-visible:ring-gold-base focus-visible:ring-offset-2', 'hover:opacity-80')}
               style={{ minWidth: 8 }}
             />
           ))}
         </div>
 
-        <Button
-          variant="outline"
-          size="icon-md"
-          onClick={next}
-          disabled={!canNext}
-          aria-label="Next slide"
-          className="rounded-full"
-        >
+        <Button variant="outline" size="icon-md" onClick={next} disabled={!canNext} aria-label="Next slide" className="rounded-full">
           <ChevronIcon />
         </Button>
 
         {/* Slide counter — same pattern as Timeline.tsx */}
-        <Text
-          variant="caption"
-          color="muted"
-          className="ml-space-1 tabular-nums"
-        >
-          {String(active + 1).padStart(2, '0')} /{' '}
-          {String(count).padStart(2, '0')}
+        <Text variant="caption" color="muted" className="ml-space-1 tabular-nums">
+          {String(active + 1).padStart(2, '0')} / {String(count).padStart(2, '0')}
         </Text>
       </div>
     </div>
@@ -318,22 +236,13 @@ interface StripSliderProps {
   ariaLabel?: string;
 }
 
-function StripSlider({
-  id,
-  direction,
-  children,
-  scrollFraction,
-  className,
-  ariaLabel,
-}: StripSliderProps) {
+function StripSlider({ id, direction, children, scrollFraction, className, ariaLabel }: StripSliderProps) {
   const isVertical = direction === 'vertical';
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showStart, setShowStart] = useState(false);
   const [showEnd, setShowEnd] = useState(true);
 
-  const pointerStart = useRef<{ x: number; y: number; scroll: number } | null>(
-    null,
-  );
+  const pointerStart = useRef<{ x: number; y: number; scroll: number } | null>(null);
   const isDragging = useRef(false);
 
   const updateArrows = useCallback(() => {
@@ -352,8 +261,7 @@ function StripSlider({
   const scrollRefCallback = useCallback(
     (node: HTMLDivElement | null) => {
       if (!node) return;
-      (scrollRef as React.MutableRefObject<HTMLDivElement | null>).current =
-        node;
+      (scrollRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
       node.addEventListener('scroll', updateArrows, { passive: true });
       requestAnimationFrame(updateArrows);
     },
@@ -364,8 +272,7 @@ function StripSlider({
     (dir: 'start' | 'end') => {
       const el = scrollRef.current;
       if (!el) return;
-      const amount =
-        (isVertical ? el.clientHeight : el.clientWidth) * scrollFraction;
+      const amount = (isVertical ? el.clientHeight : el.clientWidth) * scrollFraction;
       el.scrollBy({
         [isVertical ? 'top' : 'left']: dir === 'start' ? -amount : amount,
         behavior: 'smooth',
@@ -434,47 +341,17 @@ function StripSlider({
     const isStart = dir === 'start';
     const visible = isStart ? showStart : showEnd;
 
-    const posClass = isVertical
-      ? isStart
-        ? 'top-2 left-1/2 -translate-x-1/2'
-        : 'bottom-2 left-1/2 -translate-x-1/2'
-      : isStart
-        ? 'left-2 top-1/2 -translate-y-1/2'
-        : 'right-2 top-1/2 -translate-y-1/2';
+    const posClass = isVertical ? (isStart ? 'top-2 left-1/2 -translate-x-1/2' : 'bottom-2 left-1/2 -translate-x-1/2') : isStart ? 'left-2 top-1/2 -translate-y-1/2' : 'right-2 top-1/2 -translate-y-1/2';
 
-    const rotateClass = isVertical
-      ? isStart
-        ? '-rotate-90'
-        : 'rotate-90'
-      : isStart
-        ? 'rotate-180'
-        : '';
+    const rotateClass = isVertical ? (isStart ? '-rotate-90' : 'rotate-90') : isStart ? 'rotate-180' : '';
 
-    const label = isVertical
-      ? isStart
-        ? 'Scroll up'
-        : 'Scroll down'
-      : isStart
-        ? 'Scroll left'
-        : 'Scroll right';
+    const label = isVertical ? (isStart ? 'Scroll up' : 'Scroll down') : isStart ? 'Scroll left' : 'Scroll right';
 
     return (
       <AnimatePresence>
         {visible && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.15, ease: 'easeOut' }}
-            className={cn('absolute z-10', posClass)}
-          >
-            <Button
-              variant="secondary"
-              size="icon-md"
-              onClick={() => scroll(dir)}
-              aria-label={label}
-              className={cn('rounded-full shadow-elevation-2', rotateClass)}
-            >
+          <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }} transition={{ duration: 0.15, ease: 'easeOut' }} className={cn('absolute z-10', posClass)}>
+            <Button variant="secondary" size="icon-md" onClick={() => scroll(dir)} aria-label={label} className={cn('rounded-full shadow-elevation-2', rotateClass)}>
               <ChevronIcon />
             </Button>
           </motion.div>
@@ -484,23 +361,12 @@ function StripSlider({
   }
 
   return (
-    <div
-      id={id}
-      role="region"
-      aria-label={ariaLabel}
-      tabIndex={0}
-      onKeyDown={handleKeyDown}
-      className={cn('relative outline-none', className)}
-    >
+    <div id={id} role="region" aria-label={ariaLabel} tabIndex={0} onKeyDown={handleKeyDown} className={cn('relative outline-none', className)}>
       <StripArrow dir="start" />
 
       <div
         ref={scrollRefCallback}
-        className={cn(
-          'flex scroll-smooth cursor-grab active:cursor-grabbing',
-          '[scrollbar-width:none] [&::-webkit-scrollbar]:hidden',
-          isVertical ? 'flex-col overflow-y-auto' : 'flex-row overflow-x-auto',
-        )}
+        className={cn('flex scroll-smooth cursor-grab active:cursor-grabbing', '[scrollbar-width:none] [&::-webkit-scrollbar]:hidden', isVertical ? 'flex-col overflow-y-auto' : 'flex-row overflow-x-auto')}
         style={maskStyle}
         onPointerDown={(e) => {
           const el = scrollRef.current;
@@ -565,27 +431,14 @@ export function SectionSlider({
 
   if (isSlidingVariant(variant)) {
     return (
-      <SlidingSlider
-        id={id}
-        variant={variant}
-        direction={direction}
-        loop={loop}
-        className={className}
-        ariaLabel={ariaLabel}
-      >
+      <SlidingSlider id={id} variant={variant} direction={direction} loop={loop} className={className} ariaLabel={ariaLabel}>
         {children}
       </SlidingSlider>
     );
   }
 
   return (
-    <StripSlider
-      id={id}
-      direction={direction}
-      scrollFraction={scrollFraction}
-      className={className}
-      ariaLabel={ariaLabel}
-    >
+    <StripSlider id={id} direction={direction} scrollFraction={scrollFraction} className={className} ariaLabel={ariaLabel}>
       {children}
     </StripSlider>
   );

@@ -33,18 +33,14 @@ export const AcademicsStreamCardsSchema = z.object({
   heading: z.string().optional(),
   streams: z.array(ALStreamSchema),
 });
-export type AcademicsStreamCardsData = z.infer<
-  typeof AcademicsStreamCardsSchema
->;
+export type AcademicsStreamCardsData = z.infer<typeof AcademicsStreamCardsSchema>;
 
 export const AcademicsStreamComparisonSchema = z.object({
   eyebrow: z.string().optional(),
   heading: z.string().optional(),
   comparisons: z.array(StreamComparisonSchema),
 });
-export type AcademicsStreamComparisonData = z.infer<
-  typeof AcademicsStreamComparisonSchema
->;
+export type AcademicsStreamComparisonData = z.infer<typeof AcademicsStreamComparisonSchema>;
 
 export const AcademicsDepartmentContactSchema = z.object({
   department: DepartmentKeyEnum,
@@ -68,8 +64,7 @@ export const academicsRegistry: PageRegistry = {
   page: 'academics',
   scope: 'page:academics',
   label: 'Academics',
-  description:
-    'Manage the Academic streams, comparisons, and department contacts.',
+  description: 'Manage the Academic streams, comparisons, and department contacts.',
   sections: [
     {
       key: 'academics.hero',
@@ -103,8 +98,7 @@ export const academicsRegistry: PageRegistry = {
       key: 'academics.stats',
       blockKey: 'stats',
       label: 'Performance Statistics',
-      description:
-        'Manually-entered stats strip (pass rates, university entrances, district ranking) — not backed by a live results feed.',
+      description: 'Manually-entered stats strip (pass rates, university entrances, district ranking) — not backed by a live results feed.',
       schema: AcademicsStatsSchema,
     },
     {

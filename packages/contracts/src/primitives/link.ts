@@ -31,10 +31,7 @@ export const ExternalLinkSchema = z.object({
   openIn: LinkTargetEnum.default('self'),
 });
 
-export const LinkSchema = z.discriminatedUnion('type', [
-  InternalLinkSchema,
-  ExternalLinkSchema,
-]);
+export const LinkSchema = z.discriminatedUnion('type', [InternalLinkSchema, ExternalLinkSchema]);
 
 export type InternalLinkData = z.infer<typeof InternalLinkSchema>;
 export type ExternalLinkData = z.infer<typeof ExternalLinkSchema>;

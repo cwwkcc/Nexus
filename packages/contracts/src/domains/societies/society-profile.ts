@@ -4,12 +4,7 @@ import { z } from 'zod';
 
 import { AvatarSchema, ImageSchema } from '../../primitives/media/index.ts';
 
-export const SocietyCategoryEnum = z.enum([
-  'academic',
-  'sports',
-  'arts',
-  'technology',
-]);
+export const SocietyCategoryEnum = z.enum(['academic', 'sports', 'arts', 'technology']);
 
 export const SocietySchema = z.object({
   id: z.string().min(1),

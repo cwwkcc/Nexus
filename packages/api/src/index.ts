@@ -18,5 +18,4 @@ const createCaller = createCallerFactory(appRouter);
  * creates a fresh context, so this is cheap and safe to call per-request —
  * do not memoise it across requests.
  */
-export const createServerCaller = (): ReturnType<typeof createCaller> =>
-  createCaller(createContext());
+export const createServerCaller = (): ReturnType<typeof createCaller> => createCaller(createContext());

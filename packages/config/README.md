@@ -3,6 +3,7 @@
 Tooling configuration for the Nexus monorepo.
 
 This package provides shared configuration for development tools:
+
 - Tailwind CSS preset
 - Next.js configuration
 

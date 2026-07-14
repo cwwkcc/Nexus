@@ -32,78 +32,33 @@ interface SectionHeaderProps extends ComponentPropsWithoutRef<'div'> {
   headingClassName?: string;
 }
 
-export const SectionHeader = forwardRef<HTMLDivElement, SectionHeaderProps>(
-  (
-    {
-      eyebrow,
-      title,
-      titleEm,
-      description,
-      align = 'left',
-      withAccentRule = false,
-      variant = 'eyebrow-title',
-      headingLevel = 'h2',
-      marginBottom = 'mb-space-14',
-      headingClassName,
-      className,
-      ...rest
-    },
-    ref,
-  ) => {
-    const isCenter = align === 'center';
-    const showDescription =
-      variant === 'eyebrow-title-description' && !!description;
+export const SectionHeader = forwardRef<HTMLDivElement, SectionHeaderProps>(({ eyebrow, title, titleEm, description, align = 'left', withAccentRule = false, variant = 'eyebrow-title', headingLevel = 'h2', marginBottom = 'mb-space-14', headingClassName, className, ...rest }, ref) => {
+  const isCenter = align === 'center';
+  const showDescription = variant === 'eyebrow-title-description' && !!description;
 
-    return (
-      <div
-        ref={ref}
-        className={cn(
-          isCenter ? 'text-center' : 'text-left',
-          marginBottom,
-          className,
-        )}
-        {...rest}
-      >
-        {eyebrow && (
-          <EyebrowLabel
-            className={cn(withAccentRule ? 'mb-space-3p5' : 'mb-space-4')}
-          >
-            {eyebrow}
-          </EyebrowLabel>
-        )}
+  return (
+    <div ref={ref} className={cn(isCenter ? 'text-center' : 'text-left', marginBottom, className)} {...rest}>
+      {eyebrow && <EyebrowLabel className={cn(withAccentRule ? 'mb-space-3p5' : 'mb-space-4')}>{eyebrow}</EyebrowLabel>}
 
-        {withAccentRule && (
-          <Divider
-            accentVariant="gold-accent-narrow"
-            className={cn('my-space-2', isCenter ? 'mx-auto' : '')}
-          />
-        )}
+      {withAccentRule && <Divider accentVariant="gold-accent-narrow" className={cn('my-space-2', isCenter ? 'mx-auto' : '')} />}
 
-        <Heading
-          level={headingLevel}
-          className={cn('text-h2', headingClassName)}
-        >
-          {title}
-          {titleEm && (
-            <>
-              {' '}
-              <em className="text-gold-base not-italic">{titleEm}</em>
-            </>
-          )}
-        </Heading>
-
-        {showDescription && (
-          <Text
-            variant="body"
-            color="muted"
-            className={cn(isCenter && 'mx-auto', 'max-w-prose', 'mt-space-1')}
-          >
-            {description}
-          </Text>
+      <Heading level={headingLevel} className={cn('text-h2', headingClassName)}>
+        {title}
+        {titleEm && (
+          <>
+            {' '}
+            <em className="text-gold-base not-italic">{titleEm}</em>
+          </>
         )}
-      </div>
-    );
-  },
-);
+      </Heading>
+
+      {showDescription && (
+        <Text variant="body" color="muted" className={cn(isCenter && 'mx-auto', 'max-w-prose', 'mt-space-1')}>
+          {description}
+        </Text>
+      )}
+    </div>
+  );
+});
 
 SectionHeader.displayName = 'SectionHeader';

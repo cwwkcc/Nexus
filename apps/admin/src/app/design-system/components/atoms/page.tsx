@@ -1,17 +1,6 @@
 'use client';
 
-import {
-  Avatar,
-  Badge,
-  Button,
-  ButtonLink,
-  ResultsGradeBadge,
-  Tag,
-  ToolTip,
-  InlineHelpText,
-  BeatLoader,
-  ScaleLoader,
-} from '@nexus/ui';
+import { Avatar, Badge, Button, ButtonLink, ResultsGradeBadge, Tag, ToolTip, InlineHelpText, BeatLoader, ScaleLoader } from '@nexus/ui';
 
 import { DemoSection } from '../_components/DemoSection';
 
@@ -20,10 +9,7 @@ export default function AtomsPage() {
     <div className="min-h-screen bg-surface-base py-space-12">
       <div className="content-width">
         <h1 className="font-display text-h1 mb-space-4">Atoms</h1>
-        <p className="font-body text-body text-text-muted mb-space-12">
-          The smallest UI building blocks – buttons, badges, avatars, loaders,
-          tags, ToolTips, and helper text.
-        </p>
+        <p className="font-body text-body text-text-muted mb-space-12">The smallest UI building blocks – buttons, badges, avatars, loaders, tags, ToolTips, and helper text.</p>
 
         {/* ========== BUTTON ========== */}
         <DemoSection title="Button – Variants (action only)">
@@ -147,11 +133,7 @@ export default function AtomsPage() {
         </DemoSection>
 
         <DemoSection title="Avatar – With Image & Fallback">
-          <Avatar
-            src="/images/white.jpg"
-            name="John Doe"
-            size="lg"
-          />
+          <Avatar src="/images/white.jpg" name="John Doe" size="lg" />
           <Avatar name="No Image" size="lg" />
           <Avatar name="" size="lg" />
           <Avatar name="A" size="lg" />
@@ -175,9 +157,7 @@ export default function AtomsPage() {
 
         <DemoSection title="ToolTip – On any element">
           <ToolTip content="I also work on spans">
-            <span className="cursor-help underline decoration-dotted">
-              Hover me
-            </span>
+            <span className="cursor-help underline decoration-dotted">Hover me</span>
           </ToolTip>
           <ToolTip content="Focusable">
             <button aria-label="Focus me">Tab to focus</button>

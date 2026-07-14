@@ -43,8 +43,7 @@ export function Timeline({ events, className }: TimelineProps) {
     if (!container) return;
 
     // Use first child width as the snap unit
-    const itemWidth =
-      (container.firstElementChild as HTMLElement)?.offsetWidth ?? 0;
+    const itemWidth = (container.firstElementChild as HTMLElement)?.offsetWidth ?? 0;
     if (itemWidth === 0) return;
 
     const newIndex = Math.round(container.scrollLeft / itemWidth);
@@ -64,8 +63,7 @@ export function Timeline({ events, className }: TimelineProps) {
   const scrollTo = useCallback((index: number) => {
     const container = containerRef.current;
     if (!container) return;
-    const itemWidth =
-      (container.firstElementChild as HTMLElement)?.offsetWidth ?? 0;
+    const itemWidth = (container.firstElementChild as HTMLElement)?.offsetWidth ?? 0;
     container.scrollTo({ left: index * itemWidth, behavior: 'smooth' });
   }, []);
 
@@ -84,26 +82,12 @@ export function Timeline({ events, className }: TimelineProps) {
   return (
     <div ref={inViewRef} className={cn('relative', className)}>
       {/* Progress bar */}
-      <div
-        className="absolute top-space-0 left-space-0 right-space-0 h-size-px bg-border-light z-raised"
-        role="progressbar"
-        aria-valuenow={activeIndex + 1}
-        aria-valuemin={1}
-        aria-valuemax={events.length}
-        aria-label={`Event ${activeIndex + 1} of ${events.length}`}
-      >
-        <div
-          className="h-full bg-gold-base transition-all duration-standard"
-          style={{ width: `${((activeIndex + 1) / events.length) * 100}%` }}
-        />
+      <div className="absolute top-space-0 left-space-0 right-space-0 h-size-px bg-border-light z-raised" role="progressbar" aria-valuenow={activeIndex + 1} aria-valuemin={1} aria-valuemax={events.length} aria-label={`Event ${activeIndex + 1} of ${events.length}`}>
+        <div className="h-full bg-gold-base transition-all duration-standard" style={{ width: `${((activeIndex + 1) / events.length) * 100}%` }} />
       </div>
 
       {/* Scroll container */}
-      <div
-        ref={containerRef}
-        className="flex overflow-x-auto snap-x snap-mandatory pt-space-10 pb-space-8"
-        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-      >
+      <div ref={containerRef} className="flex overflow-x-auto snap-x snap-mandatory pt-space-10 pb-space-8" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
         {events.map((event, idx) => {
           const isActive = idx === activeIndex;
           const era = event.era ?? 'modern';
@@ -121,25 +105,13 @@ export function Timeline({ events, className }: TimelineProps) {
             >
               <div className="grid md:grid-cols-2 gap-space-8 items-center">
                 {/* Image */}
-                <div
-                  className={cn(
-                    'transition-all duration-slow',
-                    eraImageClasses[era],
-                  )}
-                >
+                <div className={cn('transition-all duration-slow', eraImageClasses[era])}>
                   {event.imageSrc ? (
-                    <ImageFrame
-                      src={event.imageSrc}
-                      alt={event.imageAlt ?? event.title}
-                      aspectRatio="4/3"
-                      variant="featured"
-                    />
+                    <ImageFrame src={event.imageSrc} alt={event.imageAlt ?? event.title} aspectRatio="4/3" variant="featured" />
                   ) : (
                     // Placeholder when no image — shows the year in gold
                     <div className="aspect-[4/3] rounded-md bg-surface-deep flex items-center justify-center shadow-elevation-1">
-                      <span className="font-display text-h1 text-gold-base/20 select-none">
-                        {event.year}
-                      </span>
+                      <span className="font-display text-h1 text-gold-base/20 select-none">{event.year}</span>
                     </div>
                   )}
                 </div>
@@ -162,67 +134,24 @@ export function Timeline({ events, className }: TimelineProps) {
       <div className="flex items-center justify-between mt-space-4 px-space-6">
         {/* Prev / Next buttons */}
         <div className="flex gap-space-2">
-          <button
-            onClick={() => scrollTo(activeIndex - 1)}
-            disabled={!canPrev}
-            aria-label="Previous event"
-            className={cn(
-              'w-size-10 h-size-10 rounded-full border-solid flex items-center justify-center',
-              'border-border-md border-border-default',
-              'font-body text-body-sm text-text-primary',
-              'transition-all duration-fast',
-              canPrev
-                ? 'hover:border-gold-base hover:text-gold-base cursor-pointer'
-                : 'opacity-30 cursor-not-allowed',
-            )}
-          >
+          <button onClick={() => scrollTo(activeIndex - 1)} disabled={!canPrev} aria-label="Previous event" className={cn('w-size-10 h-size-10 rounded-full border-solid flex items-center justify-center', 'border-border-md border-border-default', 'font-body text-body-sm text-text-primary', 'transition-all duration-fast', canPrev ? 'hover:border-gold-base hover:text-gold-base cursor-pointer' : 'opacity-30 cursor-not-allowed')}>
             ←
           </button>
-          <button
-            onClick={() => scrollTo(activeIndex + 1)}
-            disabled={!canNext}
-            aria-label="Next event"
-            className={cn(
-              'w-size-10 h-size-10 rounded-full border-solid flex items-center justify-center',
-              'border-border-md border-border-default',
-              'font-body text-body-sm text-text-primary',
-              'transition-all duration-fast',
-              canNext
-                ? 'hover:border-gold-base hover:text-gold-base cursor-pointer'
-                : 'opacity-30 cursor-not-allowed',
-            )}
-          >
+          <button onClick={() => scrollTo(activeIndex + 1)} disabled={!canNext} aria-label="Next event" className={cn('w-size-10 h-size-10 rounded-full border-solid flex items-center justify-center', 'border-border-md border-border-default', 'font-body text-body-sm text-text-primary', 'transition-all duration-fast', canNext ? 'hover:border-gold-base hover:text-gold-base cursor-pointer' : 'opacity-30 cursor-not-allowed')}>
             →
           </button>
         </div>
 
         {/* Dot indicators */}
-        <div
-          className="flex gap-space-2 items-center"
-          role="tablist"
-          aria-label="Timeline events"
-        >
+        <div className="flex gap-space-2 items-center" role="tablist" aria-label="Timeline events">
           {events.map((event, idx) => (
-            <button
-              key={event.id}
-              role="tab"
-              aria-selected={idx === activeIndex}
-              aria-label={`Go to ${event.year}: ${event.title}`}
-              onClick={() => scrollTo(idx)}
-              className={cn(
-                'rounded-full transition-all duration-fast cursor-pointer',
-                idx === activeIndex
-                  ? 'w-size-4 h-size-2 bg-gold-base'
-                  : 'w-size-2 h-size-2 bg-border-default hover:bg-gold-base/50',
-              )}
-            />
+            <button key={event.id} role="tab" aria-selected={idx === activeIndex} aria-label={`Go to ${event.year}: ${event.title}`} onClick={() => scrollTo(idx)} className={cn('rounded-full transition-all duration-fast cursor-pointer', idx === activeIndex ? 'w-size-4 h-size-2 bg-gold-base' : 'w-size-2 h-size-2 bg-border-default hover:bg-gold-base/50')} />
           ))}
         </div>
 
         {/* Counter */}
         <Text variant="caption" color="muted">
-          {String(activeIndex + 1).padStart(2, '0')} /{' '}
-          {String(events.length).padStart(2, '0')}
+          {String(activeIndex + 1).padStart(2, '0')} / {String(events.length).padStart(2, '0')}
         </Text>
       </div>
 

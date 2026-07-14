@@ -56,20 +56,12 @@ export default function ZIndexPage() {
   return (
     <div>
       <h2 className="font-display text-h2 mb-space-4">Z‑Index Tokens</h2>
-      <p className="font-body text-body text-text-muted mb-space-12">
-        Eight stacking tiers. The demo below shows them as a layered stack —
-        higher tiers sit visually in front.
-      </p>
+      <p className="font-body text-body text-text-muted mb-space-12">Eight stacking tiers. The demo below shows them as a layered stack — higher tiers sit visually in front.</p>
 
       {/* Stacked fan visualization */}
       <div className="mb-space-16">
-        <h3 className="font-display text-h3 mb-space-6 pb-space-2 border-b border-border-light">
-          Stacking order
-        </h3>
-        <div
-          className="relative rounded-md bg-surface-deep overflow-visible"
-          style={{ height: 340 }}
-        >
+        <h3 className="font-display text-h3 mb-space-6 pb-space-2 border-b border-border-light">Stacking order</h3>
+        <div className="relative rounded-md bg-surface-deep overflow-visible" style={{ height: 340 }}>
           {zTokens.map((t, i) => {
             const CARD_H = 52;
             const VISIBLE = 40; // how many px of each card peek below the next
@@ -87,16 +79,10 @@ export default function ZIndexPage() {
                 }}
               >
                 <div className="flex items-center gap-space-4">
-                  <span className="font-mono text-label text-text-primary">
-                    {t.name}
-                  </span>
-                  <span className="font-body text-body-sm text-text-muted">
-                    {t.role}
-                  </span>
+                  <span className="font-mono text-label text-text-primary">{t.name}</span>
+                  <span className="font-body text-body-sm text-text-muted">{t.role}</span>
                 </div>
-                <span className="font-mono text-label text-text-muted">
-                  {t.value}
-                </span>
+                <span className="font-mono text-label text-text-muted">{t.value}</span>
               </div>
             );
           })}
@@ -105,24 +91,13 @@ export default function ZIndexPage() {
 
       {/* Token reference table */}
       <div>
-        <h3 className="font-display text-h3 mb-space-6 pb-space-2 border-b border-border-light">
-          Token Reference
-        </h3>
+        <h3 className="font-display text-h3 mb-space-6 pb-space-2 border-b border-border-light">Token Reference</h3>
         <div className="flex flex-col gap-space-3">
           {zTokens.map((t) => (
-            <div
-              key={t.name}
-              className="flex items-center gap-space-4 p-space-4 bg-surface-elevated border border-border-light rounded-md"
-            >
-              <span className="w-size-32 shrink-0 font-mono text-label text-text-primary">
-                {t.name}
-              </span>
-              <span className="w-size-16 shrink-0 font-mono text-caption text-text-muted text-right">
-                {t.value}
-              </span>
-              <span className="font-body text-body-sm text-text-muted">
-                {t.role}
-              </span>
+            <div key={t.name} className="flex items-center gap-space-4 p-space-4 bg-surface-elevated border border-border-light rounded-md">
+              <span className="w-size-32 shrink-0 font-mono text-label text-text-primary">{t.name}</span>
+              <span className="w-size-16 shrink-0 font-mono text-caption text-text-muted text-right">{t.value}</span>
+              <span className="font-body text-body-sm text-text-muted">{t.role}</span>
             </div>
           ))}
         </div>

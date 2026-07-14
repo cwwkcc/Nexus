@@ -51,12 +51,7 @@ const TrendIndicator = ({ direction, value, label }: TrendProps) => {
   const { icon, color } = iconConfig[direction];
 
   return (
-    <span
-      className={cn(
-        'inline-flex items-center gap-space-1 px-space-2 py-space-0p5 rounded-full',
-        'bg-surface-deep border border-border-light text-caption',
-      )}
-    >
+    <span className={cn('inline-flex items-center gap-space-1 px-space-2 py-space-0p5 rounded-full', 'bg-surface-deep border border-border-light text-caption')}>
       <span className={color} aria-hidden="true">
         {icon}
       </span>
@@ -66,17 +61,7 @@ const TrendIndicator = ({ direction, value, label }: TrendProps) => {
   );
 };
 
-const StatCard = ({
-  stat,
-  variant,
-  globalDuration,
-  index,
-}: {
-  stat: StatItem;
-  variant: StatVariant;
-  globalDuration?: number;
-  index: number;
-}) => {
+const StatCard = ({ stat, variant, globalDuration, index }: { stat: StatItem; variant: StatVariant; globalDuration?: number; index: number }) => {
   const prefersReduced = useReducedMotion();
 
   const { value, ref: countUpRef } = useCountUp(stat.target, {
@@ -102,13 +87,7 @@ const StatCard = ({
     <motion.div
       // Cast ref to satisfy motion.div (HTMLDivElement vs HTMLElement)
       ref={countUpRef as React.RefObject<HTMLDivElement>}
-      className={cn(
-        'group relative flex flex-col items-center text-center',
-        'bg-surface-elevated border border-border-light rounded-lg',
-        'transition-all duration-gentle ease-out',
-        'hover:shadow-elevation-3 hover:-translate-y-1',
-        isCompact ? 'p-space-5' : 'p-space-7',
-      )}
+      className={cn('group relative flex flex-col items-center text-center', 'bg-surface-elevated border border-border-light rounded-lg', 'transition-all duration-gentle ease-out', 'hover:shadow-elevation-3 hover:-translate-y-1', isCompact ? 'p-space-5' : 'p-space-7')}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
@@ -118,36 +97,17 @@ const StatCard = ({
         delay: prefersReduced ? 0 : index * 0.05,
       }}
     >
-      {stat.icon && (
-        <div className="mb-space-3 text-gold-base group-hover:scale-110 transition-transform duration-fast">
-          {stat.icon}
-        </div>
-      )}
+      {stat.icon && <div className="mb-space-3 text-gold-base group-hover:scale-110 transition-transform duration-fast">{stat.icon}</div>}
 
       {/* MotionValue drives the number – smooth, no React state per frame */}
-      <motion.span
-        className={cn(
-          'font-display font-medium text-gold-base',
-          isCompact ? 'text-h3' : 'text-h2',
-          'whitespace-nowrap',
-        )}
-      >
-        {formatted}
-      </motion.span>
+      <motion.span className={cn('font-display font-medium text-gold-base', isCompact ? 'text-h3' : 'text-h2', 'whitespace-nowrap')}>{formatted}</motion.span>
 
-      <Text
-        variant="label"
-        className={cn('mt-space-3', isCompact && 'text-label-sm')}
-      >
+      <Text variant="label" className={cn('mt-space-3', isCompact && 'text-label-sm')}>
         {stat.label}
       </Text>
 
       {stat.description && (
-        <Text
-          variant="caption"
-          color="muted"
-          className={cn('mt-space-1', isCompact && 'hidden md:block')}
-        >
+        <Text variant="caption" color="muted" className={cn('mt-space-1', isCompact && 'hidden md:block')}>
           {stat.description}
         </Text>
       )}
@@ -169,23 +129,12 @@ export interface StatsStripProps {
   className?: string;
 }
 
-export function StatsStrip({
-  stats,
-  variant = 'default',
-  duration,
-  className,
-}: StatsStripProps) {
+export function StatsStrip({ stats, variant = 'default', duration, className }: StatsStripProps) {
   return (
     <Container as="section" className="w-full">
       <Grid columns={1} gap={4} className={className}>
         {stats.map((stat, idx) => (
-          <StatCard
-            key={stat.id}
-            index={idx}
-            stat={stat}
-            variant={variant}
-            globalDuration={duration}
-          />
+          <StatCard key={stat.id} index={idx} stat={stat} variant={variant} globalDuration={duration} />
         ))}
       </Grid>
     </Container>

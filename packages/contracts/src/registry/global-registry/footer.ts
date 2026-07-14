@@ -53,7 +53,6 @@ export const footerSection: PageSection = {
   key: 'global.footer',
   blockKey: 'footer',
   label: 'Footer',
-  description:
-    'School name, tagline, contact block, link columns, social links, and copyright line shown on every page.',
+  description: 'School name, tagline, contact block, link columns, social links, and copyright line shown on every page.',
   schema: FooterContentSchema,
 };

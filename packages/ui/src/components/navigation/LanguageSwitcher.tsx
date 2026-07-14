@@ -16,11 +16,7 @@ const languages = [
   { code: 'ta', label: 'தமி', name: 'Tamil', isTamil: true },
 ];
 
-export function LanguageSwitcher({
-  locale = 'en',
-  variant = 'header',
-  onDark = false,
-}: LanguageSwitcherProps) {
+export function LanguageSwitcher({ locale = 'en', variant = 'header', onDark = false }: LanguageSwitcherProps) {
   const pathname = usePathname();
 
   // Remove the current locale from pathname to build new URLs
@@ -34,38 +30,8 @@ export function LanguageSwitcher({
 
         return (
           <span key={lang.code} className="flex items-center gap-1.5">
-            {idx > 0 && (
-              <span
-                className={clsx(
-                  'text-xs',
-                  onDark ? 'text-text-inverse/25' : 'text-border-default',
-                )}
-              >
-                /
-              </span>
-            )}
-            <Link
-              href={href}
-              hrefLang={lang.code}
-              aria-label={`Switch to ${lang.name}`}
-              className={clsx(
-                'transition-colors duration-150',
-                lang.isSinhala && 'font-sinhala',
-                lang.isTamil && 'font-body',
-                'text-xs uppercase tracking-wide',
-                isActive
-                  ? clsx(
-                      'text-gold-base border-b border-gold-base',
-                      variant === 'mobile' ? 'pb-0.5' : 'pb-0.5',
-                    )
-                  : clsx(
-                      onDark
-                        ? 'text-text-inverse/55 hover:text-gold-base'
-                        : 'text-text-muted hover:text-gold-base',
-                      variant === 'mobile' ? 'pb-0.5' : 'pb-0.5',
-                    ),
-              )}
-            >
+            {idx > 0 && <span className={clsx('text-xs', onDark ? 'text-text-inverse/25' : 'text-border-default')}>/</span>}
+            <Link href={href} hrefLang={lang.code} aria-label={`Switch to ${lang.name}`} className={clsx('transition-colors duration-150', lang.isSinhala && 'font-sinhala', lang.isTamil && 'font-body', 'text-xs uppercase tracking-wide', isActive ? clsx('text-gold-base border-b border-gold-base', variant === 'mobile' ? 'pb-0.5' : 'pb-0.5') : clsx(onDark ? 'text-text-inverse/55 hover:text-gold-base' : 'text-text-muted hover:text-gold-base', variant === 'mobile' ? 'pb-0.5' : 'pb-0.5'))}>
               {lang.label}
             </Link>
           </span>

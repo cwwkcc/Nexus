@@ -7,14 +7,7 @@ export default [
   ...nx.configs['flat/typescript'],
   ...nx.configs['flat/javascript'],
   {
-    ignores: [
-      '**/dist',
-      '**/out-tsc',
-      '**/vite.config.*.timestamp*',
-      '**/.next',
-      '**/.nx',
-      '**/.turbo',
-    ],
+    ignores: ['**/dist', '**/out-tsc', '**/vite.config.*.timestamp*', '**/.next', '**/.nx', '**/.turbo'],
   },
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
@@ -35,36 +28,19 @@ export default [
     },
   },
   {
-    files: [
-      '**/*.ts',
-      '**/*.tsx',
-      '**/*.cts',
-      '**/*.mts',
-      '**/*.js',
-      '**/*.jsx',
-      '**/*.cjs',
-      '**/*.mjs',
-    ],
+    files: ['**/*.ts', '**/*.tsx', '**/*.cts', '**/*.mts', '**/*.js', '**/*.jsx', '**/*.cjs', '**/*.mjs'],
     plugins: {
       import: importPlugin,
     },
     // Override or add rules here
     rules: {
-      '@typescript-eslint/no-unused-vars': [
-        'error',
-        { argsIgnorePattern: '^_' },
-      ],
+      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
       '@typescript-eslint/no-explicit-any': 'error',
       'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
       'import/order': [
         'error',
         {
-          groups: [
-            'builtin',
-            'external',
-            'internal',
-            ['parent', 'sibling', 'index'],
-          ],
+          groups: ['builtin', 'external', 'internal', ['parent', 'sibling', 'index']],
           'newlines-between': 'always',
           alphabetize: { order: 'asc', caseInsensitive: true },
         },
@@ -72,11 +48,7 @@ export default [
     },
   },
   {
-    files: [
-      'apps/web/src/**/*.{ts,tsx,js,jsx}',
-      'apps/admin/src/**/*.{ts,tsx,js,jsx}',
-      'packages/ui/src/**/*.{ts,tsx,js,jsx}',
-    ],
+    files: ['apps/web/src/**/*.{ts,tsx,js,jsx}', 'apps/admin/src/**/*.{ts,tsx,js,jsx}', 'packages/ui/src/**/*.{ts,tsx,js,jsx}'],
     plugins: {
       tailwindcss: tailwindcss,
     },

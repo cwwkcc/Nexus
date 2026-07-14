@@ -1,8 +1,4 @@
-import {
-  createDefaultOgImage,
-  ogImageContentType,
-  ogImageSize,
-} from '../lib/default-og-image';
+import { createDefaultOgImage, ogImageContentType, ogImageSize } from '../lib/default-og-image';
 
 export const alt = 'CWW Kannangara Central College';
 export const size = ogImageSize;

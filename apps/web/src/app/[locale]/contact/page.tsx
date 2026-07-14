@@ -1,10 +1,7 @@
 import ContactCTA from '../../../blocks/contact/ContactCTA';
 import ContactHero from '../../../blocks/contact/ContactHero';
 import ContactInfoSection from '../../../blocks/contact/ContactInfoSection';
-import {
-  getContactPageContent,
-  type ContactPageContent,
-} from '../../../server/content';
+import { getContactPageContent, type ContactPageContent } from '../../../server/content';
 
 interface ContactPageProps {
   params: Promise<{ locale: string }>;
@@ -12,9 +9,7 @@ interface ContactPageProps {
 
 export default async function ContactPage({ params }: ContactPageProps) {
   const { locale } = await params;
-  const content: ContactPageContent = await getContactPageContent(
-    locale as 'en' | 'si' | 'ta',
-  );
+  const content: ContactPageContent = await getContactPageContent(locale as 'en' | 'si' | 'ta');
 
   return (
     <>

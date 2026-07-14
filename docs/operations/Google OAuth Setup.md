@@ -35,14 +35,14 @@ Nexus uses Google OAuth via Auth.js (NextAuth) for admin authentication. This do
 
 ### App Information
 
-| Field | Value |
-|-------|-------|
-| App name | `Nexus - CWWKCC` |
-| User support email | Your email address |
-| Application logo | School crest (optional) |
-| Application home page | `https://cwwkcc.lk` |
-| Application privacy policy link | `https://cwwkcc.lk/privacy` (create later) |
-| Application terms of service link | `https://cwwkcc.lk/terms` (create later) |
+| Field                             | Value                                      |
+| --------------------------------- | ------------------------------------------ |
+| App name                          | `Nexus - CWWKCC`                           |
+| User support email                | Your email address                         |
+| Application logo                  | School crest (optional)                    |
+| Application home page             | `https://cwwkcc.lk`                        |
+| Application privacy policy link   | `https://cwwkcc.lk/privacy` (create later) |
+| Application terms of service link | `https://cwwkcc.lk/terms` (create later)   |
 
 ### Authorized Domains
 
@@ -163,6 +163,7 @@ https://admin.cwwkcc.lk/api/auth/callback/google
 **Symptom:** The user is redirected to `/login` with an error
 
 **Solution:**
+
 1. Check the redirect URI matches exactly in Google Console and environment variables
 2. Ensure the domain is in the "Authorized Domains" list
 3. Check the client ID and secret are correct
@@ -172,6 +173,7 @@ https://admin.cwwkcc.lk/api/auth/callback/google
 **Symptom:** Users cannot sign in with their `@cwwkcc.lk` email
 
 **Solution:**
+
 1. Check the domain restriction in the `signIn` callback
 2. Ensure the `email` ends with `@cwwkcc.lk`
 3. Check the user's email is in the `User` table (invite-based access)
@@ -181,6 +183,7 @@ https://admin.cwwkcc.lk/api/auth/callback/google
 **Symptom:** Users can sign in with Google but cannot access the admin panel
 
 **Solution:**
+
 1. Check the user's email is in the `User` table
 2. Add the user via the admin panel (Settings → Users → Add User)
 3. Wait a few minutes for the database to sync
@@ -200,4 +203,3 @@ https://admin.cwwkcc.lk/api/auth/callback/google
 **C.W.W. Kannangara Central College, Est. 1873. "Wisdom is All Wealth."**
 
 ---
-

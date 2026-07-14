@@ -8,22 +8,10 @@ import { cn } from '../../utilities/cn';
 type ImageFrameAspectRatio = '16/9' | '4/3' | '3/4' | '1/1' | '21/9' | '16/7';
 type ImageFrameVariant = 'standard' | 'featured' | 'full-bleed';
 
-type ImageFrameColor =
-  | 'gold'
-  | 'gold-pale'
-  | 'green'
-  | 'border-default'
-  | 'border-light'
-  | 'surface-inverse'
-  | 'white';
+type ImageFrameColor = 'gold' | 'gold-pale' | 'green' | 'border-default' | 'border-light' | 'surface-inverse' | 'white';
 
 type ImageOverlay = 'light' | 'medium' | 'heavy' | false;
-type FrameWidth =
-  | 'border-sm'
-  | 'border-md'
-  | 'border-lg'
-  | 'border-xl'
-  | 'border-2xl';
+type FrameWidth = 'border-sm' | 'border-md' | 'border-lg' | 'border-xl' | 'border-2xl';
 
 type ImageFrameSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
 
@@ -89,10 +77,7 @@ const frameColorMap: Record<ImageFrameColor, string> = {
   white: 'border-white',
 };
 
-const frameWidthMap: Record<
-  NonNullable<ImageFrameProps['frameWidth']>,
-  string
-> = {
+const frameWidthMap: Record<NonNullable<ImageFrameProps['frameWidth']>, string> = {
   'border-sm': 'border-border-sm',
   'border-md': 'border-border-md',
   'border-lg': 'border-border-lg',
@@ -100,59 +85,17 @@ const frameWidthMap: Record<
   'border-2xl': 'border-border-2xl',
 };
 
-export function ImageFrame({
-  src,
-  alt,
-  aspectRatio = '16/9',
-  variant = 'standard',
-  caption,
-  overlay = false,
-  cornerBadge,
-  className,
-  priority = false,
-  size = 'full',
-  frameWidth = 'border-sm',
-  frameColor,
-}: ImageFrameProps) {
+export function ImageFrame({ src, alt, aspectRatio = '16/9', variant = 'standard', caption, overlay = false, cornerBadge, className, priority = false, size = 'full', frameWidth = 'border-sm', frameColor }: ImageFrameProps) {
   const [error, setError] = useState(false);
   const hasFrame = Boolean(frameWidth);
 
   return (
-    <figure
-      className={cn(
-        'w-full overflow-hidden',
-        sizeWidthMap[size],
-        variantClasses[variant],
-        variantShadow[variant],
-        hasFrame && [
-          'border-solid',
-          frameWidthMap[frameWidth],
-          frameColor && frameColorMap[frameColor],
-        ],
-        className,
-      )}
-    >
+    <figure className={cn('w-full overflow-hidden', sizeWidthMap[size], variantClasses[variant], variantShadow[variant], hasFrame && ['border-solid', frameWidthMap[frameWidth], frameColor && frameColorMap[frameColor]], className)}>
       {/* Image container — relative positioning context for all absolute children */}
-      <div
-        className={cn(
-          'relative w-full overflow-hidden bg-surface-deep',
-          aspectRatioMap[aspectRatio],
-        )}
-      >
+      <div className={cn('relative w-full overflow-hidden bg-surface-deep', aspectRatioMap[aspectRatio])}>
         {/* z-base (0): image layer — the ground floor */}
         {!error ? (
-          <Image
-            src={src}
-            alt={alt}
-            fill
-            className={cn(
-              'object-cover z-base',
-              'transition-transform duration-gentle group-hover:scale-[1.04]',
-            )}
-            sizes={size}
-            priority={priority}
-            onError={() => setError(true)}
-          />
+          <Image src={src} alt={alt} fill className={cn('object-cover z-base', 'transition-transform duration-gentle group-hover:scale-[1.04]')} sizes={size} priority={priority} onError={() => setError(true)} />
         ) : (
           // Error state — sits at z-raised so it covers the broken img slot
           <div
@@ -164,36 +107,18 @@ export function ImageFrame({
               'flex items-center justify-center bg-surface-deep',
             )}
           >
-            <span className="font-body text-caption text-text-muted">
-              Image unavailable
-            </span>
+            <span className="font-body text-caption text-text-muted">Image unavailable</span>
           </div>
         )}
 
         {/* z-raised (10): overlay — above the image, below badges */}
-        {overlay && (
-          <div
-            className={cn(
-              'absolute z-raised pointer-events-none',
-              'top-space-0 right-space-0 bottom-space-0 left-space-0',
-              overlayMap[overlay],
-            )}
-          />
-        )}
+        {overlay && <div className={cn('absolute z-raised pointer-events-none', 'top-space-0 right-space-0 bottom-space-0 left-space-0', overlayMap[overlay])} />}
 
         {/* z-dropdown (100): corner badge — always on top of overlays */}
-        {cornerBadge && (
-          <div className="absolute z-dropdown top-space-3 left-space-3">
-            {cornerBadge}
-          </div>
-        )}
+        {cornerBadge && <div className="absolute z-dropdown top-space-3 left-space-3">{cornerBadge}</div>}
       </div>
 
-      {caption && (
-        <figcaption className="mt-space-2 font-body text-caption text-text-muted text-center italic">
-          {caption}
-        </figcaption>
-      )}
+      {caption && <figcaption className="mt-space-2 font-body text-caption text-text-muted text-center italic">{caption}</figcaption>}
     </figure>
   );
 }

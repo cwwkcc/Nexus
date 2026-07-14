@@ -16,6 +16,4 @@ export const ExtracurricularAchievementSchema = z.object({
   awardedBy: z.string().optional(),
 });
 
-export type ExtracurricularAchievementData = z.infer<
-  typeof ExtracurricularAchievementSchema
->;
+export type ExtracurricularAchievementData = z.infer<typeof ExtracurricularAchievementSchema>;

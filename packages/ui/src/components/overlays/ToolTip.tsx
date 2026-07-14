@@ -23,19 +23,12 @@ const positionStyles: Record<Position, string> = {
 
 const arrowStyles: Record<Position, string> = {
   top: 'top-full left-1/2 -translate-x-1/2 border-t-surface-inverse border-x-transparent border-b-transparent',
-  bottom:
-    'bottom-full left-1/2 -translate-x-1/2 border-b-surface-inverse border-x-transparent border-t-transparent',
+  bottom: 'bottom-full left-1/2 -translate-x-1/2 border-b-surface-inverse border-x-transparent border-t-transparent',
   left: 'left-full top-1/2 -translate-y-1/2 border-l-surface-inverse border-y-transparent border-r-transparent',
-  right:
-    'right-full top-1/2 -translate-y-1/2 border-r-surface-inverse border-y-transparent border-l-transparent',
+  right: 'right-full top-1/2 -translate-y-1/2 border-r-surface-inverse border-y-transparent border-l-transparent',
 };
 
-export function ToolTip({
-  content,
-  position = 'top',
-  children,
-  className,
-}: TooltipProps) {
+export function ToolTip({ content, position = 'top', children, className }: TooltipProps) {
   const [visible, setVisible] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const tooltipId = useId();
@@ -56,38 +49,16 @@ export function ToolTip({
   };
 
   return (
-    <span
-      className="relative inline-flex"
-      onMouseEnter={show}
-      onMouseLeave={hide}
-      onFocus={show}
-      onBlur={hide}
-    >
+    <span className="relative inline-flex" onMouseEnter={show} onMouseLeave={hide} onFocus={show} onBlur={hide}>
       {visible && (
-        <span
-          id={tooltipId}
-          role="tooltip"
-          className={cn(
-            'absolute z-modal w-max max-w-[200px] px-space-3 py-space-2',
-            'bg-surface-inverse text-text-inverse font-body text-caption rounded-sm',
-            'pointer-events-none',
-            positionStyles[position],
-            className,
-          )}
-        >
+        <span id={tooltipId} role="tooltip" className={cn('absolute z-modal w-max max-w-[200px] px-space-3 py-space-2', 'bg-surface-inverse text-text-inverse font-body text-caption rounded-sm', 'pointer-events-none', positionStyles[position], className)}>
           {content}
           {/* Arrow */}
-          <span
-            className={cn('absolute w-0 h-0 border-4', arrowStyles[position])}
-            aria-hidden="true"
-          />
+          <span className={cn('absolute w-0 h-0 border-4', arrowStyles[position])} aria-hidden="true" />
         </span>
       )}
 
-      <span
-        aria-describedby={visible ? tooltipId : undefined}
-        className="inline-flex"
-      >
+      <span aria-describedby={visible ? tooltipId : undefined} className="inline-flex">
         {children}
       </span>
     </span>

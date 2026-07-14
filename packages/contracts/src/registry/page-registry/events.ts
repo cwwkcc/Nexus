@@ -34,8 +34,7 @@ export const eventsRegistry: PageRegistry = {
   page: 'events',
   scope: 'page:events',
   label: 'Events',
-  description:
-    'Manage the Events page \u2014 upcoming and past events, filterable by category. The same calendar data also feeds the homepage upcoming strip.',
+  description: 'Manage the Events page \u2014 upcoming and past events, filterable by category. The same calendar data also feeds the homepage upcoming strip.',
   sections: [
     {
       key: 'events.hero',

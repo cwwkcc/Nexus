@@ -25,14 +25,14 @@ This document defines the editorial voice and style for all content on the Nexus
 
 ### Tone Variations
 
-| Content Type | Tone |
-|--------------|------|
-| News articles | Informative, factual, professional |
-| Events | Exciting, inclusive, action-oriented |
-| About pages | Reflective, proud, historical |
-| Academic content | Clear, educational, inspiring |
-| Admissions | Encouraging, clear, helpful |
-| Social media | Engaging, concise, warm |
+| Content Type     | Tone                                 |
+| ---------------- | ------------------------------------ |
+| News articles    | Informative, factual, professional   |
+| Events           | Exciting, inclusive, action-oriented |
+| About pages      | Reflective, proud, historical        |
+| Academic content | Clear, educational, inspiring        |
+| Admissions       | Encouraging, clear, helpful          |
+| Social media     | Engaging, concise, warm              |
 
 ### Voice Qualities
 
@@ -127,24 +127,24 @@ We honour the past while building the future.
 
 ### Avoid
 
-| Mistake | Correction |
-|---------|------------|
-| "We are the best school" | "We are a leading educational institution" |
-| "Cutting-edge technology" | "Modern technology" |
-| "World-class education" | "High-quality education" |
-| "Click here" | Use descriptive link text |
-| "Exciting news!" | "We are pleased to announce" |
-| "Our amazing students" | "Our students" |
+| Mistake                   | Correction                                 |
+| ------------------------- | ------------------------------------------ |
+| "We are the best school"  | "We are a leading educational institution" |
+| "Cutting-edge technology" | "Modern technology"                        |
+| "World-class education"   | "High-quality education"                   |
+| "Click here"              | Use descriptive link text                  |
+| "Exciting news!"          | "We are pleased to announce"               |
+| "Our amazing students"    | "Our students"                             |
 
 ### Use
 
-| Instead of | Use |
-|------------|-----|
-| Kids | Students, young people |
-| Top-notch | High-quality, excellent |
-| Awesome | Impressive, notable |
-| Super | Very, extremely |
-| Got | Received, achieved |
+| Instead of | Use                     |
+| ---------- | ----------------------- |
+| Kids       | Students, young people  |
+| Top-notch  | High-quality, excellent |
+| Awesome    | Impressive, notable     |
+| Super      | Very, extremely         |
+| Got        | Received, achieved      |
 
 ---
 
@@ -152,25 +152,25 @@ We honour the past while building the future.
 
 ### Correct Terms
 
-| Term | Usage |
-|------|-------|
-| C.W.W. Kannangara Central College | Full name (first use) |
-| KCC | Abbreviation (subsequent use) |
-| Mathugama | Location (spelled correctly) |
-| Wisdom is All Wealth | Motto (with capital letters) |
-| Est. 1873 | Established 1873 |
-| Kannangarians | Alumni and students |
-| Head, Heart, Hand | Philosophy (with capital letters) |
-| Truth, Courage, Discipline | Values (with capital letters) |
+| Term                              | Usage                             |
+| --------------------------------- | --------------------------------- |
+| C.W.W. Kannangara Central College | Full name (first use)             |
+| KCC                               | Abbreviation (subsequent use)     |
+| Mathugama                         | Location (spelled correctly)      |
+| Wisdom is All Wealth              | Motto (with capital letters)      |
+| Est. 1873                         | Established 1873                  |
+| Kannangarians                     | Alumni and students               |
+| Head, Heart, Hand                 | Philosophy (with capital letters) |
+| Truth, Courage, Discipline        | Values (with capital letters)     |
 
 ### Avoid
 
-| Term | Why Avoid |
-|------|-----------|
-| K Central | Not the official abbreviation |
-| Mathugama Central | Informal, not official |
-| Wisdom is Everything | Not the motto |
-| Head Heart Hand | Missing Oxford comma |
+| Term                 | Why Avoid                     |
+| -------------------- | ----------------------------- |
+| K Central            | Not the official abbreviation |
+| Mathugama Central    | Informal, not official        |
+| Wisdom is Everything | Not the motto                 |
+| Head Heart Hand      | Missing Oxford comma          |
 
 ---
 
@@ -181,14 +181,17 @@ We honour the past while building the future.
 **Headline:** KITS Wins Gold at SLIIT Codefest 2026
 
 **Opening:**
+
 > We are proud to announce that the Kannangara ICT Society (KITS) has won the Gold Award at SLIIT Codefest 2026.
 
 **Body:**
+
 > This prestigious competition brought together the best young technology students from across Sri Lanka. Our team of five students demonstrated exceptional skill in software development, presenting a project that addressed real-world challenges in education technology.
 >
 > The team consisted of [names], under the guidance of [Teacher Name]. They worked for three months preparing their submission, which impressed the judges with its innovation and technical excellence.
 
 **Closing:**
+
 > This achievement reflects the dedication and talent of our students, who continue to excel in the field of technology. We look forward to their future successes.
 
 ### Good Event Listing
@@ -196,9 +199,11 @@ We honour the past while building the future.
 **Title:** School Sports Meet 2026
 
 **Description:**
+
 > Join us for the annual School Sports Meet at the KCC Sports Ground. Students from all grades will compete in athletics, team sports, and track events. The event will run from 8:00 AM to 4:00 PM, with lunch and refreshments available.
 
 **Details:**
+
 > - **Date:** 15 July 2026
 > - **Time:** 8:00 AM – 4:00 PM
 > - **Venue:** KCC Sports Ground
@@ -226,4 +231,3 @@ Before submitting content:
 ---
 
 # governance/Social-Media-Governance.md
-

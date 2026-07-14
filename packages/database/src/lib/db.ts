@@ -10,8 +10,7 @@ declare global {
   var __nexusPrisma: PrismaClient | undefined;
 }
 
-export const db: PrismaClient =
-  globalThis.__nexusPrisma ?? new PrismaClient({ adapter });
+export const db: PrismaClient = globalThis.__nexusPrisma ?? new PrismaClient({ adapter });
 
 if (process.env.NODE_ENV !== 'production') {
   globalThis.__nexusPrisma = db;

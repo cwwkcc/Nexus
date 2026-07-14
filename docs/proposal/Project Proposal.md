@@ -40,13 +40,14 @@ Nexus will be designed and developed entirely **by the Kannangara ICT Society (K
 - Content updates depend on technical assistance, creating unnecessary administrative overhead.
 - The school’s achievements, history, societies, and activities are not showcased through a unified digital platform.
 - Parents, students, alumni, and prospective families increasingly expect accurate, accessible, and mobile-friendly online information.
-- A modern, secure, and sustainable digital platform is essential to strengthen communication, preserve institutional heritage, and support the school’s long-term digital growth. 
+- A modern, secure, and sustainable digital platform is essential to strengthen communication, preserve institutional heritage, and support the school’s long-term digital growth.
 
 Nexus solves all these with a modern, secure, and easy-to-manage digital institution.
 
 ---
 
 ### Why Now?
+
 The school already possesses the student talent, technical planning, and organisational structure required to execute this project successfully.
 The majority of the research, architecture design, component development, and planning work has already been completed by KITS at no cost to the school. Approval now allows that momentum to be converted into a permanent institutional asset.
 
@@ -58,16 +59,16 @@ The majority of the research, architecture design, component development, and pl
 
 **Core Components (Launch Scope):**
 
-| Component | Description |
-|-----------|-------------|
-| **Public Website** | Home, About, Academics, Admissions, News, Societies, Gallery, Facilities, Extracurriculars, Alumni, Digital Archive, Achievement Database, Contact. Fully responsive, available in English, Sinhala, and Tamil. |
-| **News & Announcements** | Editors publish articles, events, achievements via custom admin panel. |
-| **Admissions Hub** | Process steps, key dates, requirements, downloadable forms, enquiry form. |
-| **Admin Panel** | Custom dashboard for staff to manage all content – no coding required. |
-| **Design System** | Unified colours, typography, components, and motion language. |
-| **Privacy Analytics** | Self-hosted Umami – no personal data collected. |
+| Component                 | Description                                                                                                                                                                                                                                                                    |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Public Website**        | Home, About, Academics, Admissions, News, Societies, Gallery, Facilities, Extracurriculars, Alumni, Digital Archive, Achievement Database, Contact. Fully responsive, available in English, Sinhala, and Tamil.                                                                |
+| **News & Announcements**  | Editors publish articles, events, achievements via custom admin panel.                                                                                                                                                                                                         |
+| **Admissions Hub**        | Process steps, key dates, requirements, downloadable forms, enquiry form.                                                                                                                                                                                                      |
+| **Admin Panel**           | Custom dashboard for staff to manage all content – no coding required.                                                                                                                                                                                                         |
+| **Design System**         | Unified colours, typography, components, and motion language.                                                                                                                                                                                                                  |
+| **Privacy Analytics**     | Self-hosted Umami – no personal data collected.                                                                                                                                                                                                                                |
 | **Official Social Media** | Managed presence on Facebook, Instagram, YouTube, LinkedIn, and WhatsApp Channel. Where unofficial accounts already exist, KITS will coordinate the transfer of administration to bring them under school oversight and align them with the school's official visual identity. |
-| **Technical Foundation** | Infrastructure, database, and architecture that allows the school to grow its digital presence for the next decade. |
+| **Technical Foundation**  | Infrastructure, database, and architecture that allows the school to grow its digital presence for the next decade.                                                                                                                                                            |
 
 > **Scope note:** The table above describes what stakeholders will see and interact with at launch. It is not the full technical scope. The complete engineering build — including infrastructure, design system internals, accessibility, performance, and administrative tooling — is defined in `Feature Registry.md`, the single authoritative list of all **196 features** Nexus will include. Approving this proposal approves that full scope.
 
@@ -85,6 +86,7 @@ The majority of the research, architecture design, component development, and pl
 - Consistent, professional digital identity across all platforms.
 
 ### 5.1 Educational Value
+
 Nexus is not only a digital platform for the school; it is also a long-term educational initiative.
 Through participation in Nexus, members of the Kannangara ICT Society gain practical experience in software engineering, cybersecurity, user experience design, database systems, technical documentation, project management, accessibility, and collaborative development practices used throughout the modern technology industry.
 This transforms Nexus from a simple website project into a real-world learning platform that directly supports the school's mission of preparing students for higher education and professional careers.
@@ -95,17 +97,17 @@ This transforms Nexus from a simple website project into a real-world learning p
 
 Nexus uses modern open-source technologies, all self-hosted on a single **Hetzner VPS** (no cloud vendor lock-in). The table below is included for transparency; full specifications are in Appendix A. In plain terms: everything runs on infrastructure the school fully owns, with no recurring software licence fees.
 
-|Component|Technology|Purpose|
-|---|---|---|
-|Web framework|Next.js|Fast, SEO-friendly, full trilingual routing (English/Sinhala/Tamil).|
-|Admin panel|Custom-built|Tailored exactly to KCC workflows.|
-|Staff sign-in|Google Workspace (`@cwwkcc.lk`)|Staff sign in with their existing school Google account; no separate password system to maintain. **Requires Google Workspace admin cooperation to configure** — see Section 13.4. See Appendix A.|
-|Database|PostgreSQL|News, pages, society data, user accounts.|
-|File storage|Cloudflare R2|Images, PDFs – 10 GB free, zero egress fees.|
-|Web server|Caddy|Reverse proxy, automatic HTTPS (Let's Encrypt).|
-|Email|Resend|Contact form notifications (free tier, 3k/month).|
-|Analytics|Umami (self-hosted)|Privacy-first, runs on same VPS.|
-|Error tracking|Sentry (free tier)|Optional – can be omitted.|
+| Component      | Technology                      | Purpose                                                                                                                                                                                            |
+| -------------- | ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Web framework  | Next.js                         | Fast, SEO-friendly, full trilingual routing (English/Sinhala/Tamil).                                                                                                                               |
+| Admin panel    | Custom-built                    | Tailored exactly to KCC workflows.                                                                                                                                                                 |
+| Staff sign-in  | Google Workspace (`@cwwkcc.lk`) | Staff sign in with their existing school Google account; no separate password system to maintain. **Requires Google Workspace admin cooperation to configure** — see Section 13.4. See Appendix A. |
+| Database       | PostgreSQL                      | News, pages, society data, user accounts.                                                                                                                                                          |
+| File storage   | Cloudflare R2                   | Images, PDFs – 10 GB free, zero egress fees.                                                                                                                                                       |
+| Web server     | Caddy                           | Reverse proxy, automatic HTTPS (Let's Encrypt).                                                                                                                                                    |
+| Email          | Resend                          | Contact form notifications (free tier, 3k/month).                                                                                                                                                  |
+| Analytics      | Umami (self-hosted)             | Privacy-first, runs on same VPS.                                                                                                                                                                   |
+| Error tracking | Sentry (free tier)              | Optional – can be omitted.                                                                                                                                                                         |
 
 All code is stored in a **school-owned GitHub repository**. KITS members are trained to maintain the system. Full documentation is provided.
 
@@ -115,12 +117,12 @@ All code is stored in a **school-owned GitHub repository**. KITS members are tra
 
 ## 7. Governance, Ownership & Content Policy
 
-|Role|Responsibility|
-|---|---|
-|Technical Stewardship|KITS – development, deployment, maintenance. Operational responsibility only; the school holds legal ownership (see Institutional Ownership, below, and Section 13.2).|
-|Content Ownership|School administration and designated staff editors.|
-|Institutional Ownership|School retains full ownership of GitHub repo and all code.|
-|Staff Advisor|Mrs. Tharindrie Perera, Teacher-in-Charge (ICT).|
+| Role                    | Responsibility                                                                                                                                                         |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Technical Stewardship   | KITS – development, deployment, maintenance. Operational responsibility only; the school holds legal ownership (see Institutional Ownership, below, and Section 13.2). |
+| Content Ownership       | School administration and designated staff editors.                                                                                                                    |
+| Institutional Ownership | School retains full ownership of GitHub repo and all code.                                                                                                             |
+| Staff Advisor           | Mrs. Tharindrie Perera, Teacher-in-Charge (ICT).                                                                                                                       |
 
 **Content Approval:** All content remains subject to school policies. The Principal or any designated staff may request modification or removal at any time.
 
@@ -132,14 +134,14 @@ All code is stored in a **school-owned GitHub repository**. KITS members are tra
 
 ## 8. Development Team
 
-|Role|Responsibility|
-|---|---|
-|Project Lead / Lead Developer (KITS)|Full-stack development, architecture, deployment.|
-|Principal|Final institutional approval.|
-|Staff Advisor|Administration liaison, content verification.|
-|Content Editors (teachers/KITS)|Writing news, updating pages.|
-|Media Unit|Supplying photographs.|
-|Student Data Entry Assistants (optional)|Supporting data population under supervision.|
+| Role                                     | Responsibility                                    |
+| ---------------------------------------- | ------------------------------------------------- |
+| Project Lead / Lead Developer (KITS)     | Full-stack development, architecture, deployment. |
+| Principal                                | Final institutional approval.                     |
+| Staff Advisor                            | Administration liaison, content verification.     |
+| Content Editors (teachers/KITS)          | Writing news, updating pages.                     |
+| Media Unit                               | Supplying photographs.                            |
+| Student Data Entry Assistants (optional) | Supporting data population under supervision.     |
 
 ---
 
@@ -147,20 +149,20 @@ All code is stored in a **school-owned GitHub repository**. KITS members are tra
 
 The school receives the complete Nexus platform at **zero development cost**. The only recurring expenses are the infrastructure and services required to operate it reliably.
 
-| Item | Monthly Cost | What It Provides |
-|--------|--------:|-------------|
-| Hetzner CPX22 Server | ≈ LKR 7,450 | Main application server running the website, admin panel, database, and supporting services (2 vCPU, 4 GB RAM, 80 GB NVMe SSD). |
-| Hetzner Storage Box (1 TB) | ≈ LKR 1,550 | Secure off-site backup storage for encrypted database backups, media backups, and disaster recovery. |
-| Cloudflare R2 (Media Storage) | ≈ LKR 0–1,200 | Storage for gallery photos, staff portraits, documents, and other media assets. Initial usage is expected to remain within or near the free tier. |
-| Domain (`cwwkcc.lk`) | ≈ LKR 533 | Averaged over a 5-year renewal period (≈ LKR 32,000 ÷ 60 months). |
-| Cloudflare CDN & Security | ≈ LKR 0–2,000 | Global CDN, DDoS protection, caching, and SSL. Free plan is sufficient at launch; Pro plan is optional. |
-| Buffer / Miscellaneous | ≈ LKR 500 | Small reserve for minor renewals, operational tools, or future infrastructure adjustments. |
-| Resend (Email) | Free | Contact form notifications and transactional email delivery (free tier). |
-| SSL Certificates | Free | Automatic HTTPS certificates via Let's Encrypt, managed by Caddy. |
-| Umami Analytics | Free | Self-hosted privacy-friendly analytics running on the same VPS. |
-| **Total Monthly (Expected)** | **≈ LKR 10,000–12,000** | Typical operating cost under projected usage. |
-| **Total Annual Cost** | **≈ LKR 120,000–144,000** | Expected yearly infrastructure expenditure. |
-| **One-Time Setup Cost** | **LKR 0** | No software licence fees or commercial development costs. |
+| Item                          |              Monthly Cost | What It Provides                                                                                                                                  |
+| ----------------------------- | ------------------------: | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Hetzner CPX22 Server          |               ≈ LKR 7,450 | Main application server running the website, admin panel, database, and supporting services (2 vCPU, 4 GB RAM, 80 GB NVMe SSD).                   |
+| Hetzner Storage Box (1 TB)    |               ≈ LKR 1,550 | Secure off-site backup storage for encrypted database backups, media backups, and disaster recovery.                                              |
+| Cloudflare R2 (Media Storage) |             ≈ LKR 0–1,200 | Storage for gallery photos, staff portraits, documents, and other media assets. Initial usage is expected to remain within or near the free tier. |
+| Domain (`cwwkcc.lk`)          |                 ≈ LKR 533 | Averaged over a 5-year renewal period (≈ LKR 32,000 ÷ 60 months).                                                                                 |
+| Cloudflare CDN & Security     |             ≈ LKR 0–2,000 | Global CDN, DDoS protection, caching, and SSL. Free plan is sufficient at launch; Pro plan is optional.                                           |
+| Buffer / Miscellaneous        |                 ≈ LKR 500 | Small reserve for minor renewals, operational tools, or future infrastructure adjustments.                                                        |
+| Resend (Email)                |                      Free | Contact form notifications and transactional email delivery (free tier).                                                                          |
+| SSL Certificates              |                      Free | Automatic HTTPS certificates via Let's Encrypt, managed by Caddy.                                                                                 |
+| Umami Analytics               |                      Free | Self-hosted privacy-friendly analytics running on the same VPS.                                                                                   |
+| **Total Monthly (Expected)**  |   **≈ LKR 10,000–12,000** | Typical operating cost under projected usage.                                                                                                     |
+| **Total Annual Cost**         | **≈ LKR 120,000–144,000** | Expected yearly infrastructure expenditure.                                                                                                       |
+| **One-Time Setup Cost**       |                 **LKR 0** | No software licence fees or commercial development costs.                                                                                         |
 
 > **Commercial equivalent:** The software itself represents hundreds of hours of student engineering effort. A comparable custom-built platform would typically cost between LKR 800,000 and 2,500,000 to commission commercially. Through KITS, the school receives this development at no cost and pays only the infrastructure required to operate it.
 
@@ -185,25 +187,25 @@ These services currently carry no recurring cost but depend on the continued ava
 
 Preliminary research, architecture design, component development, and technical planning have been completed internally by KITS, at no cost to the school. The table below shows that preparation work alongside what comes next — full task-level detail is in `Engineering Roadmap.md`.
 
-|Stage|Status / Period|What it delivers|
-|---|---|---|
-|Research & planning|Complete (internal, no cost)|Project scope, site map, technology choices, this proposal.|
-|Developer workspace setup|Complete (internal, no cost)|The automated build and testing pipeline every other stage relies on.|
-|Visual identity & design system|Complete (internal, no cost)|Colours, typography, spacing, and motion — the consistent "look" of the school's brand online.|
-|Reusable page components|Complete (internal, no cost)|100+ building blocks (cards, forms, navigation, etc.) used to assemble every page.|
-|Reliability & trilingual foundation|Complete (internal, no cost)|Safeguards against crashes/broken pages; the English/Sinhala/Tamil framework built in from the start.|
-|**Principal presentation & approval**|**June 2026 — now**|This proposal: formal mandate to proceed, plus administration's cooperation on content, photography, and alumni outreach.|
-|Database & content infrastructure|June – July 2026|Secure database and content-management infrastructure; staff sign-in via existing school Google accounts.|
-|Admin Panel|July 2026|Staff dashboard for managing News, Staff, Societies, Events, Gallery, and Media — no coding required.|
-|Public pages go live with real content|July – August 2026|Every public page connected to real content.|
-|Content Collection & Data Entry|September – October 2026|Photography, historical photos, society data, staff info, alumni content — runs alongside the work below.|
-|Offline-friendly experience|August 2026|Website stays usable on poor mobile connections; can be installed like an app.|
-|Search visibility|August – September 2026|Optimisation so the school appears correctly in Google search results.|
-|Hosting goes live|September 2026|Hosting, automated backups, and uptime monitoring switched on.|
-|Launch preparation|October 2026|Accessibility audit, performance tuning, content population, editor training.|
-|**Public Launch**|**Target: October 2026**|Live deployment at `cwwkcc.lk`.|
-|Stabilisation|November 2026|First weeks of real usage — fix issues, close translation gaps, tune performance.|
-|Long-term handover|Ongoing|Documentation handover, next KITS generation onboarding.|
+| Stage                                  | Status / Period              | What it delivers                                                                                                          |
+| -------------------------------------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| Research & planning                    | Complete (internal, no cost) | Project scope, site map, technology choices, this proposal.                                                               |
+| Developer workspace setup              | Complete (internal, no cost) | The automated build and testing pipeline every other stage relies on.                                                     |
+| Visual identity & design system        | Complete (internal, no cost) | Colours, typography, spacing, and motion — the consistent "look" of the school's brand online.                            |
+| Reusable page components               | Complete (internal, no cost) | 100+ building blocks (cards, forms, navigation, etc.) used to assemble every page.                                        |
+| Reliability & trilingual foundation    | Complete (internal, no cost) | Safeguards against crashes/broken pages; the English/Sinhala/Tamil framework built in from the start.                     |
+| **Principal presentation & approval**  | **June 2026 — now**          | This proposal: formal mandate to proceed, plus administration's cooperation on content, photography, and alumni outreach. |
+| Database & content infrastructure      | June – July 2026             | Secure database and content-management infrastructure; staff sign-in via existing school Google accounts.                 |
+| Admin Panel                            | July 2026                    | Staff dashboard for managing News, Staff, Societies, Events, Gallery, and Media — no coding required.                     |
+| Public pages go live with real content | July – August 2026           | Every public page connected to real content.                                                                              |
+| Content Collection & Data Entry        | September – October 2026     | Photography, historical photos, society data, staff info, alumni content — runs alongside the work below.                 |
+| Offline-friendly experience            | August 2026                  | Website stays usable on poor mobile connections; can be installed like an app.                                            |
+| Search visibility                      | August – September 2026      | Optimisation so the school appears correctly in Google search results.                                                    |
+| Hosting goes live                      | September 2026               | Hosting, automated backups, and uptime monitoring switched on.                                                            |
+| Launch preparation                     | October 2026                 | Accessibility audit, performance tuning, content population, editor training.                                             |
+| **Public Launch**                      | **Target: October 2026**     | Live deployment at `cwwkcc.lk`.                                                                                           |
+| Stabilisation                          | November 2026                | First weeks of real usage — fix issues, close translation gaps, tune performance.                                         |
+| Long-term handover                     | Ongoing                      | Documentation handover, next KITS generation onboarding.                                                                  |
 
 Monthly progress reviews with Staff Advisor; demo to Principal at milestones.
 
@@ -211,12 +213,12 @@ Monthly progress reviews with Staff Advisor; demo to Principal at milestones.
 
 ## 11. Risk Assessment
 
-|Risk|Likelihood|Mitigation|
-|---|---|---|
-|Senior students graduate|Medium|Documentation + junior training before handover.|
-|Content not ready|Medium|Structured collection period Sep–Oct.|
-|Hosting downtime|Low|Reliable VPS + UptimeRobot alerts.|
-|Security incident|Very Low|HTTPS, env vars, input validation, regular updates.|
+| Risk                     | Likelihood | Mitigation                                          |
+| ------------------------ | ---------- | --------------------------------------------------- |
+| Senior students graduate | Medium     | Documentation + junior training before handover.    |
+| Content not ready        | Medium     | Structured collection period Sep–Oct.               |
+| Hosting downtime         | Low        | Reliable VPS + UptimeRobot alerts.                  |
+| Security incident        | Very Low   | HTTPS, env vars, input validation, regular updates. |
 
 ---
 
@@ -360,14 +362,14 @@ By approving this proposal, the school authorizes the development and deployment
 | **Approved By** |                                   |
 | --------------- | --------------------------------- |
 | Principal       | C.W.W. Kannangara Central College |
-| **Signature**   | _____________________________     |
-| **Date**        | _____________________________     |
+| **Signature**   | **************\_**************    |
+| **Date**        | **************\_**************    |
 
-|**Noted By**| |
-|---|---|
-|Staff Advisor|Mrs. Tharindrie Perera, Teacher-in-Charge (ICT)|
-|**Signature**|_____________________________|
-|**Date**|_____________________________|
+| **Noted By**  |                                                 |
+| ------------- | ----------------------------------------------- |
+| Staff Advisor | Mrs. Tharindrie Perera, Teacher-in-Charge (ICT) |
+| **Signature** | **************\_**************                  |
+| **Date**      | **************\_**************                  |
 
 ---
 

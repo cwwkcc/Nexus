@@ -2,10 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-export function useActiveSection(
-  sectionIds: string[],
-  offset = 100,
-): string | null {
+export function useActiveSection(sectionIds: string[], offset = 100): string | null {
   const [activeId, setActiveId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -16,10 +13,7 @@ export function useActiveSection(
         const element = document.getElementById(id);
         if (element) {
           const { offsetTop, offsetHeight } = element;
-          if (
-            scrollPosition >= offsetTop &&
-            scrollPosition < offsetTop + offsetHeight
-          ) {
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
             setActiveId(id);
             return;
           }

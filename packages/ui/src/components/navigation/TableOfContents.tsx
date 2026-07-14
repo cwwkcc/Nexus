@@ -7,22 +7,14 @@ export interface TableOfContentsProps {
   className?: string;
 }
 
-export function TableOfContents({
-  sections,
-  activeId,
-  className,
-}: TableOfContentsProps) {
+export function TableOfContents({ sections, activeId, className }: TableOfContentsProps) {
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   return (
-    <nav
-      aria-label="Table of contents"
-      className={className}
-      style={{ position: 'sticky', top: '100px' }}
-    >
+    <nav aria-label="Table of contents" className={className} style={{ position: 'sticky', top: '100px' }}>
       <p
         style={{
           fontFamily: 'var(--font-body)',
@@ -52,22 +44,16 @@ export function TableOfContents({
                   padding: '6px 0 6px 14px',
                   fontFamily: 'var(--font-body)',
                   fontSize: '0.82rem',
-                  color: isActive
-                    ? 'var(--color-gold-base)'
-                    : 'var(--text-muted)',
+                  color: isActive ? 'var(--color-gold-base)' : 'var(--text-muted)',
                   cursor: 'pointer',
                   transition: 'all 0.15s ease',
                   display: 'block',
                 }}
                 onMouseEnter={(e) => {
-                  if (!isActive)
-                    (e.currentTarget as HTMLElement).style.color =
-                      'var(--text-primary)';
+                  if (!isActive) (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)';
                 }}
                 onMouseLeave={(e) => {
-                  if (!isActive)
-                    (e.currentTarget as HTMLElement).style.color =
-                      'var(--text-muted)';
+                  if (!isActive) (e.currentTarget as HTMLElement).style.color = 'var(--text-muted)';
                 }}
               >
                 {section.label}

@@ -23,22 +23,13 @@ const sizeMap = {
   xl: 'w-size-12 h-size-12', // 48px
 } as const;
 
-export const Icon = forwardRef<SVGSVGElement, IconProps>(
-  ({ name, size = 'md', strokeWidth = 2, className, ...rest }, ref) => {
-    const LucideIcon = iconRegistry[name];
-    if (!LucideIcon) {
-      return null;
-    }
+export const Icon = forwardRef<SVGSVGElement, IconProps>(({ name, size = 'md', strokeWidth = 2, className, ...rest }, ref) => {
+  const LucideIcon = iconRegistry[name];
+  if (!LucideIcon) {
+    return null;
+  }
 
-    return (
-      <LucideIcon
-        ref={ref}
-        strokeWidth={strokeWidth}
-        className={cn(sizeMap[size], className)}
-        {...rest}
-      />
-    );
-  },
-);
+  return <LucideIcon ref={ref} strokeWidth={strokeWidth} className={cn(sizeMap[size], className)} {...rest} />;
+});
 
 Icon.displayName = 'Icon';

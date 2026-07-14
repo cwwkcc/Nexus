@@ -20,6 +20,7 @@ infra/
 ### backup.sh
 
 Automated database backup script that:
+
 - Dumps the PostgreSQL database using `pg_dump`
 - Compresses the backup with gzip
 - Encrypts with GPG (AES256)
@@ -27,11 +28,13 @@ Automated database backup script that:
 - Applies 30-day retention policy
 
 **Usage:**
+
 ```bash
 ./infra/scripts/backup.sh
 ```
 
 **Requirements:**
+
 - PostgreSQL client tools
 - GPG with encryption key at `/opt/nexus/secrets/backup-key.gpg`
 - AWS CLI configured with S3 access
@@ -42,6 +45,7 @@ Automated database backup script that:
 Database restore script for disaster recovery and backup verification.
 
 **Usage:**
+
 ```bash
 # Restore from backup
 ./infra/scripts/restore.sh nexus_backup_20240113_120000.sql.gz.gpg
@@ -51,6 +55,7 @@ Database restore script for disaster recovery and backup verification.
 ```
 
 **Safety:**
+
 - Requires explicit confirmation before restore
 - Stops application services during restore
 - Supports verification mode without data modification
@@ -60,11 +65,13 @@ Database restore script for disaster recovery and backup verification.
 Zero-downtime deployment script called by GitHub Actions CD pipeline.
 
 **Usage:**
+
 ```bash
 ./infra/scripts/deploy.sh <image_tag>
 ```
 
 **Features:**
+
 - Pulls new images from GHCR
 - Creates rollback snapshot before deployment
 - Waits for Docker healthchecks
@@ -76,6 +83,7 @@ Zero-downtime deployment script called by GitHub Actions CD pipeline.
 Rotates credentials without service downtime.
 
 **Usage:**
+
 ```bash
 # Rotate with auto-generated password
 ./infra/scripts/rotate-secret.sh DB_PASSWORD
@@ -85,6 +93,7 @@ Rotates credentials without service downtime.
 ```
 
 **Supported secrets:**
+
 - `DB_PASSWORD` - Database password
 - `NEXTAUTH_SECRET` - Auth.js secret
 - `R2_ACCESS_KEY` - Cloudflare R2 access key
@@ -96,11 +105,13 @@ Rotates credentials without service downtime.
 Server-side script for rotating the break-glass admin password directly in the database.
 
 **Usage:**
+
 ```bash
 ./infra/scripts/rotate-breakglass-password.sh <new_password>
 ```
 
 **Security:**
+
 - Must be run over SSH on production server
 - No internet-facing reset surface
 - Password must be at least 16 characters
@@ -111,6 +122,7 @@ Server-side script for rotating the break-glass admin password directly in the d
 The Caddy reverse proxy configuration is located in `infra/caddy/Caddyfile` (mounted as `/etc/caddy/Caddyfile` in production).
 
 **Features:**
+
 - Automatic TLS via Let's Encrypt
 - Reverse proxy for web (cwwkcc.lk) and admin (admin.cwwkcc.lk)
 - Security headers: HSTS, CSP, X-Frame-Options, etc.
@@ -124,18 +136,21 @@ The `infra/postgres/` directory contains the PostgreSQL data volume and is **git
 ## Production Setup
 
 1. **Create directories:**
+
    ```bash
    sudo mkdir -p /opt/nexus/{backups,secrets}
    sudo chown -R $USER:$USER /opt/nexus
    ```
 
 2. **Generate encryption key:**
+
    ```bash
    openssl rand -base64 32 > /opt/nexus/secrets/backup-key.gpg
    chmod 600 /opt/nexus/secrets/backup-key.gpg
    ```
 
 3. **Configure environment variables:**
+
    ```bash
    cp .env.example .env
    # Edit .env with production values
@@ -160,11 +175,13 @@ The `infra/postgres/` directory contains the PostgreSQL data volume and is **git
 See the Disaster Recovery Plan (F-178) for detailed procedures. Quick reference:
 
 1. **Verify backup integrity:**
+
    ```bash
    ./infra/scripts/restore.sh <backup_file> --verify-only
    ```
 
 2. **Restore from backup:**
+
    ```bash
    ./infra/scripts/restore.sh <backup_file>
    ```

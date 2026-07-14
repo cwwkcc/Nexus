@@ -13,14 +13,7 @@ interface AcademicStreamCardProps extends Omit<StreamData, 'stream'> {
   className?: string;
 }
 
-export function AcademicStreamCard({
-  name,
-  description,
-  careerPaths,
-  href,
-  subjectCount,
-  className,
-}: AcademicStreamCardProps) {
+export function AcademicStreamCard({ name, description, careerPaths, href, subjectCount, className }: AcademicStreamCardProps) {
   return (
     <NavLink href={href} className="group block no-underline h-full">
       <div
@@ -37,10 +30,7 @@ export function AcademicStreamCard({
         )}
       >
         {/* Green left accent bar — fades in on hover */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-y-0 left-space-0 w-size-2 bg-green-base opacity-0 transition-opacity duration-standard group-hover:opacity-100"
-        />
+        <div aria-hidden="true" className="absolute inset-y-0 left-space-0 w-size-2 bg-green-base opacity-0 transition-opacity duration-standard group-hover:opacity-100" />
 
         {/* "A/L Stream · N subjects" eyebrow */}
         <EyebrowLabel as="p" className="mb-space-1p5">
@@ -48,31 +38,19 @@ export function AcademicStreamCard({
         </EyebrowLabel>
 
         {/* Stream name */}
-        <Heading
-          level="h3"
-          color="primary"
-          className="mb-space-2p5 transition-colors duration-fast ease-snap group-hover:text-gold-active"
-        >
+        <Heading level="h3" color="primary" className="mb-space-2p5 transition-colors duration-fast ease-snap group-hover:text-gold-active">
           {name}
         </Heading>
 
         {/* Description */}
-        <Text
-          variant="body-sm"
-          color="muted"
-          className="mb-space-4 leading-[1.65]"
-        >
+        <Text variant="body-sm" color="muted" className="mb-space-4 leading-[1.65]">
           b{description}
         </Text>
 
         {/* Career path tags */}
         <div className="mb-space-5 flex flex-wrap gap-space-1p5">
           {careerPaths.map((path) => (
-            <Tag
-              key={path}
-              label={path}
-              className="border border-border-light bg-surface-deep"
-            />
+            <Tag key={path} label={path} className="border border-border-light bg-surface-deep" />
           ))}
         </div>
 

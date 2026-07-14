@@ -32,11 +32,11 @@ Nexus supports three scripts with automatic font selection via CSS variable stac
 
 ### Unicode Ranges
 
-| Script | Unicode Range | Font |
-|--------|---------------|------|
-| Latin | U+0000-007F, U+0080-024F, etc. | Cormorant Garamond, Inter |
-| Sinhala | U+0D80-0DFF | Maname, Noto Serif Sinhala |
-| Tamil | U+0B80-0BFF | Noto Serif Tamil |
+| Script  | Unicode Range                  | Font                       |
+| ------- | ------------------------------ | -------------------------- |
+| Latin   | U+0000-007F, U+0080-024F, etc. | Cormorant Garamond, Inter  |
+| Sinhala | U+0D80-0DFF                    | Maname, Noto Serif Sinhala |
+| Tamil   | U+0B80-0BFF                    | Noto Serif Tamil           |
 
 ---
 
@@ -145,29 +145,29 @@ apps/web/public/fonts/
 
 ## Font Weights
 
-| Weight | Value | Usage |
-|--------|-------|-------|
-| Regular | 400 | Body text, paragraphs |
-| Medium | 500 | Labels, captions |
-| SemiBold | 600 | Subheadings |
-| Bold | 700 | Headings |
+| Weight   | Value | Usage                 |
+| -------- | ----- | --------------------- |
+| Regular  | 400   | Body text, paragraphs |
+| Medium   | 500   | Labels, captions      |
+| SemiBold | 600   | Subheadings           |
+| Bold     | 700   | Headings              |
 
 ### Display Font Weights
 
-| Weight | Usage |
-|--------|-------|
-| Regular | Default display text |
-| SemiBold | Headings, hero text |
-| Bold | Emphasis, large headings |
+| Weight   | Usage                    |
+| -------- | ------------------------ |
+| Regular  | Default display text     |
+| SemiBold | Headings, hero text      |
+| Bold     | Emphasis, large headings |
 
 ### Body Font Weights
 
-| Weight | Usage |
-|--------|-------|
-| Regular | Body text, paragraphs |
-| Medium | Labels, UI elements |
-| SemiBold | Subheadings |
-| Bold | Emphasis |
+| Weight   | Usage                 |
+| -------- | --------------------- |
+| Regular  | Body text, paragraphs |
+| Medium   | Labels, UI elements   |
+| SemiBold | Subheadings           |
+| Bold     | Emphasis              |
 
 ---
 
@@ -195,12 +195,12 @@ https://cwwkcc.lk/ta
 
 ### Common Issues
 
-| Issue | Solution |
-|-------|----------|
-| Font not loading | Check file path and extension |
-| Wrong font selected | Check CSS variable order |
+| Issue                     | Solution                          |
+| ------------------------- | --------------------------------- |
+| Font not loading          | Check file path and extension     |
+| Wrong font selected       | Check CSS variable order          |
 | Characters not displaying | Check unicode range, add fallback |
-| Slow loading | Check font size, convert to WOFF2 |
+| Slow loading              | Check font size, convert to WOFF2 |
 
 ---
 
@@ -254,11 +254,19 @@ export default function FontTestPage() {
   return (
     <div>
       <h1 className="font-display">English Heading</h1>
-      <h1 className="font-display" lang="si">සිංහල ශීර්ෂය</h1>
-      <h1 className="font-display" lang="ta">தமிழ் தலைப்பு</h1>
+      <h1 className="font-display" lang="si">
+        සිංහල ශීර්ෂය
+      </h1>
+      <h1 className="font-display" lang="ta">
+        தமிழ் தலைப்பு
+      </h1>
       <p className="font-body">English body text</p>
-      <p className="font-body" lang="si">සිංහල ශරීර පාඨය</p>
-      <p className="font-body" lang="ta">தமிழ் உடல் உரை</p>
+      <p className="font-body" lang="si">
+        සිංහල ශරීර පාඨය
+      </p>
+      <p className="font-body" lang="ta">
+        தமிழ் உடல் உரை
+      </p>
     </div>
   );
 }
@@ -269,4 +277,3 @@ export default function FontTestPage() {
 **C.W.W. Kannangara Central College, Est. 1873. "Wisdom is All Wealth."**
 
 ---
-

@@ -17,16 +17,8 @@
 import { z } from 'zod';
 
 import { NewsCategorySchema } from './category.ts';
-import {
-  MAX_TITLE_LENGTH,
-  MAX_DESCRIPTION_LENGTH,
-} from '../../constants/index.ts';
-import {
-  ImageSchema,
-  LocaleEnum,
-  RichTextSchema,
-  SeoSchema,
-} from '../../primitives/index.ts';
+import { MAX_TITLE_LENGTH, MAX_DESCRIPTION_LENGTH } from '../../constants/index.ts';
+import { ImageSchema, LocaleEnum, RichTextSchema, SeoSchema } from '../../primitives/index.ts';
 
 export const NEWS_ARTICLE_CONTENT_TYPE = 'news-article';
 

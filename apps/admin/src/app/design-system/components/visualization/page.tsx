@@ -1,14 +1,6 @@
 'use client';
 
-import {
-  ComparisonBar,
-  DataTable,
-  ProgressArc,
-  ResultsDisplay,
-  StreamComparisonTable,
-  StudentJourneyFlow,
-  TimetableGrid,
-} from '@nexus/ui';
+import { ComparisonBar, DataTable, ProgressArc, ResultsDisplay, StreamComparisonTable, StudentJourneyFlow, TimetableGrid } from '@nexus/ui';
 
 import { DemoSection } from '../_components/DemoSection';
 
@@ -84,27 +76,15 @@ export default function VisualizationPage() {
     <div className="min-h-screen bg-surface-base py-space-12">
       <div className="content-width">
         <h1 className="font-display text-h1 mb-space-4">Data Visualization</h1>
-        <p className="font-body text-body text-text-muted mb-space-12">
-          Charts, tables, comparison bars, progress arcs, and flow diagrams.
-        </p>
+        <p className="font-body text-body text-text-muted mb-space-12">Charts, tables, comparison bars, progress arcs, and flow diagrams.</p>
 
         <DemoSection title="ComparisonBar">
           <ComparisonBar label="Pass Rate" value={85} targetValue={90} />
-          <ComparisonBar
-            label="Attendance"
-            value={72}
-            size="lg"
-            className="w-64"
-          />
+          <ComparisonBar label="Attendance" value={72} size="lg" className="w-64" />
         </DemoSection>
 
         <DemoSection title="ProgressArc">
-          <ProgressArc
-            value={75}
-            size={100}
-            variant="green"
-            label="Completion"
-          />
+          <ProgressArc value={75} size={100} variant="green" label="Completion" />
           <ProgressArc value={45} size={100} variant="gold" showPercentage />
         </DemoSection>
 
@@ -113,14 +93,7 @@ export default function VisualizationPage() {
         </DemoSection>
 
         <DemoSection title="ResultsDisplay">
-          <ResultsDisplay
-            studentName="Kusal Perera"
-            indexNumber="12345"
-            examType="OL"
-            year={2025}
-            subjects={sampleSubjects}
-            pdfUrl="/results/sample.pdf"
-          />
+          <ResultsDisplay studentName="Kusal Perera" indexNumber="12345" examType="OL" year={2025} subjects={sampleSubjects} pdfUrl="/results/sample.pdf" />
         </DemoSection>
 
         <DemoSection title="StreamComparisonTable">

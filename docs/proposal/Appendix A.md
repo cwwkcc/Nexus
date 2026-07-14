@@ -66,52 +66,52 @@ The entire platform runs on a single Hetzner VPS, with all services containerise
 
 ### A.3.1 Core Framework
 
-| Layer | Technology | Purpose | Why Chosen |
-|-------|-----------|---------|------------|
-| **Frontend Framework** | Next.js 14+ (App Router) | React framework with server components, static generation, and API routes | Provides SSR, ISR, and static generation with excellent i18n support; single framework for both public site and admin panel |
-| **Monorepo** | pnpm + Nx | Package management and build orchestration | Faster than npm; workspace linking; Nx provides task caching and affected commands |
-| **TypeScript** | TypeScript 5.0+ | Type safety across the entire codebase | Reduces runtime errors; provides excellent IDE support; entire stack is type-safe |
-| **Styling** | Tailwind CSS + Custom Preset | Utility-first styling with design tokens | Token system ensures visual consistency; Tailwind preset enforces design system rules |
+| Layer                  | Technology                   | Purpose                                                                   | Why Chosen                                                                                                                  |
+| ---------------------- | ---------------------------- | ------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| **Frontend Framework** | Next.js 14+ (App Router)     | React framework with server components, static generation, and API routes | Provides SSR, ISR, and static generation with excellent i18n support; single framework for both public site and admin panel |
+| **Monorepo**           | pnpm + Nx                    | Package management and build orchestration                                | Faster than npm; workspace linking; Nx provides task caching and affected commands                                          |
+| **TypeScript**         | TypeScript 5.0+              | Type safety across the entire codebase                                    | Reduces runtime errors; provides excellent IDE support; entire stack is type-safe                                           |
+| **Styling**            | Tailwind CSS + Custom Preset | Utility-first styling with design tokens                                  | Token system ensures visual consistency; Tailwind preset enforces design system rules                                       |
 
 ### A.3.2 Backend & API
 
-| Layer | Technology | Purpose | Why Chosen |
-|-------|-----------|---------|------------|
-| **API Layer** | tRPC | End-to-end type-safe API | Eliminates API spec drift; full type safety from server to client; excellent developer experience |
-| **Database** | PostgreSQL 15+ | Primary relational database | Battle-tested; handles JSON content well; excellent full-text search with Sinhala/Tamil support |
-| **ORM** | Prisma | Database access and migrations | Type-safe database client; declarative schema; migration history |
-| **Validation** | Zod | Schema validation | Single source of truth for data shapes; infers TypeScript types; validates forms, API, and database |
+| Layer              | Technology         | Purpose                                    | Why Chosen                                                                                           |
+| ------------------ | ------------------ | ------------------------------------------ | ---------------------------------------------------------------------------------------------------- |
+| **API Layer**      | tRPC               | End-to-end type-safe API                   | Eliminates API spec drift; full type safety from server to client; excellent developer experience    |
+| **Database**       | PostgreSQL 15+     | Primary relational database                | Battle-tested; handles JSON content well; excellent full-text search with Sinhala/Tamil support      |
+| **ORM**            | Prisma             | Database access and migrations             | Type-safe database client; declarative schema; migration history                                     |
+| **Validation**     | Zod                | Schema validation                          | Single source of truth for data shapes; infers TypeScript types; validates forms, API, and database  |
 | **Authentication** | Auth.js (NextAuth) | OAuth authentication with Google Workspace | Supports Google OAuth natively; Prisma adapter for session storage; restricts to `@cwwkcc.lk` domain |
 
 ### A.3.3 Infrastructure
 
-| Layer | Technology | Purpose | Why Chosen |
-|-------|-----------|---------|------------|
-| **Web Server** | Caddy | Reverse proxy with automatic HTTPS | Automatic Let's Encrypt; simple Caddyfile configuration; built-in security headers |
-| **Container Runtime** | Docker + Docker Compose | Application containerisation | Consistent environment; easy deployment; health checks; restart policies |
-| **Object Storage** | Cloudflare R2 | Media asset storage | Zero egress fees; S3-compatible API; 10GB free tier; no bandwidth costs |
-| **CI/CD** | GitHub Actions | Automated testing and deployment | Native to GitHub; reusable workflows; container registry integration |
-| **Container Registry** | GitHub Container Registry (GHCR) | Docker image hosting | Free for public repositories; integrated with GitHub Actions |
+| Layer                  | Technology                       | Purpose                            | Why Chosen                                                                         |
+| ---------------------- | -------------------------------- | ---------------------------------- | ---------------------------------------------------------------------------------- |
+| **Web Server**         | Caddy                            | Reverse proxy with automatic HTTPS | Automatic Let's Encrypt; simple Caddyfile configuration; built-in security headers |
+| **Container Runtime**  | Docker + Docker Compose          | Application containerisation       | Consistent environment; easy deployment; health checks; restart policies           |
+| **Object Storage**     | Cloudflare R2                    | Media asset storage                | Zero egress fees; S3-compatible API; 10GB free tier; no bandwidth costs            |
+| **CI/CD**              | GitHub Actions                   | Automated testing and deployment   | Native to GitHub; reusable workflows; container registry integration               |
+| **Container Registry** | GitHub Container Registry (GHCR) | Docker image hosting               | Free for public repositories; integrated with GitHub Actions                       |
 
 ### A.3.4 Frontend Libraries
 
-| Library | Purpose |
-|---------|---------|
-| **Framer Motion** | React animation library for micro-interactions and state transitions |
-| **GSAP** | Timeline-based animations for ceremonial sequences (crest drawing, page transitions) |
-| **Lucide React** | Icon library (unified through Icon Registry) |
-| **next-intl** | Internationalisation with locale-aware routing |
-| **Tiptap** | Rich text editor for the admin panel |
-| **Sharp** | Image optimisation in the upload pipeline |
-| **clsx + tailwind-merge** | Conditional class name utility (`cn()` function) |
+| Library                   | Purpose                                                                              |
+| ------------------------- | ------------------------------------------------------------------------------------ |
+| **Framer Motion**         | React animation library for micro-interactions and state transitions                 |
+| **GSAP**                  | Timeline-based animations for ceremonial sequences (crest drawing, page transitions) |
+| **Lucide React**          | Icon library (unified through Icon Registry)                                         |
+| **next-intl**             | Internationalisation with locale-aware routing                                       |
+| **Tiptap**                | Rich text editor for the admin panel                                                 |
+| **Sharp**                 | Image optimisation in the upload pipeline                                            |
+| **clsx + tailwind-merge** | Conditional class name utility (`cn()` function)                                     |
 
 ### A.3.5 Monitoring & Analytics
 
-| Service | Purpose |
-|---------|---------|
-| **Umami** | Self-hosted privacy-first analytics (Docker container on same VPS) |
-| **UptimeRobot** | External uptime monitoring (5-minute checks) |
-| **Sentry** | Optional error monitoring (configurable via environment variable) |
+| Service         | Purpose                                                            |
+| --------------- | ------------------------------------------------------------------ |
+| **Umami**       | Self-hosted privacy-first analytics (Docker container on same VPS) |
+| **UptimeRobot** | External uptime monitoring (5-minute checks)                       |
+| **Sentry**      | Optional error monitoring (configurable via environment variable)  |
 
 ---
 
@@ -175,23 +175,23 @@ The entire platform runs on a single Hetzner VPS, with all services containerise
 
 ### A.5.2 Security Layers
 
-| Layer | Protection |
-|-------|------------|
-| **Network** | Firewall (ports 80, 443, 22 only); PostgreSQL internal-only |
-| **TLS** | Automatic HTTPS via Let's Encrypt; HSTS header |
-| **Headers** | CSP, X-Frame-Options (DENY), X-Content-Type-Options (nosniff), Referrer-Policy |
-| **API** | tRPC middleware for authentication; Zod input validation; rate limiting |
+| Layer           | Protection                                                                        |
+| --------------- | --------------------------------------------------------------------------------- |
+| **Network**     | Firewall (ports 80, 443, 22 only); PostgreSQL internal-only                       |
+| **TLS**         | Automatic HTTPS via Let's Encrypt; HSTS header                                    |
+| **Headers**     | CSP, X-Frame-Options (DENY), X-Content-Type-Options (nosniff), Referrer-Policy    |
+| **API**         | tRPC middleware for authentication; Zod input validation; rate limiting           |
 | **File Upload** | MIME type validation; extension validation; size limits; Sharp metadata stripping |
-| **Database** | Connection pooling; prepared statements; no direct public access |
-| **Backups** | Encrypted off-site backups; separate key storage |
+| **Database**    | Connection pooling; prepared statements; no direct public access                  |
+| **Backups**     | Encrypted off-site backups; separate key storage                                  |
 
 ### A.5.3 Rate Limiting
 
-| Endpoint | Limit | Implementation |
-|----------|-------|----------------|
+| Endpoint       | Limit                 | Implementation                       |
+| -------------- | --------------------- | ------------------------------------ |
 | Results Portal | 10 requests/minute/IP | Next.js middleware or Cloudflare WAF |
-| Contact Form | 5 requests/hour/IP | Next.js middleware or Cloudflare WAF |
-| General API | Configurable baseline | Next.js middleware |
+| Contact Form   | 5 requests/hour/IP    | Next.js middleware or Cloudflare WAF |
+| General API    | Configurable baseline | Next.js middleware                   |
 
 ---
 
@@ -206,29 +206,29 @@ The entire platform runs on a single Hetzner VPS, with all services containerise
 
 ### A.6.2 Image Optimisation
 
-| Step | Tool | Purpose |
-|------|------|---------|
-| Upload | Sharp | Resize to max display dimensions; WebP conversion; metadata stripping |
-| Delivery | `next/image` | Automatic format negotiation; lazy loading; blur placeholders |
-| Storage | Cloudflare R2 | Global CDN caching; zero egress fees |
-| Caching | CDN + Browser | Cache-Control headers for immutable assets |
+| Step     | Tool          | Purpose                                                               |
+| -------- | ------------- | --------------------------------------------------------------------- |
+| Upload   | Sharp         | Resize to max display dimensions; WebP conversion; metadata stripping |
+| Delivery | `next/image`  | Automatic format negotiation; lazy loading; blur placeholders         |
+| Storage  | Cloudflare R2 | Global CDN caching; zero egress fees                                  |
+| Caching  | CDN + Browser | Cache-Control headers for immutable assets                            |
 
 ### A.6.3 Bundle Optimisation
 
-| Technique | Implementation |
-|-----------|----------------|
-| Dynamic imports | CrestAnimation, AudioPlayer, Tiptap, PanoramicFacilityViewer |
+| Technique            | Implementation                                               |
+| -------------------- | ------------------------------------------------------------ |
+| Dynamic imports      | CrestAnimation, AudioPlayer, Tiptap, PanoramicFacilityViewer |
 | Package optimisation | `optimizePackageImports` for `@nexus/ui` and `framer-motion` |
-| Code splitting | Next.js automatic per-page bundling |
-| Font optimisation | Self-hosted fonts; `next/font` with preload |
+| Code splitting       | Next.js automatic per-page bundling                          |
+| Font optimisation    | Self-hosted fonts; `next/font` with preload                  |
 
 ### A.6.4 Performance Targets
 
-| Metric | Target |
-|--------|--------|
-| Lighthouse Performance (mobile) | ≥ 90 |
-| Cumulative Layout Shift (CLS) | < 0.1 |
-| Largest Contentful Paint (LCP) | < 2.5s |
+| Metric                           | Target       |
+| -------------------------------- | ------------ |
+| Lighthouse Performance (mobile)  | ≥ 90         |
+| Cumulative Layout Shift (CLS)    | < 0.1        |
+| Largest Contentful Paint (LCP)   | < 2.5s       |
 | Total Bundle Size (initial load) | < 200KB (JS) |
 
 ---
@@ -276,7 +276,7 @@ services:
     container_name: nexus-web
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/api/health"]
+      test: ['CMD', 'wget', '--no-verbose', '--tries=1', '--spider', 'http://localhost:3000/api/health']
       interval: 10s
       timeout: 5s
       retries: 3
@@ -294,22 +294,22 @@ services:
 
 ### A.8.1 Backup Strategy
 
-| Type | Schedule | Location | Retention |
-|------|----------|----------|-----------|
-| **Database** | Nightly | R2 (encrypted) | 30 days |
-| **Database** | Hourly (transaction logs) | R2 (encrypted) | 7 days |
-| **Media Assets** | Nightly | Secondary storage | 30 days |
-| **Docker Images** | Each deployment | GHCR | Unlimited |
+| Type              | Schedule                  | Location          | Retention |
+| ----------------- | ------------------------- | ----------------- | --------- |
+| **Database**      | Nightly                   | R2 (encrypted)    | 30 days   |
+| **Database**      | Hourly (transaction logs) | R2 (encrypted)    | 7 days    |
+| **Media Assets**  | Nightly                   | Secondary storage | 30 days   |
+| **Docker Images** | Each deployment           | GHCR              | Unlimited |
 
 ### A.8.2 Recovery Procedures
 
-| Failure Mode | Recovery Time | Procedure |
-|--------------|--------------|-----------|
-| Server failure | 2-4 hours | Provision new Hetzner server; restore from R2 backup |
-| Database corruption | 1-2 hours | Stop services; restore from latest backup; verify integrity |
-| Accidental deletion | Minutes | Audit log identifies deletion; soft-delete recovery from database |
-| Domain loss | Hours-Days | Contact LK domain registry with proof of institutional ownership |
-| R2 failure | Hours | Restore from secondary backup; migrate to alternative storage |
+| Failure Mode        | Recovery Time | Procedure                                                         |
+| ------------------- | ------------- | ----------------------------------------------------------------- |
+| Server failure      | 2-4 hours     | Provision new Hetzner server; restore from R2 backup              |
+| Database corruption | 1-2 hours     | Stop services; restore from latest backup; verify integrity       |
+| Accidental deletion | Minutes       | Audit log identifies deletion; soft-delete recovery from database |
+| Domain loss         | Hours-Days    | Contact LK domain registry with proof of institutional ownership  |
+| R2 failure          | Hours         | Restore from secondary backup; migrate to alternative storage     |
 
 ---
 
@@ -317,17 +317,17 @@ services:
 
 ### A.9.1 Health Checks
 
-| Service | Health Check Endpoint | Interval | Alert On |
-|---------|----------------------|----------|----------|
-| nexus-web | `/api/health` | 10s | Container unhealthy (5 retries) |
-| nexus-admin | `/api/health` | 10s | Container unhealthy (5 retries) |
-| postgres | `pg_isready` | 30s | Database not responding |
-| umami | HTTP check on port 3002 | 30s | Service unavailable |
+| Service     | Health Check Endpoint   | Interval | Alert On                        |
+| ----------- | ----------------------- | -------- | ------------------------------- |
+| nexus-web   | `/api/health`           | 10s      | Container unhealthy (5 retries) |
+| nexus-admin | `/api/health`           | 10s      | Container unhealthy (5 retries) |
+| postgres    | `pg_isready`            | 30s      | Database not responding         |
+| umami       | HTTP check on port 3002 | 30s      | Service unavailable             |
 
 ### A.9.2 External Monitoring
 
-| Service | Frequency | Alert Method |
-|---------|-----------|--------------|
-| UptimeRobot (`cwwkcc.lk`) | 5 minutes | Email + SMS to KITS lead |
-| UptimeRobot (`admin.cwwkcc.lk`) | 5 minutes | Email + SMS to KITS lead |
-| SSL Certificate Expiry | 30 days before | Email notification |
+| Service                         | Frequency      | Alert Method             |
+| ------------------------------- | -------------- | ------------------------ |
+| UptimeRobot (`cwwkcc.lk`)       | 5 minutes      | Email + SMS to KITS lead |
+| UptimeRobot (`admin.cwwkcc.lk`) | 5 minutes      | Email + SMS to KITS lead |
+| SSL Certificate Expiry          | 30 days before | Email notification       |

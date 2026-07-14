@@ -19,34 +19,34 @@ This document covers:
 
 ### Database Backup
 
-| Detail | Specification |
-|--------|---------------|
-| **Frequency** | Nightly (every day at 2:00 AM) |
-| **Location** | Cloudflare R2 (`kcc-backups/database/`) |
-| **Format** | Compressed SQL dump (`.sql.gz`) |
-| **Retention** | 30 days |
-| **Encryption** | Encrypted at rest in R2 |
-| **Verification** | Weekly restore test |
+| Detail           | Specification                           |
+| ---------------- | --------------------------------------- |
+| **Frequency**    | Nightly (every day at 2:00 AM)          |
+| **Location**     | Cloudflare R2 (`kcc-backups/database/`) |
+| **Format**       | Compressed SQL dump (`.sql.gz`)         |
+| **Retention**    | 30 days                                 |
+| **Encryption**   | Encrypted at rest in R2                 |
+| **Verification** | Weekly restore test                     |
 
 ### Media Backup
 
-| Detail | Specification |
-|--------|---------------|
-| **Frequency** | Nightly (every day at 3:00 AM) |
-| **Location** | Cloudflare R2 (`kcc-backups/media/`) |
-| **Format** | Sync of R2 bucket |
-| **Retention** | 30 days |
-| **Encryption** | Encrypted at rest in R2 |
+| Detail         | Specification                        |
+| -------------- | ------------------------------------ |
+| **Frequency**  | Nightly (every day at 3:00 AM)       |
+| **Location**   | Cloudflare R2 (`kcc-backups/media/`) |
+| **Format**     | Sync of R2 bucket                    |
+| **Retention**  | 30 days                              |
+| **Encryption** | Encrypted at rest in R2              |
 
 ### Transaction Log Backup (Optional)
 
-| Detail | Specification |
-|--------|---------------|
-| **Frequency** | Hourly |
-| **Location** | Cloudflare R2 (`kcc-backups/wal/`) |
-| **Format** | PostgreSQL WAL files |
-| **Retention** | 7 days |
-| **Purpose** | Point-in-time recovery |
+| Detail        | Specification                      |
+| ------------- | ---------------------------------- |
+| **Frequency** | Hourly                             |
+| **Location**  | Cloudflare R2 (`kcc-backups/wal/`) |
+| **Format**    | PostgreSQL WAL files               |
+| **Retention** | 7 days                             |
+| **Purpose**   | Point-in-time recovery             |
 
 ---
 
@@ -193,11 +193,11 @@ rclone size r2:kcc-backups/media/
 
 ## Backup Schedule
 
-| Type | Frequency | Time | Retention | Purpose |
-|------|-----------|------|-----------|---------|
-| Full database | Nightly | 2:00 AM | 30 days | Full recovery |
-| Media sync | Nightly | 3:00 AM | 30 days | Media recovery |
-| Transaction log | Hourly | :00 | 7 days | Point-in-time recovery |
+| Type            | Frequency | Time    | Retention | Purpose                |
+| --------------- | --------- | ------- | --------- | ---------------------- |
+| Full database   | Nightly   | 2:00 AM | 30 days   | Full recovery          |
+| Media sync      | Nightly   | 3:00 AM | 30 days   | Media recovery         |
+| Transaction log | Hourly    | :00     | 7 days    | Point-in-time recovery |
 
 ---
 
@@ -214,4 +214,3 @@ rclone size r2:kcc-backups/media/
 **C.W.W. Kannangara Central College, Est. 1873. "Wisdom is All Wealth."**
 
 ---
-

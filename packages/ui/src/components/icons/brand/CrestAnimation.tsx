@@ -39,13 +39,7 @@ export interface CrestAnimationProps {
 // -----------------------------------------------------------------------------
 // Hero variant: fade-in → single sweep → settles to faint idle glow
 // -----------------------------------------------------------------------------
-const HeroAnimation = ({
-  size,
-  onComplete,
-}: {
-  size: CrestSize;
-  onComplete?: () => void;
-}) => {
+const HeroAnimation = ({ size, onComplete }: { size: CrestSize; onComplete?: () => void }) => {
   const reduced = useReducedMotion();
 
   // Fire onComplete after the entrance duration (600 ms).
@@ -65,17 +59,9 @@ const HeroAnimation = ({
   }
 
   return (
-    <motion.div
-      className={cn('relative', sizeMap[size])}
-      initial={{ opacity: 0, scale: 0.92 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-    >
+    <motion.div className={cn('relative', sizeMap[size])} initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}>
       {/* Crest logo */}
-      <SchoolLogo
-        variant="crest-only"
-        className="w-full h-full relative z-raised"
-      />
+      <SchoolLogo variant="crest-only" className="w-full h-full relative z-raised" />
 
       {/*
         Diagonal gold sweep — fires once, no repeat.
@@ -157,10 +143,7 @@ const LoadingAnimation = ({ size }: { size: CrestSize }) => {
       />
 
       {/* Crest — stays still throughout */}
-      <SchoolLogo
-        variant="crest-only"
-        className="w-full h-full relative z-raised"
-      />
+      <SchoolLogo variant="crest-only" className="w-full h-full relative z-raised" />
 
       {/*
         Inner pulse — slightly offset phase for organic feel.
@@ -186,13 +169,7 @@ const LoadingAnimation = ({ size }: { size: CrestSize }) => {
 // -----------------------------------------------------------------------------
 // Main component
 // -----------------------------------------------------------------------------
-export const CrestAnimation = memo(function CrestAnimation({
-  size = 'md',
-  variant = 'hero',
-  animateOnMount = true,
-  onComplete,
-  className,
-}: CrestAnimationProps) {
+export const CrestAnimation = memo(function CrestAnimation({ size = 'md', variant = 'hero', animateOnMount = true, onComplete, className }: CrestAnimationProps) {
   if (!animateOnMount) {
     return (
       <div className={cn('relative', sizeMap[size], className)}>
@@ -201,13 +178,5 @@ export const CrestAnimation = memo(function CrestAnimation({
     );
   }
 
-  return (
-    <div className={cn(className)}>
-      {variant === 'hero' ? (
-        <HeroAnimation size={size} onComplete={onComplete} />
-      ) : (
-        <LoadingAnimation size={size} />
-      )}
-    </div>
-  );
+  return <div className={cn(className)}>{variant === 'hero' ? <HeroAnimation size={size} onComplete={onComplete} /> : <LoadingAnimation size={size} />}</div>;
 });

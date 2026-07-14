@@ -17,15 +17,15 @@ This document defines the incident response process for the Nexus platform. It c
 
 ## Incident Types
 
-| Type | Description | Priority |
-|------|-------------|----------|
-| **Service Outage** | Site is down or unreachable | Critical |
-| **Data Breach** | Unauthorised access to data | Critical |
-| **Unauthorised Access** | Admin account compromised | High |
-| **Data Loss** | Content deleted or corrupted | High |
-| **Content Violation** | Inappropriate content published | Medium |
-| **Performance Degradation** | Site is slow or unresponsive | Medium |
-| **Security Alert** | Potential threat detected | Medium |
+| Type                        | Description                     | Priority |
+| --------------------------- | ------------------------------- | -------- |
+| **Service Outage**          | Site is down or unreachable     | Critical |
+| **Data Breach**             | Unauthorised access to data     | Critical |
+| **Unauthorised Access**     | Admin account compromised       | High     |
+| **Data Loss**               | Content deleted or corrupted    | High     |
+| **Content Violation**       | Inappropriate content published | Medium   |
+| **Performance Degradation** | Site is slow or unresponsive    | Medium   |
+| **Security Alert**          | Potential threat detected       | Medium   |
 
 ---
 
@@ -54,13 +54,13 @@ This document defines the incident response process for the Nexus platform. It c
 
 **Stop the incident from spreading:**
 
-| Incident Type | Containment Action |
-|---------------|-------------------|
-| Service outage | Check server, restart services |
-| Data breach | Change passwords, revoke access |
-| Unauthorised access | Log out all sessions, reset passwords |
-| Data loss | Stop writes, restore from backup |
-| Content violation | Remove content, restrict editor access |
+| Incident Type       | Containment Action                     |
+| ------------------- | -------------------------------------- |
+| Service outage      | Check server, restart services         |
+| Data breach         | Change passwords, revoke access        |
+| Unauthorised access | Log out all sessions, reset passwords  |
+| Data loss           | Stop writes, restore from backup       |
+| Content violation   | Remove content, restrict editor access |
 
 ### 4. Investigation
 
@@ -93,26 +93,26 @@ This document defines the incident response process for the Nexus platform. It c
 
 ## Incident Response Timeline
 
-| Phase | Timeframe | Action |
-|-------|-----------|--------|
-| Detection | 0-5 minutes | Alert received |
-| Triage | 5-15 minutes | Initial assessment |
-| Containment | 15-30 minutes | Stop the spread |
-| Investigation | 30-120 minutes | Find the cause |
-| Resolution | 1-4 hours | Fix the issue |
-| Review | 24-48 hours | Document and improve |
+| Phase         | Timeframe      | Action               |
+| ------------- | -------------- | -------------------- |
+| Detection     | 0-5 minutes    | Alert received       |
+| Triage        | 5-15 minutes   | Initial assessment   |
+| Containment   | 15-30 minutes  | Stop the spread      |
+| Investigation | 30-120 minutes | Find the cause       |
+| Resolution    | 1-4 hours      | Fix the issue        |
+| Review        | 24-48 hours    | Document and improve |
 
 ---
 
 ## Roles and Responsibilities
 
-| Role | Responsibility | Primary Contact |
-|------|----------------|-----------------|
-| **Incident Commander** | Overall incident management | KITS Lead |
-| **Technical Lead** | Technical investigation and fix | KITS Lead |
-| **Communication Lead** | Internal and external communication | Staff Advisor |
-| **Security Lead** | Security investigation | KITS Lead (with Staff Advisor) |
-| **Auditor** | Post-incident review | Staff Advisor |
+| Role                   | Responsibility                      | Primary Contact                |
+| ---------------------- | ----------------------------------- | ------------------------------ |
+| **Incident Commander** | Overall incident management         | KITS Lead                      |
+| **Technical Lead**     | Technical investigation and fix     | KITS Lead                      |
+| **Communication Lead** | Internal and external communication | Staff Advisor                  |
+| **Security Lead**      | Security investigation              | KITS Lead (with Staff Advisor) |
+| **Auditor**            | Post-incident review                | Staff Advisor                  |
 
 ---
 
@@ -120,19 +120,19 @@ This document defines the incident response process for the Nexus platform. It c
 
 ### Internal Communication
 
-| Audience | Method | Timing |
-|----------|--------|--------|
-| KITS Team | WhatsApp/Teams | Immediately |
-| Staff Advisor | Phone/WhatsApp | Immediately |
-| Principal | Phone/WhatsApp | Within 15 minutes |
+| Audience      | Method         | Timing            |
+| ------------- | -------------- | ----------------- |
+| KITS Team     | WhatsApp/Teams | Immediately       |
+| Staff Advisor | Phone/WhatsApp | Immediately       |
+| Principal     | Phone/WhatsApp | Within 15 minutes |
 
 ### External Communication
 
-| Audience | Method | Timing |
-|----------|--------|--------|
-| Users | Website banner, social media | Within 1 hour |
-| Parents | WhatsApp Channel | Within 2 hours |
-| Media | School administration | As needed |
+| Audience | Method                       | Timing         |
+| -------- | ---------------------------- | -------------- |
+| Users    | Website banner, social media | Within 1 hour  |
+| Parents  | WhatsApp Channel             | Within 2 hours |
+| Media    | School administration        | As needed      |
 
 ---
 
@@ -174,6 +174,7 @@ Action: [changing passwords / revoking access / restoring backup]
 # Incident Review
 
 ## Summary
+
 - **Incident ID:** INC-001
 - **Date:** YYYY-MM-DD
 - **Type:** [service outage / security incident]
@@ -181,6 +182,7 @@ Action: [changing passwords / revoking access / restoring backup]
 - **Impact:** [description]
 
 ## Timeline
+
 - **T-0:** [incident detected]
 - **T+15m:** [triage complete]
 - **T+30m:** [containment complete]
@@ -188,15 +190,19 @@ Action: [changing passwords / revoking access / restoring backup]
 - **T+24h:** [post-incident review]
 
 ## Root Cause
+
 [description of what caused the incident]
 
 ## Resolution
+
 [description of how it was fixed]
 
 ## Prevention
+
 [actions to prevent recurrence]
 
 ## Lessons Learned
+
 [what we learned from this incident]
 ```
 
@@ -204,15 +210,14 @@ Action: [changing passwords / revoking access / restoring backup]
 
 ## Escalation Path
 
-| Level | Contact | Method |
-|-------|---------|--------|
-| 1 | KITS Lead | Phone (primary) |
-| 2 | Staff Advisor | Phone |
-| 3 | Principal | Phone |
+| Level | Contact       | Method          |
+| ----- | ------------- | --------------- |
+| 1     | KITS Lead     | Phone (primary) |
+| 2     | Staff Advisor | Phone           |
+| 3     | Principal     | Phone           |
 
 ---
 
 **C.W.W. Kannangara Central College, Est. 1873. "Wisdom is All Wealth."**
 
 ---
-

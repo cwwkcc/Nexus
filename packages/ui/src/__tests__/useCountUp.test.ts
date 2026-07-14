@@ -31,7 +31,7 @@ describe('useCountUp', () => {
     });
     // Animation should complete quickly with short duration
     await act(async () => {
-      await new Promise(resolve => setTimeout(resolve, 200));
+      await new Promise((resolve) => setTimeout(resolve, 200));
     });
     expect(result.current.isComplete).toBe(true);
   });
@@ -60,22 +60,18 @@ describe('useCountUp', () => {
 
   it('should call onComplete callback', async () => {
     const onComplete = vi.fn();
-    const { result } = renderHook(() =>
-      useCountUp(100, { duration: 0.1, onComplete }),
-    );
+    const { result } = renderHook(() => useCountUp(100, { duration: 0.1, onComplete }));
     act(() => {
       result.current.start();
     });
     await act(async () => {
-      await new Promise(resolve => setTimeout(resolve, 200));
+      await new Promise((resolve) => setTimeout(resolve, 200));
     });
     expect(onComplete).toHaveBeenCalled();
   });
 
   it('should respect delay option', () => {
-    const { result } = renderHook(() =>
-      useCountUp(100, { delay: 0.5, duration: 0.1 }),
-    );
+    const { result } = renderHook(() => useCountUp(100, { delay: 0.5, duration: 0.1 }));
     act(() => {
       result.current.start();
     });

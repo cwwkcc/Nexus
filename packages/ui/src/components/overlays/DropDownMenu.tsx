@@ -23,13 +23,7 @@ export interface DropdownMenuProps {
   className?: string;
 }
 
-export function DropdownMenu({
-  variant = 'navigation',
-  trigger,
-  items,
-  align = 'left',
-  className,
-}: DropdownMenuProps) {
+export function DropdownMenu({ variant = 'navigation', trigger, items, align = 'left', className }: DropdownMenuProps) {
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -89,10 +83,7 @@ export function DropdownMenu({
   useEffect(() => {
     if (!open) return;
     const handleClickOutside = (e: MouseEvent) => {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(e.target as Node)
-      ) {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
         closeMenu();
       }
     };
@@ -105,88 +96,26 @@ export function DropdownMenu({
     if (open) setActiveIndex(-1);
   }, [open]);
 
-  const triggerClasses = cn(
-    'inline-flex items-center gap-space-1p5',
-    'bg-transparent border-none cursor-pointer',
-    'transition-all duration-fast ease-snap',
-    'focus-visible:outline-2 focus-visible:outline-gold-base focus-visible:outline-offset-[3px]',
-    variant === 'filter' && [
-      'px-space-3 py-space-2',
-      'font-body text-label uppercase tracking-label',
-      'text-text-primary',
-      'border border-border-default',
-      'bg-surface-elevated',
-      'rounded-sm',
-      'hover:border-gold-base hover:text-gold-base',
-    ],
-    variant === 'navigation' && [
-      'font-body text-label uppercase tracking-label',
-      'text-text-muted',
-      'hover:text-text-primary',
-    ],
-  );
+  const triggerClasses = cn('inline-flex items-center gap-space-1p5', 'bg-transparent border-none cursor-pointer', 'transition-all duration-fast ease-snap', 'focus-visible:outline-2 focus-visible:outline-gold-base focus-visible:outline-offset-[3px]', variant === 'filter' && ['px-space-3 py-space-2', 'font-body text-label uppercase tracking-label', 'text-text-primary', 'border border-border-default', 'bg-surface-elevated', 'rounded-sm', 'hover:border-gold-base hover:text-gold-base'], variant === 'navigation' && ['font-body text-label uppercase tracking-label', 'text-text-muted', 'hover:text-text-primary']);
 
-  const menuClasses = cn(
-    'absolute z-dropdown min-w-[160px] py-space-1',
-    'bg-surface-elevated border border-border-light',
-    'shadow-elevation-2',
-    align === 'right' ? 'right-0' : 'left-0',
-    'top-full mt-space-1',
-  );
+  const menuClasses = cn('absolute z-dropdown min-w-[160px] py-space-1', 'bg-surface-elevated border border-border-light', 'shadow-elevation-2', align === 'right' ? 'right-0' : 'left-0', 'top-full mt-space-1');
 
   return (
-    <div
-      ref={containerRef}
-      className={cn('relative inline-block', className)}
-      onKeyDown={handleKeyDown}
-    >
-      <button
-        ref={triggerRef}
-        id={triggerId}
-        type="button"
-        onClick={() => setOpen((prev) => !prev)}
-        aria-haspopup="menu"
-        aria-expanded={open}
-        aria-controls={open ? menuId : undefined}
-        className={triggerClasses}
-      >
+    <div ref={containerRef} className={cn('relative inline-block', className)} onKeyDown={handleKeyDown}>
+      <button ref={triggerRef} id={triggerId} type="button" onClick={() => setOpen((prev) => !prev)} aria-haspopup="menu" aria-expanded={open} aria-controls={open ? menuId : undefined} className={triggerClasses}>
         {trigger}
-        <span
-          aria-hidden="true"
-          className={cn(
-            'transition-transform duration-fast',
-            open ? 'rotate-180' : 'rotate-0',
-          )}
-        >
+        <span aria-hidden="true" className={cn('transition-transform duration-fast', open ? 'rotate-180' : 'rotate-0')}>
           ∨
         </span>
       </button>
 
       {open && (
-        <ul
-          id={menuId}
-          role="menu"
-          aria-labelledby={triggerId}
-          className={menuClasses}
-        >
+        <ul id={menuId} role="menu" aria-labelledby={triggerId} className={menuClasses}>
           {items.map((item, index) => {
             const isActive = index === activeIndex;
             return (
               <li key={item.id} role="none">
-                <button
-                  role="menuitem"
-                  tabIndex={-1}
-                  onClick={() => handleItemClick(item)}
-                  className={cn(
-                    'w-full text-left px-space-4 py-space-2p5',
-                    'font-body text-label uppercase tracking-label',
-                    'transition-colors duration-fast',
-                    'focus:outline-none',
-                    isActive
-                      ? 'bg-surface-deep text-gold-base'
-                      : 'text-text-primary hover:bg-surface-default hover:text-gold-base',
-                  )}
-                >
+                <button role="menuitem" tabIndex={-1} onClick={() => handleItemClick(item)} className={cn('w-full text-left px-space-4 py-space-2p5', 'font-body text-label uppercase tracking-label', 'transition-colors duration-fast', 'focus:outline-none', isActive ? 'bg-surface-deep text-gold-base' : 'text-text-primary hover:bg-surface-default hover:text-gold-base')}>
                   {item.label}
                 </button>
               </li>

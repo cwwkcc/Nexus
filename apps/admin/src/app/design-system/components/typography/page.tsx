@@ -1,14 +1,6 @@
 'use client';
 
-import {
-  EyebrowLabel,
-  Heading,
-  InlineLink,
-  QuoteBlock,
-  RichTextRenderer,
-  SectionHeader,
-  Text,
-} from '@nexus/ui';
+import { EyebrowLabel, Heading, InlineLink, QuoteBlock, RichTextRenderer, SectionHeader, Text } from '@nexus/ui';
 
 import { DemoSection } from '../_components/DemoSection';
 
@@ -68,14 +60,8 @@ export default function TypographyPage() {
   return (
     <div className="min-h-screen bg-surface-base py-space-12">
       <div className="content-width">
-        <h1 className="font-display text-h1 mb-space-4">
-          Typography Components
-        </h1>
-        <p className="font-body text-body text-text-muted mb-space-12">
-          Specialised text components – eyebrows, headings, inline links,
-          quotes, rich text renderer, section headers, and flexible text
-          wrappers.
-        </p>
+        <h1 className="font-display text-h1 mb-space-4">Typography Components</h1>
+        <p className="font-body text-body text-text-muted mb-space-12">Specialised text components – eyebrows, headings, inline links, quotes, rich text renderer, section headers, and flexible text wrappers.</p>
 
         {/* ========== EYEBROW LABEL ========== */}
         <DemoSection title="EyebrowLabel">
@@ -106,11 +92,7 @@ export default function TypographyPage() {
             <Heading level="h2" color="muted">
               Muted heading
             </Heading>
-            <Heading
-              level="h2"
-              color="inverse"
-              className="bg-green-base px-space-2"
-            >
+            <Heading level="h2" color="inverse" className="bg-green-base px-space-2">
               Inverse heading
             </Heading>
             <Heading level="h2" color="success">
@@ -150,86 +132,39 @@ export default function TypographyPage() {
         {/* ========== QUOTE BLOCK ========== */}
         <DemoSection title="QuoteBlock – Pull Quote">
           <div className="flex flex-col gap-space-6 max-w-2xl">
-            <QuoteBlock
-              variant="pull-quote"
-              quote="Education is the birthright of every child."
-              attribution="Dr. C.W.W. Kannangara"
-            />
-            <QuoteBlock
-              variant="pull-quote"
-              quote="Wisdom is all wealth."
-              cite="https://cwwkcc.lk/about"
-            />
+            <QuoteBlock variant="pull-quote" quote="Education is the birthright of every child." attribution="Dr. C.W.W. Kannangara" />
+            <QuoteBlock variant="pull-quote" quote="Wisdom is all wealth." cite="https://cwwkcc.lk/about" />
           </div>
         </DemoSection>
 
         <DemoSection title="QuoteBlock – Ceremonial">
           <div className="flex flex-col gap-space-6 max-w-2xl">
-            <QuoteBlock
-              variant="ceremonial"
-              quote="Panna Naranam Ratanam"
-              attribution="School Motto"
-            />
-            <QuoteBlock
-              variant="ceremonial"
-              quote="Truth, Courage, Discipline"
-            />
+            <QuoteBlock variant="ceremonial" quote="Panna Naranam Ratanam" attribution="School Motto" />
+            <QuoteBlock variant="ceremonial" quote="Truth, Courage, Discipline" />
           </div>
         </DemoSection>
 
         {/* ========== RICH TEXT RENDERER ========== */}
-        <DemoSection
-          title="RichTextRenderer"
-          description="Renders Sanity Portable Text with design system components."
-        >
+        <DemoSection title="RichTextRenderer" description="Renders Sanity Portable Text with design system components.">
           <div className="w-full max-w-2xl border border-border-light p-space-6 rounded-md bg-surface-elevated">
             <RichTextRenderer value={samplePortableText} />
           </div>
-          <p className="font-body text-caption text-text-muted mt-space-2">
-            Note: Lists are supported but omitted from this example to avoid
-            hydration warnings.
-          </p>
+          <p className="font-body text-caption text-text-muted mt-space-2">Note: Lists are supported but omitted from this example to avoid hydration warnings.</p>
         </DemoSection>
 
         {/* ========== SECTION HEADER ========== */}
         <DemoSection title="SectionHeader – Basic">
           <div className="flex flex-col gap-space-12 max-w-2xl">
-            <SectionHeader
-              eyebrow="Our Story"
-              title="The school that"
-              titleEm="changed a nation."
-            />
-            <SectionHeader
-              eyebrow="Milestones"
-              title="153 Years"
-              description="Key moments in KCC history."
-              align="center"
-              withAccentRule
-            />
+            <SectionHeader eyebrow="Our Story" title="The school that" titleEm="changed a nation." />
+            <SectionHeader eyebrow="Milestones" title="153 Years" description="Key moments in KCC history." align="center" withAccentRule />
           </div>
         </DemoSection>
 
         <DemoSection title="SectionHeader – Variants">
           <div className="flex flex-col gap-space-12 max-w-2xl">
-            <SectionHeader
-              variant="eyebrow-title"
-              eyebrow="Only Eyebrow + Title"
-              title="Description is ignored"
-              description="This text will not appear"
-            />
-            <SectionHeader
-              variant="eyebrow-title-description"
-              eyebrow="Full Header"
-              title="With Description"
-              description="This appears because variant includes description."
-              align="center"
-            />
-            <SectionHeader
-              headingLevel="h1"
-              eyebrow="Custom Heading Level"
-              title="Rendered as h1"
-              marginBottom="mb-space-6"
-            />
+            <SectionHeader variant="eyebrow-title" eyebrow="Only Eyebrow + Title" title="Description is ignored" description="This text will not appear" />
+            <SectionHeader variant="eyebrow-title-description" eyebrow="Full Header" title="With Description" description="This appears because variant includes description." align="center" />
+            <SectionHeader headingLevel="h1" eyebrow="Custom Heading Level" title="Rendered as h1" marginBottom="mb-space-6" />
           </div>
         </DemoSection>
 
@@ -258,10 +193,7 @@ export default function TypographyPage() {
           <div className="flex flex-wrap gap-space-6 items-baseline">
             <Text color="primary">Primary</Text>
             <Text color="muted">Muted</Text>
-            <Text
-              color="inverse"
-              className="bg-green-base px-space-2 py-space-1"
-            >
+            <Text color="inverse" className="bg-green-base px-space-2 py-space-1">
               Inverse
             </Text>
             <Text color="gold">Gold</Text>

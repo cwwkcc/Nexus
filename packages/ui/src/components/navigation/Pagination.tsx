@@ -8,14 +8,9 @@ export interface PaginationProps {
   className?: string;
 }
 
-function getPageRange(
-  current: number,
-  total: number,
-  siblings: number,
-): (number | '…')[] {
+function getPageRange(current: number, total: number, siblings: number): (number | '…')[] {
   const totalButtons = siblings * 2 + 5; // siblings + current + first + last + 2 ellipsis
-  if (total <= totalButtons)
-    return Array.from({ length: total }, (_, i) => i + 1);
+  if (total <= totalButtons) return Array.from({ length: total }, (_, i) => i + 1);
 
   const leftSibling = Math.max(current - siblings, 1);
   const rightSibling = Math.min(current + siblings, total);
@@ -33,13 +28,7 @@ function getPageRange(
   return pages;
 }
 
-export function Pagination({
-  totalPages,
-  currentPage,
-  onPageChange,
-  siblingCount = 1,
-  className,
-}: PaginationProps) {
+export function Pagination({ totalPages, currentPage, onPageChange, siblingCount = 1, className }: PaginationProps) {
   if (totalPages <= 1) return null;
 
   const pages = getPageRange(currentPage, totalPages, siblingCount);
@@ -82,8 +71,7 @@ export function Pagination({
             aria-label="Previous page"
             style={{
               ...btnBase,
-              color:
-                currentPage === 1 ? 'var(--text-muted)' : 'var(--text-primary)',
+              color: currentPage === 1 ? 'var(--text-muted)' : 'var(--text-primary)',
               opacity: currentPage === 1 ? 0.4 : 1,
               cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
               background: 'var(--surface-elevated)',
@@ -116,15 +104,9 @@ export function Pagination({
                 aria-current={currentPage === page ? 'page' : undefined}
                 style={{
                   ...btnBase,
-                  background:
-                    currentPage === page
-                      ? 'var(--color-green-base)'
-                      : 'var(--surface-elevated)',
+                  background: currentPage === page ? 'var(--color-green-base)' : 'var(--surface-elevated)',
                   color: currentPage === page ? '#fff' : 'var(--text-primary)',
-                  borderColor:
-                    currentPage === page
-                      ? 'var(--color-green-base)'
-                      : 'var(--border-default)',
+                  borderColor: currentPage === page ? 'var(--color-green-base)' : 'var(--border-default)',
                 }}
               >
                 {page}
@@ -141,10 +123,7 @@ export function Pagination({
             aria-label="Next page"
             style={{
               ...btnBase,
-              color:
-                currentPage === totalPages
-                  ? 'var(--text-muted)'
-                  : 'var(--text-primary)',
+              color: currentPage === totalPages ? 'var(--text-muted)' : 'var(--text-primary)',
               opacity: currentPage === totalPages ? 0.4 : 1,
               cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
               background: 'var(--surface-elevated)',

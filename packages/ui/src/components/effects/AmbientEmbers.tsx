@@ -74,26 +74,11 @@ export function AmbientEmbers({ count = 20, className }: AmbientEmbersProps) {
   }, [count, prefersReduced, idPrefix]);
 
   if (prefersReduced) {
-    return (
-      <div
-        aria-hidden="true"
-        className={cn(
-          'absolute inset-0 pointer-events-none',
-          'bg-gradient-radial-gold opacity-15',
-          className,
-        )}
-      />
-    );
+    return <div aria-hidden="true" className={cn('absolute inset-0 pointer-events-none', 'bg-gradient-radial-gold opacity-15', className)} />;
   }
 
   return (
-    <div
-      aria-hidden="true"
-      className={cn(
-        'absolute inset-0 pointer-events-none overflow-hidden',
-        className,
-      )}
-    >
+    <div aria-hidden="true" className={cn('absolute inset-0 pointer-events-none overflow-hidden', className)}>
       {embers.map((ember) => (
         <div
           key={ember.id}

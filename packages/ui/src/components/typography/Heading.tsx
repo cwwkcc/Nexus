@@ -1,21 +1,9 @@
-import {
-  forwardRef,
-  type ElementType,
-  type ComponentPropsWithoutRef,
-} from 'react';
+import { forwardRef, type ElementType, type ComponentPropsWithoutRef } from 'react';
 
 import { cn } from '../../utilities/cn';
 
 type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-type HeadingColor =
-  | 'primary'
-  | 'muted'
-  | 'inverse'
-  | 'gold'
-  | 'success'
-  | 'error'
-  | 'warning'
-  | 'info';
+type HeadingColor = 'primary' | 'muted' | 'inverse' | 'gold' | 'success' | 'error' | 'warning' | 'info';
 
 interface HeadingProps extends ComponentPropsWithoutRef<HeadingLevel> {
   /** Semantic heading level (also determines visual size) */
@@ -46,27 +34,13 @@ const colorClasses: Record<HeadingColor, string> = {
   info: 'text-semantic-info-base',
 };
 
-export const Heading = forwardRef<HTMLElement, HeadingProps>(
-  (
-    { level = 'h2', color = 'primary', as, className, children, ...rest },
-    ref,
-  ) => {
-    const Tag = as || level;
-    return (
-      <Tag
-        ref={ref}
-        className={cn(
-          'font-display',
-          colorClasses[color],
-          levelSizeMap[level],
-          className,
-        )}
-        {...rest}
-      >
-        {children}
-      </Tag>
-    );
-  },
-);
+export const Heading = forwardRef<HTMLElement, HeadingProps>(({ level = 'h2', color = 'primary', as, className, children, ...rest }, ref) => {
+  const Tag = as || level;
+  return (
+    <Tag ref={ref} className={cn('font-display', colorClasses[color], levelSizeMap[level], className)} {...rest}>
+      {children}
+    </Tag>
+  );
+});
 
 Heading.displayName = 'Heading';

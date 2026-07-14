@@ -15,10 +15,7 @@ type BeatLoaderProps = {
   className?: string;
 };
 
-const sizeConfig: Record<
-  BeatLoaderSize,
-  { dot: string; gap: string; lift: number }
-> = {
+const sizeConfig: Record<BeatLoaderSize, { dot: string; gap: string; lift: number }> = {
   sm: { dot: 'w-size-1p5 h-size-1p5', gap: 'gap-space-1', lift: 4 },
   md: { dot: 'w-size-2 h-size-2', gap: 'gap-space-1', lift: 6 },
   lg: { dot: 'w-size-3 h-size-3', gap: 'gap-space-2', lift: 8 },
@@ -36,28 +33,13 @@ const speedConfig: Record<BeatLoaderSpeed, number> = {
   slow: 0.9,
 };
 
-export function BeatLoader({
-  size = 'md',
-  variant = 'green',
-  speed = 'normal',
-  label = 'Loading',
-  className,
-}: BeatLoaderProps) {
+export function BeatLoader({ size = 'md', variant = 'green', speed = 'normal', label = 'Loading', className }: BeatLoaderProps) {
   const reduced = useReducedMotion();
   const { dot, gap, lift } = sizeConfig[size];
   const duration = speedConfig[speed];
 
   return (
-    <span
-      role="status"
-      aria-label={label}
-      className={clsx(
-        'inline-flex items-end',
-        gap,
-        variantConfig[variant],
-        className,
-      )}
-    >
+    <span role="status" aria-label={label} className={clsx('inline-flex items-end', gap, variantConfig[variant], className)}>
       {[0, 1, 2].map((i) => (
         <motion.span
           key={i}

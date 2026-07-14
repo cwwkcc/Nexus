@@ -28,12 +28,14 @@ This document defines the standards for all content published on the Nexus platf
 - Respectful to all readers
 
 **Do:**
+
 - Use clear, simple language
 - Be informative and helpful
 - Show pride in the school's heritage
 - Be respectful to all members of the community
 
 **Don't:**
+
 - Use marketing jargon ("world-class", "cutting-edge")
 - Use excessive exclamation marks
 - Use corporate language ("leverage", "synergy")
@@ -45,18 +47,21 @@ This document defines the standards for all content published on the Nexus platf
 ### Writing Style
 
 **Structure:**
+
 - Use headings to organise content
 - Keep paragraphs short (3-5 sentences)
 - Use bullet points for lists
 - Include a clear call to action where appropriate
 
 **Grammar:**
+
 - Use active voice where possible
 - Maintain consistent verb tense
 - Use Oxford comma (optional, but consistent)
 - Check spelling and grammar
 
 **Length:**
+
 - News articles: 300-500 words
 - Page content: 200-400 words per section
 - Event descriptions: 100-200 words
@@ -67,9 +72,11 @@ This document defines the standards for all content published on the Nexus platf
 ### Examples
 
 **Good:**
+
 > "We are proud to announce that the Kannangara ICT Society has won the Gold Award at the SLIIT Codefest 2026. This achievement reflects the dedication and skill of our students, who continue to excel in the field of technology."
 
 **Bad:**
+
 > "We are super excited to announce that KITS has rocked it again at SLIIT Codefest! Our amazing students are the best in the country, and they keep making us proud! 🎉"
 
 ---
@@ -100,9 +107,11 @@ All images must have alt text:
 - **No "image of":** Start with the description
 
 **Good alt text:**
+
 > "Students participating in the school sports meet at the athletics track"
 
 **Bad alt text:**
+
 > "image of students at sports meet" (too vague)
 > "Sports meet 2026" (doesn't describe the image)
 
@@ -135,10 +144,12 @@ All content must meet WCAG 2.1 Level AA:
 - Use relative URLs for internal links
 
 **Good link text:**
+
 > "Learn more about our [academic streams](/academics)"
 > "Read the full article on [our achievements](/news/achievements-2026)"
 
 **Bad link text:**
+
 > "Click here to learn more"
 > "Read more"
 
@@ -231,4 +242,3 @@ All content must meet WCAG 2.1 Level AA:
 ---
 
 # governance/Accessibility-Policy.md
-

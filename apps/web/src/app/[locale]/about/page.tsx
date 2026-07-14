@@ -10,10 +10,7 @@ import OurStory from '../../../blocks/about/OurStory';
 import SchoolAnthem from '../../../blocks/about/SchoolAnthem';
 import TimeLine from '../../../blocks/about/TimeLine';
 import Values from '../../../blocks/about/Values';
-import {
-  getAboutPageContent,
-  type AboutPageContent,
-} from '../../../server/content';
+import { getAboutPageContent, type AboutPageContent } from '../../../server/content';
 
 interface AboutPageProps {
   params: Promise<{ locale: string }>;
@@ -21,9 +18,7 @@ interface AboutPageProps {
 
 export default async function AboutPage({ params }: AboutPageProps) {
   const { locale } = await params;
-  const content: AboutPageContent = await getAboutPageContent(
-    locale as 'en' | 'si' | 'ta',
-  );
+  const content: AboutPageContent = await getAboutPageContent(locale as 'en' | 'si' | 'ta');
 
   return (
     <>

@@ -65,8 +65,7 @@ export const homeRegistry: PageRegistry = {
   page: 'home',
   scope: 'page:home',
   label: 'Homepage',
-  description:
-    'Manage the homepage \u2014 hero, stats, principal\u2019s message, latest news, academic streams, life at KCC, campus showcase, achievement ticker, and societies preview.',
+  description: 'Manage the homepage \u2014 hero, stats, principal\u2019s message, latest news, academic streams, life at KCC, campus showcase, achievement ticker, and societies preview.',
   sections: [
     {
       key: 'home.hero',
@@ -79,16 +78,14 @@ export const homeRegistry: PageRegistry = {
       key: 'home.stats',
       blockKey: 'stats',
       label: 'Stats Strip',
-      description:
-        'Students, staff, years, university entrances (auto-counting).',
+      description: 'Students, staff, years, university entrances (auto-counting).',
       schema: HomeStatsSchema,
     },
     {
       key: 'home.principal',
       blockKey: 'rich-text-block',
       label: "Principal's Message",
-      description:
-        'Portrait, name, tenure, quote, and link to the full message.',
+      description: 'Portrait, name, tenure, quote, and link to the full message.',
       schema: HomePrincipalSchema,
     },
     {
@@ -102,24 +99,21 @@ export const homeRegistry: PageRegistry = {
       key: 'home.academicStreams',
       blockKey: 'rich-text-block',
       label: 'Academic Streams',
-      description:
-        'Grid of stream cards \u2014 name, description, career paths.',
+      description: 'Grid of stream cards \u2014 name, description, career paths.',
       schema: HomeAcademicStreamsSchema,
     },
     {
       key: 'home.lifeAtKCC',
       blockKey: 'photo-strip',
       label: 'Life at KCC',
-      description:
-        'Horizontal scroll of photos \u2014 sports, events, performances, academic.',
+      description: 'Horizontal scroll of photos \u2014 sports, events, performances, academic.',
       schema: HomeLifeAtKCCSchema,
     },
     {
       key: 'home.campusShowcase',
       blockKey: 'rich-text-block',
       label: 'Campus Showcase',
-      description:
-        'Highlights of the main building, library, pool, and sports ground.',
+      description: 'Highlights of the main building, library, pool, and sports ground.',
       schema: HomeCampusShowcaseSchema,
     },
     {
@@ -133,8 +127,7 @@ export const homeRegistry: PageRegistry = {
       key: 'home.societies',
       blockKey: 'rich-text-block',
       label: 'Societies Preview',
-      description:
-        '3\u20134 featured societies \u2014 name, tagline, category, image.',
+      description: '3\u20134 featured societies \u2014 name, tagline, category, image.',
       schema: HomeSocietiesSchema,
     },
   ],

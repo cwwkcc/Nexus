@@ -30,8 +30,7 @@ export const newsRegistry: PageRegistry = {
   page: 'news',
   scope: 'page:news',
   label: 'News and Announcements',
-  description:
-    'Manage the News page — the optional announcement banner, featured article, and the paginated news feed.',
+  description: 'Manage the News page — the optional announcement banner, featured article, and the paginated news feed.',
   sections: [
     {
       key: 'news.hero',
@@ -44,8 +43,7 @@ export const newsRegistry: PageRegistry = {
       key: 'news.announcement',
       blockKey: 'announcement',
       label: 'Announcement Banner',
-      description:
-        'Optional dismissible urgent notice (e.g. "School reopens 5 May").',
+      description: 'Optional dismissible urgent notice (e.g. "School reopens 5 May").',
       schema: NewsAnnouncementSchema,
     },
     {
@@ -59,8 +57,7 @@ export const newsRegistry: PageRegistry = {
       key: 'news.feed',
       blockKey: 'rich-text-block',
       label: 'News Feed',
-      description:
-        '6\u201312 posts per page, filterable by category (Academic, Sports, Events, Achievements).',
+      description: '6\u201312 posts per page, filterable by category (Academic, Sports, Events, Achievements).',
       schema: NewsFeedSchema,
     },
   ],

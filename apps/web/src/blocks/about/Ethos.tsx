@@ -3,12 +3,7 @@ import { VStack, Container, EyebrowLabel, QuoteBlock } from '@nexus/ui';
 
 export default function Ethos({ ethos }: { ethos: AboutEthosData }) {
   return (
-    <Container
-      size="full"
-      padding="md"
-      as="section"
-      className=" m-space-6 md:m-space-12 lg:m-space-16"
-    >
+    <Container size="full" padding="md" as="section" className=" m-space-6 md:m-space-12 lg:m-space-16">
       <VStack spacing={6}>
         <VStack spacing={4}>
           <EyebrowLabel>{ethos.visionEyebrow}</EyebrowLabel>

@@ -4,13 +4,7 @@
 
 import { z } from 'zod';
 
-export const FeedbackCategoryEnum = z.enum([
-  'website',
-  'academic',
-  'facilities',
-  'staff',
-  'other',
-]);
+export const FeedbackCategoryEnum = z.enum(['website', 'academic', 'facilities', 'staff', 'other']);
 
 export const FeedbackFormSchema = z.object({
   category: FeedbackCategoryEnum,

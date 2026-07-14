@@ -24,14 +24,7 @@ export interface DataTableProps<T> {
   isLoading?: boolean;
 }
 
-export function DataTable<T extends Record<string, unknown>>({
-  columns,
-  data,
-  onSort,
-  onRowClick,
-  emptyMessage = 'No data found',
-  isLoading = false,
-}: DataTableProps<T>) {
+export function DataTable<T extends Record<string, unknown>>({ columns, data, onSort, onRowClick, emptyMessage = 'No data found', isLoading = false }: DataTableProps<T>) {
   const [sortKey, setSortKey] = useState<keyof T | null>(null);
   const [sortDirection, setSortDirection] = useState<SortDirection>(null);
 
@@ -64,23 +57,10 @@ export function DataTable<T extends Record<string, unknown>>({
         <thead>
           <tr className="border-b border-border-default bg-surface-deep">
             {columns.map((col) => (
-              <th
-                key={String(col.key)}
-                className={cn(
-                  'px-space-4 py-space-3 text-left font-body text-label uppercase tracking-wider text-text-muted',
-                  col.sortable &&
-                    'cursor-pointer hover:text-gold-base transition-colors',
-                  col.className,
-                )}
-                onClick={() => col.sortable && handleSort(col.key)}
-              >
+              <th key={String(col.key)} className={cn('px-space-4 py-space-3 text-left font-body text-label uppercase tracking-wider text-text-muted', col.sortable && 'cursor-pointer hover:text-gold-base transition-colors', col.className)} onClick={() => col.sortable && handleSort(col.key)}>
                 <div className="flex items-center gap-space-2">
                   {col.header}
-                  {col.sortable && sortKey === col.key && (
-                    <span className="text-gold-base">
-                      {sortDirection === 'asc' ? '↑' : '↓'}
-                    </span>
-                  )}
+                  {col.sortable && sortKey === col.key && <span className="text-gold-base">{sortDirection === 'asc' ? '↑' : '↓'}</span>}
                 </div>
               </th>
             ))}
@@ -89,34 +69,16 @@ export function DataTable<T extends Record<string, unknown>>({
         <tbody>
           {data.length === 0 ? (
             <tr>
-              <td
-                colSpan={columns.length}
-                className="px-space-4 py-space-12 text-center text-text-muted"
-              >
+              <td colSpan={columns.length} className="px-space-4 py-space-12 text-center text-text-muted">
                 {emptyMessage}
               </td>
             </tr>
           ) : (
             data.map((row, idx) => (
-              <tr
-                key={idx}
-                onClick={() => onRowClick?.(row)}
-                className={cn(
-                  'border-b border-border-light transition-colors',
-                  onRowClick && 'cursor-pointer hover:bg-surface-deep/50',
-                )}
-              >
+              <tr key={idx} onClick={() => onRowClick?.(row)} className={cn('border-b border-border-light transition-colors', onRowClick && 'cursor-pointer hover:bg-surface-deep/50')}>
                 {columns.map((col) => (
-                  <td
-                    key={String(col.key)}
-                    className={cn(
-                      'px-space-4 py-space-3 font-body text-body-sm text-text-primary',
-                      col.className,
-                    )}
-                  >
-                    {col.render
-                      ? col.render(row[col.key], row)
-                      : String(row[col.key])}
+                  <td key={String(col.key)} className={cn('px-space-4 py-space-3 font-body text-body-sm text-text-primary', col.className)}>
+                    {col.render ? col.render(row[col.key], row) : String(row[col.key])}
                   </td>
                 ))}
               </tr>

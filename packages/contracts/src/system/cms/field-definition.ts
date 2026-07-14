@@ -14,17 +14,21 @@ export const FieldDefinitionSchema = z.object({
   key: z.string(),
   label: z.string(),
   inputKind: FieldTypeEnum,
-  validationHints: z.object({
-    required: z.boolean().optional(),
-    min: z.number().optional(),
-    max: z.number().optional(),
-    pattern: z.string().optional(),
-  }).optional(),
+  validationHints: z
+    .object({
+      required: z.boolean().optional(),
+      min: z.number().optional(),
+      max: z.number().optional(),
+      pattern: z.string().optional(),
+    })
+    .optional(),
   options: z.array(z.object({ label: z.string(), value: z.string() })).optional(),
-  conditionalVisibility: z.object({
-    dependsOn: z.string(),
-    value: z.unknown(),
-  }).optional(),
+  conditionalVisibility: z
+    .object({
+      dependsOn: z.string(),
+      value: z.unknown(),
+    })
+    .optional(),
 });
 
 export type FieldDefinitionData = z.infer<typeof FieldDefinitionSchema>;

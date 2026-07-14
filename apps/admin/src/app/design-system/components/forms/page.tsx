@@ -1,37 +1,12 @@
 'use client';
 
-import {
-  Checkbox,
-  ContactForm,
-  FeedbackForm,
-  FileUploadZone,
-  FormErrorMessage,
-  FormFieldGroup,
-  FormSectionWrapper,
-  Input,
-  ProgressIndicator,
-  Radio,
-  RequirementsChecklist,
-  Select,
-  Slider,
-  Textarea,
-  Toggle,
-  FormValidationSummary,
-} from '@nexus/ui';
+import { Checkbox, ContactForm, FeedbackForm, FileUploadZone, FormErrorMessage, FormFieldGroup, FormSectionWrapper, Input, ProgressIndicator, Radio, RequirementsChecklist, Select, Slider, Textarea, Toggle, FormValidationSummary } from '@nexus/ui';
 import { useState } from 'react';
 
-function DemoSection({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
+function DemoSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="mb-space-16">
-      <h2 className="font-display text-h2 mb-space-6 pb-space-2 border-b border-border-light">
-        {title}
-      </h2>
+      <h2 className="font-display text-h2 mb-space-6 pb-space-2 border-b border-border-light">{title}</h2>
       <div className="flex flex-wrap gap-space-8 items-start">{children}</div>
     </div>
   );
@@ -45,21 +20,14 @@ export default function FormsPage() {
     <div className="min-h-screen bg-surface-base py-space-12">
       <div className="content-width">
         <h1 className="font-display text-h1 mb-space-4">Form Components</h1>
-        <p className="font-body text-body text-text-muted mb-space-12">
-          All form inputs, validation helpers, checklists, and full
-          contact/feedback forms.
-        </p>
+        <p className="font-body text-body text-text-muted mb-space-12">All form inputs, validation helpers, checklists, and full contact/feedback forms.</p>
 
         {/* Input */}
         <DemoSection title="Input">
           <Input label="Full Name" placeholder="John Doe" />
           <Input label="Email" type="email" error="Invalid email address" />
           <Input label="Disabled" disabled />
-          <Input
-            label="Required"
-            required
-            helperText="This field is mandatory"
-          />
+          <Input label="Required" required helperText="This field is mandatory" />
         </DemoSection>
 
         {/* Textarea */}
@@ -78,20 +46,13 @@ export default function FormsPage() {
             ]}
             placeholder="Select country"
           />
-          <Select
-            label="With Error"
-            options={[{ value: 'a', label: 'Option A' }]}
-            error="Please select an option"
-          />
+          <Select label="With Error" options={[{ value: 'a', label: 'Option A' }]} error="Please select an option" />
         </DemoSection>
 
         {/* Checkbox */}
         <DemoSection title="Checkbox">
           <Checkbox label="Accept terms and conditions" />
-          <Checkbox
-            label="Subscribe to newsletter"
-            description="Weekly updates about school events"
-          />
+          <Checkbox label="Subscribe to newsletter" description="Weekly updates about school events" />
           <Checkbox label="Disabled" disabled />
           <Checkbox label="Checked by default" defaultChecked />
         </DemoSection>
@@ -112,12 +73,8 @@ export default function FormsPage() {
 
         {/* FormErrorMessage */}
         <DemoSection title="FormErrorMessage">
-          <FormErrorMessage variant="error">
-            This field is required.
-          </FormErrorMessage>
-          <FormErrorMessage variant="warning">
-            Please review your input.
-          </FormErrorMessage>
+          <FormErrorMessage variant="error">This field is required.</FormErrorMessage>
+          <FormErrorMessage variant="warning">Please review your input.</FormErrorMessage>
           <FormErrorMessage variant="success">All good!</FormErrorMessage>
         </DemoSection>
 
@@ -131,10 +88,7 @@ export default function FormsPage() {
 
         {/* FormSectionWrapper */}
         <DemoSection title="FormSectionWrapper">
-          <FormSectionWrapper
-            title="Personal Details"
-            description="Your basic information"
-          >
+          <FormSectionWrapper title="Personal Details" description="Your basic information">
             <Input label="Full Name" />
             <Input label="Date of Birth" />
           </FormSectionWrapper>
@@ -142,25 +96,15 @@ export default function FormsPage() {
 
         {/* FormValidationSummary */}
         <DemoSection title="FormValidationSummary">
-          <FormValidationSummary
-            errors={['Name is required', 'Email is invalid']}
-          />
+          <FormValidationSummary errors={['Name is required', 'Email is invalid']} />
           <FormValidationSummary successMessage="Form submitted successfully!" />
         </DemoSection>
 
         {/* ProgressIndicator */}
         <DemoSection title="ProgressIndicator – Bar">
           <div className="w-80">
-            <ProgressIndicator
-              variant="bar"
-              value={progressValue}
-              label="Upload progress"
-              showPercentage
-            />
-            <button
-              onClick={() => setProgressValue((v) => Math.min(100, v + 10))}
-              className="mt-space-4 px-space-4 py-space-2 bg-green-base text-text-inverse rounded-sm"
-            >
+            <ProgressIndicator variant="bar" value={progressValue} label="Upload progress" showPercentage />
+            <button onClick={() => setProgressValue((v) => Math.min(100, v + 10))} className="mt-space-4 px-space-4 py-space-2 bg-green-base text-text-inverse rounded-sm">
               Increase
             </button>
           </div>
@@ -180,11 +124,7 @@ export default function FormsPage() {
 
         {/* FileUploadZone */}
         <DemoSection title="FileUploadZone">
-          <FileUploadZone
-            label="Upload documents"
-            accept=".pdf,.doc"
-            maxSizeMb={5}
-          />
+          <FileUploadZone label="Upload documents" accept=".pdf,.doc" maxSizeMb={5} />
         </DemoSection>
 
         {/* RequirementsChecklist */}
@@ -205,12 +145,7 @@ export default function FormsPage() {
 
         {/* Slider */}
         <DemoSection title="Slider">
-          <Slider
-            value={sliderValue}
-            onChange={setSliderValue}
-            label="Volume"
-            showValue
-          />
+          <Slider value={sliderValue} onChange={setSliderValue} label="Volume" showValue />
           <Slider defaultValue={75} showMarks label="Brightness" />
         </DemoSection>
 

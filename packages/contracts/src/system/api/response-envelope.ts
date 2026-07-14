@@ -18,9 +18,7 @@ export type ResponseEnvelopeData<T> = {
   error?: z.infer<typeof ErrorEnvelopeSchema>;
 };
 
-export const PaginatedResponseEnvelopeSchema = <T extends z.ZodType>(
-  itemSchema: T,
-) =>
+export const PaginatedResponseEnvelopeSchema = <T extends z.ZodType>(itemSchema: T) =>
   z.object({
     success: z.boolean(),
     data: z

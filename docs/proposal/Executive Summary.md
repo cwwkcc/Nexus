@@ -34,10 +34,10 @@ Nexus will be designed and developed entirely by the Kannangara ICT Society (KIT
 
 The school receives the complete Nexus platform at **zero development cost**. The only recurring expenses are the infrastructure required to operate it. This represents a significant value, as a commercial equivalent would cost **LKR 800,000–2,500,000** to develop.
 
-| Item | Monthly Cost |
-| :--- | :--- |
-| **Total Monthly (Expected)** | **≈ LKR 10,000–12,000** |
-| **Total Annual Cost** | **≈ LKR 120,000–144,000** |
+| Item                         | Monthly Cost              |
+| :--------------------------- | :------------------------ |
+| **Total Monthly (Expected)** | **≈ LKR 10,000–12,000**   |
+| **Total Annual Cost**        | **≈ LKR 120,000–144,000** |
 
 ---
 
@@ -56,7 +56,7 @@ By approving this proposal, the school authorizes the development and deployment
 | **Approved By** |                                   |
 | --------------- | --------------------------------- |
 | Principal       | C.W.W. Kannangara Central College |
-| **Signature**   | _____________________________     |
-| **Date**        | _____________________________     |
+| **Signature**   | **************\_**************    |
+| **Date**        | **************\_**************    |
 
 ---

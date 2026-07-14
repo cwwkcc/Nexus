@@ -26,9 +26,7 @@ const aspectRatioMap: Record<VideoFrameAspectRatio, string> = {
 };
 
 function getYouTubeEmbedUrl(url: string): string {
-  const videoId = url.match(
-    /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&?]+)/,
-  )?.[1];
+  const videoId = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&?]+)/)?.[1];
   return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
 }
 
@@ -37,16 +35,7 @@ function getVimeoEmbedUrl(url: string): string {
   return videoId ? `https://player.vimeo.com/video/${videoId}` : url;
 }
 
-export function VideoFrame({
-  src,
-  source = 'direct',
-  aspectRatio = '16/9',
-  posterSrc,
-  title,
-  className,
-  autoPlay = false,
-  loop = false,
-}: VideoFrameProps) {
+export function VideoFrame({ src, source = 'direct', aspectRatio = '16/9', posterSrc, title, className, autoPlay = false, loop = false }: VideoFrameProps) {
   const [isPlaying, setIsPlaying] = useState(autoPlay);
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -65,71 +54,27 @@ export function VideoFrame({
 
   if (isEmbed) {
     return (
-      <div
-        className={cn(
-          'relative w-full overflow-hidden rounded-md',
-          aspectRatioMap[aspectRatio],
-          className,
-        )}
-      >
-        <iframe
-          src={embedUrl}
-          title={title}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-          className="absolute inset-0 h-full w-full"
-        />
+      <div className={cn('relative w-full overflow-hidden rounded-md', aspectRatioMap[aspectRatio], className)}>
+        <iframe src={embedUrl} title={title} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="absolute inset-0 h-full w-full" />
       </div>
     );
   }
 
   return (
-    <div
-      className={cn(
-        'relative w-full overflow-hidden rounded-md bg-surface-deep',
-        aspectRatioMap[aspectRatio],
-        className,
-      )}
-    >
+    <div className={cn('relative w-full overflow-hidden rounded-md bg-surface-deep', aspectRatioMap[aspectRatio], className)}>
       {!isPlaying ? (
         <>
-          {posterSrc && (
-            <div
-              className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: `url(${posterSrc})` }}
-            />
-          )}
+          {posterSrc && <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${posterSrc})` }} />}
           <div className="absolute inset-0 bg-overlay-medium flex items-center justify-center">
-            <Button
-              onClick={handlePlay}
-              variant="ghost"
-              size="lg"
-              className="rounded-full w-16 h-16 p-0 bg-gold-base/20 backdrop-blur-sm hover:bg-gold-base/40"
-              aria-label={`Play ${title}`}
-            >
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
+            <Button onClick={handlePlay} variant="ghost" size="lg" className="rounded-full w-16 h-16 p-0 bg-gold-base/20 backdrop-blur-sm hover:bg-gold-base/40" aria-label={`Play ${title}`}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <polygon points="5 3 19 12 5 21 5 3" fill="currentColor" />
               </svg>
             </Button>
           </div>
         </>
       ) : (
-        <video
-          ref={videoRef}
-          src={src}
-          poster={posterSrc}
-          controls
-          autoPlay
-          loop={loop}
-          className="absolute inset-0 h-full w-full object-cover"
-        />
+        <video ref={videoRef} src={src} poster={posterSrc} controls autoPlay loop={loop} className="absolute inset-0 h-full w-full object-cover" />
       )}
     </div>
   );

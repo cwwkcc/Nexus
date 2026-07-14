@@ -26,17 +26,7 @@ const OFFLINE_URL = '/offline.html';
 
 // Task 9.1 "Static caching": home and about pages, in all three locales,
 // plus the shell fallback assets needed to render them offline.
-const PRECACHE_URLS = [
-  '/en',
-  '/si',
-  '/ta',
-  '/en/about',
-  '/si/about',
-  '/ta/about',
-  OFFLINE_URL,
-  '/manifest.json',
-  '/favicon.ico',
-];
+const PRECACHE_URLS = ['/en', '/si', '/ta', '/en/about', '/si/about', '/ta/about', OFFLINE_URL, '/manifest.json', '/favicon.ico'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -51,13 +41,7 @@ self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches
       .keys()
-      .then((keys) =>
-        Promise.all(
-          keys
-            .filter((key) => !CURRENT_CACHES.includes(key))
-            .map((key) => caches.delete(key)),
-        ),
-      )
+      .then((keys) => Promise.all(keys.filter((key) => !CURRENT_CACHES.includes(key)).map((key) => caches.delete(key))))
       .then(() => self.clients.claim()),
   );
 });
@@ -72,19 +56,11 @@ self.addEventListener('message', (event) => {
 });
 
 function isStaticAsset(url) {
-  return (
-    url.pathname.startsWith('/_next/static/') ||
-    url.pathname.startsWith('/fonts/') ||
-    url.pathname.startsWith('/icons/')
-  );
+  return url.pathname.startsWith('/_next/static/') || url.pathname.startsWith('/fonts/') || url.pathname.startsWith('/icons/');
 }
 
 function isCacheableSameOriginGet(request, url) {
-  return (
-    request.method === 'GET' &&
-    url.origin === self.location.origin &&
-    !url.pathname.startsWith('/api/')
-  );
+  return request.method === 'GET' && url.origin === self.location.origin && !url.pathname.startsWith('/api/');
 }
 
 async function networkFirstNavigation(request) {

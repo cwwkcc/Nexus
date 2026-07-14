@@ -12,10 +12,7 @@ export interface LoadingScreenProps {
   onExited?: () => void;
 }
 
-export function LoadingScreen({
-  visible = true,
-  onExited,
-}: LoadingScreenProps) {
+export function LoadingScreen({ visible = true, onExited }: LoadingScreenProps) {
   const [exitComplete, setExitComplete] = useState(false);
   const shouldReduceMotion = useReducedMotion();
 
@@ -84,8 +81,7 @@ export function LoadingScreen({
                   style={{
                     width: '40%',
                     height: '100%',
-                    background:
-                      'linear-gradient(90deg, transparent, rgba(232,184,75,0.5), transparent)',
+                    background: 'linear-gradient(90deg, transparent, rgba(232,184,75,0.5), transparent)',
                     transform: 'skewX(-20deg)',
                   }}
                 />

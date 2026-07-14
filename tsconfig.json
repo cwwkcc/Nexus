@@ -2,13 +2,5 @@
   "extends": "./tsconfig.base.json",
   "compileOnSave": false,
   "files": [],
-  "references": [
-    { "path": "./apps/web" },
-    { "path": "./apps/admin" },
-    { "path": "./packages/ui" },
-    { "path": "./packages/database" },
-    { "path": "./packages/api" },
-    { "path": "./packages/config" },
-    { "path": "./packages/contracts" }
-  ]
+  "references": [{ "path": "./apps/web" }, { "path": "./apps/admin" }, { "path": "./packages/ui" }, { "path": "./packages/database" }, { "path": "./packages/api" }, { "path": "./packages/config" }, { "path": "./packages/contracts" }]
 }

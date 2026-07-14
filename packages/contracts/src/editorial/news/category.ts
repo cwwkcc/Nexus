@@ -16,9 +16,7 @@ export const NEWS_CATEGORIES = {
 
 export type NewsCategoryKey = keyof typeof NEWS_CATEGORIES;
 
-export const NewsCategorySchema = z.enum(
-  Object.keys(NEWS_CATEGORIES) as [NewsCategoryKey, ...NewsCategoryKey[]],
-);
+export const NewsCategorySchema = z.enum(Object.keys(NEWS_CATEGORIES) as [NewsCategoryKey, ...NewsCategoryKey[]]);
 
 export type NewsCategoryMeta = {
   key: NewsCategoryKey;
@@ -26,9 +24,7 @@ export type NewsCategoryMeta = {
   description?: string;
 };
 
-export const NEWS_CATEGORY_META: NewsCategoryMeta[] = Object.entries(
-  NEWS_CATEGORIES,
-).map(([key, label]) => ({
+export const NEWS_CATEGORY_META: NewsCategoryMeta[] = Object.entries(NEWS_CATEGORIES).map(([key, label]) => ({
   key: key as NewsCategoryKey,
   label,
 }));

@@ -12,11 +12,7 @@
 
 import { z } from 'zod';
 
-import {
-  MAX_TITLE_LENGTH,
-  MAX_DESCRIPTION_LENGTH,
-  MAX_GALLERY_IMAGES,
-} from '../../constants/index.ts';
+import { MAX_TITLE_LENGTH, MAX_DESCRIPTION_LENGTH, MAX_GALLERY_IMAGES } from '../../constants/index.ts';
 import { ImageSchema, LocaleEnum } from '../../primitives/index.ts';
 
 export const GALLERY_ALBUM_CONTENT_TYPE = 'gallery-album';

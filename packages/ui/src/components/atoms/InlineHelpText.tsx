@@ -16,17 +16,9 @@ const tones: Record<Tone, string> = {
   error: 'text-error-base',
 };
 
-export function InlineHelpText({
-  id,
-  tone = 'default',
-  children,
-  className,
-}: Props) {
+export function InlineHelpText({ id, tone = 'default', children, className }: Props) {
   return (
-    <Text
-      id={id}
-      className={cn('font-body text-caption', tones[tone], className)}
-    >
+    <Text id={id} className={cn('font-body text-caption', tones[tone], className)}>
       {children}
     </Text>
   );

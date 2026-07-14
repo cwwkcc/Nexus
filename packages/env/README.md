@@ -22,6 +22,7 @@ const publicEnv = validatePublicEnv();
 ## Purpose
 
 Environment variables are application configuration, not tooling configuration. They define:
+
 - Database connection strings
 - API keys
 - OAuth credentials
@@ -29,6 +30,7 @@ Environment variables are application configuration, not tooling configuration. 
 - Application URLs
 
 These are consumed by:
+
 - Applications (apps/web, apps/admin)
 - Server-side code
 - API packages

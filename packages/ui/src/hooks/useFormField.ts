@@ -12,10 +12,7 @@ export function useFormField({ error, helperText }: Options) {
   const helperId = `${id}-helper`;
 
   const hasError = Boolean(error);
-  const describedBy =
-    [hasError && errorId, !hasError && helperText && helperId]
-      .filter(Boolean)
-      .join(' ') || undefined;
+  const describedBy = [hasError && errorId, !hasError && helperText && helperId].filter(Boolean).join(' ') || undefined;
 
   return { id, errorId, helperId, hasError, describedBy };
 }

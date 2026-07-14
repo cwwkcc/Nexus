@@ -47,18 +47,10 @@ interface CountdownTimerProps {
   className?: string;
 }
 
-export function CountdownTimer({
-  targetDate,
-  size = 'medium',
-  onComplete,
-  className,
-}: CountdownTimerProps) {
-  const target =
-    typeof targetDate === 'string' ? new Date(targetDate) : targetDate;
+export function CountdownTimer({ targetDate, size = 'medium', onComplete, className }: CountdownTimerProps) {
+  const target = typeof targetDate === 'string' ? new Date(targetDate) : targetDate;
 
-  const [timeLeft, setTimeLeft] = useState<TimeLeftProps>(() =>
-    calculateTimeLeft(target),
-  );
+  const [timeLeft, setTimeLeft] = useState<TimeLeftProps>(() => calculateTimeLeft(target));
 
   const [isComplete, setIsComplete] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -71,12 +63,7 @@ export function CountdownTimer({
 
       setTimeLeft(updated);
 
-      if (
-        updated.days === 0 &&
-        updated.hours === 0 &&
-        updated.minutes === 0 &&
-        updated.seconds === 0
-      ) {
+      if (updated.days === 0 && updated.hours === 0 && updated.minutes === 0 && updated.seconds === 0) {
         setIsComplete(true);
         onComplete?.();
 
@@ -101,29 +88,14 @@ export function CountdownTimer({
   ];
 
   return (
-    <Container
-      size="full"
-      padding="none"
-      className={cn('flex flex-wrap justify-center gap-space-4', className)}
-      aria-live="polite"
-      aria-label="Countdown timer"
-    >
+    <Container size="full" padding="none" className={cn('flex flex-wrap justify-center gap-space-4', className)} aria-live="polite" aria-label="Countdown timer">
       {units.map((unit) => (
         <div key={unit.label} className="text-center">
           <div className="flex h-size-24 w-size-24 items-center justify-center rounded-lg border border-border-light bg-surface-elevated">
-            <span
-              className={cn(
-                'tabular-nums font-body text-gold-base',
-                sizeMap[size],
-              )}
-            >
-              {unit.value.toString().padStart(2, '0')}
-            </span>
+            <span className={cn('tabular-nums font-body text-gold-base', sizeMap[size])}>{unit.value.toString().padStart(2, '0')}</span>
           </div>
 
-          <span className="mt-space-2 block font-body text-caption uppercase text-text-muted">
-            {unit.label}
-          </span>
+          <span className="mt-space-2 block font-body text-caption uppercase text-text-muted">{unit.label}</span>
         </div>
       ))}
     </Container>

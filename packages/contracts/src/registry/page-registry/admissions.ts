@@ -8,11 +8,7 @@
 
 import { z } from 'zod';
 
-import {
-  DownloadItemSchema,
-  FaqSchema,
-  HeroSchema,
-} from '../../blocks/index.ts';
+import { DownloadItemSchema, FaqSchema, HeroSchema } from '../../blocks/index.ts';
 import { EligibilitySchema } from '../../domains/admissions/eligibility-requirements.ts';
 import { AdmissionsCalendarSchema } from '../../domains/admissions/key-dates.ts';
 import { AdmissionsProcessSchema } from '../../domains/admissions/process-steps.ts';
@@ -49,8 +45,7 @@ export const admissionsRegistry: PageRegistry = {
   page: 'admissions',
   scope: 'page:admissions',
   label: 'Admissions',
-  description:
-    'Manage the Admissions page — process steps, key dates, requirements, downloadable documents, FAQ, and the enquiry form.',
+  description: 'Manage the Admissions page — process steps, key dates, requirements, downloadable documents, FAQ, and the enquiry form.',
   sections: [
     {
       key: 'admissions.hero',
@@ -63,16 +58,14 @@ export const admissionsRegistry: PageRegistry = {
       key: 'admissions.processSteps',
       blockKey: 'process-steps',
       label: 'Admissions Process Steps',
-      description:
-        '4–5 steps: Apply Online → Interview → Documents → Acceptance.',
+      description: '4–5 steps: Apply Online → Interview → Documents → Acceptance.',
       schema: AdmissionsProcessSchema,
     },
     {
       key: 'admissions.keyDates',
       blockKey: 'key-dates',
       label: 'Key Dates Timeline',
-      description:
-        'Applications open, deadline, interview dates, and other admissions milestones.',
+      description: 'Applications open, deadline, interview dates, and other admissions milestones.',
       schema: AdmissionsCalendarSchema,
     },
     {
@@ -100,8 +93,7 @@ export const admissionsRegistry: PageRegistry = {
       key: 'admissions.enquiryForm',
       blockKey: 'rich-text-block',
       label: 'Enquiry Form',
-      description:
-        'Name, email, phone, message — routed to the admissions office.',
+      description: 'Name, email, phone, message — routed to the admissions office.',
       schema: AdmissionsEnquiryFormSchema,
     },
     {

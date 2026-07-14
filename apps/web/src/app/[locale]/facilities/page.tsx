@@ -2,10 +2,7 @@ import FacilitiesCTA from '../../../blocks/facilities/FacilitiesCTA';
 import FacilitiesGrid from '../../../blocks/facilities/FacilitiesGrid';
 import FacilitiesHero from '../../../blocks/facilities/FacilitiesHero';
 import FacilitiesStats from '../../../blocks/facilities/FacilitiesStats';
-import {
-  getFacilitiesPageContent,
-  type FacilitiesPageContent,
-} from '../../../server/content';
+import { getFacilitiesPageContent, type FacilitiesPageContent } from '../../../server/content';
 
 interface FacilitiesPageProps {
   params: Promise<{ locale: string }>;
@@ -13,9 +10,7 @@ interface FacilitiesPageProps {
 
 export default async function FacilitiesPage({ params }: FacilitiesPageProps) {
   const { locale } = await params;
-  const content: FacilitiesPageContent = await getFacilitiesPageContent(
-    locale as 'en' | 'si' | 'ta',
-  );
+  const content: FacilitiesPageContent = await getFacilitiesPageContent(locale as 'en' | 'si' | 'ta');
 
   return (
     <>

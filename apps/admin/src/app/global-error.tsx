@@ -45,9 +45,7 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
               >
                 Critical Error
               </h1>
-              <p style={{ fontSize: '1.125rem', color: '#374151', margin: 0 }}>
-                The admin panel encountered a critical error. Please try refreshing the page.
-              </p>
+              <p style={{ fontSize: '1.125rem', color: '#374151', margin: 0 }}>The admin panel encountered a critical error. Please try refreshing the page.</p>
             </div>
 
             {process.env.NODE_ENV === 'development' && error.message && (
@@ -64,9 +62,7 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
                   overflow: 'auto',
                 }}
               >
-                <summary style={{ fontWeight: '600', cursor: 'pointer', marginBottom: '0.5rem' }}>
-                  Error Details (Dev Only)
-                </summary>
+                <summary style={{ fontWeight: '600', cursor: 'pointer', marginBottom: '0.5rem' }}>Error Details (Dev Only)</summary>
                 <pre
                   style={{
                     margin: 0,
@@ -77,11 +73,7 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
                 >
                   {error.message}
                 </pre>
-                {error.digest && (
-                  <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.75rem' }}>
-                    Digest: {error.digest}
-                  </p>
-                )}
+                {error.digest && <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.75rem' }}>Digest: {error.digest}</p>}
               </details>
             )}
 

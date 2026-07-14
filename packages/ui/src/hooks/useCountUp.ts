@@ -36,19 +36,8 @@ function deriveDuration(target: number, base: number): number {
   return base * 1.3;
 }
 
-export function useCountUp(
-  target: number,
-  options: UseCountUpOptions = {},
-): UseCountUpReturn {
-  const {
-    duration = 1.8,
-    delay = 0,
-    ease = DEFAULT_EASE,
-    onComplete,
-    animated = true,
-    startOnVisible = true,
-    threshold = 0.3,
-  } = options;
+export function useCountUp(target: number, options: UseCountUpOptions = {}): UseCountUpReturn {
+  const { duration = 1.8, delay = 0, ease = DEFAULT_EASE, onComplete, animated = true, startOnVisible = true, threshold = 0.3 } = options;
 
   const motionValue = useMotionValue(0);
   const animationRef = useRef<ReturnType<typeof animate> | null>(null);
@@ -120,12 +109,7 @@ export function useCountUp(
   }, [motionValue]);
 
   useEffect(() => {
-    if (
-      startOnVisible &&
-      isInView &&
-      !isCompleteRef.current &&
-      !isAnimatingRef.current
-    ) {
+    if (startOnVisible && isInView && !isCompleteRef.current && !isAnimatingRef.current) {
       start();
     }
   }, [startOnVisible, isInView, start]);

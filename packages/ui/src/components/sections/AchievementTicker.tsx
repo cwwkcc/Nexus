@@ -13,10 +13,7 @@ export interface AchievementTickerProps {
   archiveHref?: string;
 }
 
-export function AchievementTicker({
-  achievements,
-  archiveHref,
-}: AchievementTickerProps) {
+export function AchievementTicker({ achievements, archiveHref }: AchievementTickerProps) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [paused, setPaused] = useState(false);
 
@@ -56,8 +53,7 @@ export function AchievementTicker({
           left: 0,
           bottom: 0,
           width: '80px',
-          background:
-            'linear-gradient(to right, var(--surface-base), transparent)',
+          background: 'linear-gradient(to right, var(--surface-base), transparent)',
           zIndex: 2,
           pointerEvents: 'none',
         }}
@@ -70,8 +66,7 @@ export function AchievementTicker({
           right: 0,
           bottom: 0,
           width: '80px',
-          background:
-            'linear-gradient(to left, var(--surface-base), transparent)',
+          background: 'linear-gradient(to left, var(--surface-base), transparent)',
           zIndex: 2,
           pointerEvents: 'none',
         }}
@@ -94,10 +89,7 @@ export function AchievementTicker({
         }}
       >
         {doubled.map((item, i) => (
-          <span
-            key={`${item.id}-${i}`}
-            style={{ display: 'flex', alignItems: 'center' }}
-          >
+          <span key={`${item.id}-${i}`} style={{ display: 'flex', alignItems: 'center' }}>
             {/* Separator */}
             <span
               aria-hidden="true"

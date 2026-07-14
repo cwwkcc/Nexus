@@ -19,6 +19,7 @@
 **Description:** The Hetzner server becomes unresponsive, crashes, or is unreachable.
 
 **Symptoms:**
+
 - UptimeRobot alerts for both `cwwkcc.lk` and `admin.cwwkcc.lk`
 - Unable to SSH into the server
 - Website returns 500 or connection refused errors
@@ -64,6 +65,7 @@ curl https://cwwkcc.lk/api/health
 ```
 
 **Post-Recovery:**
+
 - Update the server IP in documentation
 - Update any hardcoded IP references
 - Schedule a root cause analysis
@@ -75,6 +77,7 @@ curl https://cwwkcc.lk/api/health
 **Description:** The PostgreSQL database becomes corrupted, or data is accidentally deleted.
 
 **Symptoms:**
+
 - Pages fail to load with database errors
 - Admin panel shows errors when trying to view content
 - Some content is missing or shows incorrect data
@@ -110,6 +113,7 @@ docker compose up -d
 ```
 
 **Prevention:**
+
 - Nightly automated backups
 - Soft-delete pattern (content is never hard-deleted)
 - Hourly transaction log backups for critical tables
@@ -121,6 +125,7 @@ docker compose up -d
 **Description:** A staff editor deletes content that should not have been deleted.
 
 **Symptoms:**
+
 - Content is missing from the public site
 - Audit log shows a deletion by a specific user
 
@@ -145,6 +150,7 @@ UPDATE "News" SET "deletedAt" = NULL WHERE id = '...';
 ```
 
 **Prevention:**
+
 - Soft-delete pattern (deletedAt timestamp)
 - Regular backups
 - Editor training on proper deletion workflows
@@ -156,6 +162,7 @@ UPDATE "News" SET "deletedAt" = NULL WHERE id = '...';
 **Description:** The `cwwkcc.lk` domain registration lapses or is transferred incorrectly.
 
 **Symptoms:**
+
 - The site is unreachable
 - The domain shows a "parked" or "expired" page
 
@@ -180,6 +187,7 @@ UPDATE "News" SET "deletedAt" = NULL WHERE id = '...';
 ```
 
 **Prevention:**
+
 - Domain registrar credentials are stored securely with school administration
 - Auto-renewal is enabled
 - Multiple people know the registrar credentials
@@ -192,6 +200,7 @@ UPDATE "News" SET "deletedAt" = NULL WHERE id = '...';
 **Description:** Cloudflare R2 becomes unavailable or data is lost.
 
 **Symptoms:**
+
 - Images and PDFs fail to load
 - Admin panel shows upload errors
 
@@ -218,6 +227,7 @@ UPDATE "News" SET "deletedAt" = NULL WHERE id = '...';
 ```
 
 **Prevention:**
+
 - Secondary backups to a separate storage provider
 - S3-compatible API allows migration to other providers
 - Media assets are also backed up to the primary server
@@ -229,6 +239,7 @@ UPDATE "News" SET "deletedAt" = NULL WHERE id = '...';
 **Description:** The GitHub repository becomes inaccessible or is deleted.
 
 **Symptoms:**
+
 - Unable to deploy changes
 - Code is unavailable
 
@@ -252,6 +263,7 @@ UPDATE "News" SET "deletedAt" = NULL WHERE id = '...';
 ```
 
 **Prevention:**
+
 - Multiple developers have local clones
 - Repository is mirrored to a second location (e.g., GitLab or Bitbucket)
 - Regular `git push` to both remotes
@@ -260,38 +272,37 @@ UPDATE "News" SET "deletedAt" = NULL WHERE id = '...';
 
 ## Table of Recovery Times
 
-| Failure Mode | Recovery Time | Responsible Person |
-|--------------|--------------|-------------------|
-| Server failure | 2-4 hours | KITS Lead / Staff Advisor |
-| Database corruption | 1-2 hours | KITS Lead |
-| Accidental deletion | 30-60 minutes | KITS Lead |
-| Domain loss | Hours-Days | Administration |
-| R2 failure | Hours | KITS Lead |
-| GitHub loss | Hours | KITS Lead |
+| Failure Mode        | Recovery Time | Responsible Person        |
+| ------------------- | ------------- | ------------------------- |
+| Server failure      | 2-4 hours     | KITS Lead / Staff Advisor |
+| Database corruption | 1-2 hours     | KITS Lead                 |
+| Accidental deletion | 30-60 minutes | KITS Lead                 |
+| Domain loss         | Hours-Days    | Administration            |
+| R2 failure          | Hours         | KITS Lead                 |
+| GitHub loss         | Hours         | KITS Lead                 |
 
 ---
 
 ## Contact Tree
 
-| Level | Role | Contact Method |
-|-------|------|----------------|
-| 1 | KITS Lead | Phone (primary), WhatsApp, Email |
-| 2 | Staff Advisor (Mrs. Tharindrie Perera) | Phone, Email |
-| 3 | Principal | Phone, Email |
+| Level | Role                                   | Contact Method                   |
+| ----- | -------------------------------------- | -------------------------------- |
+| 1     | KITS Lead                              | Phone (primary), WhatsApp, Email |
+| 2     | Staff Advisor (Mrs. Tharindrie Perera) | Phone, Email                     |
+| 3     | Principal                              | Phone, Email                     |
 
 ---
 
 ## Testing Schedule
 
-| Procedure | Frequency | Status |
-|-----------|-----------|--------|
-| Database restore from backup | Quarterly | To be tested |
-| Server rebuild from scratch | Annually | To be tested |
-| Credential rotation | Annually | To be scheduled |
+| Procedure                    | Frequency | Status          |
+| ---------------------------- | --------- | --------------- |
+| Database restore from backup | Quarterly | To be tested    |
+| Server rebuild from scratch  | Annually  | To be tested    |
+| Credential rotation          | Annually  | To be scheduled |
 
 ---
 
 **C.W.W. Kannangara Central College, Est. 1873. "Wisdom is All Wealth."**
 
 ---
-

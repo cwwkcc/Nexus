@@ -16,26 +16,16 @@ export function ProcessSteps({ steps, className }: ProcessStepsProps) {
 
       <div className="space-y-12">
         {steps.map((step, idx) => (
-          <div
-            key={step.id}
-            className={clsx(
-              'relative flex flex-col md:flex-row gap-6',
-              idx % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse',
-            )}
-          >
+          <div key={step.id} className={clsx('relative flex flex-col md:flex-row gap-6', idx % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse')}>
             {/* Step number circle */}
             <div className="flex-none">
-              <div className="w-12 h-12 rounded-full bg-green-base text-text-inverse flex items-center justify-center font-display text-xl font-semibold relative z-10">
-                {step.number}
-              </div>
+              <div className="w-12 h-12 rounded-full bg-green-base text-text-inverse flex items-center justify-center font-display text-xl font-semibold relative z-10">{step.number}</div>
             </div>
 
             {/* Content */}
             <div className="flex-1 bg-surface-elevated border border-border-light rounded-lg p-6 shadow-elevation-1">
               <h3 className="font-display text-h3 mb-2">{step.title}</h3>
-              <p className="font-body text-body text-text-muted">
-                {step.description}
-              </p>
+              <p className="font-body text-body text-text-muted">{step.description}</p>
             </div>
           </div>
         ))}

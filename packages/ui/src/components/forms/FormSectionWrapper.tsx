@@ -5,12 +5,7 @@ export interface FormSectionWrapperProps {
   className?: string;
 }
 
-export function FormSectionWrapper({
-  title,
-  description,
-  children,
-  className,
-}: FormSectionWrapperProps) {
+export function FormSectionWrapper({ title, description, children, className }: FormSectionWrapperProps) {
   return (
     <div className={className} style={{ marginBottom: '40px' }}>
       <div style={{ marginBottom: '24px' }}>
@@ -47,9 +42,7 @@ export function FormSectionWrapper({
         />
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-        {children}
-      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>{children}</div>
     </div>
   );
 }

@@ -21,18 +21,8 @@ const heightMap = {
   lg: 'h-3',
 };
 
-export function ComparisonBar({
-  label,
-  value,
-  targetValue,
-  showPercentage = true,
-  animate = true,
-  size = 'md',
-  className,
-}: ComparisonBarProps) {
-  const [width, setWidth] = useState(
-    animate ? 0 : Math.min(100, Math.max(0, value)),
-  );
+export function ComparisonBar({ label, value, targetValue, showPercentage = true, animate = true, size = 'md', className }: ComparisonBarProps) {
+  const [width, setWidth] = useState(animate ? 0 : Math.min(100, Math.max(0, value)));
   const ref = useRef<HTMLDivElement>(null);
   const animated = useRef(false);
 
@@ -70,39 +60,17 @@ export function ComparisonBar({
   }, [animate, value]);
 
   const displayValue = animate ? Math.round(width) : value;
-  const targetPosition =
-    targetValue !== undefined
-      ? Math.min(100, Math.max(0, targetValue))
-      : undefined;
+  const targetPosition = targetValue !== undefined ? Math.min(100, Math.max(0, targetValue)) : undefined;
 
   return (
     <div ref={ref} className={cn('w-full', className)}>
       <div className="flex justify-between items-center mb-space-2">
-        <span className="font-body text-label uppercase tracking-label text-text-primary">
-          {label}
-        </span>
-        {showPercentage && (
-          <span className="font-body text-label uppercase tracking-label text-gold-base">
-            {displayValue}%
-          </span>
-        )}
+        <span className="font-body text-label uppercase tracking-label text-text-primary">{label}</span>
+        {showPercentage && <span className="font-body text-label uppercase tracking-label text-gold-base">{displayValue}%</span>}
       </div>
-      <div
-        className={cn(
-          'relative w-full bg-surface-deep rounded-full overflow-hidden',
-          heightMap[size],
-        )}
-      >
-        <div
-          className="absolute left-0 top-0 h-full bg-green-base rounded-full transition-all duration-75 ease-out"
-          style={{ width: `${displayValue}%` }}
-        />
-        {targetPosition !== undefined && (
-          <div
-            className="absolute top-0 w-0.5 h-full bg-gold-base z-10"
-            style={{ left: `${targetPosition}%` }}
-          />
-        )}
+      <div className={cn('relative w-full bg-surface-deep rounded-full overflow-hidden', heightMap[size])}>
+        <div className="absolute left-0 top-0 h-full bg-green-base rounded-full transition-all duration-75 ease-out" style={{ width: `${displayValue}%` }} />
+        {targetPosition !== undefined && <div className="absolute top-0 w-0.5 h-full bg-gold-base z-10" style={{ left: `${targetPosition}%` }} />}
       </div>
     </div>
   );

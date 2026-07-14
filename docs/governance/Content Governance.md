@@ -10,18 +10,18 @@ A perfect CMS with no assigned content owners becomes a dead website within six 
 
 ## Content Ownership Matrix
 
-|Content Type|Owner|Secondary|Update Frequency|Review Frequency|
-|---|---|---|---|---|
-|**News & Announcements**|Editorial Team|Staff Advisor|Minimum 2 articles/month|Monthly|
-|**Events**|Event Coordinators|Society Leaders|2 weeks before event|Weekly|
-|**Gallery**|Media Unit|Photography Club|Within 1 week of events|Monthly|
-|**Staff Profiles**|School Administration|HR|When staff join or leave|Quarterly|
-|**Society Information**|Society Advisors|Student Leaders|Annually or as needed|Annually|
-|**Digital Archive**|History Committee|Alumni Association|Ongoing|Annually|
-|**Academic Programs**|Academic Office|Section Heads|Annually|Annually|
-|**Facilities**|School Administration|Facilities Manager|As renovations occur|Annually|
-|**Social Media**|Social Media Editors|Staff Advisor|Weekly|Weekly|
-|**Page Content**|Section Owners|Editorial Team|As needed|Quarterly|
+| Content Type             | Owner                 | Secondary          | Update Frequency         | Review Frequency |
+| ------------------------ | --------------------- | ------------------ | ------------------------ | ---------------- |
+| **News & Announcements** | Editorial Team        | Staff Advisor      | Minimum 2 articles/month | Monthly          |
+| **Events**               | Event Coordinators    | Society Leaders    | 2 weeks before event     | Weekly           |
+| **Gallery**              | Media Unit            | Photography Club   | Within 1 week of events  | Monthly          |
+| **Staff Profiles**       | School Administration | HR                 | When staff join or leave | Quarterly        |
+| **Society Information**  | Society Advisors      | Student Leaders    | Annually or as needed    | Annually         |
+| **Digital Archive**      | History Committee     | Alumni Association | Ongoing                  | Annually         |
+| **Academic Programs**    | Academic Office       | Section Heads      | Annually                 | Annually         |
+| **Facilities**           | School Administration | Facilities Manager | As renovations occur     | Annually         |
+| **Social Media**         | Social Media Editors  | Staff Advisor      | Weekly                   | Weekly           |
+| **Page Content**         | Section Owners        | Editorial Team     | As needed                | Quarterly        |
 
 ---
 
@@ -251,32 +251,32 @@ A perfect CMS with no assigned content owners becomes a dead website within six 
 
 **Page Owner Assignments:**
 
-|Page|Owner|Review Frequency|
-|---|---|---|
-|Home|Principal / Staff Advisor|Quarterly|
-|About|Administration / History Committee|Quarterly|
-|Academics|Academic Office|Annually|
-|Admissions|Admissions Office|Annually|
-|Contact|Administration|Quarterly|
-|Facilities|Administration|Annually|
-|Extracurriculars|Sports / Cultural Units|Annually|
-|Societies|Staff Advisor|Annually|
+| Page             | Owner                              | Review Frequency |
+| ---------------- | ---------------------------------- | ---------------- |
+| Home             | Principal / Staff Advisor          | Quarterly        |
+| About            | Administration / History Committee | Quarterly        |
+| Academics        | Academic Office                    | Annually         |
+| Admissions       | Admissions Office                  | Annually         |
+| Contact          | Administration                     | Quarterly        |
+| Facilities       | Administration                     | Annually         |
+| Extracurriculars | Sports / Cultural Units            | Annually         |
+| Societies        | Staff Advisor                      | Annually         |
 
 ---
 
 ## Content Review Schedule
 
-|Content Type|Review Frequency|Reviewer|Action|
-|---|---|---|---|
-|News & Announcements|Monthly|Staff Advisor|Remove outdated, update trends|
-|Events|Weekly|Event Coordinator|Update upcoming, archive past|
-|Gallery|Monthly|Media Unit Head|Review quality, remove duplicates|
-|Staff Profiles|Quarterly|School Administration|Update changes|
-|Society Information|Annually|Society Advisors|Verify accuracy|
-|Academic Programs|Annually|Academic Office|Update descriptions|
-|Facilities|Annually|Facilities Manager|Verify accuracy|
-|Page Content|Quarterly|Section Owners|Verify accuracy|
-|Social Media|Weekly|Staff Advisor|Review engagement|
+| Content Type         | Review Frequency | Reviewer              | Action                            |
+| -------------------- | ---------------- | --------------------- | --------------------------------- |
+| News & Announcements | Monthly          | Staff Advisor         | Remove outdated, update trends    |
+| Events               | Weekly           | Event Coordinator     | Update upcoming, archive past     |
+| Gallery              | Monthly          | Media Unit Head       | Review quality, remove duplicates |
+| Staff Profiles       | Quarterly        | School Administration | Update changes                    |
+| Society Information  | Annually         | Society Advisors      | Verify accuracy                   |
+| Academic Programs    | Annually         | Academic Office       | Update descriptions               |
+| Facilities           | Annually         | Facilities Manager    | Verify accuracy                   |
+| Page Content         | Quarterly        | Section Owners        | Verify accuracy                   |
+| Social Media         | Weekly           | Staff Advisor         | Review engagement                 |
 
 ---
 
@@ -284,13 +284,13 @@ A perfect CMS with no assigned content owners becomes a dead website within six 
 
 ### When to Archive
 
-|Content Type|Archive After|
-|---|---|
-|News Articles|1 year|
-|Events|After event date|
-|Gallery Albums|3 years|
-|Staff Profiles|When staff leaves|
-|Society Information|When society becomes inactive|
+| Content Type        | Archive After                 |
+| ------------------- | ----------------------------- |
+| News Articles       | 1 year                        |
+| Events              | After event date              |
+| Gallery Albums      | 3 years                       |
+| Staff Profiles      | When staff leaves             |
+| Society Information | When society becomes inactive |
 
 ### Where to Archive
 
@@ -304,11 +304,11 @@ A perfect CMS with no assigned content owners becomes a dead website within six 
 
 This content governance document is approved by:
 
-|Role|Name|Signature|Date|
-|---|---|---|---|
-|Principal||||
-|Staff Advisor|Mrs. Tharindrie Perera|||
-|Editorial Team Lead||||
+| Role                | Name                   | Signature | Date |
+| ------------------- | ---------------------- | --------- | ---- |
+| Principal           |                        |           |      |
+| Staff Advisor       | Mrs. Tharindrie Perera |           |      |
+| Editorial Team Lead |                        |           |      |
 
 ---
 

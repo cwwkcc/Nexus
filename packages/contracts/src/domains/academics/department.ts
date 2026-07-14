@@ -4,16 +4,7 @@
 
 import { z } from 'zod';
 
-export const DepartmentKeyEnum = z.enum([
-  'mathematics',
-  'science',
-  'languages',
-  'commerce',
-  'arts',
-  'technology',
-  'physical-education',
-  'religion',
-]);
+export const DepartmentKeyEnum = z.enum(['mathematics', 'science', 'languages', 'commerce', 'arts', 'technology', 'physical-education', 'religion']);
 
 export const DepartmentSchema = z.object({
   key: DepartmentKeyEnum,

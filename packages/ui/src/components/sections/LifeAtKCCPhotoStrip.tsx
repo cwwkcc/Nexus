@@ -25,19 +25,13 @@ const categoryLabels = {
   academic: 'Academic',
 };
 
-export function LifeAtKCCPhotoStrip({
-  items,
-  className,
-}: LifeAtKCCPhotoStripProps) {
+export function LifeAtKCCPhotoStrip({ items, className }: LifeAtKCCPhotoStripProps) {
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(true);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const filteredItems =
-    activeCategory === 'all'
-      ? items
-      : items.filter((item) => item.category === activeCategory);
+  const filteredItems = activeCategory === 'all' ? items : items.filter((item) => item.category === activeCategory);
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -72,28 +66,11 @@ export function LifeAtKCCPhotoStrip({
     <div className={clsx('relative', className)}>
       {/* Category filters */}
       <div className="flex justify-center gap-2 mb-8 flex-wrap">
-        <button
-          onClick={() => setActiveCategory('all')}
-          className={clsx(
-            'px-4 py-2 font-body text-label uppercase tracking-wide rounded-full transition-all',
-            activeCategory === 'all'
-              ? 'bg-green-base text-text-inverse'
-              : 'bg-surface-default text-text-muted hover:bg-surface-deep',
-          )}
-        >
+        <button onClick={() => setActiveCategory('all')} className={clsx('px-4 py-2 font-body text-label uppercase tracking-wide rounded-full transition-all', activeCategory === 'all' ? 'bg-green-base text-text-inverse' : 'bg-surface-default text-text-muted hover:bg-surface-deep')}>
           All
         </button>
         {Object.entries(categoryLabels).map(([key, label]) => (
-          <button
-            key={key}
-            onClick={() => setActiveCategory(key)}
-            className={clsx(
-              'px-4 py-2 font-body text-label uppercase tracking-wide rounded-full transition-all',
-              activeCategory === key
-                ? 'bg-green-base text-text-inverse'
-                : 'bg-surface-default text-text-muted hover:bg-surface-deep',
-            )}
-          >
+          <button key={key} onClick={() => setActiveCategory(key)} className={clsx('px-4 py-2 font-body text-label uppercase tracking-wide rounded-full transition-all', activeCategory === key ? 'bg-green-base text-text-inverse' : 'bg-surface-default text-text-muted hover:bg-surface-deep')}>
             {label}
           </button>
         ))}
@@ -102,52 +79,26 @@ export function LifeAtKCCPhotoStrip({
       {/* Horizontal scroll container */}
       <div className="relative">
         {showLeftArrow && (
-          <button
-            onClick={() => scroll('left')}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-surface-elevated rounded-full p-2 shadow-elevation-2 hover:bg-gold-base transition-colors"
-            aria-label="Scroll left"
-          >
+          <button onClick={() => scroll('left')} className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-surface-elevated rounded-full p-2 shadow-elevation-2 hover:bg-gold-base transition-colors" aria-label="Scroll left">
             ←
           </button>
         )}
 
-        <div
-          ref={scrollRef}
-          className="flex overflow-x-auto scroll-smooth gap-4 pb-4 scrollbar-hide"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        >
+        <div ref={scrollRef} className="flex overflow-x-auto scroll-smooth gap-4 pb-4 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           {filteredItems.map((item) => (
-            <div
-              key={item.id}
-              className="flex-shrink-0 w-72 md:w-80 group cursor-pointer"
-            >
+            <div key={item.id} className="flex-shrink-0 w-72 md:w-80 group cursor-pointer">
               <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
-                <Image
-                  src={item.imageSrc}
-                  alt={item.imageAlt}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
+                <Image src={item.imageSrc} alt={item.imageAlt} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-overlay-heavy to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                {item.title && (
-                  <div className="absolute bottom-0 left-0 right-0 p-3 text-text-inverse font-body text-sm transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                    {item.title}
-                  </div>
-                )}
+                {item.title && <div className="absolute bottom-0 left-0 right-0 p-3 text-text-inverse font-body text-sm transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">{item.title}</div>}
               </div>
-              <p className="mt-2 text-center font-body text-caption uppercase tracking-wide text-text-muted">
-                {categoryLabels[item.category]}
-              </p>
+              <p className="mt-2 text-center font-body text-caption uppercase tracking-wide text-text-muted">{categoryLabels[item.category]}</p>
             </div>
           ))}
         </div>
 
         {showRightArrow && (
-          <button
-            onClick={() => scroll('right')}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-surface-elevated rounded-full p-2 shadow-elevation-2 hover:bg-gold-base transition-colors"
-            aria-label="Scroll right"
-          >
+          <button onClick={() => scroll('right')} className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-surface-elevated rounded-full p-2 shadow-elevation-2 hover:bg-gold-base transition-colors" aria-label="Scroll right">
             →
           </button>
         )}

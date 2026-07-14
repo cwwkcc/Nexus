@@ -90,19 +90,19 @@ There is no `deletedAt` column and no soft-delete pattern. "Deleting" a `Content
 
 Each `contentType` corresponds to a Zod schema in `packages/contracts/src/blocks/`:
 
-|Section Type|Shape|Example|
-|---|---|---|
-|Flat prose|`{ content: string }`|About page story|
-|Repeatable list|`{ items: Array<{ title, description, year? }> }`|Timeline|
-|Structured fields|`{ heading, subtitle, text }`|Hero content|
+| Section Type      | Shape                                             | Example          |
+| ----------------- | ------------------------------------------------- | ---------------- |
+| Flat prose        | `{ content: string }`                             | About page story |
+| Repeatable list   | `{ items: Array<{ title, description, year? }> }` | Timeline         |
+| Structured fields | `{ heading, subtitle, text }`                     | Hero content     |
 
 ### Excluded Content
 
-|Content Type|Reason|
-|---|---|
-|Form field labels|Interface chrome — static|
-|Fixed taxonomy values|E.g., society categories — static|
-|`societies.json`|KITS special case — static|
+| Content Type          | Reason                            |
+| --------------------- | --------------------------------- |
+| Form field labels     | Interface chrome — static         |
+| Fixed taxonomy values | E.g., society categories — static |
+| `societies.json`      | KITS special case — static        |
 
 **These remain in `messages/*.json` (i18n) and are not migrated to the database.**
 

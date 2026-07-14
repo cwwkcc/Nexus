@@ -27,8 +27,7 @@ export const societiesRegistry: PageRegistry = {
   page: 'societies',
   scope: 'page:societies',
   label: 'Societies Hub',
-  description:
-    'Manage the Societies Hub — the filterable grid of all societies, with KITS featured.',
+  description: 'Manage the Societies Hub — the filterable grid of all societies, with KITS featured.',
   sections: [
     {
       key: 'societies.hero',
@@ -41,8 +40,7 @@ export const societiesRegistry: PageRegistry = {
       key: 'societies.grid',
       blockKey: 'rich-text-block',
       label: 'Society Grid',
-      description:
-        'All societies, filterable by category (Academic, Sports, Arts, Technology). KITS shows as the featured card via isFeatured.',
+      description: 'All societies, filterable by category (Academic, Sports, Arts, Technology). KITS shows as the featured card via isFeatured.',
       schema: SocietiesGridSchema,
     },
   ],

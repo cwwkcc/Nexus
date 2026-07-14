@@ -42,26 +42,13 @@ function getInitials(name: string): string {
     .toUpperCase();
 }
 
-export function Avatar({
-  src,
-  name,
-  size = 'md',
-  variant = 'green',
-  className,
-  onError,
-}: AvatarProps) {
+export function Avatar({ src, name, size = 'md', variant = 'green', className, onError }: AvatarProps) {
   const [hasError, setHasError] = useState(false);
 
   // Show image if src exists and no error occurred
   if (src && !hasError) {
     return (
-      <div
-        className={cn(
-          'relative rounded-full overflow-hidden flex-shrink-0',
-          sizeMap[size],
-          className,
-        )}
-      >
+      <div className={cn('relative rounded-full overflow-hidden flex-shrink-0', sizeMap[size], className)}>
         <Image
           src={src}
           alt={name}
@@ -78,16 +65,7 @@ export function Avatar({
 
   // Fallback to initials
   return (
-    <div
-      role="img"
-      aria-label={`Avatar for ${name}`}
-      className={cn(
-        'rounded-full flex items-center justify-center font-display font-medium flex-shrink-0',
-        sizeMap[size],
-        variantMap[variant],
-        className,
-      )}
-    >
+    <div role="img" aria-label={`Avatar for ${name}`} className={cn('rounded-full flex items-center justify-center font-display font-medium flex-shrink-0', sizeMap[size], variantMap[variant], className)}>
       {getInitials(name)}
     </div>
   );

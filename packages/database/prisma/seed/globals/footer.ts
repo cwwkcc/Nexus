@@ -11,14 +11,7 @@ const FOOTER_SEED_EN: FooterContentData = {
   tagline: '"Wisdom is All Wealth"',
   contact: {
     title: 'Contact Us',
-    lines: [
-      { label: 'Mathugama' },
-      { label: 'Kalutara District' },
-      { label: 'Western Province' },
-      { label: 'Sri Lanka' },
-      { label: 'info@cwwkcc.lk', href: 'mailto:info@cwwkcc.lk' },
-      { label: '+94 123 456 789', href: 'tel:+94123456789' },
-    ],
+    lines: [{ label: 'Mathugama' }, { label: 'Kalutara District' }, { label: 'Western Province' }, { label: 'Sri Lanka' }, { label: 'info@cwwkcc.lk', href: 'mailto:info@cwwkcc.lk' }, { label: '+94 123 456 789', href: 'tel:+94123456789' }],
   },
   columns: [
     {
@@ -110,14 +103,7 @@ const FOOTER_SEED_SI: FooterContentData = {
   tagline: '"සුඛෝ පඤ්ඤාය පඨිලාභෝ"',
   contact: {
     title: 'අප අමතන්න',
-    lines: [
-      { label: 'මතුගම' },
-      { label: 'කළුතර දිස්ත්‍රික්කය' },
-      { label: 'බස්නාහිර පළාත' },
-      { label: 'ශ්‍රී ලංකාව' },
-      { label: '+94 123 456 789', href: 'tel:+94123456789' },
-      { label: 'info@cwwkcc.lk', href: 'mailto:info@cwwkcc.lk' },
-    ],
+    lines: [{ label: 'මතුගම' }, { label: 'කළුතර දිස්ත්‍රික්කය' }, { label: 'බස්නාහිර පළාත' }, { label: 'ශ්‍රී ලංකාව' }, { label: '+94 123 456 789', href: 'tel:+94123456789' }, { label: 'info@cwwkcc.lk', href: 'mailto:info@cwwkcc.lk' }],
   },
   columns: [
     {
@@ -209,14 +195,7 @@ const FOOTER_SEED_TA: FooterContentData = {
   tagline: '"Wisdom is All Wealth"',
   contact: {
     title: 'Contact Us',
-    lines: [
-      { label: 'Mathugama' },
-      { label: 'Kalutara District' },
-      { label: 'Western Province' },
-      { label: 'Sri Lanka' },
-      { label: '+94 123 456 789', href: 'tel:+94123456789' },
-      { label: 'info@cwwkcc.lk', href: 'mailto:info@cwwkcc.lk' },
-    ],
+    lines: [{ label: 'Mathugama' }, { label: 'Kalutara District' }, { label: 'Western Province' }, { label: 'Sri Lanka' }, { label: '+94 123 456 789', href: 'tel:+94123456789' }, { label: 'info@cwwkcc.lk', href: 'mailto:info@cwwkcc.lk' }],
   },
   columns: [
     {
@@ -313,10 +292,7 @@ const STATUS = 'published';
 const CONTENT_TYPE = 'footer';
 const SECTION_KEY = 'footer.main';
 
-export async function seedFooter(
-  db: PrismaClient,
-  locales: readonly LocaleEnumData[],
-): Promise<void> {
+export async function seedFooter(db: PrismaClient, locales: readonly LocaleEnumData[]): Promise<void> {
   for (const locale of locales) {
     const localeData = FOOTER_SEED[locale];
     if (!localeData) continue;

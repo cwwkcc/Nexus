@@ -22,94 +22,37 @@ type Props = {
   className?: string;
 };
 
-const inputBase =
-  'w-full font-body text-body text-text-primary bg-surface-elevated ' +
-  'border rounded-sm px-space-4 py-space-3 ' +
-  'transition-all duration-fast ease-snap ' +
-  'placeholder:text-text-muted ' +
-  'disabled:bg-surface-deep disabled:text-text-muted disabled:cursor-not-allowed ' +
-  'focus-visible:outline-2 focus-visible:outline-gold-base focus-visible:outline-offset-[3px]';
+const inputBase = 'w-full font-body text-body text-text-primary bg-surface-elevated ' + 'border rounded-sm px-space-4 py-space-3 ' + 'transition-all duration-fast ease-snap ' + 'placeholder:text-text-muted ' + 'disabled:bg-surface-deep disabled:text-text-muted disabled:cursor-not-allowed ' + 'focus-visible:outline-2 focus-visible:outline-gold-base focus-visible:outline-offset-[3px]';
 
-export const Input = forwardRef<HTMLInputElement, Props>(
-  (
-    {
-      label,
-      helperText,
-      error,
-      disabled = false,
-      required = false,
-      placeholder,
-      type = 'text',
-      value,
-      defaultValue,
-      onChange,
-      onBlur,
-      name,
-      autoComplete,
-      className,
-    },
-    ref,
-  ) => {
-    const { id, errorId, helperId, hasError, describedBy } = useFormField({
-      error,
-      helperText,
-    });
+export const Input = forwardRef<HTMLInputElement, Props>(({ label, helperText, error, disabled = false, required = false, placeholder, type = 'text', value, defaultValue, onChange, onBlur, name, autoComplete, className }, ref) => {
+  const { id, errorId, helperId, hasError, describedBy } = useFormField({
+    error,
+    helperText,
+  });
 
-    return (
-      <div className={cn('flex flex-col gap-space-2', className)}>
-        <label
-          htmlFor={id}
-          className="font-body text-label text-text-primary uppercase tracking-label"
-        >
-          {label}
-          {required && (
-            <span
-              className="ml-space-1 text-semantic-error-base"
-              aria-hidden="true"
-            >
-              *
-            </span>
-          )}
-        </label>
-        <input
-          ref={ref}
-          id={id}
-          name={name}
-          type={type}
-          value={value}
-          defaultValue={defaultValue}
-          placeholder={placeholder}
-          disabled={disabled}
-          required={required}
-          autoComplete={autoComplete}
-          onChange={onChange}
-          onBlur={onBlur}
-          aria-invalid={hasError}
-          aria-describedby={describedBy}
-          className={cn(
-            inputBase,
-            hasError
-              ? 'border-semantic-error-base focus-visible:border-semantic-error-base focus-visible:outline-semantic-error-base'
-              : 'border-border-default hover:border-border-default focus-visible:border-gold-base',
-          )}
-        />
-        {hasError && (
-          <p
-            id={errorId}
-            className="font-body text-caption text-semantic-error-base"
-            role="alert"
-          >
-            {error}
-          </p>
+  return (
+    <div className={cn('flex flex-col gap-space-2', className)}>
+      <label htmlFor={id} className="font-body text-label text-text-primary uppercase tracking-label">
+        {label}
+        {required && (
+          <span className="ml-space-1 text-semantic-error-base" aria-hidden="true">
+            *
+          </span>
         )}
-        {!hasError && helperText && (
-          <p id={helperId} className="font-body text-caption text-text-muted">
-            {helperText}
-          </p>
-        )}
-      </div>
-    );
-  },
-);
+      </label>
+      <input ref={ref} id={id} name={name} type={type} value={value} defaultValue={defaultValue} placeholder={placeholder} disabled={disabled} required={required} autoComplete={autoComplete} onChange={onChange} onBlur={onBlur} aria-invalid={hasError} aria-describedby={describedBy} className={cn(inputBase, hasError ? 'border-semantic-error-base focus-visible:border-semantic-error-base focus-visible:outline-semantic-error-base' : 'border-border-default hover:border-border-default focus-visible:border-gold-base')} />
+      {hasError && (
+        <p id={errorId} className="font-body text-caption text-semantic-error-base" role="alert">
+          {error}
+        </p>
+      )}
+      {!hasError && helperText && (
+        <p id={helperId} className="font-body text-caption text-text-muted">
+          {helperText}
+        </p>
+      )}
+    </div>
+  );
+});
 
 Input.displayName = 'Input';

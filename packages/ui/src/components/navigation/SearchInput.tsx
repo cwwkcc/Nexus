@@ -11,13 +11,7 @@ export interface SearchInputProps {
   className?: string;
 }
 
-export function SearchInput({
-  scopeLabel,
-  placeholder,
-  onSearch,
-  onResultClick,
-  className,
-}: SearchInputProps) {
+export function SearchInput({ scopeLabel, placeholder, onSearch, onResultClick, className }: SearchInputProps) {
   const id = useId();
   const listId = `${id}-results`;
 
@@ -75,11 +69,7 @@ export function SearchInput({
   };
 
   return (
-    <div
-      ref={containerRef}
-      className={className}
-      style={{ position: 'relative' }}
-    >
+    <div ref={containerRef} className={className} style={{ position: 'relative' }}>
       <label
         htmlFor={id}
         style={{
@@ -204,10 +194,7 @@ export function SearchInput({
                   display: 'block',
                   padding: '10px 16px',
                   textDecoration: 'none',
-                  background:
-                    activeIdx === idx
-                      ? 'var(--surface-default)'
-                      : 'transparent',
+                  background: activeIdx === idx ? 'var(--surface-default)' : 'transparent',
                   transition: 'background 0.1s ease',
                 }}
                 onMouseEnter={() => setActiveIdx(idx)}

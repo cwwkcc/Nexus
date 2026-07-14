@@ -23,8 +23,7 @@ const authMiddleware = t.middleware(({ ctx, next }) => {
     if (provided !== expected) {
       throw new TRPCError({
         code: 'UNAUTHORIZED',
-        message:
-          'Missing or invalid admin credentials (temporary auth stub — see trpc.ts).',
+        message: 'Missing or invalid admin credentials (temporary auth stub — see trpc.ts).',
       });
     }
 

@@ -17,44 +17,20 @@ export interface ResultsDisplayProps {
   className?: string;
 }
 
-export function ResultsDisplay({
-  studentName,
-  indexNumber,
-  examType,
-  year,
-  subjects,
-  pdfUrl,
-  className,
-}: ResultsDisplayProps) {
+export function ResultsDisplay({ studentName, indexNumber, examType, year, subjects, pdfUrl, className }: ResultsDisplayProps) {
   return (
-    <div
-      className={cn(
-        'bg-surface-elevated border border-border-light rounded-lg p-space-6 shadow-elevation-0',
-        className,
-      )}
-    >
+    <div className={cn('bg-surface-elevated border border-border-light rounded-lg p-space-6 shadow-elevation-0', className)}>
       <div className="flex justify-between items-start mb-space-6 pb-space-4 border-b border-border-light">
         <div>
-          <h2 className="font-display text-h3 text-text-primary">
-            {studentName}
-          </h2>
+          <h2 className="font-display text-h3 text-text-primary">{studentName}</h2>
           <p className="font-body text-body-sm text-text-muted mt-space-1">
             Index No: {indexNumber} • {examType} {year}
           </p>
         </div>
         <div className="w-16 h-16 opacity-30">
           <svg viewBox="0 0 100 100" fill="none">
-            <circle
-              cx="50"
-              cy="50"
-              r="45"
-              stroke="var(--color-gold-base)"
-              strokeWidth="1.5"
-            />
-            <path
-              d="M50 25 L55 40 L70 40 L58 50 L62 65 L50 56 L38 65 L42 50 L30 40 L45 40 Z"
-              fill="var(--color-gold-base)"
-            />
+            <circle cx="50" cy="50" r="45" stroke="var(--color-gold-base)" strokeWidth="1.5" />
+            <path d="M50 25 L55 40 L70 40 L58 50 L62 65 L50 56 L38 65 L42 50 L30 40 L45 40 Z" fill="var(--color-gold-base)" />
           </svg>
         </div>
       </div>
@@ -63,20 +39,14 @@ export function ResultsDisplay({
         <table className="w-full border-collapse">
           <thead>
             <tr className="border-b border-border-light">
-              <th className="text-left py-space-3 font-body text-label uppercase tracking-wider text-text-muted">
-                Subject
-              </th>
-              <th className="text-right py-space-3 font-body text-label uppercase tracking-wider text-text-muted">
-                Grade
-              </th>
+              <th className="text-left py-space-3 font-body text-label uppercase tracking-wider text-text-muted">Subject</th>
+              <th className="text-right py-space-3 font-body text-label uppercase tracking-wider text-text-muted">Grade</th>
             </tr>
           </thead>
           <tbody>
             {subjects.map((subject) => (
               <tr key={subject.name} className="border-b border-border-light">
-                <td className="py-space-3 font-body text-body text-text-primary">
-                  {subject.name}
-                </td>
+                <td className="py-space-3 font-body text-body text-text-primary">{subject.name}</td>
                 <td className="py-space-3 text-right">
                   <ResultsGradeBadge grade={subject.grade} />
                 </td>
@@ -89,15 +59,7 @@ export function ResultsDisplay({
       {pdfUrl && (
         <div className="flex justify-center">
           <ButtonLink href={pdfUrl} variant="secondary" size="sm">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              className="mr-space-2"
-            >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="mr-space-2">
               <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" />
             </svg>
             Download Official Result Sheet (PDF)

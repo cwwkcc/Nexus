@@ -32,23 +32,6 @@ const marginStyles: Record<Axis, string> = {
   vertical: 'mx-space-4',
 };
 
-export function Divider({
-  axis = 'horizontal',
-  accentVariant = 'muted',
-  className,
-}: DividerProps) {
-  return (
-    <div
-      className={cn(
-        'border-none rounded-full',
-        axisWidth[axis],
-        axisHeight[axis],
-        marginStyles[axis],
-        colorStyles[accentVariant],
-        className,
-      )}
-      role="separator"
-      aria-orientation={axis}
-    />
-  );
+export function Divider({ axis = 'horizontal', accentVariant = 'muted', className }: DividerProps) {
+  return <div className={cn('border-none rounded-full', axisWidth[axis], axisHeight[axis], marginStyles[axis], colorStyles[accentVariant], className)} role="separator" aria-orientation={axis} />;
 }

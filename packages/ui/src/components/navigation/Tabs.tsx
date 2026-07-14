@@ -20,13 +20,7 @@ interface TabsProps {
   className?: string;
 }
 
-export function Tabs({
-  tabs,
-  defaultTabId,
-  onChange,
-  variant = 'line',
-  className,
-}: TabsProps) {
+export function Tabs({ tabs, defaultTabId, onChange, variant = 'line', className }: TabsProps) {
   const [activeId, setActiveId] = useState(defaultTabId || tabs[0]?.id);
 
   const handleChange = (id: string) => {
@@ -38,47 +32,13 @@ export function Tabs({
 
   return (
     <div className={className}>
-      <div
-        className={clsx(
-          'flex gap-1 border-b border-border-light',
-          variant === 'pills' && 'border-b-0 gap-2 flex-wrap',
-        )}
-      >
+      <div className={clsx('flex gap-1 border-b border-border-light', variant === 'pills' && 'border-b-0 gap-2 flex-wrap')}>
         {tabs.map((tab) => {
           const isActive = activeId === tab.id;
           return (
-            <button
-              key={tab.id}
-              onClick={() => handleChange(tab.id)}
-              className={clsx(
-                'px-4 py-2 font-body text-label uppercase tracking-wide transition-all',
-                variant === 'line' && [
-                  'border-b-2 -mb-px',
-                  isActive
-                    ? 'border-gold-base text-gold-base'
-                    : 'border-transparent text-text-muted hover:text-text-primary',
-                ],
-                variant === 'pills' && [
-                  'rounded-full',
-                  isActive
-                    ? 'bg-green-base text-text-inverse'
-                    : 'bg-surface-default text-text-muted hover:bg-surface-deep',
-                ],
-              )}
-            >
+            <button key={tab.id} onClick={() => handleChange(tab.id)} className={clsx('px-4 py-2 font-body text-label uppercase tracking-wide transition-all', variant === 'line' && ['border-b-2 -mb-px', isActive ? 'border-gold-base text-gold-base' : 'border-transparent text-text-muted hover:text-text-primary'], variant === 'pills' && ['rounded-full', isActive ? 'bg-green-base text-text-inverse' : 'bg-surface-default text-text-muted hover:bg-surface-deep'])}>
               {tab.label}
-              {tab.badge !== undefined && (
-                <span
-                  className={clsx(
-                    'ml-2 text-xs px-1.5 py-0.5 rounded-full',
-                    isActive && variant === 'line'
-                      ? 'bg-gold-pale text-gold-active'
-                      : 'bg-surface-deep text-text-muted',
-                  )}
-                >
-                  {tab.badge}
-                </span>
-              )}
+              {tab.badge !== undefined && <span className={clsx('ml-2 text-xs px-1.5 py-0.5 rounded-full', isActive && variant === 'line' ? 'bg-gold-pale text-gold-active' : 'bg-surface-deep text-text-muted')}>{tab.badge}</span>}
             </button>
           );
         })}

@@ -63,32 +63,32 @@ Data is protected by appropriate security measures:
 
 ### Student Data
 
-|Data Type|Collected|Purpose|Retention|
-|---|---|---|---|
-|Photos|✅|Gallery, events|Ongoing (with consent)|
-|Achievements|✅|Achievement database|Ongoing|
-|Names|✅ (with consent)|Achievement database only — never for exam performance, which is not collected|Ongoing|
-|Contact details|❌|Not collected|N/A|
+| Data Type       | Collected         | Purpose                                                                        | Retention              |
+| --------------- | ----------------- | ------------------------------------------------------------------------------ | ---------------------- |
+| Photos          | ✅                | Gallery, events                                                                | Ongoing (with consent) |
+| Achievements    | ✅                | Achievement database                                                           | Ongoing                |
+| Names           | ✅ (with consent) | Achievement database only — never for exam performance, which is not collected | Ongoing                |
+| Contact details | ❌                | Not collected                                                                  | N/A                    |
 
 ### Staff Data
 
-|Data Type|Collected|Purpose|Retention|
-|---|---|---|---|
-|Name|✅|Staff profiles|Until staff leaves|
-|Title|✅|Staff profiles|Until staff leaves|
-|Department|✅|Staff profiles|Until staff leaves|
-|Photo|✅|Staff profiles|Until staff leaves|
-|Contact details|❌|Not published|N/A|
+| Data Type       | Collected | Purpose        | Retention          |
+| --------------- | --------- | -------------- | ------------------ |
+| Name            | ✅        | Staff profiles | Until staff leaves |
+| Title           | ✅        | Staff profiles | Until staff leaves |
+| Department      | ✅        | Staff profiles | Until staff leaves |
+| Photo           | ✅        | Staff profiles | Until staff leaves |
+| Contact details | ❌        | Not published  | N/A                |
 
 ### Alumni Data
 
-|Data Type|Collected|Purpose|Retention|
-|---|---|---|---|
-|Name|✅|Alumni directory|Ongoing|
-|Graduation year|✅|Alumni directory|Ongoing|
-|Profession|✅|Alumni directory|Ongoing|
-|Quote|✅|Alumni directory|Ongoing|
-|Contact details|❌|Not published|N/A|
+| Data Type       | Collected | Purpose          | Retention |
+| --------------- | --------- | ---------------- | --------- |
+| Name            | ✅        | Alumni directory | Ongoing   |
+| Graduation year | ✅        | Alumni directory | Ongoing   |
+| Profession      | ✅        | Alumni directory | Ongoing   |
+| Quote           | ✅        | Alumni directory | Ongoing   |
+| Contact details | ❌        | Not published    | N/A       |
 
 ---
 
@@ -120,13 +120,13 @@ Data is protected by appropriate security measures:
 
 ### Who Can Access Data
 
-|Role|Student Data|Staff Data|Alumni Data|Analytics|
-|---|---|---|---|---|
-|Principal|View only|View only|View only|View only|
-|Staff Advisor|Full access|Full access|Full access|View only|
-|KITS Lead|Full access|Full access|Full access|View only|
-|KITS Member|Edit only|No access|Edit only|No access|
-|Editorial Team|No access|No access|No access|No access|
+| Role           | Student Data | Staff Data  | Alumni Data | Analytics |
+| -------------- | ------------ | ----------- | ----------- | --------- |
+| Principal      | View only    | View only   | View only   | View only |
+| Staff Advisor  | Full access  | Full access | Full access | View only |
+| KITS Lead      | Full access  | Full access | Full access | View only |
+| KITS Member    | Edit only    | No access   | Edit only   | No access |
+| Editorial Team | No access    | No access   | No access   | No access |
 
 ### Access Control
 
@@ -215,11 +215,11 @@ Nexus complies with:
 
 ## Policy Review
 
-|Review|Frequency|Responsible|
-|---|---|---|
-|Policy review|Annually|Staff Advisor|
-|Security audit|Quarterly|KITS Lead|
-|Privacy audit|Annually|Staff Advisor|
+| Review         | Frequency | Responsible   |
+| -------------- | --------- | ------------- |
+| Policy review  | Annually  | Staff Advisor |
+| Security audit | Quarterly | KITS Lead     |
+| Privacy audit  | Annually  | Staff Advisor |
 
 ---
 

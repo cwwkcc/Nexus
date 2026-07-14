@@ -63,11 +63,7 @@ function NavDropdown({ children, isSolid: _isSolid }: NavDropdownProps) {
       }}
     >
       {children.map((child) => (
-        <NavLink
-          key={child.href}
-          href={child.href}
-          className="px-space-5 py-space-10 font-body text-body uppercase text-text-primary hover:text-gold-base"
-        >
+        <NavLink key={child.href} href={child.href} className="px-space-5 py-space-10 font-body text-body uppercase text-text-primary hover:text-gold-base">
           {child.label}
         </NavLink>
       ))}
@@ -79,26 +75,11 @@ function NavItem({ link, isSolid, isActive }: NavItemProps) {
   const [open, setOpen] = useState(false);
   const hasChildren = !!link.children?.length;
 
-  const textColor = isActive
-    ? 'text-gold-base'
-    : isSolid
-      ? 'text-text-primary'
-      : 'text-text-inverse';
+  const textColor = isActive ? 'text-gold-base' : isSolid ? 'text-text-primary' : 'text-text-inverse';
 
   return (
-    <div
-      className="relative"
-      onMouseEnter={() => hasChildren && setOpen(true)}
-      onMouseLeave={() => hasChildren && setOpen(false)}
-    >
-      <HStack
-        align="center"
-        spacing={3}
-        className={cn(
-          'uppercase font-body px-space-8 hover:text-gold-base',
-          textColor,
-        )}
-      >
+    <div className="relative" onMouseEnter={() => hasChildren && setOpen(true)} onMouseLeave={() => hasChildren && setOpen(false)}>
+      <HStack align="center" spacing={3} className={cn('uppercase font-body px-space-8 hover:text-gold-base', textColor)}>
         <NavLink href={link.href}>
           {link.label}
           {hasChildren && <span className="text-body">▾</span>}
@@ -106,22 +87,14 @@ function NavItem({ link, isSolid, isActive }: NavItemProps) {
         </NavLink>
       </HStack>
 
-      {hasChildren && open && (
-        <NavDropdown children={link.children ?? []} isSolid={isSolid} />
-      )}
+      {hasChildren && open && <NavDropdown children={link.children ?? []} isSolid={isSolid} />}
     </div>
   );
 }
 
 // ─── Language switcher ────────────────────────────────────────────────────────
 
-export function LanguageSwitcher({
-  locale = 'en',
-  isSolid = true,
-}: {
-  locale?: string;
-  isSolid?: boolean;
-}) {
+export function LanguageSwitcher({ locale = 'en', isSolid = true }: { locale?: string; isSolid?: boolean }) {
   const langs = [
     { code: 'en', label: 'EN' },
     { code: 'si', label: 'සිං' },
@@ -137,9 +110,7 @@ export function LanguageSwitcher({
             {i > 0 && (
               <span
                 style={{
-                  color: isSolid
-                    ? 'var(--border-default)'
-                    : 'rgba(255,255,255,0.25)',
+                  color: isSolid ? 'var(--border-default)' : 'rgba(255,255,255,0.25)',
                   fontSize: '0.6rem',
                 }}
               >
@@ -149,21 +120,12 @@ export function LanguageSwitcher({
             <NavLink
               href={`/${lang.code}`}
               style={{
-                fontFamily:
-                  lang.code === 'si' || lang.code === 'ta'
-                    ? 'var(--font-sinhala, "Noto Serif Sinhala", serif)'
-                    : 'var(--font-body)',
+                fontFamily: lang.code === 'si' || lang.code === 'ta' ? 'var(--font-sinhala, "Noto Serif Sinhala", serif)' : 'var(--font-body)',
                 fontSize: '0.72rem',
                 letterSpacing: lang.code === 'en' ? '0.1em' : '0',
-                color: isActive
-                  ? 'var(--color-gold-base)'
-                  : isSolid
-                    ? 'var(--text-muted)'
-                    : 'rgba(255,255,255,0.55)',
+                color: isActive ? 'var(--color-gold-base)' : isSolid ? 'var(--text-muted)' : 'rgba(255,255,255,0.55)',
                 textDecoration: 'none',
-                borderBottom: isActive
-                  ? '1px solid var(--color-gold-base)'
-                  : '1px solid transparent',
+                borderBottom: isActive ? '1px solid var(--color-gold-base)' : '1px solid transparent',
                 transition: 'color 0.15s ease',
                 paddingBottom: '1px',
               }}
@@ -179,17 +141,7 @@ export function LanguageSwitcher({
 
 // ─── Mobile menu ──────────────────────────────────────────────────────────────
 
-function MobileMenu({
-  open,
-  links,
-  onClose,
-  locale,
-}: {
-  open: boolean;
-  links: NavLink[];
-  onClose: () => void;
-  locale: string;
-}) {
+function MobileMenu({ open, links, onClose, locale }: { open: boolean; links: NavLink[]; onClose: () => void; locale: string }) {
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
     return () => {
@@ -272,12 +224,10 @@ function MobileMenu({
                   transition: 'color 0.15s ease',
                 }}
                 onMouseEnter={(e: React.MouseEvent<HTMLElement>) => {
-                  (e.currentTarget as HTMLElement).style.color =
-                    'var(--color-gold-base)';
+                  (e.currentTarget as HTMLElement).style.color = 'var(--color-gold-base)';
                 }}
                 onMouseLeave={(e: React.MouseEvent<HTMLElement>) => {
-                  (e.currentTarget as HTMLElement).style.color =
-                    'var(--text-inverse)';
+                  (e.currentTarget as HTMLElement).style.color = 'var(--text-inverse)';
                 }}
               >
                 {link.label}
@@ -326,12 +276,7 @@ function MobileMenu({
 
 // ─── Main Navigation ──────────────────────────────────────────────────────────
 
-export function Navigation({
-  variant = 'solid',
-  links = DEFAULT_LINKS,
-  heroHeight,
-  locale = 'en',
-}: NavigationProps) {
+export function Navigation({ variant = 'solid', links = DEFAULT_LINKS, heroHeight, locale = 'en' }: NavigationProps) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -368,8 +313,7 @@ export function Navigation({
           left: 0,
           right: 0,
           zIndex: 40,
-          transition:
-            'background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease',
+          transition: 'background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease',
           ...bgStyle,
         }}
       >
@@ -383,11 +327,7 @@ export function Navigation({
           }}
         >
           {/* Logo */}
-          <NavLink
-            href="/"
-            style={{ textDecoration: 'none', flexShrink: 0 }}
-            aria-label="C.W.W. Kannangara Central College — Home"
-          >
+          <NavLink href="/" style={{ textDecoration: 'none', flexShrink: 0 }} aria-label="C.W.W. Kannangara Central College — Home">
             <div className="flex items-center gap-3">
               <div
                 style={{
@@ -425,9 +365,7 @@ export function Navigation({
                     fontSize: '0.58rem',
                     textTransform: 'uppercase',
                     letterSpacing: '0.1em',
-                    color: isSolid
-                      ? 'var(--text-muted)'
-                      : 'rgba(255,255,255,0.5)',
+                    color: isSolid ? 'var(--text-muted)' : 'rgba(255,255,255,0.5)',
                     lineHeight: 1,
                   }}
                 >
@@ -438,19 +376,9 @@ export function Navigation({
           </NavLink>
 
           {/* Desktop nav links */}
-          <nav
-            className="hidden md:flex items-center gap-7 flex-1"
-            aria-label="Main navigation"
-          >
+          <nav className="hidden md:flex items-center gap-7 flex-1" aria-label="Main navigation">
             {links.map((link) => (
-              <NavItem
-                key={link.href}
-                link={link}
-                isSolid={isSolid}
-                isActive={
-                  pathname === link.href || pathname.startsWith(link.href + '/')
-                }
-              />
+              <NavItem key={link.href} link={link} isSolid={isSolid} isActive={pathname === link.href || pathname.startsWith(link.href + '/')} />
             ))}
           </nav>
 
@@ -499,9 +427,7 @@ export function Navigation({
                   display: 'block',
                   width: '22px',
                   height: '1.5px',
-                  background: isSolid
-                    ? 'var(--text-primary)'
-                    : 'rgba(255,255,255,0.85)',
+                  background: isSolid ? 'var(--text-primary)' : 'rgba(255,255,255,0.85)',
                 }}
               />
             ))}
@@ -509,12 +435,7 @@ export function Navigation({
         </div>
       </header>
 
-      <MobileMenu
-        open={mobileOpen}
-        links={links}
-        onClose={() => setMobileOpen(false)}
-        locale={locale}
-      />
+      <MobileMenu open={mobileOpen} links={links} onClose={() => setMobileOpen(false)} locale={locale} />
     </>
   );
 }

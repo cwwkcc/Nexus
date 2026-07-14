@@ -10,12 +10,7 @@ export interface MasonryGridProps {
   className?: string;
 }
 
-export function MasonryGrid({
-  children,
-  columnCount = { mobile: 2, tablet: 3, desktop: 4 },
-  gap = 16,
-  className,
-}: MasonryGridProps) {
+export function MasonryGrid({ children, columnCount = { mobile: 2, tablet: 3, desktop: 4 }, gap = 16, className }: MasonryGridProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [columns, setColumns] = useState(columnCount.desktop || 4);
 
@@ -33,26 +28,15 @@ export function MasonryGrid({
   }, [columnCount]);
 
   // Distribute children into columns
-  const columnArrays: React.ReactNode[][] = Array.from(
-    { length: columns },
-    () => [],
-  );
+  const columnArrays: React.ReactNode[][] = Array.from({ length: columns }, () => []);
   children.forEach((child, idx) => {
     columnArrays[idx % columns].push(child);
   });
 
   return (
-    <div
-      ref={containerRef}
-      className={clsx('flex', className)}
-      style={{ gap: `${gap}px` }}
-    >
+    <div ref={containerRef} className={clsx('flex', className)} style={{ gap: `${gap}px` }}>
       {columnArrays.map((column, idx) => (
-        <div
-          key={idx}
-          className="flex-1 flex flex-col"
-          style={{ gap: `${gap}px` }}
-        >
+        <div key={idx} className="flex-1 flex flex-col" style={{ gap: `${gap}px` }}>
           {column.map((item, i) => (
             <div key={i} className="w-full">
               {item}

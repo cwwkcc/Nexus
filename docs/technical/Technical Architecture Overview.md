@@ -70,52 +70,52 @@ The entire platform runs on a single Hetzner VPS, with all services containerise
 
 ### Core Framework
 
-|Layer|Technology|Purpose|Why Chosen|
-|---|---|---|---|
-|**Frontend**|Next.js 14+ (App Router)|React framework with server components, static generation, and API routes|Provides SSR, ISR, and static generation with excellent i18n support|
-|**Monorepo**|pnpm + Nx|Package management and build orchestration|Faster than npm; workspace linking; Nx provides task caching and affected commands|
-|**Language**|TypeScript 5.0+|Type safety across the entire codebase|Reduces runtime errors; provides excellent IDE support|
-|**Styling**|Tailwind CSS + Custom Preset|Utility-first styling with design tokens|Token system ensures visual consistency; Tailwind preset enforces design system rules|
+| Layer        | Technology                   | Purpose                                                                   | Why Chosen                                                                            |
+| ------------ | ---------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| **Frontend** | Next.js 14+ (App Router)     | React framework with server components, static generation, and API routes | Provides SSR, ISR, and static generation with excellent i18n support                  |
+| **Monorepo** | pnpm + Nx                    | Package management and build orchestration                                | Faster than npm; workspace linking; Nx provides task caching and affected commands    |
+| **Language** | TypeScript 5.0+              | Type safety across the entire codebase                                    | Reduces runtime errors; provides excellent IDE support                                |
+| **Styling**  | Tailwind CSS + Custom Preset | Utility-first styling with design tokens                                  | Token system ensures visual consistency; Tailwind preset enforces design system rules |
 
 ### Backend & API
 
-|Layer|Technology|Purpose|Why Chosen|
-|---|---|---|---|
-|**API**|tRPC|End-to-end type-safe API|Eliminates API spec drift; full type safety from server to client|
-|**Database**|PostgreSQL 15+|Primary relational database|Battle-tested; handles JSON content well; excellent full-text search|
-|**ORM**|Prisma|Database access and migrations|Type-safe database client; declarative schema; migration history|
-|**Validation**|Zod|Schema validation|Single source of truth; infers TypeScript types; validates forms, API, and database|
-|**Authentication**|Auth.js (NextAuth)|OAuth authentication with Google Workspace|Supports Google OAuth natively; Prisma adapter for session storage|
+| Layer              | Technology         | Purpose                                    | Why Chosen                                                                          |
+| ------------------ | ------------------ | ------------------------------------------ | ----------------------------------------------------------------------------------- |
+| **API**            | tRPC               | End-to-end type-safe API                   | Eliminates API spec drift; full type safety from server to client                   |
+| **Database**       | PostgreSQL 15+     | Primary relational database                | Battle-tested; handles JSON content well; excellent full-text search                |
+| **ORM**            | Prisma             | Database access and migrations             | Type-safe database client; declarative schema; migration history                    |
+| **Validation**     | Zod                | Schema validation                          | Single source of truth; infers TypeScript types; validates forms, API, and database |
+| **Authentication** | Auth.js (NextAuth) | OAuth authentication with Google Workspace | Supports Google OAuth natively; Prisma adapter for session storage                  |
 
 ### Infrastructure
 
-|Layer|Technology|Purpose|Why Chosen|
-|---|---|---|---|
-|**Web Server**|Caddy|Reverse proxy with automatic HTTPS|Automatic Let's Encrypt; simple Caddyfile configuration; built-in security headers|
-|**Container**|Docker + Docker Compose|Application containerisation|Consistent environment; easy deployment; health checks; restart policies|
-|**Storage**|Cloudflare R2|Media asset storage|Zero egress fees; S3-compatible API; 10GB free tier; no bandwidth costs|
-|**CI/CD**|GitHub Actions|Automated testing and deployment|Native to GitHub; reusable workflows; container registry integration|
-|**Registry**|GitHub Container Registry|Docker image hosting|Free for public repositories; integrated with GitHub Actions|
+| Layer          | Technology                | Purpose                            | Why Chosen                                                                         |
+| -------------- | ------------------------- | ---------------------------------- | ---------------------------------------------------------------------------------- |
+| **Web Server** | Caddy                     | Reverse proxy with automatic HTTPS | Automatic Let's Encrypt; simple Caddyfile configuration; built-in security headers |
+| **Container**  | Docker + Docker Compose   | Application containerisation       | Consistent environment; easy deployment; health checks; restart policies           |
+| **Storage**    | Cloudflare R2             | Media asset storage                | Zero egress fees; S3-compatible API; 10GB free tier; no bandwidth costs            |
+| **CI/CD**      | GitHub Actions            | Automated testing and deployment   | Native to GitHub; reusable workflows; container registry integration               |
+| **Registry**   | GitHub Container Registry | Docker image hosting               | Free for public repositories; integrated with GitHub Actions                       |
 
 ### Frontend Libraries
 
-|Library|Purpose|
-|---|---|
-|**Framer Motion**|React animation library for micro-interactions and state transitions|
-|**GSAP**|Timeline-based animations for ceremonial sequences (crest drawing, page transitions)|
-|**Lucide React**|Icon library (unified through Icon Registry)|
-|**next-intl**|Internationalisation with locale-aware routing|
-|**Tiptap**|Rich text editor for the admin panel|
-|**Sharp**|Image optimisation in the upload pipeline|
-|**clsx + tailwind-merge**|Conditional class name utility (`cn()` function)|
+| Library                   | Purpose                                                                              |
+| ------------------------- | ------------------------------------------------------------------------------------ |
+| **Framer Motion**         | React animation library for micro-interactions and state transitions                 |
+| **GSAP**                  | Timeline-based animations for ceremonial sequences (crest drawing, page transitions) |
+| **Lucide React**          | Icon library (unified through Icon Registry)                                         |
+| **next-intl**             | Internationalisation with locale-aware routing                                       |
+| **Tiptap**                | Rich text editor for the admin panel                                                 |
+| **Sharp**                 | Image optimisation in the upload pipeline                                            |
+| **clsx + tailwind-merge** | Conditional class name utility (`cn()` function)                                     |
 
 ### Monitoring & Analytics
 
-|Service|Purpose|
-|---|---|
-|**Umami**|Self-hosted privacy-first analytics (Docker container on same VPS)|
-|**UptimeRobot**|External uptime monitoring (5-minute checks)|
-|**Sentry**|Optional error monitoring (configurable via environment variable)|
+| Service         | Purpose                                                            |
+| --------------- | ------------------------------------------------------------------ |
+| **Umami**       | Self-hosted privacy-first analytics (Docker container on same VPS) |
+| **UptimeRobot** | External uptime monitoring (5-minute checks)                       |
+| **Sentry**      | Optional error monitoring (configurable via environment variable)  |
 
 ---
 
@@ -164,40 +164,39 @@ _The "CDN" box above is Next.js's server-side Data Cache, not the Cloudflare edg
 ### Authentication Flow
 
 1. **Primary Authentication:** Google Workspace OAuth via Auth.js
-    
-    - Restricted to `@cwwkcc.lk` domain (verified server-side)
-    - Session stored in database via Prisma adapter
-    - Secure cookies with HttpOnly, SameSite
+   - Restricted to `@cwwkcc.lk` domain (verified server-side)
+   - Session stored in database via Prisma adapter
+   - Secure cookies with HttpOnly, SameSite
+
 2. **Access Control:** Invite-based
-    
-    - Admin must first add user email to database
-    - Role assignment (Admin or Editor)
-    - Deactivation revokes access immediately
+   - Admin must first add user email to database
+   - Role assignment (Admin or Editor)
+   - Deactivation revokes access immediately
+
 3. **Break-glass Account:** Credentials-based super-admin
-    
-    - Seeded from environment variables at deploy
-    - Protected by TOTP (RFC 6238)
-    - Used only for bootstrap and recovery
-    - Password rotation via server-side CLI script
+   - Seeded from environment variables at deploy
+   - Protected by TOTP (RFC 6238)
+   - Used only for bootstrap and recovery
+   - Password rotation via server-side CLI script
 
 ### Security Layers
 
-|Layer|Protection|
-|---|---|
-|**Network**|Firewall (ports 80, 443, 22 only); PostgreSQL internal-only|
-|**TLS**|Automatic HTTPS via Let's Encrypt; HSTS header|
-|**Headers**|CSP, X-Frame-Options (DENY), X-Content-Type-Options (nosniff), Referrer-Policy|
-|**API**|tRPC middleware for authentication; Zod input validation; rate limiting|
-|**File Upload**|MIME type validation; extension validation; size limits; Sharp metadata stripping|
-|**Database**|Connection pooling; prepared statements; no direct public access|
-|**Backups**|Encrypted off-site backups; separate key storage|
+| Layer           | Protection                                                                        |
+| --------------- | --------------------------------------------------------------------------------- |
+| **Network**     | Firewall (ports 80, 443, 22 only); PostgreSQL internal-only                       |
+| **TLS**         | Automatic HTTPS via Let's Encrypt; HSTS header                                    |
+| **Headers**     | CSP, X-Frame-Options (DENY), X-Content-Type-Options (nosniff), Referrer-Policy    |
+| **API**         | tRPC middleware for authentication; Zod input validation; rate limiting           |
+| **File Upload** | MIME type validation; extension validation; size limits; Sharp metadata stripping |
+| **Database**    | Connection pooling; prepared statements; no direct public access                  |
+| **Backups**     | Encrypted off-site backups; separate key storage                                  |
 
 ### Rate Limiting
 
-|Endpoint|Limit|Implementation|
-|---|---|---|
-|Contact Form|5 requests/hour/IP|Next.js middleware or Cloudflare WAF|
-|General API|Configurable baseline|Next.js middleware|
+| Endpoint     | Limit                 | Implementation                       |
+| ------------ | --------------------- | ------------------------------------ |
+| Contact Form | 5 requests/hour/IP    | Next.js middleware or Cloudflare WAF |
+| General API  | Configurable baseline | Next.js middleware                   |
 
 _The Results Portal was removed from scope entirely (see Feature Registry F-051/F-141–F-161 — no results portal page exists in the current registry) and no longer has a rate-limit row._
 
@@ -214,30 +213,30 @@ _The Results Portal was removed from scope entirely (see Feature Registry F-051/
 
 ### Image Optimisation
 
-|Step|Tool|Purpose|
-|---|---|---|
-|Upload|Sharp|Resize to max display dimensions; WebP conversion; metadata stripping|
-|Delivery|`next/image`|Automatic format negotiation; lazy loading; blur placeholders|
-|Storage|Cloudflare R2|Global CDN caching; zero egress fees|
-|Caching|CDN + Browser|Cache-Control headers for immutable assets|
+| Step     | Tool          | Purpose                                                               |
+| -------- | ------------- | --------------------------------------------------------------------- |
+| Upload   | Sharp         | Resize to max display dimensions; WebP conversion; metadata stripping |
+| Delivery | `next/image`  | Automatic format negotiation; lazy loading; blur placeholders         |
+| Storage  | Cloudflare R2 | Global CDN caching; zero egress fees                                  |
+| Caching  | CDN + Browser | Cache-Control headers for immutable assets                            |
 
 ### Bundle Optimisation
 
-|Technique|Implementation|
-|---|---|
-|Dynamic imports|CrestAnimation, AudioPlayer, Tiptap, PanoramicFacilityViewer|
-|Package optimisation|`optimizePackageImports` for `@nexus/ui` and `framer-motion`|
-|Code splitting|Next.js automatic per-page bundling|
-|Font optimisation|Self-hosted fonts; `next/font` with preload|
+| Technique            | Implementation                                               |
+| -------------------- | ------------------------------------------------------------ |
+| Dynamic imports      | CrestAnimation, AudioPlayer, Tiptap, PanoramicFacilityViewer |
+| Package optimisation | `optimizePackageImports` for `@nexus/ui` and `framer-motion` |
+| Code splitting       | Next.js automatic per-page bundling                          |
+| Font optimisation    | Self-hosted fonts; `next/font` with preload                  |
 
 ### Performance Targets
 
-|Metric|Target|
-|---|---|
-|Lighthouse Performance (mobile)|≥ 90|
-|Cumulative Layout Shift (CLS)|< 0.1|
-|Largest Contentful Paint (LCP)|< 2.5s|
-|Total Bundle Size (initial load)|< 200KB (JS)|
+| Metric                           | Target       |
+| -------------------------------- | ------------ |
+| Lighthouse Performance (mobile)  | ≥ 90         |
+| Cumulative Layout Shift (CLS)    | < 0.1        |
+| Largest Contentful Paint (LCP)   | < 2.5s       |
+| Total Bundle Size (initial load) | < 200KB (JS) |
 
 ---
 
@@ -284,7 +283,7 @@ services:
     container_name: nexus-web
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/api/health"]
+      test: ['CMD', 'wget', '--no-verbose', '--tries=1', '--spider', 'http://localhost:3000/api/health']
       interval: 10s
       timeout: 5s
       retries: 3
@@ -302,20 +301,20 @@ services:
 
 ### Health Checks
 
-|Service|Health Check Endpoint|Interval|Alert On|
-|---|---|---|---|
-|nexus-web|`/api/health`|10s|Container unhealthy (5 retries)|
-|nexus-admin|`/api/health`|10s|Container unhealthy (5 retries)|
-|postgres|`pg_isready`|30s|Database not responding|
-|umami|HTTP check on port 3002|30s|Service unavailable|
+| Service     | Health Check Endpoint   | Interval | Alert On                        |
+| ----------- | ----------------------- | -------- | ------------------------------- |
+| nexus-web   | `/api/health`           | 10s      | Container unhealthy (5 retries) |
+| nexus-admin | `/api/health`           | 10s      | Container unhealthy (5 retries) |
+| postgres    | `pg_isready`            | 30s      | Database not responding         |
+| umami       | HTTP check on port 3002 | 30s      | Service unavailable             |
 
 ### External Monitoring
 
-|Service|Frequency|Alert Method|
-|---|---|---|
-|UptimeRobot (`cwwkcc.lk`)|5 minutes|Email + SMS to KITS lead|
-|UptimeRobot (`admin.cwwkcc.lk`)|5 minutes|Email + SMS to KITS lead|
-|SSL Certificate Expiry|30 days before|Email notification|
+| Service                         | Frequency      | Alert Method             |
+| ------------------------------- | -------------- | ------------------------ |
+| UptimeRobot (`cwwkcc.lk`)       | 5 minutes      | Email + SMS to KITS lead |
+| UptimeRobot (`admin.cwwkcc.lk`) | 5 minutes      | Email + SMS to KITS lead |
+| SSL Certificate Expiry          | 30 days before | Email notification       |
 
 ---
 

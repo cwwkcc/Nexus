@@ -1,43 +1,15 @@
 import type { AboutCrestData } from '@nexus/contracts';
-import {
-  Container,
-  Heading,
-  Text,
-  Grid,
-  SectionHeader,
-  VStack,
-  GridItem,
-  CrestDiagram,
-  type CrestSymbol,
-  SchoolLogo,
-} from '@nexus/ui';
+import { Container, Heading, Text, Grid, SectionHeader, VStack, GridItem, CrestDiagram, type CrestSymbol, SchoolLogo } from '@nexus/ui';
 
 export default function CrestExplained({ crest }: { crest: AboutCrestData }) {
   const symbols = crest.symbols as CrestSymbol[];
 
   return (
-    <Container
-      size="full"
-      padding="md"
-      as="section"
-      className="m-space-6 md:m-space-12 lg:m-space-16"
-    >
-      <SectionHeader
-        eyebrow={crest.eyebrow ?? ''}
-        title={crest.heading ?? ''}
-        align="center"
-        withAccentRule
-        variant="eyebrow-title-description"
-        description={crest.intro}
-        marginBottom="mb-space-12"
-      />
+    <Container size="full" padding="md" as="section" className="m-space-6 md:m-space-12 lg:m-space-16">
+      <SectionHeader eyebrow={crest.eyebrow ?? ''} title={crest.heading ?? ''} align="center" withAccentRule variant="eyebrow-title-description" description={crest.intro} marginBottom="mb-space-12" />
 
       <Container className="lg:hidden">
-        <Container
-          size="full"
-          padding="none"
-          className="max-w-size-screen-h-50 mb-space-10"
-        >
+        <Container size="full" padding="none" className="max-w-size-screen-h-50 mb-space-10">
           <SchoolLogo />
         </Container>
         <Grid columns={1} gap={6} className="xs:grid-cols-2">

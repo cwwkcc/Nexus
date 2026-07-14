@@ -7,14 +7,7 @@ import { z } from 'zod';
 import { AvatarSchema } from '../../primitives/media/index.ts';
 import { DepartmentKeyEnum } from '../academics/department.ts';
 
-export const StaffRoleEnum = z.enum([
-  'principal',
-  'deputy-principal',
-  'assistant-principal',
-  'head-prefect',
-  'teacher',
-  'support',
-]);
+export const StaffRoleEnum = z.enum(['principal', 'deputy-principal', 'assistant-principal', 'head-prefect', 'teacher', 'support']);
 
 export const StaffSchema = z.object({
   id: z.string().min(1),

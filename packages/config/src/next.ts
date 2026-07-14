@@ -22,12 +22,7 @@ import type { NextConfig } from 'next';
  * ```
  */
 export const sharedNextConfig: NextConfig = {
-  transpilePackages: [
-    '@nexus/ui',
-    '@nexus/api',
-    '@nexus/contracts',
-    '@nexus/config',
-  ],
+  transpilePackages: ['@nexus/ui', '@nexus/api', '@nexus/contracts', '@nexus/config'],
   experimental: {
     optimizePackageImports: ['@nexus/ui', 'framer-motion', 'lucide-react'],
   },

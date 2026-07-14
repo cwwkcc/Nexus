@@ -13,20 +13,11 @@
 // Public procedures return only `status: 'published'` entries.
 // Admin procedures return all statuses and are gated by adminSecret.
 
-import {
-  LocaleEnum,
-  getAllSectionSchemas,
-  getGlobalSectionSchemas,
-} from '@nexus/contracts';
+import { LocaleEnum, getAllSectionSchemas, getGlobalSectionSchemas } from '@nexus/contracts';
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 
-import {
-  adminProcedure,
-  adminMutation,
-  publicProcedure,
-  router,
-} from '../trpc.js';
+import { adminProcedure, adminMutation, publicProcedure, router } from '../trpc.js';
 
 // ── Input schemas ─────────────────────────────────────────────────────────────
 
@@ -41,9 +32,7 @@ const SectionLocaleInput = z.object({
   locale: LocaleEnum,
 });
 
-const StatusSchema = z
-  .enum(['draft', 'published', 'archived'])
-  .default('draft');
+const StatusSchema = z.enum(['draft', 'published', 'archived']).default('draft');
 
 // ── Router ────────────────────────────────────────────────────────────────────
 
@@ -57,40 +46,38 @@ export const contentEntryRouter = router({
    *
    * Used by: apps/web typed fetchers (getAboutPageContent, etc.)
    */
-  getByScope: publicProcedure
-    .input(ScopedLocaleInput)
-    .query(async ({ ctx, input }) => {
-      const { scope, locale } = input;
+  getByScope: publicProcedure.input(ScopedLocaleInput).query(async ({ ctx, input }) => {
+    const { scope, locale } = input;
 
-      try {
-        const [localized, fallback] = await Promise.all([
-          ctx.db.contentEntry.findMany({
-            where: { scope, locale, status: 'published' },
-          }),
-          locale === 'en'
-            ? Promise.resolve([])
-            : ctx.db.contentEntry.findMany({
-                where: { scope, locale: 'en', status: 'published' },
-              }),
-        ]);
+    try {
+      const [localized, fallback] = await Promise.all([
+        ctx.db.contentEntry.findMany({
+          where: { scope, locale, status: 'published' },
+        }),
+        locale === 'en'
+          ? Promise.resolve([])
+          : ctx.db.contentEntry.findMany({
+              where: { scope, locale: 'en', status: 'published' },
+            }),
+      ]);
 
-        // English rows provide the baseline; locale rows override them.
+      // English rows provide the baseline; locale rows override them.
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const bySectionKey = new Map<string, any>(
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const bySectionKey = new Map<string, any>(
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          fallback.map((row: any): [string, any] => [row.sectionKey, row]),
-        );
-        for (const row of localized) bySectionKey.set(row.sectionKey, row);
+        fallback.map((row: any): [string, any] => [row.sectionKey, row]),
+      );
+      for (const row of localized) bySectionKey.set(row.sectionKey, row);
 
-        const sections: Record<string, unknown> = {};
-        for (const row of bySectionKey.values()) {
-          sections[row.sectionKey] = row.data;
-        }
-        return sections;
-      } catch {
-        return {};
+      const sections: Record<string, unknown> = {};
+      for (const row of bySectionKey.values()) {
+        sections[row.sectionKey] = row.data;
       }
-    }),
+      return sections;
+    } catch {
+      return {};
+    }
+  }),
 
   /**
    * ADMIN — returns ALL sections for a scope + locale, regardless of status.
@@ -100,59 +87,55 @@ export const contentEntryRouter = router({
    *
    * Used by: apps/admin content editor pages.
    */
-  adminGetByScope: adminProcedure
-    .input(ScopedLocaleInput)
-    .query(async ({ ctx, input }) => {
-      const { scope, locale } = input;
+  adminGetByScope: adminProcedure.input(ScopedLocaleInput).query(async ({ ctx, input }) => {
+    const { scope, locale } = input;
 
-      try {
-        const rows = await ctx.db.contentEntry.findMany({
-          where: { scope, locale },
-        });
+    try {
+      const rows = await ctx.db.contentEntry.findMany({
+        where: { scope, locale },
+      });
 
-        type AdminEntry = {
-          data: unknown;
-          status: string;
-          version: number;
-          updatedAt: Date;
-          updatedBy: string | null;
+      type AdminEntry = {
+        data: unknown;
+        status: string;
+        version: number;
+        updatedAt: Date;
+        updatedBy: string | null;
+      };
+      const sections: Record<string, AdminEntry> = {};
+      for (const row of rows) {
+        sections[row.sectionKey] = {
+          data: row.data,
+          status: row.status,
+          version: row.version,
+          updatedAt: row.updatedAt,
+          updatedBy: row.updatedBy,
         };
-        const sections: Record<string, AdminEntry> = {};
-        for (const row of rows) {
-          sections[row.sectionKey] = {
-            data: row.data,
-            status: row.status,
-            version: row.version,
-            updatedAt: row.updatedAt,
-            updatedBy: row.updatedBy,
-          };
-        }
-        return sections;
-      } catch {
-        return {};
       }
-    }),
+      return sections;
+    } catch {
+      return {};
+    }
+  }),
 
   /**
    * ADMIN — returns version history for one section (newest first, max 30).
    *
    * Used by: admin version history drawer (future).
    */
-  getVersionHistory: adminProcedure
-    .input(SectionLocaleInput)
-    .query(async ({ ctx, input }) => {
-      const { scope, sectionKey, locale } = input;
-      const entry = await ctx.db.contentEntry.findUnique({
-        where: { scope_sectionKey_locale: { scope, sectionKey, locale } },
-        include: {
-          versions: {
-            orderBy: { version: 'desc' },
-            take: 30,
-          },
+  getVersionHistory: adminProcedure.input(SectionLocaleInput).query(async ({ ctx, input }) => {
+    const { scope, sectionKey, locale } = input;
+    const entry = await ctx.db.contentEntry.findUnique({
+      where: { scope_sectionKey_locale: { scope, sectionKey, locale } },
+      include: {
+        versions: {
+          orderBy: { version: 'desc' },
+          take: 30,
         },
-      });
-      return entry?.versions ?? [];
-    }),
+      },
+    });
+    return entry?.versions ?? [];
+  }),
 
   /**
    * ADMIN — upsert one section.
@@ -187,9 +170,7 @@ export const contentEntryRouter = router({
       if (!schema) {
         throw new TRPCError({
           code: 'BAD_REQUEST',
-          message:
-            `No schema registered for sectionKey "${sectionKey}". ` +
-            `Register it in packages/contracts/src/page-registry/ or global-registry/ first.`,
+          message: `No schema registered for sectionKey "${sectionKey}". ` + `Register it in packages/contracts/src/page-registry/ or global-registry/ first.`,
         });
       }
 

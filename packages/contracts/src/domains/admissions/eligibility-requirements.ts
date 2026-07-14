@@ -2,12 +2,7 @@
 
 import { z } from 'zod';
 
-export const GradeLevelEnum = z.enum([
-  'grade-6',
-  'grade-10',
-  'grade-12',
-  'other',
-]);
+export const GradeLevelEnum = z.enum(['grade-6', 'grade-10', 'grade-12', 'other']);
 
 export const RequirementSchema = z.object({
   id: z.string().min(1),

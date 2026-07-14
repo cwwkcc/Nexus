@@ -8,9 +8,7 @@ export const serverEnvSchema = z.object({
   DATABASE_URL: z.string().url('DATABASE_URL must be a valid URL'),
 
   // Auth.js
-  NEXTAUTH_SECRET: z
-    .string()
-    .min(32, 'NEXTAUTH_SECRET must be at least 32 characters'),
+  NEXTAUTH_SECRET: z.string().min(32, 'NEXTAUTH_SECRET must be at least 32 characters'),
   NEXTAUTH_URL: z.string().url('NEXTAUTH_URL must be a valid URL'),
 
   // Google OAuth
@@ -40,14 +38,8 @@ export const serverEnvSchema = z.object({
  * Public environment variables (exposed to browser via NEXT_PUBLIC_*)
  */
 export const publicEnvSchema = z.object({
-  NEXT_PUBLIC_SITE_URL: z
-    .string()
-    .url('NEXT_PUBLIC_SITE_URL must be a valid URL')
-    .default('https://cwwkcc.lk'),
-  NEXT_PUBLIC_ADMIN_URL: z
-    .string()
-    .url('NEXT_PUBLIC_ADMIN_URL must be a valid URL')
-    .default('https://admin.cwwkcc.lk'),
+  NEXT_PUBLIC_SITE_URL: z.string().url('NEXT_PUBLIC_SITE_URL must be a valid URL').default('https://cwwkcc.lk'),
+  NEXT_PUBLIC_ADMIN_URL: z.string().url('NEXT_PUBLIC_ADMIN_URL must be a valid URL').default('https://admin.cwwkcc.lk'),
   NEXT_PUBLIC_UMAMI_WEBSITE_ID: z.string().optional(),
 });
 
@@ -79,9 +71,7 @@ export function validateEnv(): Env {
   const result = envSchema.safeParse(process.env);
 
   if (!result.success) {
-    const errors = result.error.issues
-      .map((err) => `${err.path.join('.')}: ${err.message}`)
-      .join('\n');
+    const errors = result.error.issues.map((err) => `${err.path.join('.')}: ${err.message}`).join('\n');
     throw new Error(`Environment variable validation failed:\n${errors}`);
   }
 
@@ -95,9 +85,7 @@ export function validateServerEnv(): ServerEnv {
   const result = serverEnvSchema.safeParse(process.env);
 
   if (!result.success) {
-    const errors = result.error.issues
-      .map((err) => `${err.path.join('.')}: ${err.message}`)
-      .join('\n');
+    const errors = result.error.issues.map((err) => `${err.path.join('.')}: ${err.message}`).join('\n');
     throw new Error(`Server environment variable validation failed:\n${errors}`);
   }
 
@@ -111,9 +99,7 @@ export function validatePublicEnv(): PublicEnv {
   const result = publicEnvSchema.safeParse(process.env);
 
   if (!result.success) {
-    const errors = result.error.issues
-      .map((err) => `${err.path.join('.')}: ${err.message}`)
-      .join('\n');
+    const errors = result.error.issues.map((err) => `${err.path.join('.')}: ${err.message}`).join('\n');
     throw new Error(`Public environment variable validation failed:\n${errors}`);
   }
 

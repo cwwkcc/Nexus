@@ -13,30 +13,17 @@ interface QuoteBlockProps {
   cite?: string;
 }
 
-export const QuoteBlock = forwardRef<
-  HTMLDivElement | HTMLElement,
-  QuoteBlockProps
->(({ variant = 'pull-quote', quote, attribution, className, cite }, ref) => {
+export const QuoteBlock = forwardRef<HTMLDivElement | HTMLElement, QuoteBlockProps>(({ variant = 'pull-quote', quote, attribution, className, cite }, ref) => {
   if (variant === 'ceremonial') {
     return (
-      <figure
-        ref={ref as React.LegacyRef<HTMLQuoteElement>}
-        className={cn(
-          'text-center py-space-6 px-space-10 mx-auto max-w-prose',
-          className,
-        )}
-      >
+      <figure ref={ref as React.LegacyRef<HTMLQuoteElement>} className={cn('text-center py-space-6 px-space-10 mx-auto max-w-prose', className)}>
         <blockquote className="m-0">
-          <p className="font-display text-pullquote italic text-text-primary">
-            &ldquo;{quote}&rdquo;
-          </p>
+          <p className="font-display text-pullquote italic text-text-primary">&ldquo;{quote}&rdquo;</p>
         </blockquote>
         {attribution && (
           <>
             <div className="w-size-8 h-size-px bg-gold-base my-space-5 mx-auto" />
-            <figcaption className="font-body text-caption uppercase tracking-caption text-text-muted">
-              {attribution}
-            </figcaption>
+            <figcaption className="font-body text-caption uppercase tracking-caption text-text-muted">{attribution}</figcaption>
           </>
         )}
       </figure>
@@ -45,22 +32,9 @@ export const QuoteBlock = forwardRef<
 
   // Pull quote (default)
   return (
-    <blockquote
-      ref={ref as React.LegacyRef<HTMLQuoteElement>}
-      cite={cite}
-      className={cn(
-        'm-0 py-space-1 pl-space-6 border-l-2 border-gold-base',
-        className,
-      )}
-    >
-      <p className="font-display text-pullquote italic text-text-muted leading-relaxed tracking-wide">
-        &ldquo;{quote}&rdquo;
-      </p>
-      {attribution && (
-        <cite className="block mt-space-3 font-body text-caption uppercase tracking-caption text-gold-base not-italic">
-          {attribution}
-        </cite>
-      )}
+    <blockquote ref={ref as React.LegacyRef<HTMLQuoteElement>} cite={cite} className={cn('m-0 py-space-1 pl-space-6 border-l-2 border-gold-base', className)}>
+      <p className="font-display text-pullquote italic text-text-muted leading-relaxed tracking-wide">&ldquo;{quote}&rdquo;</p>
+      {attribution && <cite className="block mt-space-3 font-body text-caption uppercase tracking-caption text-gold-base not-italic">{attribution}</cite>}
     </blockquote>
   );
 });

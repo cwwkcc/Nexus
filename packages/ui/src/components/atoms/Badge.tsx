@@ -43,9 +43,7 @@ const statusLabels: Record<BadgeStatus, string> = {
   reviewed: 'Reviewed',
 };
 
-const base =
-  'inline-flex items-center px-space-2 py-space-1 rounded-full font-body text-caption ' +
-  'uppercase tracking-caption leading-none select-none whitespace-nowrap';
+const base = 'inline-flex items-center px-space-2 py-space-1 rounded-full font-body text-caption ' + 'uppercase tracking-caption leading-none select-none whitespace-nowrap';
 
 export const Badge = forwardRef<HTMLElement, BadgeProps>((props, ref) => {
   const { variant, className, as: Tag = 'span' } = props;
@@ -64,13 +62,7 @@ export const Badge = forwardRef<HTMLElement, BadgeProps>((props, ref) => {
   }
 
   return (
-    <Tag
-      ref={ref}
-      aria-label={ariaLabel}
-      data-variant={variant}
-      data-status={variant === 'status' ? props.status : undefined}
-      className={cn(base, colorClass, className)}
-    >
+    <Tag ref={ref} aria-label={ariaLabel} data-variant={variant} data-status={variant === 'status' ? props.status : undefined} className={cn(base, colorClass, className)}>
       {label}
     </Tag>
   );

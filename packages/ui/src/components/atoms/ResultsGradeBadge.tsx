@@ -16,15 +16,5 @@ const gradeStyles: Record<string, string> = {
 
 export function ResultsGradeBadge({ grade, className }: ResultGradeBadgeProps) {
   const normalized = grade.toUpperCase();
-  return (
-    <span
-      className={cn(
-        'inline-flex items-center justify-center w-size-8 h-size-8 rounded-full font-body text-sm font-semibold capitalise',
-        gradeStyles[normalized] || 'bg-surface-default text-text-muted',
-        className,
-      )}
-    >
-      {normalized}
-    </span>
-  );
+  return <span className={cn('inline-flex items-center justify-center w-size-8 h-size-8 rounded-full font-body text-sm font-semibold capitalise', gradeStyles[normalized] || 'bg-surface-default text-text-muted', className)}>{normalized}</span>;
 }

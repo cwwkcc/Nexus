@@ -6,21 +6,10 @@ export default function PrincipalSection({ data }: { data: AdministrationPrincip
     <section className="py-16 md:py-24">
       <div className="container mx-auto px-4">
         <div className="mb-12 text-center">
-          {data.eyebrow && (
-            <p className="mb-4 text-sm font-semibold uppercase tracking-wider text-green-base">
-              {data.eyebrow}
-            </p>
-          )}
-          {data.heading && (
-            <h2 className="text-3xl font-bold tracking-tight md:text-4xl font-display text-text-primary">
-              {data.heading}
-            </h2>
-          )}
+          {data.eyebrow && <p className="mb-4 text-sm font-semibold uppercase tracking-wider text-green-base">{data.eyebrow}</p>}
+          {data.heading && <h2 className="text-3xl font-bold tracking-tight md:text-4xl font-display text-text-primary">{data.heading}</h2>}
         </div>
-        <StaffCard
-          {...data.principal}
-          variant="principal"
-        />
+        <StaffCard {...data.principal} variant="principal" />
       </div>
     </section>
   );

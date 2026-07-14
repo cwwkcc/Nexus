@@ -12,13 +12,13 @@ This document defines the review schedule for all content on the Nexus platform.
 
 ## Review Cycles
 
-| Cycle | Frequency | Purpose |
-|-------|-----------|---------|
-| **Daily** | Every day | Check for urgent issues |
-| **Weekly** | Every week | Review recent changes |
-| **Monthly** | Every month | Review content quality |
+| Cycle         | Frequency      | Purpose                 |
+| ------------- | -------------- | ----------------------- |
+| **Daily**     | Every day      | Check for urgent issues |
+| **Weekly**    | Every week     | Review recent changes   |
+| **Monthly**   | Every month    | Review content quality  |
 | **Quarterly** | Every 3 months | Review content accuracy |
-| **Annually** | Every year | Full content audit |
+| **Annually**  | Every year     | Full content audit      |
 
 ---
 
@@ -27,6 +27,7 @@ This document defines the review schedule for all content on the Nexus platform.
 **Owner:** KITS Lead
 
 **Tasks:**
+
 - [ ] Check UptimeRobot alerts
 - [ ] Review server logs
 - [ ] Check database backups completed
@@ -39,6 +40,7 @@ This document defines the review schedule for all content on the Nexus platform.
 **Owner:** Staff Advisor
 
 **Tasks:**
+
 - [ ] Review analytics (traffic trends)
 - [ ] Review pending content (drafts, approvals)
 - [ ] Check social media engagement
@@ -135,20 +137,20 @@ This document defines the review schedule for all content on the Nexus platform.
 
 ## Review Schedule Calendar
 
-| Month | Weekly | Monthly | Quarterly | Annually |
-|-------|--------|---------|-----------|----------|
-| January | ✅ | ✅ | ✅ | ✅ |
-| February | ✅ | ✅ | | |
-| March | ✅ | ✅ | | |
-| April | ✅ | ✅ | ✅ | |
-| May | ✅ | ✅ | | |
-| June | ✅ | ✅ | | |
-| July | ✅ | ✅ | ✅ | |
-| August | ✅ | ✅ | | |
-| September | ✅ | ✅ | | |
-| October | ✅ | ✅ | ✅ | |
-| November | ✅ | ✅ | | |
-| December | ✅ | ✅ | | |
+| Month     | Weekly | Monthly | Quarterly | Annually |
+| --------- | ------ | ------- | --------- | -------- |
+| January   | ✅     | ✅      | ✅        | ✅       |
+| February  | ✅     | ✅      |           |          |
+| March     | ✅     | ✅      |           |          |
+| April     | ✅     | ✅      | ✅        |          |
+| May       | ✅     | ✅      |           |          |
+| June      | ✅     | ✅      |           |          |
+| July      | ✅     | ✅      | ✅        |          |
+| August    | ✅     | ✅      |           |          |
+| September | ✅     | ✅      |           |          |
+| October   | ✅     | ✅      | ✅        |          |
+| November  | ✅     | ✅      |           |          |
+| December  | ✅     | ✅      |           |          |
 
 ---
 
@@ -156,46 +158,55 @@ This document defines the review schedule for all content on the Nexus platform.
 
 ### Monthly Content Review Checklist
 
-**Date:** _______________
-**Reviewer:** _______________
+**Date:** ******\_\_\_******
+**Reviewer:** ******\_\_\_******
 
 **News & Announcements:**
+
 - [ ] All news articles reviewed for accuracy
 - [ ] Outdated articles archived (after 1 year)
 - [ ] New articles published (minimum 2/month)
 
 **Events:**
+
 - [ ] Upcoming events reviewed
 - [ ] Past events archived
 - [ ] Events updated with latest details
 
 **Gallery:**
+
 - [ ] New albums added
 - [ ] Alt text on all images
 - [ ] Album descriptions complete
 
 **Staff Profiles:**
+
 - [ ] New staff profiles added
 - [ ] Departing staff profiles removed
 - [ ] Existing profiles updated
 
 **Page Content:**
+
 - [ ] All pages reviewed for accuracy
 - [ ] Outdated information updated
 
 **Links:**
+
 - [ ] All links checked (no 404s)
 - [ ] Broken links fixed
 
 **Images:**
+
 - [ ] Alt text complete
 - [ ] Images optimised
 
 **SEO:**
+
 - [ ] Metadata complete
 - [ ] Title tags unique
 
 **Accessibility:**
+
 - [ ] No accessibility violations
 
 ---

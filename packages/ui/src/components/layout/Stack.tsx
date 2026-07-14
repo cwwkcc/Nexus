@@ -47,52 +47,10 @@ interface StackProps {
   wrap?: boolean;
 }
 
-export function VStack({
-  children,
-  spacing = 1,
-  align = 'start',
-  className,
-  as: Tag = 'div',
-  justify = 'start',
-  wrap = false,
-}: StackProps) {
-  return (
-    <Tag
-      className={cn(
-        'flex flex-col',
-        spacingMap[spacing],
-        alignMap[align],
-        justifyMap[justify],
-        wrap && 'flex-wrap',
-        className,
-      )}
-    >
-      {children}
-    </Tag>
-  );
+export function VStack({ children, spacing = 1, align = 'start', className, as: Tag = 'div', justify = 'start', wrap = false }: StackProps) {
+  return <Tag className={cn('flex flex-col', spacingMap[spacing], alignMap[align], justifyMap[justify], wrap && 'flex-wrap', className)}>{children}</Tag>;
 }
 
-export function HStack({
-  children,
-  spacing = 4,
-  align = 'center',
-  className,
-  as: Tag = 'div',
-  justify = 'start',
-  wrap = false,
-}: StackProps) {
-  return (
-    <Tag
-      className={cn(
-        'flex flex-row',
-        spacingMap[spacing],
-        alignMap[align],
-        justifyMap[justify],
-        wrap && 'flex-wrap',
-        className,
-      )}
-    >
-      {children}
-    </Tag>
-  );
+export function HStack({ children, spacing = 4, align = 'center', className, as: Tag = 'div', justify = 'start', wrap = false }: StackProps) {
+  return <Tag className={cn('flex flex-row', spacingMap[spacing], alignMap[align], justifyMap[justify], wrap && 'flex-wrap', className)}>{children}</Tag>;
 }

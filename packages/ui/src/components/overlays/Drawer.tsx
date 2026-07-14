@@ -21,15 +21,7 @@ const sizeMap = {
   lg: 'w-96',
 };
 
-export function Drawer({
-  children,
-  isOpen = false,
-  onClose,
-  position = 'left',
-  size = 'md',
-  persistent = false,
-  className,
-}: DrawerProps) {
+export function Drawer({ children, isOpen = false, onClose, position = 'left', size = 'md', persistent = false, className }: DrawerProps) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -39,17 +31,7 @@ export function Drawer({
 
   // For persistent admin sidebar
   if (persistent) {
-    return (
-      <aside
-        className={clsx(
-          'h-screen bg-surface-inverse text-text-inverse flex-shrink-0 overflow-y-auto',
-          sizeMap[size],
-          className,
-        )}
-      >
-        {children}
-      </aside>
-    );
+    return <aside className={clsx('h-screen bg-surface-inverse text-text-inverse flex-shrink-0 overflow-y-auto', sizeMap[size], className)}>{children}</aside>;
   }
 
   if (!mounted) return null;
@@ -57,29 +39,10 @@ export function Drawer({
   return createPortal(
     <>
       {/* Backdrop */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-overlay-medium z-40"
-          onClick={onClose}
-        />
-      )}
+      {isOpen && <div className="fixed inset-0 bg-overlay-medium z-40" onClick={onClose} />}
 
       {/* Drawer panel */}
-      <div
-        className={clsx(
-          'fixed top-0 bottom-0 bg-surface-elevated shadow-elevation-3 z-50 transition-transform duration-300 ease-out',
-          position === 'left' ? 'left-0' : 'right-0',
-          sizeMap[size],
-          isOpen
-            ? 'translate-x-0'
-            : position === 'left'
-              ? '-translate-x-full'
-              : 'translate-x-full',
-          className,
-        )}
-      >
-        {children}
-      </div>
+      <div className={clsx('fixed top-0 bottom-0 bg-surface-elevated shadow-elevation-3 z-50 transition-transform duration-300 ease-out', position === 'left' ? 'left-0' : 'right-0', sizeMap[size], isOpen ? 'translate-x-0' : position === 'left' ? '-translate-x-full' : 'translate-x-full', className)}>{children}</div>
     </>,
     document.body,
   );

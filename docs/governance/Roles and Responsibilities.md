@@ -12,16 +12,16 @@ This document defines the roles and responsibilities of everyone involved in man
 
 ## Role Matrix
 
-| Role | Who | Access Level | Responsibilities |
-|------|-----|--------------|------------------|
-| **Principal** | School Principal | Admin (Read-Only) | Final approval of major content, governance oversight |
-| **Staff Advisor** | Mrs. Tharindrie Perera | Admin (Full) | Content oversight, editor training, governance enforcement |
-| **KITS Lead** | KITS Member | Admin (Full) | Technical leadership, deployment, system maintenance |
-| **KITS Member** | KITS Member | Editor | Content creation, technical support |
-| **Editorial Team** | Staff + KITS | Editor | News, announcements, event publishing |
-| **Section Owner** | Department Head | Editor | Page content for specific sections |
-| **Media Unit** | Staff/Students | Editor | Gallery uploads, photos, media content |
-| **Examinations Office** | Staff | Admin (Results Only) | Results upload and management |
+| Role                    | Who                    | Access Level         | Responsibilities                                           |
+| ----------------------- | ---------------------- | -------------------- | ---------------------------------------------------------- |
+| **Principal**           | School Principal       | Admin (Read-Only)    | Final approval of major content, governance oversight      |
+| **Staff Advisor**       | Mrs. Tharindrie Perera | Admin (Full)         | Content oversight, editor training, governance enforcement |
+| **KITS Lead**           | KITS Member            | Admin (Full)         | Technical leadership, deployment, system maintenance       |
+| **KITS Member**         | KITS Member            | Editor               | Content creation, technical support                        |
+| **Editorial Team**      | Staff + KITS           | Editor               | News, announcements, event publishing                      |
+| **Section Owner**       | Department Head        | Editor               | Page content for specific sections                         |
+| **Media Unit**          | Staff/Students         | Editor               | Gallery uploads, photos, media content                     |
+| **Examinations Office** | Staff                  | Admin (Results Only) | Results upload and management                              |
 
 ---
 
@@ -32,6 +32,7 @@ This document defines the roles and responsibilities of everyone involved in man
 **Access Level:** Admin (Read-Only)
 
 **Responsibilities:**
+
 - Final approval of governance documents
 - Oversight of content quality and appropriateness
 - Approval of major content changes (mission, vision, values)
@@ -39,6 +40,7 @@ This document defines the roles and responsibilities of everyone involved in man
 - Sign-off on governance documents
 
 **Permissions:**
+
 - View all content
 - View admin panel
 - Cannot edit or delete content (read-only access)
@@ -50,6 +52,7 @@ This document defines the roles and responsibilities of everyone involved in man
 **Access Level:** Admin (Full)
 
 **Responsibilities:**
+
 - Content oversight and quality assurance
 - Editor training and support
 - Governance enforcement
@@ -58,6 +61,7 @@ This document defines the roles and responsibilities of everyone involved in man
 - Escalation point for content issues
 
 **Permissions:**
+
 - Create, edit, publish, and delete all content
 - Manage users (add/remove editors)
 - View audit log
@@ -71,6 +75,7 @@ This document defines the roles and responsibilities of everyone involved in man
 **Access Level:** Admin (Full)
 
 **Responsibilities:**
+
 - Technical leadership of the Nexus project
 - System maintenance and updates
 - Deployment management
@@ -80,6 +85,7 @@ This document defines the roles and responsibilities of everyone involved in man
 - Code review and quality assurance
 
 **Permissions:**
+
 - Create, edit, publish, and delete all content
 - Manage users (add/remove editors)
 - View audit log
@@ -94,6 +100,7 @@ This document defines the roles and responsibilities of everyone involved in man
 **Access Level:** Editor
 
 **Responsibilities:**
+
 - Create and edit content (news, events, etc.)
 - Support the editorial team
 - Technical support for editors
@@ -101,6 +108,7 @@ This document defines the roles and responsibilities of everyone involved in man
 - Assist with training
 
 **Permissions:**
+
 - Create, edit, and publish content
 - Upload images and media
 - Cannot delete content
@@ -114,6 +122,7 @@ This document defines the roles and responsibilities of everyone involved in man
 **Access Level:** Editor
 
 **Responsibilities:**
+
 - Create and publish news articles
 - Create and manage events
 - Maintain announcements
@@ -121,6 +130,7 @@ This document defines the roles and responsibilities of everyone involved in man
 - Follow editorial guidelines
 
 **Permissions:**
+
 - Create, edit, and publish news articles
 - Create, edit, and publish events
 - Create and manage announcements
@@ -133,12 +143,14 @@ This document defines the roles and responsibilities of everyone involved in man
 **Access Level:** Editor
 
 **Responsibilities:**
+
 - Maintain page content for assigned sections
 - Ensure content is accurate and current
 - Coordinate with the editorial team
 - Review content annually
 
 **Permissions:**
+
 - Edit content for their assigned pages
 - Upload images to media library
 - Cannot create or publish news articles
@@ -150,12 +162,14 @@ This document defines the roles and responsibilities of everyone involved in man
 **Access Level:** Editor
 
 **Responsibilities:**
+
 - Upload photos to the gallery
 - Maintain photo albums
 - Add alt text and descriptions
 - Ensure photo quality
 
 **Permissions:**
+
 - Create and edit gallery albums
 - Upload photos
 - Add alt text and descriptions
@@ -168,12 +182,14 @@ This document defines the roles and responsibilities of everyone involved in man
 **Access Level:** Admin (Results Only)
 
 **Responsibilities:**
+
 - Upload exam results
 - Ensure result accuracy
 - Maintain result privacy
 - Manage result retention
 
 **Permissions:**
+
 - Upload exam results (CSV)
 - Edit exam results
 - View result search
@@ -183,33 +199,33 @@ This document defines the roles and responsibilities of everyone involved in man
 
 ## Access Control Summary
 
-| Permission | Principal | Staff Advisor | KITS Lead | KITS Member | Editorial Team | Section Owner | Media Unit | Examinations |
-|------------|-----------|---------------|-----------|-------------|----------------|---------------|------------|--------------|
-| View content | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Create content | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
-| Edit content | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
-| Publish content | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ |
-| Delete content | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| Manage users | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| View audit log | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| Configure settings | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| Upload gallery | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ |
-| Upload results | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| Permission         | Principal | Staff Advisor | KITS Lead | KITS Member | Editorial Team | Section Owner | Media Unit | Examinations |
+| ------------------ | --------- | ------------- | --------- | ----------- | -------------- | ------------- | ---------- | ------------ |
+| View content       | ✅        | ✅            | ✅        | ✅          | ✅             | ✅            | ✅         | ✅           |
+| Create content     | ❌        | ✅            | ✅        | ✅          | ✅             | ✅            | ✅         | ❌           |
+| Edit content       | ❌        | ✅            | ✅        | ✅          | ✅             | ✅            | ✅         | ❌           |
+| Publish content    | ❌        | ✅            | ✅        | ✅          | ✅             | ❌            | ❌         | ❌           |
+| Delete content     | ❌        | ✅            | ✅        | ❌          | ❌             | ❌            | ❌         | ❌           |
+| Manage users       | ❌        | ✅            | ✅        | ❌          | ❌             | ❌            | ❌         | ❌           |
+| View audit log     | ❌        | ✅            | ✅        | ❌          | ❌             | ❌            | ❌         | ❌           |
+| Configure settings | ❌        | ✅            | ✅        | ❌          | ❌             | ❌            | ❌         | ❌           |
+| Upload gallery     | ❌        | ✅            | ✅        | ✅          | ❌             | ❌            | ✅         | ❌           |
+| Upload results     | ❌        | ❌            | ❌        | ❌          | ❌             | ❌            | ❌         | ✅           |
 
 ---
 
 ## Training Requirements
 
-| Role | Training Required | Frequency |
-|------|-------------------|-----------|
-| Principal | None (read-only) | — |
-| Staff Advisor | Admin training | Initial |
-| KITS Lead | Full stack training | Initial + Ongoing |
-| KITS Member | Editor training | Initial |
-| Editorial Team | Editor training | Initial |
-| Section Owner | Page editing training | Initial |
-| Media Unit | Gallery training | Initial |
-| Examinations Office | Results training | Initial |
+| Role                | Training Required     | Frequency         |
+| ------------------- | --------------------- | ----------------- |
+| Principal           | None (read-only)      | —                 |
+| Staff Advisor       | Admin training        | Initial           |
+| KITS Lead           | Full stack training   | Initial + Ongoing |
+| KITS Member         | Editor training       | Initial           |
+| Editorial Team      | Editor training       | Initial           |
+| Section Owner       | Page editing training | Initial           |
+| Media Unit          | Gallery training      | Initial           |
+| Examinations Office | Results training      | Initial           |
 
 ---
 
@@ -264,4 +280,3 @@ This document defines the roles and responsibilities of everyone involved in man
 ---
 
 # governance/Content-Approval-Workflow.md
-

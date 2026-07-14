@@ -13,47 +13,25 @@ type InlineLinkProps = {
   className?: string;
 } & Omit<ComponentPropsWithoutRef<'a'>, 'href' | 'children' | 'target' | 'rel'>;
 
-const inlineLinkStyles =
-  'font-body text-gold-base underline underline-offset-2 ' +
-  'transition-colors duration-fast ease-snap ' +
-  'hover:text-gold-hover visited:text-gold-active ' +
-  'focus-visible:outline-2 focus-visible:outline-gold-base focus-visible:outline-offset-[3px]';
+const inlineLinkStyles = 'font-body text-gold-base underline underline-offset-2 ' + 'transition-colors duration-fast ease-snap ' + 'hover:text-gold-hover visited:text-gold-active ' + 'focus-visible:outline-2 focus-visible:outline-gold-base focus-visible:outline-offset-[3px]';
 
-export const InlineLink = forwardRef<HTMLAnchorElement, InlineLinkProps>(
-  (
-    { href, children, external = false, prefetch = true, className, ...rest },
-    ref,
-  ) => {
-    if (external) {
-      return (
-        <a
-          ref={ref}
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={cn(inlineLinkStyles, className)}
-          {...rest}
-        >
-          {children}
-          <span className="sr-only" aria-hidden="false">
-            (opens in new tab)
-          </span>
-        </a>
-      );
-    }
-
+export const InlineLink = forwardRef<HTMLAnchorElement, InlineLinkProps>(({ href, children, external = false, prefetch = true, className, ...rest }, ref) => {
+  if (external) {
     return (
-      <Link
-        href={href}
-        prefetch={prefetch}
-        className={cn(inlineLinkStyles, className)}
-        ref={ref}
-        {...rest}
-      >
+      <a ref={ref} href={href} target="_blank" rel="noopener noreferrer" className={cn(inlineLinkStyles, className)} {...rest}>
         {children}
-      </Link>
+        <span className="sr-only" aria-hidden="false">
+          (opens in new tab)
+        </span>
+      </a>
     );
-  },
-);
+  }
+
+  return (
+    <Link href={href} prefetch={prefetch} className={cn(inlineLinkStyles, className)} ref={ref} {...rest}>
+      {children}
+    </Link>
+  );
+});
 
 InlineLink.displayName = 'InlineLink';

@@ -4,11 +4,7 @@ import { z } from 'zod';
 
 import { ImageSchema } from '../../primitives/media/index.ts';
 
-export const ExtracurricularCategoryEnum = z.enum([
-  'sports',
-  'performing-arts',
-  'leadership',
-]);
+export const ExtracurricularCategoryEnum = z.enum(['sports', 'performing-arts', 'leadership']);
 
 export const ActivitySchema = z.object({
   id: z.string().min(1),
@@ -21,7 +17,5 @@ export const ActivitySchema = z.object({
   studentQuote: z.string().optional(),
 });
 
-export type ExtracurricularCategoryEnumData = z.infer<
-  typeof ExtracurricularCategoryEnum
->;
+export type ExtracurricularCategoryEnumData = z.infer<typeof ExtracurricularCategoryEnum>;
 export type ActivityData = z.infer<typeof ActivitySchema>;

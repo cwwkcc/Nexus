@@ -5,15 +5,7 @@
 
 import './global.css';
 import { cn, BackToTopButton } from '@nexus/ui';
-import {
-  Cormorant_Garamond,
-  Cormorant_Upright,
-  Inter,
-  IBM_Plex_Mono,
-  Maname,
-  Noto_Serif_Sinhala,
-  Noto_Serif_Tamil,
-} from 'next/font/google';
+import { Cormorant_Garamond, Cormorant_Upright, Inter, IBM_Plex_Mono, Maname, Noto_Serif_Sinhala, Noto_Serif_Tamil } from 'next/font/google';
 
 const cormorantGaramond = Cormorant_Garamond({
   subsets: ['latin'],
@@ -68,26 +60,10 @@ export const metadata = {
 //   // { href: '/global', label: 'Global Content' },
 // ];
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body
-        className={cn(
-          'min-w-size-64 bg-slate-950 text-slate-100',
-          cormorantGaramond.variable,
-          cormorantUpright.variable,
-          inter.variable,
-          ibmPlexMono.variable,
-          maname.variable,
-          notoSerifSinhala.variable,
-          notoSerifTamilDisplay.variable,
-          notoSerifTamilBody.variable,
-        )}
-      >
+      <body className={cn('min-w-size-64 bg-slate-950 text-slate-100', cormorantGaramond.variable, cormorantUpright.variable, inter.variable, ibmPlexMono.variable, maname.variable, notoSerifSinhala.variable, notoSerifTamilDisplay.variable, notoSerifTamilBody.variable)}>
         {children}
 
         <BackToTopButton />

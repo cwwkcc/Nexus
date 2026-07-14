@@ -47,28 +47,12 @@ export function DesignSystemNav() {
   return (
     <div>
       {/* Main navigation */}
-      <nav
-        aria-label="Design system sections"
-        className="flex flex-wrap gap-space-6 border-b border-border-light mb-space-6"
-      >
+      <nav aria-label="Design system sections" className="flex flex-wrap gap-space-6 border-b border-border-light mb-space-6">
         {navItems.map(({ href, label, exact }) => {
-          const isActive = exact
-            ? pathname === href
-            : pathname.startsWith(href);
+          const isActive = exact ? pathname === href : pathname.startsWith(href);
 
           return (
-            <Link
-              key={href}
-              href={href}
-              aria-current={isActive ? 'page' : undefined}
-              className={[
-                'font-body text-label uppercase tracking-label pb-space-3',
-                'border-b-2 transition-all duration-fast ease-out',
-                isActive
-                  ? 'text-gold-base border-gold-base'
-                  : 'border-transparent text-text-muted hover:text-gold-base hover:border-gold-base/40',
-              ].join(' ')}
-            >
+            <Link key={href} href={href} aria-current={isActive ? 'page' : undefined} className={['font-body text-label uppercase tracking-label pb-space-3', 'border-b-2 transition-all duration-fast ease-out', isActive ? 'text-gold-base border-gold-base' : 'border-transparent text-text-muted hover:text-gold-base hover:border-gold-base/40'].join(' ')}>
               {label}
             </Link>
           );
@@ -77,28 +61,12 @@ export function DesignSystemNav() {
 
       {/* Sub-navigation for Components section */}
       {isInComponents && (
-        <nav
-          aria-label="Component categories"
-          className="flex flex-wrap gap-space-4 border-b border-border-light mb-space-8 pb-space-2"
-        >
+        <nav aria-label="Component categories" className="flex flex-wrap gap-space-4 border-b border-border-light mb-space-8 pb-space-2">
           {componentCategories.map(({ href, label, exact }) => {
-            const isActive = exact
-              ? pathname === href
-              : pathname.startsWith(href);
+            const isActive = exact ? pathname === href : pathname.startsWith(href);
 
             return (
-              <Link
-                key={href}
-                href={href}
-                aria-current={isActive ? 'page' : undefined}
-                className={[
-                  'font-body text-caption uppercase tracking-caption pb-space-2',
-                  'border-b-2 transition-all duration-fast ease-out',
-                  isActive
-                    ? 'text-gold-base border-gold-base'
-                    : 'border-transparent text-text-muted hover:text-gold-base hover:border-gold-base/40',
-                ].join(' ')}
-              >
+              <Link key={href} href={href} aria-current={isActive ? 'page' : undefined} className={['font-body text-caption uppercase tracking-caption pb-space-2', 'border-b-2 transition-all duration-fast ease-out', isActive ? 'text-gold-base border-gold-base' : 'border-transparent text-text-muted hover:text-gold-base hover:border-gold-base/40'].join(' ')}>
                 {label}
               </Link>
             );

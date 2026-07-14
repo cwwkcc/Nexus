@@ -233,4 +233,3 @@ If you need to change a decision, write a new ADR explaining the reversal.
 ---
 
 **C.W.W. Kannangara Central College, Est. 1873. "Wisdom is All Wealth."**
-

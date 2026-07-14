@@ -3,9 +3,7 @@
 export default function GlobalError() {
   return (
     <html lang="en">
-      <body
-        style={{ fontFamily: 'system-ui, sans-serif', margin: 0, padding: 0 }}
-      >
+      <body style={{ fontFamily: 'system-ui, sans-serif', margin: 0, padding: 0 }}>
         <div
           style={{
             minHeight: '100vh',
@@ -37,10 +35,7 @@ export default function GlobalError() {
               >
                 Critical Error
               </h1>
-              <p style={{ fontSize: '1.125rem', color: '#374151', margin: 0 }}>
-                The application encountered a critical error and cannot
-                continue. Please try refreshing the page.
-              </p>
+              <p style={{ fontSize: '1.125rem', color: '#374151', margin: 0 }}>The application encountered a critical error and cannot continue. Please try refreshing the page.</p>
             </div>
 
             <summary

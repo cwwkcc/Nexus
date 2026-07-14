@@ -25,20 +25,20 @@ Nexus is designed and developed to meet **WCAG 2.1 Level AA** standards. This en
 
 ### WCAG 2.1 Level AA Requirements
 
-| Category | Requirement | Implementation |
-|----------|-------------|----------------|
-| **Perceivable** | Text alternatives for non-text content | Alt text for all images |
-| **Perceivable** | Captions for audio/video | Captions for videos |
-| **Perceivable** | Colour contrast | 4.5:1 for normal text, 3:1 for large text |
-| **Perceivable** | Text resizing | All text is resizable (no fixed sizes) |
-| **Operable** | Keyboard navigation | All interactive elements keyboard-accessible |
-| **Operable** | Focus indicators | Visible focus rings on all interactive elements |
-| **Operable** | Enough time | No time limits on content |
-| **Operable** | Seizures | No flashing content |
-| **Understandable** | Readable | Clear, simple language |
-| **Understandable** | Predictable | Consistent navigation and behaviour |
-| **Understandable** | Input assistance | Form labels and error messages |
-| **Robust** | Compatibility | Works with assistive technologies |
+| Category           | Requirement                            | Implementation                                  |
+| ------------------ | -------------------------------------- | ----------------------------------------------- |
+| **Perceivable**    | Text alternatives for non-text content | Alt text for all images                         |
+| **Perceivable**    | Captions for audio/video               | Captions for videos                             |
+| **Perceivable**    | Colour contrast                        | 4.5:1 for normal text, 3:1 for large text       |
+| **Perceivable**    | Text resizing                          | All text is resizable (no fixed sizes)          |
+| **Operable**       | Keyboard navigation                    | All interactive elements keyboard-accessible    |
+| **Operable**       | Focus indicators                       | Visible focus rings on all interactive elements |
+| **Operable**       | Enough time                            | No time limits on content                       |
+| **Operable**       | Seizures                               | No flashing content                             |
+| **Understandable** | Readable                               | Clear, simple language                          |
+| **Understandable** | Predictable                            | Consistent navigation and behaviour             |
+| **Understandable** | Input assistance                       | Form labels and error messages                  |
+| **Robust**         | Compatibility                          | Works with assistive technologies               |
 
 ---
 
@@ -48,39 +48,39 @@ Nexus is designed and developed to meet **WCAG 2.1 Level AA** standards. This en
 
 The design system incorporates accessibility:
 
-| Element | Standard |
-|---------|----------|
-| **Colours** | Contrast ratios meet WCAG AA |
-| **Focus Ring** | Gold 2px offset ring on all interactive elements |
-| **Typography** | Clear fonts, sufficient sizing, spacing |
-| **Motion** | Reduced motion for users with motion sensitivity |
-| **Touch Targets** | Minimum 44×44px for all interactive elements |
+| Element           | Standard                                         |
+| ----------------- | ------------------------------------------------ |
+| **Colours**       | Contrast ratios meet WCAG AA                     |
+| **Focus Ring**    | Gold 2px offset ring on all interactive elements |
+| **Typography**    | Clear fonts, sufficient sizing, spacing          |
+| **Motion**        | Reduced motion for users with motion sensitivity |
+| **Touch Targets** | Minimum 44×44px for all interactive elements     |
 
 ### Components
 
 All components include accessibility:
 
-| Component | Accessibility Feature |
-|-----------|----------------------|
-| Buttons | Keyboard activation, focus ring, aria-label |
-| Forms | Labels, error messages, ARIA describedby |
-| Modals | Focus trap, Escape to close, aria-modal |
-| Images | Alt text on all images |
-| Links | Descriptive text, external link indicator |
-| Navigation | Keyboard navigation, aria-current |
+| Component  | Accessibility Feature                       |
+| ---------- | ------------------------------------------- |
+| Buttons    | Keyboard activation, focus ring, aria-label |
+| Forms      | Labels, error messages, ARIA describedby    |
+| Modals     | Focus trap, Escape to close, aria-modal     |
+| Images     | Alt text on all images                      |
+| Links      | Descriptive text, external link indicator   |
+| Navigation | Keyboard navigation, aria-current           |
 
 ### Content
 
 All content must be accessible:
 
-| Content Type | Requirement |
-|--------------|-------------|
-| Images | Alt text for all images |
-| Videos | Captions for all videos |
-| Audio | Transcripts for all audio |
-| Documents | Accessible PDFs |
-| Links | Descriptive text |
-| Headings | Proper hierarchy (h1, h2, h3) |
+| Content Type | Requirement                   |
+| ------------ | ----------------------------- |
+| Images       | Alt text for all images       |
+| Videos       | Captions for all videos       |
+| Audio        | Transcripts for all audio     |
+| Documents    | Accessible PDFs               |
+| Links        | Descriptive text              |
+| Headings     | Proper hierarchy (h1, h2, h3) |
 
 ---
 
@@ -94,12 +94,12 @@ All content must be accessible:
 
 ### Manual Testing
 
-| Test | Performed By | Frequency |
-|------|--------------|-----------|
-| Keyboard navigation | KITS Lead | Each release |
-| Screen reader testing | KITS Lead | Each major release |
-| Colour contrast | KITS Lead | Each release |
-| Focus indicators | KITS Lead | Each release |
+| Test                  | Performed By | Frequency          |
+| --------------------- | ------------ | ------------------ |
+| Keyboard navigation   | KITS Lead    | Each release       |
+| Screen reader testing | KITS Lead    | Each major release |
+| Colour contrast       | KITS Lead    | Each release       |
+| Focus indicators      | KITS Lead    | Each release       |
 
 ### Monitoring
 
@@ -141,10 +141,10 @@ All content must be accessible:
 
 If you experience accessibility issues with Nexus, please report them:
 
-| Method | Contact |
-|--------|---------|
-| **Email** | accessibility@cwwkcc.lk |
-| **Phone** | [School phone number] |
+| Method        | Contact                       |
+| ------------- | ----------------------------- |
+| **Email**     | accessibility@cwwkcc.lk       |
+| **Phone**     | [School phone number]         |
 | **In person** | Staff Advisor, ICT Department |
 
 ### What to Include
@@ -159,10 +159,10 @@ If you experience accessibility issues with Nexus, please report them:
 
 ## Review and Updates
 
-| Review | Frequency | Responsible |
-|--------|-----------|-------------|
-| Policy review | Annually | Staff Advisor |
-| Accessibility audit | Annually | KITS Lead |
+| Review               | Frequency | Responsible   |
+| -------------------- | --------- | ------------- |
+| Policy review        | Annually  | Staff Advisor |
+| Accessibility audit  | Annually  | KITS Lead     |
 | User feedback review | Quarterly | Staff Advisor |
 
 ---
@@ -182,4 +182,3 @@ Nexus is committed to meeting:
 ---
 
 # governance/Editorial-Style-Guide.md
-

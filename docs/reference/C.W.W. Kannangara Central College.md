@@ -33,7 +33,7 @@ The name is never shortened in formal contexts. In informal and community use, t
 
 ### The Motto
 
-> **"Wisdom is All Wealth"** _සු​ඛෝ පඤ්ඤාය පඨිලාභෝ 
+> **"Wisdom is All Wealth"** _සු​ඛෝ පඤ්ඤාය පඨිලාභෝ
 
 This is not a slogan. It is a declaration of values. In a country where rural families had been denied access to quality education for generations, this motto asserted that knowledge — not land, not money, not status — is the truest form of wealth. Every student who passes through these gates inherits that assertion.
 
@@ -69,7 +69,7 @@ These values have been instilled in students since 1873. They are taught not as 
 
 Born in Randombe, Hikkaduwa. Son of a rural family. Beneficiary of a free Wesleyan missionary school. Scholarship student at Richmond College, Galle — where he led the British Empire in Mathematics in 1903. Lawyer. Politician. Minister of Education. Father of Free Education.
 
-His personal journey from rural poverty to national leadership is the story this school tells every day. Students pay homage to his statue upon entering school — not as ritual, but as a reminder: _someone fought for your right to be here._
+His personal journey from rural poverty to national leadership is the story this school tells every day. Students pay homage to his statue upon entering school — not as ritual, but as a reminder: *someone fought for your right to be here.*
 
 **Key dates:**
 
@@ -89,11 +89,11 @@ His personal journey from rural poverty to national leadership is the story this
 
 ### School Colors
 
-|Color|Usage|
-|---|---|
-|**Forest Green**|Primary institutional color. Used in uniforms, sports, flags, and the school's primary brand. The "Men in Green" identity in sports is built on this.|
-|**Gold**|Accent color. Represents the lamp of knowledge in the crest, the warmth of the motto, the earned achievement of the institution.|
-|**Warm Cream**|Background and surface color. Reflects the physical character of the school — cream walls, warm light, aged institutional stone.|
+| Color            | Usage                                                                                                                                                 |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Forest Green** | Primary institutional color. Used in uniforms, sports, flags, and the school's primary brand. The "Men in Green" identity in sports is built on this. |
+| **Gold**         | Accent color. Represents the lamp of knowledge in the crest, the warmth of the motto, the earned achievement of the institution.                      |
+| **Warm Cream**   | Background and surface color. Reflects the physical character of the school — cream walls, warm light, aged institutional stone.                      |
 
 The **Nexus digital color system** translates these into:
 
@@ -105,12 +105,12 @@ The **Nexus digital color system** translates these into:
 
 The school crest is the center of all visual identity. Every design decision in Nexus radiates outward from the crest. Its symbols:
 
-|Symbol|Meaning|
-|---|---|
-|**The Lamp (Pahana)**|The light of education driving away ignorance. The reason gold appears throughout the design.|
-|**The Lotus**|Purity and potential — rising from murky water to bloom perfectly, regardless of circumstances.|
-|**The Dharmachakra**|Truth, righteousness, the endless pursuit of wisdom.|
-|**The Laurel**|Achievement, honour, recognition of excellence.|
+| Symbol                | Meaning                                                                                         |
+| --------------------- | ----------------------------------------------------------------------------------------------- |
+| **The Lamp (Pahana)** | The light of education driving away ignorance. The reason gold appears throughout the design.   |
+| **The Lotus**         | Purity and potential — rising from murky water to bloom perfectly, regardless of circumstances. |
+| **The Dharmachakra**  | Truth, righteousness, the endless pursuit of wisdom.                                            |
+| **The Laurel**        | Achievement, honour, recognition of excellence.                                                 |
 
 The crest is never used decoratively. It is used purposefully — at the center of the homepage hero, on the loading screen, and as the anchor of the school's digital identity.
 
@@ -126,48 +126,48 @@ The college maintains professional SVG and PNG logo assets for consistent instit
 
 ## Auditory Identity
 
-### School Anthem 
+### School Anthem
 
-> _"ශ්‍රීයෙන දින දින වැජඹේ මතුගම  
-මැදි මහ විදුහල් මාතා පෙම්බර  
-සිසුනට සැම දින විදුරැස පතුරන  
-ඔබෙ නම සමරමු සැමදා……….//
-කඳු මුදුනින් සිප එන සිහිලැල්   
-රන් මිණි මුතු පිරි දිය සුනිමල්………….//   
-කළු ගංගා රාණී සිරි දුව ගේ   
-ආසිරි නිති ලබනා   
-ඹබවේ පෙම්බර විදුහල් මාතා………//
-ශ්‍රීයෙන දින දින ……………………………………..
-සැමදින ධර්මය යුක්තය සේවය සඳහා කැපවී   
-ජීවිත පුද දී ඔබෙ ගරු නාමය බබළවමූ   
-ගිය ගිය තැන ජය ලැබ ගනිමු   
-ඹබ එලියෙන් ඥාණය ලැබ දී   
-සැපත කරා පමුණනු මැනවී
-ශ්‍රීයෙන දින දින ………………………………..   
-ශ්‍රී…………………………………………..
+> \_"ශ්‍රීයෙන දින දින වැජඹේ මතුගම  
+> මැදි මහ විදුහල් මාතා පෙම්බර  
+> සිසුනට සැම දින විදුරැස පතුරන  
+> ඔබෙ නම සමරමු සැමදා……….//
+> කඳු මුදුනින් සිප එන සිහිලැල්   
+> රන් මිණි මුතු පිරි දිය සුනිමල්………….//   
+> කළු ගංගා රාණී සිරි දුව ගේ   
+> ආසිරි නිති ලබනා   
+> ඹබවේ පෙම්බර විදුහල් මාතා………//
+> ශ්‍රීයෙන දින දින ……………………………………..
+> සැමදින ධර්මය යුක්තය සේවය සඳහා කැපවී   
+> ජීවිත පුද දී ඔබෙ ගරු නාමය බබළවමූ   
+> ගිය ගිය තැන ජය ලැබ ගනිමු   
+> ඹබ එලියෙන් ඥාණය ලැබ දී   
+> සැපත කරා පමුණනු මැනවී
+> ශ්‍රීයෙන දින දින ………………………………..   
+> ශ්‍රී…………………………………………..
 
 **පදබැඳුම සහ තනුව – විජයපාල සමරනායක.**
 
 The official school anthem celebrates the school as a maternal figure — a source of wisdom and pride for Mathugama. It is sung at assemblies, prize-givings, and on graduation day. Performed by the school choir and the Boys Brass Band.
 
-### Tribute Song 
+### Tribute Song
 
->එක් රොක් වී පාතබමූ එකම රැයේ එකමුතු වී  
-නීතියටයි හිස නැමුනේ ඇති දගකම් යටපත් වී  
-පා ගමන පුරා… සිප් සෙවනින් ගෙන ආ  
-ඒ ගුරුහරුකම් හිතවත්කම් පෙන්නා…
-කන්නන්ගර නාමේ….  
-රැව් දේවී ලක් දෙරණ පුරා….  
-පියාණනේ ඔබෙ බැල්මන් ලබා…  
-වැජබේවී ලක් දෙරණ පුරා…  
-මුලුකුරු දී… මුලපිරූ….
-ලෝකේ පුරා සොයුරන් වී…  
-ජීවිතේ මග සොයනා පුන්චි පැටව්  
-මේ පින්බිමේ පිනකින් හෙට ලොව දිනූ  
-කන්නන්ගර නාමේ…
-රැව් දේවී ලක් දෙරණ පුරා…
-පියාණනේ ඔබෙ බැල්මන් ලබා…
-වැජබේවී ලක් දෙරණ පුරා…//
+> එක් රොක් වී පාතබමූ එකම රැයේ එකමුතු වී  
+> නීතියටයි හිස නැමුනේ ඇති දගකම් යටපත් වී  
+> පා ගමන පුරා… සිප් සෙවනින් ගෙන ආ  
+> ඒ ගුරුහරුකම් හිතවත්කම් පෙන්නා…
+> කන්නන්ගර නාමේ….  
+> රැව් දේවී ලක් දෙරණ පුරා….  
+> පියාණනේ ඔබෙ බැල්මන් ලබා…  
+> වැජබේවී ලක් දෙරණ පුරා…  
+> මුලුකුරු දී… මුලපිරූ….
+> ලෝකේ පුරා සොයුරන් වී…  
+> ජීවිතේ මග සොයනා පුන්චි පැටව්  
+> මේ පින්බිමේ පිනකින් හෙට ලොව දිනූ  
+> කන්නන්ගර නාමේ…
+> රැව් දේවී ලක් දෙරණ පුරා…
+> පියාණනේ ඔබෙ බැල්මන් ලබා…
+> වැජබේවී ලක් දෙරණ පුරා…//
 
 ---
 
@@ -179,7 +179,7 @@ Kannangarians are found in medicine, engineering, law, business, and government 
 
 The Kannangarian identity is defined by:
 
-- The motto — _Wisdom is All Wealth_
+- The motto — *Wisdom is All Wealth*
 - The values — Truth, Courage, Discipline
 - The philosophy — Head, Heart, Hand
 - The colours — The green of the uniform, the gold of achievement
@@ -236,7 +236,7 @@ Five distinct musical bands:
 
 ### Kannangara ICT Society (KITS)
 
-The school's technology society. Responsible for building and maintaining the school's digital presence, including the Nexus website. 
+The school's technology society. Responsible for building and maintaining the school's digital presence, including the Nexus website.
 
 ---
 
@@ -277,10 +277,10 @@ Every school claims to be excellent. KCC's difference is specific and provable:
 
 ### What we say
 
-- We talk about the mission — _education as a right, not a privilege_
+- We talk about the mission — *education as a right, not a privilege*
 - We talk about the people — Dr. Kannangara, the Kannangarians, the community
 - We talk about the proof — exam results, scout awards, KITS achievements
-- We talk about the future 
+- We talk about the future
 
 ### What we don't say
 
@@ -300,4 +300,4 @@ The Nexus website should feel like an extension of the institution it represents
 
 ---
 
-_Document maintained by Kannangara ICT Society_ _C.W.W. Kannangara Central College, Mathugama_ _© 2026_
+*Document maintained by Kannangara ICT Society* *C.W.W. Kannangara Central College, Mathugama* *© 2026*

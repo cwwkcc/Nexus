@@ -9,29 +9,9 @@ type GridFlow = 'row' | 'col' | 'row-dense' | 'col-dense';
 type PlaceItems = 'start' | 'end' | 'center' | 'stretch';
 type JustifyItems = 'start' | 'end' | 'center' | 'stretch';
 type AlignItems = 'start' | 'end' | 'center' | 'stretch' | 'baseline';
-type PlaceContent =
-  | 'center'
-  | 'start'
-  | 'end'
-  | 'between'
-  | 'around'
-  | 'evenly'
-  | 'stretch';
-type JustifyContent =
-  | 'start'
-  | 'end'
-  | 'center'
-  | 'between'
-  | 'around'
-  | 'evenly';
-type AlignContent =
-  | 'start'
-  | 'end'
-  | 'center'
-  | 'between'
-  | 'around'
-  | 'evenly'
-  | 'stretch';
+type PlaceContent = 'center' | 'start' | 'end' | 'between' | 'around' | 'evenly' | 'stretch';
+type JustifyContent = 'start' | 'end' | 'center' | 'between' | 'around' | 'evenly';
+type AlignContent = 'start' | 'end' | 'center' | 'between' | 'around' | 'evenly' | 'stretch';
 
 interface GridProps {
   children: React.ReactNode;
@@ -188,10 +168,7 @@ function getGridRowsClass(rows: GridRows): string {
   return rows;
 }
 
-function getAutoClass(
-  prefix: 'auto-cols' | 'auto-rows',
-  value: string,
-): string {
+function getAutoClass(prefix: 'auto-cols' | 'auto-rows', value: string): string {
   const map: Record<string, string> = {
     auto: `${prefix}-auto`,
     min: `${prefix}-min`,
@@ -202,43 +179,8 @@ function getAutoClass(
   return `${prefix}-[${value}]`;
 }
 
-export function Grid({
-  children,
-  columns = 3,
-  rows,
-  autoCols,
-  autoRows,
-  gap,
-  gapX,
-  gapY,
-  flow,
-  placeItems,
-  justifyItems,
-  alignItems,
-  placeContent,
-  justifyContent,
-  alignContent,
-  as: Tag = 'div',
-  className,
-}: GridProps) {
-  const classes = cn(
-    'grid',
-    getGridColsClass(columns),
-    rows && getGridRowsClass(rows),
-    autoCols && getAutoClass('auto-cols', autoCols),
-    autoRows && getAutoClass('auto-rows', autoRows),
-    gap !== undefined && gapMap[gap],
-    gapX !== undefined && gapXMap[gapX],
-    gapY !== undefined && gapYMap[gapY],
-    flow && flowMap[flow],
-    placeItems && placeItemsMap[placeItems],
-    justifyItems && justifyItemsMap[justifyItems],
-    alignItems && alignItemsMap[alignItems],
-    placeContent && placeContentMap[placeContent],
-    justifyContent && justifyContentMap[justifyContent],
-    alignContent && alignContentMap[alignContent],
-    className,
-  );
+export function Grid({ children, columns = 3, rows, autoCols, autoRows, gap, gapX, gapY, flow, placeItems, justifyItems, alignItems, placeContent, justifyContent, alignContent, as: Tag = 'div', className }: GridProps) {
+  const classes = cn('grid', getGridColsClass(columns), rows && getGridRowsClass(rows), autoCols && getAutoClass('auto-cols', autoCols), autoRows && getAutoClass('auto-rows', autoRows), gap !== undefined && gapMap[gap], gapX !== undefined && gapXMap[gapX], gapY !== undefined && gapYMap[gapY], flow && flowMap[flow], placeItems && placeItemsMap[placeItems], justifyItems && justifyItemsMap[justifyItems], alignItems && alignItemsMap[alignItems], placeContent && placeContentMap[placeContent], justifyContent && justifyContentMap[justifyContent], alignContent && alignContentMap[alignContent], className);
 
   return <Tag className={classes}>{children}</Tag>;
 }
@@ -270,11 +212,7 @@ function getSpanClass(prefix: 'col' | 'row', value: number | string): string {
   return `${prefix}-span-${value}`;
 }
 
-function getStartEndClass(
-  prefix: 'col' | 'row',
-  side: 'start' | 'end',
-  value: number | string,
-): string {
+function getStartEndClass(prefix: 'col' | 'row', side: 'start' | 'end', value: number | string): string {
   if (typeof value === 'number') {
     return `${prefix}-${side}-${value}`;
   }
@@ -306,31 +244,8 @@ const placeSelfMap: Record<string, string> = {
   stretch: 'place-self-stretch',
 };
 
-export function GridItem({
-  children,
-  colSpan,
-  rowSpan,
-  colStart,
-  colEnd,
-  rowStart,
-  rowEnd,
-  justifySelf,
-  alignSelf,
-  placeSelf,
-  className,
-}: GridItemProps) {
-  const classes = cn(
-    colSpan && getSpanClass('col', colSpan),
-    rowSpan && getSpanClass('row', rowSpan),
-    colStart && getStartEndClass('col', 'start', colStart),
-    colEnd && getStartEndClass('col', 'end', colEnd),
-    rowStart && getStartEndClass('row', 'start', rowStart),
-    rowEnd && getStartEndClass('row', 'end', rowEnd),
-    justifySelf && justifySelfMap[justifySelf],
-    alignSelf && alignSelfMap[alignSelf],
-    placeSelf && placeSelfMap[placeSelf],
-    className,
-  );
+export function GridItem({ children, colSpan, rowSpan, colStart, colEnd, rowStart, rowEnd, justifySelf, alignSelf, placeSelf, className }: GridItemProps) {
+  const classes = cn(colSpan && getSpanClass('col', colSpan), rowSpan && getSpanClass('row', rowSpan), colStart && getStartEndClass('col', 'start', colStart), colEnd && getStartEndClass('col', 'end', colEnd), rowStart && getStartEndClass('row', 'start', rowStart), rowEnd && getStartEndClass('row', 'end', rowEnd), justifySelf && justifySelfMap[justifySelf], alignSelf && alignSelfMap[alignSelf], placeSelf && placeSelfMap[placeSelf], className);
 
   return <div className={classes}>{children}</div>;
 }

@@ -25,24 +25,14 @@ interface AlumniLegacyBlockProps {
   className?: string;
 }
 
-export function AlumniLegacyBlock({
-  alumni,
-  className,
-}: AlumniLegacyBlockProps) {
-  const [selectedYear, setSelectedYear] = useState<number | string | 'all'>(
-    'all',
-  );
+export function AlumniLegacyBlock({ alumni, className }: AlumniLegacyBlockProps) {
+  const [selectedYear, setSelectedYear] = useState<number | string | 'all'>('all');
   const [activeIndex, setActiveIndex] = useState(0);
 
   // Cast years to Number for accurate descending sorting
-  const years = Array.from(new Set(alumni.map((a) => a.graduationYear))).sort(
-    (a, b) => Number(b) - Number(a),
-  );
+  const years = Array.from(new Set(alumni.map((a) => a.graduationYear))).sort((a, b) => Number(b) - Number(a));
 
-  const filteredAlumni =
-    selectedYear === 'all'
-      ? alumni
-      : alumni.filter((a) => a.graduationYear === selectedYear);
+  const filteredAlumni = selectedYear === 'all' ? alumni : alumni.filter((a) => a.graduationYear === selectedYear);
 
   const currentAlumnus = filteredAlumni[activeIndex];
 
@@ -57,9 +47,7 @@ export function AlumniLegacyBlock({
   };
 
   const prev = () => {
-    setActiveIndex(
-      (prev) => (prev - 1 + filteredAlumni.length) % filteredAlumni.length,
-    );
+    setActiveIndex((prev) => (prev - 1 + filteredAlumni.length) % filteredAlumni.length);
   };
 
   if (filteredAlumni.length === 0) return null;
@@ -69,28 +57,11 @@ export function AlumniLegacyBlock({
       {/* Year filter */}
       {/* FIX: Removed accidental leading space in className */}
       <div className="flex justify-center gap-space-2 mb-space-8 flex-wrap">
-        <button
-          onClick={() => handleYearChange('all')}
-          className={cn(
-            'px-space-3 py-space-1 font-body text-sm rounded-full transition-all',
-            selectedYear === 'all'
-              ? 'bg-green-base text-text-inverse'
-              : 'bg-surface-default text-text-muted hover:bg-surface-deep',
-          )}
-        >
+        <button onClick={() => handleYearChange('all')} className={cn('px-space-3 py-space-1 font-body text-sm rounded-full transition-all', selectedYear === 'all' ? 'bg-green-base text-text-inverse' : 'bg-surface-default text-text-muted hover:bg-surface-deep')}>
           All Years
         </button>
         {years.map((year) => (
-          <button
-            key={year}
-            onClick={() => handleYearChange(year)}
-            className={cn(
-              'px-space-3 py-space-1 font-body text-sm rounded-full transition-all',
-              selectedYear === year
-                ? 'bg-green-base text-text-inverse'
-                : 'bg-surface-default text-text-muted hover:bg-surface-deep',
-            )}
-          >
+          <button key={year} onClick={() => handleYearChange(year)} className={cn('px-space-3 py-space-1 font-body text-sm rounded-full transition-all', selectedYear === year ? 'bg-green-base text-text-inverse' : 'bg-surface-default text-text-muted hover:bg-surface-deep')}>
             {year}
           </button>
         ))}
@@ -98,45 +69,21 @@ export function AlumniLegacyBlock({
 
       {/* Quote carousel */}
       <VStack className="text-center">
-        {currentAlumnus.portraitSrc && (
-          <ImageFrame
-            src={currentAlumnus.portraitSrc}
-            alt={currentAlumnus.portraitAlt || currentAlumnus.name}
-            aspectRatio="3/4"
-            variant="featured"
-            frameColor="gold"
-            frameWidth="border-md"
-            size="full"
-            className="mx-auto mb-space-6 max-w-size-screen-h-45"
-          />
-        )}
+        {currentAlumnus.portraitSrc && <ImageFrame src={currentAlumnus.portraitSrc} alt={currentAlumnus.portraitAlt || currentAlumnus.name} aspectRatio="3/4" variant="featured" frameColor="gold" frameWidth="border-md" size="full" className="mx-auto mb-space-6 max-w-size-screen-h-45" />}
 
-        <blockquote className="font-display text-pullquote italic text-text-primary mb-space-6 mx-auto">
-          &ldquo;{currentAlumnus.quote}&rdquo;
-        </blockquote>
+        <blockquote className="font-display text-pullquote italic text-text-primary mb-space-6 mx-auto">&ldquo;{currentAlumnus.quote}&rdquo;</blockquote>
 
         <HStack justify="between" className="m-auto">
-          <button
-            onClick={prev}
-            className="bg-surface-elevated rounded-full p-space-2 shadow-elevation-1 hover:bg-gold-base transition-colors"
-            aria-label="Previous alumnus"
-          >
+          <button onClick={prev} className="bg-surface-elevated rounded-full p-space-2 shadow-elevation-1 hover:bg-gold-base transition-colors" aria-label="Previous alumnus">
             <Icon name="chevron-left" />
           </button>
           <div>
-            <p className="font-display text-h3 mb-space-2">
-              {currentAlumnus.name}
-            </p>
+            <p className="font-display text-h3 mb-space-2">{currentAlumnus.name}</p>
             <p className="font-body text-body-sm text-text-muted">
-              {currentAlumnus.position} · Class of{' '}
-              {currentAlumnus.graduationYear}
+              {currentAlumnus.position} · Class of {currentAlumnus.graduationYear}
             </p>
           </div>
-          <button
-            onClick={next}
-            className="bg-surface-elevated rounded-full p-space-2 shadow-elevation-1 hover:bg-gold-base transition-colors"
-            aria-label="Next alumnus"
-          >
+          <button onClick={next} className="bg-surface-elevated rounded-full p-space-2 shadow-elevation-1 hover:bg-gold-base transition-colors" aria-label="Next alumnus">
             <Icon name="chevron-right" />
           </button>
         </HStack>
@@ -145,17 +92,7 @@ export function AlumniLegacyBlock({
       {/* Dots indicator */}
       <div className="flex justify-center gap-space-2 mt-space-8">
         {filteredAlumni.map((_, idx) => (
-          <button
-            key={idx}
-            onClick={() => setActiveIndex(idx)}
-            className={cn(
-              'w-size-2 h-size-2 rounded-full transition-all',
-              idx === activeIndex
-                ? 'w-size-4 bg-gold-base'
-                : 'bg-border-default',
-            )}
-            aria-label={`Go to slide ${idx + 1}`}
-          />
+          <button key={idx} onClick={() => setActiveIndex(idx)} className={cn('w-size-2 h-size-2 rounded-full transition-all', idx === activeIndex ? 'w-size-4 bg-gold-base' : 'bg-border-default')} aria-label={`Go to slide ${idx + 1}`} />
         ))}
       </div>
     </Container>

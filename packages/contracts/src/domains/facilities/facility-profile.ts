@@ -4,14 +4,7 @@ import { z } from 'zod';
 
 import { ImageSchema } from '../../primitives/media/index.ts';
 
-export const FacilityTypeEnum = z.enum([
-  'building',
-  'laboratory',
-  'auditorium',
-  'sports',
-  'pool',
-  'library',
-]);
+export const FacilityTypeEnum = z.enum(['building', 'laboratory', 'auditorium', 'sports', 'pool', 'library']);
 
 export const FacilityScheduleSlotSchema = z.object({
   day: z.string().min(1),
@@ -42,8 +35,6 @@ export const FacilityCardSchema = z.object({
 });
 
 export type FacilityTypeEnumData = z.infer<typeof FacilityTypeEnum>;
-export type FacilityScheduleSlotData = z.infer<
-  typeof FacilityScheduleSlotSchema
->;
+export type FacilityScheduleSlotData = z.infer<typeof FacilityScheduleSlotSchema>;
 export type FacilityData = z.infer<typeof FacilitySchema>;
 export type FacilityCardData = z.infer<typeof FacilityCardSchema>;

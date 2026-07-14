@@ -12,13 +12,13 @@ This document defines the workflow for managing translations across English, Sin
 
 ## Roles and Responsibilities
 
-| Role | Responsibility |
-|------|----------------|
+| Role                        | Responsibility                                   |
+| --------------------------- | ------------------------------------------------ |
 | **Translation Coordinator** | Manages the translation process, tracks progress |
-| **English Editor** | Writes and maintains English source text |
-| **Sinhala Translator** | Translates from English to Sinhala |
-| **Tamil Translator** | Translates from English to Tamil |
-| **Reviewer** | Reviews translations for accuracy and tone |
+| **English Editor**          | Writes and maintains English source text         |
+| **Sinhala Translator**      | Translates from English to Sinhala               |
+| **Tamil Translator**        | Translates from English to Tamil                 |
+| **Reviewer**                | Reviews translations for accuracy and tone       |
 
 ---
 
@@ -67,15 +67,17 @@ Add the same key to Sinhala and Tamil files with a placeholder:
 # Translation Request
 
 ## Language: [Sinhala / Tamil]
+
 ## Date: YYYY-MM-DD
+
 ## Feature Area: [home / about / news / etc.]
 
 ### Keys to Translate
 
-| Key | English Text | Translation |
-|-----|--------------|-------------|
-| home.newFeature.title | New Feature Title | |
-| home.newFeature.description | This is a description of the new feature. | |
+| Key                         | English Text                              | Translation |
+| --------------------------- | ----------------------------------------- | ----------- |
+| home.newFeature.title       | New Feature Title                         |             |
+| home.newFeature.description | This is a description of the new feature. |             |
 ```
 
 ### Step 4: Review and Commit
@@ -169,6 +171,7 @@ http://localhost:3000/ta
 ### JSON Editor
 
 Use a JSON editor with syntax highlighting:
+
 - VS Code (built-in)
 - VS Code with i18n Ally extension (recommended)
 - Online JSON editors
@@ -196,6 +199,7 @@ Use a JSON editor with syntax highlighting:
 **Symptom:** Translated text is longer than the container, causing layout issues.
 
 **Solution:**
+
 - Use responsive design with `min-width` and `max-width`
 - Allow text to wrap naturally
 - Use shorter phrases where possible
@@ -206,6 +210,7 @@ Use a JSON editor with syntax highlighting:
 **Symptom:** A page shows English text when it should show Sinhala/Tamil.
 
 **Solution:**
+
 - Check the translation file contains the key
 - Check the key name matches exactly
 - Run the type check to identify missing keys
@@ -215,6 +220,7 @@ Use a JSON editor with syntax highlighting:
 **Symptom:** Characters are not displayed correctly (� or boxes).
 
 **Solution:**
+
 - Verify the font is installed and loaded
 - Check the font stack includes the correct fallbacks
 - Check the font is included in `next/font` configuration
@@ -223,11 +229,11 @@ Use a JSON editor with syntax highlighting:
 
 ## Translation Status Tracking
 
-| Locale | Progress | Status | Last Updated |
-|--------|----------|--------|--------------|
-| English | 100% | Complete | June 2026 |
-| Sinhala | 85% | In Progress | June 2026 |
-| Tamil | 70% | In Progress | June 2026 |
+| Locale  | Progress | Status      | Last Updated |
+| ------- | -------- | ----------- | ------------ |
+| English | 100%     | Complete    | June 2026    |
+| Sinhala | 85%      | In Progress | June 2026    |
+| Tamil   | 70%      | In Progress | June 2026    |
 
 ---
 
@@ -251,119 +257,119 @@ This glossary defines how institutional terms are translated across all three la
 
 ## School Identity
 
-| English | Sinhala | Tamil |
-|---------|---------|-------|
+| English                           | Sinhala                | Tamil                   |
+| --------------------------------- | ---------------------- | ----------------------- |
 | C.W.W. Kannangara Central College | කන්නන්ගර මධ්ය විද්යාලය | கன்னங்கர மத்திய கல்லூரி |
-| KCC | කේ.සී.සී | கே.சி.சி |
-| Kannangara | කන්නන්ගර | கன்னங்கர |
-| Central College | මධ්ය විද්යාලය | மத்திய கல்லூரி |
-| Mathugama | මතුගම | மதுகம |
+| KCC                               | කේ.සී.සී               | கே.சி.சி                |
+| Kannangara                        | කන්නන්ගර               | கன்னங்கர                |
+| Central College                   | මධ්ය විද්යාලය          | மத்திய கல்லூரி          |
+| Mathugama                         | මතුගම                  | மதுகம                   |
 
 ---
 
 ## Motto and Philosophy
 
-| English | Sinhala | Tamil |
-|---------|---------|-------|
-| Wisdom is All Wealth | සුඛෝ පඤ්ඤාය පඨිලාභෝ | [Tamil translation] |
-| Head, Heart, Hand | හිස, හදවත, අත | [Tamil translation] |
-| Truth, Courage, Discipline | සත්යය, ධෛර්යය, විනය | [Tamil translation] |
-| Established 1873 | ආරම්භ කරන ලද්දේ 1873 දී | [Tamil translation] |
+| English                    | Sinhala                 | Tamil               |
+| -------------------------- | ----------------------- | ------------------- |
+| Wisdom is All Wealth       | සුඛෝ පඤ්ඤාය පඨිලාභෝ     | [Tamil translation] |
+| Head, Heart, Hand          | හිස, හදවත, අත           | [Tamil translation] |
+| Truth, Courage, Discipline | සත්යය, ධෛර්යය, විනය     | [Tamil translation] |
+| Established 1873           | ආරම්භ කරන ලද්දේ 1873 දී | [Tamil translation] |
 
 ---
 
 ## Roles and Titles
 
-| English | Sinhala | Tamil |
-|---------|---------|-------|
-| Principal | විදුහල්පති | [Tamil translation] |
-| Deputy Principal | සහාය විදුහල්පති | [Tamil translation] |
+| English             | Sinhala          | Tamil               |
+| ------------------- | ---------------- | ------------------- |
+| Principal           | විදුහල්පති       | [Tamil translation] |
+| Deputy Principal    | සහාය විදුහල්පති  | [Tamil translation] |
 | Assistant Principal | සහකාර විදුහල්පති | [Tamil translation] |
-| Head of Department | අංශ ප්රධානී | [Tamil translation] |
-| Teacher | ගුරුවරයා | [Tamil translation] |
-| Staff | කාර්ය මණ්ඩලය | [Tamil translation] |
-| Administration | පරිපාලනය | [Tamil translation] |
+| Head of Department  | අංශ ප්රධානී      | [Tamil translation] |
+| Teacher             | ගුරුවරයා         | [Tamil translation] |
+| Staff               | කාර්ය මණ්ඩලය     | [Tamil translation] |
+| Administration      | පරිපාලනය         | [Tamil translation] |
 
 ---
 
 ## Students
 
-| English | Sinhala | Tamil |
-|---------|---------|-------|
-| Student | ශිෂ්යයා | [Tamil translation] |
-| Kannangarian | කන්නන්ගරියන් | [Tamil translation] |
-| Alumni | ආදි ශිෂ්ය | [Tamil translation] |
+| English               | Sinhala           | Tamil               |
+| --------------------- | ----------------- | ------------------- |
+| Student               | ශිෂ්යයා           | [Tamil translation] |
+| Kannangarian          | කන්නන්ගරියන්      | [Tamil translation] |
+| Alumni                | ආදි ශිෂ්ය         | [Tamil translation] |
 | Old Boys' Association | පැරණි ශිෂ්ය සංගමය | [Tamil translation] |
-| Head Prefect | ප්රධාන ශිෂ්ය නායක | [Tamil translation] |
+| Head Prefect          | ප්රධාන ශිෂ්ය නායක | [Tamil translation] |
 
 ---
 
 ## Academic
 
-| English | Sinhala | Tamil |
-|---------|---------|-------|
-| Science Stream | විද්යා අංශය | [Tamil translation] |
-| Commerce Stream | වාණිජ අංශය | [Tamil translation] |
-| Arts Stream | කලා අංශය | [Tamil translation] |
-| Technology Stream | තාක්ෂණ අංශය | [Tamil translation] |
+| English              | Sinhala     | Tamil               |
+| -------------------- | ----------- | ------------------- |
+| Science Stream       | විද්යා අංශය | [Tamil translation] |
+| Commerce Stream      | වාණිජ අංශය  | [Tamil translation] |
+| Arts Stream          | කලා අංශය    | [Tamil translation] |
+| Technology Stream    | තාක්ෂණ අංශය | [Tamil translation] |
 | O/L (Ordinary Level) | සාමාන්ය පෙළ | [Tamil translation] |
-| A/L (Advanced Level) | උසස් පෙළ | [Tamil translation] |
-| Scholarship | ශිෂ්යත්ව | [Tamil translation] |
-| Results | ප්රතිඵල | [Tamil translation] |
+| A/L (Advanced Level) | උසස් පෙළ    | [Tamil translation] |
+| Scholarship          | ශිෂ්යත්ව    | [Tamil translation] |
+| Results              | ප්රතිඵල     | [Tamil translation] |
 
 ---
 
 ## Facilities
 
-| English | Sinhala | Tamil |
-|---------|---------|-------|
-| Library | පුස්තකාලය | [Tamil translation] |
-| Auditorium | ශ්‍රවණාගාරය | [Tamil translation] |
-| Laboratory | විද්‍යාගාරය | [Tamil translation] |
-| Swimming Pool | පිහිනුම් තටාකය | [Tamil translation] |
-| Sports Ground | ක්‍රීඩා පිටිය | [Tamil translation] |
+| English       | Sinhala           | Tamil               |
+| ------------- | ----------------- | ------------------- |
+| Library       | පුස්තකාලය         | [Tamil translation] |
+| Auditorium    | ශ්‍රවණාගාරය       | [Tamil translation] |
+| Laboratory    | විද්‍යාගාරය       | [Tamil translation] |
+| Swimming Pool | පිහිනුම් තටාකය    | [Tamil translation] |
+| Sports Ground | ක්‍රීඩා පිටිය     | [Tamil translation] |
 | Main Building | ප්රධාන ගොඩනැගිල්ල | [Tamil translation] |
 
 ---
 
 ## Extracurricular
 
-| English | Sinhala | Tamil |
-|---------|---------|-------|
-| Societies | සමාජ | [Tamil translation] |
-| Sports | ක්‍රීඩා | [Tamil translation] |
-| Scouts | බාලදක්ෂ | [Tamil translation] |
-| Cadets | ශිෂ්‍ය භට | [Tamil translation] |
-| Band | සංගීත කණ්ඩායම | [Tamil translation] |
-| Culture | සංස්කෘතික | [Tamil translation] |
+| English   | Sinhala       | Tamil               |
+| --------- | ------------- | ------------------- |
+| Societies | සමාජ          | [Tamil translation] |
+| Sports    | ක්‍රීඩා       | [Tamil translation] |
+| Scouts    | බාලදක්ෂ       | [Tamil translation] |
+| Cadets    | ශිෂ්‍ය භට     | [Tamil translation] |
+| Band      | සංගීත කණ්ඩායම | [Tamil translation] |
+| Culture   | සංස්කෘතික     | [Tamil translation] |
 
 ---
 
 ## Technology
 
-| English | Sinhala | Tamil |
-|---------|---------|-------|
-| ICT | තොරතුරු හා සන්නිවේදන තාක්ෂණය | [Tamil translation] |
-| Website | වෙබ් අඩවිය | [Tamil translation] |
-| Digital | ඩිජිටල් | [Tamil translation] |
-| Platform | වේදිකාව | [Tamil translation] |
-| Results Portal | ප්‍රතිඵල ද්වාරය | [Tamil translation] |
+| English        | Sinhala                      | Tamil               |
+| -------------- | ---------------------------- | ------------------- |
+| ICT            | තොරතුරු හා සන්නිවේදන තාක්ෂණය | [Tamil translation] |
+| Website        | වෙබ් අඩවිය                   | [Tamil translation] |
+| Digital        | ඩිජිටල්                      | [Tamil translation] |
+| Platform       | වේදිකාව                      | [Tamil translation] |
+| Results Portal | ප්‍රතිඵල ද්වාරය              | [Tamil translation] |
 
 ---
 
 ## Common UI Terms
 
-| English | Sinhala | Tamil |
-|---------|---------|-------|
-| Home | මුල් පිටුව | [Tamil translation] |
-| About | ගැන | [Tamil translation] |
-| News | පුවත් | [Tamil translation] |
-| Events | සිදුවීම් | [Tamil translation] |
-| Contact | සම්බන්ධ වන්න | [Tamil translation] |
-| Gallery | ඡායාරූප ගැලරිය | [Tamil translation] |
-| Admissions | ඇතුළත් කිරීම් | [Tamil translation] |
-| Academics | අධ්‍යාපනික | [Tamil translation] |
-| Facilities | පහසුකම් | [Tamil translation] |
+| English    | Sinhala        | Tamil               |
+| ---------- | -------------- | ------------------- |
+| Home       | මුල් පිටුව     | [Tamil translation] |
+| About      | ගැන            | [Tamil translation] |
+| News       | පුවත්          | [Tamil translation] |
+| Events     | සිදුවීම්       | [Tamil translation] |
+| Contact    | සම්බන්ධ වන්න   | [Tamil translation] |
+| Gallery    | ඡායාරූප ගැලරිය | [Tamil translation] |
+| Admissions | ඇතුළත් කිරීම්  | [Tamil translation] |
+| Academics  | අධ්‍යාපනික     | [Tamil translation] |
+| Facilities | පහසුකම්        | [Tamil translation] |
 
 ---
 

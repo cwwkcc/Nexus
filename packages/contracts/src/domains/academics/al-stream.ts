@@ -4,13 +4,7 @@
 
 import { z } from 'zod';
 
-export const ALStreamEnum = z.enum([
-  'physical-science',
-  'bio-science',
-  'commerce',
-  'arts',
-  'technology',
-]);
+export const ALStreamEnum = z.enum(['physical-science', 'bio-science', 'commerce', 'arts', 'technology']);
 
 export const ALStreamSchema = z.object({
   key: ALStreamEnum,

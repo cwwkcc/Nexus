@@ -17,25 +17,11 @@ const variantStyles: Record<Variant, string> = {
   success: 'text-semantic-success-base',
 };
 
-export function FormErrorMessage({
-  id,
-  variant = 'error',
-  children,
-  className,
-}: Props) {
+export function FormErrorMessage({ id, variant = 'error', children, className }: Props) {
   const isAssertive = variant === 'error';
 
   return (
-    <p
-      id={id}
-      role={isAssertive ? 'alert' : undefined}
-      aria-live={isAssertive ? undefined : 'polite'}
-      className={cn(
-        'font-body text-caption',
-        variantStyles[variant],
-        className,
-      )}
-    >
+    <p id={id} role={isAssertive ? 'alert' : undefined} aria-live={isAssertive ? undefined : 'polite'} className={cn('font-body text-caption', variantStyles[variant], className)}>
       {children}
     </p>
   );

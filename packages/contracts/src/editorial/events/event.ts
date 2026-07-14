@@ -14,10 +14,7 @@
 import { z } from 'zod';
 
 import { EventCategorySchema } from './category.ts';
-import {
-  MAX_TITLE_LENGTH,
-  MAX_DESCRIPTION_LENGTH,
-} from '../../constants/index.ts';
+import { MAX_TITLE_LENGTH, MAX_DESCRIPTION_LENGTH } from '../../constants/index.ts';
 import { ImageSchema, LocaleEnum } from '../../primitives/index.ts';
 
 export const EVENT_CONTENT_TYPE = 'event';
@@ -40,14 +37,7 @@ export const EventSchema = z.object({
 
 export type EventData = z.infer<typeof EventSchema>;
 
-export const EventStatus = z.enum([
-  'upcoming',
-  'today',
-  'ongoing',
-  'past',
-  'registration-open',
-  'registration-closed',
-]);
+export const EventStatus = z.enum(['upcoming', 'today', 'ongoing', 'past', 'registration-open', 'registration-closed']);
 
 export const EventCardVariant = z.enum(['standard', 'compact', 'featured']);
 

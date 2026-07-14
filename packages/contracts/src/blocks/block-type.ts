@@ -5,30 +5,7 @@
 
 import { z } from 'zod';
 
-export const BLOCK_TYPE_VALUES = [
-  'hero',
-  'stats',
-  'timeline',
-  'quote',
-  'faq',
-  'cta',
-  'gallery',
-  'downloads',
-  'announcement',
-  'contact-info',
-  'map',
-  'staff-grid',
-  'photo-strip',
-  'process-steps',
-  'results-display',
-  'rich-text-block',
-  'key-dates',
-  'crest-symbols',
-  'anthem',
-  'values-grid',
-  'footer',
-  'navigation',
-] as const;
+export const BLOCK_TYPE_VALUES = ['hero', 'stats', 'timeline', 'quote', 'faq', 'cta', 'gallery', 'downloads', 'announcement', 'contact-info', 'map', 'staff-grid', 'photo-strip', 'process-steps', 'results-display', 'rich-text-block', 'key-dates', 'crest-symbols', 'anthem', 'values-grid', 'footer', 'navigation'] as const;
 
 export const BlockTypeEnum = z.enum(BLOCK_TYPE_VALUES);
 

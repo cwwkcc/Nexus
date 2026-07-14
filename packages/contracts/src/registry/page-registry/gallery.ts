@@ -29,8 +29,7 @@ export const galleryRegistry: PageRegistry = {
   page: 'gallery',
   scope: 'page:gallery',
   label: 'Gallery',
-  description:
-    'Manage the Gallery page — featured albums grid and the optional video section. Individual photos live inside each album, not as page sections.',
+  description: 'Manage the Gallery page — featured albums grid and the optional video section. Individual photos live inside each album, not as page sections.',
   sections: [
     {
       key: 'gallery.hero',
@@ -43,8 +42,7 @@ export const galleryRegistry: PageRegistry = {
       key: 'gallery.albums',
       blockKey: 'gallery',
       label: 'Featured Albums Grid',
-      description:
-        'Curated albums, filterable by category (Events, Sports, Academic, Cultural).',
+      description: 'Curated albums, filterable by category (Events, Sports, Academic, Cultural).',
       schema: GalleryAlbumsGridSchema,
     },
     {

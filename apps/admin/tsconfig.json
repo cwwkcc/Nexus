@@ -28,30 +28,8 @@
     "outDir": "dist",
     "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.js",
-    "src/**/*.jsx",
-    "../../apps/admin/.next/types/**/*.ts",
-    "../../dist/apps/admin/.next/types/**/*.ts",
-    "../../packages/ui/src/**/*.ts",
-    "../../packages/ui/src/**/*.tsx",
-    "next-env.d.ts"
-  ],
-  "exclude": [
-    "out-tsc",
-    "dist",
-    "node_modules",
-    "jest.config.ts",
-    "jest.config.cts",
-    "src/**/*.spec.ts",
-    "src/**/*.test.ts",
-    ".next",
-    "eslint.config.js",
-    "eslint.config.cjs",
-    "eslint.config.mjs"
-  ],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx", "../../apps/admin/.next/types/**/*.ts", "../../dist/apps/admin/.next/types/**/*.ts", "../../packages/ui/src/**/*.ts", "../../packages/ui/src/**/*.tsx", "next-env.d.ts"],
+  "exclude": ["out-tsc", "dist", "node_modules", "jest.config.ts", "jest.config.cts", "src/**/*.spec.ts", "src/**/*.test.ts", ".next", "eslint.config.js", "eslint.config.cjs", "eslint.config.mjs"],
   "references": [
     {
       "path": "../../packages/database"

@@ -25,9 +25,7 @@ export const ContactDepartmentsTableSchema = z.object({
   heading: z.string().optional(),
   departments: z.array(ContactDepartmentEntrySchema),
 });
-export type ContactDepartmentsTableData = z.infer<
-  typeof ContactDepartmentsTableSchema
->;
+export type ContactDepartmentsTableData = z.infer<typeof ContactDepartmentsTableSchema>;
 
 export const ContactMapSchema = z.object({
   mapEmbedUrl: z.string(),
@@ -40,9 +38,7 @@ export const ContactFeedbackFormSchema = FeedbackFormSchema;
 
 export const ContactHoursSchema = z.object({
   officeHours: z.string(),
-  emergencyContacts: z.array(
-    z.object({ label: z.string(), phone: z.string() }),
-  ),
+  emergencyContacts: z.array(z.object({ label: z.string(), phone: z.string() })),
   afterHoursProtocol: z.string().optional(),
 });
 export type ContactHoursData = z.infer<typeof ContactHoursSchema>;
@@ -61,8 +57,7 @@ export const contactRegistry: PageRegistry = {
   page: 'contact',
   scope: 'page:contact',
   label: 'Contact',
-  description:
-    'Manage the Contact page content, including hero, contact details, and enquiry CTA.',
+  description: 'Manage the Contact page content, including hero, contact details, and enquiry CTA.',
   sections: [
     {
       key: 'contact.hero',
@@ -96,8 +91,7 @@ export const contactRegistry: PageRegistry = {
       key: 'contact.feedback',
       blockKey: 'rich-text-block',
       label: 'Feedback and Complaints Form',
-      description:
-        "Name (optional), category, message, anonymous toggle — sent to the principal's office.",
+      description: "Name (optional), category, message, anonymous toggle — sent to the principal's office.",
       schema: ContactFeedbackFormSchema,
     },
     {

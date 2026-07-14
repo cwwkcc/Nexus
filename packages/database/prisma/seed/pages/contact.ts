@@ -1,14 +1,7 @@
 // packages/database/prisma/seed/pages/contact.ts
 
 import { SUPPORTED_LOCALES, HERO_BLOCK, CTA_BLOCK } from '@nexus/contracts';
-import type {
-  HeroData,
-  CtaData,
-  ContactDepartmentsTableData,
-  ContactMapData,
-  ContactHoursData,
-  ContactTransportData,
-} from '@nexus/contracts';
+import type { HeroData, CtaData, ContactDepartmentsTableData, ContactMapData, ContactHoursData, ContactTransportData } from '@nexus/contracts';
 
 import type { PrismaClient } from '../../../src/generated/prisma/client.js';
 
@@ -47,8 +40,7 @@ const CONTACT_SEED_EN: ContactPageSeed = {
     blockType: HERO_BLOCK,
     eyebrow: 'Contact',
     title: 'Get in Touch',
-    subtitle:
-      'Reach out to our admissions, support, or general enquiries team for a prompt response.',
+    subtitle: 'Reach out to our admissions, support, or general enquiries team for a prompt response.',
   },
   departments: {
     eyebrow: 'Departments',
@@ -81,8 +73,7 @@ const CONTACT_SEED_EN: ContactPageSeed = {
     ],
   },
   map: {
-    mapEmbedUrl:
-      'https://maps.google.com/maps?q=Kandy%20Sri%20Lanka&output=embed',
+    mapEmbedUrl: 'https://maps.google.com/maps?q=Kandy%20Sri%20Lanka&output=embed',
     note: 'Located on Kandy Road, five minutes from the town centre.',
   },
   officeHours: {
@@ -91,23 +82,19 @@ const CONTACT_SEED_EN: ContactPageSeed = {
       { label: 'School Office', phone: '+94 11 222 3333' },
       { label: 'Security / After Hours', phone: '+94 11 222 9999' },
     ],
-    afterHoursProtocol:
-      'For emergencies outside office hours, contact campus security directly.',
+    afterHoursProtocol: 'For emergencies outside office hours, contact campus security directly.',
   },
   transport: {
     busRoutes: 'Routes 400, 402, and 415 stop directly outside the main gate.',
-    trainStation:
-      'Kandy Railway Station — approximately 10 minutes by tuk-tuk.',
+    trainStation: 'Kandy Railway Station — approximately 10 minutes by tuk-tuk.',
     parking: 'Visitor parking is available at the main entrance.',
-    accessibilityNotes:
-      'Ramp access is available at the main building entrance.',
+    accessibilityNotes: 'Ramp access is available at the main building entrance.',
   },
   cta: {
     blockType: CTA_BLOCK,
     eyebrow: 'Need help now?',
     title: 'We’re here to help',
-    subtitle:
-      'Our team is ready to answer your questions and support your application.',
+    subtitle: 'Our team is ready to answer your questions and support your application.',
     buttonLabel: 'Email Admissions',
     buttonHref: 'mailto:admissions@nexus.edu',
     secondaryButtonLabel: 'Call Us',
@@ -122,8 +109,7 @@ const CONTACT_SEED_SI: ContactPageSeed = {
     blockType: HERO_BLOCK,
     eyebrow: 'සම්බන්ධ වන්න',
     title: 'අප අමතන්න',
-    subtitle:
-      'අපගේ ඇතුළුකිරීම්, සහාය හෝ සාමාන්‍ය විමසීම් කණ්ඩායම සම්බන්ධ කරගන්න.',
+    subtitle: 'අපගේ ඇතුළුකිරීම්, සහාය හෝ සාමාන්‍ය විමසීම් කණ්ඩායම සම්බන්ධ කරගන්න.',
   },
   departments: {
     eyebrow: 'දෙපාර්තමේන්තු',
@@ -156,8 +142,7 @@ const CONTACT_SEED_SI: ContactPageSeed = {
     ],
   },
   map: {
-    mapEmbedUrl:
-      'https://maps.google.com/maps?q=Kandy%20Sri%20Lanka&output=embed',
+    mapEmbedUrl: 'https://maps.google.com/maps?q=Kandy%20Sri%20Lanka&output=embed',
     note: 'නගර මධ්‍යයේ සිට විනාඩි පහක් දුරින්, කැන්ඩි පාරේ පිහිටා ඇත.',
   },
   officeHours: {
@@ -166,22 +151,19 @@ const CONTACT_SEED_SI: ContactPageSeed = {
       { label: 'පාසල් කාර්යාලය', phone: '+94 11 222 3333' },
       { label: 'ආරක්ෂාව / කාර්යාල වේලාවෙන් පසු', phone: '+94 11 222 9999' },
     ],
-    afterHoursProtocol:
-      'කාර්යාල වේලාවෙන් පසු හදිසි අවස්ථා සඳහා, කෘපයාකර කැම්පස් ආරක්ෂක අංශය සෘජුවම අමතන්න.',
+    afterHoursProtocol: 'කාර්යාල වේලාවෙන් පසු හදිසි අවස්ථා සඳහා, කෘපයාකර කැම්පස් ආරක්ෂක අංශය සෘජුවම අමතන්න.',
   },
   transport: {
     busRoutes: '400, 402 සහ 415 මාර්ග ප්‍රධාන ගේට්ටුව ඉදිරිපිටම නවතී.',
     trainStation: 'කැන්ඩි දුම්රිය ස්ථානය — ත්‍රී රෝද රථයකින් විනාඩි 10ක් පමණ.',
     parking: 'ප්‍රධාන ප්‍රවේශ ද්වාරයේ අමුත්තන් සඳහා වාහන නැවතුම් පහසුකම් ඇත.',
-    accessibilityNotes:
-      'ප්‍රධාන ගොඩනැගිල්ලේ ප්‍රවේශ ද්වාරයේ රැම්ප් පහසුකම ලබා ගත හැක.',
+    accessibilityNotes: 'ප්‍රධාන ගොඩනැගිල්ලේ ප්‍රවේශ ද්වාරයේ රැම්ප් පහසුකම ලබා ගත හැක.',
   },
   cta: {
     blockType: CTA_BLOCK,
     eyebrow: 'දැන් උදව් අවශ්‍යද?',
     title: 'අපි උදව් කිරීමට සූදානම්',
-    subtitle:
-      'ඔබේ ප්‍රශ්නවලට පිළිතුරු දීමට සහ ඔබගේ අයදුම්පතට සහය වීමට අපගේ කණ්ඩායම සූදානම්යි.',
+    subtitle: 'ඔබේ ප්‍රශ්නවලට පිළිතුරු දීමට සහ ඔබගේ අයදුම්පතට සහය වීමට අපගේ කණ්ඩායම සූදානම්යි.',
     buttonLabel: 'ඇතුළුකිරීම ඉ-තැපැල',
     buttonHref: 'mailto:admissions@nexus.edu',
     secondaryButtonLabel: 'අප අමතන්න',
@@ -196,8 +178,7 @@ const CONTACT_SEED_TA: ContactPageSeed = {
     blockType: HERO_BLOCK,
     eyebrow: 'தொடர்பு கொள்ளுங்கள்',
     title: 'எங்களை தொடர்பு கொள்ளுங்கள்',
-    subtitle:
-      'உங்கள் சேர்க்கை, ஆதரவு அல்லது பொது விசாரணைகளுக்காக எங்களை அணுகவும்.',
+    subtitle: 'உங்கள் சேர்க்கை, ஆதரவு அல்லது பொது விசாரணைகளுக்காக எங்களை அணுகவும்.',
   },
   departments: {
     eyebrow: 'துறைகள்',
@@ -230,8 +211,7 @@ const CONTACT_SEED_TA: ContactPageSeed = {
     ],
   },
   map: {
-    mapEmbedUrl:
-      'https://maps.google.com/maps?q=Kandy%20Sri%20Lanka&output=embed',
+    mapEmbedUrl: 'https://maps.google.com/maps?q=Kandy%20Sri%20Lanka&output=embed',
     note: 'நகர மையத்திலிருந்து ஐந்து நிமிடங்களில், கண்டி வீதியில் அமைந்துள்ளது.',
   },
   officeHours: {
@@ -243,14 +223,11 @@ const CONTACT_SEED_TA: ContactPageSeed = {
         phone: '+94 11 222 9999',
       },
     ],
-    afterHoursProtocol:
-      'அலுவலக நேரத்திற்குப் பிறகு அவசரநிலைகளுக்கு, நேரடியாக வளாகப் பாதுகாப்பைத் தொடர்பு கொள்ளவும்.',
+    afterHoursProtocol: 'அலுவலக நேரத்திற்குப் பிறகு அவசரநிலைகளுக்கு, நேரடியாக வளாகப் பாதுகாப்பைத் தொடர்பு கொள்ளவும்.',
   },
   transport: {
-    busRoutes:
-      '400, 402 மற்றும் 415 வழித்தடங்கள் முதன்மை வாசலுக்கு நேரே நிற்கும்.',
-    trainStation:
-      'கண்டி ரயில் நிலையம் — முச்சக்கர வண்டியில் தோராயமாக 10 நிமிடங்கள்.',
+    busRoutes: '400, 402 மற்றும் 415 வழித்தடங்கள் முதன்மை வாசலுக்கு நேரே நிற்கும்.',
+    trainStation: 'கண்டி ரயில் நிலையம் — முச்சக்கர வண்டியில் தோராயமாக 10 நிமிடங்கள்.',
     parking: 'முதன்மை நுழைவாயிலில் பார்வையாளர் வாகன நிறுத்துமிடம் உள்ளது.',
     accessibilityNotes: 'முதன்மை கட்டிட நுழைவாயிலில் சாய்வுப்பாதை வசதி உள்ளது.',
   },
@@ -258,8 +235,7 @@ const CONTACT_SEED_TA: ContactPageSeed = {
     blockType: CTA_BLOCK,
     eyebrow: 'இப்போது உதவி தேவையா?',
     title: 'நாங்கள் உதவ தயாராக உள்ளோம்',
-    subtitle:
-      'உங்கள் கேள்விகளுக்கு பதிலளிக்கவும் உங்கள் விண்ணப்பத்தை ஆதரிக்கவும் எங்கள் குழு தயாராக உள்ளது.',
+    subtitle: 'உங்கள் கேள்விகளுக்கு பதிலளிக்கவும் உங்கள் விண்ணப்பத்தை ஆதரிக்கவும் எங்கள் குழு தயாராக உள்ளது.',
     buttonLabel: 'சேர்க்கை மின்னஞ்சல்',
     buttonHref: 'mailto:admissions@nexus.edu',
     secondaryButtonLabel: 'எங்களை அழைக்கவும்',

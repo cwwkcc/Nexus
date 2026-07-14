@@ -1,32 +1,12 @@
 // apps/web/src/app/[locale]/components/sections/page.tsx
 'use client';
 
-import {
-  AchievementTicker,
-  AdmissionsProcessSteps,
-  AdmissionsKeyDatesTimeline,
-  AlumniLegacyBlock,
-  AudioPlayer,
-  LifeAtKCCPhotoStrip,
-  PrincipalMessage,
-  StatsStrip,
-  Timeline,
-  SectionSlider,
-  type StatItem,
-} from '@nexus/ui';
+import { AchievementTicker, AdmissionsProcessSteps, AdmissionsKeyDatesTimeline, AlumniLegacyBlock, AudioPlayer, LifeAtKCCPhotoStrip, PrincipalMessage, StatsStrip, Timeline, SectionSlider, type StatItem } from '@nexus/ui';
 
-function DemoSection({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
+function DemoSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="mb-12">
-      <h2 className="font-display text-h2 mb-4 border-b border-border-light pb-2">
-        {title}
-      </h2>
+      <h2 className="font-display text-h2 mb-4 border-b border-border-light pb-2">{title}</h2>
       {children}
     </div>
   );
@@ -129,15 +109,10 @@ export default function SectionsPage() {
     <div className="min-h-screen bg-surface-base py-12">
       <div className="content-width">
         <h1 className="font-display text-h1 mb-4">Sections</h1>
-        <p className="font-body text-body text-text-muted mb-12">
-          Page‑specific sections for homepage, about, admissions and more.
-        </p>
+        <p className="font-body text-body text-text-muted mb-12">Page‑specific sections for homepage, about, admissions and more.</p>
 
         <DemoSection title="AchievementTicker">
-          <AchievementTicker
-            achievements={sampleAchievements}
-            archiveHref="/achievements"
-          />
+          <AchievementTicker achievements={sampleAchievements} archiveHref="/achievements" />
         </DemoSection>
 
         <DemoSection title="AdmissionsProcessSteps">
@@ -161,15 +136,7 @@ export default function SectionsPage() {
         </DemoSection>
 
         <DemoSection title="PrincipalMessage">
-          <PrincipalMessage
-            name="Mr. Bandula Rajapaksa"
-            title="Principal"
-            tenure="Since 2019"
-            portraitSrc="/images/white.jpg"
-            portraitAlt="Principal"
-            message="Welcome to KCC"
-            fullMessageHref="/administration"
-          />
+          <PrincipalMessage name="Mr. Bandula Rajapaksa" title="Principal" tenure="Since 2019" portraitSrc="/images/white.jpg" portraitAlt="Principal" message="Welcome to KCC" fullMessageHref="/administration" />
         </DemoSection>
 
         <DemoSection title="StatsStrip">
@@ -191,21 +158,14 @@ export default function SectionsPage() {
         <DemoSection title="SectionSlider – Carousel">
           <SectionSlider variant="image" direction="horizontal" loop>
             {[1, 2, 3].map((i) => (
-              <div
-                key={i}
-                className="p-space-8 bg-surface-deep text-center rounded-lg"
-              >
+              <div key={i} className="p-space-8 bg-surface-deep text-center rounded-lg">
                 <p className="font-body text-body">Slide {i}</p>
-                <p className="font-body text-caption text-text-muted">
-                  Works with images, text, or any content.
-                </p>
+                <p className="font-body text-caption text-text-muted">Works with images, text, or any content.</p>
               </div>
             ))}
           </SectionSlider>
           <p className="font-body text-caption text-text-muted mt-space-2">
-            Variants: <code>full</code>, <code>image</code>, <code>text</code>,{' '}
-            <code>image-compact</code>. Supports horizontal/vertical, loop,
-            drag, keyboard arrows.
+            Variants: <code>full</code>, <code>image</code>, <code>text</code>, <code>image-compact</code>. Supports horizontal/vertical, loop, drag, keyboard arrows.
           </p>
         </DemoSection>
       </div>

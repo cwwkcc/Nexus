@@ -36,28 +36,13 @@ const speedConfig: Record<ScaleLoaderSpeed, number> = {
 // Sine-wave-like stagger — each bar peaks at a different point in the cycle
 const DELAYS = [0, 0.15, 0.3, 0.15, 0];
 
-export function ScaleLoader({
-  size = 'md',
-  variant = 'green',
-  speed = 'normal',
-  label = 'Loading',
-  className,
-}: ScaleLoaderProps) {
+export function ScaleLoader({ size = 'md', variant = 'green', speed = 'normal', label = 'Loading', className }: ScaleLoaderProps) {
   const reduced = useReducedMotion();
   const { bar, gap } = sizeConfig[size];
   const duration = speedConfig[speed];
 
   return (
-    <span
-      role="status"
-      aria-label={label}
-      className={clsx(
-        'inline-flex items-center',
-        gap,
-        variantConfig[variant],
-        className,
-      )}
-    >
+    <span role="status" aria-label={label} className={clsx('inline-flex items-center', gap, variantConfig[variant], className)}>
       {[0, 1, 2, 3, 4].map((i) => (
         <motion.span
           key={i}

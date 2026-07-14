@@ -11,21 +11,7 @@
 
 import { z } from 'zod';
 
-export const PAGE_KEY_VALUES = [
-  'home',
-  'about',
-  'academics',
-  'administration',
-  'admissions',
-  'contact',
-  'events',
-  'extracurriculars',
-  'facilities',
-  'gallery',
-  'news',
-  'results',
-  'societies',
-] as const;
+export const PAGE_KEY_VALUES = ['home', 'about', 'academics', 'administration', 'admissions', 'contact', 'events', 'extracurriculars', 'facilities', 'gallery', 'news', 'results', 'societies'] as const;
 
 export const PageKeyEnum = z.enum(PAGE_KEY_VALUES);
 

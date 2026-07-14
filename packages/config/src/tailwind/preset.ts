@@ -1,25 +1,6 @@
 import type { Config } from 'tailwindcss';
 
-import {
-  colors,
-  spacing,
-  fontSize,
-  letterSpacing,
-  lineHeight,
-  transitionDuration,
-  transitionTimingFunction,
-  borderRadius,
-  boxShadow,
-  zIndex,
-  opacity,
-  blur,
-  aspectRatio,
-  backgroundImage,
-  fontFamily,
-  sizing,
-  borderWidth,
-  transformScale,
-} from '@nexus/tokens';
+import { colors, spacing, fontSize, letterSpacing, lineHeight, transitionDuration, transitionTimingFunction, borderRadius, boxShadow, zIndex, opacity, blur, aspectRatio, backgroundImage, fontFamily, sizing, borderWidth, transformScale } from '@nexus/tokens';
 
 export const nexusPreset: Partial<Config> = {
   theme: {

@@ -1,21 +1,5 @@
 import type { FooterSocialLinkData, LocaleEnumData } from '@nexus/contracts';
-import {
-  Container,
-  Divider,
-  Grid,
-  GridItem,
-  VStack,
-  HStack,
-  FacebookColor,
-  InstagramGlyphGradient,
-  YouTubeColor,
-  GitHubInvertocatBlack,
-  LinkedInColor,
-  SchoolLogo,
-  NavLink,
-  Heading,
-  Text,
-} from '@nexus/ui';
+import { Container, Divider, Grid, GridItem, VStack, HStack, FacebookColor, InstagramGlyphGradient, YouTubeColor, GitHubInvertocatBlack, LinkedInColor, SchoolLogo, NavLink, Heading, Text } from '@nexus/ui';
 
 import { getFooterContent } from '@/server/content/global';
 
@@ -55,22 +39,12 @@ export async function Footer({ locale }: FooterProps) {
 
   if (!data) {
     if (process.env.NODE_ENV === 'development') {
-      throw new Error(
-        'Footer content missing from database. Run `pnpm db:seed`.',
-      );
+      throw new Error('Footer content missing from database. Run `pnpm db:seed`.');
     }
     return <MinimalFooter />;
   }
 
-  const {
-    schoolName,
-    tagline,
-    contact,
-    columns,
-    socialLinks = [],
-    copyright,
-    legalLinks = [],
-  } = data;
+  const { schoolName, tagline, contact, columns, socialLinks = [], copyright, legalLinks = [] } = data;
 
   const currentYear = new Date().getFullYear();
 
@@ -81,11 +55,7 @@ export async function Footer({ locale }: FooterProps) {
           <GridItem className="sm:col-span-3">
             <GridItem>
               <VStack align="center" className="mb-space-4">
-                <Container
-                  size="full"
-                  padding="md"
-                  className="w-full xl:w-size-pct-80"
-                >
+                <Container size="full" padding="md" className="w-full xl:w-size-pct-80">
                   <SchoolLogo />
                 </Container>
                 <Heading level="h4" color="gold" className="text-center">
@@ -102,11 +72,7 @@ export async function Footer({ locale }: FooterProps) {
             <GridItem alignSelf="center">
               <VStack spacing={3} align="center">
                 <address>
-                  <Heading
-                    level="h6"
-                    color="gold"
-                    className="mb-space-3 text-center"
-                  >
+                  <Heading level="h6" color="gold" className="mb-space-3 text-center">
                     {contact.title}
                   </Heading>
                   <VStack as="ul" align="center" spacing={0}>
@@ -114,11 +80,7 @@ export async function Footer({ locale }: FooterProps) {
                       <li key={item.label}>
                         {item.href ? (
                           <a href={item.href}>
-                            <Text
-                              variant="body-sm"
-                              color="primary"
-                              className="hover:text-gold-base transition-colors duration-fast"
-                            >
+                            <Text variant="body-sm" color="primary" className="hover:text-gold-base transition-colors duration-fast">
                               {item.label}
                             </Text>
                           </a>
@@ -135,17 +97,9 @@ export async function Footer({ locale }: FooterProps) {
             </GridItem>
           </GridItem>
 
-          <Grid
-            columns={1}
-            gapX={10}
-            className="sm:grid-cols-2 lg:grid-cols-4 sm:col-span-2 lg:col-span-4"
-          >
+          <Grid columns={1} gapX={10} className="sm:grid-cols-2 lg:grid-cols-4 sm:col-span-2 lg:col-span-4">
             {columns.map((col) => (
-              <GridItem
-                key={col.id}
-                alignSelf="center"
-                className="lg:my-space-40"
-              >
+              <GridItem key={col.id} alignSelf="center" className="lg:my-space-40">
                 <VStack spacing={3} align="center">
                   <Heading level="h6" color="gold" className="mt-space-3">
                     {col.heading}
@@ -154,11 +108,7 @@ export async function Footer({ locale }: FooterProps) {
                     {col.links.map((link) => (
                       <li key={link.id}>
                         <NavLink href={link.href}>
-                          <Text
-                            variant="caption"
-                            color="primary"
-                            className="hover:text-gold-base transition-colors duration-fast"
-                          >
+                          <Text variant="caption" color="primary" className="hover:text-gold-base transition-colors duration-fast">
                             {link.label}
                           </Text>
                         </NavLink>
@@ -172,14 +122,7 @@ export async function Footer({ locale }: FooterProps) {
             <GridItem className="sm:col-span-2 lg:col-span-4 mt-space-3">
               <HStack justify="center" className="mb-space-8">
                 {socialLinks.map((link) => (
-                  <a
-                    key={link.id}
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-text-primary hover:text-gold-base transition-colors duration-fast"
-                    aria-label={link.label}
-                  >
+                  <a key={link.id} href={link.href} target="_blank" rel="noopener noreferrer" className="text-text-primary hover:text-gold-base transition-colors duration-fast" aria-label={link.label}>
                     {ICON_MAP[link.icon]}
                   </a>
                 ))}

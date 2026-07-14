@@ -21,9 +21,7 @@ export const AdministrationHeroSchema = HeroSchema;
 export const AdministrationStatementSchema = z.object({
   body: z.string(),
 });
-export type AdministrationStatementData = z.infer<
-  typeof AdministrationStatementSchema
->;
+export type AdministrationStatementData = z.infer<typeof AdministrationStatementSchema>;
 
 export const AdministrationPrincipalSchema = z.object({
   eyebrow: z.string().optional(),
@@ -31,18 +29,14 @@ export const AdministrationPrincipalSchema = z.object({
   principal: StaffSchema,
   messageLinkHref: z.string().optional(),
 });
-export type AdministrationPrincipalData = z.infer<
-  typeof AdministrationPrincipalSchema
->;
+export type AdministrationPrincipalData = z.infer<typeof AdministrationPrincipalSchema>;
 
 export const AdministrationStaffGridSchema = z.object({
   eyebrow: z.string().optional(),
   heading: z.string().optional(),
   staff: z.array(StaffSchema),
 });
-export type AdministrationStaffGridData = z.infer<
-  typeof AdministrationStaffGridSchema
->;
+export type AdministrationStaffGridData = z.infer<typeof AdministrationStaffGridSchema>;
 
 export const AdministrationSdsSchema = z.object({
   description: z.string(),
@@ -55,8 +49,7 @@ export const administrationRegistry: PageRegistry = {
   page: 'administration',
   scope: 'page:administration',
   label: 'Administration',
-  description:
-    'Manage the Administration page — principal, deputy and assistant principals, head prefects, and the School Development Society. All content is drawn from the Staff Module.',
+  description: 'Manage the Administration page — principal, deputy and assistant principals, head prefects, and the School Development Society. All content is drawn from the Staff Module.',
   sections: [
     {
       key: 'administration.hero',
@@ -76,32 +69,28 @@ export const administrationRegistry: PageRegistry = {
       key: 'administration.principal',
       blockKey: 'rich-text-block',
       label: 'Principal',
-      description:
-        'Portrait, name, title, tenure, quote, and link to the full message. StaffSchema entry with role = principal.',
+      description: 'Portrait, name, title, tenure, quote, and link to the full message. StaffSchema entry with role = principal.',
       schema: AdministrationPrincipalSchema,
     },
     {
       key: 'administration.deputyPrincipals',
       blockKey: 'staff-grid',
       label: 'Deputy Principals',
-      description:
-        'Portrait, name, title, portfolio, tenure. StaffSchema entries with role = deputy-principal.',
+      description: 'Portrait, name, title, portfolio, tenure. StaffSchema entries with role = deputy-principal.',
       schema: AdministrationStaffGridSchema,
     },
     {
       key: 'administration.assistantPrincipals',
       blockKey: 'staff-grid',
       label: 'Assistant Principals',
-      description:
-        'Portrait, name, title, portfolio. StaffSchema entries with role = assistant-principal.',
+      description: 'Portrait, name, title, portfolio. StaffSchema entries with role = assistant-principal.',
       schema: AdministrationStaffGridSchema,
     },
     {
       key: 'administration.headPrefects',
       blockKey: 'staff-grid',
       label: 'Head Prefects (Current Year)',
-      description:
-        'Name, title, optional portrait. StaffSchema entries with role = head-prefect.',
+      description: 'Name, title, optional portrait. StaffSchema entries with role = head-prefect.',
       schema: AdministrationStaffGridSchema,
     },
     {

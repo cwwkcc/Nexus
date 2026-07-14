@@ -8,11 +8,11 @@
 
 Nexus is a trilingual platform supporting three languages:
 
-| Locale | Language | Script | Direction |
-|--------|----------|--------|-----------|
-| `en` | English | Latin | LTR |
-| `si` | Sinhala | Sinhala | LTR |
-| `ta` | Tamil | Tamil | LTR |
+| Locale | Language | Script  | Direction |
+| ------ | -------- | ------- | --------- |
+| `en`   | English  | Latin   | LTR       |
+| `si`   | Sinhala  | Sinhala | LTR       |
+| `ta`   | Tamil    | Tamil   | LTR       |
 
 All three languages are supported across the entire platform — public website, admin panel, and all content types.
 
@@ -22,13 +22,13 @@ All three languages are supported across the entire platform — public website,
 
 ### Technology Stack
 
-| Layer | Technology | Purpose |
-|-------|------------|---------|
-| **Routing** | `next-intl` | Locale-aware routing (`/en/about`, `/si/about`, `/ta/about`) |
-| **Translations** | JSON message files | UI strings and static content |
-| **Content** | Database (`PageContent`) | Editorial content (versioned, locale-aware) |
-| **Fonts** | `next/font` + CSS variables | Automatic script selection via unicode ranges |
-| **Date/Time** | `Intl.DateTimeFormat` | Locale-aware formatting |
+| Layer            | Technology                  | Purpose                                                      |
+| ---------------- | --------------------------- | ------------------------------------------------------------ |
+| **Routing**      | `next-intl`                 | Locale-aware routing (`/en/about`, `/si/about`, `/ta/about`) |
+| **Translations** | JSON message files          | UI strings and static content                                |
+| **Content**      | Database (`PageContent`)    | Editorial content (versioned, locale-aware)                  |
+| **Fonts**        | `next/font` + CSS variables | Automatic script selection via unicode ranges                |
+| **Date/Time**    | `Intl.DateTimeFormat`       | Locale-aware formatting                                      |
 
 ### Key Design Decisions
 
@@ -99,11 +99,11 @@ apps/web/src/i18n/messages/
 
 ## Content vs UI Strings
 
-| Type | Location | Who Edits |
-|------|----------|-----------|
-| **UI Strings** | `messages/*.json` | Developers (via code) |
-| **Editorial Content** | `PageContent` database | Editors (via admin panel) |
-| **Taxonomy Values** | `messages/*.json` or database | Developers or Editors |
+| Type                  | Location                      | Who Edits                 |
+| --------------------- | ----------------------------- | ------------------------- |
+| **UI Strings**        | `messages/*.json`             | Developers (via code)     |
+| **Editorial Content** | `PageContent` database        | Editors (via admin panel) |
+| **Taxonomy Values**   | `messages/*.json` or database | Developers or Editors     |
 
 ### UI Strings (Static)
 
@@ -156,6 +156,7 @@ This ensures the site never crashes due to missing translations, but all keys sh
 ### Adding a New Key
 
 1. **Add to English message file**
+
    ```json
    // en/home.json
    {
@@ -166,6 +167,7 @@ This ensures the site never crashes due to missing translations, but all keys sh
    ```
 
 2. **Add to Sinhala message file** (with placeholder)
+
    ```json
    // si/home.json
    {
@@ -176,6 +178,7 @@ This ensures the site never crashes due to missing translations, but all keys sh
    ```
 
 3. **Add to Tamil message file** (with placeholder)
+
    ```json
    // ta/home.json
    {
@@ -186,11 +189,12 @@ This ensures the site never crashes due to missing translations, but all keys sh
    ```
 
 4. **Use in code**
+
    ```tsx
    import { useTranslations } from 'next-intl';
-   
+
    const t = useTranslations('home');
-   <h1>{t('newFeature.title')}</h1>
+   <h1>{t('newFeature.title')}</h1>;
    ```
 
 ### Translating Content
@@ -249,31 +253,30 @@ http://localhost:3000/ta
 
 ### Font Files (Self-Hosted)
 
-| Font | Script | Path |
-|------|--------|------|
+| Font               | Script  | Path                         |
+| ------------------ | ------- | ---------------------------- |
 | Cormorant Garamond | English | `/fonts/CormorantGaramond-*` |
-| Inter | English | `/fonts/Inter-*` |
-| Maname | Sinhala | `/fonts/Maname-*` |
-| Noto Serif Sinhala | Sinhala | `/fonts/NotoSerifSinhala-*` |
-| Noto Serif Tamil | Tamil | `/fonts/NotoSerifTamil-*` |
-| IBM Plex Mono | Mono | `/fonts/IBMPlexMono-*` |
+| Inter              | English | `/fonts/Inter-*`             |
+| Maname             | Sinhala | `/fonts/Maname-*`            |
+| Noto Serif Sinhala | Sinhala | `/fonts/NotoSerifSinhala-*`  |
+| Noto Serif Tamil   | Tamil   | `/fonts/NotoSerifTamil-*`    |
+| IBM Plex Mono      | Mono    | `/fonts/IBMPlexMono-*`       |
 
 ---
 
 ## Glossary
 
-| Term | English | Sinhala | Tamil |
-|------|---------|---------|-------|
-| School | C.W.W. Kannangara Central College | කන්නන්ගර මධ්ය විද්යාලය | கன்னங்கர மத்திய கல்லூரி |
-| Motto | Wisdom is All Wealth | සුඛෝ පඤ්ඤාය පඨිලාභෝ | [Tamil translation] |
-| Principal | Principal | විදුහල්පති | [Tamil translation] |
-| Teacher | Teacher | ගුරුවරයා | [Tamil translation] |
-| Student | Student | ශිෂ්යයා | [Tamil translation] |
-| Alumni | Alumni | ආදි ශිෂ්ය | [Tamil translation] |
+| Term      | English                           | Sinhala                | Tamil                   |
+| --------- | --------------------------------- | ---------------------- | ----------------------- |
+| School    | C.W.W. Kannangara Central College | කන්නන්ගර මධ්ය විද්යාලය | கன்னங்கர மத்திய கல்லூரி |
+| Motto     | Wisdom is All Wealth              | සුඛෝ පඤ්ඤාය පඨිලාභෝ    | [Tamil translation]     |
+| Principal | Principal                         | විදුහල්පති             | [Tamil translation]     |
+| Teacher   | Teacher                           | ගුරුවරයා               | [Tamil translation]     |
+| Student   | Student                           | ශිෂ්යයා                | [Tamil translation]     |
+| Alumni    | Alumni                            | ආදි ශිෂ්ය              | [Tamil translation]     |
 
 ---
 
 **C.W.W. Kannangara Central College, Est. 1873. "Wisdom is All Wealth."**
 
 ---
-

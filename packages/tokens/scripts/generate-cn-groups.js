@@ -271,10 +271,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 `;
 
-  const outPath = path.resolve(
-    __dirname,
-    '../../../packages/ui/src/utilities/cn.tsx',
-  );
+  const outPath = path.resolve(__dirname, '../../../packages/ui/src/utilities/cn.tsx');
   fs.writeFileSync(outPath, out, 'utf8');
   console.log(`✅ Generated ${outPath}`);
 }

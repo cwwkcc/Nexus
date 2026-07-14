@@ -19,8 +19,7 @@ export const resultsRegistry: PageRegistry = {
   page: 'results',
   scope: 'page:results',
   label: 'Results',
-  description:
-    'Manage the Results page \u2014 aggregate O/L and A/L exam statistics by year. Composed from OLResult and ALResult records; never individual student data.',
+  description: 'Manage the Results page \u2014 aggregate O/L and A/L exam statistics by year. Composed from OLResult and ALResult records; never individual student data.',
   sections: [
     {
       key: 'results.hero',
@@ -33,8 +32,7 @@ export const resultsRegistry: PageRegistry = {
       key: 'results.page',
       blockKey: 'results-display',
       label: 'Results by Year',
-      description:
-        'One entry per year, each with optional O/L and A/L aggregate result data, plus an optional disclaimer.',
+      description: 'One entry per year, each with optional O/L and A/L aggregate result data, plus an optional disclaimer.',
       schema: ResultsPageSchema,
     },
   ],

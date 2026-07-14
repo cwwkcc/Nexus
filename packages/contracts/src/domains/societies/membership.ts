@@ -4,13 +4,7 @@
 
 import { z } from 'zod';
 
-export const SocietyMemberRoleEnum = z.enum([
-  'president',
-  'secretary',
-  'treasurer',
-  'member',
-  'alumni',
-]);
+export const SocietyMemberRoleEnum = z.enum(['president', 'secretary', 'treasurer', 'member', 'alumni']);
 
 export const SocietyMemberSchema = z.object({
   id: z.string().min(1),

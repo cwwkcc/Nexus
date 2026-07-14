@@ -6,13 +6,8 @@ export default function NotFound() {
       <div className="text-center space-y-6 max-w-md">
         <div>
           <h1 className="text-6xl font-bold text-blue-600 mb-2">404</h1>
-          <h2 className="text-2xl font-semibold text-gray-900 mb-2">
-            Page Not Found
-          </h2>
-          <p className="text-lg text-gray-700">
-            The page you&apos;re looking for doesn&apos;t exist or has been
-            moved.
-          </p>
+          <h2 className="text-2xl font-semibold text-gray-900 mb-2">Page Not Found</h2>
+          <p className="text-lg text-gray-700">The page you&apos;re looking for doesn&apos;t exist or has been moved.</p>
         </div>
 
         <div className="flex gap-3 justify-center flex-wrap">

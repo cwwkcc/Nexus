@@ -29,9 +29,7 @@ const categoryOptions = [
 
 export function FeedbackForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<
-    'idle' | 'success' | 'error'
-  >('idle');
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
   const {
     register,
@@ -67,49 +65,18 @@ export function FeedbackForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      <FormValidationSummary
-        errors={
-          submitStatus === 'error'
-            ? ['Submission failed. Please try again.']
-            : null
-        }
-      />
+      <FormValidationSummary errors={submitStatus === 'error' ? ['Submission failed. Please try again.'] : null} />
 
       <div className="space-y-4">
-        <Input
-          label="Your Name (optional)"
-          placeholder="You can remain anonymous"
-          {...register('name')}
-          error={errors.name?.message}
-          helperText="If you choose to remain anonymous, we won't contact you directly."
-        />
+        <Input label="Your Name (optional)" placeholder="You can remain anonymous" {...register('name')} error={errors.name?.message} helperText="If you choose to remain anonymous, we won't contact you directly." />
 
-        <Select
-          label="Category"
-          options={categoryOptions}
-          {...register('category')}
-          error={errors.category?.message}
-        />
+        <Select label="Category" options={categoryOptions} {...register('category')} error={errors.category?.message} />
 
-        <Textarea
-          label="Your Feedback"
-          placeholder="Please share your thoughts, suggestions, or concerns..."
-          rows={5}
-          {...register('message')}
-          error={errors.message?.message}
-        />
+        <Textarea label="Your Feedback" placeholder="Please share your thoughts, suggestions, or concerns..." rows={5} {...register('message')} error={errors.message?.message} />
 
         <div className="flex items-center gap-3">
-          <input
-            type="checkbox"
-            id="anonymous"
-            {...register('anonymous')}
-            className="w-4 h-4 rounded border-border-default text-green-base focus:ring-gold-base"
-          />
-          <label
-            htmlFor="anonymous"
-            className="font-body text-body-sm text-text-primary"
-          >
+          <input type="checkbox" id="anonymous" {...register('anonymous')} className="w-4 h-4 rounded border-border-default text-green-base focus:ring-gold-base" />
+          <label htmlFor="anonymous" className="font-body text-body-sm text-text-primary">
             Submit anonymously (do not store my name)
           </label>
         </div>
@@ -119,11 +86,7 @@ export function FeedbackForm() {
         Submit Feedback
       </Button>
 
-      {submitStatus === 'success' && (
-        <p className="text-center text-semantic-success-base font-body text-sm">
-          Thank you for your feedback!
-        </p>
-      )}
+      {submitStatus === 'success' && <p className="text-center text-semantic-success-base font-body text-sm">Thank you for your feedback!</p>}
     </form>
   );
 }

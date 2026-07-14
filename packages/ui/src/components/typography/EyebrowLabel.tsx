@@ -10,22 +10,10 @@ type EyebrowLabelProps = {
   className?: string;
 };
 
-export const EyebrowLabel = forwardRef<HTMLElement, EyebrowLabelProps>(
-  (
-    { children, as: Tag = 'span', 'aria-hidden': ariaHidden, className },
-    ref,
-  ) => (
-    <Tag
-      ref={ref}
-      aria-hidden={ariaHidden}
-      className={cn(
-        'font-body uppercase text-gold-base text-eyebrow select-none',
-        className,
-      )}
-    >
-      {children}
-    </Tag>
-  ),
-);
+export const EyebrowLabel = forwardRef<HTMLElement, EyebrowLabelProps>(({ children, as: Tag = 'span', 'aria-hidden': ariaHidden, className }, ref) => (
+  <Tag ref={ref} aria-hidden={ariaHidden} className={cn('font-body uppercase text-gold-base text-eyebrow select-none', className)}>
+    {children}
+  </Tag>
+));
 
 EyebrowLabel.displayName = 'EyebrowLabel';

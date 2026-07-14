@@ -6,12 +6,7 @@ import { z } from 'zod';
 
 import { DEFAULT_UPLOAD_LIMIT } from '../../constants/limits.ts';
 
-export const UPLOAD_FOLDER_VALUES = [
-  'images',
-  'documents',
-  'media',
-  'avatars',
-] as const;
+export const UPLOAD_FOLDER_VALUES = ['images', 'documents', 'media', 'avatars'] as const;
 
 export const UploadFolderEnum = z.enum(UPLOAD_FOLDER_VALUES);
 

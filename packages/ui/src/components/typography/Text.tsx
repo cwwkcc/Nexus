@@ -1,8 +1,4 @@
-import {
-  forwardRef,
-  type ElementType,
-  type ComponentPropsWithoutRef,
-} from 'react';
+import { forwardRef, type ElementType, type ComponentPropsWithoutRef } from 'react';
 
 import { cn } from '../../utilities/cn';
 
@@ -48,34 +44,12 @@ const colorClasses: Record<TextColor, string> = {
   info: 'text-semantic-info-base',
 };
 
-export const Text = forwardRef<HTMLElement, TextProps>(
-  (
-    {
-      variant = 'body',
-      color = 'primary',
-      as: Tag = 'p',
-      align,
-      className,
-      children,
-      ...rest
-    },
-    ref,
-  ) => {
-    return (
-      <Tag
-        ref={ref}
-        className={cn(
-          variantClasses[variant],
-          colorClasses[color],
-          align ? `text-${align}` : undefined,
-          className,
-        )}
-        {...rest}
-      >
-        {children}
-      </Tag>
-    );
-  },
-);
+export const Text = forwardRef<HTMLElement, TextProps>(({ variant = 'body', color = 'primary', as: Tag = 'p', align, className, children, ...rest }, ref) => {
+  return (
+    <Tag ref={ref} className={cn(variantClasses[variant], colorClasses[color], align ? `text-${align}` : undefined, className)} {...rest}>
+      {children}
+    </Tag>
+  );
+});
 
 Text.displayName = 'Text';

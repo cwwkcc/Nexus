@@ -20,9 +20,7 @@ type ContactFormData = z.infer<typeof contactSchema>;
 
 export function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<
-    'idle' | 'success' | 'error'
-  >('idle');
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
   const {
     register,
@@ -58,44 +56,18 @@ export function ContactForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="space-y-4">
-        <Input
-          label="Full Name"
-          {...register('name')}
-          error={errors.name?.message}
-        />
-        <Input
-          label="Email Address"
-          type="email"
-          {...register('email')}
-          error={errors.email?.message}
-        />
-        <Input
-          label="Subject"
-          {...register('subject')}
-          error={errors.subject?.message}
-        />
-        <Textarea
-          label="Message"
-          rows={5}
-          {...register('message')}
-          error={errors.message?.message}
-        />
+        <Input label="Full Name" {...register('name')} error={errors.name?.message} />
+        <Input label="Email Address" type="email" {...register('email')} error={errors.email?.message} />
+        <Input label="Subject" {...register('subject')} error={errors.subject?.message} />
+        <Textarea label="Message" rows={5} {...register('message')} error={errors.message?.message} />
       </div>
 
       <Button type="submit" loading={isSubmitting} fullWidth>
         Send Message
       </Button>
 
-      {submitStatus === 'success' && (
-        <p className="text-center text-semantic-success-base font-body text-sm">
-          Message sent successfully. We'll get back to you soon.
-        </p>
-      )}
-      {submitStatus === 'error' && (
-        <p className="text-center text-semantic-error-base font-body text-sm">
-          Failed to send. Please try again later.
-        </p>
-      )}
+      {submitStatus === 'success' && <p className="text-center text-semantic-success-base font-body text-sm">Message sent successfully. We'll get back to you soon.</p>}
+      {submitStatus === 'error' && <p className="text-center text-semantic-error-base font-body text-sm">Failed to send. Please try again later.</p>}
     </form>
   );
 }

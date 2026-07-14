@@ -56,10 +56,7 @@ const STATUS = 'published';
 const CONTENT_TYPE = 'navigation';
 const SECTION_KEY = 'navigation.main';
 
-export async function seedNavigation(
-  db: PrismaClient,
-  locales: readonly LocaleEnumData[],
-): Promise<void> {
+export async function seedNavigation(db: PrismaClient, locales: readonly LocaleEnumData[]): Promise<void> {
   for (const locale of locales) {
     const localeData = NAVIGATION_SEED[locale];
     if (!localeData) continue;

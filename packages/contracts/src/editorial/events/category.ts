@@ -17,9 +17,7 @@ export const EVENT_CATEGORIES = {
 
 export type EventCategoryKey = keyof typeof EVENT_CATEGORIES;
 
-export const EventCategorySchema = z.enum(
-  Object.keys(EVENT_CATEGORIES) as [EventCategoryKey, ...EventCategoryKey[]],
-);
+export const EventCategorySchema = z.enum(Object.keys(EVENT_CATEGORIES) as [EventCategoryKey, ...EventCategoryKey[]]);
 
 export type EventCategoryMeta = {
   key: EventCategoryKey;
@@ -27,9 +25,7 @@ export type EventCategoryMeta = {
   color?: string;
 };
 
-export const EVENT_CATEGORY_META: EventCategoryMeta[] = Object.entries(
-  EVENT_CATEGORIES,
-).map(([key, label]) => ({
+export const EVENT_CATEGORY_META: EventCategoryMeta[] = Object.entries(EVENT_CATEGORIES).map(([key, label]) => ({
   key: key as EventCategoryKey,
   label,
 }));

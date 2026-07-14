@@ -21,16 +21,13 @@ export const ExtracurricularsGridSchema = z.object({
   heading: z.string().optional(),
   activities: z.array(ActivitySchema),
 });
-export type ExtracurricularsGridData = z.infer<
-  typeof ExtracurricularsGridSchema
->;
+export type ExtracurricularsGridData = z.infer<typeof ExtracurricularsGridSchema>;
 
 export const extracurricularsRegistry: PageRegistry = {
   page: 'extracurriculars',
   scope: 'page:extracurriculars',
   label: 'Extracurriculars',
-  description:
-    'Manage Extracurriculars — sports, performing arts, scouts, and the National Cadet Corps.',
+  description: 'Manage Extracurriculars — sports, performing arts, scouts, and the National Cadet Corps.',
   sections: [
     {
       key: 'extracurriculars.hero',
@@ -43,24 +40,21 @@ export const extracurricularsRegistry: PageRegistry = {
       key: 'extracurriculars.sports',
       blockKey: 'rich-text-block',
       label: 'Sports',
-      description:
-        'Cricket, athletics, volleyball, etc. ActivitySchema entries with category = sports.',
+      description: 'Cricket, athletics, volleyball, etc. ActivitySchema entries with category = sports.',
       schema: ExtracurricularsGridSchema,
     },
     {
       key: 'extracurriculars.performingArts',
       blockKey: 'rich-text-block',
       label: 'Performing Arts',
-      description:
-        'Western band, Eastern band, drama, etc. ActivitySchema entries with category = performing-arts.',
+      description: 'Western band, Eastern band, drama, etc. ActivitySchema entries with category = performing-arts.',
       schema: ExtracurricularsGridSchema,
     },
     {
       key: 'extracurriculars.leadership',
       blockKey: 'rich-text-block',
       label: 'Scouts and National Cadet Corps',
-      description:
-        'History, President\u2019s Award winners, teacher in charge, annual camps. ActivitySchema entries with category = leadership.',
+      description: 'History, President\u2019s Award winners, teacher in charge, annual camps. ActivitySchema entries with category = leadership.',
       schema: ExtracurricularsGridSchema,
     },
   ],

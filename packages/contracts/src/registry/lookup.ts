@@ -10,28 +10,7 @@ import { ContentTypeKeyEnum } from './content-type-key.ts';
 import type { PageKeyEnumData } from './page-key.ts';
 import { BLOCK_RENDERER_MAP } from '../blocks/block-registry.ts';
 import type { BlockTypeEnumData } from '../blocks/block-type.ts';
-import {
-  AnnouncementSchema,
-  AnthemSchema,
-  ContactInfoSchema,
-  CrestSchema,
-  CtaSchema,
-  DownloadsSchema,
-  FaqSchema,
-  GallerySchema,
-  HeroSchema,
-  KeyDatesSchema,
-  MapSchema,
-  MembersSchema,
-  PhotoStripSchema,
-  ProcessStepsSchema,
-  QuoteSchema,
-  ResultsDisplaySchema,
-  RichTextBlockSchema,
-  StatsSchema,
-  TimelineSchema,
-  ValuesSchema,
-} from '../blocks/index.ts';
+import { AnnouncementSchema, AnthemSchema, ContactInfoSchema, CrestSchema, CtaSchema, DownloadsSchema, FaqSchema, GallerySchema, HeroSchema, KeyDatesSchema, MapSchema, MembersSchema, PhotoStripSchema, ProcessStepsSchema, QuoteSchema, ResultsDisplaySchema, RichTextBlockSchema, StatsSchema, TimelineSchema, ValuesSchema } from '../blocks/index.ts';
 import * as GlobalRegistry from './global-registry/index.ts';
 import * as PageRegistries from './page-registry/index.ts';
 import type { PageRegistry, PageSection } from './types.ts';
@@ -87,23 +66,15 @@ export const PAGE_REGISTRY: Record<PageKeyEnumData, PageRegistry> = {
   societies: PageRegistries.societiesRegistry,
 };
 
-export const GLOBAL_SECTIONS: PageSection[] = [
-  GlobalRegistry.navigationSection,
-  GlobalRegistry.footerSection,
-];
+export const GLOBAL_SECTIONS: PageSection[] = [GlobalRegistry.navigationSection, GlobalRegistry.footerSection];
 
 // ─── Query functions ──────────────────────────────────────────────────────
 
-export function getPageDefinition(
-  pageKey: PageKeyEnumData,
-): PageRegistry | undefined {
+export function getPageDefinition(pageKey: PageKeyEnumData): PageRegistry | undefined {
   return PAGE_REGISTRY[pageKey];
 }
 
-export function getSectionDefinition(
-  scope: string,
-  sectionKey: string,
-): PageSection | undefined {
+export function getSectionDefinition(scope: string, sectionKey: string): PageSection | undefined {
   if (scope === 'global') {
     return getGlobalSection(sectionKey);
   }
@@ -144,9 +115,7 @@ export function getGlobalSectionSchemas(): Record<string, z.ZodTypeAny> {
   return schemas;
 }
 
-export function getContentSchema(
-  key: BlockTypeEnumData,
-): z.ZodTypeAny | undefined {
+export function getContentSchema(key: BlockTypeEnumData): z.ZodTypeAny | undefined {
   return BLOCK_SCHEMA_MAP[key];
 }
 
@@ -155,20 +124,12 @@ export function getContentTypeDefinition(key: string) {
   if (!parsed.success) {
     return undefined;
   }
-  const renderer =
-    parsed.data in BLOCK_RENDERER_MAP
-      ? BLOCK_RENDERER_MAP[parsed.data as BlockTypeEnumData]
-      : undefined;
-  const schema =
-    parsed.data in BLOCK_SCHEMA_MAP
-      ? BLOCK_SCHEMA_MAP[parsed.data as BlockTypeEnumData]
-      : undefined;
+  const renderer = parsed.data in BLOCK_RENDERER_MAP ? BLOCK_RENDERER_MAP[parsed.data as BlockTypeEnumData] : undefined;
+  const schema = parsed.data in BLOCK_SCHEMA_MAP ? BLOCK_SCHEMA_MAP[parsed.data as BlockTypeEnumData] : undefined;
   return { key: parsed.data, renderer, schema };
 }
 
-export function getContentTypesByCategory(
-  category: 'block' | 'editorial' | 'domain',
-): readonly string[] {
+export function getContentTypesByCategory(category: 'block' | 'editorial' | 'domain'): readonly string[] {
   if (category === 'block') {
     return Object.keys(BLOCK_SCHEMA_MAP);
   }

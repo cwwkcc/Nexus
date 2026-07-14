@@ -1,10 +1,5 @@
 import { createServerCaller } from '@nexus/api';
-import type {
-  LocaleEnumData,
-  HeroData,
-  ContactInfoData,
-  CtaData,
-} from '@nexus/contracts';
+import type { LocaleEnumData, HeroData, ContactInfoData, CtaData } from '@nexus/contracts';
 import { cache } from 'react';
 
 export interface ContactPageContent {
@@ -13,17 +8,15 @@ export interface ContactPageContent {
   cta: CtaData;
 }
 
-export const getContactPageContent = cache(
-  async (locale: LocaleEnumData): Promise<ContactPageContent> => {
-    const sections = await createServerCaller().contentEntry.getByScope({
-      scope: 'page:contact',
-      locale,
-    });
+export const getContactPageContent = cache(async (locale: LocaleEnumData): Promise<ContactPageContent> => {
+  const sections = await createServerCaller().contentEntry.getByScope({
+    scope: 'page:contact',
+    locale,
+  });
 
-    return {
-      hero: sections['contact.hero'] as HeroData,
-      info: sections['contact.info'] as ContactInfoData,
-      cta: sections['contact.cta'] as CtaData,
-    };
-  },
-);
+  return {
+    hero: sections['contact.hero'] as HeroData,
+    info: sections['contact.info'] as ContactInfoData,
+    cta: sections['contact.cta'] as CtaData,
+  };
+});

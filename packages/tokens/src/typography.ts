@@ -4,73 +4,24 @@
 // Font Families
 // =============================================================================
 export const fontFamily = {
-  display: [
-    'var(--font-display)',
-    'var(--font-sinhala-display)',
-    'var(--font-tamil-display)',
-    'Georgia',
-    'serif',
-  ],
-  body: [
-    'var(--font-body)',
-    'var(--font-sinhala-body)',
-    'var(--font-tamil-body)',
-    'system-ui',
-    '-apple-system',
-    'sans-serif',
-  ],
-  quote: [
-    'var(--font-quote)',
-    'var(--font-sinhala-display)',
-    'var(--font-tamil-display)',
-    'Georgia',
-    'serif',
-  ],
+  display: ['var(--font-display)', 'var(--font-sinhala-display)', 'var(--font-tamil-display)', 'Georgia', 'serif'],
+  body: ['var(--font-body)', 'var(--font-sinhala-body)', 'var(--font-tamil-body)', 'system-ui', '-apple-system', 'sans-serif'],
+  quote: ['var(--font-quote)', 'var(--font-sinhala-display)', 'var(--font-tamil-display)', 'Georgia', 'serif'],
   mono: ['var(--font-mono)', 'Menlo', 'monospace'],
 } satisfies Record<string, string[]>;
 
 export const fontSize = {
   // ── English ────────────────────────────────────────────────────────────────
-  display: [
-    'clamp(2.25rem, 1.75rem + 2.5vw, 4rem)',
-    { lineHeight: '1', letterSpacing: '-0.02em', fontWeight: '600' },
-  ],
-  h1: [
-    'clamp(2rem, 1.61rem + 1.94vw, 3.36rem)',
-    { lineHeight: '1.05', letterSpacing: '-0.01em', fontWeight: '600' },
-  ],
-  h2: [
-    'clamp(1.75rem, 1.45rem + 1.5vw, 2.8rem)',
-    { lineHeight: '1.08', letterSpacing: '0', fontWeight: '500' },
-  ],
-  h3: [
-    'clamp(1.5rem, 1.26rem + 1.19vw, 2.33rem)',
-    { lineHeight: '1.12', letterSpacing: '0', fontWeight: '500' },
-  ],
-  h4: [
-    'clamp(1.3rem, 1.12rem + 0.91vw, 1.94rem)',
-    { lineHeight: '1.15', letterSpacing: '0', fontWeight: '500' },
-  ],
-  h5: [
-    'clamp(1.15rem, 1.04rem + 0.57vw, 1.55rem)',
-    { lineHeight: '1.2', letterSpacing: '0', fontWeight: '500' },
-  ],
-  h6: [
-    'clamp(1rem, 0.93rem + 0.36vw, 1.25rem)',
-    { lineHeight: '1.3', letterSpacing: '0', fontWeight: '500' },
-  ],
-  pullquote: [
-    'clamp(1.2rem, 1.09rem + 0.57vw, 1.6rem)',
-    { lineHeight: '1.3', letterSpacing: '0.01em', fontWeight: '500' },
-  ],
-  body: [
-    '1.05rem',
-    { lineHeight: '1.7', letterSpacing: '0', fontWeight: '400' },
-  ],
-  'body-sm': [
-    '0.87rem',
-    { lineHeight: '1.6', letterSpacing: '0', fontWeight: '400' },
-  ],
+  display: ['clamp(2.25rem, 1.75rem + 2.5vw, 4rem)', { lineHeight: '1', letterSpacing: '-0.02em', fontWeight: '600' }],
+  h1: ['clamp(2rem, 1.61rem + 1.94vw, 3.36rem)', { lineHeight: '1.05', letterSpacing: '-0.01em', fontWeight: '600' }],
+  h2: ['clamp(1.75rem, 1.45rem + 1.5vw, 2.8rem)', { lineHeight: '1.08', letterSpacing: '0', fontWeight: '500' }],
+  h3: ['clamp(1.5rem, 1.26rem + 1.19vw, 2.33rem)', { lineHeight: '1.12', letterSpacing: '0', fontWeight: '500' }],
+  h4: ['clamp(1.3rem, 1.12rem + 0.91vw, 1.94rem)', { lineHeight: '1.15', letterSpacing: '0', fontWeight: '500' }],
+  h5: ['clamp(1.15rem, 1.04rem + 0.57vw, 1.55rem)', { lineHeight: '1.2', letterSpacing: '0', fontWeight: '500' }],
+  h6: ['clamp(1rem, 0.93rem + 0.36vw, 1.25rem)', { lineHeight: '1.3', letterSpacing: '0', fontWeight: '500' }],
+  pullquote: ['clamp(1.2rem, 1.09rem + 0.57vw, 1.6rem)', { lineHeight: '1.3', letterSpacing: '0.01em', fontWeight: '500' }],
+  body: ['1.05rem', { lineHeight: '1.7', letterSpacing: '0', fontWeight: '400' }],
+  'body-sm': ['0.87rem', { lineHeight: '1.6', letterSpacing: '0', fontWeight: '400' }],
   label: [
     '0.83rem',
     {
@@ -115,46 +66,16 @@ export const fontSize = {
   // ── Sinhala ────────────────────────────────────────────────────────────────
   // Physical sizes intentionally mirror the English clamps — only
   // line-height/letter-spacing/weight differ per script.
-  'sinhala-display': [
-    'clamp(2.25rem, 1.75rem + 2.5vw, 4rem)',
-    { lineHeight: '1.15', letterSpacing: '0', fontWeight: '600' },
-  ],
-  'sinhala-h1': [
-    'clamp(2rem, 1.61rem + 1.94vw, 3.36rem)',
-    { lineHeight: '1.15', letterSpacing: '0', fontWeight: '600' },
-  ],
-  'sinhala-h2': [
-    'clamp(1.75rem, 1.45rem + 1.5vw, 2.8rem)',
-    { lineHeight: '1.15', letterSpacing: '0', fontWeight: '500' },
-  ],
-  'sinhala-h3': [
-    'clamp(1.5rem, 1.26rem + 1.19vw, 2.33rem)',
-    { lineHeight: '1.18', letterSpacing: '0', fontWeight: '500' },
-  ],
-  'sinhala-h4': [
-    'clamp(1.3rem, 1.12rem + 0.91vw, 1.94rem)',
-    { lineHeight: '1.2', letterSpacing: '0', fontWeight: '500' },
-  ],
-  'sinhala-h5': [
-    'clamp(1.15rem, 1.04rem + 0.57vw, 1.55rem)',
-    { lineHeight: '1.25', letterSpacing: '0', fontWeight: '500' },
-  ],
-  'sinhala-h6': [
-    'clamp(1rem, 0.93rem + 0.36vw, 1.25rem)',
-    { lineHeight: '1.3', letterSpacing: '0', fontWeight: '500' },
-  ],
-  'sinhala-pullquote': [
-    'clamp(1.2rem, 1.09rem + 0.57vw, 1.6rem)',
-    { lineHeight: '1.4', letterSpacing: '0', fontWeight: '500' },
-  ],
-  'sinhala-body': [
-    '1.05rem',
-    { lineHeight: '1.8', letterSpacing: '0', fontWeight: '400' },
-  ],
-  'sinhala-body-sm': [
-    '0.87rem',
-    { lineHeight: '1.7', letterSpacing: '0', fontWeight: '400' },
-  ],
+  'sinhala-display': ['clamp(2.25rem, 1.75rem + 2.5vw, 4rem)', { lineHeight: '1.15', letterSpacing: '0', fontWeight: '600' }],
+  'sinhala-h1': ['clamp(2rem, 1.61rem + 1.94vw, 3.36rem)', { lineHeight: '1.15', letterSpacing: '0', fontWeight: '600' }],
+  'sinhala-h2': ['clamp(1.75rem, 1.45rem + 1.5vw, 2.8rem)', { lineHeight: '1.15', letterSpacing: '0', fontWeight: '500' }],
+  'sinhala-h3': ['clamp(1.5rem, 1.26rem + 1.19vw, 2.33rem)', { lineHeight: '1.18', letterSpacing: '0', fontWeight: '500' }],
+  'sinhala-h4': ['clamp(1.3rem, 1.12rem + 0.91vw, 1.94rem)', { lineHeight: '1.2', letterSpacing: '0', fontWeight: '500' }],
+  'sinhala-h5': ['clamp(1.15rem, 1.04rem + 0.57vw, 1.55rem)', { lineHeight: '1.25', letterSpacing: '0', fontWeight: '500' }],
+  'sinhala-h6': ['clamp(1rem, 0.93rem + 0.36vw, 1.25rem)', { lineHeight: '1.3', letterSpacing: '0', fontWeight: '500' }],
+  'sinhala-pullquote': ['clamp(1.2rem, 1.09rem + 0.57vw, 1.6rem)', { lineHeight: '1.4', letterSpacing: '0', fontWeight: '500' }],
+  'sinhala-body': ['1.05rem', { lineHeight: '1.8', letterSpacing: '0', fontWeight: '400' }],
+  'sinhala-body-sm': ['0.87rem', { lineHeight: '1.7', letterSpacing: '0', fontWeight: '400' }],
   'sinhala-label': [
     '0.83rem',
     {
@@ -191,52 +112,19 @@ export const fontSize = {
       textTransform: 'uppercase',
     },
   ],
-  'sinhala-code': [
-    '0.9em',
-    { lineHeight: '1.7', letterSpacing: '0', fontWeight: '400' },
-  ],
+  'sinhala-code': ['0.9em', { lineHeight: '1.7', letterSpacing: '0', fontWeight: '400' }],
 
   // ── Tamil ──────────────────────────────────────────────────────────────────
-  'tamil-display': [
-    'clamp(2.25rem, 1.75rem + 2.5vw, 4rem)',
-    { lineHeight: '1.15', letterSpacing: '0', fontWeight: '600' },
-  ],
-  'tamil-h1': [
-    'clamp(2rem, 1.61rem + 1.94vw, 3.36rem)',
-    { lineHeight: '1.15', letterSpacing: '0', fontWeight: '600' },
-  ],
-  'tamil-h2': [
-    'clamp(1.75rem, 1.45rem + 1.5vw, 2.8rem)',
-    { lineHeight: '1.15', letterSpacing: '0', fontWeight: '500' },
-  ],
-  'tamil-h3': [
-    'clamp(1.5rem, 1.26rem + 1.19vw, 2.33rem)',
-    { lineHeight: '1.18', letterSpacing: '0', fontWeight: '500' },
-  ],
-  'tamil-h4': [
-    'clamp(1.3rem, 1.12rem + 0.91vw, 1.94rem)',
-    { lineHeight: '1.2', letterSpacing: '0', fontWeight: '500' },
-  ],
-  'tamil-h5': [
-    'clamp(1.15rem, 1.04rem + 0.57vw, 1.55rem)',
-    { lineHeight: '1.25', letterSpacing: '0', fontWeight: '500' },
-  ],
-  'tamil-h6': [
-    'clamp(1rem, 0.93rem + 0.36vw, 1.25rem)',
-    { lineHeight: '1.3', letterSpacing: '0', fontWeight: '500' },
-  ],
-  'tamil-pullquote': [
-    'clamp(1.2rem, 1.09rem + 0.57vw, 1.6rem)',
-    { lineHeight: '1.4', letterSpacing: '0', fontWeight: '500' },
-  ],
-  'tamil-body': [
-    '1.05rem',
-    { lineHeight: '1.8', letterSpacing: '0', fontWeight: '400' },
-  ],
-  'tamil-body-sm': [
-    '0.87rem',
-    { lineHeight: '1.7', letterSpacing: '0', fontWeight: '400' },
-  ],
+  'tamil-display': ['clamp(2.25rem, 1.75rem + 2.5vw, 4rem)', { lineHeight: '1.15', letterSpacing: '0', fontWeight: '600' }],
+  'tamil-h1': ['clamp(2rem, 1.61rem + 1.94vw, 3.36rem)', { lineHeight: '1.15', letterSpacing: '0', fontWeight: '600' }],
+  'tamil-h2': ['clamp(1.75rem, 1.45rem + 1.5vw, 2.8rem)', { lineHeight: '1.15', letterSpacing: '0', fontWeight: '500' }],
+  'tamil-h3': ['clamp(1.5rem, 1.26rem + 1.19vw, 2.33rem)', { lineHeight: '1.18', letterSpacing: '0', fontWeight: '500' }],
+  'tamil-h4': ['clamp(1.3rem, 1.12rem + 0.91vw, 1.94rem)', { lineHeight: '1.2', letterSpacing: '0', fontWeight: '500' }],
+  'tamil-h5': ['clamp(1.15rem, 1.04rem + 0.57vw, 1.55rem)', { lineHeight: '1.25', letterSpacing: '0', fontWeight: '500' }],
+  'tamil-h6': ['clamp(1rem, 0.93rem + 0.36vw, 1.25rem)', { lineHeight: '1.3', letterSpacing: '0', fontWeight: '500' }],
+  'tamil-pullquote': ['clamp(1.2rem, 1.09rem + 0.57vw, 1.6rem)', { lineHeight: '1.4', letterSpacing: '0', fontWeight: '500' }],
+  'tamil-body': ['1.05rem', { lineHeight: '1.8', letterSpacing: '0', fontWeight: '400' }],
+  'tamil-body-sm': ['0.87rem', { lineHeight: '1.7', letterSpacing: '0', fontWeight: '400' }],
   'tamil-label': [
     '0.83rem',
     {
@@ -273,10 +161,7 @@ export const fontSize = {
       textTransform: 'uppercase',
     },
   ],
-  'tamil-code': [
-    '0.9em',
-    { lineHeight: '1.7', letterSpacing: '0', fontWeight: '400' },
-  ],
+  'tamil-code': ['0.9em', { lineHeight: '1.7', letterSpacing: '0', fontWeight: '400' }],
 } satisfies Record<string, [string, Record<string, string>]>;
 
 // =============================================================================
@@ -297,9 +182,7 @@ const utilityLineHeight = {
 // real bug in the old hand-maintained map: it had no sinhala-*/tamil-*
 // entries at all, so anything reading e.g. lineHeight['sinhala-h1']
 // silently fell back to undefined.
-const perTokenLineHeight = Object.fromEntries(
-  Object.entries(fontSize).map(([key, [, opts]]) => [key, opts.lineHeight]),
-) as Record<keyof typeof fontSize, string>;
+const perTokenLineHeight = Object.fromEntries(Object.entries(fontSize).map(([key, [, opts]]) => [key, opts.lineHeight])) as Record<keyof typeof fontSize, string>;
 
 export const lineHeight = { ...utilityLineHeight, ...perTokenLineHeight };
 
@@ -331,9 +214,7 @@ const utilityLetterSpacing = {
 // Per-token values, derived from `fontSize` for the same reason as above
 // (these used to be hand-duplicated for eyebrow/label/caption and could
 // silently disagree with the values actually applied to those tokens).
-const perTokenLetterSpacing = Object.fromEntries(
-  Object.entries(fontSize).map(([key, [, opts]]) => [key, opts.letterSpacing]),
-) as Record<keyof typeof fontSize, string>;
+const perTokenLetterSpacing = Object.fromEntries(Object.entries(fontSize).map(([key, [, opts]]) => [key, opts.letterSpacing])) as Record<keyof typeof fontSize, string>;
 
 export const letterSpacing = {
   ...utilityLetterSpacing,

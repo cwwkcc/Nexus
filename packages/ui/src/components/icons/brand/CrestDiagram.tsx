@@ -10,11 +10,7 @@ import { Container } from '../../layout/Container';
 import { EyebrowLabel } from '../../typography/EyebrowLabel';
 import { Text } from '../../typography/Text';
 
-type HotspotPosition =
-  | 'top-right'
-  | 'bottom-right'
-  | 'top-left'
-  | 'bottom-left';
+type HotspotPosition = 'top-right' | 'bottom-right' | 'top-left' | 'bottom-left';
 
 type DiagramVariant = 'ambient' | 'hold' | 'click';
 
@@ -43,39 +39,30 @@ const DEFAULT_SYMBOLS: CrestSymbol[] = [
   {
     id: 'lamp',
     name: 'The Lamp of Knowledge',
-    meaning:
-      'The oil lamp — Pahana — represents the light of education driving away the darkness of ignorance.',
+    meaning: 'The oil lamp — Pahana — represents the light of education driving away the darkness of ignorance.',
     position: 'top-right',
   },
   {
     id: 'lotus',
     name: 'The Lotus',
-    meaning:
-      'Rising from murky water to bloom in perfect form, the lotus symbolises the potential within every student — regardless of circumstance — to achieve purity and excellence.',
+    meaning: 'Rising from murky water to bloom in perfect form, the lotus symbolises the potential within every student — regardless of circumstance — to achieve purity and excellence.',
     position: 'top-left',
   },
   {
     id: 'dharmachakra',
     name: 'The Dharmachakra',
-    meaning:
-      'The wheel of the dharma represents truth, righteousness, and the cyclical pursuit of wisdom. It reminds us that learning is never finished.',
+    meaning: 'The wheel of the dharma represents truth, righteousness, and the cyclical pursuit of wisdom. It reminds us that learning is never finished.',
     position: 'bottom-left',
   },
   {
     id: 'laurel',
     name: 'The Laurel',
-    meaning:
-      'The laurel wreath encircling the crest signifies achievement, honour, and the recognition of excellence in academic, sporting, and cultural endeavour.',
+    meaning: 'The laurel wreath encircling the crest signifies achievement, honour, and the recognition of excellence in academic, sporting, and cultural endeavour.',
     position: 'bottom-right',
   },
 ];
 
-export function CrestDiagram({
-  symbols = DEFAULT_SYMBOLS,
-  variant = 'ambient',
-  className,
-  debug,
-}: CrestDiagramProps) {
+export function CrestDiagram({ symbols = DEFAULT_SYMBOLS, variant = 'ambient', className, debug }: CrestDiagramProps) {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
@@ -123,12 +110,8 @@ export function CrestDiagram({
     const newLines: Record<string, string> = {};
 
     symbols.forEach((symbol) => {
-      const dot = containerRef.current?.querySelector(
-        `[data-dot="${symbol.id}"]`,
-      );
-      const label = containerRef.current?.querySelector(
-        `[data-label="${symbol.id}"]`,
-      );
+      const dot = containerRef.current?.querySelector(`[data-dot="${symbol.id}"]`);
+      const label = containerRef.current?.querySelector(`[data-label="${symbol.id}"]`);
       if (!dot || !label) return;
 
       const dotRect = dot.getBoundingClientRect();
@@ -137,14 +120,11 @@ export function CrestDiagram({
       const dotX = dotRect.left - container.left + dotRect.width / 2;
       const dotY = dotRect.top - container.top + dotRect.height / 2;
       const isLeft = symbol.position.includes('left');
-      const labelX = isLeft
-        ? labelRect.right - container.left
-        : labelRect.left - container.left;
+      const labelX = isLeft ? labelRect.right - container.left : labelRect.left - container.left;
       const labelY = labelRect.top - container.top + 24;
       const midX = labelX + (dotX - labelX) / 2;
 
-      newLines[symbol.id] =
-        `${labelX},${labelY} ${midX},${labelY} ${midX},${dotY} ${dotX},${dotY}`;
+      newLines[symbol.id] = `${labelX},${labelY} ${midX},${labelY} ${midX},${dotY} ${dotX},${dotY}`;
     });
     setLines(newLines);
   }, [symbols]);
@@ -159,29 +139,10 @@ export function CrestDiagram({
   }, [calculateLines]);
 
   return (
-    <div
-      ref={containerRef}
-      className={cn(
-        'relative select-none w-size-screen-80 aspect-[190/100]',
-        'my-space-2 bg-surface-active rounded-md overflow-hidden',
-        className,
-      )}
-    >
+    <div ref={containerRef} className={cn('relative select-none w-size-screen-80 aspect-[190/100]', 'my-space-2 bg-surface-active rounded-md overflow-hidden', className)}>
       {/* ── SVG Connector Network ── */}
-      <svg
-        className="absolute inset-space-0 w-full h-full pointer-events-none z-base"
-        aria-hidden
-      >
-        {debug && (
-          <SvgDebugGrid
-            width={containerRef.current?.clientWidth || 190}
-            height={containerRef.current?.clientHeight || 100}
-            step={5}
-            majorEvery={5}
-            showLabels
-            show={true}
-          />
-        )}
+      <svg className="absolute inset-space-0 w-full h-full pointer-events-none z-base" aria-hidden>
+        {debug && <SvgDebugGrid width={containerRef.current?.clientWidth || 190} height={containerRef.current?.clientHeight || 100} step={5} majorEvery={5} showLabels show={true} />}
 
         {symbols.map((symbol) => {
           const isActive = activeId === symbol.id;
@@ -190,29 +151,17 @@ export function CrestDiagram({
           if (!points) return null;
 
           // Ambient state tracks continuous flow, others flow only on target hover
-          const shouldAnimate =
-            variant === 'ambient' || (isHovered && !isActive);
+          const shouldAnimate = variant === 'ambient' || (isHovered && !isActive);
 
           return (
             <motion.polyline
               key={symbol.id}
               points={points}
-              className={cn(
-                'fill-none transition-colors duration-300 ease-out',
-                isActive
-                  ? 'stroke-gold-base'
-                  : isHovered && variant !== 'ambient'
-                    ? 'stroke-gold-base/60'
-                    : 'stroke-border-default',
-              )}
+              className={cn('fill-none transition-colors duration-300 ease-out', isActive ? 'stroke-gold-base' : isHovered && variant !== 'ambient' ? 'stroke-gold-base/60' : 'stroke-border-default')}
               strokeWidth={isActive ? 2.5 : 3}
               strokeDasharray={isActive && variant !== 'ambient' ? '0' : '4 4'}
               strokeLinejoin="round"
-              animate={
-                shouldAnimate
-                  ? { strokeDashoffset: [0, -16] }
-                  : { strokeDashoffset: 0 }
-              }
+              animate={shouldAnimate ? { strokeDashoffset: [0, -16] } : { strokeDashoffset: 0 }}
               transition={{
                 repeat: Infinity,
                 duration: variant === 'ambient' ? 1.2 : 1,
@@ -224,42 +173,13 @@ export function CrestDiagram({
       </svg>
 
       {/* ── Center Crest Card ── */}
-      <Container
-        padding="none"
-        className={cn(
-          'w-size-screen-w-20 aspect-[1/1.2]',
-          'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-raised',
-          'rounded-md bg-surface-elevated border-border-sm border-solid border-border-light shadow-elevation-3',
-          'flex items-center justify-center',
-        )}
-      >
+      <Container padding="none" className={cn('w-size-screen-w-20 aspect-[1/1.2]', 'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-raised', 'rounded-md bg-surface-elevated border-border-sm border-solid border-border-light shadow-elevation-3', 'flex items-center justify-center')}>
         <SchoolLogo />
         {symbols.map((symbol) => {
           const isActive = activeId === symbol.id;
           const isHovered = hoveredId === symbol.id;
 
-          return (
-            <button
-              key={symbol.id}
-              data-dot={symbol.id}
-              onClick={() => handleClick(symbol.id)}
-              onPointerDown={() => handlePointerDown(symbol.id)}
-              onPointerUp={handlePointerUp}
-              onPointerEnter={() => handlePointerEnter(symbol.id)}
-              onPointerLeave={handlePointerLeave}
-              className={cn(
-                'absolute z-overlay cursor-pointer w-size-5 h-size-5 rounded-full border-border-sm border-solid transition-all duration-300',
-                DOT_POSITIONS[symbol.position],
-                isActive
-                  ? variant === 'ambient'
-                    ? 'bg-gold-base border-gold-base ring-4 ring-gold-base/30 scale-125 shadow-md'
-                    : 'bg-gold-base border-gold-base ring-4 ring-gold-base/30 scale-110'
-                  : isHovered && variant !== 'ambient'
-                    ? 'bg-surface-elevated border-gold-base scale-125 shadow-md'
-                    : 'bg-surface-base border-border-default hover:border-gold-base',
-              )}
-            />
-          );
+          return <button key={symbol.id} data-dot={symbol.id} onClick={() => handleClick(symbol.id)} onPointerDown={() => handlePointerDown(symbol.id)} onPointerUp={handlePointerUp} onPointerEnter={() => handlePointerEnter(symbol.id)} onPointerLeave={handlePointerLeave} className={cn('absolute z-overlay cursor-pointer w-size-5 h-size-5 rounded-full border-border-sm border-solid transition-all duration-300', DOT_POSITIONS[symbol.position], isActive ? (variant === 'ambient' ? 'bg-gold-base border-gold-base ring-4 ring-gold-base/30 scale-125 shadow-md' : 'bg-gold-base border-gold-base ring-4 ring-gold-base/30 scale-110') : isHovered && variant !== 'ambient' ? 'bg-surface-elevated border-gold-base scale-125 shadow-md' : 'bg-surface-base border-border-default hover:border-gold-base')} />;
         })}
       </Container>
 
@@ -269,43 +189,13 @@ export function CrestDiagram({
         const isHovered = hoveredId === symbol.id;
 
         // Soften dimming logic for standard click behaviors to look natural during multi-hover
-        const isDimmed =
-          activeId !== null && !isActive && (variant !== 'click' || !isHovered);
+        const isDimmed = activeId !== null && !isActive && (variant !== 'click' || !isHovered);
         const isHighlighted = isActive || (variant !== 'ambient' && isHovered);
 
         return (
-          <button
-            key={symbol.id}
-            data-label={symbol.id}
-            onClick={() => handleClick(symbol.id)}
-            onPointerDown={() => handlePointerDown(symbol.id)}
-            onPointerUp={handlePointerUp}
-            onPointerEnter={() => handlePointerEnter(symbol.id)}
-            onPointerLeave={handlePointerLeave}
-            className={cn(
-              'absolute w-size-screen-w-20 text-center cursor-pointer bg-surface-elevated border-border-sm border-solid transition-all duration-300 z-dropdown rounded-md p-space-1p5',
-              isDimmed
-                ? 'opacity-20 scale-95 grayscale'
-                : 'opacity-100 scale-100',
-              isHighlighted
-                ? 'border-gold-base shadow-lg -translate-y-1'
-                : 'border-border-light shadow-sm',
-              LABEL_POSITIONS[symbol.position],
-            )}
-          >
-            <EyebrowLabel
-              className={cn(
-                'transition-colors duration-fast block',
-                isHighlighted ? 'text-gold-base' : 'text-text-muted',
-              )}
-            >
-              {symbol.name}
-            </EyebrowLabel>
-            <Text
-              variant="body-sm"
-              color={isHighlighted ? 'gold' : 'muted'}
-              className="mt-space-1 normal-case tracking-normal transition-colors duration-fast"
-            >
+          <button key={symbol.id} data-label={symbol.id} onClick={() => handleClick(symbol.id)} onPointerDown={() => handlePointerDown(symbol.id)} onPointerUp={handlePointerUp} onPointerEnter={() => handlePointerEnter(symbol.id)} onPointerLeave={handlePointerLeave} className={cn('absolute w-size-screen-w-20 text-center cursor-pointer bg-surface-elevated border-border-sm border-solid transition-all duration-300 z-dropdown rounded-md p-space-1p5', isDimmed ? 'opacity-20 scale-95 grayscale' : 'opacity-100 scale-100', isHighlighted ? 'border-gold-base shadow-lg -translate-y-1' : 'border-border-light shadow-sm', LABEL_POSITIONS[symbol.position])}>
+            <EyebrowLabel className={cn('transition-colors duration-fast block', isHighlighted ? 'text-gold-base' : 'text-text-muted')}>{symbol.name}</EyebrowLabel>
+            <Text variant="body-sm" color={isHighlighted ? 'gold' : 'muted'} className="mt-space-1 normal-case tracking-normal transition-colors duration-fast">
               {symbol.meaning}
             </Text>
           </button>

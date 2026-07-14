@@ -18,19 +18,7 @@ export interface SliderProps {
   className?: string;
 }
 
-export function Slider({
-  label,
-  min = 0,
-  max = 100,
-  step = 1,
-  value,
-  defaultValue = 50,
-  onChange,
-  showValue = true,
-  showMarks = false,
-  disabled = false,
-  className,
-}: SliderProps) {
+export function Slider({ label, min = 0, max = 100, step = 1, value, defaultValue = 50, onChange, showValue = true, showMarks = false, disabled = false, className }: SliderProps) {
   const [internalValue, setInternalValue] = useState(defaultValue);
   const currentValue = value !== undefined ? value : internalValue;
   const percentage = ((currentValue - min) / (max - min)) * 100;
@@ -59,11 +47,7 @@ export function Slider({
     <div className={cn('w-full', className)}>
       {(label || showValue) && (
         <div className="flex justify-between items-center mb-space-2">
-          {label && (
-            <label className="font-body text-label uppercase tracking-label text-text-primary">
-              {label}
-            </label>
-          )}
+          {label && <label className="font-body text-label uppercase tracking-label text-text-primary">{label}</label>}
           {showValue && (
             <span className="font-body text-label text-gold-base">
               {currentValue}
@@ -74,10 +58,7 @@ export function Slider({
       )}
       <div
         ref={sliderRef}
-        className={cn(
-          'relative w-full h-2 rounded-full bg-surface-deep',
-          disabled ? 'cursor-not-allowed opacity-40' : 'cursor-pointer',
-        )}
+        className={cn('relative w-full h-2 rounded-full bg-surface-deep', disabled ? 'cursor-not-allowed opacity-40' : 'cursor-pointer')}
         onClick={(e) => {
           if (disabled) return;
           const rect = sliderRef.current?.getBoundingClientRect();
@@ -88,25 +69,8 @@ export function Slider({
           }
         }}
       >
-        <div
-          className="absolute left-0 top-0 h-full bg-green-base rounded-full pointer-events-none"
-          style={{ width: `${percentage}%` }}
-        />
-        <div
-          role="slider"
-          tabIndex={disabled ? -1 : 0}
-          aria-valuemin={min}
-          aria-valuemax={max}
-          aria-valuenow={currentValue}
-          aria-disabled={disabled}
-          onKeyDown={handleKeyDown}
-          className={cn(
-            'absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-white shadow-elevation-2',
-            'focus-visible:outline-2 focus-visible:outline-gold-base focus-visible:outline-offset-2',
-            disabled ? 'cursor-not-allowed' : 'cursor-pointer',
-          )}
-          style={{ left: `calc(${percentage}% - 8px)` }}
-        />
+        <div className="absolute left-0 top-0 h-full bg-green-base rounded-full pointer-events-none" style={{ width: `${percentage}%` }} />
+        <div role="slider" tabIndex={disabled ? -1 : 0} aria-valuemin={min} aria-valuemax={max} aria-valuenow={currentValue} aria-disabled={disabled} onKeyDown={handleKeyDown} className={cn('absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-white shadow-elevation-2', 'focus-visible:outline-2 focus-visible:outline-gold-base focus-visible:outline-offset-2', disabled ? 'cursor-not-allowed' : 'cursor-pointer')} style={{ left: `calc(${percentage}% - 8px)` }} />
       </div>
       {showMarks && (
         <div className="flex justify-between mt-space-2 px-1">

@@ -20,16 +20,7 @@ function formatBytes(bytes: number): string {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
-export function FileUploadZone({
-  accept,
-  multiple = false,
-  maxSizeMb,
-  onChange,
-  label = 'Upload file',
-  hint,
-  error: externalError,
-  disabled = false,
-}: FileUploadZoneProps) {
+export function FileUploadZone({ accept, multiple = false, maxSizeMb, onChange, label = 'Upload file', hint, error: externalError, disabled = false }: FileUploadZoneProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
   const [internalError, setInternalError] = useState<string | null>(null);
@@ -47,9 +38,7 @@ export function FileUploadZone({
       if (maxSizeMb) {
         const oversized = arr.filter((f) => f.size > maxSizeMb * 1024 * 1024);
         if (oversized.length > 0) {
-          setInternalError(
-            `${oversized[0].name} exceeds the ${maxSizeMb} MB limit.`,
-          );
+          setInternalError(`${oversized[0].name} exceeds the ${maxSizeMb} MB limit.`);
           return;
         }
       }
@@ -80,11 +69,7 @@ export function FileUploadZone({
 
   return (
     <div>
-      {label && (
-        <p className="font-body text-label uppercase tracking-caption text-text-primary mb-space-2">
-          {label}
-        </p>
-      )}
+      {label && <p className="font-body text-label uppercase tracking-caption text-text-primary mb-space-2">{label}</p>}
 
       <div
         role="button"
@@ -92,62 +77,27 @@ export function FileUploadZone({
         aria-label={`${label}. Click or drag files here.`}
         onClick={() => !disabled && inputRef.current?.click()}
         onKeyDown={(e) => {
-          if ((e.key === 'Enter' || e.key === ' ') && !disabled)
-            inputRef.current?.click();
+          if ((e.key === 'Enter' || e.key === ' ') && !disabled) inputRef.current?.click();
         }}
         onDragOver={onDragOver}
         onDragLeave={onDragLeave}
         onDrop={onDrop}
-        className={cn(
-          'flex flex-col items-center justify-center gap-space-2 p-space-9',
-          'border-2 border-dashed transition-all duration-fast',
-          error
-            ? 'border-semantic-error-base bg-semantic-error-surface'
-            : isDragging
-              ? 'border-gold-base bg-gold-pale'
-              : 'border-border-default bg-surface-elevated',
-          disabled && 'opacity-50 cursor-not-allowed',
-          !disabled && 'cursor-pointer',
-          'focus-visible:outline-2 focus-visible:outline-gold-base focus-visible:outline-offset-2',
-        )}
+        className={cn('flex flex-col items-center justify-center gap-space-2 p-space-9', 'border-2 border-dashed transition-all duration-fast', error ? 'border-semantic-error-base bg-semantic-error-surface' : isDragging ? 'border-gold-base bg-gold-pale' : 'border-border-default bg-surface-elevated', disabled && 'opacity-50 cursor-not-allowed', !disabled && 'cursor-pointer', 'focus-visible:outline-2 focus-visible:outline-gold-base focus-visible:outline-offset-2')}
       >
-        <span
-          aria-hidden="true"
-          className="text-gold-base text-[1.75rem] leading-none"
-        >
+        <span aria-hidden="true" className="text-gold-base text-[1.75rem] leading-none">
           ↑
         </span>
         <span className="font-body text-body-sm text-text-primary text-center">
-          Drag &amp; drop{multiple ? ' files' : ' a file'} here, or{' '}
-          <span className="text-gold-base underline">browse</span>
+          Drag &amp; drop{multiple ? ' files' : ' a file'} here, or <span className="text-gold-base underline">browse</span>
         </span>
-        {hint && (
-          <span className="font-body text-caption text-text-muted text-center">
-            {hint}
-          </span>
-        )}
-        {maxSizeMb && (
-          <span className="font-body text-caption text-text-muted">
-            Max {maxSizeMb} MB
-          </span>
-        )}
+        {hint && <span className="font-body text-caption text-text-muted text-center">{hint}</span>}
+        {maxSizeMb && <span className="font-body text-caption text-text-muted">Max {maxSizeMb} MB</span>}
       </div>
 
-      <input
-        ref={inputRef}
-        type="file"
-        accept={accept}
-        multiple={multiple}
-        disabled={disabled}
-        className="hidden"
-        onChange={(e) => processFiles(e.target.files)}
-      />
+      <input ref={inputRef} type="file" accept={accept} multiple={multiple} disabled={disabled} className="hidden" onChange={(e) => processFiles(e.target.files)} />
 
       {error && (
-        <p
-          role="alert"
-          className="font-body text-caption text-semantic-error-base mt-space-1.5"
-        >
+        <p role="alert" className="font-body text-caption text-semantic-error-base mt-space-1.5">
           {error}
         </p>
       )}
@@ -155,29 +105,15 @@ export function FileUploadZone({
       {files.length > 0 && (
         <ul className="list-none p-0 m-0 mt-space-2.5 flex flex-col gap-space-1.5">
           {files.map((file, idx) => (
-            <li
-              key={`${file.name}-${idx}`}
-              className="flex items-center justify-between gap-space-3 p-space-2.5 bg-surface-default border border-border-light"
-            >
+            <li key={`${file.name}-${idx}`} className="flex items-center justify-between gap-space-3 p-space-2.5 bg-surface-default border border-border-light">
               <div className="flex items-center gap-space-2.5 min-w-0">
-                <span
-                  aria-hidden="true"
-                  className="text-semantic-success-base text-sm flex-shrink-0"
-                >
+                <span aria-hidden="true" className="text-semantic-success-base text-sm flex-shrink-0">
                   ✓
                 </span>
-                <span className="font-body text-body-sm text-text-primary truncate">
-                  {file.name}
-                </span>
-                <span className="font-body text-caption text-text-muted flex-shrink-0">
-                  {formatBytes(file.size)}
-                </span>
+                <span className="font-body text-body-sm text-text-primary truncate">{file.name}</span>
+                <span className="font-body text-caption text-text-muted flex-shrink-0">{formatBytes(file.size)}</span>
               </div>
-              <button
-                onClick={() => removeFile(idx)}
-                aria-label={`Remove ${file.name}`}
-                className="bg-transparent border-none cursor-pointer text-text-muted text-base p-1 leading-none transition-colors duration-fast hover:text-semantic-error-base"
-              >
+              <button onClick={() => removeFile(idx)} aria-label={`Remove ${file.name}`} className="bg-transparent border-none cursor-pointer text-text-muted text-base p-1 leading-none transition-colors duration-fast hover:text-semantic-error-base">
                 ×
               </button>
             </li>

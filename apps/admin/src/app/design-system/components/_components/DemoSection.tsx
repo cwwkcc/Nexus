@@ -14,17 +14,7 @@ export interface DemoSectionProps {
   className?: string;
 }
 
-export function DemoSection({
-  title,
-  description,
-  children,
-  align = 'left',
-  withAccentRule = false,
-  sourceHref,
-  layout = 'flex',
-  columns = 3,
-  className,
-}: DemoSectionProps) {
+export function DemoSection({ title, description, children, align = 'left', withAccentRule = false, sourceHref, layout = 'flex', columns = 3, className }: DemoSectionProps) {
   const isCenter = align === 'center';
 
   const gridColumns = {
@@ -40,34 +30,13 @@ export function DemoSection({
       <div className={cn('mb-space-8', isCenter && 'text-center')}>
         <h2 className="font-display text-h2 text-text-primary">{title}</h2>
 
-        {withAccentRule && (
-          <div
-            className={cn(
-              'w-size-12 h-size-0p5 bg-gold-base mt-space-4',
-              isCenter && 'mx-auto',
-            )}
-          />
-        )}
+        {withAccentRule && <div className={cn('w-size-12 h-size-0p5 bg-gold-base mt-space-4', isCenter && 'mx-auto')} />}
 
-        {description && (
-          <p
-            className={cn(
-              'font-body text-body text-text-muted mt-space-4 max-w-prose',
-              isCenter && 'mx-auto',
-            )}
-          >
-            {description}
-          </p>
-        )}
+        {description && <p className={cn('font-body text-body text-text-muted mt-space-4 max-w-prose', isCenter && 'mx-auto')}>{description}</p>}
 
         {sourceHref && (
           <div className={cn('mt-space-6', isCenter && 'flex justify-center')}>
-            <ButtonLink
-              href={sourceHref}
-              variant="ghost"
-              size="sm"
-              leftIcon={<Icon name="code" size="sm" />}
-            >
+            <ButtonLink href={sourceHref} variant="ghost" size="sm" leftIcon={<Icon name="code" size="sm" />}>
               View Code
             </ButtonLink>
           </div>
@@ -75,15 +44,7 @@ export function DemoSection({
       </div>
 
       {/* Children container */}
-      {layout === 'flex' ? (
-        <div className="flex flex-wrap gap-space-6 items-start w-size-full">
-          {children}
-        </div>
-      ) : (
-        <div className={cn('grid gap-space-6 w-size-full', gridColumns)}>
-          {children}
-        </div>
-      )}
+      {layout === 'flex' ? <div className="flex flex-wrap gap-space-6 items-start w-size-full">{children}</div> : <div className={cn('grid gap-space-6 w-size-full', gridColumns)}>{children}</div>}
     </div>
   );
 }
