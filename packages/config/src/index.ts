@@ -1,2 +1,5 @@
+// packages/config/src/index.ts
+export { createNextConfig } from './next';
 export { nexusPreset } from './tailwind/preset';
-export { sharedNextConfig } from './next';
+export { createMetadata } from './metadata';
+export { PUBLIC_PAGE_KEYS, localizedPath } from './paths';
