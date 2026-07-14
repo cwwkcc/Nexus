@@ -13,14 +13,6 @@
       "path": "packages/api",
     },
     {
-      "name": "DATABASE",
-      "path": "packages/database",
-    },
-    {
-      "name": "UI",
-      "path": "packages/ui",
-    },
-    {
       "name": "CONFIG",
       "path": "packages/config",
     },
@@ -29,7 +21,23 @@
       "path": "packages/contracts",
     },
     {
-      "name": "DOC",
+      "name": "DATABASE",
+      "path": "packages/database",
+    },
+    {
+      "name": "ENV",
+      "path": "packages/env",
+    },
+    {
+      "name": "TOKENS",
+      "path": "packages/tokens",
+    },
+    {
+      "name": "UI",
+      "path": "packages/ui",
+    },
+    {
+      "name": "DOCS",
       "path": "docs/",
     },
     {
