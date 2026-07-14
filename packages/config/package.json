@@ -18,17 +18,11 @@
       "import": "./dist/next.js",
       "default": "./dist/next.js"
     },
-    "./env": {
-      "types": "./dist/env.d.ts",
-      "require": "./dist/env.js",
-      "import": "./dist/env.js",
-      "default": "./dist/env.js"
-    },
-    "./constants": {
-      "types": "./dist/constants.d.ts",
-      "require": "./dist/constants.js",
-      "import": "./dist/constants.js",
-      "default": "./dist/constants.js"
+    "./tailwind": {
+      "types": "./dist/tailwind/preset.d.ts",
+      "require": "./dist/tailwind/preset.js",
+      "import": "./dist/tailwind/preset.js",
+      "default": "./dist/tailwind/preset.js"
     },
     "./package.json": "./package.json"
   },
@@ -44,8 +38,8 @@
     "typescript": "~5.9.2"
   },
   "dependencies": {
+    "@nexus/tokens": "workspace:*",
     "next": "16.2.9",
-    "tailwindcss": "3.4.3",
-    "zod": "^3.23.8"
+    "tailwindcss": "3.4.3"
   }
 }
