@@ -1,4 +1,9 @@
-// packages/config/src/tokens/primitives.ts
+// packages/tokens/src/primitives/colors.ts
+//
+// Raw color palette. Nothing in this file is meant to be consumed
+// directly by components — always go through semantic/ instead.
+// Moved here verbatim from the old src/primitives.ts; values unchanged.
+
 export const primitives = {
   // Forest palette — prestige sunlit canopy (lighter, warm dappled light)
   forest: {

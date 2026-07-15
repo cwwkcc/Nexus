@@ -1,3 +1,5 @@
+// packages/tokens/src/primitives/shadows.ts
+
 export const boxShadow = {
   'elevation-0': 'none',
   'elevation-1': '0 2px 4px rgba(28,26,22,0.08)',

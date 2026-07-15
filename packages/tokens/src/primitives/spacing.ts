@@ -1,3 +1,7 @@
+// packages/tokens/src/primitives/spacing.ts
+//
+// Pure spacing scale (space-*). Moved verbatim from the old src/spacing.ts.
+
 export const spacing = {
   // Zero (required for core utilities)
   '0': '0px',

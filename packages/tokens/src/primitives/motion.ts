@@ -1,3 +1,5 @@
+// packages/tokens/src/primitives/motion.ts
+
 export const transitionDuration = {
   instant: '80ms',
   fast: '150ms',

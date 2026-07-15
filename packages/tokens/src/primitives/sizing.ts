@@ -1,3 +1,10 @@
+// packages/tokens/src/primitives/sizing.ts
+//
+// Component sizing scale (size-*, w-*/h-* family) and border-width scale.
+// Added as its own file — the original sketch folded this into
+// spacing.ts, but it's ~150 lines and semantically distinct (component
+// dimensions vs. layout gaps), so it gets a dedicated file instead.
+
 // packages/config/src/tokens/sizing.ts
 
 export const sizing = {
@@ -130,6 +137,34 @@ export const sizing = {
   'size-screen-h-95': '95vh',
   'size-screen-h-100': '100vh',
 
+  // ── Common fractions ───────────────────────────────────────────────────────
+  'size-1-2': '50%',
+  'size-1-3': '33.333333%',
+  'size-2-3': '66.666667%',
+  'size-1-4': '25%',
+  'size-2-4': '50%',
+  'size-3-4': '75%',
+  'size-1-5': '20%',
+  'size-2-5': '40%',
+  'size-3-5': '60%',
+  'size-4-5': '80%',
+  'size-1-6': '16.666667%',
+  'size-2-6': '33.333333%',
+  'size-3-6': '50%',
+  'size-4-6': '66.666667%',
+  'size-5-6': '83.333333%',
+  'size-1-12': '8.333333%',
+  'size-2-12': '16.666667%',
+  'size-3-12': '25%',
+  'size-4-12': '33.333333%',
+  'size-5-12': '41.666667%',
+  'size-6-12': '50%',
+  'size-7-12': '58.333333%',
+  'size-8-12': '66.666667%',
+  'size-9-12': '75%',
+  'size-10-12': '83.333333%',
+  'size-11-12': '91.666667%',
+
   // ── Percentage fractions ──────────────────────────────────────────────────
   'size-pct-5': '5%',
   'size-pct-10': '10%',
@@ -167,10 +202,18 @@ export const sizing = {
 } satisfies Record<string, string>;
 
 export const borderWidth = {
+  DEFAULT: '1px',
   'border-none': '0px',
   'border-sm': '1px',
   'border-md': '2px',
   'border-lg': '4px',
   'border-xl': '6px',
   'border-2xl': '8px',
+} satisfies Record<string, string>;
+
+export const maxWidth = {
+  prose: '680px',
+  content: '960px',
+  wide: '1200px',
+  full: '100%',
 } satisfies Record<string, string>;
