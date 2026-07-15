@@ -1,5 +1,5 @@
-import { clientEnv } from '@nexus/env/client';
 import { SUPPORTED_LOCALES } from '@nexus/contracts';
+import { clientEnv } from '@nexus/env/client';
 import type { MetadataRoute } from 'next';
 
 // No more `?? 'https://cwwkcc.lk'` fallback — see the note in metadata.ts.

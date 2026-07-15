@@ -1,7 +1,7 @@
 // packages/config/src/metadata.ts
 
-import { clientEnv } from '@nexus/env/client';
 import type { SeoData } from '@nexus/contracts';
+import { clientEnv } from '@nexus/env/client';
 import type { Metadata } from 'next';
 
 const DEFAULT_SITE_NAME = 'C.W.W. Kannangara Central College';

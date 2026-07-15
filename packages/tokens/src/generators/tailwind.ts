@@ -38,10 +38,10 @@
 // those three keys with no warning — that's a duplicate-key authoring bug,
 // not an accepted tradeoff, so it's merged by hand below instead.
 
-import { boxShadow } from '../primitives/shadows';
 import { backgroundImage, aspectRatio, blur, zIndex, opacity as opacityScale } from '../primitives/effects';
 import { transitionDuration, transitionTimingFunction, transformScale } from '../primitives/motion';
 import { borderRadius } from '../primitives/radius';
+import { boxShadow } from '../primitives/shadows';
 import { sizing, borderWidth } from '../primitives/sizing';
 import { spacing } from '../primitives/spacing';
 import { fontFamily, fontSize, lineHeight, letterSpacing } from '../primitives/typography';

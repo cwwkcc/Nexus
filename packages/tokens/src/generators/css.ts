@@ -7,6 +7,7 @@
 // apps/web and apps/admin; all the actual token-flattening logic lives
 // here so it can be unit tested and reused without touching disk.
 
+import { colors } from './tailwind';
 import { blur, opacity, aspectRatio, zIndex, glass, focusRing, backgroundImage } from '../primitives/effects';
 import { transitionDuration, transitionTimingFunction, transformScale } from '../primitives/motion';
 import { borderRadius } from '../primitives/radius';
@@ -14,7 +15,6 @@ import { boxShadow } from '../primitives/shadows';
 import { sizing } from '../primitives/sizing';
 import { spacing } from '../primitives/spacing';
 import { fontFamily, fontSize, lineHeight, letterSpacing } from '../primitives/typography';
-import { colors } from './tailwind';
 
 function flattenObject(obj: Record<string, unknown>, prefix: string): string {
   let css = '';
