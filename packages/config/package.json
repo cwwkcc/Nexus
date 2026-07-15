@@ -42,6 +42,12 @@
       "import": "./dist/paths.js",
       "default": "./dist/paths.js"
     },
+    "./cache": {
+      "types": "./dist/cache.d.ts",
+      "require": "./dist/cache.js",
+      "import": "./dist/cache.js",
+      "default": "./dist/cache.js"
+    },
     "./package.json": "./package.json"
   },
   "scripts": {
@@ -52,6 +58,7 @@
     "typescript": "~5.9.2"
   },
   "dependencies": {
+    "@nexus/env": "workspace:*",
     "@nexus/tokens": "workspace:*",
     "@nexus/contracts": "workspace:*",
     "next": "16.2.9",

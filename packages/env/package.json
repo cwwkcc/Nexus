@@ -12,6 +12,18 @@
       "import": "./dist/index.js",
       "default": "./dist/index.js"
     },
+    "./server": {
+      "types": "./dist/server.d.ts",
+      "require": "./dist/server.js",
+      "import": "./dist/server.js",
+      "default": "./dist/server.js"
+    },
+    "./client": {
+      "types": "./dist/client.d.ts",
+      "require": "./dist/client.js",
+      "import": "./dist/client.js",
+      "default": "./dist/client.js"
+    },
     "./package.json": "./package.json"
   },
   "scripts": {
@@ -22,6 +34,7 @@
     "typescript": "~5.9.2"
   },
   "dependencies": {
-    "zod": "^3.23.8"
+    "zod": "^4.3.6",
+    "server-only": "^0.0.1"
   }
 }
