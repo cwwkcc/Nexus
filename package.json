@@ -9,7 +9,7 @@
   },
   "scripts": {
     "postinstall": "pnpm db:generate",
-    "prebuild": "pnpm --filter @nexus/config build && pnpm --filter @nexus/config generate && pnpm --filter @nexus/contracts exec tsc -p tsconfig.lib.json && pnpm --filter @nexus/api exec tsc -p tsconfig.lib.json && pnpm --filter @nexus/transport exec tsc -p tsconfig.lib.json && pnpm db:generate",
+    "prebuild": "pnpm --filter @nexus/config build && pnpm --filter @nexus/contracts exec tsc -p tsconfig.lib.json && pnpm --filter @nexus/api exec tsc -p tsconfig.lib.json && pnpm --filter @nexus/transport exec tsc -p tsconfig.lib.json && pnpm db:generate",
     "build": "pnpm prebuild && pnpm --filter @nexus/web build && pnpm --filter @nexus/admin build",
     "dev:web": "pnpm prebuild && pnpm --filter @nexus/web dev",
     "build:web": "pnpm prebuild && pnpm --filter @nexus/web build",
