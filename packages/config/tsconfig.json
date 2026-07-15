@@ -1,18 +1,10 @@
 {
-  "compilerOptions": {
-    "rootDir": "src",
-    "outDir": "dist",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "declaration": true,
-    "emitDeclarationOnly": false,
-    "allowJs": true,
-    "target": "ES2022",
-    "skipLibCheck": true,
-    "strict": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true
-  },
-  "include": ["src/**/*"],
-  "exclude": ["src/fonts.ts"]
+  "extends": "../../tsconfig.base.json",
+  "files": [],
+  "include": [],
+  "references": [
+    {
+      "path": "./tsconfig.lib.json"
+    }
+  ]
 }
