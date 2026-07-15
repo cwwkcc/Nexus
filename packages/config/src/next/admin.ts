@@ -1,7 +1,7 @@
 // packages/config/src/next/admin.ts
 import type { NextConfig } from 'next';
 
-import { createNextConfig } from './base';
+import { createNextConfig } from './base.js';
 
 /**
  * apps/admin-specific config. Adds X-Robots-Tag: noindex — the admin panel

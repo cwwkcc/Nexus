@@ -52,15 +52,16 @@
   },
   "scripts": {
     "dev": "tsc --watch",
-    "build": "tsc"
+    "build": "tsup"
   },
   "devDependencies": {
+    "tsup": "^8.5.1",
     "typescript": "~5.9.2"
   },
   "dependencies": {
+    "@nexus/contracts": "workspace:*",
     "@nexus/env": "workspace:*",
     "@nexus/tokens": "workspace:*",
-    "@nexus/contracts": "workspace:*",
     "next": "16.2.9",
     "tailwindcss": "3.4.3"
   }

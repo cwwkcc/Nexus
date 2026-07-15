@@ -1,8 +1,8 @@
 // packages/config/src/next/base.ts
 import type { NextConfig } from 'next';
 
-import { r2RemotePatterns } from './images';
-import { defaultRedirects } from './redirects';
+import { r2RemotePatterns } from './images.js';
+import { defaultRedirects } from './redirects.js';
 
 // @nexus/env added: metadata.ts (this package) now imports
 // @nexus/env/client, which contains literal `process.env.NEXT_PUBLIC_*`
