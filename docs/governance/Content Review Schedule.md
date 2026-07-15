@@ -158,8 +158,8 @@ This document defines the review schedule for all content on the Nexus platform.
 
 ### Monthly Content Review Checklist
 
-**Date:** ******\_\_\_******
-**Reviewer:** ******\_\_\_******
+**Date:** **\*\***\_\_\_**\*\***
+**Reviewer:** **\*\***\_\_\_**\*\***
 
 **News & Announcements:**
 

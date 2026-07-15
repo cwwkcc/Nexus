@@ -53,10 +53,10 @@ Approval will allow development to proceed immediately toward a public launch ta
 
 By approving this proposal, the school authorizes the development and deployment of Nexus and grants the permissions listed in the full proposal. Operational activities shall remain subject to school policies and administrative oversight.
 
-| **Approved By** |                                   |
-| --------------- | --------------------------------- |
-| Principal       | C.W.W. Kannangara Central College |
-| **Signature**   | **************\_**************    |
-| **Date**        | **************\_**************    |
+| **Approved By** |                                            |
+| --------------- | ------------------------------------------ |
+| Principal       | C.W.W. Kannangara Central College          |
+| **Signature**   | **\*\***\*\***\*\***\_**\*\***\*\***\*\*** |
+| **Date**        | **\*\***\*\***\*\***\_**\*\***\*\***\*\*** |
 
 ---
