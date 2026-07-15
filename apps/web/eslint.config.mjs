@@ -6,7 +6,14 @@ import baseConfig from '../../eslint.config.mjs';
 export default [
   { plugins: { '@next/next': nextEslintPluginNext } },
   ...baseConfig,
-  ...nx.configs['flat/react-typescript'],
+  ...nx.configs['flat/react'],
+  {
+    settings: {
+      tailwindcss: {
+        config: `${import.meta.dirname}/tailwind.config.js`,
+      },
+    },
+  },
   {
     ignores: ['.next/**/*', '**/out-tsc'],
   },
