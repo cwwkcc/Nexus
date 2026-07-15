@@ -1,5 +1,4 @@
 {
-  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "dist",
@@ -8,7 +7,12 @@
     "declaration": true,
     "emitDeclarationOnly": false,
     "allowJs": true,
-    "target": "ES2022"
+    "target": "ES2022",
+    "skipLibCheck": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "exclude": ["src/fonts.ts"]
 }
