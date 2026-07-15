@@ -1,8 +1,5 @@
 // packages/api/src/index.ts
 
-export * from '@nexus/env';
-export * from '@nexus/tokens';
-
 import { createContext } from './context.js';
 import { appRouter, type AppRouter } from './root.js';
 import { createCallerFactory } from './trpc.js';
