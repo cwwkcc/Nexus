@@ -1,19 +1,12 @@
-//@ts-check
-
-const { sharedNextConfig } = require('@nexus/config/next');
+// apps/admin/next.config.js
+const { createAdminConfig } = require('@nexus/config/next');
 const { composePlugins, withNx } = require('@nx/next');
 
-/**
- * @type {import('@nx/next/plugins/with-nx').WithNxOptions}
- **/
 const nextConfig = {
-  ...sharedNextConfig,
+  ...createAdminConfig(),
   nx: {},
 };
 
-const plugins = [
-  // Add more Next.js plugins to this list if needed.
-  withNx,
-];
+const plugins = [withNx];
 
 module.exports = composePlugins(...plugins)(nextConfig);
