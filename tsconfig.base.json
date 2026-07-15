@@ -34,6 +34,7 @@
     "paths": {
       "@nexus/ui": ["./packages/ui/src/index.ts"],
       "@nexus/api": ["./packages/api/src/index.ts"],
+      "@nexus/transport": ["./packages/transport/src/index.ts"],
       "@nexus/db": ["./packages/database/src/index.ts"],
       "@nexus/config": ["./packages/config/src/index.ts"],
       "@nexus/contracts": ["./packages/contracts/src/index.ts"]

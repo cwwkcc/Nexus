@@ -33,6 +33,10 @@
       "path": "packages/tokens",
     },
     {
+      "name": "TRANSPORT",
+      "path": "packages/transport",
+    },
+    {
       "name": "UI",
       "path": "packages/ui",
     },
