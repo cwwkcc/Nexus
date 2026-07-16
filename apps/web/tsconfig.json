@@ -12,11 +12,7 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
+    "plugins": [{ "name": "next" }],
     "paths": {
       "@/*": ["./src/*"],
       "@nexus/ui": ["../../packages/ui/src/index.ts"],
@@ -24,23 +20,11 @@
       "@nexus/db": ["../../packages/database/src/index.ts"],
       "@nexus/config": ["../../packages/config/src/index.ts"],
       "@nexus/contracts": ["../../packages/contracts/src/index.ts"],
+      "@nexus/tokens": ["../../packages/tokens/src/index.ts"],
       "@nexus/locales": ["../../packages/locales/src/index.ts"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx", "../../packages/ui/src/**/*.ts", "../../packages/ui/src/**/*.tsx", "../../apps/web/.next/types/**/*.ts", "../../dist/apps/web/.next/types/**/*.ts", "next-env.d.ts", "index.d.ts"],
-  "exclude": ["out-tsc", "dist", "node_modules", "jest.config.ts", "jest.config.cts", "src/**/*.spec.ts", "src/**/*.test.ts", ".next", "eslint.config.js", "eslint.config.cjs", "eslint.config.mjs"],
-  "references": [
-    {
-      "path": "../../packages/contracts"
-    },
-    {
-      "path": "../../packages/api"
-    },
-    {
-      "path": "../../packages/ui"
-    },
-    {
-      "path": "../../packages/config"
-    }
-  ]
+  "exclude": ["out-tsc", "dist", "node_modules", "jest.config.ts", "jest.config.cts", "src/**/*.spec.ts", "src/**/*.test.ts", "src/service-worker/**/*", ".next", "eslint.config.js", "eslint.config.cjs", "eslint.config.mjs"],
+  "references": [{ "path": "../../packages/contracts" }, { "path": "../../packages/api" }, { "path": "../../packages/ui" }, { "path": "../../packages/config" }, { "path": "../../packages/tokens" }]
 }

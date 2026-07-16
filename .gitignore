@@ -18,6 +18,9 @@ out-tsc
 .next
 storybook-static
 
+# Generated service worker (apps/web/src/service-worker/sw.ts -> public/sw.js via esbuild)
+apps/web/public/sw.js
+
 # Cache
 .nx/cache
 .nx/workspace-data
@@ -84,4 +87,3 @@ Thumbs.db
 
 # PostgreSQL data directory
 infra/postgres/
-
