@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@nexus/ui';
+import { Button, Container, Heading } from '@nexus/ui';
 
 interface ErrorProps {
   error: Error & { digest?: string };
@@ -9,12 +9,10 @@ interface ErrorProps {
 
 export default function Error({ error, reset }: ErrorProps) {
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
+    <Container>
       <div className="text-center space-y-6 max-w-md">
-        <div>
-          <h1 className="text-4xl font-bold text-red-600 mb-space-2">Error</h1>
-          <p className="text-lg text-gray-700">Something went wrong. Our team has been notified.</p>
-        </div>
+        <Heading className="text-semantic-error-base">Error</Heading>
+        <p className="text-lg text-gray-700">Something went wrong. Our team has been notified.</p>
 
         {process.env.NODE_ENV === 'development' && error.message && (
           <details className="bg-gray-100 p-space-4 rounded text-left text-sm text-gray-600 overflow-auto max-h-size-40">
@@ -33,6 +31,6 @@ export default function Error({ error, reset }: ErrorProps) {
           </Button>
         </div>
       </div>
-    </div>
+    </Container>
   );
 }
