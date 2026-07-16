@@ -18,10 +18,6 @@ export const transitionTimingFunction = {
   ember: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
 } satisfies Record<string, string>;
 
-// Keys must NOT include the 'scale-' prefix — Tailwind adds it automatically.
-// 'press' → class: scale-press   ✓
-// 'card-hover' → class: scale-card-hover   ✓
-// Previously 'scale-press' generated 'scale-scale-press'  ✗
 export const transformScale = {
   press: '0.98',
   'card-hover': '1.02',

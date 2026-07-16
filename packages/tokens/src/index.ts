@@ -1,9 +1,4 @@
 // packages/tokens/src/index.ts
-//
-// Public API of @nexus/tokens. Every name that was exported from the old
-// flat src/*.ts files is still exported here, from its new location — so
-// preset.ts and any other consumer needs zero import changes, only the
-// internal file layout moved.
 
 export * from './primitives/colors';
 export * from './primitives/spacing';

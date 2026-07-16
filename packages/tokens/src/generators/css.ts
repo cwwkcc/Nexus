@@ -8,7 +8,7 @@
 // here so it can be unit tested and reused without touching disk.
 
 import { colors } from './tailwind';
-import { blur, opacity, aspectRatio, zIndex, glass, focusRing, backgroundImage } from '../primitives/effects';
+import { blur, opacity, aspectRatio, zIndex, backgroundImage } from '../primitives/effects';
 import { transitionDuration, transitionTimingFunction, transformScale } from '../primitives/motion';
 import { borderRadius } from '../primitives/radius';
 import { boxShadow } from '../primitives/shadows';
@@ -122,16 +122,6 @@ export function generateCssVariables(): string {
 
   addComment('Transform scales');
   for (const [key, value] of Object.entries(transformScale)) {
-    css += `  --${key}: ${value};\n`;
-  }
-
-  addComment('Glass tokens');
-  for (const [key, value] of Object.entries(glass)) {
-    css += `  --${key}: ${value};\n`;
-  }
-
-  addComment('Focus ring');
-  for (const [key, value] of Object.entries(focusRing)) {
     css += `  --${key}: ${value};\n`;
   }
 

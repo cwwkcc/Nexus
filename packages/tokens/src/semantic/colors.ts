@@ -1,7 +1,4 @@
 // packages/tokens/src/semantic/colors.ts
-//
-// Brand and status colors — the parts of the old semantic.ts that aren't
-// specifically about text, backgrounds, or borders.
 
 import { primitives } from '../primitives/colors';
 

@@ -78,9 +78,6 @@ packages/config/
 │   │   └── preset.ts     # Tailwind preset (consumes @nexus/tokens)
 │   ├── next.ts           # Shared Next.js configuration
 │   └── index.ts          # Package exports
-├── scripts/
-│   ├── generate-css-vars.js    # Generates tokens.css
-│   └── generate-cn-groups.js    # Generates cn() class groups
 └── package.json
 ```
 

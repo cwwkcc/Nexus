@@ -1,5 +1,4 @@
 // packages/tokens/src/primitives/typography.ts
-// packages/config/src/tokens/typography.ts
 
 // =============================================================================
 // Font Families
@@ -11,6 +10,9 @@ export const fontFamily = {
   mono: ['var(--font-mono)', 'Menlo', 'monospace'],
 } satisfies Record<string, string[]>;
 
+// =============================================================================
+// Font Sizes
+// =============================================================================
 export const fontSize = {
   // ── English ────────────────────────────────────────────────────────────────
   display: ['clamp(2.25rem, 1.75rem + 2.5vw, 4rem)', { lineHeight: '1', letterSpacing: '-0.02em', fontWeight: '600' }],
@@ -168,8 +170,6 @@ export const fontSize = {
 // =============================================================================
 // Line Heights
 // =============================================================================
-// Generic utility values, not tied to any specific text role
-// (e.g. arbitrary body copy that isn't a named token).
 const utilityLineHeight = {
   tight: '1',
   snug: '1.08',
@@ -178,11 +178,6 @@ const utilityLineHeight = {
   loose: '1.3',
 } satisfies Record<string, string>;
 
-// Per-token values are derived directly from `fontSize` so they can never
-// drift from what's actually used to render each token. This also fixes a
-// real bug in the old hand-maintained map: it had no sinhala-*/tamil-*
-// entries at all, so anything reading e.g. lineHeight['sinhala-h1']
-// silently fell back to undefined.
 const perTokenLineHeight = Object.fromEntries(Object.entries(fontSize).map(([key, [, opts]]) => [key, opts.lineHeight])) as Record<keyof typeof fontSize, string>;
 
 export const lineHeight = { ...utilityLineHeight, ...perTokenLineHeight };
@@ -190,8 +185,6 @@ export const lineHeight = { ...utilityLineHeight, ...perTokenLineHeight };
 // =============================================================================
 // Letter Spacing
 // =============================================================================
-// Generic, script-aware tracking scale for ad hoc text not tied to a
-// specific font-size token (e.g. a one-off `tracking-wide` usage).
 const utilityLetterSpacing = {
   tight: '-0.02em',
   normal: '0em',
@@ -212,9 +205,6 @@ const utilityLetterSpacing = {
   'tamil-extended': '0.12em',
 } satisfies Record<string, string>;
 
-// Per-token values, derived from `fontSize` for the same reason as above
-// (these used to be hand-duplicated for eyebrow/label/caption and could
-// silently disagree with the values actually applied to those tokens).
 const perTokenLetterSpacing = Object.fromEntries(Object.entries(fontSize).map(([key, [, opts]]) => [key, opts.letterSpacing])) as Record<keyof typeof fontSize, string>;
 
 export const letterSpacing = {

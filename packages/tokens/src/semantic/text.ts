@@ -11,10 +11,6 @@ export const text = {
   gold: primitives.gold[80], // #E8B84B — accent/highlight text
 } as const;
 
-// Disabled/loading dimming applied to whole elements (text included), kept
-// alongside text.ts rather than a dedicated file since these two values
-// were the only entries in the old semantic.ts `opacity` key and didn't
-// justify a fifth semantic/ file.
 export const stateOpacity = {
   disabled: '0.5',
   loading: '0.6',

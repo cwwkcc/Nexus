@@ -1,10 +1,10 @@
 // packages/tokens/src/generators/json.ts
-//
+
 // Flattens every token group into a single {name, value, category} list
 // for documentation and dev tooling — e.g. packages/ui's TokensViewer.tsx,
 // or a future static docs page. Pure data, no filesystem access.
 
-import { blur, opacity, aspectRatio, zIndex, glass, focusRing, backgroundImage } from '../primitives/effects';
+import { blur, opacity, aspectRatio, zIndex, backgroundImage } from '../primitives/effects';
 import { transitionDuration, transitionTimingFunction, transformScale } from '../primitives/motion';
 import { borderRadius } from '../primitives/radius';
 import { boxShadow } from '../primitives/shadows';
@@ -33,5 +33,5 @@ function flatten(obj: Record<string, unknown>, category: string, prefix = ''): T
 }
 
 export function getAllTokenMetadata(): TokenMetadata[] {
-  return [...flatten(semantic, 'color'), ...flatten(spacing, 'spacing'), ...flatten(sizing, 'sizing'), ...flatten(borderWidth, 'border-width'), ...flatten(borderRadius, 'radius'), ...flatten(boxShadow, 'shadow'), ...flatten(transitionDuration, 'motion-duration'), ...flatten(transitionTimingFunction, 'motion-easing'), ...flatten(transformScale, 'scale'), ...flatten(zIndex, 'z-index'), ...flatten(opacity, 'opacity'), ...flatten(blur, 'blur'), ...flatten(aspectRatio, 'aspect-ratio'), ...flatten(backgroundImage, 'gradient'), ...flatten(glass, 'glass'), ...flatten(focusRing, 'focus-ring'), ...Object.entries(fontFamily).map(([name, value]) => ({ name, value: value.join(', '), category: 'font-family' }))];
+  return [...flatten(semantic, 'color'), ...flatten(spacing, 'spacing'), ...flatten(sizing, 'sizing'), ...flatten(borderWidth, 'border-width'), ...flatten(borderRadius, 'radius'), ...flatten(boxShadow, 'shadow'), ...flatten(transitionDuration, 'motion-duration'), ...flatten(transitionTimingFunction, 'motion-easing'), ...flatten(transformScale, 'scale'), ...flatten(zIndex, 'z-index'), ...flatten(opacity, 'opacity'), ...flatten(blur, 'blur'), ...flatten(aspectRatio, 'aspect-ratio'), ...flatten(backgroundImage, 'gradient'), ...Object.entries(fontFamily).map(([name, value]) => ({ name, value: value.join(', '), category: 'font-family' }))];
 }

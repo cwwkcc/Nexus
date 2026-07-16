@@ -1,17 +1,8 @@
 // packages/tokens/src/primitives/sizing.ts
-//
-// Component sizing scale (size-*, w-*/h-* family) and border-width scale.
-// Added as its own file — the original sketch folded this into
-// spacing.ts, but it's ~150 lines and semantically distinct (component
-// dimensions vs. layout gaps), so it gets a dedicated file instead.
-
-// packages/config/src/tokens/sizing.ts
 
 export const sizing = {
-  // ── Zero ──────────────────────────────────────────────────────────────────
   'size-0': '0px',
 
-  // ── Sub-pixel / stroke scale (1–14px) ────────────────────────────────────
   'size-px': '1px',
   'size-0p5': '2px',
   'size-1': '4px',
@@ -21,7 +12,6 @@ export const sizing = {
   'size-3': '12px',
   'size-3p5': '14px',
 
-  // ── Component scale (16–64px) ─────────────────────────────────────────────
   'size-4': '16px',
   'size-5': '20px',
   'size-6': '24px',
@@ -36,7 +26,6 @@ export const sizing = {
   'size-15': '60px',
   'size-16': '64px',
 
-  // ── Block scale (80–192px) ────────────────────────────────────────────────
   'size-20': '80px',
   'size-22': '88px',
   'size-24': '96px',
@@ -51,7 +40,6 @@ export const sizing = {
   'size-44': '176px',
   'size-48': '192px',
 
-  // ── Section scale (224–384px) ─────────────────────────────────────────────
   'size-56': '224px',
   'size-60': '240px',
   'size-64': '256px',
@@ -64,7 +52,6 @@ export const sizing = {
   'size-92': '368px',
   'size-96': '384px',
 
-  // ── Layout scale (400–768px) ──────────────────────────────────────────────
   'size-100': '400px',
   'size-104': '416px',
   'size-108': '432px',
@@ -81,7 +68,6 @@ export const sizing = {
   'size-180': '720px',
   'size-192': '768px',
 
-  // ── Container scale (800–1536px) ──────────────────────────────────────────
   'size-200': '800px',
   'size-210': '840px',
   'size-220': '880px',
@@ -188,7 +174,7 @@ export const sizing = {
   'size-pct-100': '100%',
 
   // ── Semantic ──────────────────────────────────────────────────────────────
-  'size-full': '100%', // fixes w-size-full, h-size-full etc.
+  'size-full': '100%',
   'size-min': 'min-content',
   'size-max': 'max-content',
   'size-fit': 'fit-content',

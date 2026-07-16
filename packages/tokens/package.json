@@ -16,7 +16,10 @@
   },
   "scripts": {
     "dev": "tsc --watch",
-    "build": "tsc"
+    "build": "tsc && npm run generate",
+    "generate:css": "node scripts/generate-css-vars.js",
+    "generate:cn": "node scripts/generate-cn-groups.js",
+    "generate": "npm run generate:css && npm run generate:cn"
   },
   "devDependencies": {
     "typescript": "~5.9.2"

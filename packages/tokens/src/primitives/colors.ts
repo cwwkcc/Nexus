@@ -1,8 +1,4 @@
 // packages/tokens/src/primitives/colors.ts
-//
-// Raw color palette. Nothing in this file is meant to be consumed
-// directly by components — always go through semantic/ instead.
-// Moved here verbatim from the old src/primitives.ts; values unchanged.
 
 export const primitives = {
   // Forest palette — prestige sunlit canopy (lighter, warm dappled light)
@@ -28,18 +24,6 @@ export const primitives = {
     40: '#D6A645',
     20: '#B7852F',
     glow: 'rgba(201,151,58,0.32)', // enhanced for warmth
-  },
-  // Dark-mode neutrals
-  neutral: {
-    0: '#FFFFFF',
-    100: '#DAF1DE', // primary text — pale mint
-    200: '#8EB69B', // muted text — soft sage
-    300: '#235347', // subtle surface
-    400: '#163832', // deep surface
-    900: '#051F20', // inverse bg
-    ink: '#051F20', // darkest — for text on light surfaces
-    stone: '#8EB69B', // muted text on dark bg
-    cream: '#DAF1DE', // primary text on dark bg
   },
   border: {
     default: 'rgba(184,205,184,0.12)',
