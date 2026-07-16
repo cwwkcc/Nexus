@@ -2,7 +2,9 @@
 <!-- apps/web/public/offline.html -->
 <!--
   Designed offline fallback (F-173 / Task 9.3).
-  Served by sw.js when the user navigates to an uncached page while offline.
+  Served by the generated service worker (compiled from
+  src/service-worker/sw.ts) when the user navigates to an uncached page
+  while offline.
   No <script> tags on purpose — the site's CSP disallows inline scripts, and
   this file is a static asset with no per-request nonce to satisfy it. The
   "Try again" control below is a plain anchor (full navigation), not JS.
@@ -13,6 +15,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex" />
     <meta name="theme-color" content="#1A4A2E" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" href="/favicon.ico" />
     <title>You're Offline – C.W.W. Kannangara Central College</title>
     <style>
       @font-face {
