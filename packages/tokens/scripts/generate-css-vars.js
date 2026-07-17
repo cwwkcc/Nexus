@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-import { generateCssVariables } from '../src/generators/css.js';
+import { generateCssVariables } from '../src/generators/css.ts';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 

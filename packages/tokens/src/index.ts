@@ -15,6 +15,7 @@ export * from './generators/tailwind';
 export * from './generators/css';
 export * from './generators/json';
 export * from './generators/figma';
+export * from './generators/cn';
 
 export * from './themes/dark';
 export * from './themes/light';

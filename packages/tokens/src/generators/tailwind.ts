@@ -1,7 +1,7 @@
 // packages/tokens/src/generators/tailwind.ts
 
-import { backgroundImage, aspectRatio, blur, zIndex, opacity as opacityScale } from '../primitives/effects';
-import { transitionDuration, transitionTimingFunction, transformScale } from '../primitives/motion';
+import { backgroundImage, aspectRatio, blur, zIndex, opacity as opacityScale, scale } from '../primitives/effects';
+import { transitionDuration, transitionTimingFunction } from '../primitives/motion';
 import { borderRadius } from '../primitives/radius';
 import { boxShadow } from '../primitives/shadows';
 import { sizing, borderWidth, maxWidth } from '../primitives/sizing';
@@ -48,5 +48,5 @@ export const nexusTheme = {
   blur,
   aspectRatio,
   backgroundImage,
-  scale: transformScale,
+  scale,
 };

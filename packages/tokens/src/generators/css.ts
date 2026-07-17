@@ -8,8 +8,9 @@
 // here so it can be unit tested and reused without touching disk.
 
 import { colors } from './tailwind';
+import { scale } from '../primitives/effects';
 import { blur, opacity, aspectRatio, zIndex, backgroundImage } from '../primitives/effects';
-import { transitionDuration, transitionTimingFunction, transformScale } from '../primitives/motion';
+import { transitionDuration, transitionTimingFunction } from '../primitives/motion';
 import { borderRadius } from '../primitives/radius';
 import { boxShadow } from '../primitives/shadows';
 import { sizing } from '../primitives/sizing';
@@ -121,7 +122,7 @@ export function generateCssVariables(): string {
   }
 
   addComment('Transform scales');
-  for (const [key, value] of Object.entries(transformScale)) {
+  for (const [key, value] of Object.entries(scale)) {
     css += `  --${key}: ${value};\n`;
   }
 
