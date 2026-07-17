@@ -6,13 +6,13 @@
 // and writes the result to packages/ui; all the actual class-flattening
 // logic lives here so it can be unit tested and reused without touching disk.
 
-import { colors } from './tailwind';
-import { scale, blur, opacity, zIndex } from '../primitives/effects';
-import { borderRadius } from '../primitives/radius';
-import { boxShadow } from '../primitives/shadows';
-import { sizing, borderWidth, maxWidth } from '../primitives/sizing';
-import { spacing } from '../primitives/spacing';
-import { fontFamily, fontSize, letterSpacing, lineHeight } from '../primitives/typography';
+import { colors } from './tailwind.ts';
+import { scale, blur, opacity, zIndex } from '../primitives/effects.ts';
+import { borderRadius } from '../primitives/radius.ts';
+import { boxShadow } from '../primitives/shadows.ts';
+import { sizing, borderWidth, maxWidth } from '../primitives/sizing.ts';
+import { spacing } from '../primitives/spacing.ts';
+import { fontFamily, fontSize, letterSpacing, lineHeight } from '../primitives/typography.ts';
 
 function flattenKeys(obj: Record<string, unknown>, prefix = ''): string[] {
   const keys: string[] = [];

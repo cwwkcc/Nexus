@@ -1,9 +1,9 @@
 // packages/tokens/src/semantic/index.ts
 
-import { surface, overlay } from './backgrounds';
-import { border } from './borders';
-import { brandColors, statusColors } from './colors';
-import { text, stateOpacity } from './text';
+import { surface, overlay } from './backgrounds.ts';
+import { border } from './borders.ts';
+import { brandColors, statusColors } from './colors.ts';
+import { text, stateOpacity } from './text.ts';
 
 export const semantic = {
   green: brandColors.green,

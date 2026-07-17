@@ -1,6 +1,6 @@
 // packages/tokens/src/semantic/backgrounds.ts
 
-import { primitives } from '../primitives/colors';
+import { primitives } from '../primitives/colors.ts';
 
 export const surface = {
   base: primitives.forest[50], // #FBF9F2 — parchment page floor

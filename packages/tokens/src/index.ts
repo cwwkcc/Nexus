@@ -1,13 +1,13 @@
 // packages/tokens/src/index.ts
 
-export * from './primitives/colors';
-export * from './primitives/spacing';
-export * from './primitives/sizing';
-export * from './primitives/typography';
-export * from './primitives/radius';
-export * from './primitives/shadows';
-export * from './primitives/motion';
-export * from './primitives/effects';
+export * from './primitives/colors.ts';
+export * from './primitives/spacing.ts';
+export * from './primitives/sizing.ts';
+export * from './primitives/typography.ts';
+export * from './primitives/radius.ts';
+export * from './primitives/shadows.ts';
+export * from './primitives/motion.ts';
+export * from './primitives/effects.ts';
 
 export * from './semantic';
 

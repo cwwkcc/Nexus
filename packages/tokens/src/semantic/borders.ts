@@ -1,6 +1,6 @@
 // packages/tokens/src/semantic/borders.ts
 
-import { primitives } from '../primitives/colors';
+import { primitives } from '../primitives/colors.ts';
 
 export const border = {
   default: primitives.border.default, // rgba(28,26,22,0.10) — barely-there ink line

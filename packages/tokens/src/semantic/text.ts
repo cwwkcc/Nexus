@@ -1,6 +1,6 @@
 // packages/tokens/src/semantic/text.ts
 
-import { primitives } from '../primitives/colors';
+import { primitives } from '../primitives/colors.ts';
 
 export const text = {
   primary: primitives.forest[900], // #1C1A16 — warm ink, primary readable text
