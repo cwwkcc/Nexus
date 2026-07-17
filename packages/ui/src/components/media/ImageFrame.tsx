@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 import { cn } from '../../utilities/cn';
 
-type ImageFrameAspectRatio = '16/9' | '4/3' | '3/4' | '1/1' | '21/9' | '16/7';
+type ImageFrameAspectRatio = 'hero' | 'portrait' | 'square' | 'news' | 'event';
 type ImageFrameVariant = 'standard' | 'featured' | 'full-bleed';
 
 type ImageFrameColor = 'gold' | 'gold-pale' | 'green' | 'border-default' | 'border-light' | 'surface-inverse' | 'white';
@@ -41,12 +41,11 @@ const sizeWidthMap: Record<ImageFrameSize, string> = {
   full: 'w-full',
 };
 const aspectRatioMap: Record<ImageFrameAspectRatio, string> = {
-  '16/9': 'aspect-[16/9]',
-  '4/3': 'aspect-[4/3]',
-  '3/4': 'aspect-[3/4]',
-  '1/1': 'aspect-square',
-  '21/9': 'aspect-[21/9]',
-  '16/7': 'aspect-[16/7]',
+  hero: 'aspect-hero',
+  portrait: 'aspect-portrait',
+  square: 'aspect-square',
+  news: 'aspect-news',
+  event: 'aspect-event',
 };
 
 const overlayMap: Record<'light' | 'medium' | 'heavy', string> = {
@@ -85,7 +84,7 @@ const frameWidthMap: Record<NonNullable<ImageFrameProps['frameWidth']>, string> 
   'border-2xl': 'border-border-2xl',
 };
 
-export function ImageFrame({ src, alt, aspectRatio = '16/9', variant = 'standard', caption, overlay = false, cornerBadge, className, priority = false, size = 'full', frameWidth = 'border-sm', frameColor }: ImageFrameProps) {
+export function ImageFrame({ src, alt, aspectRatio = 'hero', variant = 'standard', caption, overlay = false, cornerBadge, className, priority = false, size = 'full', frameWidth = 'border-sm', frameColor }: ImageFrameProps) {
   const [error, setError] = useState(false);
   const hasFrame = Boolean(frameWidth);
 
