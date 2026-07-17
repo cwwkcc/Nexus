@@ -21,7 +21,6 @@
 // (packages/tokens/src/primitives/colors.ts) are dark-mode-native only.
 // surface.base (#0A1F1C) is what the app actually renders as its
 // background, so that's what the install splash screen should match.
-// Swap this back to a cream token if a light theme ever gets built.
 
 import { localizedPath } from '@nexus/config';
 import { brandColors, surface } from '@nexus/tokens';
