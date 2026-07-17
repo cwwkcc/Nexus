@@ -27,6 +27,8 @@
     "isolatedModules": true,
     "importHelpers": true,
 
+    "rewriteRelativeImportExtensions": true,
+    "allowImportingTsExtensions": true,
     "customConditions": ["@nexus/source"],
 
     "types": ["node"],
