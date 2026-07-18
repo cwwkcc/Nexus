@@ -14,10 +14,12 @@ const navItems = [
   { href: '/design-system/sizing', label: 'Sizing' },
   { href: '/design-system/motion', label: 'Motion' },
   { href: '/design-system/opacity', label: 'Opacity' },
-  { href: '/design-system/focus', label: 'Focus' },
   { href: '/design-system/blur', label: 'Blur' },
+  { href: '/design-system/focus', label: 'Focus' },
   { href: '/design-system/aspect-ratio', label: 'Aspect Ratio' },
   { href: '/design-system/z-index', label: 'Z-Index' },
+  { href: '/design-system/radius', label: 'Radius' }, // NEW
+  { href: '/design-system/gradients', label: 'Gradients' }, // NEW
 ];
 
 const componentCategories = [

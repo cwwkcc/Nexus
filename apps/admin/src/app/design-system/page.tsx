@@ -19,7 +19,7 @@ const foundations = [
   {
     href: '/design-system/shadows',
     label: 'Shadows',
-    description: 'Seven elevation steps from flat to floating.',
+    description: 'Seven elevation steps from flat to floating, plus two glass shadows.',
   },
   {
     href: '/design-system/sizing',
