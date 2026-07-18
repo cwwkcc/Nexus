@@ -5,10 +5,16 @@
 //   --focus-ring-color : #C9973A
 //   --focus-ring-width : 2px
 //   --focus-ring-offset: 2px
+//
+// NOTE: these three are not currently emitted by packages/tokens/src/generators/css.ts
+// (no primitive defines them, so tokens.css never gets a --focus-ring-* line). Every
+// var() below carries an explicit fallback so the ring actually renders today. If/when
+// a `focusRing` primitive is added to packages/tokens (mirroring zIndex's pattern) and
+// wired into css.ts, these fallbacks become dead code and can be dropped.
 
 const focusStyle = {
-  outline: 'var(--focus-ring-width) solid var(--focus-ring-color)',
-  outlineOffset: 'var(--focus-ring-offset)',
+  outline: 'var(--focus-ring-width,2px) solid var(--focus-ring-color,#C9973A)',
+  outlineOffset: 'var(--focus-ring-offset,2px)',
 } as const;
 
 const tokens = [
@@ -77,7 +83,7 @@ export default function FocusPage() {
       {/* Always-visible demos — light surface */}
       <Section title="Always-Visible Demo — Light Surface">
         <p className="font-body text-caption text-text-muted mb-space-6">
-          Focus ring applied with <code className="font-mono bg-surface-default px-space-1 rounded-sm">outline: var(--focus-ring-width) solid var(--focus-ring-color)</code> and <code className="font-mono bg-surface-default px-space-1 rounded-sm">outline-offset: var(--focus-ring-offset)</code>.
+          Focus ring applied with <code className="font-mono bg-surface-default px-space-1 rounded-sm">outline: var(--focus-ring-width,2px) solid var(--focus-ring-color,#C9973A)</code> and <code className="font-mono bg-surface-default px-space-1 rounded-sm">outline-offset: var(--focus-ring-offset,2px)</code>.
         </p>
         <div className="flex flex-wrap gap-space-8 items-start">
           {/* Filled button */}
@@ -125,7 +131,7 @@ export default function FocusPage() {
 
       {/* Always-visible demos — dark surface */}
       <Section title="Always-Visible Demo — Dark Surface">
-        <div className="p-space-8 rounded-md flex flex-wrap gap-space-8 items-start" style={{ background: 'var(--color-green-dark, #1a2e1a)' }}>
+        <div className="p-space-8 rounded-md flex flex-wrap gap-space-8 items-start" style={{ background: 'var(--color-surface-inverse)' }}>
           <div className="flex flex-col items-center gap-space-3">
             <button className="px-space-6 py-space-3 bg-gold-base text-text-inverse rounded-md font-body text-label" style={focusStyle}>
               Gold Button
@@ -153,10 +159,10 @@ export default function FocusPage() {
             <span>through these elements to see the focus ring in action.</span>
           </p>
           <div className="flex flex-wrap gap-space-6">
-            <button className="px-space-6 py-space-3 bg-green-base text-text-inverse rounded-md font-body text-label focus-visible:outline-none focus-visible:[outline:var(--focus-ring-width)_solid_var(--focus-ring-color)] focus-visible:[outline-offset:var(--focus-ring-offset)]">First</button>
-            <button className="px-space-6 py-space-3 border border-gold-base text-gold-base rounded-md font-body text-label bg-transparent focus-visible:outline-none focus-visible:[outline:var(--focus-ring-width)_solid_var(--focus-ring-color)] focus-visible:[outline-offset:var(--focus-ring-offset)]">Second</button>
-            <input type="text" className="px-space-4 py-space-3 bg-surface-default border border-border-light rounded-md font-body text-label text-text-primary focus:outline-none focus:[outline:var(--focus-ring-width)_solid_var(--focus-ring-color)] focus:[outline-offset:var(--focus-ring-offset)]" placeholder="Type here…" />
-            <a href="#" className="px-space-6 py-space-3 font-body text-label text-gold-base underline underline-offset-2 rounded-sm focus-visible:outline-none focus-visible:[outline:var(--focus-ring-width)_solid_var(--focus-ring-color)] focus-visible:[outline-offset:var(--focus-ring-offset)]">
+            <button className="px-space-6 py-space-3 bg-green-base text-text-inverse rounded-md font-body text-label focus-visible:outline-none focus-visible:[outline:var(--focus-ring-width,2px)_solid_var(--focus-ring-color,#C9973A)] focus-visible:[outline-offset:var(--focus-ring-offset,2px)]">First</button>
+            <button className="px-space-6 py-space-3 border border-gold-base text-gold-base rounded-md font-body text-label bg-transparent focus-visible:outline-none focus-visible:[outline:var(--focus-ring-width,2px)_solid_var(--focus-ring-color,#C9973A)] focus-visible:[outline-offset:var(--focus-ring-offset,2px)]">Second</button>
+            <input type="text" className="px-space-4 py-space-3 bg-surface-default border border-border-light rounded-md font-body text-label text-text-primary focus:outline-none focus:[outline:var(--focus-ring-width,2px)_solid_var(--focus-ring-color,#C9973A)] focus:[outline-offset:var(--focus-ring-offset,2px)]" placeholder="Type here…" />
+            <a href="#" className="px-space-6 py-space-3 font-body text-label text-gold-base underline underline-offset-2 rounded-sm focus-visible:outline-none focus-visible:[outline:var(--focus-ring-width,2px)_solid_var(--focus-ring-color,#C9973A)] focus-visible:[outline-offset:var(--focus-ring-offset,2px)]">
               Link
             </a>
           </div>
@@ -176,8 +182,8 @@ export default function FocusPage() {
             <p className="font-body text-caption text-text-muted mb-space-2">Inline style — direct CSS token consumption:</p>
             <pre className="font-mono text-caption text-text-primary overflow-x-auto">
               {`style={{
-  outline: "var(--focus-ring-width) solid var(--focus-ring-color)",
-  outlineOffset: "var(--focus-ring-offset)",
+  outline: "var(--focus-ring-width,2px) solid var(--focus-ring-color,#C9973A)",
+  outlineOffset: "var(--focus-ring-offset,2px)",
 }}`}
             </pre>
           </div>
@@ -188,8 +194,8 @@ export default function FocusPage() {
             </p>
             <pre className="font-mono text-caption text-text-primary overflow-x-auto">
               {`className="focus-visible:outline-none
-focus-visible:[outline:var(--focus-ring-width)_solid_var(--focus-ring-color)]
-focus-visible:[outline-offset:var(--focus-ring-offset)]"`}
+focus-visible:[outline:var(--focus-ring-width,2px)_solid_var(--focus-ring-color,#C9973A)]
+focus-visible:[outline-offset:var(--focus-ring-offset,2px)]"`}
             </pre>
           </div>
         </div>
