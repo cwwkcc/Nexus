@@ -1,7 +1,8 @@
 // apps/admin/src/app/design-system/opacity/page.tsx
 'use client';
 
-const opacityTokens = ['opacity-0', 'opacity-10', 'opacity-20', 'opacity-30', 'opacity-40', 'opacity-50', 'opacity-60', 'opacity-70', 'opacity-80', 'opacity-90', 'opacity-100'];
+// NOTE: was missing opacity-5 — tokens.css has 12 steps (0,5,10,20...100), this list had 11.
+const opacityTokens = ['opacity-0', 'opacity-5', 'opacity-10', 'opacity-20', 'opacity-30', 'opacity-40', 'opacity-50', 'opacity-60', 'opacity-70', 'opacity-80', 'opacity-90', 'opacity-100'];
 
 export default function OpacityPage() {
   return (

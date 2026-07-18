@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from 'react';
 
-const shadowTokens = ['elevation-0', 'elevation-1', 'elevation-2', 'elevation-3', 'elevation-4', 'elevation-5', 'elevation-6'];
+// NOTE: was missing glass-shadow / glass-shadow-heavy — both exist in tokens.css
+// (packages/tokens/src/primitives/shadows.ts) but this list only had the 7 elevation tiers.
+const shadowTokens = ['elevation-0', 'elevation-1', 'elevation-2', 'elevation-3', 'elevation-4', 'elevation-5', 'elevation-6', 'glass-shadow', 'glass-shadow-heavy'];
 
 function useResolvedShadows(tokens: string[]): Record<string, string> {
   const [values, setValues] = useState<Record<string, string>>({});

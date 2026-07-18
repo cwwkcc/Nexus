@@ -4,6 +4,13 @@
 import { ImageFrame } from '@nexus/ui';
 
 // Ratios defined in packages/config/src/tokens/aspectRatio.ts
+//
+// NOTE: ImageFrame's `aspectRatio` prop takes the semantic label ('hero' | 'portrait' |
+// 'square' | 'news' | 'event'), which it maps internally to the `aspect-*` Tailwind class
+// (see aspectRatioMap in ImageFrame.tsx). This file used to pass the raw ratio string
+// ('16/9', '3/4', ...) instead, which doesn't match ImageFrameAspectRatio and fails to
+// compile. `label` already holds the correct value, so we just pass that straight through
+// and dropped the separate (wrong) `aspectRatio` field.
 const definedRatios = [
   {
     label: 'hero',
@@ -12,7 +19,6 @@ const definedRatios = [
     value: '16 / 9',
     ratio: '16:9' as const,
     description: 'Widescreen — hero banners, video thumbnails, event covers',
-    aspectRatio: '16/9' as const,
   },
   {
     label: 'portrait',
@@ -21,7 +27,6 @@ const definedRatios = [
     value: '3 / 4',
     ratio: '3:4' as const,
     description: 'Portrait — staff photos, student cards, ID-style images',
-    aspectRatio: '3/4' as const,
   },
   {
     label: 'square',
@@ -30,22 +35,36 @@ const definedRatios = [
     value: '1 / 1',
     ratio: '1:1' as const,
     description: 'Square — avatars, logos, icon thumbnails',
-    aspectRatio: '1/1' as const,
+  },
+  {
+    label: 'news',
+    token: 'aspect-news',
+    cssVar: '--aspect-news',
+    value: '4 / 3',
+    ratio: '4:3' as const,
+    description: 'Classic — news thumbnails, article cards',
+  },
+  {
+    label: 'event',
+    token: 'aspect-event',
+    cssVar: '--aspect-event',
+    value: '16 / 7',
+    ratio: '16:7' as const,
+    description: 'Ultra-wide — event banners, panoramic gallery images',
   },
 ] as const;
 
-// Not yet a named token — used as a raw value
-const customRatios = [
-  {
-    label: 'event',
-    token: null,
-    cssVar: null,
-    value: '16 / 7',
-    ratio: '16:7' as const,
-    description: 'Ultra-wide — event banners, panoramic gallery images (planned token)',
-    aspectRatio: '16/7',
-  },
-];
+// NOTE: this used to list "event" here as "not yet a named token", but
+// packages/tokens/src/primitives/effects.ts already defines both `news` and `event`
+// in aspectRatio, and both are generated into tokens.css (--aspect-news, --aspect-event).
+// This page was just out of date — both moved up into definedRatios above.
+// Nothing currently pending, so this list is empty.
+const customRatios: {
+  label: string;
+  value: string;
+  ratio: string;
+  description: string;
+}[] = [];
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -93,14 +112,14 @@ export default function AspectRatioPage() {
       {/* Named token demos */}
       <Section title="Named Tokens">
         <div className="flex flex-col gap-space-10">
-          {definedRatios.map(({ label, token, cssVar, ratio, description, aspectRatio }) => (
+          {definedRatios.map(({ label, token, cssVar, ratio, description }) => (
             <div key={label}>
               <div className="flex items-baseline gap-space-4 mb-space-3">
                 <h4 className="font-display text-h3">{label}</h4>
                 <code className="font-mono text-caption text-text-muted">{ratio}</code>
                 <code className="font-mono text-caption text-gold-base">{token}</code>
               </div>
-              <ImageFrame src="/images/ironman.jpg" alt={`Aspect ratio demo — ${ratio}`} aspectRatio={aspectRatio} className="w-size-64" />
+              <ImageFrame src="/images/ironman.jpg" alt={`Aspect ratio demo — ${ratio}`} aspectRatio={label} className="w-size-64" />
               <p className="font-body text-caption text-text-muted mt-space-2">{description}</p>
             </div>
           ))}
@@ -108,21 +127,23 @@ export default function AspectRatioPage() {
       </Section>
 
       {/* Custom / planned */}
-      <Section title="Planned Tokens">
-        <div className="flex flex-col gap-space-10">
-          {customRatios.map(({ label, ratio, description, aspectRatio }) => (
-            <div key={label}>
-              <div className="flex items-baseline gap-space-4 mb-space-3">
-                <h4 className="font-display text-h3">{label}</h4>
-                <code className="font-mono text-caption text-text-muted">{ratio}</code>
-                <span className="font-mono text-caption text-text-muted italic">not yet in aspectRatio.ts</span>
+      {customRatios.length > 0 && (
+        <Section title="Planned Tokens">
+          <div className="flex flex-col gap-space-10">
+            {customRatios.map(({ label, ratio, description }) => (
+              <div key={label}>
+                <div className="flex items-baseline gap-space-4 mb-space-3">
+                  <h4 className="font-display text-h3">{label}</h4>
+                  <code className="font-mono text-caption text-text-muted">{ratio}</code>
+                  <span className="font-mono text-caption text-text-muted italic">not yet in aspectRatio.ts</span>
+                </div>
+                <ImageFrame src="/images/ironman.jpg" alt={`Aspect ratio demo — ${ratio}`} className="w-size-64" />
+                <p className="font-body text-caption text-text-muted mt-space-2">{description}</p>
               </div>
-              <ImageFrame src="/images/ironman.jpg" alt={`Aspect ratio demo — ${ratio}`} className="w-size-64" />
-              <p className="font-body text-caption text-text-muted mt-space-2">{description}</p>
-            </div>
-          ))}
-        </div>
-      </Section>
+            ))}
+          </div>
+        </Section>
+      )}
     </div>
   );
 }

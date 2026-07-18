@@ -16,7 +16,9 @@ export default function BlurPage() {
     <div>
       <h2 className="font-display text-h2 mb-space-4">Blur Tokens</h2>
       <p className="font-body text-body text-text-muted mb-space-4">
-        Four blur steps for decorative glows, loading states, and image effects. <strong>Never</strong> use these for glass panels — glass uses <code className="font-mono text-code bg-surface-default px-space-2 py-space-1 rounded-sm">--glass-backdrop-blur</code> via <code className="font-mono text-code bg-surface-default px-space-2 py-space-1 rounded-sm">backdropFilter</code>.
+        Four blur steps for decorative glows, loading states, and image effects. Glass panels also pull from this scale — see the <a href="/design-system/glass" className="text-gold-base underline underline-offset-2">
+          Glass
+        </a> page, which uses <code className="font-mono text-code bg-surface-default px-space-2 py-space-1 rounded-sm">--blur-lg</code> via <code className="font-mono text-code bg-surface-default px-space-2 py-space-1 rounded-sm">backdropFilter</code>. (There's no separate glass-specific blur token.)
       </p>
       <p className="font-body text-body-sm text-text-muted mb-space-12">
         Note: token values are raw lengths (e.g. <code className="font-mono text-code bg-surface-default px-space-2 py-space-1 rounded-sm">4px</code>

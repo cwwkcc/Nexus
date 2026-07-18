@@ -109,7 +109,11 @@ export default function ColorsPage() {
         <div
           className="w-full h-size-20 relative"
           style={{
-            backgroundColor: isOpacity ? 'rgba(0,0,0,0.5)' : color,
+            // NOTE: was hardcoding 'rgba(0,0,0,0.5)' as the base for BOTH opacity tokens,
+            // then also applying `opacity` on top — double-applying the alpha and ignoring
+            // the actual value for opacity-loading (0.6). Solid black + a single opacity
+            // pass shows the real per-token value.
+            backgroundColor: isOpacity ? 'rgba(0,0,0,1)' : color,
             opacity: isOpacity ? parseFloat(color) : 1,
             border: isLight ? '1px solid rgba(0,0,0,0.1)' : 'none',
           }}

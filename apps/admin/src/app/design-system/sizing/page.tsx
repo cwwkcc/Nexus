@@ -91,6 +91,59 @@ const SEMANTIC_TOKENS = [
 
 const MAX_PIXEL = 384;
 
+// The real size-* scale (packages/tokens/src/primitives/sizing.ts) is NOT a continuous
+// 4px-per-step scale — it's dense from 0-64px, then even-only to 192px, then multiples
+// of 8 up to 384px. This is the actual list of tokens that exist in that 0-384px range,
+// used to draw the "Full Scale" strip below without inventing token names that aren't real.
+const REAL_SCALE_TOKENS = [
+  { token: 'size-0', value: 0 },
+  { token: 'size-px', value: 1 },
+  { token: 'size-0p5', value: 2 },
+  { token: 'size-1', value: 4 },
+  { token: 'size-1p5', value: 6 },
+  { token: 'size-2', value: 8 },
+  { token: 'size-2p5', value: 10 },
+  { token: 'size-3', value: 12 },
+  { token: 'size-3p5', value: 14 },
+  { token: 'size-4', value: 16 },
+  { token: 'size-5', value: 20 },
+  { token: 'size-6', value: 24 },
+  { token: 'size-7', value: 28 },
+  { token: 'size-8', value: 32 },
+  { token: 'size-9', value: 36 },
+  { token: 'size-10', value: 40 },
+  { token: 'size-11', value: 44 },
+  { token: 'size-12', value: 48 },
+  { token: 'size-13', value: 52 },
+  { token: 'size-14', value: 56 },
+  { token: 'size-15', value: 60 },
+  { token: 'size-16', value: 64 },
+  { token: 'size-20', value: 80 },
+  { token: 'size-22', value: 88 },
+  { token: 'size-24', value: 96 },
+  { token: 'size-26', value: 104 },
+  { token: 'size-28', value: 112 },
+  { token: 'size-30', value: 120 },
+  { token: 'size-32', value: 128 },
+  { token: 'size-34', value: 136 },
+  { token: 'size-36', value: 144 },
+  { token: 'size-38', value: 152 },
+  { token: 'size-40', value: 160 },
+  { token: 'size-44', value: 176 },
+  { token: 'size-48', value: 192 },
+  { token: 'size-56', value: 224 },
+  { token: 'size-60', value: 240 },
+  { token: 'size-64', value: 256 },
+  { token: 'size-68', value: 272 },
+  { token: 'size-72', value: 288 },
+  { token: 'size-76', value: 304 },
+  { token: 'size-80', value: 320 },
+  { token: 'size-84', value: 336 },
+  { token: 'size-88', value: 352 },
+  { token: 'size-92', value: 368 },
+  { token: 'size-96', value: 384 },
+];
+
 // =============================================================================
 // COMPONENT
 // =============================================================================
@@ -358,15 +411,13 @@ export default function SizingPage() {
             <div className="mb-space-12 p-space-6 bg-surface-elevated border border-border-light rounded-md">
               <h2 className="font-display text-h3 mb-space-4">The Full Scale</h2>
               <p className="font-body text-body-sm text-text-muted mb-space-4">
-                Tokens from <code className="bg-surface-deep px-space-1 rounded">size-0</code> to <code className="bg-surface-deep px-space-1 rounded">size-96</code> in 4px increments.
+                Tokens from <code className="bg-surface-deep px-space-1 rounded">size-0</code> to <code className="bg-surface-deep px-space-1 rounded">size-96</code>. Note the scale isn't uniform — it's dense below 64px, then thins out.
               </p>
               <div className="flex items-end h-space-12 gap-space-0p5 overflow-x-auto pb-space-2">
-                {Array.from({ length: 97 }, (_, i) => {
-                  const token = i === 0 ? 'size-0' : i % 2 === 0 ? `size-${i}` : `size-${i}p5`;
-                  const value = i === 0 ? 0 : i * 4;
+                {REAL_SCALE_TOKENS.map(({ token, value }) => {
                   const height = Math.max(2, (value / MAX_PIXEL) * 48);
                   const isDemo = PIXEL_TOKENS.some((d) => d.token === token);
-                  return <div key={i} className={`flex-1 min-w-[2px] ${isDemo ? 'bg-gold-base' : 'bg-border-default'}`} style={{ height: `${height}px` }} title={`${token}: ${value}px`} />;
+                  return <div key={token} className={`flex-1 min-w-[2px] ${isDemo ? 'bg-gold-base' : 'bg-border-default'}`} style={{ height: `${height}px` }} title={`${token}: ${value}px`} />;
                 })}
               </div>
               <div className="flex justify-between text-caption text-text-muted mt-space-2">
@@ -436,7 +487,7 @@ export default function SizingPage() {
                           borderWidth: numValue,
                           borderStyle: 'solid',
                           height: '30px',
-                          backgroundColor: 'var(--surface-elevated)',
+                          backgroundColor: 'var(--color-surface-elevated)',
                         }}
                       />
                     </div>
