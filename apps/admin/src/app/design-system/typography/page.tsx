@@ -1,3 +1,4 @@
+// apps/admin/src/app/design-system/typography/page.tsx
 'use client';
 
 import { useState } from 'react';
@@ -14,7 +15,7 @@ const FONT_FAMILY_TOKENS = [
   { token: 'font-mono', value: 'IBM Plex Mono, Menlo, monospace', label: 'Mono' },
 ];
 
-// Font Sizes - key sizes only
+// Font Sizes - key sizes only (English)
 const FONT_SIZE_TOKENS = [
   { token: 'text-display', value: 'clamp(2.25rem, 1.75rem + 2.5vw, 4rem)', label: 'Display' },
   { token: 'text-h1', value: 'clamp(2rem, 1.61rem + 1.94vw, 3.36rem)', label: 'Heading 1' },
@@ -23,11 +24,52 @@ const FONT_SIZE_TOKENS = [
   { token: 'text-h4', value: 'clamp(1.3rem, 1.12rem + 0.91vw, 1.94rem)', label: 'Heading 4' },
   { token: 'text-h5', value: 'clamp(1.15rem, 1.04rem + 0.57vw, 1.55rem)', label: 'Heading 5' },
   { token: 'text-h6', value: 'clamp(1rem, 0.93rem + 0.36vw, 1.25rem)', label: 'Heading 6' },
+  { token: 'text-pullquote', value: 'clamp(1.2rem, 1.09rem + 0.57vw, 1.6rem)', label: 'Pullquote' },
   { token: 'text-body', value: '1.05rem', label: 'Body' },
   { token: 'text-body-sm', value: '0.87rem', label: 'Body Small' },
   { token: 'text-label', value: '0.83rem', label: 'Label' },
+  { token: 'text-label-sm', value: '0.83rem', label: 'Label Small' },
   { token: 'text-eyebrow', value: '0.75rem', label: 'Eyebrow' },
   { token: 'text-caption', value: '0.69rem', label: 'Caption' },
+  { token: 'text-code', value: '0.9em', label: 'Code' },
+];
+
+// All font-size tokens (including Sinhala and Tamil) for the Script Sizes tab
+// We'll use this to display the full scale.
+const ALL_FONT_SIZE_TOKENS = [
+  ...FONT_SIZE_TOKENS,
+  // Sinhala
+  { token: 'text-sinhala-display', value: 'clamp(2.25rem, 1.75rem + 2.5vw, 4rem)', label: 'Sinhala Display' },
+  { token: 'text-sinhala-h1', value: 'clamp(2rem, 1.61rem + 1.94vw, 3.36rem)', label: 'Sinhala H1' },
+  { token: 'text-sinhala-h2', value: 'clamp(1.75rem, 1.45rem + 1.5vw, 2.8rem)', label: 'Sinhala H2' },
+  { token: 'text-sinhala-h3', value: 'clamp(1.5rem, 1.26rem + 1.19vw, 2.33rem)', label: 'Sinhala H3' },
+  { token: 'text-sinhala-h4', value: 'clamp(1.3rem, 1.12rem + 0.91vw, 1.94rem)', label: 'Sinhala H4' },
+  { token: 'text-sinhala-h5', value: 'clamp(1.15rem, 1.04rem + 0.57vw, 1.55rem)', label: 'Sinhala H5' },
+  { token: 'text-sinhala-h6', value: 'clamp(1rem, 0.93rem + 0.36vw, 1.25rem)', label: 'Sinhala H6' },
+  { token: 'text-sinhala-pullquote', value: 'clamp(1.2rem, 1.09rem + 0.57vw, 1.6rem)', label: 'Sinhala Pullquote' },
+  { token: 'text-sinhala-body', value: '1.05rem', label: 'Sinhala Body' },
+  { token: 'text-sinhala-body-sm', value: '0.87rem', label: 'Sinhala Body Small' },
+  { token: 'text-sinhala-label', value: '0.83rem', label: 'Sinhala Label' },
+  { token: 'text-sinhala-label-sm', value: '0.83rem', label: 'Sinhala Label Small' },
+  { token: 'text-sinhala-eyebrow', value: '0.75rem', label: 'Sinhala Eyebrow' },
+  { token: 'text-sinhala-caption', value: '0.69rem', label: 'Sinhala Caption' },
+  { token: 'text-sinhala-code', value: '0.9em', label: 'Sinhala Code' },
+  // Tamil
+  { token: 'text-tamil-display', value: 'clamp(2.25rem, 1.75rem + 2.5vw, 4rem)', label: 'Tamil Display' },
+  { token: 'text-tamil-h1', value: 'clamp(2rem, 1.61rem + 1.94vw, 3.36rem)', label: 'Tamil H1' },
+  { token: 'text-tamil-h2', value: 'clamp(1.75rem, 1.45rem + 1.5vw, 2.8rem)', label: 'Tamil H2' },
+  { token: 'text-tamil-h3', value: 'clamp(1.5rem, 1.26rem + 1.19vw, 2.33rem)', label: 'Tamil H3' },
+  { token: 'text-tamil-h4', value: 'clamp(1.3rem, 1.12rem + 0.91vw, 1.94rem)', label: 'Tamil H4' },
+  { token: 'text-tamil-h5', value: 'clamp(1.15rem, 1.04rem + 0.57vw, 1.55rem)', label: 'Tamil H5' },
+  { token: 'text-tamil-h6', value: 'clamp(1rem, 0.93rem + 0.36vw, 1.25rem)', label: 'Tamil H6' },
+  { token: 'text-tamil-pullquote', value: 'clamp(1.2rem, 1.09rem + 0.57vw, 1.6rem)', label: 'Tamil Pullquote' },
+  { token: 'text-tamil-body', value: '1.05rem', label: 'Tamil Body' },
+  { token: 'text-tamil-body-sm', value: '0.87rem', label: 'Tamil Body Small' },
+  { token: 'text-tamil-label', value: '0.83rem', label: 'Tamil Label' },
+  { token: 'text-tamil-label-sm', value: '0.83rem', label: 'Tamil Label Small' },
+  { token: 'text-tamil-eyebrow', value: '0.75rem', label: 'Tamil Eyebrow' },
+  { token: 'text-tamil-caption', value: '0.69rem', label: 'Tamil Caption' },
+  { token: 'text-tamil-code', value: '0.9em', label: 'Tamil Code' },
 ];
 
 // Line Heights
@@ -38,7 +80,20 @@ const LINE_HEIGHT_TOKENS = [
   { token: 'leading-relaxed', value: '1.7', label: 'Relaxed' },
   { token: 'leading-loose', value: '1.3', label: 'Loose' },
   { token: 'leading-display', value: '1', label: 'Display' },
+  { token: 'leading-h1', value: '1.05', label: 'Heading 1' },
+  { token: 'leading-h2', value: '1.08', label: 'Heading 2' },
+  { token: 'leading-h3', value: '1.12', label: 'Heading 3' },
+  { token: 'leading-h4', value: '1.15', label: 'Heading 4' },
+  { token: 'leading-h5', value: '1.2', label: 'Heading 5' },
+  { token: 'leading-h6', value: '1.3', label: 'Heading 6' },
+  { token: 'leading-pullquote', value: '1.3', label: 'Pullquote' },
   { token: 'leading-body', value: '1.7', label: 'Body' },
+  { token: 'leading-body-sm', value: '1.6', label: 'Body Small' },
+  { token: 'leading-label', value: '1.4', label: 'Label' },
+  { token: 'leading-label-sm', value: '1.4', label: 'Label Small' },
+  { token: 'leading-eyebrow', value: '1.4', label: 'Eyebrow' },
+  { token: 'leading-caption', value: '1.4', label: 'Caption' },
+  { token: 'leading-code', value: '1.6', label: 'Code' },
 ];
 
 // Letter Spacing
@@ -48,6 +103,18 @@ const LETTER_SPACING_TOKENS = [
   { token: 'tracking-open', value: '0.08em', label: 'Open' },
   { token: 'tracking-wide', value: '0.15em', label: 'Wide' },
   { token: 'tracking-extended', value: '0.25em', label: 'Extended' },
+  // Sinhala
+  { token: 'tracking-sinhala-tight', value: '-0.02em', label: 'Sinhala Tight' },
+  { token: 'tracking-sinhala-normal', value: '0em', label: 'Sinhala Normal' },
+  { token: 'tracking-sinhala-open', value: '0.04em', label: 'Sinhala Open' },
+  { token: 'tracking-sinhala-wide', value: '0.08em', label: 'Sinhala Wide' },
+  { token: 'tracking-sinhala-extended', value: '0.12em', label: 'Sinhala Extended' },
+  // Tamil
+  { token: 'tracking-tamil-tight', value: '-0.02em', label: 'Tamil Tight' },
+  { token: 'tracking-tamil-normal', value: '0em', label: 'Tamil Normal' },
+  { token: 'tracking-tamil-open', value: '0.04em', label: 'Tamil Open' },
+  { token: 'tracking-tamil-wide', value: '0.08em', label: 'Tamil Wide' },
+  { token: 'tracking-tamil-extended', value: '0.12em', label: 'Tamil Extended' },
 ];
 
 // Font Weights
@@ -62,34 +129,15 @@ const FONT_WEIGHT_TOKENS = [
 // =============================================================================
 
 export default function TypographyPage() {
-  const [activeTab, setActiveTab] = useState<'sizes' | 'families' | 'leading' | 'tracking' | 'weights'>('sizes');
+  const [activeTab, setActiveTab] = useState<'sizes' | 'families' | 'leading' | 'tracking' | 'weights' | 'scriptSizes'>('sizes');
 
   // ---- Render helpers ----
 
-  // Font Size Card
+  // Font Size Card (English)
   const renderSizeCard = ({ token, value, label }: { token: string; value: string; label: string }) => {
-    // Sample text varies by size
-    const getSampleText = () => {
-      if (token === 'text-display' || token === 'text-h1') {
-        return 'The quick brown fox jumps over the lazy dog.';
-      }
-      if (token === 'text-h2' || token === 'text-h3') {
-        return 'The quick brown fox jumps over the lazy dog.';
-      }
-      if (token === 'text-h4' || token === 'text-h5' || token === 'text-h6') {
-        return 'The quick brown fox jumps over the lazy dog.';
-      }
-      if (token === 'text-body') {
-        return 'The quick brown fox jumps over the lazy dog. The school was founded in 1873.';
-      }
-      if (token === 'text-label' || token === 'text-eyebrow' || token === 'text-caption') {
-        return 'UPPERCASE LABEL TEXT';
-      }
-      return 'The quick brown fox jumps over the lazy dog.';
-    };
+    const sampleText = token.includes('display') || token.includes('h1') ? 'The quick brown fox jumps over the lazy dog.' : token.includes('label') || token.includes('eyebrow') || token.includes('caption') ? 'UPPERCASE LABEL TEXT' : 'The quick brown fox jumps over the lazy dog.';
 
-    const sampleText = getSampleText();
-    const isUppercase = token === 'text-label' || token === 'text-eyebrow' || token === 'text-caption';
+    const isUppercase = token.includes('label') || token.includes('eyebrow') || token.includes('caption');
 
     return (
       <div key={token} className="bg-surface-elevated border border-border-light rounded-md p-space-4">
@@ -147,7 +195,7 @@ export default function TypographyPage() {
 
   // Letter Spacing Card
   const renderTrackingCard = ({ token, value, label }: { token: string; value: string; label: string }) => {
-    const sampleText = token === 'tracking-tight' ? 'TIGHT' : token === 'tracking-normal' ? 'NORMAL' : 'WIDE';
+    const sampleText = token.includes('tight') ? 'TIGHT' : token.includes('normal') ? 'NORMAL' : 'WIDE';
     return (
       <div key={token} className="bg-surface-elevated border border-border-light rounded-md p-space-4">
         <div className="flex items-center justify-between mb-space-2">
@@ -178,32 +226,20 @@ export default function TypographyPage() {
     );
   };
 
-  // Sinhala Font Demo
-  const renderSinhalaDemo = () => {
+  // Script size card (for Sinhala/Tamil)
+  const renderScriptSizeCard = (token: string, value: string, label: string, sampleText: string) => {
+    const isUppercase = token.includes('label') || token.includes('eyebrow') || token.includes('caption');
     return (
-      <div className="bg-surface-elevated border border-border-light rounded-md p-space-6">
-        <h3 className="font-display text-h3 mb-space-3 text-gold-base">Sinhala</h3>
-        <div className="font-sinhala-display text-sinhala-h2 mb-space-4">කන්නන්ගර මධ්‍ය මහා විද්‍යාලය</div>
-        <div className="font-sinhala-body text-sinhala-body text-text-muted">ශ්‍රී ලංකාවේ ප්‍රථම මධ්‍ය මහා විද්‍යාලය — ජාතිය හැඩගැස්වූ බුද්ධිමතුන් බිහිකළ වසර 153ක අභිමානය.</div>
-        <div className="mt-space-2 text-caption text-text-muted">
-          <code className="bg-surface-deep px-space-1 rounded">font-sinhala-display</code>
-          {' · '}
-          <code className="bg-surface-deep px-space-1 rounded">font-sinhala-body</code>
+      <div key={token} className="bg-surface-elevated border border-border-light rounded-md p-space-4">
+        <div className="flex items-center justify-between mb-space-2">
+          <code className="font-mono text-label text-gold-base">{token}</code>
+          <span className="font-mono text-caption text-text-muted">{label}</span>
         </div>
-      </div>
-    );
-  };
-
-  const renderTamilDemo = () => {
-    return (
-      <div className="bg-surface-elevated border border-border-light rounded-md p-space-6">
-        <h3 className="font-display text-h3 mb-space-3 text-gold-base">Tamil</h3>
-        <div className="font-tamil-display text-tamil-h2 mb-space-4">கண்ணங்கர மத்திய மகா வித்தியாலயம்</div>
-        <div className="font-tamil-body text-tamil-body text-text-muted">இலங்கையின் முதலாவது மத்திய மகா வித்தியாலயம் — தேசத்தை உருவாக்கிய அறிஞர்களை உருவாக்கிய 153 வருட அசைக்க முடியாத பெருமை.</div>
+        <div className={`${token} ${isUppercase ? 'uppercase' : ''}`}>
+          <span className="text-text-primary">{sampleText}</span>
+        </div>
         <div className="mt-space-2 text-caption text-text-muted">
-          <code className="bg-surface-deep px-space-1 rounded">font-tamil-display</code>
-          {' · '}
-          <code className="bg-surface-deep px-space-1 rounded">font-tamil-body</code>
+          <code className="bg-surface-deep px-space-1 rounded">{value}</code>
         </div>
       </div>
     );
@@ -236,13 +272,16 @@ export default function TypographyPage() {
           <button onClick={() => setActiveTab('weights')} className={`px-space-4 py-space-2 font-body text-label uppercase tracking-label border-b-2 transition-colors whitespace-nowrap ${activeTab === 'weights' ? 'border-gold-base text-gold-base' : 'border-transparent text-text-muted hover:text-text-primary'}`}>
             Font Weights
           </button>
+          <button onClick={() => setActiveTab('scriptSizes')} className={`px-space-4 py-space-2 font-body text-label uppercase tracking-label border-b-2 transition-colors whitespace-nowrap ${activeTab === 'scriptSizes' ? 'border-gold-base text-gold-base' : 'border-transparent text-text-muted hover:text-text-primary'}`}>
+            Script Sizes
+          </button>
         </div>
 
         {/* ==================== FONT SIZES TAB ==================== */}
         {activeTab === 'sizes' && (
           <>
             <div className="mb-space-8 p-space-6 bg-surface-elevated border border-border-light rounded-md">
-              <h2 className="font-display text-h3 mb-space-2">Font Size Tokens</h2>
+              <h2 className="font-display text-h3 mb-space-2">Font Size Tokens (English)</h2>
               <p className="font-body text-body-sm text-text-muted">
                 All font sizes are defined as tokens. Use them with the <code className="bg-surface-deep px-space-1 rounded">text-*</code> utility. Some sizes use <code className="bg-surface-deep px-space-1 rounded">clamp()</code> for responsive scaling.
               </p>
@@ -263,13 +302,6 @@ export default function TypographyPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-space-6 mb-space-12">{FONT_FAMILY_TOKENS.map(renderFamilyCard)}</div>
-
-            {/* Multilingual Demos */}
-            <h2 className="font-display text-h2 mb-space-4">Multilingual Support</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-space-6">
-              {renderSinhalaDemo()}
-              {renderTamilDemo()}
-            </div>
           </>
         )}
 
@@ -312,6 +344,38 @@ export default function TypographyPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-space-6">{FONT_WEIGHT_TOKENS.map(renderWeightCard)}</div>
+          </>
+        )}
+
+        {/* ==================== SCRIPT SIZES TAB ==================== */}
+        {activeTab === 'scriptSizes' && (
+          <>
+            <div className="mb-space-8 p-space-6 bg-surface-elevated border border-border-light rounded-md">
+              <h2 className="font-display text-h3 mb-space-2">Sinhala & Tamil Type Scales</h2>
+              <p className="font-body text-body-sm text-text-muted">Full type scale for Sinhala and Tamil scripts. Each token corresponds to the same semantic level as English.</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-space-8">
+              {/* Sinhala */}
+              <div>
+                <h3 className="font-display text-h3 mb-space-4 text-gold-base">Sinhala</h3>
+                <div className="space-y-space-4">
+                  {ALL_FONT_SIZE_TOKENS.filter((t) => t.token.startsWith('text-sinhala-')).map((t) => {
+                    const sampleText = t.token.includes('display') || t.token.includes('h1') || t.token.includes('h2') || t.token.includes('h3') ? 'සිංහල ශීර්ෂය' : 'සිංහල ශරීර පාඨය';
+                    return renderScriptSizeCard(t.token, t.value, t.label, sampleText);
+                  })}
+                </div>
+              </div>
+              {/* Tamil */}
+              <div>
+                <h3 className="font-display text-h3 mb-space-4 text-gold-base">Tamil</h3>
+                <div className="space-y-space-4">
+                  {ALL_FONT_SIZE_TOKENS.filter((t) => t.token.startsWith('text-tamil-')).map((t) => {
+                    const sampleText = t.token.includes('display') || t.token.includes('h1') || t.token.includes('h2') || t.token.includes('h3') ? 'தமிழ் தலைப்பு' : 'தமிழ் உடல் உரை';
+                    return renderScriptSizeCard(t.token, t.value, t.label, sampleText);
+                  })}
+                </div>
+              </div>
+            </div>
           </>
         )}
 

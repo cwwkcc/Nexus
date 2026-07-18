@@ -26,9 +26,24 @@ const durations = [
   { label: 'epic', token: 'duration-epic' },
 ];
 
+// All transform scale tokens from packages/tokens/src/primitives/effects.ts
+const scaleTokens = [
+  { token: 'scale-0', value: '0' },
+  { token: 'scale-50', value: '0.5' },
+  { token: 'scale-75', value: '0.75' },
+  { token: 'scale-90', value: '0.9' },
+  { token: 'scale-95', value: '0.95' },
+  { token: 'scale-100', value: '1' },
+  { token: 'scale-105', value: '1.05' },
+  { token: 'scale-110', value: '1.1' },
+  { token: 'scale-125', value: '1.25' },
+  { token: 'scale-150', value: '1.5' },
+  { token: 'scale-press', value: '0.98' },
+  { token: 'scale-card-hover', value: '1.02' },
+];
+
 // Track geometry — keep TRAVEL small enough that ember spring overshoot
 // (≈1.56× travel) stays within the TRACK_W container.
-// With TRAVEL = 120, ember overshoot ≈ 187 px; box right edge ≈ 8+187+24 = 219 px < 280 px ✓
 const TRACK_W = 280;
 const BOX_SIZE = 24; // var(--size-6) = 24px
 const LEFT_PAD = 8; // var(--space-2) = 8px
@@ -141,19 +156,17 @@ export default function MotionPage() {
         </div>
       </Section>
 
-      {/* ── Transform scale ─────────────────────────────────────────────────── */}
+      {/* ── Transform Scale ─────────────────────────────────────────────────── */}
       <Section title="Transform Scale">
-        <div className="flex flex-wrap gap-space-8 items-center">
-          <div className="flex flex-col items-center gap-space-3">
-            <button className="px-space-8 py-space-4 bg-green-base text-text-inverse rounded-md font-body text-label tracking-label transition-transform duration-fast active:scale-press">Press me</button>
-            <span className="font-mono text-caption text-text-muted">scale-press (0.98)</span>
-          </div>
-          <div className="flex flex-col items-center gap-space-3">
-            <div className="w-size-32 h-size-32 bg-gold-pale border border-gold-base rounded-md flex items-center justify-center transition-transform duration-gentle hover:scale-card-hover cursor-default">
-              <span className="font-body text-caption text-text-muted text-center px-space-2">hover</span>
+        <p className="font-body text-caption text-text-muted mb-space-6">Scale transform values used for interactive feedback and animations.</p>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-space-6">
+          {scaleTokens.map(({ token, value }) => (
+            <div key={token} className="bg-surface-elevated border border-border-light rounded-md p-space-4 flex flex-col items-center gap-space-3">
+              <div className="w-size-16 h-size-16 bg-green-base rounded-md transition-transform duration-fast hover:scale-card-hover" style={{ transform: `scale(${value})` }} />
+              <code className="font-mono text-label text-gold-base">{token}</code>
+              <code className="font-mono text-caption text-text-muted">{value}</code>
             </div>
-            <span className="font-mono text-caption text-text-muted">scale-card-hover (1.02)</span>
-          </div>
+          ))}
         </div>
       </Section>
     </div>
