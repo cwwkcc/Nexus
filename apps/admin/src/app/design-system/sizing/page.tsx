@@ -1,333 +1,488 @@
-// apps/admin/src/app/design-system/sizing/page.tsx
 'use client';
 
-// ─── Scale groups ─────────────────────────────────────────────────────────────
+import { useState } from 'react';
 
-type Token = { token: string; value: string; px: number };
+// =============================================================================
+// TOKENS
+// =============================================================================
 
-const strokeTokens: Token[] = [
-  { token: 'size-px', value: '1px', px: 1 },
-  { token: 'size-0p5', value: '2px', px: 2 },
-  { token: 'size-1', value: '4px', px: 4 },
-  { token: 'size-1p5', value: '6px', px: 6 },
-  { token: 'size-2', value: '8px', px: 8 },
-  { token: 'size-2p5', value: '10px', px: 10 },
-  { token: 'size-3', value: '12px', px: 12 },
-  { token: 'size-3p5', value: '14px', px: 14 },
+// Pixel sizes (0-384px)
+const PIXEL_TOKENS = [
+  { token: 'size-1', value: '4px' },
+  { token: 'size-2', value: '8px' },
+  { token: 'size-4', value: '16px' },
+  { token: 'size-6', value: '24px' },
+  { token: 'size-8', value: '32px' },
+  { token: 'size-12', value: '48px' },
+  { token: 'size-16', value: '64px' },
+  { token: 'size-24', value: '96px' },
+  { token: 'size-32', value: '128px' },
+  { token: 'size-48', value: '192px' },
+  { token: 'size-64', value: '256px' },
+  { token: 'size-96', value: '384px' },
 ];
 
-const componentTokens: Token[] = [
-  { token: 'size-4', value: '16px', px: 16 },
-  { token: 'size-5', value: '20px', px: 20 },
-  { token: 'size-6', value: '24px', px: 24 },
-  { token: 'size-7', value: '28px', px: 28 },
-  { token: 'size-8', value: '32px', px: 32 },
-  { token: 'size-9', value: '36px', px: 36 },
-  { token: 'size-10', value: '40px', px: 40 },
-  { token: 'size-11', value: '44px', px: 44 },
-  { token: 'size-12', value: '48px', px: 48 },
-  { token: 'size-13', value: '52px', px: 52 },
-  { token: 'size-14', value: '56px', px: 56 },
-  { token: 'size-15', value: '60px', px: 60 },
-  { token: 'size-16', value: '64px', px: 64 },
+// Viewport width tokens
+const VW_TOKENS = [
+  { token: 'size-screen-w-25', value: '25vw' },
+  { token: 'size-screen-w-50', value: '50vw' },
+  { token: 'size-screen-w-75', value: '75vw' },
+  { token: 'size-screen-w-100', value: '100vw' },
 ];
 
-const blockTokens: Token[] = [
-  { token: 'size-20', value: '80px', px: 80 },
-  { token: 'size-22', value: '88px', px: 88 },
-  { token: 'size-24', value: '96px', px: 96 },
-  { token: 'size-26', value: '104px', px: 104 },
-  { token: 'size-28', value: '112px', px: 112 },
-  { token: 'size-30', value: '120px', px: 120 },
-  { token: 'size-32', value: '128px', px: 128 },
-  { token: 'size-34', value: '136px', px: 136 },
-  { token: 'size-36', value: '144px', px: 144 },
-  { token: 'size-38', value: '152px', px: 152 },
-  { token: 'size-40', value: '160px', px: 160 },
-  { token: 'size-44', value: '176px', px: 176 },
-  { token: 'size-48', value: '192px', px: 192 },
+// Viewport height tokens
+const VH_TOKENS = [
+  { token: 'size-screen-h-25', value: '25vh' },
+  { token: 'size-screen-h-50', value: '50vh' },
+  { token: 'size-screen-h-75', value: '75vh' },
+  { token: 'size-screen-h-100', value: '100vh' },
 ];
 
-const sectionTokens: Token[] = [
-  { token: 'size-56', value: '224px', px: 224 },
-  { token: 'size-60', value: '240px', px: 240 },
-  { token: 'size-64', value: '256px', px: 256 },
-  { token: 'size-68', value: '272px', px: 272 },
-  { token: 'size-72', value: '288px', px: 288 },
-  { token: 'size-76', value: '304px', px: 304 },
-  { token: 'size-80', value: '320px', px: 320 },
-  { token: 'size-84', value: '336px', px: 336 },
-  { token: 'size-88', value: '352px', px: 352 },
-  { token: 'size-92', value: '368px', px: 368 },
-  { token: 'size-96', value: '384px', px: 384 },
+// Percentage tokens
+const PCT_TOKENS = [
+  { token: 'size-pct-25', value: '25%' },
+  { token: 'size-pct-50', value: '50%' },
+  { token: 'size-pct-75', value: '75%' },
+  { token: 'size-pct-100', value: '100%' },
 ];
 
-const layoutTokens: Token[] = [
-  { token: 'size-100', value: '400px', px: 400 },
-  { token: 'size-104', value: '416px', px: 416 },
-  { token: 'size-108', value: '432px', px: 432 },
-  { token: 'size-112', value: '448px', px: 448 },
-  { token: 'size-116', value: '464px', px: 464 },
-  { token: 'size-120', value: '480px', px: 480 },
-  { token: 'size-128', value: '512px', px: 512 },
-  { token: 'size-136', value: '544px', px: 544 },
-  { token: 'size-144', value: '576px', px: 576 },
-  { token: 'size-152', value: '608px', px: 608 },
-  { token: 'size-160', value: '640px', px: 640 },
-  { token: 'size-168', value: '672px', px: 672 },
-  { token: 'size-176', value: '704px', px: 704 },
-  { token: 'size-180', value: '720px', px: 720 },
-  { token: 'size-192', value: '768px', px: 768 },
+// Fraction tokens
+const FRACTION_TOKENS = [
+  { token: 'size-1-2', value: '50%' },
+  { token: 'size-1-3', value: '33.333%' },
+  { token: 'size-2-3', value: '66.667%' },
+  { token: 'size-1-4', value: '25%' },
+  { token: 'size-3-4', value: '75%' },
 ];
 
-const containerTokens: Token[] = [
-  { token: 'size-200', value: '800px', px: 800 },
-  { token: 'size-210', value: '840px', px: 840 },
-  { token: 'size-220', value: '880px', px: 880 },
-  { token: 'size-225', value: '900px', px: 900 },
-  { token: 'size-240', value: '960px', px: 960 },
-  { token: 'size-256', value: '1024px', px: 1024 },
-  { token: 'size-280', value: '1120px', px: 1120 },
-  { token: 'size-300', value: '1200px', px: 1200 },
-  { token: 'size-320', value: '1280px', px: 1280 },
-  { token: 'size-360', value: '1440px', px: 1440 },
-  { token: 'size-384', value: '1536px', px: 1536 },
+// Icon sizes
+const ICON_TOKENS = [
+  { token: 'icon-sm', value: '16px' },
+  { token: 'icon-md', value: '20px' },
+  { token: 'icon-lg', value: '24px' },
+  { token: 'icon-xl', value: '32px' },
 ];
 
-const iconTokens: Token[] = [
-  { token: 'icon-sm', value: '16px', px: 16 },
-  { token: 'icon-md', value: '20px', px: 20 },
-  { token: 'icon-lg', value: '24px', px: 24 },
-  { token: 'icon-xl', value: '32px', px: 32 },
+// Border widths
+const BORDER_TOKENS = [
+  { token: 'border-sm', value: '1px' },
+  { token: 'border-md', value: '2px' },
+  { token: 'border-lg', value: '4px' },
+  { token: 'border-xl', value: '6px' },
+  { token: 'border-2xl', value: '8px' },
 ];
 
-const borderWidthTokens = [
-  { token: 'border-none', value: '0px', px: 0 },
-  { token: 'border-sm', value: '1px', px: 1 },
-  { token: 'border-md', value: '2px', px: 2 },
-  { token: 'border-lg', value: '4px', px: 4 },
-  { token: 'border-xl', value: '6px', px: 6 },
-  { token: 'border-2xl', value: '8px', px: 8 },
+// Max widths
+const MAX_WIDTH_TOKENS = [
+  { token: 'max-w-prose', value: '680px' },
+  { token: 'max-w-content', value: '960px' },
+  { token: 'max-w-wide', value: '1200px' },
+  { token: 'max-w-full', value: '100%' },
 ];
 
-const semanticTokens = [
-  { token: 'size-0', value: '0px', usage: 'Zero / explicit reset' },
-  {
-    token: 'size-full',
-    value: '100%',
-    usage: 'Fill parent (w-size-full, h-size-full)',
-  },
-  {
-    token: 'size-min',
-    value: 'min-content',
-    usage: 'Shrink to minimum intrinsic width',
-  },
-  {
-    token: 'size-max',
-    value: 'max-content',
-    usage: 'Expand to maximum intrinsic width',
-  },
-  {
-    token: 'size-fit',
-    value: 'fit-content',
-    usage: 'Fit to content within constraints',
-  },
-  { token: 'size-auto', value: 'auto', usage: 'Browser auto sizing' },
+// Semantic values - kept clean and simple
+const SEMANTIC_TOKENS = [
+  { token: 'size-full', value: '100%', description: 'Fills the full width of the parent container' },
+  { token: 'size-min', value: 'min-content', description: 'Shrinks to the minimum width needed for content' },
+  { token: 'size-max', value: 'max-content', description: 'Expands to the maximum width needed for content' },
+  { token: 'size-fit', value: 'fit-content', description: 'Fits the content without extra space' },
+  { token: 'size-auto', value: 'auto', description: 'Browser determines the best width automatically' },
 ];
 
-// ─── Sub-components ────────────────────────────────────────────────────────────
+const MAX_PIXEL = 384;
 
-const BAR_MAX = 320; // max visual bar width in px
-
-function ScaleGroup({ label, description, tokens, barColor = 'var(--color-gold-pale)', borderColor = 'var(--color-gold-base)' }: { label: string; description: string; tokens: Token[]; barColor?: string; borderColor?: string }) {
-  const maxPx = Math.max(...tokens.map((t) => t.px));
-  return (
-    <div className="mb-space-12">
-      <h3 className="font-display text-h3 mb-space-1">{label}</h3>
-      <p className="font-body text-caption text-text-muted mb-space-4">{description}</p>
-      <div className="flex flex-col gap-space-1p5">
-        {tokens.map(({ token, value, px }) => {
-          const barWidth = Math.max((px / maxPx) * BAR_MAX, 2);
-          return (
-            <div key={token} className="flex items-center gap-space-4">
-              <span className="font-mono text-caption text-text-muted shrink-0" style={{ width: 88 }}>
-                {token}
-              </span>
-              <span className="font-mono text-caption text-text-primary shrink-0 text-right" style={{ width: 44 }}>
-                {value}
-              </span>
-              <div
-                className="rounded-sm"
-                style={{
-                  width: barWidth,
-                  height: 16,
-                  background: barColor,
-                  border: `1px solid ${borderColor}`,
-                  flexShrink: 0,
-                }}
-              />
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
-function SectionTitle({ children }: { children: React.ReactNode }) {
-  return <h2 className="font-display text-h3 mt-space-16 mb-space-6 pb-space-2 border-b border-border-light">{children}</h2>;
-}
-
-// ─── Page ──────────────────────────────────────────────────────────────────────
+// =============================================================================
+// COMPONENT
+// =============================================================================
 
 export default function SizingPage() {
+  const [activeTab, setActiveTab] = useState<'sizes' | 'borders' | 'containers'>('sizes');
+
+  // ---- Render helpers ----
+  const renderPixelCard = ({ token, value }: { token: string; value: string }) => {
+    const numValue = parseFloat(value);
+    const pct = (numValue / MAX_PIXEL) * 100;
+
+    return (
+      <div key={token} className="bg-surface-elevated border border-border-light rounded-md p-space-4">
+        <div className="flex items-center justify-between mb-space-2">
+          <code className="font-mono text-label text-gold-base">{token}</code>
+          <span className="font-mono text-caption text-text-muted">{value}</span>
+        </div>
+        <div className="bg-surface-deep rounded-sm overflow-hidden w-full">
+          <div
+            className="bg-green-base"
+            style={{
+              height: '20px',
+              width: `${Math.max(2, pct)}%`,
+            }}
+          />
+        </div>
+        <div className="grid grid-cols-3 gap-space-1 mt-space-2 text-caption text-text-muted">
+          <code className="bg-surface-deep px-space-0p5 rounded text-center">w-{token}</code>
+          <code className="bg-surface-deep px-space-0p5 rounded text-center">h-{token}</code>
+          <code className="bg-surface-deep px-space-0p5 rounded text-center">min-w-{token}</code>
+        </div>
+      </div>
+    );
+  };
+
+  const renderViewportCard = ({ token, value }: { token: string; value: string }) => {
+    const numValue = parseFloat(value);
+    const isVw = token.includes('screen-w');
+    const isVh = token.includes('screen-h');
+    const pct = Math.min(100, numValue);
+
+    return (
+      <div key={token} className="bg-surface-elevated border border-border-light rounded-md p-space-4">
+        <div className="flex items-center justify-between mb-space-2">
+          <code className="font-mono text-label text-gold-base">{token}</code>
+          <span className="font-mono text-caption text-text-muted">{value}</span>
+        </div>
+        <div className="bg-surface-deep rounded-sm overflow-hidden w-full">
+          <div
+            className="bg-green-base"
+            style={{
+              height: '20px',
+              width: `${Math.max(2, pct)}%`,
+            }}
+          />
+        </div>
+        <div className="grid grid-cols-2 gap-space-1 mt-space-2 text-caption text-text-muted">
+          {isVw && (
+            <>
+              <code className="bg-surface-deep px-space-0p5 rounded text-center">w-{token}</code>
+              <code className="bg-surface-deep px-space-0p5 rounded text-center">min-w-{token}</code>
+            </>
+          )}
+          {isVh && (
+            <>
+              <code className="bg-surface-deep px-space-0p5 rounded text-center">h-{token}</code>
+              <code className="bg-surface-deep px-space-0p5 rounded text-center">min-h-{token}</code>
+            </>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  const renderPercentCard = ({ token, value }: { token: string; value: string }) => {
+    const numValue = parseFloat(value);
+    const pct = Math.min(100, numValue);
+
+    return (
+      <div key={token} className="bg-surface-elevated border border-border-light rounded-md p-space-4">
+        <div className="flex items-center justify-between mb-space-2">
+          <code className="font-mono text-label text-gold-base">{token}</code>
+          <span className="font-mono text-caption text-text-muted">{value}</span>
+        </div>
+        <div className="bg-surface-deep rounded-sm overflow-hidden w-full">
+          <div
+            className="bg-green-base"
+            style={{
+              height: '20px',
+              width: `${Math.max(2, pct)}%`,
+            }}
+          />
+        </div>
+        <div className="grid grid-cols-3 gap-space-1 mt-space-2 text-caption text-text-muted">
+          <code className="bg-surface-deep px-space-0p5 rounded text-center">w-{token}</code>
+          <code className="bg-surface-deep px-space-0p5 rounded text-center">h-{token}</code>
+          <code className="bg-surface-deep px-space-0p5 rounded text-center">max-w-{token}</code>
+        </div>
+      </div>
+    );
+  };
+
+  const renderFractionCard = ({ token, value }: { token: string; value: string }) => {
+    const numValue = parseFloat(value);
+    const pct = Math.min(100, numValue);
+
+    return (
+      <div key={token} className="bg-surface-elevated border border-border-light rounded-md p-space-4">
+        <div className="flex items-center justify-between mb-space-2">
+          <code className="font-mono text-label text-gold-base">{token}</code>
+          <span className="font-mono text-caption text-text-muted">{value}</span>
+        </div>
+        <div className="bg-surface-deep rounded-sm overflow-hidden w-full">
+          <div
+            className="bg-green-base"
+            style={{
+              height: '20px',
+              width: `${Math.max(2, pct)}%`,
+            }}
+          />
+        </div>
+        <div className="grid grid-cols-2 gap-space-1 mt-space-2 text-caption text-text-muted">
+          <code className="bg-surface-deep px-space-0p5 rounded text-center">w-{token}</code>
+          <code className="bg-surface-deep px-space-0p5 rounded text-center">h-{token}</code>
+        </div>
+      </div>
+    );
+  };
+
+  const renderIconCard = ({ token, value }: { token: string; value: string }) => {
+    const size = parseFloat(value);
+
+    return (
+      <div key={token} className="bg-surface-elevated border border-border-light rounded-md p-space-4 text-center">
+        <div className="flex items-center justify-center h-space-16">
+          <div
+            className="bg-gold-base rounded-sm"
+            style={{
+              width: `${size}px`,
+              height: `${size}px`,
+            }}
+          />
+        </div>
+        <div className="mt-space-2">
+          <code className="font-mono text-label text-gold-base block">{token}</code>
+          <span className="font-mono text-caption text-text-muted">{value}</span>
+        </div>
+        <div className="mt-space-1 text-caption text-text-muted">
+          <code className="bg-surface-deep px-space-0p5 rounded">w-{token}</code>
+          {' · '}
+          <code className="bg-surface-deep px-space-0p5 rounded">h-{token}</code>
+        </div>
+      </div>
+    );
+  };
+
+  const renderBorderCard = ({ token, value }: { token: string; value: string }) => {
+    const numValue = parseFloat(value);
+
+    return (
+      <div key={token} className="bg-surface-elevated border border-border-light rounded-md p-space-4">
+        <div className="flex items-center justify-between mb-space-2">
+          <code className="font-mono text-label text-gold-base">{token}</code>
+          <span className="font-mono text-caption text-text-muted">{value}</span>
+        </div>
+        <div className="bg-surface-deep rounded-sm overflow-hidden w-full h-space-6 flex items-center">
+          <div
+            className="bg-gold-base"
+            style={{
+              height: '100%',
+              width: `${Math.max(1, Math.min(100, numValue * 12))}px`,
+              maxWidth: '100%',
+            }}
+          />
+        </div>
+        <div className="mt-space-2 text-caption text-text-muted">
+          <code className="bg-surface-deep px-space-0p5 rounded">border-{token}</code>
+        </div>
+      </div>
+    );
+  };
+
+  const renderMaxWidthCard = ({ token, value }: { token: string; value: string }) => {
+    const numValue = parseFloat(value);
+    const maxDisplay = 1200;
+    const pct = Math.min(100, (numValue / maxDisplay) * 100);
+
+    return (
+      <div key={token} className="bg-surface-elevated border border-border-light rounded-md p-space-4">
+        <div className="flex items-center justify-between mb-space-2">
+          <code className="font-mono text-label text-gold-base">{token}</code>
+          <span className="font-mono text-caption text-text-muted">{value}</span>
+        </div>
+        <div className="bg-surface-deep rounded-sm overflow-hidden w-full">
+          <div
+            className="bg-green-base"
+            style={{
+              height: '20px',
+              width: `${Math.max(2, pct)}%`,
+            }}
+          />
+        </div>
+        <div className="mt-space-2 text-caption text-text-muted">
+          <code className="bg-surface-deep px-space-0p5 rounded">{token}</code>
+        </div>
+      </div>
+    );
+  };
+
+  // ---- Semantic Values: clean reference cards ----
+  const renderSemanticCard = ({ token, value, description }: { token: string; value: string; description: string }) => {
+    // Determine which utilities apply to this token
+    const utilities = ['w', 'h', 'min-w', 'max-w', 'min-h', 'max-h'];
+
+    return (
+      <div key={token} className="bg-surface-elevated border border-border-light rounded-md p-space-4">
+        <div className="flex items-center justify-between mb-space-2">
+          <code className="font-mono text-label text-gold-base">{token}</code>
+          <span className="font-mono text-caption text-text-muted">{value}</span>
+        </div>
+        <div className="bg-surface-deep rounded-sm p-space-3">
+          <span className="font-body text-body-sm text-text-primary">{description}</span>
+        </div>
+        <div className="flex flex-wrap gap-space-1 mt-space-3 text-caption text-text-muted">
+          {utilities.map((prefix) => (
+            <code key={prefix} className="bg-surface-deep px-space-1 rounded">
+              {prefix}-{token}
+            </code>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  // =============================================================================
+  // JSX
+  // =============================================================================
+
   return (
-    <div>
-      <h2 className="font-display text-h2 mb-space-4">Sizing Tokens</h2>
-      <p className="font-body text-body text-text-muted mb-space-4">Width, height, min‑/max‑width, and min‑/max‑height tokens on a 4 px base scale.</p>
-      <div className="flex flex-wrap gap-space-2 mb-space-12">
-        {['w-size-*', 'h-size-*', 'min-w-size-*', 'max-w-size-*', 'min-h-size-*', 'max-h-size-*'].map((u) => (
-          <code key={u} className="font-mono text-caption bg-surface-default px-space-2 py-space-1 rounded-sm border border-border-light">
-            {u}
-          </code>
-        ))}
-        <code className="font-mono text-caption bg-surface-default px-space-2 py-space-1 rounded-sm border border-border-light">var(--size-*)</code>
-      </div>
+    <div className="min-h-screen bg-surface-base py-space-12">
+      <div className="content-width">
+        <h1 className="font-display text-h1 mb-space-4">Sizing Scale</h1>
+        <p className="font-body text-body text-text-muted mb-space-8 max-w-prose">
+          Width, height, min-/max-width, and min-/max-height tokens. All sizes are available with the <code className="bg-surface-deep px-space-1 rounded">size-*</code> prefix in your Tailwind classes. Tokens range from <code className="bg-surface-deep px-space-1 rounded">size-0</code> (0px) to <code className="bg-surface-deep px-space-1 rounded">size-96</code> (384px) in 4px increments.
+        </p>
 
-      {/* ── Scale groups ─────────────────────────────────────────── */}
-      <SectionTitle>Scale Groups</SectionTitle>
-
-      <ScaleGroup label="Stroke / Sub-pixel" description="1–14 px — borders, dividers, hairlines, icon strokes" tokens={strokeTokens} barColor="var(--color-green-pale, #e8f5e9)" borderColor="var(--color-green-base)" />
-
-      <ScaleGroup label="Component" description="16–64 px — icons, avatar, button height, input height, small UI pieces" tokens={componentTokens} />
-
-      <ScaleGroup label="Block" description="80–192 px — card thumbnails, sidebar widths, avatar groups, medium panels" tokens={blockTokens} barColor="var(--color-gold-pale)" borderColor="var(--color-gold-base)" />
-
-      <ScaleGroup label="Section" description="224–384 px — modal widths, sidebar panels, form max-widths" tokens={sectionTokens} barColor="var(--color-green-pale, #e8f5e9)" borderColor="var(--color-green-base)" />
-
-      <ScaleGroup label="Layout" description="400–768 px — content column widths, main area constraints" tokens={layoutTokens} />
-
-      <ScaleGroup label="Container" description="800–1536 px — full-width containers, page max-widths, hero sections" tokens={containerTokens} barColor="var(--color-green-pale, #e8f5e9)" borderColor="var(--color-green-base)" />
-
-      {/* ── Icon sizes ────────────────────────────────────────────── */}
-      <SectionTitle>Icon Sizes</SectionTitle>
-      <p className="font-body text-caption text-text-muted mb-space-6">
-        Semantic icon-size tokens — prefer these over raw <code className="font-mono bg-surface-default px-space-1 rounded-sm">size-*</code> tokens when sizing icons. CSS var: <code className="font-mono bg-surface-default px-space-1 rounded-sm">var(--icon-*)</code>.
-      </p>
-      <div className="flex items-end gap-space-8 flex-wrap">
-        {iconTokens.map(({ token, value, px }) => (
-          <div key={token} className="flex flex-col items-center gap-space-2">
-            <div className="bg-gold-base rounded-sm" style={{ width: px, height: px }} />
-            <span className="font-mono text-caption text-text-primary">{token}</span>
-            <span className="font-mono text-caption text-text-muted">{value}</span>
-          </div>
-        ))}
-      </div>
-
-      {/* ── Border widths ─────────────────────────────────────────── */}
-      <SectionTitle>Border Widths</SectionTitle>
-      <p className="font-body text-caption text-text-muted mb-space-6">
-        Semantic border-width tokens. Tailwind utility: <code className="font-mono bg-surface-default px-space-1 rounded-sm">border-border-*</code>. CSS var: <code className="font-mono bg-surface-default px-space-1 rounded-sm">var(--border-*)</code>.
-      </p>
-      <div className="flex flex-col gap-space-3">
-        {borderWidthTokens.map(({ token, value, px }) => (
-          <div key={token} className="flex items-center gap-space-4">
-            <span className="font-mono text-caption text-text-muted shrink-0" style={{ width: 88 }}>
-              {token}
-            </span>
-            <span className="font-mono text-caption text-text-primary shrink-0 text-right" style={{ width: 32 }}>
-              {value}
-            </span>
-            {px > 0 ? <div className="bg-gold-base rounded-sm" style={{ width: 160, height: px }} /> : <span className="font-mono text-caption text-text-muted italic">(no border)</span>}
-          </div>
-        ))}
-      </div>
-
-      {/* ── Viewport fractions ────────────────────────────────────── */}
-      <SectionTitle>Viewport Fractions</SectionTitle>
-      <p className="font-body text-caption text-text-muted mb-space-6">
-        Tokens from <code className="font-mono bg-surface-default px-space-1 rounded-sm">size-screen-w-*</code> (viewport width) and <code className="font-mono bg-surface-default px-space-1 rounded-sm">size-screen-h-*</code> (viewport height), in 5 % steps.
-      </p>
-      <div className="grid grid-cols-2 gap-space-8">
-        {/* vw */}
-        <div>
-          <h4 className="font-body text-label text-text-muted mb-space-3">Width (vw)</h4>
-          <div className="flex flex-col gap-space-1">
-            {Array.from({ length: 20 }, (_, i) => {
-              const pct = (i + 1) * 5;
-              return (
-                <div key={pct} className="flex items-center gap-space-4">
-                  <span className="font-mono text-caption text-text-muted shrink-0" style={{ width: 148 }}>
-                    size-screen-w-{pct}
-                  </span>
-                  <span className="font-mono text-caption text-text-primary">{pct}vw</span>
-                </div>
-              );
-            })}
-          </div>
+        {/* Tab Switcher */}
+        <div className="flex gap-space-2 mb-space-8 border-b border-border-light">
+          <button onClick={() => setActiveTab('sizes')} className={`px-space-4 py-space-2 font-body text-label uppercase tracking-label border-b-2 transition-colors ${activeTab === 'sizes' ? 'border-gold-base text-gold-base' : 'border-transparent text-text-muted hover:text-text-primary'}`}>
+            All Sizes
+          </button>
+          <button onClick={() => setActiveTab('borders')} className={`px-space-4 py-space-2 font-body text-label uppercase tracking-label border-b-2 transition-colors ${activeTab === 'borders' ? 'border-gold-base text-gold-base' : 'border-transparent text-text-muted hover:text-text-primary'}`}>
+            Border Widths
+          </button>
+          <button onClick={() => setActiveTab('containers')} className={`px-space-4 py-space-2 font-body text-label uppercase tracking-label border-b-2 transition-colors ${activeTab === 'containers' ? 'border-gold-base text-gold-base' : 'border-transparent text-text-muted hover:text-text-primary'}`}>
+            Containers
+          </button>
         </div>
-        {/* vh */}
-        <div>
-          <h4 className="font-body text-label text-text-muted mb-space-3">Height (vh)</h4>
-          <div className="flex flex-col gap-space-1">
-            {Array.from({ length: 20 }, (_, i) => {
-              const pct = (i + 1) * 5;
-              return (
-                <div key={pct} className="flex items-center gap-space-4">
-                  <span className="font-mono text-caption text-text-muted shrink-0" style={{ width: 148 }}>
-                    size-screen-h-{pct}
-                  </span>
-                  <span className="font-mono text-caption text-text-primary">{pct}vh</span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </div>
 
-      {/* ── Percentage fractions ──────────────────────────────────── */}
-      <SectionTitle>Percentage Fractions</SectionTitle>
-      <p className="font-body text-caption text-text-muted mb-space-6">Relative to parent — useful for flex/grid children and overlays.</p>
-      <div className="flex flex-col gap-space-1">
-        {Array.from({ length: 20 }, (_, i) => {
-          const pct = (i + 1) * 5;
-          const barWidth = (pct / 100) * BAR_MAX;
-          return (
-            <div key={pct} className="flex items-center gap-space-4">
-              <span className="font-mono text-caption text-text-muted shrink-0" style={{ width: 100 }}>
-                size-pct-{pct}
-              </span>
-              <span className="font-mono text-caption text-text-primary shrink-0 text-right" style={{ width: 36 }}>
-                {pct}%
-              </span>
-              <div
-                className="rounded-sm"
-                style={{
-                  width: barWidth,
-                  height: 14,
-                  background: 'var(--color-gold-pale)',
-                  border: '1px solid var(--color-gold-base)',
-                }}
-              />
+        {/* ==================== SIZES TAB ==================== */}
+        {activeTab === 'sizes' && (
+          <>
+            {/* Full scale visual strip */}
+            <div className="mb-space-12 p-space-6 bg-surface-elevated border border-border-light rounded-md">
+              <h2 className="font-display text-h3 mb-space-4">The Full Scale</h2>
+              <p className="font-body text-body-sm text-text-muted mb-space-4">
+                Tokens from <code className="bg-surface-deep px-space-1 rounded">size-0</code> to <code className="bg-surface-deep px-space-1 rounded">size-96</code> in 4px increments.
+              </p>
+              <div className="flex items-end h-space-12 gap-space-0p5 overflow-x-auto pb-space-2">
+                {Array.from({ length: 97 }, (_, i) => {
+                  const token = i === 0 ? 'size-0' : i % 2 === 0 ? `size-${i}` : `size-${i}p5`;
+                  const value = i === 0 ? 0 : i * 4;
+                  const height = Math.max(2, (value / MAX_PIXEL) * 48);
+                  const isDemo = PIXEL_TOKENS.some((d) => d.token === token);
+                  return <div key={i} className={`flex-1 min-w-[2px] ${isDemo ? 'bg-gold-base' : 'bg-border-default'}`} style={{ height: `${height}px` }} title={`${token}: ${value}px`} />;
+                })}
+              </div>
+              <div className="flex justify-between text-caption text-text-muted mt-space-2">
+                <span>size-0</span>
+                <span>size-48</span>
+                <span>size-96</span>
+              </div>
             </div>
-          );
-        })}
-      </div>
 
-      {/* ── Semantic values ───────────────────────────────────────── */}
-      <SectionTitle>Semantic Values</SectionTitle>
-      <div className="flex flex-col gap-space-2">
-        {semanticTokens.map(({ token, value, usage }) => (
-          <div key={token} className="flex items-start gap-space-6 p-space-3 bg-surface-elevated border border-border-light rounded-md">
-            <code className="font-mono text-caption text-text-primary shrink-0" style={{ width: 88 }}>
-              {token}
-            </code>
-            <code className="font-mono text-caption text-gold-base shrink-0" style={{ width: 96 }}>
-              {value}
-            </code>
-            <span className="font-body text-caption text-text-muted">{usage}</span>
+            {/* Pixel Sizes */}
+            <h2 className="font-display text-h2 mb-space-4">Pixel Sizes</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-6 mb-space-12">{PIXEL_TOKENS.map(renderPixelCard)}</div>
+
+            {/* Viewport Sizes */}
+            <h2 className="font-display text-h2 mb-space-4">Viewport Sizes</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-6 mb-space-12">
+              {VW_TOKENS.map(renderViewportCard)}
+              {VH_TOKENS.map(renderViewportCard)}
+            </div>
+
+            {/* Percentages */}
+            <h2 className="font-display text-h2 mb-space-4">Percentages</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-6 mb-space-12">{PCT_TOKENS.map(renderPercentCard)}</div>
+
+            {/* Fractions */}
+            <h2 className="font-display text-h2 mb-space-4">Fractions</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-6 mb-space-12">{FRACTION_TOKENS.map(renderFractionCard)}</div>
+
+            {/* Semantic Values - Clean reference cards */}
+            <h2 className="font-display text-h2 mb-space-4">Semantic Values</h2>
+            <p className="font-body text-body-sm text-text-muted mb-space-4">
+              Special sizing values that adapt to content. Use these with <code className="bg-surface-deep px-space-1 rounded">w-*</code>, <code className="bg-surface-deep px-space-1 rounded">h-*</code>, and <code className="bg-surface-deep px-space-1 rounded">max-w-*</code> utilities.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-6 mb-space-12">{SEMANTIC_TOKENS.map(renderSemanticCard)}</div>
+
+            {/* Icon Sizes */}
+            <h2 className="font-display text-h2 mb-space-4">Icon Sizes</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-6">{ICON_TOKENS.map(renderIconCard)}</div>
+          </>
+        )}
+
+        {/* ==================== BORDERS TAB ==================== */}
+        {activeTab === 'borders' && (
+          <>
+            <div className="mb-space-12 p-space-6 bg-surface-elevated border border-border-light rounded-md">
+              <h2 className="font-display text-h3 mb-space-4">Border Widths</h2>
+              <p className="font-body text-body-sm text-text-muted mb-space-4">
+                Border width tokens from <code className="bg-surface-deep px-space-1 rounded">border-sm</code> (1px) to <code className="bg-surface-deep px-space-1 rounded">border-2xl</code> (8px).
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-6">{BORDER_TOKENS.map(renderBorderCard)}</div>
+
+            {/* Border visual reference */}
+            <div className="mt-space-12 p-space-6 bg-surface-deep border border-border-light rounded-md">
+              <h3 className="font-display text-h3 mb-space-3">Visual Reference</h3>
+              <div className="space-y-space-4">
+                {BORDER_TOKENS.map(({ token, value }) => {
+                  const numValue = parseFloat(value);
+                  return (
+                    <div key={token} className="flex items-center gap-space-4">
+                      <code className="font-mono text-caption text-gold-base w-32 shrink-0">{token}</code>
+                      <span className="font-mono text-caption text-text-muted w-16 shrink-0">{value}</span>
+                      <div
+                        className="flex-1 border-gold-base"
+                        style={{
+                          borderWidth: numValue,
+                          borderStyle: 'solid',
+                          height: '30px',
+                          backgroundColor: 'var(--surface-elevated)',
+                        }}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </>
+        )}
+
+        {/* ==================== CONTAINERS TAB ==================== */}
+        {activeTab === 'containers' && (
+          <>
+            <div className="mb-space-12 p-space-6 bg-surface-elevated border border-border-light rounded-md">
+              <h2 className="font-display text-h3 mb-space-4">Container Max Widths</h2>
+              <p className="font-body text-body-sm text-text-muted mb-space-4">
+                Predefined container widths for consistent page layouts. Use <code className="bg-surface-deep px-space-1 rounded">max-w-*</code> with any of these tokens.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-space-6">{MAX_WIDTH_TOKENS.map(renderMaxWidthCard)}</div>
+          </>
+        )}
+
+        {/* ==================== UTILITY REFERENCE ==================== */}
+        <div className="mt-space-12 p-space-6 bg-surface-deep border border-border-light rounded-md">
+          <h2 className="font-display text-h3 mb-space-3">Tailwind Utility Reference</h2>
+          <p className="font-body text-body-sm text-text-muted mb-space-3">All sizing tokens work with these utility prefixes:</p>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-space-2">
+            {[
+              { prefix: 'w', label: 'Width' },
+              { prefix: 'h', label: 'Height' },
+              { prefix: 'min-w', label: 'Min-Width' },
+              { prefix: 'max-w', label: 'Max-Width' },
+              { prefix: 'min-h', label: 'Min-Height' },
+              { prefix: 'max-h', label: 'Max-Height' },
+            ].map(({ prefix, label }) => (
+              <div key={prefix} className="flex items-center gap-space-2">
+                <code className="font-mono text-caption text-gold-base">
+                  {prefix}-size-{'{n}'}
+                </code>
+                <span className="font-body text-caption text-text-muted">({label})</span>
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
       </div>
     </div>
   );
