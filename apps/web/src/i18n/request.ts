@@ -4,18 +4,9 @@ import { getRequestConfig } from 'next-intl/server';
 
 import { routing } from './routing';
 
-const NAMESPACES = [] as const;
-
 async function loadMessages(locale: LocaleEnumData) {
   const messages: Record<string, unknown> = {};
-  for (const ns of NAMESPACES) {
-    try {
-      const module = await import(`./messages/${locale}/${ns}.json`);
-      messages[ns] = module.default;
-    } catch {
-      messages[ns] = {};
-    }
-  }
+  // Skip loading messages since NAMESPACES is empty
   return messages;
 }
 
