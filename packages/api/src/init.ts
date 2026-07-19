@@ -1,5 +1,5 @@
 // packages/api/src/init.ts
-//
+
 // `t` and `Context` live here, separate from trpc.ts, so that middleware/
 // and procedures/ files can import `t` directly without creating a
 // circular import with trpc.ts (which re-exports from both of them).

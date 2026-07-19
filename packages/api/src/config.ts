@@ -1,11 +1,8 @@
 // packages/api/src/config.ts
-//
+
 // Single place this package reads process.env. Everything downstream
 // (context, middleware, services) consumes `ApiConfig` through
 // `ctx.config` instead of touching `process.env` directly. This replaces
-// the two direct process.env reads that used to live in context.ts
-// (ADMIN_API_SECRET) and modules/content's revalidateScope
-// (WEB_APP_URL_INTERNAL / REVALIDATE_SECRET).
 
 export interface ApiConfig {
   /** Comparison target for the temporary admin-secret auth stub — see

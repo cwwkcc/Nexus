@@ -1,12 +1,12 @@
 // packages/api/src/root.ts
-//
+
 // The contentEntryRouter is the canonical CMS router that writes to ContentEntry,
 // ContentEntryVersion, and SiteSetting — the only models in the current schema.
-//
+
 // The old pageContentRouter and pageConfigRouter are removed: pageContentRouter
 // referenced the now-deleted `pageContent` / `pageContentVersion` Prisma models
 // and will crash on any call. pageConfigRouter referenced `pageConfig`, also gone.
-//
+
 // Migration checklist before deleting this comment:
 //   ✓ root.ts  — imports contentEntryRouter, removes dead routers
 //   ✓ apps/web/src/server/page-content.ts — calls contentEntry.getByScope

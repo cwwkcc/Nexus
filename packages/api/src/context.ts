@@ -17,6 +17,7 @@ import type { Context } from './init.js';
  * empty header value, and the two cases must not be treated the same way
  * (see middleware/auth.ts).
  */
+
 export function createContext(headers?: Headers): Context {
   const isDirectServerCall = headers === undefined;
   const providedAdminSecret = headers?.get('x-admin-secret')?.trim() || null;

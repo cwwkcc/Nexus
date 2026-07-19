@@ -1,9 +1,9 @@
 // packages/api/src/trpc.ts
-//
+
 // This tRPC setup provides the API layer for the backend and admin panel.
 // The current authentication path is still a bootstrap stub, but the structure
 // is now ready to accept a real Auth.js session once Task 6.3 is implemented.
-//
+
 // t/Context live in init.ts; the procedure tiers live in procedures/ and
 // middleware/. This file is just the stable public barrel so nothing outside
 // packages/api/src has to know about that internal split.
