@@ -7,8 +7,8 @@
 // failing loudly, which defeats the point of validating that it's set.
 // It was also undocumented: NEXT_PUBLIC_SITE_URL doesn't appear in either
 // .env.example file today, so a fresh dev had no way to discover it
-// existed. Removed the defaults and added it to the root .env.example
-// instead — see that file's diff.
+// existed. Removed the defaults and added it to apps/web/.env.example
+// instead (NEXT_PUBLIC_UMAMI_WEBSITE_ID lives there too) — see that file's diff.
 //
 // No `server-only` import here — this file is meant to be safe to import
 // from client components. Only NEXT_PUBLIC_-prefixed variables belong in
