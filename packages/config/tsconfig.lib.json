@@ -11,5 +11,15 @@
     "composite": true
   },
   "include": ["src/**/*.ts"],
-  "references": []
+  "references": [
+    {
+      "path": "../tokens"
+    },
+    {
+      "path": "../env"
+    },
+    {
+      "path": "../contracts/tsconfig.lib.json"
+    }
+  ]
 }
