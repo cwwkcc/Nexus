@@ -28,7 +28,8 @@
   },
   "scripts": {
     "dev": "tsc --watch",
-    "build": "tsc"
+    "build": "tsc",
+    "test": "node --experimental-strip-types --disable-warning=ExperimentalWarning --test \"src/__tests__/*.test.ts\""
   },
   "devDependencies": {
     "typescript": "~5.9.2"
