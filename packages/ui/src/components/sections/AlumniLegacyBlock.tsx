@@ -12,12 +12,14 @@ import { ImageFrame } from '../media/ImageFrame';
 interface AlumniProfile {
   id: string;
   name: string;
-  // Updated to accept both string and number based on the JSON
-  graduationYear: number | string;
-  position: string;
-  quote: string;
-  portraitSrc?: string;
-  portraitAlt?: string;
+  graduationYear: string;
+  currentRole?: string;
+  currentOrg?: string;
+  quote?: string;
+  portrait?: {
+    src: string;
+    alt: string;
+  };
 }
 
 interface AlumniLegacyBlockProps {
@@ -69,7 +71,7 @@ export function AlumniLegacyBlock({ alumni, className }: AlumniLegacyBlockProps)
 
       {/* Quote carousel */}
       <VStack className="text-center">
-        {currentAlumnus.portraitSrc && <ImageFrame src={currentAlumnus.portraitSrc} alt={currentAlumnus.portraitAlt || currentAlumnus.name} aspectRatio="3/4" variant="featured" frameColor="gold" frameWidth="border-md" size="full" className="mx-auto mb-space-6 max-w-size-screen-h-45" />}
+        {currentAlumnus.portrait && <ImageFrame src={currentAlumnus.portrait.src} alt={currentAlumnus.portrait.alt || currentAlumnus.name} aspectRatio="portrait" variant="featured" frameColor="gold" frameWidth="border-md" size="full" className="mx-auto mb-space-6 max-w-size-screen-h-45" />}
 
         <blockquote className="font-display text-pullquote italic text-text-primary mb-space-6 mx-auto">&ldquo;{currentAlumnus.quote}&rdquo;</blockquote>
 
@@ -80,7 +82,7 @@ export function AlumniLegacyBlock({ alumni, className }: AlumniLegacyBlockProps)
           <div>
             <p className="font-display text-h3 mb-space-2">{currentAlumnus.name}</p>
             <p className="font-body text-body-sm text-text-muted">
-              {currentAlumnus.position} · Class of {currentAlumnus.graduationYear}
+              {currentAlumnus.currentRole}{currentAlumnus.currentOrg && ` · ${currentAlumnus.currentOrg}`} · Class of {currentAlumnus.graduationYear}
             </p>
           </div>
           <button onClick={next} className="bg-surface-elevated rounded-full p-space-2 shadow-elevation-1 hover:bg-gold-base transition-colors" aria-label="Next alumnus">
