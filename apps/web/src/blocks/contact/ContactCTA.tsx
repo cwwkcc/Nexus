@@ -1,7 +1,7 @@
-import type { ContactCtaData } from '@nexus/contracts';
+import type { CtaData } from '@nexus/contracts';
 import { ButtonLink } from '@nexus/ui';
 
-export default function ContactCTA({ data }: { data: ContactCtaData }) {
+export default function ContactCTA({ data }: { data: CtaData }) {
   return (
     <section className="py-space-24 bg-green-base text-center text-inverse overflow-hidden">
       <div className="container mx-auto px-space-4 max-w-3xl">

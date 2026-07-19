@@ -10,9 +10,9 @@ export default function FacilitiesGrid({ grid }: { grid: FacilitiesGridData }) {
           <h2 className="text-3xl font-bold tracking-tight md:text-4xl">{grid.heading}</h2>
         </div>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {grid.facilities.map((facility) => (
-            <FacilityCard key={facility.id} name={facility.name} description={facility.description} imageSrc={facility.imageSrc} imageAlt={facility.imageAlt} features={facility.features || []} />
-          ))}
+          {/* {grid.facilities.map((facility) => (
+            // <FacilityCard key={facility.id} name={facility.name} description={facility.description} imageSrc={facility.imageSrc} imageAlt={facility.imageAlt} features={facility.features || []} />
+          ))} */}
         </div>
       </div>
     </section>

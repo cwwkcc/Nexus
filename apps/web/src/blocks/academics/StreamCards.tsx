@@ -11,7 +11,7 @@ export default function StreamCards({ data }: { data: AcademicsStreamCardsData }
         </div>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {data.streams.map((stream) => (
-            <AcademicStreamCard key={stream.id} {...stream} href={`/academics/${stream.stream}`} />
+            <AcademicStreamCard {...stream} href={`/academics/${stream.key}`} />
           ))}
         </div>
       </div>

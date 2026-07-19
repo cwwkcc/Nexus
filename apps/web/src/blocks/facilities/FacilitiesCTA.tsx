@@ -1,7 +1,7 @@
-import type { FacilitiesCtaData } from '@nexus/contracts';
+import type { CtaData } from '@nexus/contracts';
 import { ButtonLink } from '@nexus/ui';
 
-export default function FacilitiesCTA({ cta }: { cta: FacilitiesCtaData }) {
+export default function FacilitiesCTA({ cta }: { cta: CtaData }) {
   return (
     <section className="bg-muted py-16 md:py-24">
       <div className="container mx-auto px-4 text-center">

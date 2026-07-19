@@ -6,7 +6,7 @@ export default function OurNameSake({ aboutKannangara }: { aboutKannangara: Abou
     <Container size="full" padding="lg" as="section" className=" m-space-6 md:m-space-12 lg:m-space-16">
       <Grid columns={1} gap={8} alignItems="start" className="md:grid-cols-2 xl:grid-cols-3">
         <GridItem alignSelf="center">
-          <ImageFrame src={aboutKannangara.portraitSrc ?? '/images/ironman.jpg'} alt={aboutKannangara.portraitAlt} aspectRatio="3/4" variant="featured" frameColor="gold" frameWidth="border-2xl" size="full" />
+          <ImageFrame src={aboutKannangara.portraitSrc ?? '/images/ironman.jpg'} alt={aboutKannangara.portraitAlt} aspectRatio="portrait" variant="featured" frameColor="gold" frameWidth="border-2xl" size="full" />
           {aboutKannangara.portraitCaption && (
             <Text variant="caption" color="muted" className="text-center mt-space-2">
               {aboutKannangara.portraitCaption}

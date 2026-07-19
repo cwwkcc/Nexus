@@ -24,7 +24,7 @@ export default function Legacy({ legacy }: { legacy: AboutLegacyData }) {
 
             <Grid columns={2} gap={2}>
               {legacy.heritage.images.map((img) => (
-                <ImageFrame key={img.src + img.year} src={img.src} alt={img.alt} aspectRatio="1/1" className="max-h-size-80 max-w-full" />
+                <ImageFrame key={img.src + img.year} src={img.src} alt={img.alt} aspectRatio="square" className="max-h-size-80 max-w-full" />
               ))}
             </Grid>
             <Text variant="caption" color="muted" className="mt-space-4 text-center">

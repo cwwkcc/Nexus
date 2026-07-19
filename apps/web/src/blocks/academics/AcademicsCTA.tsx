@@ -1,7 +1,7 @@
-import type { AcademicsCtaData } from '@nexus/contracts';
+import type { CtaData } from '@nexus/contracts';
 import { ButtonLink } from '@nexus/ui';
 
-export default function AcademicsCTA({ data }: { data: AcademicsCtaData }) {
+export default function AcademicsCTA({ data }: { data: CtaData }) {
   return (
     <section className="py-24 bg-green-base relative overflow-hidden">
       {/* Background decoration */}

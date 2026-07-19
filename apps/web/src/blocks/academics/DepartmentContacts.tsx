@@ -10,7 +10,7 @@ export default function DepartmentContacts({ data }: { data: AcademicsContactsDa
         </div>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {data.contacts.map((contact) => (
-            <div key={contact.id} className="bg-surface-elevated border border-border-light p-8 flex flex-col items-start gap-4">
+            <div key={contact.headOfDepartment} className="bg-surface-elevated border border-border-light p-8 flex flex-col items-start gap-4">
               <div>
                 <h3 className="text-xl font-display text-gold-base mb-1">{contact.department}</h3>
                 <p className="text-sm font-body uppercase tracking-wider text-text-muted">Head: {contact.headOfDepartment}</p>

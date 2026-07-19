@@ -1,4 +1,4 @@
-import type { AdministrationContactData } from '@nexus/contracts';
+import type {} from '@nexus/contracts';
 import { ButtonLink } from '@nexus/ui';
 
 export default function AdministrationContact({ data }: { data: AdministrationContactData }) {
