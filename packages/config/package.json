@@ -52,7 +52,7 @@
   },
   "scripts": {
     "dev": "tsc --watch",
-    "build": "tsup"
+    "build": "tsc -p tsconfig.lib.json"
   },
   "devDependencies": {
     "tsup": "^8.5.1",
