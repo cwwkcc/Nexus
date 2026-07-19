@@ -3,7 +3,5 @@
 import { StatsStrip } from '@nexus/ui';
 
 export default function Test() {
-  return (
-    <StatsStrip />
-  );
+  return <StatsStrip />;
 }

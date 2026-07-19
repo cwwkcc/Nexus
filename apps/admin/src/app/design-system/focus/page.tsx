@@ -1,17 +1,6 @@
 // apps/admin/src/app/design-system/focus/page.tsx
 'use client';
 
-// CSS custom properties used:
-//   --focus-ring-color : #C9973A
-//   --focus-ring-width : 2px
-//   --focus-ring-offset: 2px
-//
-// NOTE: these three are not currently emitted by packages/tokens/src/generators/css.ts
-// (no primitive defines them, so tokens.css never gets a --focus-ring-* line). Every
-// var() below carries an explicit fallback so the ring actually renders today. If/when
-// a `focusRing` primitive is added to packages/tokens (mirroring zIndex's pattern) and
-// wired into css.ts, these fallbacks become dead code and can be dropped.
-
 const focusStyle = {
   outline: 'var(--focus-ring-width,2px) solid var(--focus-ring-color,#C9973A)',
   outlineOffset: 'var(--focus-ring-offset,2px)',
