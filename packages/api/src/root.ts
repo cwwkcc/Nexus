@@ -13,7 +13,7 @@
 //   ✓ apps/admin/src/app/page-content/page.tsx — calls contentEntry.adminGetByScope
 //   ✓ apps/admin/src/app/page.tsx — dashboard no longer queries dead models
 
-import { contentEntryRouter } from './routers/content-entry.js';
+import { contentEntryRouter } from './modules/content/router.js';
 import { router } from './trpc.js';
 
 export const appRouter = router({

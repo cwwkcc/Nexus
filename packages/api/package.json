@@ -17,6 +17,7 @@
   "dependencies": {
     "@nexus/db": "workspace:*",
     "@nexus/contracts": "workspace:*",
+    "@nexus/config": "workspace:*",
     "zod": "^4.3.6",
     "@trpc/server": "^11.13.4",
     "tslib": "^2.3.0"
