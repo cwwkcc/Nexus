@@ -48,12 +48,12 @@ export async function getByScope(db: typeof Db, { scope, locale }: ScopeLocale):
  * __tests__/router.test.ts ("content entry reads degrade gracefully when
  * the database is unavailable").
  */
-export async function adminGetByScope(db: typeof Db, { scope, locale }: ScopeLocale): Promise<Record<string, { status: string; version: number; data: unknown }>> {
+export async function adminGetByScope(db: typeof Db, { scope, locale }: ScopeLocale): Promise<Record<string, { status: "draft" | "published" | "archived"; version: number; data: unknown }>> {
   try {
     const entries = await db.contentEntry.findMany({ where: { scope, locale } });
 
-    return entries.reduce<Record<string, { status: string; version: number; data: unknown }>>((acc, entry) => {
-      acc[entry.sectionKey] = { status: entry.status, version: entry.version, data: entry.data };
+    return entries.reduce<Record<string, { status: "draft" | "published" | "archived"; version: number; data: unknown }>>((acc, entry) => {
+      acc[entry.sectionKey] = { status: entry.status as "draft" | "published" | "archived", version: entry.version, data: entry.data };
       return acc;
     }, {});
   } catch (err) {
