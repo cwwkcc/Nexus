@@ -3,31 +3,81 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { z, type ZodType } from 'zod';
 
 import { Button } from '../atoms/Button';
-import { FormValidationSummary } from '../forms/FormValidationSummary';
-import { Input } from '../forms/Input';
-import { Select } from '../forms/Select';
-import { Textarea } from '../forms/Textarea';
+import { Checkbox } from './Checkbox';
+import { FormFieldGroup } from './FormFieldGroup';
+import { FormValidationSummary } from './FormValidationSummary';
+import { Input } from './Input';
+import { Select } from './Select';
+import { Textarea } from './Textarea';
 
-const feedbackSchema = z.object({
-  name: z.string().optional(),
-  category: z.enum(['ACADEMIC', 'FACILITIES', 'ADMINISTRATION', 'GENERAL']),
-  message: z.string().min(10, 'Message must be at least 10 characters'),
-  anonymous: z.boolean().optional(),
-});
+const CATEGORY_VALUES = ['ACADEMIC', 'FACILITIES', 'ADMINISTRATION', 'GENERAL'] as const;
+export type FeedbackCategory = (typeof CATEGORY_VALUES)[number];
 
-type FeedbackFormData = z.infer<typeof feedbackSchema>;
+// Default English validation message. Pass a `schema` prop (see
+// `buildFeedbackSchema`) with your own translated message to localize this.
+export function buildFeedbackSchema(messages?: { message?: string }) {
+  return z.object({
+    name: z.string().optional(),
+    category: z.enum(CATEGORY_VALUES),
+    message: z.string().min(10, messages?.message ?? 'Message must be at least 10 characters'),
+    anonymous: z.boolean().optional(),
+  });
+}
 
-const categoryOptions = [
-  { value: 'ACADEMIC', label: 'Academics' },
-  { value: 'FACILITIES', label: 'Facilities' },
-  { value: 'ADMINISTRATION', label: 'Administration' },
-  { value: 'GENERAL', label: 'General' },
-];
+export type FeedbackFormValues = z.infer<ReturnType<typeof buildFeedbackSchema>>;
 
-export function FeedbackForm() {
+export interface FeedbackFormLabels {
+  name?: string;
+  namePlaceholder?: string;
+  nameHelperText?: string;
+  category?: string;
+  categoryOptions?: Record<FeedbackCategory, string>;
+  message?: string;
+  messagePlaceholder?: string;
+  anonymous?: string;
+  submit?: string;
+  successMessage?: string;
+  errorMessage?: string;
+}
+
+export interface FeedbackFormProps {
+  /**
+   * Called with validated form data on submit. This component has no
+   * knowledge of any API route — the consuming app owns where the data goes.
+   * Throw from this callback to show the error state; resolve normally to
+   * show the success state.
+   */
+  onSubmit: (data: FeedbackFormValues) => Promise<void> | void;
+  labels?: FeedbackFormLabels;
+  /** Override to supply a schema with translated validation messages */
+  schema?: ZodType<FeedbackFormValues>;
+  className?: string;
+}
+
+const DEFAULT_LABELS: Required<FeedbackFormLabels> = {
+  name: 'Your Name (optional)',
+  namePlaceholder: 'You can remain anonymous',
+  nameHelperText: "If you choose to remain anonymous, we won't contact you directly.",
+  category: 'Category',
+  categoryOptions: {
+    ACADEMIC: 'Academics',
+    FACILITIES: 'Facilities',
+    ADMINISTRATION: 'Administration',
+    GENERAL: 'General',
+  },
+  message: 'Your Feedback',
+  messagePlaceholder: 'Please share your thoughts, suggestions, or concerns...',
+  anonymous: 'Submit anonymously (do not store my name)',
+  submit: 'Submit Feedback',
+  successMessage: 'Thank you for your feedback!',
+  errorMessage: 'Submission failed. Please try again.',
+};
+
+export function FeedbackForm({ onSubmit, labels, schema, className }: FeedbackFormProps) {
+  const resolvedLabels = { ...DEFAULT_LABELS, ...labels, categoryOptions: { ...DEFAULT_LABELS.categoryOptions, ...labels?.categoryOptions } };
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
@@ -36,26 +86,21 @@ export function FeedbackForm() {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<FeedbackFormData>({
-    resolver: zodResolver(feedbackSchema),
+  } = useForm<FeedbackFormValues>({
+    resolver: zodResolver(schema ?? buildFeedbackSchema()),
     defaultValues: { anonymous: false, category: 'GENERAL' },
   });
 
-  const onSubmit = async (data: FeedbackFormData) => {
+  const categoryOptions = CATEGORY_VALUES.map((value) => ({ value, label: resolvedLabels.categoryOptions[value] }));
+
+  const handleFormSubmit = async (data: FeedbackFormValues) => {
     setIsSubmitting(true);
+    setSubmitStatus('idle');
     try {
-      const response = await fetch('/api/feedback', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      if (response.ok) {
-        setSubmitStatus('success');
-        reset();
-        setTimeout(() => setSubmitStatus('idle'), 3000);
-      } else {
-        setSubmitStatus('error');
-      }
+      await onSubmit(data);
+      setSubmitStatus('success');
+      reset();
+      setTimeout(() => setSubmitStatus('idle'), 3000);
     } catch {
       setSubmitStatus('error');
     } finally {
@@ -64,29 +109,24 @@ export function FeedbackForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      <FormValidationSummary errors={submitStatus === 'error' ? ['Submission failed. Please try again.'] : null} />
+    <form onSubmit={handleSubmit(handleFormSubmit)} className={className ?? 'flex flex-col gap-space-6'}>
+      <FormValidationSummary errors={submitStatus === 'error' ? [resolvedLabels.errorMessage] : null} />
 
-      <div className="space-y-4">
-        <Input label="Your Name (optional)" placeholder="You can remain anonymous" {...register('name')} error={errors.name?.message} helperText="If you choose to remain anonymous, we won't contact you directly." />
+      <FormFieldGroup>
+        <Input label={resolvedLabels.name} placeholder={resolvedLabels.namePlaceholder} {...register('name')} error={errors.name?.message} helperText={resolvedLabels.nameHelperText} />
 
-        <Select label="Category" options={categoryOptions} {...register('category')} error={errors.category?.message} />
+        <Select label={resolvedLabels.category} options={categoryOptions} {...register('category')} error={errors.category?.message} />
 
-        <Textarea label="Your Feedback" placeholder="Please share your thoughts, suggestions, or concerns..." rows={5} {...register('message')} error={errors.message?.message} />
+        <Textarea label={resolvedLabels.message} placeholder={resolvedLabels.messagePlaceholder} rows={5} {...register('message')} error={errors.message?.message} />
 
-        <div className="flex items-center gap-3">
-          <input type="checkbox" id="anonymous" {...register('anonymous')} className="w-4 h-4 rounded border-border-default text-green-base focus:ring-gold-base" />
-          <label htmlFor="anonymous" className="font-body text-body-sm text-text-primary">
-            Submit anonymously (do not store my name)
-          </label>
-        </div>
-      </div>
+        <Checkbox label={resolvedLabels.anonymous} {...register('anonymous')} />
+      </FormFieldGroup>
 
       <Button type="submit" loading={isSubmitting} fullWidth>
-        Submit Feedback
+        {resolvedLabels.submit}
       </Button>
 
-      {submitStatus === 'success' && <p className="text-center text-semantic-success-base font-body text-sm">Thank you for your feedback!</p>}
+      {submitStatus === 'success' && <p className="text-center text-semantic-success-base font-body text-body-sm">{resolvedLabels.successMessage}</p>}
     </form>
   );
 }
