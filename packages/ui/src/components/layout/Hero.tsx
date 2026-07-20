@@ -53,11 +53,11 @@ const ScrollIndicator = () => {
 
 // ─── Breadcrumb Component ─────────────────────────────────────────────────────
 
-const HeroBreadcrumb = ({ items }: { items: HeroProps['breadcrumb'] }) => {
+const HeroBreadcrumb = ({ items, breadcrumbAriaLabel }: { items: HeroProps['breadcrumb']; breadcrumbAriaLabel?: string }) => {
   if (!items?.length) return null;
 
   return (
-    <nav aria-label={breadcrumbAriaLabel} className="mb-space-5">
+    <nav aria-label={breadcrumbAriaLabel || 'Breadcrumb'} className="mb-space-5">
       <ol className="flex flex-wrap items-center gap-space-2 list-none p-0 m-0">
         {items.map((item, idx) => {
           const isLast = idx === items.length - 1;
@@ -183,7 +183,7 @@ export function Hero({ variant = 'homepage', heading, subheading, eyebrow, image
           {/* Breadcrumb */}
           {breadcrumb && breadcrumb.length > 0 && (
             <motion.div variants={itemVariants}>
-              <HeroBreadcrumb items={breadcrumb} />
+              <HeroBreadcrumb items={breadcrumb} breadcrumbAriaLabel={breadcrumbAriaLabel} />
             </motion.div>
           )}
 
