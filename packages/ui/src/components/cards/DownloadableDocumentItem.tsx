@@ -11,6 +11,7 @@ export interface DownloadableDocumentItemProps {
   url: string;
   description?: string;
   className?: string;
+  downloadLabel?: string;
 }
 
 const fileIconMap = {
@@ -44,7 +45,7 @@ const fileIconMap = {
   ),
 };
 
-export function DownloadableDocumentItem({ title, fileType, fileSize, url, description, className }: DownloadableDocumentItemProps) {
+export function DownloadableDocumentItem({ title, fileType, fileSize, url, description, className, downloadLabel = 'Download' }: DownloadableDocumentItemProps) {
   return (
     <div className={cn('flex items-start gap-4 p-4 bg-surface-default border border-border-light rounded-md', className)}>
       <div className="text-gold-base shrink-0">{fileIconMap[fileType]}</div>
@@ -57,7 +58,7 @@ export function DownloadableDocumentItem({ title, fileType, fileSize, url, descr
         </div>
       </div>
       <ButtonLink href={url} variant="secondary" size="sm" download>
-        Download
+        {downloadLabel}
       </ButtonLink>
     </div>
   );

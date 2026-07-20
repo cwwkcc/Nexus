@@ -17,9 +17,11 @@ export interface RequirementsChecklistProps {
   items: ChecklistItem[];
   onComplete?: (completedIds: string[]) => void;
   className?: string;
+  printLabel?: string;
+  requiredLabel?: string;
 }
 
-export function RequirementsChecklist({ title, items, onComplete, className }: RequirementsChecklistProps) {
+export function RequirementsChecklist({ title, items, onComplete, className, printLabel = 'Print Checklist', requiredLabel = '*Required' }: RequirementsChecklistProps) {
   const [completed, setCompleted] = useState<Set<string>>(new Set());
 
   const toggleItem = (id: string) => {
@@ -45,12 +47,12 @@ export function RequirementsChecklist({ title, items, onComplete, className }: R
         {items.map((item) => (
           <div key={item.id} className="flex items-start gap-space-3">
             <Checkbox label={item.label} description={item.description} checked={completed.has(item.id)} onChange={() => toggleItem(item.id)} />
-            {item.required && <span className="font-body text-caption text-semantic-error-base flex-shrink-0">*Required</span>}
+            {item.required && <span className="font-body text-caption text-semantic-error-base flex-shrink-0">{requiredLabel}</span>}
           </div>
         ))}
       </div>
       <button onClick={() => window.print()} className="mt-space-6 w-full py-space-2 text-center font-body text-caption uppercase tracking-caption text-gold-base border border-gold-base rounded-sm hover:bg-gold-base hover:text-green-base transition-colors">
-        Print Checklist
+        {printLabel}
       </button>
     </div>
   );

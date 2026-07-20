@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { Button } from '../atoms/Button';
 import { Icon } from '../icons';
 
-export function BackToTopButton() {
+export function BackToTopButton({ ariaLabel = 'Back to top' }: { ariaLabel?: string } = {}) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export function BackToTopButton() {
   if (!visible) return null;
 
   return (
-    <Button onClick={scrollToTop} size="icon-md" variant="secondary" className="fixed bottom-space-6 right-space-6 z-raised shadow-lg rounded-full w-size-12 h-size-12 p-space-0" aria-label="Back to top">
+    <Button onClick={scrollToTop} size="icon-md" variant="secondary" className="fixed bottom-space-6 right-space-6 z-raised shadow-lg rounded-full w-size-12 h-size-12 p-space-0" aria-label={ariaLabel}>
       <Icon name="chevron-up" />
     </Button>
   );

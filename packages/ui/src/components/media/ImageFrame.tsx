@@ -28,6 +28,7 @@ interface ImageFrameProps {
   size?: ImageFrameSize;
   frameColor?: ImageFrameColor;
   frameWidth?: FrameWidth;
+  unavailableLabel?: string;
 }
 
 // ─── Maps ─────────────────────────────────────────────────────────────────────
@@ -84,7 +85,7 @@ const frameWidthMap: Record<NonNullable<ImageFrameProps['frameWidth']>, string> 
   'border-2xl': 'border-border-2xl',
 };
 
-export function ImageFrame({ src, alt, aspectRatio = 'hero', variant = 'standard', caption, overlay = false, cornerBadge, className, priority = false, size = 'full', frameWidth = 'border-sm', frameColor }: ImageFrameProps) {
+export function ImageFrame({ src, alt, aspectRatio = 'hero', variant = 'standard', caption, overlay = false, cornerBadge, className, priority = false, size = 'full', frameWidth = 'border-sm', frameColor, unavailableLabel = 'Image unavailable' }: ImageFrameProps) {
   const [error, setError] = useState(false);
   const hasFrame = Boolean(frameWidth);
 
@@ -106,7 +107,7 @@ export function ImageFrame({ src, alt, aspectRatio = 'hero', variant = 'standard
               'flex items-center justify-center bg-surface-deep',
             )}
           >
-            <span className="font-body text-caption text-text-muted">Image unavailable</span>
+            <span className="font-body text-caption text-text-muted">{unavailableLabel}</span>
           </div>
         )}
 

@@ -23,9 +23,12 @@ export interface StudentJourneyFlowProps {
   nodes: JourneyNode[];
   edges: JourneyEdge[];
   className?: string;
+  corePathLabel?: string;
+  selectedLabel?: string;
+  optionalPathLabel?: string;
 }
 
-export function StudentJourneyFlow({ nodes, edges, className }: StudentJourneyFlowProps) {
+export function StudentJourneyFlow({ nodes, edges, className, corePathLabel = 'Core Path', selectedLabel = 'Selected', optionalPathLabel = 'Optional Path' }: StudentJourneyFlowProps) {
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
 
@@ -102,15 +105,15 @@ export function StudentJourneyFlow({ nodes, edges, className }: StudentJourneyFl
       <div className="flex justify-center gap-space-6 mt-space-8 text-center">
         <div className="flex items-center gap-space-2">
           <div className="w-3 h-3 rounded-full bg-green-base" />
-          <span className="font-body text-caption text-text-muted">Core Path</span>
+          <span className="font-body text-caption text-text-muted">{corePathLabel}</span>
         </div>
         <div className="flex items-center gap-space-2">
           <div className="w-3 h-3 rounded-full bg-gold-base" />
-          <span className="font-body text-caption text-text-muted">Selected</span>
+          <span className="font-body text-caption text-text-muted">{selectedLabel}</span>
         </div>
         <div className="flex items-center gap-space-2">
           <div className="w-6 h-0.5 bg-border-light" />
-          <span className="font-body text-caption text-text-muted">Optional Path</span>
+          <span className="font-body text-caption text-text-muted">{optionalPathLabel}</span>
         </div>
       </div>
     </div>

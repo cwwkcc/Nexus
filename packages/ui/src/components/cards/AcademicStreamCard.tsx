@@ -11,9 +11,13 @@ import { Text } from '../typography/Text';
 interface AcademicStreamCardProps extends Omit<StreamData, 'stream'> {
   href: string;
   className?: string;
+  streamEyebrowLabel?: string;
+  /** "N subjects" suffix builder */
+  getSubjectCountLabel?: (count: number) => string;
+  exploreLabel?: string;
 }
 
-export function AcademicStreamCard({ name, description, careerPaths, href, subjectCount, className }: AcademicStreamCardProps) {
+export function AcademicStreamCard({ name, description, careerPaths, href, subjectCount, className, streamEyebrowLabel = 'A/L Stream', getSubjectCountLabel = (count) => ` · ${count} subjects`, exploreLabel = 'Explore stream' }: AcademicStreamCardProps) {
   return (
     <NavLink href={href} className="group block no-underline h-full">
       <div
@@ -34,7 +38,8 @@ export function AcademicStreamCard({ name, description, careerPaths, href, subje
 
         {/* "A/L Stream · N subjects" eyebrow */}
         <EyebrowLabel as="p" className="mb-space-1p5">
-          A/L Stream{subjectCount ? ` · ${subjectCount} subjects` : ''}
+          {streamEyebrowLabel}
+          {subjectCount ? getSubjectCountLabel(subjectCount) : ''}
         </EyebrowLabel>
 
         {/* Stream name */}
@@ -44,7 +49,7 @@ export function AcademicStreamCard({ name, description, careerPaths, href, subje
 
         {/* Description */}
         <Text variant="body-sm" color="muted" className="mb-space-4 leading-[1.65]">
-          b{description}
+          {description}
         </Text>
 
         {/* Career path tags */}
@@ -55,7 +60,7 @@ export function AcademicStreamCard({ name, description, careerPaths, href, subje
         </div>
 
         <Text as="span" variant="label" color="gold">
-          Explore stream <span>{<Icon name="arrow-right" />}</span>
+          {exploreLabel} <span>{<Icon name="arrow-right" />}</span>
         </Text>
       </div>
     </NavLink>

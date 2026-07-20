@@ -40,14 +40,31 @@ const sizeMap: Record<CountdownTimerSize, string> = {
   large: 'text-h1',
 };
 
+interface CountdownTimerLabels {
+  days?: string;
+  hours?: string;
+  minutes?: string;
+  seconds?: string;
+}
+
 interface CountdownTimerProps {
   targetDate: Date | string;
   size?: CountdownTimerSize;
   onComplete?: () => void;
   className?: string;
+  labels?: CountdownTimerLabels;
+  ariaLabel?: string;
 }
 
-export function CountdownTimer({ targetDate, size = 'medium', onComplete, className }: CountdownTimerProps) {
+const DEFAULT_LABELS: Required<CountdownTimerLabels> = {
+  days: 'Days',
+  hours: 'Hours',
+  minutes: 'Minutes',
+  seconds: 'Seconds',
+};
+
+export function CountdownTimer({ targetDate, size = 'medium', onComplete, className, labels, ariaLabel = 'Countdown timer' }: CountdownTimerProps) {
+  const resolvedLabels = { ...DEFAULT_LABELS, ...labels };
   const target = typeof targetDate === 'string' ? new Date(targetDate) : targetDate;
 
   const [timeLeft, setTimeLeft] = useState<TimeLeftProps>(() => calculateTimeLeft(target));
@@ -81,14 +98,14 @@ export function CountdownTimer({ targetDate, size = 'medium', onComplete, classN
   }, [target, onComplete, isComplete]);
 
   const units = [
-    { label: 'Days', value: timeLeft.days },
-    { label: 'Hours', value: timeLeft.hours },
-    { label: 'Minutes', value: timeLeft.minutes },
-    { label: 'Seconds', value: timeLeft.seconds },
+    { label: resolvedLabels.days, value: timeLeft.days },
+    { label: resolvedLabels.hours, value: timeLeft.hours },
+    { label: resolvedLabels.minutes, value: timeLeft.minutes },
+    { label: resolvedLabels.seconds, value: timeLeft.seconds },
   ];
 
   return (
-    <Container size="full" padding="none" className={cn('flex flex-wrap justify-center gap-space-4', className)} aria-live="polite" aria-label="Countdown timer">
+    <Container size="full" padding="none" className={cn('flex flex-wrap justify-center gap-space-4', className)} aria-live="polite" aria-label={ariaLabel}>
       {units.map((unit) => (
         <div key={unit.label} className="text-center">
           <div className="flex h-size-24 w-size-24 items-center justify-center rounded-lg border border-border-light bg-surface-elevated">

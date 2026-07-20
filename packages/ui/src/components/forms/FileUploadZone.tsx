@@ -12,6 +12,11 @@ export interface FileUploadZoneProps {
   hint?: string;
   error?: string;
   disabled?: boolean;
+  /** Leading drag-drop phrase. Defaults to a multiple-aware English string. */
+  dragDropText?: string;
+  browseLabel?: string;
+  /** Max-size caption builder, receives the MB value */
+  getMaxSizeLabel?: (mb: number) => string;
 }
 
 function formatBytes(bytes: number): string {
@@ -20,7 +25,7 @@ function formatBytes(bytes: number): string {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
-export function FileUploadZone({ accept, multiple = false, maxSizeMb, onChange, label = 'Upload file', hint, error: externalError, disabled = false }: FileUploadZoneProps) {
+export function FileUploadZone({ accept, multiple = false, maxSizeMb, onChange, label = 'Upload file', hint, error: externalError, disabled = false, dragDropText, browseLabel = 'browse', getMaxSizeLabel = (mb) => `Max ${mb} MB` }: FileUploadZoneProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
   const [internalError, setInternalError] = useState<string | null>(null);
@@ -88,10 +93,11 @@ export function FileUploadZone({ accept, multiple = false, maxSizeMb, onChange, 
           ↑
         </span>
         <span className="font-body text-body-sm text-text-primary text-center">
-          Drag &amp; drop{multiple ? ' files' : ' a file'} here, or <span className="text-gold-base underline">browse</span>
+          {dragDropText ?? `Drag & drop${multiple ? ' files' : ' a file'} here, or `}
+          <span className="text-gold-base underline">{browseLabel}</span>
         </span>
         {hint && <span className="font-body text-caption text-text-muted text-center">{hint}</span>}
-        {maxSizeMb && <span className="font-body text-caption text-text-muted">Max {maxSizeMb} MB</span>}
+        {maxSizeMb && <span className="font-body text-caption text-text-muted">{getMaxSizeLabel(maxSizeMb)}</span>}
       </div>
 
       <input ref={inputRef} type="file" accept={accept} multiple={multiple} disabled={disabled} className="hidden" onChange={(e) => processFiles(e.target.files)} />

@@ -7,17 +7,20 @@ import { cn } from '../../utilities/cn';
 export interface TimetableGridProps {
   entries: TimetableEntryData[];
   className?: string;
+  periodTimeLabel?: string;
+  /** Day names shown as column headers, Monday–Saturday. Defaults to English. */
+  days?: string[];
 }
 
-export function TimetableGrid({ entries, className }: TimetableGridProps) {
-  const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const DEFAULT_DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
+export function TimetableGrid({ entries, className, periodTimeLabel = 'Period / Time', days = DEFAULT_DAYS }: TimetableGridProps) {
   return (
     <div className={cn('overflow-x-auto', className)}>
       <table className="min-w-full border-collapse">
         <thead>
           <tr className="bg-surface-deep border-b border-border-default">
-            <th className="p-space-3 text-left font-body text-label uppercase tracking-wider text-text-muted">Period / Time</th>
+            <th className="p-space-3 text-left font-body text-label uppercase tracking-wider text-text-muted">{periodTimeLabel}</th>
             {days.map((day) => (
               <th key={day} className="p-space-3 text-left font-body text-label uppercase tracking-wider text-text-muted">
                 {day}

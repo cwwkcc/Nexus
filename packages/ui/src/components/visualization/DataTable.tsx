@@ -22,9 +22,17 @@ export interface DataTableProps<T> {
   onRowClick?: (row: T) => void;
   emptyMessage?: string;
   isLoading?: boolean;
+  /**
+   * Derives a stable React key per row. Defaults to the row index, which is
+   * fine for static/non-reorderable data but risks losing input focus,
+   * animation, or selection state across re-renders for data that can be
+   * sorted, filtered, or reordered. Pass e.g. `(row) => row.id` whenever the
+   * row type has a stable identifier.
+   */
+  getRowKey?: (row: T, index: number) => string | number;
 }
 
-export function DataTable<T extends Record<string, unknown>>({ columns, data, onSort, onRowClick, emptyMessage = 'No data found', isLoading = false }: DataTableProps<T>) {
+export function DataTable<T extends Record<string, unknown>>({ columns, data, onSort, onRowClick, emptyMessage = 'No data found', isLoading = false, getRowKey = (_row, index) => index }: DataTableProps<T>) {
   const [sortKey, setSortKey] = useState<keyof T | null>(null);
   const [sortDirection, setSortDirection] = useState<SortDirection>(null);
 
@@ -75,7 +83,7 @@ export function DataTable<T extends Record<string, unknown>>({ columns, data, on
             </tr>
           ) : (
             data.map((row, idx) => (
-              <tr key={idx} onClick={() => onRowClick?.(row)} className={cn('border-b border-border-light transition-colors', onRowClick && 'cursor-pointer hover:bg-surface-deep/50')}>
+              <tr key={getRowKey(row, idx)} onClick={() => onRowClick?.(row)} className={cn('border-b border-border-light transition-colors', onRowClick && 'cursor-pointer hover:bg-surface-deep/50')}>
                 {columns.map((col) => (
                   <td key={String(col.key)} className={cn('px-space-4 py-space-3 font-body text-body-sm text-text-primary', col.className)}>
                     {col.render ? col.render(row[col.key], row) : String(row[col.key])}

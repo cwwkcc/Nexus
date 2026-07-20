@@ -32,9 +32,10 @@ export interface AnnouncementBannerProps {
   children: React.ReactNode;
   dismissible?: boolean;
   className?: string;
+  dismissLabel?: string;
 }
 
-export function AnnouncementBanner({ variant = 'info', children, dismissible = false, className }: AnnouncementBannerProps) {
+export function AnnouncementBanner({ variant = 'info', children, dismissible = false, className, dismissLabel = 'Dismiss announcement' }: AnnouncementBannerProps) {
   const [dismissed, setDismissed] = useState(false);
 
   if (dismissed) return null;
@@ -51,7 +52,7 @@ export function AnnouncementBanner({ variant = 'info', children, dismissible = f
       </div>
 
       {dismissible && (
-        <button onClick={() => setDismissed(true)} aria-label="Dismiss announcement" className={cn('flex-shrink-0 p-space-1', 'bg-transparent border-none cursor-pointer', styles.text, 'opacity-60 hover:opacity-100', 'transition-opacity duration-fast', 'focus-visible:outline-2 focus-visible:outline-gold-base focus-visible:outline-offset-2')}>
+        <button onClick={() => setDismissed(true)} aria-label={dismissLabel} className={cn('flex-shrink-0 p-space-1', 'bg-transparent border-none cursor-pointer', styles.text, 'opacity-60 hover:opacity-100', 'transition-opacity duration-fast', 'focus-visible:outline-2 focus-visible:outline-gold-base focus-visible:outline-offset-2')}>
           ✕
         </button>
       )}

@@ -22,6 +22,9 @@ interface TimelineEvent {
 interface TimelineProps {
   events: TimelineEvent[];
   className?: string;
+  prevLabel?: string;
+  nextLabel?: string;
+  eventsLabel?: string;
 }
 
 const eraImageClasses: Record<'early' | 'mid' | 'modern', string> = {
@@ -32,7 +35,7 @@ const eraImageClasses: Record<'early' | 'mid' | 'modern', string> = {
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export function Timeline({ events, className }: TimelineProps) {
+export function Timeline({ events, className, prevLabel = 'Previous event', nextLabel = 'Next event', eventsLabel = 'Timeline events' }: TimelineProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -134,16 +137,16 @@ export function Timeline({ events, className }: TimelineProps) {
       <div className="flex items-center justify-between mt-space-4 px-space-6">
         {/* Prev / Next buttons */}
         <div className="flex gap-space-2">
-          <button onClick={() => scrollTo(activeIndex - 1)} disabled={!canPrev} aria-label="Previous event" className={cn('w-size-10 h-size-10 rounded-full border-solid flex items-center justify-center', 'border-border-md border-border-default', 'font-body text-body-sm text-text-primary', 'transition-all duration-fast', canPrev ? 'hover:border-gold-base hover:text-gold-base cursor-pointer' : 'opacity-30 cursor-not-allowed')}>
+          <button onClick={() => scrollTo(activeIndex - 1)} disabled={!canPrev} aria-label={prevLabel} className={cn('w-size-10 h-size-10 rounded-full border-solid flex items-center justify-center', 'border-border-md border-border-default', 'font-body text-body-sm text-text-primary', 'transition-all duration-fast', canPrev ? 'hover:border-gold-base hover:text-gold-base cursor-pointer' : 'opacity-30 cursor-not-allowed')}>
             ←
           </button>
-          <button onClick={() => scrollTo(activeIndex + 1)} disabled={!canNext} aria-label="Next event" className={cn('w-size-10 h-size-10 rounded-full border-solid flex items-center justify-center', 'border-border-md border-border-default', 'font-body text-body-sm text-text-primary', 'transition-all duration-fast', canNext ? 'hover:border-gold-base hover:text-gold-base cursor-pointer' : 'opacity-30 cursor-not-allowed')}>
+          <button onClick={() => scrollTo(activeIndex + 1)} disabled={!canNext} aria-label={nextLabel} className={cn('w-size-10 h-size-10 rounded-full border-solid flex items-center justify-center', 'border-border-md border-border-default', 'font-body text-body-sm text-text-primary', 'transition-all duration-fast', canNext ? 'hover:border-gold-base hover:text-gold-base cursor-pointer' : 'opacity-30 cursor-not-allowed')}>
             →
           </button>
         </div>
 
         {/* Dot indicators */}
-        <div className="flex gap-space-2 items-center" role="tablist" aria-label="Timeline events">
+        <div className="flex gap-space-2 items-center" role="tablist" aria-label={eventsLabel}>
           {events.map((event, idx) => (
             <button key={event.id} role="tab" aria-selected={idx === activeIndex} aria-label={`Go to ${event.year}: ${event.title}`} onClick={() => scrollTo(idx)} className={cn('rounded-full transition-all duration-fast cursor-pointer', idx === activeIndex ? 'w-size-4 h-size-2 bg-gold-base' : 'w-size-2 h-size-2 bg-border-default hover:bg-gold-base/50')} />
           ))}

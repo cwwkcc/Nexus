@@ -15,9 +15,13 @@ interface AudioPlayerProps {
   lyrics?: string;
   lyricsSinhala?: string;
   className?: string;
+  downloadLabel?: string;
+  rewindLabel?: string;
+  forwardLabel?: string;
+  seekLabel?: string;
 }
 
-export function AudioPlayer({ src, title, subtitle, lyrics, lyricsSinhala, className }: AudioPlayerProps) {
+export function AudioPlayer({ src, title, subtitle, lyrics, lyricsSinhala, className, downloadLabel = 'Download Track', rewindLabel = 'Rewind 10 Seconds', forwardLabel = 'Forward 10 Seconds', seekLabel = 'Seek progress bar' }: AudioPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -199,7 +203,7 @@ export function AudioPlayer({ src, title, subtitle, lyrics, lyricsSinhala, class
           </div>
 
           <div className="flex items-center gap-space-2">
-            <a href={src} download={title} className="p-space-3 text-text-muted hover:text-gold-base transition-colors rounded-full hover:bg-surface-deep" aria-label="Download Track">
+            <a href={src} download={title} className="p-space-3 text-text-muted hover:text-gold-base transition-colors rounded-full hover:bg-surface-deep" aria-label={downloadLabel}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                 <polyline points="7 10 12 15 17 10" />
@@ -207,7 +211,7 @@ export function AudioPlayer({ src, title, subtitle, lyrics, lyricsSinhala, class
               </svg>
             </a>
 
-            <button onClick={handleRewind} className="p-space-3 text-text-muted hover:text-gold-base transition-colors rounded-full hover:bg-surface-deep" aria-label="Rewind 10 Seconds">
+            <button onClick={handleRewind} className="p-space-3 text-text-muted hover:text-gold-base transition-colors rounded-full hover:bg-surface-deep" aria-label={rewindLabel}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <polygon points="11 19 2 12 11 5 11 19" />
                 <polygon points="22 19 13 12 22 5 22 19" />
@@ -227,7 +231,7 @@ export function AudioPlayer({ src, title, subtitle, lyrics, lyricsSinhala, class
               )}
             </Button>
 
-            <button onClick={handleForward} className="p-space-3 text-text-muted hover:text-gold-base transition-colors rounded-full hover:bg-surface-deep" aria-label="Forward 10 Seconds">
+            <button onClick={handleForward} className="p-space-3 text-text-muted hover:text-gold-base transition-colors rounded-full hover:bg-surface-deep" aria-label={forwardLabel}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <polygon points="13 19 22 12 13 5 13 19" />
                 <polygon points="2 19 11 12 2 5 2 19" />
@@ -243,7 +247,7 @@ export function AudioPlayer({ src, title, subtitle, lyrics, lyricsSinhala, class
               <div className="h-full bg-gold-base transition-all duration-instant ease-out" style={{ width: `${progressPercentage}%` }} />
             </div>
 
-            <input type="range" min={0} max={duration || 0} step="0.1" value={currentTime} onChange={handleSeek} className="absolute w-full h-full opacity-0 cursor-pointer z-10" aria-label="Seek progress bar" />
+            <input type="range" min={0} max={duration || 0} step="0.1" value={currentTime} onChange={handleSeek} className="absolute w-full h-full opacity-0 cursor-pointer z-10" aria-label={seekLabel} />
 
             <motion.div className="absolute h-size-3 w-size-3 bg-gold-base rounded-full shadow-elevation-1 z-0 pointer-events-none group-hover:scale-150 transition-transform" style={{ left: `calc(${progressPercentage}% - 6px)` }} />
           </div>

@@ -19,8 +19,7 @@ export interface AccordionProps {
 }
 
 function AccordionSingle({ item, isOpen, onToggle }: { item: AccordionItem; isOpen: boolean; onToggle: () => void }) {
-  // FIX: removed `const id = useId()` — it was declared but never used.
-  // IDs are correctly derived from item.id directly.
+  // IDs are derived from item.id directly (no useId() needed here).
   const buttonId = `accordion-button-${item.id}`;
   const panelId = `accordion-panel-${item.id}`;
 
@@ -34,10 +33,9 @@ function AccordionSingle({ item, isOpen, onToggle }: { item: AccordionItem; isOp
       </button>
 
       {/*
-        FIX: replaced `maxHeight: isOpen ? '1000px' : '0'` with CSS grid trick.
-        The old approach caused uneven animation speed — fast for short content,
-        sluggish for long. grid-template-rows: '1fr' / '0fr' animates to the
-        actual content height with consistent speed regardless of length.
+        Uses a CSS grid-template-rows trick (1fr / 0fr) rather than an explicit
+        maxHeight, so the collapse/expand animation speed stays consistent
+        regardless of content length.
       */}
       <div id={panelId} role="region" aria-labelledby={buttonId} className="grid transition-[grid-template-rows] duration-standard ease-out motion-reduce:transition-none" style={{ gridTemplateRows: isOpen ? '1fr' : '0fr' }}>
         <div className="overflow-hidden">

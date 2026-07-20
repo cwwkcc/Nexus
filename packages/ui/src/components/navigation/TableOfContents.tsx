@@ -5,16 +5,18 @@ export interface TableOfContentsProps {
   /** ID of the currently visible section (passed in from parent's scroll observer) */
   activeId?: string;
   className?: string;
+  ariaLabel?: string;
+  headingLabel?: string;
 }
 
-export function TableOfContents({ sections, activeId, className }: TableOfContentsProps) {
+export function TableOfContents({ sections, activeId, className, ariaLabel = 'Table of contents', headingLabel = 'On this page' }: TableOfContentsProps) {
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   return (
-    <nav aria-label="Table of contents" className={className} style={{ position: 'sticky', top: '100px' }}>
+    <nav aria-label={ariaLabel} className={className} style={{ position: 'sticky', top: '100px' }}>
       <p
         style={{
           fontFamily: 'var(--font-body)',
@@ -25,7 +27,7 @@ export function TableOfContents({ sections, activeId, className }: TableOfConten
           marginBottom: '14px',
         }}
       >
-        On this page
+        {headingLabel}
       </p>
       <ol style={{ listStyle: 'none', padding: 0, margin: 0 }}>
         {sections.map((section) => {

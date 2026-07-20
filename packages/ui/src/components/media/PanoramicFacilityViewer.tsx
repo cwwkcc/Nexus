@@ -9,9 +9,12 @@ export interface PanoramicFacilityViewerProps {
   images: { src: string; alt: string; label?: string }[];
   defaultIndex?: number;
   className?: string;
+  dragHintLabel?: string;
+  prevLabel?: string;
+  nextLabel?: string;
 }
 
-export function PanoramicFacilityViewer({ images, defaultIndex = 0, className }: PanoramicFacilityViewerProps) {
+export function PanoramicFacilityViewer({ images, defaultIndex = 0, className, dragHintLabel = 'Drag to explore', prevLabel = 'Previous', nextLabel = 'Next' }: PanoramicFacilityViewerProps) {
   const [currentIndex, setCurrentIndex] = useState(defaultIndex);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
@@ -71,7 +74,7 @@ export function PanoramicFacilityViewer({ images, defaultIndex = 0, className }:
         <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-overlay-medium to-transparent pointer-events-none" />
         <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-overlay-medium to-transparent pointer-events-none" />
         {currentImage.label && <div className="absolute bottom-space-4 left-space-4 bg-surface-inverse/80 text-text-inverse px-space-3 py-space-1 rounded-full font-body text-body-sm">{currentImage.label}</div>}
-        {!isDragging && <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-surface-inverse/60 text-text-inverse px-space-3 py-space-1 rounded-full font-body text-caption opacity-0 hover:opacity-100 transition-opacity pointer-events-none">Drag to explore</div>}
+        {!isDragging && <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-surface-inverse/60 text-text-inverse px-space-3 py-space-1 rounded-full font-body text-caption opacity-0 hover:opacity-100 transition-opacity pointer-events-none">{dragHintLabel}</div>}
       </div>
 
       {totalImages > 1 && (
@@ -86,10 +89,10 @@ export function PanoramicFacilityViewer({ images, defaultIndex = 0, className }:
 
       {totalImages > 1 && (
         <>
-          <button onClick={prev} className="absolute left-space-4 top-1/2 -translate-y-1/2 bg-surface-elevated/80 rounded-full p-space-2 hover:bg-gold-base transition-colors" aria-label="Previous">
+          <button onClick={prev} className="absolute left-space-4 top-1/2 -translate-y-1/2 bg-surface-elevated/80 rounded-full p-space-2 hover:bg-gold-base transition-colors" aria-label={prevLabel}>
             ←
           </button>
-          <button onClick={next} className="absolute right-space-4 top-1/2 -translate-y-1/2 bg-surface-elevated/80 rounded-full p-space-2 hover:bg-gold-base transition-colors" aria-label="Next">
+          <button onClick={next} className="absolute right-space-4 top-1/2 -translate-y-1/2 bg-surface-elevated/80 rounded-full p-space-2 hover:bg-gold-base transition-colors" aria-label={nextLabel}>
             →
           </button>
           <div className="absolute bottom-space-4 right-space-4 bg-surface-inverse/80 text-text-inverse px-space-2 py-space-1 rounded-full font-body text-caption">

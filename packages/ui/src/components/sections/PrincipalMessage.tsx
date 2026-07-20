@@ -13,10 +13,11 @@ export interface PrincipalMessageProps {
   message: string;
   quote?: string;
   fullMessageHref: string;
+  fullMessageLabel?: string;
   className?: string;
 }
 
-export function PrincipalMessage({ name, title, tenure, portraitSrc, portraitAlt, message, quote, fullMessageHref, className }: PrincipalMessageProps) {
+export function PrincipalMessage({ name, title, tenure, portraitSrc, portraitAlt, message, quote, fullMessageHref, fullMessageLabel = 'Read Full Message →', className }: PrincipalMessageProps) {
   return (
     <div className={clsx('grid md:grid-cols-2 gap-12 items-center', className)}>
       {/* Portrait */}
@@ -38,7 +39,7 @@ export function PrincipalMessage({ name, title, tenure, portraitSrc, portraitAlt
         <p className="font-body text-body text-text-muted leading-relaxed mb-8">{message}</p>
 
         <ButtonLink href={fullMessageHref} variant="ghost">
-          Read Full Message →
+          {fullMessageLabel}
         </ButtonLink>
       </div>
     </div>

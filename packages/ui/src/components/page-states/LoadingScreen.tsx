@@ -10,9 +10,10 @@ export interface LoadingScreenProps {
   visible?: boolean;
   /** Called after the exit animation completes */
   onExited?: () => void;
+  ariaLabel?: string;
 }
 
-export function LoadingScreen({ visible = true, onExited }: LoadingScreenProps) {
+export function LoadingScreen({ visible = true, onExited, ariaLabel = 'Loading' }: LoadingScreenProps) {
   const [exitComplete, setExitComplete] = useState(false);
   const shouldReduceMotion = useReducedMotion();
 
@@ -28,7 +29,7 @@ export function LoadingScreen({ visible = true, onExited }: LoadingScreenProps) 
       {visible && (
         <motion.div
           role="status"
-          aria-label="Loading"
+          aria-label={ariaLabel}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}

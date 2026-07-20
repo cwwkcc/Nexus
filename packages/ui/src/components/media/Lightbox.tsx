@@ -4,6 +4,8 @@ import type { LightboxImageData } from '@nexus/contracts';
 import { useEffect, useState, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 
+import { useLockBodyScroll } from '../../hooks/useLockBodyScroll';
+
 export type LightboxImage = LightboxImageData;
 
 export interface LightboxProps {
@@ -11,11 +13,16 @@ export interface LightboxProps {
   initialIndex?: number;
   isOpen: boolean;
   onClose: () => void;
+  closeLabel?: string;
+  prevLabel?: string;
+  nextLabel?: string;
 }
 
-export function Lightbox({ images, initialIndex = 0, isOpen, onClose }: LightboxProps) {
+export function Lightbox({ images, initialIndex = 0, isOpen, onClose, closeLabel = 'Close lightbox', prevLabel = 'Previous image', nextLabel = 'Next image' }: LightboxProps) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [mounted, setMounted] = useState(false);
+
+  useLockBodyScroll(isOpen);
 
   useEffect(() => {
     setMounted(true);
@@ -23,12 +30,7 @@ export function Lightbox({ images, initialIndex = 0, isOpen, onClose }: Lightbox
   }, []);
 
   useEffect(() => {
-    if (isOpen) {
-      setCurrentIndex(initialIndex);
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
+    if (isOpen) setCurrentIndex(initialIndex);
   }, [isOpen, initialIndex]);
 
   useEffect(() => {
@@ -56,7 +58,7 @@ export function Lightbox({ images, initialIndex = 0, isOpen, onClose }: Lightbox
 
   return createPortal(
     <div className="fixed inset-0 z-modal bg-overlay-heavy flex items-center justify-center">
-      <button onClick={onClose} className="absolute top-space-4 right-space-4 text-text-inverse hover:text-gold-base transition-colors z-10 p-space-2" aria-label="Close lightbox">
+      <button onClick={onClose} className="absolute top-space-4 right-space-4 text-text-inverse hover:text-gold-base transition-colors z-10 p-space-2" aria-label={closeLabel}>
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <path d="M18 6L6 18M6 6l12 12" />
         </svg>
@@ -64,12 +66,12 @@ export function Lightbox({ images, initialIndex = 0, isOpen, onClose }: Lightbox
 
       {images.length > 1 && (
         <>
-          <button onClick={goPrev} className="absolute left-space-4 top-1/2 -translate-y-1/2 text-text-inverse hover:text-gold-base transition-colors p-space-2" aria-label="Previous image">
+          <button onClick={goPrev} className="absolute left-space-4 top-1/2 -translate-y-1/2 text-text-inverse hover:text-gold-base transition-colors p-space-2" aria-label={prevLabel}>
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M15 18l-6-6 6-6" />
             </svg>
           </button>
-          <button onClick={goNext} className="absolute right-space-4 top-1/2 -translate-y-1/2 text-text-inverse hover:text-gold-base transition-colors p-space-2" aria-label="Next image">
+          <button onClick={goNext} className="absolute right-space-4 top-1/2 -translate-y-1/2 text-text-inverse hover:text-gold-base transition-colors p-space-2" aria-label={nextLabel}>
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M9 18l6-6-6-6" />
             </svg>

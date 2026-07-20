@@ -1,6 +1,6 @@
 'use client';
 import type { SearchResultData } from '@nexus/contracts';
-import { useState, useEffect, useRef, useId } from 'react';
+import { useEffect, useId, useReducer, useRef } from 'react';
 
 export interface SearchInputProps {
   /** Clarifies scope, e.g. "Search news and announcements" */
@@ -8,35 +8,87 @@ export interface SearchInputProps {
   placeholder?: string;
   onSearch: (query: string) => Promise<SearchResultData[]> | SearchResultData[];
   onResultClick?: (result: SearchResultData) => void;
+  clearLabel?: string;
   className?: string;
 }
 
-export function SearchInput({ scopeLabel, placeholder, onSearch, onResultClick, className }: SearchInputProps) {
+// ─── State machine ───────────────────────────────────────────────────────────
+// query/results/open/loading/activeIdx are interdependent (closing when the
+// query empties, resetting activeIdx whenever results change, etc.) — a
+// reducer makes those transitions explicit instead of relying on several
+// components of state staying in sync via scattered effects and handlers.
+
+interface SearchState {
+  query: string;
+  results: SearchResultData[];
+  open: boolean;
+  loading: boolean;
+  activeIdx: number;
+}
+
+type SearchAction = { type: 'QUERY_CHANGED'; query: string } | { type: 'SEARCH_START' } | { type: 'SEARCH_SUCCESS'; results: SearchResultData[] } | { type: 'OPEN_IF_RESULTS' } | { type: 'CLOSE' } | { type: 'CLEAR' } | { type: 'MOVE_ACTIVE'; delta: number } | { type: 'SELECT_ACTIVE'; idx: number };
+
+const initialState: SearchState = { query: '', results: [], open: false, loading: false, activeIdx: -1 };
+
+function searchReducer(state: SearchState, action: SearchAction): SearchState {
+  switch (action.type) {
+    case 'QUERY_CHANGED':
+      if (!action.query.trim()) {
+        return { ...state, query: action.query, results: [], open: false, loading: false, activeIdx: -1 };
+      }
+      return { ...state, query: action.query };
+    case 'SEARCH_START':
+      return { ...state, loading: true };
+    case 'SEARCH_SUCCESS':
+      return { ...state, results: action.results, open: action.results.length > 0, loading: false, activeIdx: -1 };
+    case 'OPEN_IF_RESULTS':
+      return state.results.length > 0 ? { ...state, open: true } : state;
+    case 'CLOSE':
+      return { ...state, open: false };
+    case 'CLEAR':
+      return initialState;
+    case 'MOVE_ACTIVE': {
+      const next = Math.max(-1, Math.min(state.activeIdx + action.delta, state.results.length - 1));
+      return { ...state, activeIdx: next };
+    }
+    case 'SELECT_ACTIVE':
+      return { ...state, activeIdx: action.idx };
+    default:
+      return state;
+  }
+}
+
+export function SearchInput({ scopeLabel, placeholder, onSearch, onResultClick, clearLabel = 'Clear search', className }: SearchInputProps) {
   const id = useId();
   const listId = `${id}-results`;
 
-  const [query, setQuery] = useState('');
-  const [results, setResults] = useState<SearchResultData[]>([]);
-  const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [activeIdx, setActiveIdx] = useState(-1);
+  const [state, dispatch] = useReducer(searchReducer, initialState);
+  const { query, results, open, loading, activeIdx } = state;
+
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  // Bumped on every keystroke; a response is only applied if it's still the
+  // most recent request when it resolves. Without this, a fast second
+  // keystroke's response arriving before a slower first keystroke's response
+  // could have the first (stale) response overwrite the second (correct) one.
+  const requestIdRef = useRef(0);
 
   useEffect(() => {
-    if (!query.trim()) {
-      setResults([]);
-      setOpen(false);
-      return;
-    }
+    if (!query.trim()) return;
+
+    const currentRequestId = ++requestIdRef.current;
     const timer = setTimeout(async () => {
-      setLoading(true);
+      dispatch({ type: 'SEARCH_START' });
       try {
         const res = await onSearch(query);
-        setResults(res);
-        setOpen(res.length > 0);
-      } finally {
-        setLoading(false);
+        if (requestIdRef.current === currentRequestId) {
+          dispatch({ type: 'SEARCH_SUCCESS', results: res });
+        }
+        // else: a newer request has since started — this response is stale, drop it.
+      } catch {
+        if (requestIdRef.current === currentRequestId) {
+          dispatch({ type: 'SEARCH_SUCCESS', results: [] });
+        }
       }
     }, 250);
     return () => clearTimeout(timer);
@@ -45,7 +97,7 @@ export function SearchInput({ scopeLabel, placeholder, onSearch, onResultClick, 
   // Close on outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (!containerRef.current?.contains(e.target as Node)) setOpen(false);
+      if (!containerRef.current?.contains(e.target as Node)) dispatch({ type: 'CLOSE' });
     };
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
@@ -55,105 +107,42 @@ export function SearchInput({ scopeLabel, placeholder, onSearch, onResultClick, 
     if (!open) return;
     if (e.key === 'ArrowDown') {
       e.preventDefault();
-      setActiveIdx((i) => Math.min(i + 1, results.length - 1));
+      dispatch({ type: 'MOVE_ACTIVE', delta: 1 });
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
-      setActiveIdx((i) => Math.max(i - 1, -1));
+      dispatch({ type: 'MOVE_ACTIVE', delta: -1 });
     } else if (e.key === 'Escape') {
-      setOpen(false);
+      dispatch({ type: 'CLOSE' });
       inputRef.current?.blur();
     } else if (e.key === 'Enter' && activeIdx >= 0) {
       onResultClick?.(results[activeIdx]);
-      setOpen(false);
+      dispatch({ type: 'CLOSE' });
     }
   };
 
   return (
     <div ref={containerRef} className={className} style={{ position: 'relative' }}>
-      <label
-        htmlFor={id}
-        style={{
-          fontFamily: 'var(--font-body)',
-          fontSize: '0.68rem',
-          textTransform: 'uppercase',
-          letterSpacing: '0.12em',
-          color: 'var(--text-muted)',
-          display: 'block',
-          marginBottom: '6px',
-        }}
-      >
+      <label htmlFor={id} className="block mb-1.5 font-body text-[0.68rem] uppercase tracking-[0.12em] text-text-muted">
         {scopeLabel}
       </label>
 
       <div style={{ position: 'relative' }}>
         {/* Search icon */}
-        <span
-          aria-hidden="true"
-          style={{
-            position: 'absolute',
-            left: '14px',
-            top: '50%',
-            transform: 'translateY(-50%)',
-            fontSize: '0.875rem',
-            color: open ? 'var(--color-gold-base)' : 'var(--text-muted)',
-            pointerEvents: 'none',
-            transition: 'color 0.15s ease',
-            lineHeight: 1,
-          }}
-        >
+        <span aria-hidden="true" className={`absolute left-3.5 top-1/2 -translate-y-1/2 text-sm pointer-events-none transition-colors duration-fast leading-none ${open ? 'text-gold-base' : 'text-text-muted'}`}>
           ⌕
         </span>
 
-        <input
-          ref={inputRef}
-          id={id}
-          type="search"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          onKeyDown={handleKeyDown}
-          onFocus={() => results.length > 0 && setOpen(true)}
-          placeholder={placeholder ?? 'Search…'}
-          role="combobox"
-          aria-expanded={open}
-          aria-controls={listId}
-          aria-autocomplete="list"
-          autoComplete="off"
-          style={{
-            width: '100%',
-            fontFamily: 'var(--font-body)',
-            fontSize: '0.9rem',
-            color: 'var(--text-primary)',
-            background: 'var(--surface-elevated)',
-            border: `1px solid ${open ? 'var(--color-gold-base)' : 'var(--border-default)'}`,
-            padding: '10px 40px 10px 38px',
-            outline: 'none',
-            transition: 'border-color 0.15s ease',
-            borderRadius: '2px',
-          }}
-        />
+        <input ref={inputRef} id={id} type="search" value={query} onChange={(e) => dispatch({ type: 'QUERY_CHANGED', query: e.target.value })} onKeyDown={handleKeyDown} onFocus={() => dispatch({ type: 'OPEN_IF_RESULTS' })} placeholder={placeholder ?? 'Search…'} role="combobox" aria-expanded={open} aria-controls={listId} aria-autocomplete="list" autoComplete="off" className={`w-full font-body text-[0.9rem] text-text-primary bg-surface-elevated rounded-sm py-2.5 pr-10 pl-[38px] outline-none border transition-colors duration-fast ${open ? 'border-gold-base' : 'border-border-default'}`} />
 
         {/* Loading / clear */}
         {(loading || query) && (
           <button
             onClick={() => {
-              setQuery('');
-              setOpen(false);
+              dispatch({ type: 'CLEAR' });
               inputRef.current?.focus();
             }}
-            aria-label="Clear search"
-            style={{
-              position: 'absolute',
-              right: '12px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              color: 'var(--text-muted)',
-              fontSize: '1rem',
-              lineHeight: 1,
-              padding: '2px',
-            }}
+            aria-label={clearLabel}
+            className="absolute right-3 top-1/2 -translate-y-1/2 bg-none border-none cursor-pointer text-text-muted text-base leading-none p-0.5"
           >
             {loading ? '…' : '×'}
           </button>
@@ -162,25 +151,7 @@ export function SearchInput({ scopeLabel, placeholder, onSearch, onResultClick, 
 
       {/* Results dropdown */}
       {open && (
-        <ul
-          id={listId}
-          role="listbox"
-          style={{
-            position: 'absolute',
-            top: 'calc(100% + 4px)',
-            left: 0,
-            right: 0,
-            zIndex: 50,
-            background: 'var(--surface-elevated)',
-            border: '1px solid var(--border-light)',
-            boxShadow: '0 8px 32px rgba(28,26,22,0.12)',
-            listStyle: 'none',
-            padding: '4px 0',
-            margin: 0,
-            maxHeight: '320px',
-            overflowY: 'auto',
-          }}
-        >
+        <ul id={listId} role="listbox" className="absolute left-0 right-0 z-50 top-[calc(100%+4px)] bg-surface-elevated border border-border-light shadow-elevation-2 list-none py-1 m-0 max-h-80 overflow-y-auto">
           {results.map((result, idx) => (
             <li key={result.id} role="option" aria-selected={activeIdx === idx}>
               <a
@@ -188,40 +159,13 @@ export function SearchInput({ scopeLabel, placeholder, onSearch, onResultClick, 
                 onClick={(e) => {
                   e.preventDefault();
                   onResultClick?.(result);
-                  setOpen(false);
+                  dispatch({ type: 'CLOSE' });
                 }}
-                style={{
-                  display: 'block',
-                  padding: '10px 16px',
-                  textDecoration: 'none',
-                  background: activeIdx === idx ? 'var(--surface-default)' : 'transparent',
-                  transition: 'background 0.1s ease',
-                }}
-                onMouseEnter={() => setActiveIdx(idx)}
+                className={`block px-4 py-2.5 no-underline transition-colors duration-fast ${activeIdx === idx ? 'bg-surface-default' : 'bg-transparent'}`}
+                onMouseEnter={() => dispatch({ type: 'SELECT_ACTIVE', idx })}
               >
-                <span
-                  style={{
-                    fontFamily: 'var(--font-body)',
-                    fontSize: '0.875rem',
-                    color: 'var(--text-primary)',
-                    display: 'block',
-                  }}
-                >
-                  {result.label}
-                </span>
-                {result.meta && (
-                  <span
-                    style={{
-                      fontFamily: 'var(--font-body)',
-                      fontSize: '0.72rem',
-                      color: 'var(--text-muted)',
-                      display: 'block',
-                      marginTop: '2px',
-                    }}
-                  >
-                    {result.meta}
-                  </span>
-                )}
+                <span className="block font-body text-[0.875rem] text-text-primary">{result.label}</span>
+                {result.meta && <span className="block mt-0.5 font-body text-[0.72rem] text-text-muted">{result.meta}</span>}
               </a>
             </li>
           ))}

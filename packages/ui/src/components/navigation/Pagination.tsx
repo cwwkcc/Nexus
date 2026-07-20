@@ -6,6 +6,9 @@ export interface PaginationProps {
   /** Max page buttons shown at once (default 7) */
   siblingCount?: number;
   className?: string;
+  ariaLabel?: string;
+  prevLabel?: string;
+  nextLabel?: string;
 }
 
 function getPageRange(current: number, total: number, siblings: number): (number | '…')[] {
@@ -28,7 +31,7 @@ function getPageRange(current: number, total: number, siblings: number): (number
   return pages;
 }
 
-export function Pagination({ totalPages, currentPage, onPageChange, siblingCount = 1, className }: PaginationProps) {
+export function Pagination({ totalPages, currentPage, onPageChange, siblingCount = 1, className, ariaLabel = 'Pagination', prevLabel = 'Previous page', nextLabel = 'Next page' }: PaginationProps) {
   if (totalPages <= 1) return null;
 
   const pages = getPageRange(currentPage, totalPages, siblingCount);
@@ -52,7 +55,7 @@ export function Pagination({ totalPages, currentPage, onPageChange, siblingCount
   };
 
   return (
-    <nav aria-label="Pagination" className={className}>
+    <nav aria-label={ariaLabel} className={className}>
       <ol
         style={{
           display: 'flex',
@@ -68,7 +71,7 @@ export function Pagination({ totalPages, currentPage, onPageChange, siblingCount
           <button
             onClick={() => onPageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            aria-label="Previous page"
+            aria-label={prevLabel}
             style={{
               ...btnBase,
               color: currentPage === 1 ? 'var(--text-muted)' : 'var(--text-primary)',
@@ -120,7 +123,7 @@ export function Pagination({ totalPages, currentPage, onPageChange, siblingCount
           <button
             onClick={() => onPageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            aria-label="Next page"
+            aria-label={nextLabel}
             style={{
               ...btnBase,
               color: currentPage === totalPages ? 'var(--text-muted)' : 'var(--text-primary)',

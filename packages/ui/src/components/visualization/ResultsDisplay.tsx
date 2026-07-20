@@ -15,16 +15,20 @@ export interface ResultsDisplayProps {
   subjects: SubjectResultData[];
   pdfUrl?: string;
   className?: string;
+  indexNumberLabel?: string;
+  subjectLabel?: string;
+  gradeLabel?: string;
+  downloadLabel?: string;
 }
 
-export function ResultsDisplay({ studentName, indexNumber, examType, year, subjects, pdfUrl, className }: ResultsDisplayProps) {
+export function ResultsDisplay({ studentName, indexNumber, examType, year, subjects, pdfUrl, className, indexNumberLabel = 'Index No:', subjectLabel = 'Subject', gradeLabel = 'Grade', downloadLabel = 'Download Official Result Sheet (PDF)' }: ResultsDisplayProps) {
   return (
     <div className={cn('bg-surface-elevated border border-border-light rounded-lg p-space-6 shadow-elevation-0', className)}>
       <div className="flex justify-between items-start mb-space-6 pb-space-4 border-b border-border-light">
         <div>
           <h2 className="font-display text-h3 text-text-primary">{studentName}</h2>
           <p className="font-body text-body-sm text-text-muted mt-space-1">
-            Index No: {indexNumber} • {examType} {year}
+            {indexNumberLabel} {indexNumber} • {examType} {year}
           </p>
         </div>
         <div className="w-16 h-16 opacity-30">
@@ -39,8 +43,8 @@ export function ResultsDisplay({ studentName, indexNumber, examType, year, subje
         <table className="w-full border-collapse">
           <thead>
             <tr className="border-b border-border-light">
-              <th className="text-left py-space-3 font-body text-label uppercase tracking-wider text-text-muted">Subject</th>
-              <th className="text-right py-space-3 font-body text-label uppercase tracking-wider text-text-muted">Grade</th>
+              <th className="text-left py-space-3 font-body text-label uppercase tracking-wider text-text-muted">{subjectLabel}</th>
+              <th className="text-right py-space-3 font-body text-label uppercase tracking-wider text-text-muted">{gradeLabel}</th>
             </tr>
           </thead>
           <tbody>
@@ -62,7 +66,7 @@ export function ResultsDisplay({ studentName, indexNumber, examType, year, subje
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="mr-space-2">
               <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" />
             </svg>
-            Download Official Result Sheet (PDF)
+            {downloadLabel}
           </ButtonLink>
         </div>
       )}

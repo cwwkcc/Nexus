@@ -16,16 +16,20 @@ export interface PhotoStripItem {
 export interface LifeAtKCCPhotoStripProps {
   items: PhotoStripItem[];
   className?: string;
+  allLabel?: string;
+  categoryLabels?: Record<PhotoStripItem['category'], string>;
+  scrollLeftLabel?: string;
+  scrollRightLabel?: string;
 }
 
-const categoryLabels = {
+const DEFAULT_CATEGORY_LABELS: Record<PhotoStripItem['category'], string> = {
   sports: 'Sports',
   events: 'Events',
   performances: 'Performances',
   academic: 'Academic',
 };
 
-export function LifeAtKCCPhotoStrip({ items, className }: LifeAtKCCPhotoStripProps) {
+export function LifeAtKCCPhotoStrip({ items, className, allLabel = 'All', categoryLabels = DEFAULT_CATEGORY_LABELS, scrollLeftLabel = 'Scroll left', scrollRightLabel = 'Scroll right' }: LifeAtKCCPhotoStripProps) {
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(true);
@@ -67,7 +71,7 @@ export function LifeAtKCCPhotoStrip({ items, className }: LifeAtKCCPhotoStripPro
       {/* Category filters */}
       <div className="flex justify-center gap-2 mb-8 flex-wrap">
         <button onClick={() => setActiveCategory('all')} className={clsx('px-4 py-2 font-body text-label uppercase tracking-wide rounded-full transition-all', activeCategory === 'all' ? 'bg-green-base text-text-inverse' : 'bg-surface-default text-text-muted hover:bg-surface-deep')}>
-          All
+          {allLabel}
         </button>
         {Object.entries(categoryLabels).map(([key, label]) => (
           <button key={key} onClick={() => setActiveCategory(key)} className={clsx('px-4 py-2 font-body text-label uppercase tracking-wide rounded-full transition-all', activeCategory === key ? 'bg-green-base text-text-inverse' : 'bg-surface-default text-text-muted hover:bg-surface-deep')}>
@@ -79,7 +83,7 @@ export function LifeAtKCCPhotoStrip({ items, className }: LifeAtKCCPhotoStripPro
       {/* Horizontal scroll container */}
       <div className="relative">
         {showLeftArrow && (
-          <button onClick={() => scroll('left')} className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-surface-elevated rounded-full p-2 shadow-elevation-2 hover:bg-gold-base transition-colors" aria-label="Scroll left">
+          <button onClick={() => scroll('left')} className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-surface-elevated rounded-full p-2 shadow-elevation-2 hover:bg-gold-base transition-colors" aria-label={scrollLeftLabel}>
             ←
           </button>
         )}
@@ -98,7 +102,7 @@ export function LifeAtKCCPhotoStrip({ items, className }: LifeAtKCCPhotoStripPro
         </div>
 
         {showRightArrow && (
-          <button onClick={() => scroll('right')} className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-surface-elevated rounded-full p-2 shadow-elevation-2 hover:bg-gold-base transition-colors" aria-label="Scroll right">
+          <button onClick={() => scroll('right')} className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-surface-elevated rounded-full p-2 shadow-elevation-2 hover:bg-gold-base transition-colors" aria-label={scrollRightLabel}>
             →
           </button>
         )}

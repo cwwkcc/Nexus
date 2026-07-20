@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 
+import { useLockBodyScroll } from '../../hooks/useLockBodyScroll';
+
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 export interface MobileNavItem {
@@ -16,6 +18,18 @@ export interface MobileMenuProps {
   onClose: () => void;
   /** Active pathname for highlighting */
   currentPath?: string;
+  /** Header title, e.g. localized "Menu" */
+  menuLabel?: string;
+  /** aria-label for the Back button inside a sub-panel */
+  backLabel?: string;
+  /** aria-label for the close ("X") button */
+  closeLabel?: string;
+  /** aria-label for the drawer's dialog role */
+  navLabel?: string;
+  /** Optional content rendered in the header row, next to the menu label (e.g. a LanguageSwitcher) */
+  headerExtra?: React.ReactNode;
+  /** Optional footer content (e.g. school name) — omitted entirely when not provided */
+  footer?: React.ReactNode;
 }
 
 // ─── Sub-level panel ──────────────────────────────────────────────────────────
@@ -25,9 +39,10 @@ interface SubPanelProps {
   onBack: () => void;
   onClose: () => void;
   currentPath?: string;
+  backLabel: string;
 }
 
-function SubPanel({ item, onBack, onClose, currentPath }: SubPanelProps) {
+function SubPanel({ item, onBack, onClose, currentPath, backLabel }: SubPanelProps) {
   return (
     <div
       role="dialog"
@@ -53,7 +68,7 @@ function SubPanel({ item, onBack, onClose, currentPath }: SubPanelProps) {
       >
         <button
           onClick={onBack}
-          aria-label="Back"
+          aria-label={backLabel}
           style={{
             background: 'none',
             border: 'none',
@@ -75,7 +90,7 @@ function SubPanel({ item, onBack, onClose, currentPath }: SubPanelProps) {
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="M19 12H5M12 5l-7 7 7 7" />
           </svg>
-          Back
+          {backLabel}
         </button>
         <span
           style={{
@@ -93,10 +108,10 @@ function SubPanel({ item, onBack, onClose, currentPath }: SubPanelProps) {
       {/* Sub-links */}
       <nav style={{ flex: 1, overflowY: 'auto', padding: '12px 0' }}>
         <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-          {item.children?.map((child, idx) => {
+          {item.children?.map((child) => {
             const isActive = currentPath === child.href;
             return (
-              <li key={idx}>
+              <li key={child.href ?? child.label}>
                 <a
                   href={child.href ?? '#'}
                   onClick={onClose}
@@ -141,11 +156,13 @@ function SubPanel({ item, onBack, onClose, currentPath }: SubPanelProps) {
 
 // ─── Main MobileMenu ───────────────────────────────────────────────────────────
 
-export function MobileMenu({ items, isOpen, onClose, currentPath }: MobileMenuProps) {
+export function MobileMenu({ items, isOpen, onClose, currentPath, menuLabel = 'Menu', backLabel = 'Back', closeLabel = 'Close menu', navLabel = 'Navigation menu', headerExtra, footer }: MobileMenuProps) {
   const [activeSubmenu, setActiveSubmenu] = useState<MobileNavItem | null>(null);
   const drawerRef = useRef<HTMLDivElement>(null);
 
-  // Trap focus and handle Escape
+  useLockBodyScroll(isOpen);
+
+  // Handle Escape (steps back out of a sub-panel first, then closes)
   useEffect(() => {
     if (!isOpen) {
       setActiveSubmenu(null);
@@ -158,11 +175,7 @@ export function MobileMenu({ items, isOpen, onClose, currentPath }: MobileMenuPr
       }
     };
     document.addEventListener('keydown', handleKeyDown);
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = '';
-    };
+    return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, activeSubmenu, onClose]);
 
   return (
@@ -205,7 +218,7 @@ export function MobileMenu({ items, isOpen, onClose, currentPath }: MobileMenuPr
         ref={drawerRef}
         role="dialog"
         aria-modal="true"
-        aria-label="Navigation menu"
+        aria-label={navLabel}
         aria-hidden={!isOpen}
         className="kcc-mobile-drawer"
         style={{
@@ -245,11 +258,12 @@ export function MobileMenu({ items, isOpen, onClose, currentPath }: MobileMenuPr
               letterSpacing: '0.1em',
             }}
           >
-            Menu
+            {menuLabel}
           </span>
+          {headerExtra}
           <button
             onClick={onClose}
-            aria-label="Close menu"
+            aria-label={closeLabel}
             style={{
               background: 'none',
               border: '1px solid rgba(255,255,255,0.15)',
@@ -283,11 +297,11 @@ export function MobileMenu({ items, isOpen, onClose, currentPath }: MobileMenuPr
         <nav style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
           {/* Root list */}
           <ul style={{ listStyle: 'none', padding: '12px 0', margin: 0 }}>
-            {items.map((item, idx) => {
+            {items.map((item) => {
               const hasChildren = item.children && item.children.length > 0;
               const isActive = !hasChildren && currentPath === item.href;
               return (
-                <li key={idx}>
+                <li key={item.href ?? item.label}>
                   {hasChildren ? (
                     <button
                       onClick={() => setActiveSubmenu(item)}
@@ -359,30 +373,21 @@ export function MobileMenu({ items, isOpen, onClose, currentPath }: MobileMenuPr
           </ul>
 
           {/* Submenu overlay */}
-          {activeSubmenu && <SubPanel item={activeSubmenu} onBack={() => setActiveSubmenu(null)} onClose={onClose} currentPath={currentPath} />}
+          {activeSubmenu && <SubPanel item={activeSubmenu} onBack={() => setActiveSubmenu(null)} onClose={onClose} currentPath={currentPath} backLabel={backLabel} />}
         </nav>
 
-        {/* Footer strip */}
-        <div
-          style={{
-            padding: '20px 24px',
-            borderTop: '1px solid rgba(255,255,255,0.08)',
-            flexShrink: 0,
-          }}
-        >
-          <p
+        {/* Footer strip — only rendered when the consumer passes content */}
+        {footer && (
+          <div
             style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: '0.68rem',
-              textTransform: 'uppercase',
-              letterSpacing: '0.15em',
-              color: 'rgba(245,239,228,0.3)',
-              textAlign: 'center',
+              padding: '20px 24px',
+              borderTop: '1px solid rgba(255,255,255,0.08)',
+              flexShrink: 0,
             }}
           >
-            C.W.W. Kannangara Central College
-          </p>
-        </div>
+            {footer}
+          </div>
+        )}
       </div>
     </>
   );

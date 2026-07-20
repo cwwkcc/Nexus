@@ -11,9 +11,10 @@ export interface AchievementTickerProps {
   achievements: Achievement[];
   /** Link to full archive */
   archiveHref?: string;
+  archiveLabel?: string;
 }
 
-export function AchievementTicker({ achievements, archiveHref }: AchievementTickerProps) {
+export function AchievementTicker({ achievements, archiveHref, archiveLabel = 'All →' }: AchievementTickerProps) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [paused, setPaused] = useState(false);
 
@@ -152,7 +153,7 @@ export function AchievementTicker({ achievements, archiveHref }: AchievementTick
             padding: '4px 8px',
           }}
         >
-          All →
+          {archiveLabel}
         </a>
       )}
     </section>

@@ -11,11 +11,12 @@ interface BreadcrumbProps {
   items: BreadcrumbItem[];
   /** Light variant for use on dark hero backgrounds */
   onDark?: boolean;
+  ariaLabel?: string;
 }
 
-export function Breadcrumb({ items, onDark = false }: BreadcrumbProps) {
+export function Breadcrumb({ items, onDark = false, ariaLabel = 'Breadcrumb' }: BreadcrumbProps) {
   return (
-    <nav aria-label="Breadcrumb">
+    <nav aria-label={ariaLabel}>
       <ol className="flex items-center flex-wrap gap-space-1p5 m-0 p-0 list-none">
         {items.map((item, i) => {
           const isLast = i === items.length - 1;

@@ -1,4 +1,4 @@
-// packages/ui/src/components/feedback/ErrorState.tsx
+// packages/ui/src/components/page-states/ErrorState.tsx
 'use client';
 
 import { cn } from '../../utilities/cn';
@@ -11,9 +11,10 @@ export interface ErrorStateProps {
   variant?: ErrorStateVariant;
   message?: string;
   onRetry?: () => void;
+  retryLabel?: string;
 }
 
-export function ErrorState({ variant = 'inline', message = 'Something went wrong. Please try again.', onRetry }: ErrorStateProps) {
+export function ErrorState({ variant = 'inline', message = 'Something went wrong. Please try again.', onRetry, retryLabel = 'Try Again' }: ErrorStateProps) {
   const isSection = variant === 'section';
 
   return (
@@ -30,7 +31,7 @@ export function ErrorState({ variant = 'inline', message = 'Something went wrong
 
       {onRetry && (
         <Button onClick={onRetry} variant="outline" size="sm" className={cn('border-semantic-error-base text-semantic-error-base', 'hover:bg-semantic-error-base hover:text-text-inverse')}>
-          Try Again
+          {retryLabel}
         </Button>
       )}
     </div>

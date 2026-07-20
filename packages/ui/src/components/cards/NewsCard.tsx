@@ -8,10 +8,11 @@ import { Badge } from '../atoms/Badge';
 export interface NewsCardProps extends Omit<ArticleData, 'variant'> {
   variant?: NewsCardVariantType;
   className?: string;
+  readMoreLabel?: string;
 }
 
 // Featured variant
-function NewsCardFeatured({ title, excerpt, category, date, href, imageSrc, imageAlt }: NewsCardProps) {
+function NewsCardFeatured({ title, excerpt, category, date, href, imageSrc, imageAlt, readMoreLabel = 'Read more →' }: NewsCardProps) {
   return (
     <Link href={href} className="group block no-underline">
       <div className={cn('bg-surface-elevated border border-border-light overflow-hidden', 'shadow-elevation-1 transition-all duration-gentle', 'group-hover:shadow-elevation-3 group-hover:-translate-y-0.5')}>
@@ -28,7 +29,7 @@ function NewsCardFeatured({ title, excerpt, category, date, href, imageSrc, imag
           </div>
           <h3 className={cn('font-display text-[clamp(1.5rem,2.5vw,2rem)] font-medium text-text-primary mb-space-3', 'transition-colors duration-fast group-hover:text-gold-active')}>{title}</h3>
           {excerpt && <p className="font-body text-body text-text-muted leading-relaxed mb-space-5">{excerpt}</p>}
-          <span className="font-body text-caption uppercase tracking-caption text-gold-base">Read more →</span>
+          <span className="font-body text-caption uppercase tracking-caption text-gold-base">{readMoreLabel}</span>
         </div>
       </div>
     </Link>
@@ -36,7 +37,7 @@ function NewsCardFeatured({ title, excerpt, category, date, href, imageSrc, imag
 }
 
 // Standard variant
-function NewsCardStandard({ title, excerpt, category, date, href, imageSrc, imageAlt }: NewsCardProps) {
+function NewsCardStandard({ title, excerpt, category, date, href, imageSrc, imageAlt, readMoreLabel = 'Read more →' }: NewsCardProps) {
   return (
     <Link href={href} className="group block no-underline h-full">
       <div className={cn('flex flex-col h-full bg-surface-elevated border border-border-light overflow-hidden', 'shadow-elevation-1 transition-all duration-gentle', 'group-hover:shadow-elevation-3 group-hover:-translate-y-0.5')}>
@@ -50,7 +51,7 @@ function NewsCardStandard({ title, excerpt, category, date, href, imageSrc, imag
           <p className="font-body text-caption uppercase tracking-caption text-text-muted mb-space-2.5">{date}</p>
           <h3 className={cn('font-display text-h3 font-medium text-text-primary mb-space-2.5', 'transition-colors duration-fast group-hover:text-gold-active')}>{title}</h3>
           {excerpt && <p className="font-body text-body-sm text-text-muted leading-relaxed line-clamp-3 mb-space-4 flex-1">{excerpt}</p>}
-          <span className="font-body text-caption uppercase tracking-caption text-gold-base mt-auto">Read more →</span>
+          <span className="font-body text-caption uppercase tracking-caption text-gold-base mt-auto">{readMoreLabel}</span>
         </div>
       </div>
     </Link>

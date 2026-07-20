@@ -10,48 +10,57 @@ import { Badge } from '../atoms/Badge';
 export interface EventCardProps extends Omit<EventData, 'variant'> {
   variant?: EventCardVariantType;
   className?: string;
+  /** Only used by the featured variant */
+  viewDetailsLabel?: string;
+  registerLabel?: string;
+  /** Overrides for the status badge text (defaults to English) */
+  statusLabels?: Partial<Record<EventStatusType, string>>;
 }
 
-const STATUS_CONFIG: Record<EventStatusType, { label: string; bg: string; text: string; dot?: string }> = {
+const DEFAULT_STATUS_LABELS: Record<EventStatusType, string> = {
+  upcoming: 'Upcoming',
+  today: 'Today',
+  ongoing: 'Happening Now',
+  past: 'Past',
+  'registration-open': 'Registration Open',
+  'registration-closed': 'Registration Closed',
+};
+
+const STATUS_CONFIG: Record<EventStatusType, { bg: string; text: string; dot?: string }> = {
   upcoming: {
-    label: 'Upcoming',
     bg: 'bg-semantic-info-surface',
     text: 'text-semantic-info-base',
   },
   today: {
-    label: 'Today',
     bg: 'bg-gold-pale',
     text: 'text-gold-active',
   },
   ongoing: {
-    label: 'Happening Now',
     bg: 'bg-semantic-success-surface',
     text: 'text-semantic-success-base',
     dot: 'bg-semantic-success-base',
   },
   past: {
-    label: 'Past',
     bg: 'bg-surface-deep',
     text: 'text-text-muted',
   },
   'registration-open': {
-    label: 'Registration Open',
     bg: 'bg-semantic-success-surface',
     text: 'text-semantic-success-base',
   },
   'registration-closed': {
-    label: 'Registration Closed',
     bg: 'bg-surface-deep',
     text: 'text-text-muted',
   },
 };
 
-function EventStatusBadge({ status }: { status: EventStatusType }) {
+function EventStatusBadge({ status, statusLabels }: { status: EventStatusType; statusLabels?: Partial<Record<EventStatusType, string>> }) {
   const config = STATUS_CONFIG[status];
+  const label = statusLabels?.[status] ?? DEFAULT_STATUS_LABELS[status];
   return (
     <span className={cn('inline-flex items-center gap-space-1 px-space-2.5 py-space-1 rounded-full', 'font-body text-caption uppercase tracking-caption', config.bg, config.text)}>
       {config.dot && <span className={cn('w-1.5 h-1.5 rounded-full', config.dot)} aria-hidden="true" />}
-      {config.label}
+      {label}
     </span>
   );
 }
@@ -77,7 +86,7 @@ function DateBlock({ date, isPast }: { date: string; isPast?: boolean }) {
 }
 
 // Standard variant
-function EventCardStandard({ title, description, date, time, venue, category, status = 'upcoming', href, imageSrc, imageAlt, relativeTime }: EventCardProps) {
+function EventCardStandard({ title, description, date, time, venue, category, status = 'upcoming', href, imageSrc, imageAlt, relativeTime, statusLabels }: EventCardProps) {
   const isPast = status === 'past';
   return (
     <Link href={href} className="group block no-underline">
@@ -91,7 +100,7 @@ function EventCardStandard({ title, description, date, time, venue, category, st
           <DateBlock date={date} isPast={isPast} />
           <div className="flex-1 min-w-0">
             <div className="flex flex-wrap items-center gap-space-2 mb-space-3">
-              <EventStatusBadge status={status} />
+              <EventStatusBadge status={status} statusLabels={statusLabels} />
               {category && <Badge variant="category" label={category} />}
             </div>
             <h3 className={cn('font-display text-h3 font-medium text-text-primary mb-space-2', 'transition-colors duration-fast group-hover:text-gold-active')}>{title}</h3>
@@ -109,7 +118,7 @@ function EventCardStandard({ title, description, date, time, venue, category, st
 }
 
 // Compact variant
-function EventCardCompact({ title, date, time, venue, status = 'upcoming', href, relativeTime }: EventCardProps) {
+function EventCardCompact({ title, date, time, venue, status = 'upcoming', href, relativeTime, statusLabels }: EventCardProps) {
   const isPast = status === 'past';
   return (
     <Link href={href} className="group flex gap-space-3 items-start no-underline">
@@ -117,7 +126,7 @@ function EventCardCompact({ title, date, time, venue, status = 'upcoming', href,
       <div className="flex-1 pb-space-3.5 border-b border-border-light">
         {status !== 'past' && (
           <div className="mb-space-2">
-            <EventStatusBadge status={status} />
+            <EventStatusBadge status={status} statusLabels={statusLabels} />
           </div>
         )}
         <p className={cn('font-body font-medium text-text-primary mb-space-1.5', 'transition-colors duration-fast group-hover:text-gold-active')}>{title}</p>
@@ -132,7 +141,7 @@ function EventCardCompact({ title, date, time, venue, status = 'upcoming', href,
 }
 
 // Featured variant
-function EventCardFeatured({ title, description, date, time, venue, category, status = 'upcoming', href, imageSrc, imageAlt, relativeTime, registrationHref }: EventCardProps) {
+function EventCardFeatured({ title, description, date, time, venue, category, status = 'upcoming', href, imageSrc, imageAlt, relativeTime, registrationHref, viewDetailsLabel = 'View Details', registerLabel = 'Register', statusLabels }: EventCardProps) {
   const isPast = status === 'past';
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 bg-surface-elevated border border-border-light overflow-hidden">
@@ -148,7 +157,7 @@ function EventCardFeatured({ title, description, date, time, venue, category, st
       </div>
       <div className="p-space-10 md:p-space-11 flex flex-col justify-center gap-space-5">
         <div className="flex flex-wrap items-center gap-space-2">
-          <EventStatusBadge status={status} />
+          <EventStatusBadge status={status} statusLabels={statusLabels} />
           {category && <Badge variant="category" label={category} />}
         </div>
         <div className="flex items-start gap-space-4">
@@ -165,11 +174,11 @@ function EventCardFeatured({ title, description, date, time, venue, category, st
         {venue && <p className="font-body text-caption uppercase tracking-caption text-text-muted">📍 {venue}</p>}
         <div className="flex flex-wrap gap-space-3">
           <Link href={href} className="inline-block px-space-6 py-space-2.5 bg-green-base text-text-inverse font-body text-caption uppercase tracking-caption">
-            View Details
+            {viewDetailsLabel}
           </Link>
           {registrationHref && status === 'registration-open' && (
             <Link href={registrationHref} className="inline-block px-space-6 py-space-2.5 border border-gold-base text-gold-base font-body text-caption uppercase tracking-caption hover:bg-gold-base hover:text-green-base transition-colors">
-              Register
+              {registerLabel}
             </Link>
           )}
         </div>

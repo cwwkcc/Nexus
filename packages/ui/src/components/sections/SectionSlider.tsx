@@ -22,6 +22,12 @@ export interface SectionSliderProps {
   scrollFraction?: number;
   /** Accessible label for the slider landmark */
   ariaLabel?: string;
+  /** Accessible label for the "previous slide" arrow button */
+  prevLabel?: string;
+  /** Accessible label for the "next slide" arrow button */
+  nextLabel?: string;
+  /** Accessible label for the slide-dots tablist */
+  slidesLabel?: string;
   /**
    * Whether the slider should loop from last → first and first → last.
    * Defaults to false.
@@ -82,9 +88,12 @@ interface SlidingSliderProps {
   loop: boolean;
   className?: string;
   ariaLabel?: string;
+  prevLabel?: string;
+  nextLabel?: string;
+  slidesLabel?: string;
 }
 
-function SlidingSlider({ id, variant, direction, children, loop, className, ariaLabel }: SlidingSliderProps) {
+function SlidingSlider({ id, variant, direction, children, loop, className, ariaLabel, prevLabel = 'Previous slide', nextLabel = 'Next slide', slidesLabel = 'Slides' }: SlidingSliderProps) {
   const slides = useMemo(() => Children.toArray(children), [children]);
   const count = slides.length;
   const [active, setActive] = useState(0);
@@ -187,12 +196,12 @@ function SlidingSlider({ id, variant, direction, children, loop, className, aria
 
       {/* Controls */}
       <div className={cn('flex items-center gap-space-3 mt-space-6', isVertical ? 'flex-col' : 'flex-row justify-center')}>
-        <Button variant="outline" size="icon-md" onClick={prev} disabled={!canPrev} aria-label="Previous slide" className={cn('rounded-full', isVertical ? 'rotate-90' : 'rotate-180')}>
+        <Button variant="outline" size="icon-md" onClick={prev} disabled={!canPrev} aria-label={prevLabel} className={cn('rounded-full', isVertical ? 'rotate-90' : 'rotate-180')}>
           <ChevronIcon />
         </Button>
 
         {/* Dot indicators */}
-        <div role="tablist" aria-label="Slides" className={cn('flex gap-space-2 items-center', isVertical && 'flex-col')}>
+        <div role="tablist" aria-label={slidesLabel} className={cn('flex gap-space-2 items-center', isVertical && 'flex-col')}>
           {Array.from({ length: count }).map((_, i) => (
             <motion.button
               key={i}
@@ -212,7 +221,7 @@ function SlidingSlider({ id, variant, direction, children, loop, className, aria
           ))}
         </div>
 
-        <Button variant="outline" size="icon-md" onClick={next} disabled={!canNext} aria-label="Next slide" className="rounded-full">
+        <Button variant="outline" size="icon-md" onClick={next} disabled={!canNext} aria-label={nextLabel} className="rounded-full">
           <ChevronIcon />
         </Button>
 
@@ -423,6 +432,9 @@ export function SectionSlider({
   className,
   scrollFraction = 0.8,
   ariaLabel,
+  prevLabel,
+  nextLabel,
+  slidesLabel,
   loop = false,
 }: SectionSliderProps) {
   const autoId = useId();
@@ -431,7 +443,7 @@ export function SectionSlider({
 
   if (isSlidingVariant(variant)) {
     return (
-      <SlidingSlider id={id} variant={variant} direction={direction} loop={loop} className={className} ariaLabel={ariaLabel}>
+      <SlidingSlider id={id} variant={variant} direction={direction} loop={loop} className={className} ariaLabel={ariaLabel} prevLabel={prevLabel} nextLabel={nextLabel} slidesLabel={slidesLabel}>
         {children}
       </SlidingSlider>
     );

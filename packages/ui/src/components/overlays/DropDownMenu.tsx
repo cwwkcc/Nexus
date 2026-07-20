@@ -1,7 +1,7 @@
-// packages/ui/src/components/feedback/DropDownMenu.tsx
+// packages/ui/src/components/overlays/DropDownMenu.tsx
 'use client';
 
-import { useRouter } from 'next/navigation'; // FIX: import Next.js router
+import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState, useId, useCallback } from 'react';
 
 import { cn } from '../../utilities/cn';
@@ -30,7 +30,7 @@ export function DropdownMenu({ variant = 'navigation', trigger, items, align = '
   const triggerRef = useRef<HTMLButtonElement>(null);
   const menuId = useId();
   const triggerId = useId();
-  const router = useRouter(); // FIX: use Next.js router for client-side navigation
+  const router = useRouter();
 
   const closeMenu = useCallback(() => {
     setOpen(false);
@@ -40,7 +40,7 @@ export function DropdownMenu({ variant = 'navigation', trigger, items, align = '
 
   const handleItemClick = (item: DropdownMenuItem) => {
     if (item.onClick) item.onClick();
-    if (item.href) router.push(item.href); // FIX: router.push instead of window.location.href
+    if (item.href) router.push(item.href);
     closeMenu();
   };
 
@@ -66,7 +66,7 @@ export function DropdownMenu({ variant = 'navigation', trigger, items, align = '
         if (activeIndex >= 0 && items[activeIndex]) {
           const item = items[activeIndex];
           if (item.href) {
-            router.push(item.href); // FIX: was `window.location.href = item.href`
+            router.push(item.href);
           } else if (item.onClick) {
             item.onClick();
           }

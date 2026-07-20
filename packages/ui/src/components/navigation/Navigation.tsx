@@ -5,36 +5,52 @@ import { useState, useEffect } from 'react';
 
 import { cn } from '../../utilities/cn';
 import { HStack } from '../layout/Stack';
-import { NavLink } from '../navigation/NavLink';
+import { LanguageSwitcher, type LanguageOption } from './LanguageSwitcher';
+import { MobileMenu } from './MobileMenu';
+import { NavLink } from './NavLink';
 
 type NavVariant = 'transparent-overlay' | 'solid';
 
-interface NavLink {
+// Renamed from `NavLink` (the earlier version shadowed the imported NavLink
+// *component* with a same-named local *type*, which is legal TS but easy to
+// misread and easy to break during refactors).
+interface NavLinkItem {
   label: string;
   href: string;
-  children?: NavLink[];
+  children?: NavLinkItem[];
 }
 
-interface NavigationProps {
+export interface NavigationProps {
   variant?: NavVariant;
-  links?: NavLink[]; // FIX: was `NavLink` (single object) — must be NavLink[]
+  /**
+   * Nav links. Defaults to an English fallback set below — pass localized
+   * links (with locale-prefixed hrefs) from the consuming app for real i18n
+   * support; this component does not translate or prefix hrefs itself.
+   */
+  links?: NavLinkItem[];
   /** Hero bottom offset in px — triggers solid state transition */
   heroHeight?: number;
   locale?: string;
+  /** Language options passed through to LanguageSwitcher. Defaults to en/si/ta. */
+  languages?: LanguageOption[];
+  /** "Apply" CTA button */
+  applyLabel?: string;
+  applyHref?: string;
+  /** Logo lockup text */
+  schoolName?: string;
+  schoolShortName?: string;
+  schoolLocation?: string;
+  /** aria-labels */
+  homeAriaLabel?: string;
+  mainNavAriaLabel?: string;
+  openMenuLabel?: string;
+  closeMenuLabel?: string;
+  /** Passed through to the mobile drawer */
+  mobileMenuLabel?: string;
+  mobileBackLabel?: string;
 }
 
-interface NavDropdownProps {
-  children: NavLink[];
-  isSolid: boolean; // FIX: was `string` — must be boolean to match NavItemProps
-}
-
-interface NavItemProps {
-  link: NavLink;
-  isSolid: boolean;
-  isActive: boolean;
-}
-
-const DEFAULT_LINKS: NavLink[] = [
+const DEFAULT_LINKS: NavLinkItem[] = [
   { label: 'About', href: '/about' },
   {
     label: 'Academics',
@@ -51,19 +67,11 @@ const DEFAULT_LINKS: NavLink[] = [
   { label: 'Contact', href: '/contact' },
 ];
 
-function NavDropdown({ children, isSolid: _isSolid }: NavDropdownProps) {
+function NavDropdown({ children }: { children: NavLinkItem[] }) {
   return (
-    <div
-      className="absolute top-full left-0 min-w-[180px] py-2"
-      style={{
-        background: 'var(--surface-elevated)',
-        border: '1px solid var(--border-light)',
-        boxShadow: '0 8px 24px rgba(28,26,22,0.12)',
-        zIndex: 50,
-      }}
-    >
+    <div className="absolute left-0 top-full z-50 min-w-[180px] border border-border-light bg-surface-elevated py-space-2 shadow-elevation-2">
       {children.map((child) => (
-        <NavLink key={child.href} href={child.href} className="px-space-5 py-space-10 font-body text-body uppercase text-text-primary hover:text-gold-base">
+        <NavLink key={child.href} href={child.href} className="px-space-5 py-space-3 font-body text-body uppercase text-text-primary hover:text-gold-base">
           {child.label}
         </NavLink>
       ))}
@@ -71,218 +79,49 @@ function NavDropdown({ children, isSolid: _isSolid }: NavDropdownProps) {
   );
 }
 
-function NavItem({ link, isSolid, isActive }: NavItemProps) {
+function NavItem({ link, isSolid, isActive }: { link: NavLinkItem; isSolid: boolean; isActive: boolean }) {
   const [open, setOpen] = useState(false);
   const hasChildren = !!link.children?.length;
 
   const textColor = isActive ? 'text-gold-base' : isSolid ? 'text-text-primary' : 'text-text-inverse';
 
   return (
-    <div className="relative" onMouseEnter={() => hasChildren && setOpen(true)} onMouseLeave={() => hasChildren && setOpen(false)}>
-      <HStack align="center" spacing={3} className={cn('uppercase font-body px-space-8 hover:text-gold-base', textColor)}>
-        <NavLink href={link.href}>
+    <div
+      className="relative"
+      onMouseEnter={() => hasChildren && setOpen(true)}
+      onMouseLeave={() => hasChildren && setOpen(false)}
+      onFocus={() => hasChildren && setOpen(true)}
+      onBlur={(e) => {
+        if (hasChildren && !e.currentTarget.contains(e.relatedTarget as Node)) setOpen(false);
+      }}
+    >
+      <HStack align="center" spacing={3} className={cn('px-space-8 font-body uppercase hover:text-gold-base', textColor)}>
+        <NavLink href={link.href} aria-expanded={hasChildren ? open : undefined} aria-haspopup={hasChildren ? 'true' : undefined}>
           {link.label}
-          {hasChildren && <span className="text-body">▾</span>}
+          {hasChildren && (
+            <span className="text-body" aria-hidden="true">
+              ▾
+            </span>
+          )}
           {isActive && <span className="bg-gold-base" />}
         </NavLink>
       </HStack>
 
-      {hasChildren && open && <NavDropdown children={link.children ?? []} isSolid={isSolid} />}
+      {hasChildren && open && <NavDropdown>{link.children ?? []}</NavDropdown>}
     </div>
-  );
-}
-
-// ─── Language switcher ────────────────────────────────────────────────────────
-
-export function LanguageSwitcher({ locale = 'en', isSolid = true }: { locale?: string; isSolid?: boolean }) {
-  const langs = [
-    { code: 'en', label: 'EN' },
-    { code: 'si', label: 'සිං' },
-    { code: 'ta', label: 'தமி' },
-  ];
-
-  return (
-    <div className="flex items-center gap-1">
-      {langs.map((lang, i) => {
-        const isActive = locale === lang.code;
-        return (
-          <span key={lang.code} className="flex items-center gap-1">
-            {i > 0 && (
-              <span
-                style={{
-                  color: isSolid ? 'var(--border-default)' : 'rgba(255,255,255,0.25)',
-                  fontSize: '0.6rem',
-                }}
-              >
-                /
-              </span>
-            )}
-            <NavLink
-              href={`/${lang.code}`}
-              style={{
-                fontFamily: lang.code === 'si' || lang.code === 'ta' ? 'var(--font-sinhala, "Noto Serif Sinhala", serif)' : 'var(--font-body)',
-                fontSize: '0.72rem',
-                letterSpacing: lang.code === 'en' ? '0.1em' : '0',
-                color: isActive ? 'var(--color-gold-base)' : isSolid ? 'var(--text-muted)' : 'rgba(255,255,255,0.55)',
-                textDecoration: 'none',
-                borderBottom: isActive ? '1px solid var(--color-gold-base)' : '1px solid transparent',
-                transition: 'color 0.15s ease',
-                paddingBottom: '1px',
-              }}
-            >
-              {lang.label}
-            </NavLink>
-          </span>
-        );
-      })}
-    </div>
-  );
-}
-
-// ─── Mobile menu ──────────────────────────────────────────────────────────────
-
-function MobileMenu({ open, links, onClose, locale }: { open: boolean; links: NavLink[]; onClose: () => void; locale: string }) {
-  useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : '';
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [open]);
-
-  return (
-    <>
-      {/* Backdrop */}
-      <div
-        onClick={onClose}
-        style={{
-          position: 'fixed',
-          inset: 0,
-          background: 'rgba(28,26,22,0.78)',
-          zIndex: 60,
-          opacity: open ? 1 : 0,
-          pointerEvents: open ? 'auto' : 'none',
-          transition: 'opacity 0.3s ease',
-        }}
-      />
-
-      {/* Drawer */}
-      <div
-        style={{
-          position: 'fixed',
-          top: 0,
-          right: 0,
-          bottom: 0,
-          width: 'min(320px, 88vw)',
-          background: 'var(--surface-inverse)',
-          zIndex: 70,
-          transform: open ? 'translateX(0)' : 'translateX(100%)',
-          transition: 'transform 0.35s cubic-bezier(0.32, 0, 0.67, 0)',
-          display: 'flex',
-          flexDirection: 'column',
-          padding: '24px',
-        }}
-      >
-        {/* Header row */}
-        <div className="flex items-center justify-between mb-10">
-          <LanguageSwitcher locale={locale} isSolid={false} />
-          <button
-            onClick={onClose}
-            aria-label="Close menu"
-            style={{
-              background: 'transparent',
-              border: '1px solid rgba(255,255,255,0.2)',
-              color: 'rgba(255,255,255,0.7)',
-              width: '36px',
-              height: '36px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-              fontSize: '1.1rem',
-            }}
-          >
-            ✕
-          </button>
-        </div>
-
-        {/* Links */}
-        <nav className="flex flex-col gap-1 flex-1">
-          {links.map((link) => (
-            <div key={link.href}>
-              <NavLink
-                href={link.href}
-                onClick={onClose}
-                style={{
-                  display: 'block',
-                  fontFamily: 'var(--font-display)',
-                  fontSize: 'clamp(1.4rem, 5vw, 1.75rem)',
-                  fontWeight: 400,
-                  color: 'var(--text-inverse)',
-                  textDecoration: 'none',
-                  padding: '10px 0',
-                  borderBottom: '1px solid rgba(255,255,255,0.08)',
-                  transition: 'color 0.15s ease',
-                }}
-                onMouseEnter={(e: React.MouseEvent<HTMLElement>) => {
-                  (e.currentTarget as HTMLElement).style.color = 'var(--color-gold-base)';
-                }}
-                onMouseLeave={(e: React.MouseEvent<HTMLElement>) => {
-                  (e.currentTarget as HTMLElement).style.color = 'var(--text-inverse)';
-                }}
-              >
-                {link.label}
-              </NavLink>
-              {link.children?.map((child) => (
-                <NavLink
-                  key={child.href}
-                  href={child.href}
-                  onClick={onClose}
-                  style={{
-                    display: 'block',
-                    fontFamily: 'var(--font-body)',
-                    fontSize: '0.75rem',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.12em',
-                    color: 'rgba(255,255,255,0.45)',
-                    textDecoration: 'none',
-                    padding: '6px 0 6px 16px',
-                    transition: 'color 0.15s ease',
-                  }}
-                >
-                  — {child.label}
-                </NavLink>
-              ))}
-            </div>
-          ))}
-        </nav>
-
-        {/* Footer */}
-        <p
-          style={{
-            fontFamily: 'var(--font-body)',
-            fontSize: '0.65rem',
-            textTransform: 'uppercase',
-            letterSpacing: '0.15em',
-            color: 'rgba(255,255,255,0.2)',
-            marginTop: '24px',
-          }}
-        >
-          C.W.W. Kannangara Central College
-        </p>
-      </div>
-    </>
   );
 }
 
 // ─── Main Navigation ──────────────────────────────────────────────────────────
 
-export function Navigation({ variant = 'solid', links = DEFAULT_LINKS, heroHeight, locale = 'en' }: NavigationProps) {
+export function Navigation({ variant = 'solid', links = DEFAULT_LINKS, heroHeight, locale = 'en', languages, applyLabel = 'Apply', applyHref = '/admissions', schoolName = 'C.W.W. Kannangara Central College', schoolShortName = 'KCC', schoolLocation = 'Mathugama', homeAriaLabel, mainNavAriaLabel = 'Main navigation', openMenuLabel = 'Open menu', closeMenuLabel = 'Close menu', mobileMenuLabel, mobileBackLabel }: NavigationProps) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const isOverlay = variant === 'transparent-overlay';
   const isSolid = !isOverlay || scrolled;
+  const resolvedHomeAriaLabel = homeAriaLabel ?? `${schoolName} — Home`;
 
   useEffect(() => {
     if (!isOverlay) return;
@@ -293,149 +132,48 @@ export function Navigation({ variant = 'solid', links = DEFAULT_LINKS, heroHeigh
     return () => window.removeEventListener('scroll', onScroll);
   }, [isOverlay, heroHeight]);
 
-  const bgStyle = isSolid
-    ? {
-        background: 'var(--surface-base)',
-        borderBottom: '1px solid var(--border-light)',
-        boxShadow: scrolled ? '0 2px 16px rgba(28,26,22,0.06)' : 'none',
-      }
-    : {
-        background: 'transparent',
-        borderBottom: '1px solid transparent',
-      };
-
   return (
     <>
-      <header
-        style={{
-          position: isOverlay ? 'fixed' : 'sticky',
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 40,
-          transition: 'background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease',
-          ...bgStyle,
-        }}
-      >
-        <div
-          className="content-width"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            height: '68px',
-            gap: '40px',
-          }}
-        >
+      <header className={cn('transition-colors duration-standard ease-out', isOverlay ? 'fixed' : 'sticky', 'left-0 right-0 top-0 z-40', isSolid ? cn('border-b border-border-light bg-surface-base', scrolled && 'shadow-elevation-1') : 'border-b border-transparent bg-transparent')}>
+        <div className="content-width flex h-[68px] items-center gap-space-10">
           {/* Logo */}
-          <NavLink href="/" style={{ textDecoration: 'none', flexShrink: 0 }} aria-label="C.W.W. Kannangara Central College — Home">
-            <div className="flex items-center gap-3">
-              <div
-                style={{
-                  width: '32px',
-                  height: '32px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  border: '1px solid var(--color-gold-base)',
-                  color: 'var(--color-gold-base)',
-                  fontFamily: 'var(--font-display)',
-                  fontSize: '0.9rem',
-                  fontStyle: 'italic',
-                }}
-              >
-                K
-              </div>
+          <NavLink href="/" className="flex-shrink-0 no-underline" aria-label={resolvedHomeAriaLabel}>
+            <div className="flex items-center gap-space-3">
+              <div className="flex h-space-8 w-space-8 items-center justify-center border border-gold-base font-display text-body italic text-gold-base">{schoolShortName.charAt(0)}</div>
               <div>
-                <p
-                  style={{
-                    fontFamily: 'var(--font-body)',
-                    fontSize: '0.62rem',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.18em',
-                    color: 'var(--color-gold-base)',
-                    lineHeight: 1,
-                    marginBottom: '2px',
-                  }}
-                >
-                  KCC
-                </p>
-                <p
-                  style={{
-                    fontFamily: 'var(--font-body)',
-                    fontSize: '0.58rem',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.1em',
-                    color: isSolid ? 'var(--text-muted)' : 'rgba(255,255,255,0.5)',
-                    lineHeight: 1,
-                  }}
-                >
-                  Mathugama
-                </p>
+                <p className="mb-0.5 font-body text-label uppercase leading-none tracking-label text-gold-base">{schoolShortName}</p>
+                <p className={cn('font-body text-label uppercase leading-none tracking-label', isSolid ? 'text-text-muted' : 'text-text-inverse/50')}>{schoolLocation}</p>
               </div>
             </div>
           </NavLink>
 
           {/* Desktop nav links */}
-          <nav className="hidden md:flex items-center gap-7 flex-1" aria-label="Main navigation">
+          <nav className="hidden flex-1 items-center gap-space-7 md:flex" aria-label={mainNavAriaLabel}>
             {links.map((link) => (
               <NavItem key={link.href} link={link} isSolid={isSolid} isActive={pathname === link.href || pathname.startsWith(link.href + '/')} />
             ))}
           </nav>
 
           {/* Right side */}
-          <div className="hidden md:flex items-center gap-6 ml-auto">
-            <LanguageSwitcher locale={locale} isSolid={isSolid} />
-            <NavLink
-              href="/admissions"
-              style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: '0.7rem',
-                textTransform: 'uppercase',
-                letterSpacing: '0.15em',
-                padding: '8px 20px',
-                background: 'var(--color-gold-base)',
-                color: '#fff',
-                textDecoration: 'none',
-                transition: 'background 0.2s ease',
-                flexShrink: 0,
-              }}
-            >
-              Apply
+          <div className="ml-auto hidden items-center gap-space-6 md:flex">
+            <LanguageSwitcher locale={locale} variant="header" onDark={!isSolid} languages={languages} />
+            <NavLink href={applyHref} className="flex-shrink-0 bg-gold-base px-space-5 py-space-2.5 font-body text-label uppercase tracking-label text-text-inverse no-underline transition-colors hover:bg-gold-hover">
+              {applyLabel}
             </NavLink>
           </div>
 
           {/* Mobile hamburger */}
-          <button
-            className="md:hidden ml-auto"
-            onClick={() => setMobileOpen(true)}
-            aria-label="Open menu"
-            aria-expanded={mobileOpen}
-            style={{
-              background: 'transparent',
-              border: 'none',
-              cursor: 'pointer',
-              padding: '8px',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '5px',
-            }}
-          >
+          <button className="ml-auto flex flex-col gap-1.5 p-space-2 md:hidden" onClick={() => setMobileOpen(true)} aria-label={openMenuLabel} aria-expanded={mobileOpen}>
             {[0, 1, 2].map((i) => (
-              <span
-                key={i}
-                style={{
-                  display: 'block',
-                  width: '22px',
-                  height: '1.5px',
-                  background: isSolid ? 'var(--text-primary)' : 'rgba(255,255,255,0.85)',
-                }}
-              />
+              <span key={i} className={cn('block h-[1.5px] w-[22px]', isSolid ? 'bg-text-primary' : 'bg-text-inverse/85')} />
             ))}
           </button>
         </div>
       </header>
 
-      <MobileMenu open={mobileOpen} links={links} onClose={() => setMobileOpen(false)} locale={locale} />
+      <MobileMenu items={links} isOpen={mobileOpen} onClose={() => setMobileOpen(false)} currentPath={pathname} menuLabel={mobileMenuLabel} backLabel={mobileBackLabel} closeLabel={closeMenuLabel} navLabel={mainNavAriaLabel} headerExtra={<LanguageSwitcher locale={locale} variant="mobile" onDark languages={languages} />} footer={<p className="text-center font-body text-label uppercase tracking-label text-text-inverse/20">{schoolName}</p>} />
     </>
   );
 }
+
+Navigation.displayName = 'Navigation';

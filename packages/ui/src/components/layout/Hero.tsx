@@ -31,6 +31,7 @@ export interface HeroProps {
   overlayOpacity?: number;
   className?: string;
   onLoad?: () => void;
+  breadcrumbAriaLabel?: string;
 }
 
 // ─── Scroll Indicator ─────────────────────────────────────────────────────────
@@ -56,7 +57,7 @@ const HeroBreadcrumb = ({ items }: { items: HeroProps['breadcrumb'] }) => {
   if (!items?.length) return null;
 
   return (
-    <nav aria-label="Breadcrumb" className="mb-space-5">
+    <nav aria-label={breadcrumbAriaLabel} className="mb-space-5">
       <ol className="flex flex-wrap items-center gap-space-2 list-none p-0 m-0">
         {items.map((item, idx) => {
           const isLast = idx === items.length - 1;
@@ -86,7 +87,7 @@ const HeroBreadcrumb = ({ items }: { items: HeroProps['breadcrumb'] }) => {
 
 // ─── Main Hero Component ──────────────────────────────────────────────────────
 
-export function Hero({ variant = 'homepage', heading, subheading, eyebrow, imageSrc, imageAlt = '', videoSrc, videoPosterSrc, breadcrumb, showScrollIndicator = true, children, parallax = false, overlayOpacity, className, onLoad }: HeroProps) {
+export function Hero({ variant = 'homepage', heading, subheading, eyebrow, imageSrc, imageAlt = '', videoSrc, videoPosterSrc, breadcrumb, showScrollIndicator = true, children, parallax = false, overlayOpacity, className, onLoad, breadcrumbAriaLabel = 'Breadcrumb' }: HeroProps) {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const heroRef = useRef<HTMLElement>(null);

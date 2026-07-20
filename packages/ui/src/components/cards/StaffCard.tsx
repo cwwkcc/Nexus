@@ -5,10 +5,12 @@ import Link from 'next/link';
 export interface StaffCardProps extends Omit<StaffData, 'variant'> {
   variant?: StaffCardVariantType;
   className?: string;
+  /** Only used by the principal variant */
+  readMoreLabel?: string;
 }
 
 // Principal variant
-function StaffCardPrincipal({ name, title, tenure, quote, imageSrc, imageAlt, href }: StaffCardProps) {
+function StaffCardPrincipal({ name, title, tenure, quote, imageSrc, imageAlt, href, readMoreLabel = 'Read Full Message →' }: StaffCardProps) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-12 bg-surface-elevated border border-border-light overflow-hidden">
       <div className="md:col-span-4 relative min-h-[420px] bg-green-base">
@@ -35,7 +37,7 @@ function StaffCardPrincipal({ name, title, tenure, quote, imageSrc, imageAlt, hr
         )}
         {href && (
           <Link href={href} className="font-body text-caption uppercase tracking-caption text-gold-base inline-flex items-center gap-space-1.5 mt-space-1">
-            Read Full Message →
+            {readMoreLabel}
           </Link>
         )}
       </div>

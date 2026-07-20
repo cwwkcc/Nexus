@@ -14,9 +14,13 @@ export interface ProgressIndicatorProps {
   value?: number;
   label?: string;
   showPercentage?: boolean;
+  /** aria-label for the steps nav (steps variant) */
+  stepsAriaLabel?: string;
+  /** Fallback aria-label for the bar variant when no `label` is given */
+  barAriaLabel?: string;
 }
 
-export function ProgressIndicator({ variant = 'steps', steps = [], activeStep = 0, value = 0, label, showPercentage = true }: ProgressIndicatorProps) {
+export function ProgressIndicator({ variant = 'steps', steps = [], activeStep = 0, value = 0, label, showPercentage = true, stepsAriaLabel = 'Progress steps', barAriaLabel = 'Progress' }: ProgressIndicatorProps) {
   if (variant === 'bar') {
     const pct = Math.max(0, Math.min(100, value));
     return (
@@ -27,7 +31,7 @@ export function ProgressIndicator({ variant = 'steps', steps = [], activeStep = 
             {showPercentage && <span className="font-body text-caption uppercase tracking-caption text-gold-base">{pct}%</span>}
           </div>
         )}
-        <div role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100} aria-label={label ?? 'Progress'} className="h-1 bg-border-light rounded-sm overflow-hidden">
+        <div role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100} aria-label={label ?? barAriaLabel} className="h-1 bg-border-light rounded-sm overflow-hidden">
           <div className="h-full bg-green-base rounded-sm transition-all duration-gentle" style={{ width: `${pct}%` }} />
         </div>
       </div>
@@ -35,7 +39,7 @@ export function ProgressIndicator({ variant = 'steps', steps = [], activeStep = 
   }
 
   return (
-    <nav aria-label="Progress steps">
+    <nav aria-label={stepsAriaLabel}>
       <ol className="flex items-start gap-0 list-none p-0 m-0">
         {steps.map((step, idx) => {
           const isCompleted = idx < activeStep;

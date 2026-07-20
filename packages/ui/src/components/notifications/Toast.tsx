@@ -11,6 +11,7 @@ export interface ToastProps {
   visible: boolean;
   onDismiss: () => void;
   duration?: number;
+  dismissLabel?: string;
 }
 
 const TOAST_STYLES: Record<ToastVariant, { bg: string; border: string; text: string; icon: string }> = {
@@ -34,7 +35,7 @@ const TOAST_STYLES: Record<ToastVariant, { bg: string; border: string; text: str
   },
 };
 
-export function Toast({ variant, message, visible, onDismiss, duration = 5000 }: ToastProps) {
+export function Toast({ variant, message, visible, onDismiss, duration = 5000, dismissLabel = 'Dismiss notification' }: ToastProps) {
   useEffect(() => {
     if (!visible) return;
     const t = setTimeout(onDismiss, duration);
@@ -49,7 +50,7 @@ export function Toast({ variant, message, visible, onDismiss, duration = 5000 }:
         {s.icon}
       </span>
       <p className={cn('font-body text-body-sm flex-1', s.text)}>{message}</p>
-      <button onClick={onDismiss} aria-label="Dismiss notification" className={cn('bg-transparent border-none cursor-pointer', s.text, 'opacity-50 text-sm p-0.5 leading-none', 'transition-opacity duration-fast hover:opacity-100')}>
+      <button onClick={onDismiss} aria-label={dismissLabel} className={cn('bg-transparent border-none cursor-pointer', s.text, 'opacity-50 text-sm p-0.5 leading-none', 'transition-opacity duration-fast hover:opacity-100')}>
         ✕
       </button>
     </div>

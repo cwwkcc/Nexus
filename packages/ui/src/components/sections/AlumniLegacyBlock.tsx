@@ -25,9 +25,16 @@ interface AlumniProfile {
 interface AlumniLegacyBlockProps {
   alumni: AlumniProfile[];
   className?: string;
+  allYearsLabel?: string;
+  prevLabel?: string;
+  nextLabel?: string;
+  /** Slide-dot aria-label builder, receives the 1-based slide number */
+  getSlideLabel?: (slideNumber: number) => string;
+  /** "Class of {year}" builder */
+  getClassOfLabel?: (year: string) => string;
 }
 
-export function AlumniLegacyBlock({ alumni, className }: AlumniLegacyBlockProps) {
+export function AlumniLegacyBlock({ alumni, className, allYearsLabel = 'All Years', prevLabel = 'Previous alumnus', nextLabel = 'Next alumnus', getSlideLabel = (n) => `Go to slide ${n}`, getClassOfLabel = (year) => `Class of ${year}` }: AlumniLegacyBlockProps) {
   const [selectedYear, setSelectedYear] = useState<number | string | 'all'>('all');
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -38,7 +45,7 @@ export function AlumniLegacyBlock({ alumni, className }: AlumniLegacyBlockProps)
 
   const currentAlumnus = filteredAlumni[activeIndex];
 
-  // FIX: Reset index when filter changes to prevent out-of-bounds crashes
+  // Resets index when the filter changes so activeIndex can't point past the end of the new, shorter list
   const handleYearChange = (year: number | string | 'all') => {
     setSelectedYear(year);
     setActiveIndex(0);
@@ -57,10 +64,9 @@ export function AlumniLegacyBlock({ alumni, className }: AlumniLegacyBlockProps)
   return (
     <Container className={className}>
       {/* Year filter */}
-      {/* FIX: Removed accidental leading space in className */}
       <div className="flex justify-center gap-space-2 mb-space-8 flex-wrap">
         <button onClick={() => handleYearChange('all')} className={cn('px-space-3 py-space-1 font-body text-sm rounded-full transition-all', selectedYear === 'all' ? 'bg-green-base text-text-inverse' : 'bg-surface-default text-text-muted hover:bg-surface-deep')}>
-          All Years
+          {allYearsLabel}
         </button>
         {years.map((year) => (
           <button key={year} onClick={() => handleYearChange(year)} className={cn('px-space-3 py-space-1 font-body text-sm rounded-full transition-all', selectedYear === year ? 'bg-green-base text-text-inverse' : 'bg-surface-default text-text-muted hover:bg-surface-deep')}>
@@ -76,16 +82,17 @@ export function AlumniLegacyBlock({ alumni, className }: AlumniLegacyBlockProps)
         <blockquote className="font-display text-pullquote italic text-text-primary mb-space-6 mx-auto">&ldquo;{currentAlumnus.quote}&rdquo;</blockquote>
 
         <HStack justify="between" className="m-auto">
-          <button onClick={prev} className="bg-surface-elevated rounded-full p-space-2 shadow-elevation-1 hover:bg-gold-base transition-colors" aria-label="Previous alumnus">
+          <button onClick={prev} className="bg-surface-elevated rounded-full p-space-2 shadow-elevation-1 hover:bg-gold-base transition-colors" aria-label={prevLabel}>
             <Icon name="chevron-left" />
           </button>
           <div>
             <p className="font-display text-h3 mb-space-2">{currentAlumnus.name}</p>
             <p className="font-body text-body-sm text-text-muted">
-              {currentAlumnus.currentRole}{currentAlumnus.currentOrg && ` · ${currentAlumnus.currentOrg}`} · Class of {currentAlumnus.graduationYear}
+              {currentAlumnus.currentRole}
+              {currentAlumnus.currentOrg && ` · ${currentAlumnus.currentOrg}`} · {getClassOfLabel(currentAlumnus.graduationYear)}
             </p>
           </div>
-          <button onClick={next} className="bg-surface-elevated rounded-full p-space-2 shadow-elevation-1 hover:bg-gold-base transition-colors" aria-label="Next alumnus">
+          <button onClick={next} className="bg-surface-elevated rounded-full p-space-2 shadow-elevation-1 hover:bg-gold-base transition-colors" aria-label={nextLabel}>
             <Icon name="chevron-right" />
           </button>
         </HStack>
@@ -94,7 +101,7 @@ export function AlumniLegacyBlock({ alumni, className }: AlumniLegacyBlockProps)
       {/* Dots indicator */}
       <div className="flex justify-center gap-space-2 mt-space-8">
         {filteredAlumni.map((_, idx) => (
-          <button key={idx} onClick={() => setActiveIndex(idx)} className={cn('w-size-2 h-size-2 rounded-full transition-all', idx === activeIndex ? 'w-size-4 bg-gold-base' : 'bg-border-default')} aria-label={`Go to slide ${idx + 1}`} />
+          <button key={idx} onClick={() => setActiveIndex(idx)} className={cn('w-size-2 h-size-2 rounded-full transition-all', idx === activeIndex ? 'w-size-4 bg-gold-base' : 'bg-border-default')} aria-label={getSlideLabel(idx + 1)} />
         ))}
       </div>
     </Container>

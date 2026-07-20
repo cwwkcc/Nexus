@@ -9,6 +9,7 @@ export interface LoadingSkeletonProps {
   variant?: SkeletonVariant;
   /** Number of repeated skeleton items */
   count?: number;
+  ariaLabel?: string;
 }
 
 // Shimmer animation – kept as global style (injects once, but safe)
@@ -87,7 +88,7 @@ function SectionSkeleton() {
   );
 }
 
-export function LoadingSkeleton({ variant = 'card', count = 3 }: LoadingSkeletonProps) {
+export function LoadingSkeleton({ variant = 'card', count = 3, ariaLabel = 'Loading content' }: LoadingSkeletonProps) {
   if (variant === 'section') {
     return <SectionSkeleton />;
   }
@@ -96,7 +97,7 @@ export function LoadingSkeleton({ variant = 'card', count = 3 }: LoadingSkeleton
 
   if (variant === 'table-row') {
     return (
-      <div role="status" aria-label="Loading content">
+      <div role="status" aria-label={ariaLabel}>
         {items.map((_, i) => (
           <TableRowSkeleton key={i} />
         ))}
@@ -107,7 +108,7 @@ export function LoadingSkeleton({ variant = 'card', count = 3 }: LoadingSkeleton
 
   // Card grid (default)
   return (
-    <div role="status" aria-label="Loading content" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-4">
+    <div role="status" aria-label={ariaLabel} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-4">
       {items.map((_, i) => (
         <CardSkeleton key={i} />
       ))}
