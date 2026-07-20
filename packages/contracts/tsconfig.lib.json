@@ -10,7 +10,8 @@
     "allowImportingTsExtensions": true,
     "rewriteRelativeImportExtensions": true,
     "forceConsistentCasingInFileNames": true,
-    "types": ["node"]
+    "types": ["node"],
+    "composite": true
   },
   "include": ["src/**/*.ts"]
 }
