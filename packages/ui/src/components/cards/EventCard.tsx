@@ -1,13 +1,13 @@
 'use client';
 
-import type { EventData, EventStatusType, EventCardVariantType } from '@nexus/contracts';
+import type { EventCardData, EventStatusType, EventCardVariantType } from '@nexus/contracts';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import { cn } from '../../utilities/cn';
 import { Badge } from '../atoms/Badge';
 
-export interface EventCardProps extends Omit<EventData, 'variant'> {
+export interface EventCardProps extends Omit<EventCardData, 'id' | 'variant'> {
   variant?: EventCardVariantType;
   className?: string;
   /** Only used by the featured variant */

@@ -1,4 +1,4 @@
-import type { StreamData } from '@nexus/contracts';
+import type { ALStreamData } from '@nexus/contracts';
 
 import { cn } from '../../utilities/cn';
 import { Tag } from '../atoms/Tag';
@@ -8,7 +8,7 @@ import { EyebrowLabel } from '../typography/EyebrowLabel';
 import { Heading } from '../typography/Heading';
 import { Text } from '../typography/Text';
 
-interface AcademicStreamCardProps extends Omit<StreamData, 'stream'> {
+interface AcademicStreamCardProps extends Omit<ALStreamData, 'key'> {
   href: string;
   className?: string;
   streamEyebrowLabel?: string;
@@ -17,7 +17,7 @@ interface AcademicStreamCardProps extends Omit<StreamData, 'stream'> {
   exploreLabel?: string;
 }
 
-export function AcademicStreamCard({ name, description, careerPaths, href, subjectCount, className, streamEyebrowLabel = 'A/L Stream', getSubjectCountLabel = (count) => ` · ${count} subjects`, exploreLabel = 'Explore stream' }: AcademicStreamCardProps) {
+export function AcademicStreamCard({ name, description, careerPaths, subjects, href, className, streamEyebrowLabel = 'A/L Stream', getSubjectCountLabel = (count) => ` · ${count} subjects`, exploreLabel = 'Explore stream' }: AcademicStreamCardProps) {
   return (
     <NavLink href={href} className="group block no-underline h-full">
       <div
@@ -39,7 +39,7 @@ export function AcademicStreamCard({ name, description, careerPaths, href, subje
         {/* "A/L Stream · N subjects" eyebrow */}
         <EyebrowLabel as="p" className="mb-space-1p5">
           {streamEyebrowLabel}
-          {subjectCount ? getSubjectCountLabel(subjectCount) : ''}
+          {subjects.length > 0 ? getSubjectCountLabel(subjects.length) : ''}
         </EyebrowLabel>
 
         {/* Stream name */}
@@ -53,11 +53,13 @@ export function AcademicStreamCard({ name, description, careerPaths, href, subje
         </Text>
 
         {/* Career path tags */}
-        <div className="mb-space-5 flex flex-wrap gap-space-1p5">
-          {careerPaths.map((path) => (
-            <Tag key={path} label={path} className="border border-border-light bg-surface-deep" />
-          ))}
-        </div>
+        {careerPaths && careerPaths.length > 0 && (
+          <div className="mb-space-5 flex flex-wrap gap-space-1p5">
+            {careerPaths.map((path) => (
+              <Tag key={path} label={path} className="border border-border-light bg-surface-deep" />
+            ))}
+          </div>
+        )}
 
         <Text as="span" variant="label" color="gold">
           {exploreLabel} <span>{<Icon name="arrow-right" />}</span>
