@@ -1,5 +1,4 @@
 import type { FacilitiesGridData } from '@nexus/contracts';
-import { FacilityCard } from '@nexus/ui';
 
 export default function FacilitiesGrid({ grid }: { grid: FacilitiesGridData }) {
   return (
