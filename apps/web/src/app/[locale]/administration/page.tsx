@@ -1,6 +1,5 @@
 import AdministrationContact from '../../../blocks/administration/AdministrationContact';
 import AdministrationHero from '../../../blocks/administration/AdministrationHero';
-import AdvisoryBoardSection from '../../../blocks/administration/AdvisoryBoardSection';
 import PrincipalSection from '../../../blocks/administration/PrincipalSection';
 import StaffGridSection from '../../../blocks/administration/StaffGridSection';
 import { getAdministrationPageContent, type AdministrationPageContent } from '../../../server/content';
@@ -17,9 +16,9 @@ export default async function AdministrationPage({ params }: AdministrationPageP
     <>
       <AdministrationHero data={content.hero} />
       <PrincipalSection data={content.principal} />
-      <StaffGridSection data={content.vicePrincipals} />
-      <StaffGridSection data={content.headsOfDepartment} />
-      <AdvisoryBoardSection data={content.advisoryBoard} />
+      <StaffGridSection data={content.deputyPrincipals} />
+      <StaffGridSection data={content.assistantPrincipals} />
+      <StaffGridSection data={content.headPrefects} />
       <AdministrationContact data={content.contact} />
     </>
   );

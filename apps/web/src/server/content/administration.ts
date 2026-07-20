@@ -1,14 +1,15 @@
 import { createServerCaller } from '@nexus/api';
-import type { LocaleEnumData, HeroData, AdministrationPrincipalData, AdministrationStaffGridData, AdministrationAdvisoryBoardData, AdministrationContactData } from '@nexus/contracts';
+import type { LocaleEnumData, HeroData, AdministrationPrincipalData, AdministrationStaffGridData, AdministrationSdsData, CtaData } from '@nexus/contracts';
 import { cache } from 'react';
 
 export interface AdministrationPageContent {
   hero: HeroData;
   principal: AdministrationPrincipalData;
-  vicePrincipals: AdministrationStaffGridData;
-  headsOfDepartment: AdministrationStaffGridData;
-  advisoryBoard: AdministrationAdvisoryBoardData;
-  contact: AdministrationContactData;
+  deputyPrincipals: AdministrationStaffGridData;
+  assistantPrincipals: AdministrationStaffGridData;
+  headPrefects: AdministrationStaffGridData;
+  sds: AdministrationSdsData;
+  contact: CtaData;
 }
 
 export const getAdministrationPageContent = cache(async (locale: LocaleEnumData): Promise<AdministrationPageContent> => {
@@ -19,9 +20,10 @@ export const getAdministrationPageContent = cache(async (locale: LocaleEnumData)
   return {
     hero: sections['administration.hero'] as HeroData,
     principal: sections['administration.principal'] as AdministrationPrincipalData,
-    vicePrincipals: sections['administration.vicePrincipals'] as AdministrationStaffGridData,
-    headsOfDepartment: sections['administration.headsOfDepartment'] as AdministrationStaffGridData,
-    advisoryBoard: sections['administration.advisoryBoard'] as AdministrationAdvisoryBoardData,
-    contact: sections['administration.contact'] as AdministrationContactData,
+    deputyPrincipals: sections['administration.deputyPrincipals'] as AdministrationStaffGridData,
+    assistantPrincipals: sections['administration.assistantPrincipals'] as AdministrationStaffGridData,
+    headPrefects: sections['administration.headPrefects'] as AdministrationStaffGridData,
+    sds: sections['administration.sds'] as AdministrationSdsData,
+    contact: sections['administration.contact'] as CtaData,
   };
 });

@@ -1,7 +1,7 @@
-import type {} from '@nexus/contracts';
+import type { CtaData } from '@nexus/contracts';
 import { ButtonLink } from '@nexus/ui';
 
-export default function AdministrationContact({ data }: { data: AdministrationContactData }) {
+export default function AdministrationContact({ data }: { data: CtaData }) {
   return (
     <section className="py-24 bg-green-base relative overflow-hidden text-center">
       <div className="absolute inset-0 opacity-10 pointer-events-none">
