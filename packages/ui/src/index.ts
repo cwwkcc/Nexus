@@ -22,9 +22,9 @@ export { ScaleLoader } from './components/atoms/Spinners/ScaleLoader';
 // ============================================================================
 // BRAND
 // ============================================================================
-export { CrestAnimation } from './components/icons/brand/CrestAnimation';
-export { CrestDiagram } from './components/icons/brand/CrestDiagram';
-export { SchoolLogo } from './components/icons/brand/SchoolLogo';
+// CrestAnimation, CrestDiagram, and SchoolLogo are re-exported via the
+// icons barrel below (`export * from './components/icons'`) — kept here
+// as a single source instead of duplicating the same three exports twice.
 
 // ============================================================================
 // CARDS
@@ -64,8 +64,10 @@ export { Toast } from './components/notifications/Toast';
 // ============================================================================
 export { Calendar } from './components/forms/Calendar';
 export { Checkbox } from './components/forms/Checkbox';
-export { ContactForm } from './components/forms/ContactForm';
-export { FeedbackForm } from './components/forms/FeedbackForm';
+export { ContactForm, buildContactSchema } from './components/forms/ContactForm';
+export type { ContactFormProps, ContactFormLabels, ContactFormValues } from './components/forms/ContactForm';
+export { FeedbackForm, buildFeedbackSchema } from './components/forms/FeedbackForm';
+export type { FeedbackFormProps, FeedbackFormLabels, FeedbackFormValues, FeedbackCategory } from './components/forms/FeedbackForm';
 export { FileUploadZone } from './components/forms/FileUploadZone';
 export { FormErrorMessage } from './components/forms/FormErrorMessage';
 export { FormFieldGroup } from './components/forms/FormFieldGroup';
@@ -94,6 +96,8 @@ export { Grid, GridItem } from './components/layout/Grid';
 export { Hero } from './components/layout/Hero';
 export { MasonryGrid } from './components/layout/MasonryGrid';
 export { Navigation } from './components/navigation/Navigation';
+export { QuickAccessPortal } from './components/layout/QuickAccessPortal';
+export type { PortalLink, QuickAccessPortalProps } from './components/layout/QuickAccessPortal';
 export { VStack, HStack } from './components/layout/Stack';
 
 // ============================================================================
@@ -152,6 +156,7 @@ export { ErrorState } from './components/page-states/ErrorState';
 export { LoadingScreen } from './components/page-states/LoadingScreen';
 export { LoadingSkeleton } from './components/page-states/LoadingSkeleton';
 export { NotFoundPage } from './components/page-states/NotFound';
+export type { NotFoundPageProps, QuickLink } from './components/page-states/NotFound';
 export { OfflineBanner } from './components/page-states/OfflineBanner';
 export { SectionErrorBoundary } from './components/SectionErrorBoundary';
 

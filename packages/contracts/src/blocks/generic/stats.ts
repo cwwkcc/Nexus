@@ -12,10 +12,12 @@ export const StatItemSchema = z.object({
   suffix: z.string().optional(),
   prefix: z.string().optional(),
   description: z.string().optional(),
-  tooltip: z.object({
-    content: z.string(),
-    position: z.enum(['top', 'bottom', 'left', 'right']).optional(),
-  }).optional(),
+  tooltip: z
+    .object({
+      content: z.string(),
+      position: z.enum(['top', 'bottom', 'left', 'right']).optional(),
+    })
+    .optional(),
   disableCountUp: z.boolean().optional(),
 });
 
