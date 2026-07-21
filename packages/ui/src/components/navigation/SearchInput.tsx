@@ -2,6 +2,8 @@
 import type { SearchResultData } from '@nexus/contracts';
 import { useEffect, useId, useReducer, useRef } from 'react';
 
+import { cn } from '../../utilities/cn';
+
 export interface SearchInputProps {
   /** Clarifies scope, e.g. "Search news and announcements" */
   scopeLabel: string;
@@ -121,12 +123,12 @@ export function SearchInput({ scopeLabel, placeholder, onSearch, onResultClick, 
   };
 
   return (
-    <div ref={containerRef} className={className} style={{ position: 'relative' }}>
+    <div ref={containerRef} className={cn('relative', className)}>
       <label htmlFor={id} className="block mb-1.5 font-body text-[0.68rem] uppercase tracking-[0.12em] text-text-muted">
         {scopeLabel}
       </label>
 
-      <div style={{ position: 'relative' }}>
+      <div className="relative">
         {/* Search icon */}
         <span aria-hidden="true" className={`absolute left-3.5 top-1/2 -translate-y-1/2 text-sm pointer-events-none transition-colors duration-fast leading-none ${open ? 'text-gold-base' : 'text-text-muted'}`}>
           ⌕
