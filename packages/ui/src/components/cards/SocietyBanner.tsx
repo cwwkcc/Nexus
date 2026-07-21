@@ -15,7 +15,7 @@ export function SocietyBanner({ name, foundingYear, coverImageSrc, coverImageAlt
   return (
     <div className={cn('relative h-48 md:h-64 lg:h-80 overflow-hidden rounded-lg', className)}>
       {coverImageSrc ? (
-        <ImageFrame src={coverImageSrc} alt={coverImageAlt || name} aspectRatio="16/9" variant="full-bleed" className="h-full" />
+        <ImageFrame src={coverImageSrc} alt={coverImageAlt || name} aspectRatio="hero" variant="full-bleed" className="h-full" />
       ) : (
         <div className="w-full h-full bg-green-base flex items-center justify-center">
           <span className="font-display text-6xl text-gold-base/30">{name.charAt(0)}</span>
