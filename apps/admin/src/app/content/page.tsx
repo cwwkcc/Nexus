@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic';
 export default async function ContentIndexPage() {
   const caller = createServerCaller();
   const pageStatuses = await Promise.all(
-    PAGE_REGISTRY.map(async (registry) => {
+    Object.values(PAGE_REGISTRY).map(async (registry) => {
       const enEntries = await caller.contentEntry.adminGetByScope({
         scope: registry.scope,
         locale: 'en',

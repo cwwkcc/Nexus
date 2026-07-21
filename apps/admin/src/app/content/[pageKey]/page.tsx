@@ -1,7 +1,7 @@
 // apps/admin/src/app/content/[pageKey]/page.tsx
 
 import { createServerCaller } from '@nexus/api';
-import { PAGE_REGISTRY, getPageRegistry } from '@nexus/contracts';
+import { PAGE_REGISTRY, getPageDefinition } from '@nexus/contracts';
 import { Button, Container, Heading, SectionHeader, Text, Textarea } from '@nexus/ui';
 import { revalidatePath } from 'next/cache';
 import { notFound } from 'next/navigation';
@@ -60,7 +60,7 @@ export default async function PageEditorPage({ params, searchParams }: PageEdito
   const { locale: localeParam } = await searchParams;
   const locale = (['en', 'si', 'ta'].includes(localeParam ?? '') ? localeParam! : 'en') as 'en' | 'si' | 'ta';
 
-  const registry = getPageRegistry(pageKey);
+  const registry = getPageDefinition(pageKey as Parameters<typeof getPageDefinition>[0]);
   if (!registry) notFound();
 
   const caller = createServerCaller();
@@ -154,5 +154,5 @@ export default async function PageEditorPage({ params, searchParams }: PageEdito
 // ── Static params ─────────────────────────────────────────────────────────────
 
 export function generateStaticParams() {
-  return PAGE_REGISTRY.map((r) => ({ pageKey: r.page }));
+  return Object.values(PAGE_REGISTRY).map((r) => ({ pageKey: r.page }));
 }
