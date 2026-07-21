@@ -1,7 +1,7 @@
 // packages/ui/src/components/feedback/Calendar.tsx
 'use client';
 
-import type { EventData } from '@nexus/contracts';
+import type { EventCardData } from '@nexus/contracts';
 import { useState, useCallback } from 'react';
 
 import { cn } from '../../utilities/cn';
@@ -10,7 +10,7 @@ export type CalendarVariant = 'mini-strip' | 'month-view' | 'list-view';
 
 export interface CalendarProps {
   variant?: CalendarVariant;
-  events: EventData[];
+  events: EventCardData[];
   month?: string;
   onMonthChange?: (month: string) => void;
   className?: string;
@@ -25,7 +25,7 @@ export interface CalendarProps {
 const DEFAULT_MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const DEFAULT_DAY_ABBREVIATIONS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-const statusStyles: Record<NonNullable<EventData['status']>, { dot: string; badge: string }> = {
+const statusStyles: Record<NonNullable<EventCardData['status']>, { dot: string; badge: string }> = {
   upcoming: {
     dot: 'bg-semantic-info-base',
     badge: 'bg-semantic-info-base text-text-inverse',
@@ -132,7 +132,7 @@ export function Calendar({ variant = 'list-view', events, month, onMonthChange, 
   const cells: (number | null)[] = [...Array(firstDay).fill(null), ...Array.from({ length: daysInMonth }, (_, i) => i + 1)];
   while (cells.length % 7 !== 0) cells.push(null);
 
-  const eventsByDay: Record<number, EventData[]> = {};
+  const eventsByDay: Record<number, EventCardData[]> = {};
   events.forEach((evt) => {
     const d = new Date(evt.date);
     if (d.getFullYear() === year && d.getMonth() + 1 === monthNum) {
@@ -180,7 +180,8 @@ export function Calendar({ variant = 'list-view', events, month, onMonthChange, 
             <div key={day} className={cn('min-h-[60px] p-space-1', 'bg-surface-elevated border', isToday ? 'border-gold-base' : 'border-border-light', isPast && 'opacity-50')}>
               <div className={cn('font-body text-[0.75rem] mb-space-1', isToday ? 'text-gold-base font-semibold' : 'text-text-muted')}>{day}</div>
               {dayEvents.slice(0, 2).map((evt) => {
-                const { badge } = statusStyles[evt.status ?? 'upcoming'];
+                const status = evt.status ?? 'upcoming';
+                const { badge } = statusStyles[status];
                 return (
                   <a key={evt.id} href={evt.href ?? '#'} title={evt.title} className={cn('block font-body text-[0.58rem] text-text-inverse', 'px-space-1 py-space-0p5 mb-space-0p5', 'overflow-hidden text-ellipsis whitespace-nowrap', 'no-underline', badge)}>
                     {evt.title}
