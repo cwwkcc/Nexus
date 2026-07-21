@@ -1,5 +1,7 @@
 import type { TocSectionData } from '@nexus/contracts';
 
+import { cn } from '../../utilities/cn';
+
 export interface TableOfContentsProps {
   sections: TocSectionData[];
   /** ID of the currently visible section (passed in from parent's scroll observer) */
@@ -16,48 +18,14 @@ export function TableOfContents({ sections, activeId, className, ariaLabel = 'Ta
   };
 
   return (
-    <nav aria-label={ariaLabel} className={className} style={{ position: 'sticky', top: '100px' }}>
-      <p
-        style={{
-          fontFamily: 'var(--font-body)',
-          fontSize: '0.65rem',
-          textTransform: 'uppercase',
-          letterSpacing: '0.15em',
-          color: 'var(--text-muted)',
-          marginBottom: '14px',
-        }}
-      >
-        {headingLabel}
-      </p>
-      <ol style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+    <nav aria-label={ariaLabel} className={cn('sticky top-[100px]', className)}>
+      <p className="font-body text-label uppercase tracking-label text-text-muted mb-space-3.5">{headingLabel}</p>
+      <ol className="list-none p-0 m-0">
         {sections.map((section) => {
           const isActive = activeId === section.id;
           return (
             <li key={section.id}>
-              <button
-                onClick={() => scrollTo(section.id)}
-                aria-current={isActive ? 'location' : undefined}
-                style={{
-                  width: '100%',
-                  textAlign: 'left',
-                  background: 'none',
-                  border: 'none',
-                  borderLeft: `2px solid ${isActive ? 'var(--color-gold-base)' : 'var(--border-light)'}`,
-                  padding: '6px 0 6px 14px',
-                  fontFamily: 'var(--font-body)',
-                  fontSize: '0.82rem',
-                  color: isActive ? 'var(--color-gold-base)' : 'var(--text-muted)',
-                  cursor: 'pointer',
-                  transition: 'all 0.15s ease',
-                  display: 'block',
-                }}
-                onMouseEnter={(e) => {
-                  if (!isActive) (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)';
-                }}
-                onMouseLeave={(e) => {
-                  if (!isActive) (e.currentTarget as HTMLElement).style.color = 'var(--text-muted)';
-                }}
-              >
+              <button onClick={() => scrollTo(section.id)} aria-current={isActive ? 'location' : undefined} className={cn('block w-full text-left bg-transparent border-none border-l-2 py-space-1.5 pl-space-3.5', 'font-body text-[0.82rem] cursor-pointer transition-colors duration-fast', isActive ? 'border-gold-base text-gold-base' : 'border-border-light text-text-muted hover:text-text-primary')}>
                 {section.label}
               </button>
             </li>

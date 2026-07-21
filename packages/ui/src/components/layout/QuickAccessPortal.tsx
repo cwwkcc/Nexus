@@ -2,6 +2,8 @@
 
 import Link from 'next/link';
 
+import { cn } from '../../utilities/cn';
+
 export interface PortalLink {
   label: string;
   href: string;
@@ -38,38 +40,12 @@ const DEFAULT_PORTAL_LINKS: PortalLink[] = [
 
 export function QuickAccessPortal({ links = DEFAULT_PORTAL_LINKS }: QuickAccessPortalProps) {
   return (
-    <div
-      style={{
-        background: 'var(--surface-deep)',
-        borderBottom: '1px solid var(--border-light)',
-      }}
-    >
+    <div className="bg-surface-deep border-b border-border-light">
       <div className="content-width">
         {/* Desktop: horizontal strip */}
         <div className="hidden md:flex items-stretch">
           {links.map((link, i) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '12px 24px',
-                borderRight: i < links.length - 1 ? '1px solid var(--border-light)' : 'none',
-                fontFamily: 'var(--font-body)',
-                fontSize: '0.68rem',
-                textTransform: 'uppercase',
-                letterSpacing: '0.15em',
-                color: 'var(--text-muted)',
-                textDecoration: 'none',
-                transition: 'color 0.15s ease',
-                flex: 1,
-                justifyContent: 'center',
-              }}
-              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = 'var(--color-gold-base)')}
-              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = 'var(--text-muted)')}
-            >
+            <Link key={link.href} href={link.href} className={cn('flex flex-1 items-center justify-center gap-space-2 py-space-3 px-space-6', 'font-body text-label uppercase tracking-label text-text-muted no-underline', 'transition-colors duration-fast hover:text-gold-base', i < links.length - 1 && 'border-r border-border-light')}>
               {/* Icon */}
               {link.iconPath && (
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -82,26 +58,9 @@ export function QuickAccessPortal({ links = DEFAULT_PORTAL_LINKS }: QuickAccessP
         </div>
 
         {/* Mobile: 2×2 grid */}
-        <div className="md:hidden grid grid-cols-2" style={{ borderTop: '1px solid var(--border-light)' }}>
+        <div className="md:hidden grid grid-cols-2 border-t border-border-light">
           {links.map((link, i) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '14px 16px',
-                borderRight: i % 2 === 0 ? '1px solid var(--border-light)' : 'none',
-                borderBottom: i < links.length - 2 ? '1px solid var(--border-light)' : 'none',
-                fontFamily: 'var(--font-body)',
-                fontSize: '0.65rem',
-                textTransform: 'uppercase',
-                letterSpacing: '0.12em',
-                color: 'var(--text-muted)',
-                textDecoration: 'none',
-              }}
-            >
+            <Link key={link.href} href={link.href} className={cn('flex items-center gap-space-2 py-space-3.5 px-space-4', 'font-body text-label-sm uppercase tracking-label-sm text-text-muted no-underline', i % 2 === 0 && 'border-r border-border-light', i < links.length - 2 && 'border-b border-border-light')}>
               {link.iconPath && (
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d={link.iconPath} />

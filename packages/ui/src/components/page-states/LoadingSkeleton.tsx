@@ -1,4 +1,4 @@
-// packages/ui/src/components/feedback/LoadingSkeleton.tsx
+// packages/ui/src/components/page-states/LoadingSkeleton.tsx
 'use client';
 
 import { cn } from '../../utilities/cn';
@@ -34,13 +34,7 @@ if (typeof document !== 'undefined' && !document.querySelector('#kcc-skeleton-st
 function SkeletonBase({ className }: { className?: string }) {
   return (
     <div aria-hidden="true" className={cn('relative overflow-hidden bg-surface-deep', className)}>
-      <div
-        className="kcc-shimmer absolute inset-0"
-        style={{
-          background: 'linear-gradient(90deg, transparent, rgba(201,151,58,0.08), transparent)',
-          animation: 'kcc-shimmer 1.6s ease-in-out infinite',
-        }}
-      />
+      <div className="kcc-shimmer absolute inset-0 bg-gradient-to-r from-transparent via-gold-base/[0.08] to-transparent animate-[kcc-shimmer_1.6s_ease-in-out_infinite]" />
     </div>
   );
 }
@@ -101,7 +95,7 @@ export function LoadingSkeleton({ variant = 'card', count = 3, ariaLabel = 'Load
         {items.map((_, i) => (
           <TableRowSkeleton key={i} />
         ))}
-        <span className="sr-only">Loading…</span>
+        <span className="sr-only">{ariaLabel}</span>
       </div>
     );
   }
@@ -112,7 +106,7 @@ export function LoadingSkeleton({ variant = 'card', count = 3, ariaLabel = 'Load
       {items.map((_, i) => (
         <CardSkeleton key={i} />
       ))}
-      <span className="sr-only">Loading…</span>
+      <span className="sr-only">{ariaLabel}</span>
     </div>
   );
 }

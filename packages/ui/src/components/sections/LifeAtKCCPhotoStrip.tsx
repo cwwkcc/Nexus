@@ -88,7 +88,7 @@ export function LifeAtKCCPhotoStrip({ items, className, allLabel = 'All', catego
           </button>
         )}
 
-        <div ref={scrollRef} className="flex overflow-x-auto scroll-smooth gap-4 pb-4 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+        <div ref={scrollRef} className="flex overflow-x-auto scroll-smooth gap-4 pb-4 scrollbar-hide">
           {filteredItems.map((item) => (
             <div key={item.id} className="flex-shrink-0 w-72 md:w-80 group cursor-pointer">
               <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
@@ -109,6 +109,10 @@ export function LifeAtKCCPhotoStrip({ items, className, allLabel = 'All', catego
       </div>
 
       <style>{`
+        .scrollbar-hide {
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        }
         .scrollbar-hide::-webkit-scrollbar {
           display: none;
         }

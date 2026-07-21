@@ -1,3 +1,5 @@
+import { cn } from '../../utilities/cn';
+
 export interface FormSectionWrapperProps {
   title: string;
   description?: string;
@@ -7,42 +9,14 @@ export interface FormSectionWrapperProps {
 
 export function FormSectionWrapper({ title, description, children, className }: FormSectionWrapperProps) {
   return (
-    <div className={className} style={{ marginBottom: '40px' }}>
-      <div style={{ marginBottom: '24px' }}>
-        <h3
-          style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: '1.25rem',
-            fontWeight: 500,
-            color: 'var(--text-primary)',
-            marginBottom: description ? '6px' : 0,
-          }}
-        >
-          {title}
-        </h3>
-        {description && (
-          <p
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: '0.875rem',
-              color: 'var(--text-muted)',
-              lineHeight: 1.6,
-            }}
-          >
-            {description}
-          </p>
-        )}
-        <div
-          aria-hidden="true"
-          style={{
-            marginTop: '14px',
-            height: '1px',
-            background: 'var(--border-light)',
-          }}
-        />
+    <div className={cn('mb-space-10', className)}>
+      <div className="mb-space-6">
+        <h3 className={cn('font-display text-h3 font-medium text-text-primary', description ? 'mb-space-1.5' : 'mb-0')}>{title}</h3>
+        {description && <p className="font-body text-body-sm text-text-muted leading-relaxed">{description}</p>}
+        <div aria-hidden="true" className="mt-space-3.5 h-px bg-border-light" />
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>{children}</div>
+      <div className="flex flex-col gap-space-5">{children}</div>
     </div>
   );
 }

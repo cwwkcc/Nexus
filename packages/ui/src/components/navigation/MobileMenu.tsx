@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { useLockBodyScroll } from '../../hooks/useLockBodyScroll';
+import { cn } from '../../utilities/cn';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -44,100 +45,26 @@ interface SubPanelProps {
 
 function SubPanel({ item, onBack, onClose, currentPath, backLabel }: SubPanelProps) {
   return (
-    <div
-      role="dialog"
-      aria-label={item.label}
-      style={{
-        position: 'absolute',
-        inset: 0,
-        background: 'var(--color-green-base)',
-        display: 'flex',
-        flexDirection: 'column',
-        animation: 'kcc-submenu-slide-in 0.22s var(--ease-out, cubic-bezier(0,0,0.2,1)) both',
-      }}
-    >
+    <div role="dialog" aria-label={item.label} className="kcc-submenu absolute inset-0 bg-green-base flex flex-col animate-[kcc-submenu-slide-in_0.22s_var(--ease-out,cubic-bezier(0,0,0.2,1))_both]">
       {/* Sub-panel header */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          padding: '20px 24px',
-          borderBottom: '1px solid rgba(255,255,255,0.08)',
-          gap: '12px',
-        }}
-      >
-        <button
-          onClick={onBack}
-          aria-label={backLabel}
-          style={{
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            color: 'rgba(245,239,228,0.6)',
-            padding: '4px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '6px',
-            fontFamily: 'var(--font-body)',
-            fontSize: '0.72rem',
-            textTransform: 'uppercase',
-            letterSpacing: '0.15em',
-            transition: 'color 0.15s ease',
-          }}
-          onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = 'var(--color-gold-base)')}
-          onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = 'rgba(245,239,228,0.6)')}
-        >
+      <div className="flex items-center gap-space-3 py-space-5 px-space-6 border-b border-white/[0.08]">
+        <button onClick={onBack} aria-label={backLabel} className={cn('flex items-center gap-space-1.5 bg-none border-none cursor-pointer p-space-1', 'font-body text-label uppercase tracking-label', 'text-text-inverse/60 transition-colors duration-fast hover:text-gold-base')}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="M19 12H5M12 5l-7 7 7 7" />
           </svg>
           {backLabel}
         </button>
-        <span
-          style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: '1.1rem',
-            fontWeight: 500,
-            color: 'var(--text-inverse)',
-            marginLeft: '4px',
-          }}
-        >
-          {item.label}
-        </span>
+        <span className="font-display text-h4 font-medium text-text-inverse ml-space-1">{item.label}</span>
       </div>
 
       {/* Sub-links */}
-      <nav style={{ flex: 1, overflowY: 'auto', padding: '12px 0' }}>
-        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+      <nav className="flex-1 overflow-y-auto py-space-3">
+        <ul className="list-none p-0 m-0">
           {item.children?.map((child) => {
             const isActive = currentPath === child.href;
             return (
               <li key={child.href ?? child.label}>
-                <a
-                  href={child.href ?? '#'}
-                  onClick={onClose}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '14px 24px',
-                    fontFamily: 'var(--font-body)',
-                    fontSize: '1rem',
-                    color: isActive ? 'var(--color-gold-base)' : 'rgba(245,239,228,0.85)',
-                    textDecoration: 'none',
-                    borderLeft: isActive ? '2px solid var(--color-gold-base)' : '2px solid transparent',
-                    transition: 'all 0.15s ease',
-                  }}
-                  onMouseEnter={(e) => {
-                    const el = e.currentTarget as HTMLElement;
-                    if (!isActive) el.style.color = 'var(--text-inverse)';
-                    if (!isActive) el.style.borderLeftColor = 'rgba(201,151,58,0.4)';
-                  }}
-                  onMouseLeave={(e) => {
-                    const el = e.currentTarget as HTMLElement;
-                    if (!isActive) el.style.color = 'rgba(245,239,228,0.85)';
-                    if (!isActive) el.style.borderLeftColor = 'transparent';
-                  }}
-                >
+                <a href={child.href ?? '#'} onClick={onClose} className={cn('flex items-center justify-between py-space-3.5 px-space-6', 'font-body text-body no-underline border-l-2 transition-all duration-fast', isActive ? 'text-gold-base border-gold-base' : 'text-text-inverse/85 border-transparent hover:text-text-inverse hover:border-gold-base/40')}>
                   {child.label}
                   {child.children && child.children.length > 0 && (
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -185,10 +112,6 @@ export function MobileMenu({ items, isOpen, onClose, currentPath, menuLabel = 'M
           from { transform: translateX(100%); }
           to   { transform: translateX(0); }
         }
-        @keyframes kcc-drawer-slide-out {
-          from { transform: translateX(0); }
-          to   { transform: translateX(100%); }
-        }
         @keyframes kcc-submenu-slide-in {
           from { transform: translateX(32px); opacity: 0; }
           to   { transform: translateX(0); opacity: 1; }
@@ -199,94 +122,15 @@ export function MobileMenu({ items, isOpen, onClose, currentPath, menuLabel = 'M
       `}</style>
 
       {/* Backdrop */}
-      {isOpen && (
-        <div
-          aria-hidden="true"
-          onClick={onClose}
-          style={{
-            position: 'fixed',
-            inset: 0,
-            background: 'rgba(28,26,22,0.6)',
-            zIndex: 199,
-            backdropFilter: 'blur(2px)',
-          }}
-        />
-      )}
+      {isOpen && <div aria-hidden="true" onClick={onClose} className="fixed inset-0 z-[199] bg-[rgba(28,26,22,0.6)] backdrop-blur-[2px]" />}
 
       {/* Drawer */}
-      <div
-        ref={drawerRef}
-        role="dialog"
-        aria-modal="true"
-        aria-label={navLabel}
-        aria-hidden={!isOpen}
-        className="kcc-mobile-drawer"
-        style={{
-          position: 'fixed',
-          top: 0,
-          right: 0,
-          bottom: 0,
-          width: 'min(320px, 90vw)',
-          background: 'var(--color-green-base)',
-          zIndex: 200,
-          display: 'flex',
-          flexDirection: 'column',
-          transform: isOpen ? 'translateX(0)' : 'translateX(100%)',
-          animation: isOpen ? 'kcc-drawer-slide-in 0.28s var(--ease-out, cubic-bezier(0,0,0.2,1)) both' : undefined,
-          overflowY: 'auto',
-          overflowX: 'hidden',
-        }}
-      >
+      <div ref={drawerRef} role="dialog" aria-modal="true" aria-label={navLabel} aria-hidden={!isOpen} className={cn('kcc-mobile-drawer fixed top-0 right-0 bottom-0 z-[200] w-[min(320px,90vw)]', 'bg-green-base flex flex-col overflow-y-auto overflow-x-hidden transition-transform', isOpen ? 'translate-x-0 animate-[kcc-drawer-slide-in_0.28s_var(--ease-out,cubic-bezier(0,0,0.2,1))_both]' : 'translate-x-full')}>
         {/* Header */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '20px 24px',
-            borderBottom: '1px solid rgba(255,255,255,0.08)',
-            flexShrink: 0,
-          }}
-        >
-          <span
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: '1rem',
-              fontWeight: 500,
-              color: 'var(--color-gold-base)',
-              textTransform: 'uppercase',
-              letterSpacing: '0.1em',
-            }}
-          >
-            {menuLabel}
-          </span>
+        <div className="flex items-center justify-between py-space-5 px-space-6 border-b border-white/[0.08] shrink-0">
+          <span className="font-display text-body font-medium text-gold-base uppercase tracking-label">{menuLabel}</span>
           {headerExtra}
-          <button
-            onClick={onClose}
-            aria-label={closeLabel}
-            style={{
-              background: 'none',
-              border: '1px solid rgba(255,255,255,0.15)',
-              cursor: 'pointer',
-              color: 'rgba(245,239,228,0.7)',
-              width: '36px',
-              height: '36px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              transition: 'all 0.15s ease',
-            }}
-            onMouseEnter={(e) => {
-              const el = e.currentTarget as HTMLElement;
-              el.style.background = 'rgba(255,255,255,0.08)';
-              el.style.color = 'var(--text-inverse)';
-            }}
-            onMouseLeave={(e) => {
-              const el = e.currentTarget as HTMLElement;
-              el.style.background = 'none';
-              el.style.color = 'rgba(245,239,228,0.7)';
-            }}
-          >
+          <button onClick={onClose} aria-label={closeLabel} className={cn('flex items-center justify-center w-space-9 h-space-9', 'bg-none border border-white/15 cursor-pointer', 'text-text-inverse/70 transition-all duration-fast', 'hover:bg-white/[0.08] hover:text-text-inverse')}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
               <path d="M18 6L6 18M6 6l12 12" />
             </svg>
@@ -294,76 +138,23 @@ export function MobileMenu({ items, isOpen, onClose, currentPath, menuLabel = 'M
         </div>
 
         {/* Nav items */}
-        <nav style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
+        <nav className="flex-1 relative overflow-hidden">
           {/* Root list */}
-          <ul style={{ listStyle: 'none', padding: '12px 0', margin: 0 }}>
+          <ul className="list-none py-space-3 m-0">
             {items.map((item) => {
               const hasChildren = item.children && item.children.length > 0;
               const isActive = !hasChildren && currentPath === item.href;
               return (
                 <li key={item.href ?? item.label}>
                   {hasChildren ? (
-                    <button
-                      onClick={() => setActiveSubmenu(item)}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        width: '100%',
-                        padding: '16px 24px',
-                        background: 'none',
-                        border: 'none',
-                        cursor: 'pointer',
-                        fontFamily: 'var(--font-display)',
-                        fontSize: '1.2rem',
-                        fontWeight: 500,
-                        color: 'var(--text-inverse)',
-                        textAlign: 'left',
-                        borderLeft: '2px solid transparent',
-                        transition: 'all 0.15s ease',
-                      }}
-                      onMouseEnter={(e) => {
-                        const el = e.currentTarget as HTMLElement;
-                        el.style.color = 'var(--color-gold-base)';
-                        el.style.borderLeftColor = 'var(--color-gold-base)';
-                      }}
-                      onMouseLeave={(e) => {
-                        const el = e.currentTarget as HTMLElement;
-                        el.style.color = 'var(--text-inverse)';
-                        el.style.borderLeftColor = 'transparent';
-                      }}
-                    >
+                    <button onClick={() => setActiveSubmenu(item)} className={cn('flex items-center justify-between w-full py-space-4 px-space-6 text-left', 'bg-none border-none border-l-2 border-transparent cursor-pointer', 'font-display text-h4 font-medium text-text-inverse transition-all duration-fast', 'hover:text-gold-base hover:border-gold-base')}>
                       {item.label}
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
                         <path d="M9 18l6-6-6-6" />
                       </svg>
                     </button>
                   ) : (
-                    <a
-                      href={item.href ?? '#'}
-                      onClick={onClose}
-                      style={{
-                        display: 'block',
-                        padding: '16px 24px',
-                        fontFamily: 'var(--font-display)',
-                        fontSize: '1.2rem',
-                        fontWeight: 500,
-                        color: isActive ? 'var(--color-gold-base)' : 'var(--text-inverse)',
-                        textDecoration: 'none',
-                        borderLeft: isActive ? '2px solid var(--color-gold-base)' : '2px solid transparent',
-                        transition: 'all 0.15s ease',
-                      }}
-                      onMouseEnter={(e) => {
-                        const el = e.currentTarget as HTMLElement;
-                        if (!isActive) el.style.color = 'var(--color-gold-base)';
-                        if (!isActive) el.style.borderLeftColor = 'rgba(201,151,58,0.4)';
-                      }}
-                      onMouseLeave={(e) => {
-                        const el = e.currentTarget as HTMLElement;
-                        if (!isActive) el.style.color = 'var(--text-inverse)';
-                        if (!isActive) el.style.borderLeftColor = 'transparent';
-                      }}
-                    >
+                    <a href={item.href ?? '#'} onClick={onClose} className={cn('block py-space-4 px-space-6 no-underline border-l-2 transition-all duration-fast', 'font-display text-h4 font-medium', isActive ? 'text-gold-base border-gold-base' : 'text-text-inverse border-transparent hover:text-gold-base hover:border-gold-base/40')}>
                       {item.label}
                     </a>
                   )}
@@ -377,17 +168,7 @@ export function MobileMenu({ items, isOpen, onClose, currentPath, menuLabel = 'M
         </nav>
 
         {/* Footer strip — only rendered when the consumer passes content */}
-        {footer && (
-          <div
-            style={{
-              padding: '20px 24px',
-              borderTop: '1px solid rgba(255,255,255,0.08)',
-              flexShrink: 0,
-            }}
-          >
-            {footer}
-          </div>
-        )}
+        {footer && <div className="py-space-5 px-space-6 border-t border-white/[0.08] shrink-0">{footer}</div>}
       </div>
     </>
   );

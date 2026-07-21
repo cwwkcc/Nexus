@@ -29,7 +29,7 @@ export function OfflineBanner({ message = 'You are currently offline. Some featu
   if (!isOffline) return null;
 
   return (
-    <div role="alert" className={cn('fixed top-0 left-0 right-0 z-raised', 'bg-surface-inverse text-text-inverse text-center', 'py-space-3 px-space-4')} style={{ top: 'var(--nav-height, 0px)' }}>
+    <div role="alert" className={cn('fixed left-0 right-0 top-[var(--nav-height,0px)] z-raised', 'bg-surface-inverse text-text-inverse text-center', 'py-space-3 px-space-4')}>
       <p className="font-body text-body-sm">{message}</p>
     </div>
   );

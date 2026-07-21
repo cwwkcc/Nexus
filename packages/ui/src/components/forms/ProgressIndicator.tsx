@@ -52,7 +52,7 @@ export function ProgressIndicator({ variant = 'steps', steps = [], activeStep = 
                 <div className={cn('w-8 h-8 rounded-full flex items-center justify-center', 'font-body text-sm font-semibold transition-all duration-fast', isCompleted ? 'bg-green-base text-text-inverse border-2 border-green-base' : isActive ? 'bg-transparent text-gold-base border-2 border-gold-base' : 'bg-transparent text-text-muted border-2 border-border-default')}>{isCompleted ? '✓' : idx + 1}</div>
                 <span className={cn('font-body text-caption uppercase tracking-caption text-center whitespace-nowrap', isCompleted ? 'text-green-base' : isActive ? 'text-gold-base' : 'text-text-muted')}>{step.label}</span>
               </div>
-              {!isLast && <div aria-hidden="true" className={cn('flex-1 h-0.5 mb-[26px] transition-colors duration-gentle', isCompleted ? 'bg-green-base' : 'bg-border-light')} style={{ minWidth: '24px' }} />}
+              {!isLast && <div aria-hidden="true" className={cn('flex-1 h-0.5 mb-[26px] min-w-space-6 transition-colors duration-gentle', isCompleted ? 'bg-green-base' : 'bg-border-light')} />}
             </li>
           );
         })}

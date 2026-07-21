@@ -108,16 +108,10 @@ export function Hero({ variant = 'homepage', heading, subheading, eyebrow, image
   const maxWidthClass = variant === 'homepage' ? 'max-w-prose' : 'max-w-content';
 
   // Overlay gradient – mapped from design system tokens
-  const getOverlayGradient = () => {
-    if (overlayOpacity !== undefined) {
-      return `linear-gradient(to bottom, rgba(28,26,22,${overlayOpacity * 0.8}), rgba(26,74,46,${overlayOpacity}))`;
-    }
-    const gradients: Record<HeroVariant, string> = {
-      homepage: 'linear-gradient(to bottom, rgba(28,26,22,0.55), rgba(26,74,46,0.72), rgba(28,26,22,0.82))',
-      subpage: 'linear-gradient(to bottom, rgba(28,26,22,0.5), rgba(26,74,46,0.78))',
-      minimal: 'rgba(26,74,46,0.88)',
-    };
-    return gradients[variant];
+  const OVERLAY_GRADIENT_CLASSES: Record<HeroVariant, string> = {
+    homepage: 'bg-gradient-to-b from-[rgba(28,26,22,0.55)] via-[rgba(26,74,46,0.72)] to-[rgba(28,26,22,0.82)]',
+    subpage: 'bg-gradient-to-b from-[rgba(28,26,22,0.5)] to-[rgba(26,74,46,0.78)]',
+    minimal: 'bg-[rgba(26,74,46,0.88)]',
   };
 
   // Framer Motion variants for staggered children
@@ -174,7 +168,7 @@ export function Hero({ variant = 'homepage', heading, subheading, eyebrow, image
         )}
 
         {/* Overlay */}
-        <div className="absolute inset-0" style={{ background: getOverlayGradient() }} />
+        {overlayOpacity !== undefined ? <div className="absolute inset-0" style={{ background: `linear-gradient(to bottom, rgba(28,26,22,${overlayOpacity * 0.8}), rgba(26,74,46,${overlayOpacity}))` }} /> : <div className={cn('absolute inset-0', OVERLAY_GRADIENT_CLASSES[variant])} />}
       </div>
 
       {/* Content */}
@@ -183,7 +177,7 @@ export function Hero({ variant = 'homepage', heading, subheading, eyebrow, image
           {/* Breadcrumb */}
           {breadcrumb && breadcrumb.length > 0 && (
             <motion.div variants={itemVariants}>
-              <HeroBreadcrumb items={breadcrumb} breadcrumbAriaLabel={breadcrumbAriaLabel} />
+              <HeroBreadcrumb items={breadcrumb} />
             </motion.div>
           )}
 

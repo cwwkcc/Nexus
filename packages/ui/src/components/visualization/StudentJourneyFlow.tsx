@@ -51,7 +51,7 @@ export function StudentJourneyFlow({ nodes, edges, className, corePathLabel = 'C
 
   return (
     <div className={cn('relative overflow-x-auto py-space-8', className)}>
-      <svg viewBox="0 0 1000 400" className="w-full min-w-[800px] h-auto" style={{ background: 'var(--surface-base)' }}>
+      <svg viewBox="0 0 1000 400" className="w-full min-w-[800px] h-auto bg-surface-base">
         <defs>
           <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="8" refY="3.5" orient="auto">
             <polygon points="0 0, 10 3.5, 0 7" fill="var(--color-gold-base)" />
@@ -79,7 +79,7 @@ export function StudentJourneyFlow({ nodes, edges, className, corePathLabel = 'C
           const isHighlightedNode = isHighlighted(node.id);
           const isSelected = selectedNode === node.id;
           return (
-            <g key={node.id} transform={`translate(${node.position.x}, ${node.position.y})`} onMouseEnter={() => setHoveredNode(node.id)} onMouseLeave={() => setHoveredNode(null)} onClick={() => setSelectedNode(isSelected ? null : node.id)} style={{ cursor: 'pointer' }}>
+            <g key={node.id} transform={`translate(${node.position.x}, ${node.position.y})`} onMouseEnter={() => setHoveredNode(node.id)} onMouseLeave={() => setHoveredNode(null)} onClick={() => setSelectedNode(isSelected ? null : node.id)} className="cursor-pointer">
               <rect x={-60} y={-30} width={120} height={60} rx={4} fill={isHighlightedNode ? 'var(--surface-elevated)' : 'var(--surface-default)'} stroke={isSelected ? 'var(--color-gold-base)' : isHighlightedNode ? 'var(--color-gold-pale)' : 'var(--border-light)'} strokeWidth={isSelected ? 2 : 1} className="transition-all duration-200" />
               <text x={0} y={-5} textAnchor="middle" className={cn('font-display text-sm fill-text-primary font-medium', isSelected && 'fill-gold-base')}>
                 {node.label}

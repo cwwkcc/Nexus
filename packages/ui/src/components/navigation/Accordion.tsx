@@ -37,7 +37,7 @@ function AccordionSingle({ item, isOpen, onToggle }: { item: AccordionItem; isOp
         maxHeight, so the collapse/expand animation speed stays consistent
         regardless of content length.
       */}
-      <div id={panelId} role="region" aria-labelledby={buttonId} className="grid transition-[grid-template-rows] duration-standard ease-out motion-reduce:transition-none" style={{ gridTemplateRows: isOpen ? '1fr' : '0fr' }}>
+      <div id={panelId} role="region" aria-labelledby={buttonId} className={cn('grid transition-[grid-template-rows] duration-standard ease-out motion-reduce:transition-none', isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]')}>
         <div className="overflow-hidden">
           <div className="pb-space-5">
             <p className={cn('font-body text-body-sm', 'text-text-muted', 'leading-relaxed')}>{item.answer}</p>
