@@ -6,11 +6,19 @@ import { ImageSchema } from '../../primitives/media/index.ts';
 
 export const FacilityTypeEnum = z.enum(['building', 'laboratory', 'auditorium', 'sports', 'pool', 'library']);
 
+export const FacilityCardVariantEnum = z.enum(['standard', 'schedule']);
+
 export const FacilityScheduleSlotSchema = z.object({
   day: z.string().min(1),
   opens: z.string().min(1),
   closes: z.string().min(1),
   notes: z.string().optional(),
+});
+
+export const FacilityCardScheduleSlotSchema = z.object({
+  day: z.string().min(1),
+  time: z.string().min(1),
+  group: z.string().min(1),
 });
 
 export const FacilitySchema = z.object({
@@ -30,11 +38,17 @@ export const FacilityCardSchema = z.object({
   slug: z.string().min(1),
   name: z.string().min(1),
   type: FacilityTypeEnum,
+  description: z.string().min(1),
   image: ImageSchema,
+  imageSrc: z.string().optional(),
+  imageAlt: z.string().optional(),
   features: z.array(z.string()).optional(),
+  schedule: z.array(FacilityCardScheduleSlotSchema).optional(),
+  href: z.string().optional(),
 });
 
 export type FacilityTypeEnumData = z.infer<typeof FacilityTypeEnum>;
+export type FacilityCardVariantType = z.infer<typeof FacilityCardVariantEnum>;
 export type FacilityScheduleSlotData = z.infer<typeof FacilityScheduleSlotSchema>;
 export type FacilityData = z.infer<typeof FacilitySchema>;
 export type FacilityCardData = z.infer<typeof FacilityCardSchema>;

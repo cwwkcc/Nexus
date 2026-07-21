@@ -6,6 +6,8 @@ import { AvatarSchema, ImageSchema } from '../../primitives/media/index.ts';
 
 export const SocietyCategoryEnum = z.enum(['academic', 'sports', 'arts', 'technology']);
 
+export const SocietyCardVariantEnum = z.enum(['hub-grid', 'featured']);
+
 export const SocietySchema = z.object({
   id: z.string().min(1),
   slug: z.string().min(1),
@@ -30,8 +32,14 @@ export const SocietyCardSchema = z.object({
   category: SocietyCategoryEnum,
   logo: AvatarSchema.optional(),
   isFeatured: z.boolean().optional(),
+  imageSrc: z.string().optional(),
+  imageAlt: z.string().optional(),
+  memberCount: z.number().int().nonnegative().optional(),
+  founded: z.string().optional(),
+  href: z.string().min(1),
 });
 
 export type SocietyCategoryEnumData = z.infer<typeof SocietyCategoryEnum>;
+export type SocietyCardVariantType = z.infer<typeof SocietyCardVariantEnum>;
 export type SocietyData = z.infer<typeof SocietySchema>;
 export type SocietyCardData = z.infer<typeof SocietyCardSchema>;

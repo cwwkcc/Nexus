@@ -5,6 +5,16 @@ import { z } from 'zod';
 
 import { STATS_BLOCK } from '../block-type.js';
 
+export const TrendDirectionEnum = z.enum(['up', 'down', 'neutral']);
+
+export const StatCardVariantEnum = z.enum(['single', 'with-trend']);
+
+export const TrendPropsSchema = z.object({
+  direction: TrendDirectionEnum,
+  value: z.string(),
+  label: z.string().optional(),
+});
+
 export const StatItemSchema = z.object({
   id: z.string(),
   target: z.number(),
@@ -19,6 +29,7 @@ export const StatItemSchema = z.object({
     })
     .optional(),
   disableCountUp: z.boolean().optional(),
+  trend: TrendPropsSchema.optional(),
 });
 
 export const StatsSchema = z.object({
@@ -28,3 +39,6 @@ export const StatsSchema = z.object({
 
 export type StatsData = z.infer<typeof StatsSchema>;
 export type StatItem = z.infer<typeof StatItemSchema>;
+export type StatData = StatItem;
+export type TrendDirectionType = z.infer<typeof TrendDirectionEnum>;
+export type StatCardVariantType = z.infer<typeof StatCardVariantEnum>;
