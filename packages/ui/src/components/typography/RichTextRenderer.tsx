@@ -32,7 +32,7 @@ const components: PortableTextComponents = {
         {children}
       </InlineLink>
     ),
-    em: ({ children }) => <em className="italic font-serif">{children}</em>,
+    em: ({ children }) => <em className="italic font-quote">{children}</em>,
     strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
   },
   list: {

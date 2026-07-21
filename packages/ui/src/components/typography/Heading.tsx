@@ -27,7 +27,7 @@ const colorClasses: Record<HeadingColor, string> = {
   primary: 'text-text-primary',
   muted: 'text-text-muted',
   inverse: 'text-text-inverse',
-  gold: 'text-gold-base',
+  gold: 'text-text-gold',
   success: 'text-semantic-success-base',
   error: 'text-semantic-error-base',
   warning: 'text-semantic-warning-base',
