@@ -28,17 +28,17 @@ interface ErrorBoundaryClassState {
 // while React actually renders or commits the child tree, so the previous
 // version of this file never caught anything from real component errors.
 class ErrorBoundaryClass extends Component<ErrorBoundaryClassProps, ErrorBoundaryClassState> {
-  state: ErrorBoundaryClassState = { hasError: false };
+  override state: ErrorBoundaryClassState = { hasError: false };
 
   static getDerivedStateFromError() {
     return { hasError: true };
   }
 
-  componentDidCatch(error: Error) {
+  override componentDidCatch(error: Error) {
     this.props.onError(error);
   }
 
-  render() {
+  override render() {
     // Parent (SectionErrorBoundary) owns the actual fallback UI, so just
     // render nothing here once an error has been caught and reported up.
     if (this.state.hasError) return null;
