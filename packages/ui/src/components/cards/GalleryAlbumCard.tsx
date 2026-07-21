@@ -1,11 +1,11 @@
-import type { GalleryAlbumData } from '@nexus/contracts';
+import type { GalleryAlbumCardData } from '@nexus/contracts';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import { cn } from '../../utilities/cn';
 import { Badge } from '../atoms/Badge';
 
-export interface GalleryAlbumCardProps extends GalleryAlbumData {
+export interface GalleryAlbumCardProps extends GalleryAlbumCardData {
   className?: string;
   viewAlbumLabel?: string;
   /** Photo-count label builder, receives the count */

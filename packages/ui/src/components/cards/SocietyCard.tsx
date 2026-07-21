@@ -1,11 +1,11 @@
-import type { SocietyData, SocietyCardVariantType } from '@nexus/contracts';
+import type { SocietyCardData, SocietyCardVariantType } from '@nexus/contracts';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import { cn } from '../../utilities/cn';
 import { Badge } from '../atoms/Badge';
 
-export interface SocietyCardProps extends Omit<SocietyData, 'variant'> {
+export interface SocietyCardProps extends Omit<SocietyCardData, 'variant'> {
   variant?: SocietyCardVariantType;
   className?: string;
   membersLabel?: string;

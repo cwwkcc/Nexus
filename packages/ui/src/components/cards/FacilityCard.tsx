@@ -1,10 +1,10 @@
-import type { FacilityData, FacilityCardVariantType } from '@nexus/contracts';
+import type { FacilityCardData, FacilityCardVariantType } from '@nexus/contracts';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import { cn } from '../../utilities/cn';
 
-export interface FacilityCardProps extends Omit<FacilityData, 'variant'> {
+export interface FacilityCardProps extends Omit<FacilityCardData, 'variant'> {
   variant?: FacilityCardVariantType;
   className?: string;
   scheduleLabel?: string;
@@ -18,7 +18,7 @@ export function FacilityCard({ variant = 'standard', name, description, features
         <h3 className={cn('font-display text-h3 font-medium text-text-primary mb-space-2', 'transition-colors duration-fast group-hover:text-gold-active')}>{name}</h3>
         <p className="font-body text-body-sm text-text-muted leading-relaxed mb-space-4">{description}</p>
         <ul className="list-none p-0 m-0 flex flex-col gap-space-1.5 mb-space-4">
-          {features.map((feat) => (
+          {features?.map((feat) => (
             <li key={feat} className="flex items-center gap-space-2">
               <span className="text-green-base text-xs flex-shrink-0">●</span>
               <span className="font-body text-body-sm text-text-muted">{feat}</span>

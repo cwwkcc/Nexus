@@ -1,11 +1,11 @@
-import type { ArticleData, NewsCardVariantType } from '@nexus/contracts';
+import type { ArticleCardData, NewsCardVariantType } from '@nexus/contracts';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import { cn } from '../../utilities/cn';
 import { Badge } from '../atoms/Badge';
 
-export interface NewsCardProps extends Omit<ArticleData, 'variant'> {
+export interface NewsCardProps extends Omit<ArticleCardData, 'variant'> {
   variant?: NewsCardVariantType;
   className?: string;
   readMoreLabel?: string;

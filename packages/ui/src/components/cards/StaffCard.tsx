@@ -1,8 +1,8 @@
-import type { StaffData, StaffCardVariantType } from '@nexus/contracts';
+import type { StaffCardData, StaffCardVariantType } from '@nexus/contracts';
 import Image from 'next/image';
 import Link from 'next/link';
 
-export interface StaffCardProps extends Omit<StaffData, 'variant'> {
+export interface StaffCardProps extends Omit<StaffCardData, 'variant'> {
   variant?: StaffCardVariantType;
   className?: string;
   /** Only used by the principal variant */

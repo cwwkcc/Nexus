@@ -26,8 +26,8 @@ function TrendIndicator({ direction, value, label }: { direction: TrendDirection
   );
 }
 
-export function StatCard({ variant = 'single', value, suffix = '', label, trend, trendValue, trendLabel, className }: StatCardProps) {
-  const { ref } = useCountUp(value);
+export function StatCard({ variant = 'single', target, suffix = '', label, trend, className }: StatCardProps) {
+  const { ref } = useCountUp(target);
 
   return (
     <div ref={ref as React.RefObject<HTMLDivElement>} className={cn('p-space-7 bg-surface-elevated border border-border-light', 'shadow-elevation-1', className)}>
@@ -36,7 +36,7 @@ export function StatCard({ variant = 'single', value, suffix = '', label, trend,
         <span className="font-display text-[clamp(2rem,4vw,2.8rem)] font-medium text-gold-base leading-none"></span>
         {suffix && <span className="font-display text-[clamp(1rem,2vw,1.4rem)] font-medium text-gold-base/70 leading-none">{suffix}</span>}
       </div>
-      {variant === 'with-trend' && trend && <TrendIndicator direction={trend} value={trendValue} label={trendLabel} />}
+      {variant === 'with-trend' && trend && <TrendIndicator direction={trend.direction} value={trend.value} label={trend.label} />}
     </div>
   );
 }
