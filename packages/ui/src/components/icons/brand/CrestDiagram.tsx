@@ -119,7 +119,7 @@ export function CrestDiagram({ symbols = DEFAULT_SYMBOLS, variant = 'ambient', c
 
       const dotX = dotRect.left - container.left + dotRect.width / 2;
       const dotY = dotRect.top - container.top + dotRect.height / 2;
-      const isLeft = symbol.position.includes('left');
+      const isLeft = symbol.position?.includes('left') ?? false;
       const labelX = isLeft ? labelRect.right - container.left : labelRect.left - container.left;
       const labelY = labelRect.top - container.top + 24;
       const midX = labelX + (dotX - labelX) / 2;
@@ -179,7 +179,7 @@ export function CrestDiagram({ symbols = DEFAULT_SYMBOLS, variant = 'ambient', c
           const isActive = activeId === symbol.id;
           const isHovered = hoveredId === symbol.id;
 
-          return <button key={symbol.id} data-dot={symbol.id} onClick={() => handleClick(symbol.id)} onPointerDown={() => handlePointerDown(symbol.id)} onPointerUp={handlePointerUp} onPointerEnter={() => handlePointerEnter(symbol.id)} onPointerLeave={handlePointerLeave} className={cn('absolute z-overlay cursor-pointer w-size-5 h-size-5 rounded-full border-border-sm border-solid transition-all duration-300', DOT_POSITIONS[symbol.position], isActive ? (variant === 'ambient' ? 'bg-gold-base border-gold-base ring-4 ring-gold-base/30 scale-125 shadow-md' : 'bg-gold-base border-gold-base ring-4 ring-gold-base/30 scale-110') : isHovered && variant !== 'ambient' ? 'bg-surface-elevated border-gold-base scale-125 shadow-md' : 'bg-surface-base border-border-default hover:border-gold-base')} />;
+          return <button key={symbol.id} data-dot={symbol.id} onClick={() => handleClick(symbol.id)} onPointerDown={() => handlePointerDown(symbol.id)} onPointerUp={handlePointerUp} onPointerEnter={() => handlePointerEnter(symbol.id)} onPointerLeave={handlePointerLeave} className={cn('absolute z-overlay cursor-pointer w-size-5 h-size-5 rounded-full border-border-sm border-solid transition-all duration-300', DOT_POSITIONS[(symbol.position as HotspotPosition) || 'top-right'], isActive ? (variant === 'ambient' ? 'bg-gold-base border-gold-base ring-4 ring-gold-base/30 scale-125 shadow-md' : 'bg-gold-base border-gold-base ring-4 ring-gold-base/30 scale-110') : isHovered && variant !== 'ambient' ? 'bg-surface-elevated border-gold-base scale-125 shadow-md' : 'bg-surface-base border-border-default hover:border-gold-base')} />;
         })}
       </Container>
 
@@ -193,7 +193,7 @@ export function CrestDiagram({ symbols = DEFAULT_SYMBOLS, variant = 'ambient', c
         const isHighlighted = isActive || (variant !== 'ambient' && isHovered);
 
         return (
-          <button key={symbol.id} data-label={symbol.id} onClick={() => handleClick(symbol.id)} onPointerDown={() => handlePointerDown(symbol.id)} onPointerUp={handlePointerUp} onPointerEnter={() => handlePointerEnter(symbol.id)} onPointerLeave={handlePointerLeave} className={cn('absolute w-size-screen-w-20 text-center cursor-pointer bg-surface-elevated border-border-sm border-solid transition-all duration-300 z-dropdown rounded-md p-space-1p5', isDimmed ? 'opacity-20 scale-95 grayscale' : 'opacity-100 scale-100', isHighlighted ? 'border-gold-base shadow-lg -translate-y-1' : 'border-border-light shadow-sm', LABEL_POSITIONS[symbol.position])}>
+          <button key={symbol.id} data-label={symbol.id} onClick={() => handleClick(symbol.id)} onPointerDown={() => handlePointerDown(symbol.id)} onPointerUp={handlePointerUp} onPointerEnter={() => handlePointerEnter(symbol.id)} onPointerLeave={handlePointerLeave} className={cn('absolute w-size-screen-w-20 text-center cursor-pointer bg-surface-elevated border-border-sm border-solid transition-all duration-300 z-dropdown rounded-md p-space-1p5', isDimmed ? 'opacity-20 scale-95 grayscale' : 'opacity-100 scale-100', isHighlighted ? 'border-gold-base shadow-lg -translate-y-1' : 'border-border-light shadow-sm', LABEL_POSITIONS[(symbol.position as HotspotPosition) || 'top-right'])}>
             <EyebrowLabel className={cn('transition-colors duration-fast block', isHighlighted ? 'text-gold-base' : 'text-text-muted')}>{symbol.name}</EyebrowLabel>
             <Text variant="body-sm" color={isHighlighted ? 'gold' : 'muted'} className="mt-space-1 normal-case tracking-normal transition-colors duration-fast">
               {symbol.meaning}

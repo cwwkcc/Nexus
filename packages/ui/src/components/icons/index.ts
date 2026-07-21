@@ -9,7 +9,6 @@ export type { IconName } from './registry';
 export { SchoolLogo } from './brand/SchoolLogo';
 export { CrestAnimation } from './brand/CrestAnimation';
 export { CrestDiagram } from './brand/CrestDiagram';
-export type { CrestSymbol } from './brand/CrestDiagram';
 
 // Social icons (custom SVGs)
 export * from './social';
