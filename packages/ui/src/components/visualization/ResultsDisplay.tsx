@@ -1,7 +1,10 @@
 // packages/ui/src/components/visualization/ResultsDisplay.tsx
 'use client';
 
-import type { SubjectResultData } from '@nexus/contracts';
+export interface SubjectResultData {
+  name: string;
+  grade: string;
+}
 
 import { cn } from '../../utilities/cn';
 import { ButtonLink } from '../atoms/ButtonLink';

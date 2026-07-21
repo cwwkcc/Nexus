@@ -1,6 +1,15 @@
 // packages/ui/src/components/visualization/TimetableGrid.tsx
 'use client';
-import type { TimetableEntryData } from '@nexus/contracts';
+export interface TimetableEntryData {
+  period: string;
+  time: string;
+  monday?: string;
+  tuesday?: string;
+  wednesday?: string;
+  thursday?: string;
+  friday?: string;
+  saturday?: string;
+}
 
 import { cn } from '../../utilities/cn';
 
