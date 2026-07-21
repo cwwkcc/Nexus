@@ -1,5 +1,5 @@
-import type { AboutCrestData } from '@nexus/contracts';
-import { Container, Heading, Text, Grid, SectionHeader, VStack, GridItem, CrestDiagram, type CrestSymbol, SchoolLogo } from '@nexus/ui';
+import type { AboutCrestData, CrestSymbol } from '@nexus/contracts';
+import { Container, Heading, Text, Grid, SectionHeader, VStack, GridItem, CrestDiagram, SchoolLogo } from '@nexus/ui';
 
 export default function CrestExplained({ crest }: { crest: AboutCrestData }) {
   const symbols = crest.symbols as CrestSymbol[];
