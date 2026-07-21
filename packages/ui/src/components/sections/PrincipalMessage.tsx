@@ -22,7 +22,7 @@ export function PrincipalMessage({ name, title, tenure, portraitSrc, portraitAlt
     <div className={clsx('grid md:grid-cols-2 gap-12 items-center', className)}>
       {/* Portrait */}
       <div className="relative">
-        <ImageFrame src={portraitSrc} alt={portraitAlt} aspectRatio="3/4" variant="standard" className="shadow-elevation-2" />
+        <ImageFrame src={portraitSrc} alt={portraitAlt} aspectRatio="portrait" variant="standard" className="shadow-elevation-2" />
         <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-gold-base/10 rounded-full blur-2xl" />
       </div>
 

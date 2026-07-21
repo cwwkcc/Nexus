@@ -105,7 +105,7 @@ export function Timeline({ events, className, prevLabel = 'Previous event', next
                 {/* Image */}
                 <div className={cn('transition-all duration-slow', eraImageClasses[era])}>
                   {event.imageSrc ? (
-                    <ImageFrame src={event.imageSrc} alt={event.imageAlt ?? event.title} aspectRatio="4/3" variant="featured" />
+                    <ImageFrame src={event.imageSrc} alt={event.imageAlt ?? event.title} aspectRatio="hero" variant="featured" />
                   ) : (
                     // Placeholder when no image — shows the year in gold
                     <div className="aspect-[4/3] rounded-md bg-surface-deep flex items-center justify-center shadow-elevation-1">
