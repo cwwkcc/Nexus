@@ -18,20 +18,24 @@ export default function VisualizationPage() {
 
   const sampleStreams = [
     {
-      id: 'science',
-      name: 'Science',
-      subjects: ['Physics', 'Chemistry', 'Biology', 'Combined Maths'],
-      careerPaths: ['Doctor', 'Engineer', 'Researcher'],
-      entryRequirements: 'High marks in Science & Maths',
-      passRate: 96,
+      stream1: 'Physical Science',
+      stream2: 'Biological Science',
+      subjectOverlap: ['Chemistry', 'Physics'],
+      subjectDifferences: [
+        { subject: 'Combined Mathematics', inStream1: true, inStream2: false },
+        { subject: 'Biology', inStream1: false, inStream2: true },
+      ],
+      recommendedFor: 'Students deciding between engineering and medicine-oriented pathways',
     },
     {
-      id: 'commerce',
-      name: 'Commerce',
-      subjects: ['Accounting', 'Economics', 'Business Studies'],
-      careerPaths: ['Accountant', 'Banker', 'Entrepreneur'],
-      entryRequirements: 'Credit pass in Maths',
-      passRate: 92,
+      stream1: 'Commerce',
+      stream2: 'Arts',
+      subjectOverlap: ['Economics'],
+      subjectDifferences: [
+        { subject: 'Accounting', inStream1: true, inStream2: false },
+        { subject: 'Political Science', inStream1: false, inStream2: true },
+      ],
+      recommendedFor: 'Students weighing business-focused careers against humanities pathways',
     },
   ];
 
