@@ -1,10 +1,10 @@
 'use client';
 
-import type { StepData } from '@nexus/contracts';
+import type { ProcessStepsData } from '@nexus/contracts';
 import { clsx } from 'clsx';
 
 export interface ProcessStepsProps {
-  steps: StepData[];
+  steps: ProcessStepsData['steps'];
   className?: string;
 }
 
@@ -19,7 +19,7 @@ export function ProcessSteps({ steps, className }: ProcessStepsProps) {
           <div key={step.id} className={clsx('relative flex flex-col md:flex-row gap-6', idx % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse')}>
             {/* Step number circle */}
             <div className="flex-none">
-              <div className="w-12 h-12 rounded-full bg-green-base text-text-inverse flex items-center justify-center font-display text-xl font-semibold relative z-10">{step.number}</div>
+              <div className="w-12 h-12 rounded-full bg-green-base text-text-inverse flex items-center justify-center font-display text-xl font-semibold relative z-10">{step.step}</div>
             </div>
 
             {/* Content */}
