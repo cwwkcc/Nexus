@@ -16,6 +16,8 @@ interface AvatarProps {
   variant?: AvatarVariant;
   className?: string;
   onError?: () => void;
+  /** aria-label builder, receives the person's name */
+  getAriaLabel?: (name: string) => string;
 }
 
 const sizeMap = {
@@ -42,7 +44,7 @@ function getInitials(name: string): string {
     .toUpperCase();
 }
 
-export function Avatar({ src, name, size = 'md', variant = 'green', className, onError }: AvatarProps) {
+export function Avatar({ src, name, size = 'md', variant = 'green', className, onError, getAriaLabel = (n) => `Avatar for ${n}` }: AvatarProps) {
   const [hasError, setHasError] = useState(false);
 
   // Show image if src exists and no error occurred
@@ -65,7 +67,7 @@ export function Avatar({ src, name, size = 'md', variant = 'green', className, o
 
   // Fallback to initials
   return (
-    <div role="img" aria-label={`Avatar for ${name}`} className={cn('rounded-full flex items-center justify-center font-display font-medium flex-shrink-0', sizeMap[size], variantMap[variant], className)}>
+    <div role="img" aria-label={getAriaLabel(name)} className={cn('rounded-full flex items-center justify-center font-display font-medium flex-shrink-0', sizeMap[size], variantMap[variant], className)}>
       {getInitials(name)}
     </div>
   );

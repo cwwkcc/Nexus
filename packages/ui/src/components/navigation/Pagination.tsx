@@ -1,3 +1,5 @@
+import { cn } from '../../utilities/cn';
+
 export interface PaginationProps {
   /** Total number of pages */
   totalPages: number;
@@ -9,6 +11,8 @@ export interface PaginationProps {
   ariaLabel?: string;
   prevLabel?: string;
   nextLabel?: string;
+  /** Builder for each page button's aria-label, receives the page number */
+  getPageLabel?: (page: number) => string;
 }
 
 function getPageRange(current: number, total: number, siblings: number): (number | '…')[] {
@@ -31,55 +35,21 @@ function getPageRange(current: number, total: number, siblings: number): (number
   return pages;
 }
 
-export function Pagination({ totalPages, currentPage, onPageChange, siblingCount = 1, className, ariaLabel = 'Pagination', prevLabel = 'Previous page', nextLabel = 'Next page' }: PaginationProps) {
+const BTN_BASE = 'font-body text-caption uppercase tracking-[0.08em] min-w-space-9 h-space-9 px-space-2 inline-flex items-center justify-center leading-none transition-all duration-fast';
+
+export function Pagination({ totalPages, currentPage, onPageChange, siblingCount = 1, className, ariaLabel = 'Pagination', prevLabel = 'Previous page', nextLabel = 'Next page', getPageLabel = (page) => `Page ${page}` }: PaginationProps) {
   if (totalPages <= 1) return null;
 
   const pages = getPageRange(currentPage, totalPages, siblingCount);
-
-  const btnBase: React.CSSProperties = {
-    fontFamily: 'var(--font-body)',
-    fontSize: '0.78rem',
-    textTransform: 'uppercase',
-    letterSpacing: '0.08em',
-    minWidth: '36px',
-    height: '36px',
-    padding: '0 8px',
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    border: '1px solid var(--border-default)',
-    cursor: 'pointer',
-    transition: 'all 0.15s ease',
-    lineHeight: 1,
-    background: 'transparent',
-  };
+  const isFirstPage = currentPage === 1;
+  const isLastPage = currentPage === totalPages;
 
   return (
     <nav aria-label={ariaLabel} className={className}>
-      <ol
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '4px',
-          listStyle: 'none',
-          padding: 0,
-          margin: 0,
-        }}
-      >
+      <ol className="flex items-center gap-space-1 list-none p-0 m-0">
         {/* Prev */}
         <li>
-          <button
-            onClick={() => onPageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-            aria-label={prevLabel}
-            style={{
-              ...btnBase,
-              color: currentPage === 1 ? 'var(--text-muted)' : 'var(--text-primary)',
-              opacity: currentPage === 1 ? 0.4 : 1,
-              cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
-              background: 'var(--surface-elevated)',
-            }}
-          >
+          <button onClick={() => onPageChange(currentPage - 1)} disabled={isFirstPage} aria-label={prevLabel} className={cn(BTN_BASE, 'border border-border-default bg-surface-elevated', isFirstPage ? 'text-text-muted opacity-40 cursor-not-allowed' : 'text-text-primary opacity-100 cursor-pointer')}>
             ←
           </button>
         </li>
@@ -88,30 +58,11 @@ export function Pagination({ totalPages, currentPage, onPageChange, siblingCount
         {pages.map((page, idx) =>
           page === '…' ? (
             <li key={`dots-${idx}`} aria-hidden="true">
-              <span
-                style={{
-                  ...btnBase,
-                  border: 'none',
-                  color: 'var(--text-muted)',
-                  cursor: 'default',
-                }}
-              >
-                …
-              </span>
+              <span className={cn(BTN_BASE, 'border-none bg-transparent text-text-muted cursor-default')}>…</span>
             </li>
           ) : (
             <li key={page}>
-              <button
-                onClick={() => onPageChange(page as number)}
-                aria-label={`Page ${page}`}
-                aria-current={currentPage === page ? 'page' : undefined}
-                style={{
-                  ...btnBase,
-                  background: currentPage === page ? 'var(--color-green-base)' : 'var(--surface-elevated)',
-                  color: currentPage === page ? '#fff' : 'var(--text-primary)',
-                  borderColor: currentPage === page ? 'var(--color-green-base)' : 'var(--border-default)',
-                }}
-              >
+              <button onClick={() => onPageChange(page as number)} aria-label={getPageLabel(page)} aria-current={currentPage === page ? 'page' : undefined} className={cn(BTN_BASE, 'border', currentPage === page ? 'bg-green-base text-text-inverse border-green-base' : 'bg-surface-elevated text-text-primary border-border-default')}>
                 {page}
               </button>
             </li>
@@ -120,18 +71,7 @@ export function Pagination({ totalPages, currentPage, onPageChange, siblingCount
 
         {/* Next */}
         <li>
-          <button
-            onClick={() => onPageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-            aria-label={nextLabel}
-            style={{
-              ...btnBase,
-              color: currentPage === totalPages ? 'var(--text-muted)' : 'var(--text-primary)',
-              opacity: currentPage === totalPages ? 0.4 : 1,
-              cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
-              background: 'var(--surface-elevated)',
-            }}
-          >
+          <button onClick={() => onPageChange(currentPage + 1)} disabled={isLastPage} aria-label={nextLabel} className={cn(BTN_BASE, 'border border-border-default bg-surface-elevated', isLastPage ? 'text-text-muted opacity-40 cursor-not-allowed' : 'text-text-primary opacity-100 cursor-pointer')}>
             →
           </button>
         </li>

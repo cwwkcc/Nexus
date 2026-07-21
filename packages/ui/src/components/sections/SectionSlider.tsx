@@ -28,6 +28,10 @@ export interface SectionSliderProps {
   nextLabel?: string;
   /** Accessible label for the slide-dots tablist */
   slidesLabel?: string;
+  /** aria-label for the current-slide status text, receives (currentSlide, total) */
+  getSlideStatusLabel?: (current: number, total: number) => string;
+  /** aria-label for each dot button, receives its 1-based slide number */
+  getSlideDotLabel?: (slideNumber: number) => string;
   /**
    * Whether the slider should loop from last → first and first → last.
    * Defaults to false.
@@ -91,9 +95,13 @@ interface SlidingSliderProps {
   prevLabel?: string;
   nextLabel?: string;
   slidesLabel?: string;
+  /** aria-label for the current-slide status text, receives (currentSlide, total) */
+  getSlideStatusLabel?: (current: number, total: number) => string;
+  /** aria-label for each dot button, receives its 1-based slide number */
+  getSlideDotLabel?: (slideNumber: number) => string;
 }
 
-function SlidingSlider({ id, variant, direction, children, loop, className, ariaLabel, prevLabel = 'Previous slide', nextLabel = 'Next slide', slidesLabel = 'Slides' }: SlidingSliderProps) {
+function SlidingSlider({ id, variant, direction, children, loop, className, ariaLabel, prevLabel = 'Previous slide', nextLabel = 'Next slide', slidesLabel = 'Slides', getSlideStatusLabel = (current, total) => `Slide ${current} of ${total}`, getSlideDotLabel = (n) => `Go to slide ${n}` }: SlidingSliderProps) {
   const slides = useMemo(() => Children.toArray(children), [children]);
   const count = slides.length;
   const [active, setActive] = useState(0);
@@ -215,8 +223,7 @@ function SlidingSlider({ id, variant, direction, children, loop, className, aria
                 backgroundColor: i === active ? 'var(--color-gold-base)' : 'var(--color-border-default)',
               }}
               transition={{ duration: 0.2, ease: 'easeOut' }}
-              className={cn('h-size-2 rounded-full cursor-pointer', 'focus-visible:outline-none focus-visible:ring-2', 'focus-visible:ring-gold-base focus-visible:ring-offset-2', 'hover:opacity-80')}
-              style={{ minWidth: 8 }}
+              className={cn('h-size-2 min-w-2 rounded-full cursor-pointer', 'focus-visible:outline-none focus-visible:ring-2', 'focus-visible:ring-gold-base focus-visible:ring-offset-2', 'hover:opacity-80')}
             />
           ))}
         </div>
@@ -435,6 +442,8 @@ export function SectionSlider({
   prevLabel,
   nextLabel,
   slidesLabel,
+  getSlideStatusLabel,
+  getSlideDotLabel,
   loop = false,
 }: SectionSliderProps) {
   const autoId = useId();
@@ -443,7 +452,7 @@ export function SectionSlider({
 
   if (isSlidingVariant(variant)) {
     return (
-      <SlidingSlider id={id} variant={variant} direction={direction} loop={loop} className={className} ariaLabel={ariaLabel} prevLabel={prevLabel} nextLabel={nextLabel} slidesLabel={slidesLabel}>
+      <SlidingSlider id={id} variant={variant} direction={direction} loop={loop} className={className} ariaLabel={ariaLabel} prevLabel={prevLabel} nextLabel={nextLabel} slidesLabel={slidesLabel} getSlideStatusLabel={getSlideStatusLabel} getSlideDotLabel={getSlideDotLabel}>
         {children}
       </SlidingSlider>
     );

@@ -17,6 +17,8 @@ export interface FileUploadZoneProps {
   browseLabel?: string;
   /** Max-size caption builder, receives the MB value */
   getMaxSizeLabel?: (mb: number) => string;
+  /** aria-label builder for each remove-file button, receives the filename */
+  getRemoveLabel?: (filename: string) => string;
 }
 
 function formatBytes(bytes: number): string {
@@ -25,7 +27,7 @@ function formatBytes(bytes: number): string {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
-export function FileUploadZone({ accept, multiple = false, maxSizeMb, onChange, label = 'Upload file', hint, error: externalError, disabled = false, dragDropText, browseLabel = 'browse', getMaxSizeLabel = (mb) => `Max ${mb} MB` }: FileUploadZoneProps) {
+export function FileUploadZone({ accept, multiple = false, maxSizeMb, onChange, label = 'Upload file', hint, error: externalError, disabled = false, dragDropText, browseLabel = 'browse', getMaxSizeLabel = (mb) => `Max ${mb} MB`, getRemoveLabel = (filename) => `Remove ${filename}` }: FileUploadZoneProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
   const [internalError, setInternalError] = useState<string | null>(null);
@@ -119,7 +121,7 @@ export function FileUploadZone({ accept, multiple = false, maxSizeMb, onChange, 
                 <span className="font-body text-body-sm text-text-primary truncate">{file.name}</span>
                 <span className="font-body text-caption text-text-muted flex-shrink-0">{formatBytes(file.size)}</span>
               </div>
-              <button onClick={() => removeFile(idx)} aria-label={`Remove ${file.name}`} className="bg-transparent border-none cursor-pointer text-text-muted text-base p-1 leading-none transition-colors duration-fast hover:text-semantic-error-base">
+              <button onClick={() => removeFile(idx)} aria-label={getRemoveLabel(file.name)} className="bg-transparent border-none cursor-pointer text-text-muted text-base p-1 leading-none transition-colors duration-fast hover:text-semantic-error-base">
                 ×
               </button>
             </li>

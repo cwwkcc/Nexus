@@ -25,6 +25,10 @@ interface TimelineProps {
   prevLabel?: string;
   nextLabel?: string;
   eventsLabel?: string;
+  /** aria-label for the progress bar, receives (currentIndex, total) */
+  getProgressLabel?: (current: number, total: number) => string;
+  /** aria-label for each tab dot, receives the event */
+  getEventTabLabel?: (event: TimelineEvent) => string;
 }
 
 const eraImageClasses: Record<'early' | 'mid' | 'modern', string> = {
@@ -35,7 +39,7 @@ const eraImageClasses: Record<'early' | 'mid' | 'modern', string> = {
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export function Timeline({ events, className, prevLabel = 'Previous event', nextLabel = 'Next event', eventsLabel = 'Timeline events' }: TimelineProps) {
+export function Timeline({ events, className, prevLabel = 'Previous event', nextLabel = 'Next event', eventsLabel = 'Timeline events', getProgressLabel = (current, total) => `Event ${current} of ${total}`, getEventTabLabel = (event) => `Go to ${event.year}: ${event.title}` }: TimelineProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -85,27 +89,18 @@ export function Timeline({ events, className, prevLabel = 'Previous event', next
   return (
     <div ref={inViewRef} className={cn('relative', className)}>
       {/* Progress bar */}
-      <div className="absolute top-space-0 left-space-0 right-space-0 h-size-px bg-border-light z-raised" role="progressbar" aria-valuenow={activeIndex + 1} aria-valuemin={1} aria-valuemax={events.length} aria-label={`Event ${activeIndex + 1} of ${events.length}`}>
+      <div className="absolute top-space-0 left-space-0 right-space-0 h-size-px bg-border-light z-raised" role="progressbar" aria-valuenow={activeIndex + 1} aria-valuemin={1} aria-valuemax={events.length} aria-label={getProgressLabel(activeIndex + 1, events.length)}>
         <div className="h-full bg-gold-base transition-all duration-standard" style={{ width: `${((activeIndex + 1) / events.length) * 100}%` }} />
       </div>
 
       {/* Scroll container */}
-      <div ref={containerRef} className="flex overflow-x-auto snap-x snap-mandatory pt-space-10 pb-space-8" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+      <div ref={containerRef} className="kcc-timeline-scroll flex overflow-x-auto snap-x snap-mandatory pt-space-10 pb-space-8">
         {events.map((event, idx) => {
           const isActive = idx === activeIndex;
           const era = event.era ?? 'modern';
 
           return (
-            <div
-              key={event.id}
-              aria-hidden={!isActive}
-              className="snap-start shrink-0 w-full md:w-[85%] lg:w-[70%] px-space-6"
-              style={{
-                opacity: isInView ? 1 : 0,
-                transform: isInView ? 'translateY(0)' : 'translateY(24px)',
-                transition: `opacity 0.5s ease-out ${idx * 0.08}s, transform 0.5s ease-out ${idx * 0.08}s`,
-              }}
-            >
+            <div key={event.id} aria-hidden={!isActive} className={cn('snap-start shrink-0 w-full md:w-[85%] lg:w-[70%] px-space-6 transition-all duration-slow ease-out', isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6')} style={{ transitionDelay: `${idx * 0.08}s` }}>
               <div className="grid md:grid-cols-2 gap-space-8 items-center">
                 {/* Image */}
                 <div className={cn('transition-all duration-slow', eraImageClasses[era])}>
@@ -148,7 +143,7 @@ export function Timeline({ events, className, prevLabel = 'Previous event', next
         {/* Dot indicators */}
         <div className="flex gap-space-2 items-center" role="tablist" aria-label={eventsLabel}>
           {events.map((event, idx) => (
-            <button key={event.id} role="tab" aria-selected={idx === activeIndex} aria-label={`Go to ${event.year}: ${event.title}`} onClick={() => scrollTo(idx)} className={cn('rounded-full transition-all duration-fast cursor-pointer', idx === activeIndex ? 'w-size-4 h-size-2 bg-gold-base' : 'w-size-2 h-size-2 bg-border-default hover:bg-gold-base/50')} />
+            <button key={event.id} role="tab" aria-selected={idx === activeIndex} aria-label={getEventTabLabel(event)} onClick={() => scrollTo(idx)} className={cn('rounded-full transition-all duration-fast cursor-pointer', idx === activeIndex ? 'w-size-4 h-size-2 bg-gold-base' : 'w-size-2 h-size-2 bg-border-default hover:bg-gold-base/50')} />
           ))}
         </div>
 
@@ -159,7 +154,11 @@ export function Timeline({ events, className, prevLabel = 'Previous event', next
       </div>
 
       <style>{`
-        .snap-mandatory::-webkit-scrollbar { display: none; }
+        .kcc-timeline-scroll {
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        }
+        .kcc-timeline-scroll::-webkit-scrollbar { display: none; }
       `}</style>
     </div>
   );

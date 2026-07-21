@@ -17,6 +17,8 @@ export interface VideoFrameProps {
   className?: string;
   autoPlay?: boolean;
   loop?: boolean;
+  /** aria-label builder for the play button, receives the video title */
+  getPlayLabel?: (title: string) => string;
 }
 
 const aspectRatioMap: Record<VideoFrameAspectRatio, string> = {
@@ -35,7 +37,7 @@ function getVimeoEmbedUrl(url: string): string {
   return videoId ? `https://player.vimeo.com/video/${videoId}` : url;
 }
 
-export function VideoFrame({ src, source = 'direct', aspectRatio = '16/9', posterSrc, title, className, autoPlay = false, loop = false }: VideoFrameProps) {
+export function VideoFrame({ src, source = 'direct', aspectRatio = '16/9', posterSrc, title, className, autoPlay = false, loop = false, getPlayLabel = (t) => `Play ${t}` }: VideoFrameProps) {
   const [isPlaying, setIsPlaying] = useState(autoPlay);
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -66,7 +68,7 @@ export function VideoFrame({ src, source = 'direct', aspectRatio = '16/9', poste
         <>
           {posterSrc && <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${posterSrc})` }} />}
           <div className="absolute inset-0 bg-overlay-medium flex items-center justify-center">
-            <Button onClick={handlePlay} variant="ghost" size="lg" className="rounded-full w-16 h-16 p-0 bg-gold-base/20 backdrop-blur-sm hover:bg-gold-base/40" aria-label={`Play ${title}`}>
+            <Button onClick={handlePlay} variant="ghost" size="lg" className="rounded-full w-16 h-16 p-0 bg-gold-base/20 backdrop-blur-sm hover:bg-gold-base/40" aria-label={getPlayLabel(title)}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <polygon points="5 3 19 12 5 21 5 3" fill="currentColor" />
               </svg>
