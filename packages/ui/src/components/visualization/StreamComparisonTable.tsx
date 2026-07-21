@@ -2,16 +2,17 @@
 'use client';
 
 import type { StreamComparisonData } from '@nexus/contracts';
-import { useEffect, useState } from 'react';
 
 import { cn } from '../../utilities/cn';
 
 export interface StreamComparisonTableLabels {
-  subjects?: string;
-  careerPaths?: string;
-  entryRequirements?: string;
-  passRate?: string;
-  stream?: string;
+  stream1?: string;
+  stream2?: string;
+  sharedSubjects?: string;
+  differences?: string;
+  recommendedFor?: string;
+  inStream?: string;
+  notInStream?: string;
 }
 
 export interface StreamComparisonTableProps {
@@ -21,134 +22,99 @@ export interface StreamComparisonTableProps {
 }
 
 const DEFAULT_LABELS: Required<StreamComparisonTableLabels> = {
-  subjects: 'Subjects',
-  careerPaths: 'Career Paths',
-  entryRequirements: 'Entry Requirements',
-  passRate: 'Pass Rate',
-  stream: 'Stream',
+  stream1: 'Stream 1',
+  stream2: 'Stream 2',
+  sharedSubjects: 'Shared Subjects',
+  differences: 'Subject Differences',
+  recommendedFor: 'Recommended For',
+  inStream: '✓',
+  notInStream: '–',
 };
 
 export function StreamComparisonTable({ streams, className, labels }: StreamComparisonTableProps) {
   const l = { ...DEFAULT_LABELS, ...labels };
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  if (isMobile) {
-    return (
-      <div className="flex flex-col gap-space-8">
-        {streams.map((stream) => (
-          <div key={stream.id} className="bg-surface-elevated border border-border-light rounded-lg p-space-6">
-            <h3 className="font-display text-h3 text-gold-base mb-space-4">{stream.name}</h3>
-            <div className="mb-space-4">
-              <p className="font-body text-label uppercase tracking-wider text-text-muted mb-space-2">{l.subjects}</p>
-              <ul className="list-disc pl-space-5 space-y-space-1">
-                {stream.subjects.map((s) => (
-                  <li key={s} className="font-body text-body-sm text-text-primary">
-                    {s}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="mb-space-4">
-              <p className="font-body text-label uppercase tracking-wider text-text-muted mb-space-2">{l.careerPaths}</p>
-              <ul className="list-disc pl-space-5 space-y-space-1">
-                {stream.careerPaths.map((c) => (
-                  <li key={c} className="font-body text-body-sm text-text-primary">
-                    {c}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="mb-space-4">
-              <p className="font-body text-label uppercase tracking-wider text-text-muted mb-space-2">{l.entryRequirements}</p>
-              <p className="font-body text-body-sm text-text-primary">{stream.entryRequirements}</p>
-            </div>
-            <div>
-              <p className="font-body text-label uppercase tracking-wider text-text-muted mb-space-2">{l.passRate}</p>
-              <div className="flex items-center gap-space-3">
-                <div className="flex-1 h-2 bg-border-light rounded-full overflow-hidden">
-                  <div className="h-full bg-green-base rounded-full" style={{ width: `${stream.passRate}%` }} />
-                </div>
-                <span className="font-body text-body-sm font-semibold text-gold-base">{stream.passRate}%</span>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    );
-  }
 
   return (
-    <div className={cn('overflow-x-auto', className)}>
-      <table className="w-full border-collapse">
-        <thead>
-          <tr className="border-b-2 border-border-default">
-            <th className="text-left p-space-4 font-body text-label uppercase tracking-wider text-text-muted">{l.stream}</th>
-            {streams.map((stream) => (
-              <th key={stream.id} className="text-left p-space-4 font-display text-h3 text-gold-base">
-                {stream.name}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          <tr className="border-b border-border-light">
-            <td className="p-space-4 font-body text-label uppercase tracking-wider text-text-muted bg-surface-deep">{l.subjects}</td>
-            {streams.map((stream) => (
-              <td key={stream.id} className="p-space-4 align-top">
-                <ul className="list-disc pl-space-4 space-y-space-1">
-                  {stream.subjects.map((s) => (
-                    <li key={s} className="font-body text-body-sm text-text-primary">
-                      {s}
+    <div className={cn('flex flex-col gap-space-8', className)}>
+      {streams.map((comparison, idx) => (
+        <div key={idx} className="bg-surface-elevated border border-border-light rounded-lg overflow-hidden">
+          {/* Header: stream names */}
+          <div className="grid grid-cols-3 border-b border-border-light">
+            <div className="p-space-4 bg-surface-deep" />
+            <div className="p-space-4 border-l border-border-light">
+              <h3 className="font-display text-h3 text-gold-base">{comparison.stream1}</h3>
+            </div>
+            <div className="p-space-4 border-l border-border-light">
+              <h3 className="font-display text-h3 text-gold-base">{comparison.stream2}</h3>
+            </div>
+          </div>
+
+          {/* Shared Subjects */}
+          {comparison.subjectOverlap.length > 0 && (
+            <div className="grid grid-cols-3 border-b border-border-light">
+              <div className="p-space-4 bg-surface-deep font-body text-label uppercase tracking-wider text-text-muted flex items-center">
+                {l.sharedSubjects}
+              </div>
+              <div className="col-span-2 p-space-4 border-l border-border-light">
+                <ul className="flex flex-wrap gap-space-2">
+                  {comparison.subjectOverlap.map((subject) => (
+                    <li
+                      key={subject}
+                      className="px-space-3 py-space-1 rounded-full bg-border-light font-body text-body-sm text-text-primary"
+                    >
+                      {subject}
                     </li>
                   ))}
                 </ul>
-              </td>
-            ))}
-          </tr>
-          <tr className="border-b border-border-light">
-            <td className="p-space-4 font-body text-label uppercase tracking-wider text-text-muted bg-surface-deep">{l.careerPaths}</td>
-            {streams.map((stream) => (
-              <td key={stream.id} className="p-space-4 align-top">
-                <ul className="list-disc pl-space-4 space-y-space-1">
-                  {stream.careerPaths.map((c) => (
-                    <li key={c} className="font-body text-body-sm text-text-primary">
-                      {c}
-                    </li>
-                  ))}
-                </ul>
-              </td>
-            ))}
-          </tr>
-          <tr className="border-b border-border-light">
-            <td className="p-space-4 font-body text-label uppercase tracking-wider text-text-muted bg-surface-deep">{l.entryRequirements}</td>
-            {streams.map((stream) => (
-              <td key={stream.id} className="p-space-4 font-body text-body-sm text-text-primary">
-                {stream.entryRequirements}
-              </td>
-            ))}
-          </tr>
-          <tr>
-            <td className="p-space-4 font-body text-label uppercase tracking-wider text-text-muted bg-surface-deep">{l.passRate}</td>
-            {streams.map((stream) => (
-              <td key={stream.id} className="p-space-4">
-                <div className="flex items-center gap-space-3">
-                  <div className="flex-1 h-2 bg-border-light rounded-full overflow-hidden">
-                    <div className="h-full bg-green-base rounded-full" style={{ width: `${stream.passRate}%` }} />
-                  </div>
-                  <span className="font-body text-body-sm font-semibold text-gold-base">{stream.passRate}%</span>
+              </div>
+            </div>
+          )}
+
+          {/* Subject Differences */}
+          {comparison.subjectDifferences.length > 0 && (
+            <div className="border-b border-border-light">
+              <div className="grid grid-cols-3 border-b border-border-light bg-surface-deep">
+                <div className="p-space-3 font-body text-label uppercase tracking-wider text-text-muted">
+                  {l.differences}
                 </div>
-              </td>
-            ))}
-          </tr>
-        </tbody>
-      </table>
+                <div className="p-space-3 border-l border-border-light font-body text-label text-text-muted text-center">
+                  {comparison.stream1}
+                </div>
+                <div className="p-space-3 border-l border-border-light font-body text-label text-text-muted text-center">
+                  {comparison.stream2}
+                </div>
+              </div>
+              {comparison.subjectDifferences.map((diff) => (
+                <div key={diff.subject} className="grid grid-cols-3 border-t border-border-light">
+                  <div className="p-space-3 font-body text-body-sm text-text-primary">{diff.subject}</div>
+                  <div className="p-space-3 border-l border-border-light text-center font-body text-body-sm">
+                    <span className={diff.inStream1 ? 'text-green-base font-semibold' : 'text-text-muted'}>
+                      {diff.inStream1 ? l.inStream : l.notInStream}
+                    </span>
+                  </div>
+                  <div className="p-space-3 border-l border-border-light text-center font-body text-body-sm">
+                    <span className={diff.inStream2 ? 'text-green-base font-semibold' : 'text-text-muted'}>
+                      {diff.inStream2 ? l.inStream : l.notInStream}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Recommended For */}
+          {comparison.recommendedFor && (
+            <div className="grid grid-cols-3">
+              <div className="p-space-4 bg-surface-deep font-body text-label uppercase tracking-wider text-text-muted flex items-center">
+                {l.recommendedFor}
+              </div>
+              <div className="col-span-2 p-space-4 border-l border-border-light font-body text-body-sm text-text-primary italic">
+                {comparison.recommendedFor}
+              </div>
+            </div>
+          )}
+        </div>
+      ))}
     </div>
   );
 }
