@@ -30,11 +30,7 @@ export function StatCard({ variant = 'single', target, value, suffix = '', label
   const numericTarget = target ?? value ?? 0;
   const { ref } = useCountUp(numericTarget);
 
-  const trendObj = typeof trend === 'object' && trend !== null
-    ? trend
-    : typeof trend === 'string'
-      ? { direction: trend as TrendDirectionType, value: trendValue, label: trendLabel }
-      : undefined;
+  const trendObj = typeof trend === 'object' && trend !== null ? trend : typeof trend === 'string' ? { direction: trend as TrendDirectionType, value: trendValue, label: trendLabel } : undefined;
 
   return (
     <div ref={ref as React.RefObject<HTMLDivElement>} className={cn('p-space-7 bg-surface-elevated border border-border-light', 'shadow-elevation-1', className)}>

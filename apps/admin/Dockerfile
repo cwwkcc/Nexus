@@ -1,51 +1,31 @@
 FROM node:22-alpine AS builder
 WORKDIR /app
 
-# Install pnpm
 RUN corepack enable pnpm && corepack prepare pnpm@10.32.1 --activate
 
-# Copy package files
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.base.json tsconfig.json ./
-COPY apps/admin/package.json ./apps/admin/
-COPY packages/config/package.json ./packages/config/
-COPY packages/ui/package.json ./packages/ui/
-COPY packages/api/package.json ./packages/api/
-COPY packages/contracts/package.json ./packages/contracts/
-COPY packages/database/package.json ./packages/database/
+# Whole repo in one layer — nothing to individually forget.
+# Requires a .dockerignore excluding node_modules, .git, .next, dist, etc.
+COPY . .
 
-# Install dependencies
 RUN pnpm install --frozen-lockfile --ignore-scripts
 
-# Copy source files
-COPY apps/admin ./apps/admin
-COPY packages/config ./packages/config
-COPY packages/ui ./packages/ui
-COPY packages/api ./packages/api
-COPY packages/contracts ./packages/contracts
-COPY packages/database ./packages/database
-
-# Generate Prisma client (schema is now available)
 RUN pnpm --filter @nexus/db exec prisma generate
 
-# Compile workspace packages required by admin app (matching local prebuild order)
+# Matches the real root `prebuild` script's order exactly:
+RUN pnpm --filter @nexus/tokens build
 RUN pnpm --filter @nexus/contracts exec tsc -p tsconfig.lib.json
+RUN pnpm --filter @nexus/env build
+RUN pnpm --filter @nexus/config build
 RUN pnpm --filter @nexus/api exec tsc -p tsconfig.lib.json
 
-# Build admin app
 ENV NODE_OPTIONS=--max-old-space-size=3072
 RUN pnpm --filter @nexus/admin build
 
-# Production stage
 FROM node:22-alpine AS runner
 WORKDIR /app
-
 ENV NODE_ENV=production
-
-# Copy built app
 COPY --from=builder /app/apps/admin/.next/standalone ./
 COPY --from=builder /app/apps/admin/.next/static ./.next/static
 COPY --from=builder /app/apps/admin/public ./public
-
-EXPOSE 3001
-
+EXPOSE 3000
 CMD ["node", "server.js"]

@@ -51,6 +51,9 @@ jobs:
           - app: admin
             dockerfile: apps/admin/Dockerfile
             image: nexus-admin
+          - app: migrate
+            dockerfile: apps/migrate/Dockerfile
+            image: nexus-migrate
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -116,17 +119,21 @@ jobs:
             }
             trap rollback ERR
 
-            sed -i '/^WEB_IMAGE_TAG=/d;/^ADMIN_IMAGE_TAG=/d' .env
+            sed -i '/^WEB_IMAGE_TAG=/d;/^ADMIN_IMAGE_TAG=/d;/^MIGRATE_IMAGE_TAG=/d' .env
             {
               echo "WEB_IMAGE_TAG=${NEW_TAG}"
               echo "ADMIN_IMAGE_TAG=${NEW_TAG}"
+              echo "MIGRATE_IMAGE_TAG=${NEW_TAG}"
             } >> .env
 
             docker compose pull
-            docker compose up -d --wait --wait-timeout 120
 
-            # Run migrations after deployment
+            # Run migrations BEFORE bringing up the new app containers, using
+            # the dedicated one-shot migrate service (it, not nexus-web,
+            # carries the pnpm workspace + Prisma CLI needed to run this).
             docker compose run --rm migrate
+
+            docker compose up -d --wait --wait-timeout 120
 
             # docker compose --wait already gates on the container
             # healthchecks; this also confirms Caddy is routing correctly.
