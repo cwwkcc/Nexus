@@ -46,8 +46,8 @@ const components: PortableTextComponents = {
   types: {
     image: ({ value }) => (
       <figure className="my-space-6">
-        <ImageFrame src={value.asset?.url} alt={value.alt || ''} aspectRatio="hero" variant="standard" />
-        {value.caption && <figcaption className="text-center font-body text-caption text-text-muted mt-space-2">{value.caption}</figcaption>}
+        <ImageFrame src={value?.asset?.url} alt={value?.alt || ''} aspectRatio="hero" variant="standard" />
+        {value?.caption && <figcaption className="text-center font-body text-caption text-text-muted mt-space-2">{value.caption}</figcaption>}
       </figure>
     ),
   },

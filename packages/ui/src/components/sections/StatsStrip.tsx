@@ -122,14 +122,14 @@ const StatCard = ({ stat, variant, globalDuration, index }: { stat: StatItem; va
 };
 
 export interface StatsStripProps {
-  stats: StatItem[];
+  stats?: StatItem[];
   variant?: StatVariant;
   /** Global duration in seconds (default: 1.8) – will be scaled up for very large numbers */
   duration?: number;
   className?: string;
 }
 
-export function StatsStrip({ stats, variant = 'default', duration, className }: StatsStripProps) {
+export function StatsStrip({ stats = [], variant = 'default', duration, className }: StatsStripProps) {
   return (
     <Container as="section" className="w-full">
       <Grid columns={1} gap={4} className={className}>
