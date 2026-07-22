@@ -8,15 +8,15 @@
     "start": "next start"
   },
   "dependencies": {
-    "@nexus/config": "workspace:*",
-    "@nexus/env": "workspace:*",
-    "@nexus/ui": "workspace:*",
     "@nexus/api": "workspace:*",
+    "@nexus/config": "workspace:*",
     "@nexus/contracts": "workspace:*",
     "@nexus/db": "workspace:*",
-    "framer-motion": "^12.38.0",
-    "next": "^16.2.9",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "@nexus/env": "workspace:*",
+    "@nexus/ui": "workspace:*",
+    "framer-motion": "^12.42.2",
+    "next": "^16.2.11",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
   }
 }

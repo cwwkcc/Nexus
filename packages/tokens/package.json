@@ -22,6 +22,6 @@
     "generate": "npm run generate:css && npm run generate:cn"
   },
   "devDependencies": {
-    "typescript": "~5.9.2"
+    "typescript": "~5.9.3"
   }
 }

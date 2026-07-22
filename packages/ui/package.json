@@ -22,24 +22,24 @@
     "react-dom": ">=19"
   },
   "dependencies": {
-    "@hookform/resolvers": "^3.4.0",
-    "@portabletext/react": "^3.0.0",
+    "@hookform/resolvers": "^3.10.0",
+    "@portabletext/react": "^3.2.4",
     "clsx": "^2.1.1",
-    "framer-motion": "^12.38.0",
-    "lucide-react": "^1.17.0",
-    "react-hook-form": "^7.49.0",
+    "framer-motion": "^12.42.2",
+    "lucide-react": "^1.25.0",
+    "react-hook-form": "^7.82.0",
     "tailwind-merge": "^3.6.0",
-    "zod": "^4.3.6"
+    "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@testing-library/react": "^16.3.2",
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0",
-    "@vitejs/plugin-react": "^4.3.0",
-    "@vitest/ui": "^3.0.0",
-    "jsdom": "^29.1.1",
-    "vitest": "^3.0.0",
     "@nexus/contracts": "workspace:*",
-    "@nexus/tokens": "workspace:*"
+    "@nexus/tokens": "workspace:*",
+    "@testing-library/react": "^16.3.2",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^4.7.0",
+    "@vitest/ui": "^3.2.7",
+    "jsdom": "^29.1.1",
+    "vitest": "^3.2.7"
   }
 }

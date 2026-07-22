@@ -18,11 +18,11 @@
     "@nexus/tokens": "workspace:*",
     "@nexus/ui": "workspace:*",
     "clsx": "^2.1.1",
-    "framer-motion": "^12.38.0",
-    "next": "^16.2.9",
-    "next-intl": "^4.8.3",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "framer-motion": "^12.42.2",
+    "next": "^16.2.11",
+    "next-intl": "^4.13.3",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
   },
   "devDependencies": {
     "esbuild": "^0.24.2"
