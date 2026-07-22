@@ -126,7 +126,7 @@ jobs:
             docker compose up -d --wait --wait-timeout 120
 
             # Run migrations after deployment
-            docker compose exec -T nexus-web pnpm --filter @nexus/database migrate:deploy
+            docker compose run --rm migrate
 
             # docker compose --wait already gates on the container
             # healthchecks; this also confirms Caddy is routing correctly.
