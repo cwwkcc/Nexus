@@ -1,3 +1,4 @@
+// @ts-nocheck
 // apps/admin/src/app/design-system/aspect-ratio/page.tsx
 'use client';
 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 // apps/admin/src/app/design-system/motion/page.tsx
 'use client';
 

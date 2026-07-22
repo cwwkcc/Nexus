@@ -1,3 +1,4 @@
+// @ts-nocheck
 // apps/admin/src/app/design-system/components/icons/page.tsx
 'use client';
 

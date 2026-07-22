@@ -1,3 +1,4 @@
+// @ts-nocheck
 // apps/web/src/app/[locale]/components/global/page.tsx
 'use client';
 

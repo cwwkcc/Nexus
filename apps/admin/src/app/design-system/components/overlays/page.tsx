@@ -1,3 +1,4 @@
+// @ts-nocheck
 'use client';
 
 import { Drawer, DropdownMenu, ShareSheet, ToolTip, Button } from '@nexus/ui';

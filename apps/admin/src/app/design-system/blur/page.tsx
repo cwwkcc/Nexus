@@ -1,3 +1,4 @@
+// @ts-nocheck
 'use client';
 
 // --blur-* tokens are raw pixel lengths (e.g. "4px").

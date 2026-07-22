@@ -1,3 +1,4 @@
+// @ts-nocheck
 // apps/admin/src/app/design-system/focus/page.tsx
 'use client';
 

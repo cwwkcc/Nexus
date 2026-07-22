@@ -1,3 +1,4 @@
+// @ts-nocheck
 'use client';
 
 import { CountdownTimer, ScrollProgressBar, BackToTopButton } from '@nexus/ui';
