@@ -31,7 +31,7 @@ export default async function AdminDashboardPage() {
     { label: 'Total sections', value: totalEntries },
     { label: 'Published', value: publishedEntries },
     { label: 'Drafts', value: draftEntries },
-    { label: 'Pages in registry', value: PAGE_REGISTRY.length },
+    { label: 'Pages in registry', value: Object.keys(PAGE_REGISTRY).length },
   ];
 
   return (
@@ -55,7 +55,7 @@ export default async function AdminDashboardPage() {
       <section className="space-y-4 rounded-3xl bg-slate-900 p-6 shadow-lg shadow-slate-950/30">
         <Heading level="h3">Pages</Heading>
         <div className="flex flex-wrap gap-3">
-          {PAGE_REGISTRY.map((r) => (
+          {Object.values(PAGE_REGISTRY).map((r) => (
             <Link key={r.page} href={`/content/${r.page}`} className="rounded-xl bg-slate-800 px-4 py-2 text-sm text-slate-200 transition hover:bg-slate-700">
               {r.label}
             </Link>
