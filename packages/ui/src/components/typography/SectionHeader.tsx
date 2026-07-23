@@ -30,7 +30,7 @@ interface SectionHeaderProps extends ComponentPropsWithoutRef<'div'> {
   /** Custom bottom margin – use spacing tokens (e.g., 'mb-space-14') */
   marginBottom?: string;
   headingClassName?: string;
-  ref?: Ref<HTMLElement>;
+  ref?: Ref<HTMLDivElement>;
 }
 
 export const SectionHeader = ({ eyebrow, title, titleEm, description, align = 'left', withAccentRule = false, variant = 'eyebrow-title', headingLevel = 'h2', marginBottom = 'mb-space-14', headingClassName, className, ref, ...rest }: SectionHeaderProps) => {
