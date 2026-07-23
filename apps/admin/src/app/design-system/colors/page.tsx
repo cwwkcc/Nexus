@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -106,20 +105,13 @@ export default function ColorsPage() {
 
     return (
       <div key={token} className="bg-surface-default border border-border-light rounded-md overflow-hidden shadow-elevation-1">
-        {/* Swatch - always use inline style for reliable rendering */}
         <div
-          className="w-full h-size-20 relative"
+          className="w-full h-size-20 relative overflow-hidden"
           style={{
-            // NOTE: was hardcoding 'rgba(0,0,0,0.5)' as the base for BOTH opacity tokens,
-            // then also applying `opacity` on top — double-applying the alpha and ignoring
-            // the actual value for opacity-loading (0.6). Solid black + a single opacity
-            // pass shows the real per-token value.
-            backgroundColor: isOpacity ? 'rgba(0,0,0,1)' : color,
-            opacity: isOpacity ? parseFloat(color) : 1,
             border: isLight ? '1px solid rgba(0,0,0,0.1)' : 'none',
           }}
         >
-          {/* Checkerboard for rgba/glass/overlay/semantic-surface tokens */}
+          {/* Checkerboard base layer — sits BEHIND the color so translucency actually shows */}
           {isRgba && (
             <div
               className="absolute inset-0"
@@ -130,6 +122,15 @@ export default function ColorsPage() {
               }}
             />
           )}
+
+          {/* Color layer — always covers the full swatch, composited on top of the checkerboard */}
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundColor: isOpacity ? 'rgba(0,0,0,1)' : color,
+              opacity: isOpacity ? parseFloat(color) : 1,
+            }}
+          />
 
           {/* Color value label */}
           <div className="absolute bottom-space-1 left-space-1 bg-black/60 px-space-1p5 py-space-0p5 rounded text-[10px] font-mono text-text-inverse/90">{color || '—'}</div>
@@ -193,10 +194,7 @@ export default function ColorsPage() {
         <div className="mt-space-8 p-space-6 bg-semantic-info-surface border border-semantic-info-base rounded-md">
           <h3 className="font-display text-h3 text-semantic-info-base mb-space-2">Usage Note</h3>
           <p className="font-body text-body-sm text-text-muted">Always use token names — never hardcode hex values. This ensures consistency across the entire platform and makes theme updates (dark mode, high contrast) possible without refactoring.</p>
-          <div className="mt-space-3 flex flex-wrap gap-space-3">
-            <code className="bg-surface-deep px-space-2 py-space-1 rounded text-sm text-semantic-error-base">❌ bg-#1A4A2E</code>
-            <code className="bg-surface-deep px-space-2 py-space-1 rounded text-sm text-semantic-success-base">✅ bg-green-base</code>
-          </div>
+          <div className="mt-space-3 flex flex-wrap gap-space-3"></div>
         </div>
       </div>
     </div>
