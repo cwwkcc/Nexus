@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { type Ref } from 'react';
 
 import { cn } from '../../utilities/cn';
 
@@ -11,9 +11,10 @@ interface QuoteBlockProps {
   className?: string;
   /** Optional URL source for the quote (adds cite attribute to blockquote) */
   cite?: string;
+  ref?: Ref<HTMLElement>;
 }
 
-export const QuoteBlock = forwardRef<HTMLDivElement | HTMLElement, QuoteBlockProps>(({ variant = 'pull-quote', quote, attribution, className, cite }, ref) => {
+export const QuoteBlock = ({ variant = 'pull-quote', quote, attribution, className, cite, ref }: QuoteBlockProps) => {
   if (variant === 'ceremonial') {
     return (
       <figure ref={ref as React.LegacyRef<HTMLQuoteElement>} className={cn('text-center py-space-6 px-space-10 mx-auto max-w-prose', className)}>
@@ -37,6 +38,6 @@ export const QuoteBlock = forwardRef<HTMLDivElement | HTMLElement, QuoteBlockPro
       {attribution && <cite className="block mt-space-3 font-body text-caption uppercase tracking-caption text-gold-base not-italic">{attribution}</cite>}
     </blockquote>
   );
-});
+};
 
 QuoteBlock.displayName = 'QuoteBlock';

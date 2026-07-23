@@ -1,4 +1,4 @@
-import { forwardRef, type ElementType, type ComponentPropsWithoutRef } from 'react';
+import { type Ref, type ElementType, type ComponentPropsWithoutRef } from 'react';
 
 import { cn } from '../../utilities/cn';
 
@@ -12,6 +12,7 @@ interface HeadingProps extends ComponentPropsWithoutRef<HeadingLevel> {
   color?: HeadingColor;
   /** Optional custom element (rare, but allows polymorphism) */
   as?: ElementType;
+  ref?: Ref<HTMLElement>;
 }
 
 const levelSizeMap: Record<HeadingLevel, string> = {
@@ -34,13 +35,13 @@ const colorClasses: Record<HeadingColor, string> = {
   info: 'text-semantic-info-base',
 };
 
-export const Heading = forwardRef<HTMLElement, HeadingProps>(({ level = 'h2', color = 'primary', as, className, children, ...rest }, ref) => {
+export const Heading = ({ level = 'h2', color = 'primary', as, className, children, ref, ...rest }: HeadingProps) => {
   const Tag = as || level;
   return (
     <Tag ref={ref} className={cn('font-display', colorClasses[color], levelSizeMap[level], className)} {...rest}>
       {children}
     </Tag>
   );
-});
+};
 
 Heading.displayName = 'Heading';
