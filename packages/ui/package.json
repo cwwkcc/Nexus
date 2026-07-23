@@ -23,16 +23,15 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
-    "@portabletext/react": "^3.2.4",
     "clsx": "^2.1.1",
     "framer-motion": "^12.42.2",
     "lucide-react": "^1.25.0",
     "react-hook-form": "^7.82.0",
     "tailwind-merge": "^3.6.0",
-    "zod": "^4.4.3"
+    "zod": "^4.4.3",
+    "@nexus/contracts": "workspace:*"
   },
   "devDependencies": {
-    "@nexus/contracts": "workspace:*",
     "@nexus/tokens": "workspace:*",
     "@testing-library/react": "^16.3.2",
     "@types/react": "^19.2.17",
