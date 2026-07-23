@@ -1,4 +1,3 @@
-// @ts-nocheck
 // apps/admin/src/app/design-system/components/icons/page.tsx
 'use client';
 
@@ -293,7 +292,7 @@ export default function IconsPage() {
 
         {/* ========== CREST DIAGRAM ========== */}
         <DemoSection title="Crest Diagram" description="Interactive annotated crest diagram with default KCC symbols. Hover, hold, or click hotspots to reveal meanings.">
-          <div className="space-y-space-8 w-full">
+          <div className="space-y-space-8 w-size-full">
             {/* Variant switcher */}
             <div className="flex justify-center gap-space-4">
               <button onClick={() => setCrestVariant('ambient')} className={cn('inline-flex items-center gap-space-2 px-space-4 py-space-2 rounded-md transition-all', crestVariant === 'ambient' ? 'bg-gold-base text-green-base' : 'bg-surface-elevated text-text-muted hover:text-text-primary')}>

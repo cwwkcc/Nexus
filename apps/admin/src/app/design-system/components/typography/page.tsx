@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 import { EyebrowLabel, Heading, InlineLink, QuoteBlock, RichTextRenderer, SectionHeader, Text } from '@nexus/ui';
@@ -6,53 +5,69 @@ import { EyebrowLabel, Heading, InlineLink, QuoteBlock, RichTextRenderer, Sectio
 import { DemoSection } from '../_components/DemoSection';
 
 // -----------------------------------------------------------------------------
-// Sample Portable Text for RichTextRenderer (no lists – avoids hydration issues)
+// Sample Tiptap JSON for RichTextRenderer
 // -----------------------------------------------------------------------------
-const samplePortableText = [
-  {
-    _type: 'block',
-    style: 'normal',
-    children: [
-      {
-        _type: 'span',
-        text: 'This is a normal paragraph rendered from Sanity Portable Text. All styles come from design tokens.',
+// This is the same doc shape apps/admin's RichTextEditor (Tiptap) produces and
+// saves as a content entry's `body` field. Covers every node/mark the renderer
+// currently handles: paragraph, heading (h2/h3), bold, italic, link, bulletList,
+// orderedList, blockquote, and image.
+const sampleTiptapDoc = {
+  type: 'doc',
+  content: [
+    {
+      type: 'paragraph',
+      content: [{ type: 'text', text: 'This is a normal paragraph rendered from Tiptap JSON. All styles come from design tokens.' }],
+    },
+    {
+      type: 'heading',
+      attrs: { level: 2 },
+      content: [{ type: 'text', text: 'Heading 2 from CMS' }],
+    },
+    {
+      type: 'heading',
+      attrs: { level: 3 },
+      content: [{ type: 'text', text: 'Heading 3 from CMS' }],
+    },
+    {
+      type: 'paragraph',
+      content: [
+        { type: 'text', text: 'A paragraph with ' },
+        { type: 'text', text: 'bold', marks: [{ type: 'bold' }] },
+        { type: 'text', text: ', ' },
+        { type: 'text', text: 'italic', marks: [{ type: 'italic' }] },
+        { type: 'text', text: ', and a ' },
+        { type: 'text', text: 'link', marks: [{ type: 'link', attrs: { href: '/about' } }] },
+        { type: 'text', text: ' inside. Marks combine, links become InlineLink components.' },
+      ],
+    },
+    {
+      type: 'bulletList',
+      content: [
+        { type: 'listItem', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Unordered list item one' }] }] },
+        { type: 'listItem', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Unordered list item two' }] }] },
+      ],
+    },
+    {
+      type: 'orderedList',
+      content: [
+        { type: 'listItem', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Ordered list item one' }] }] },
+        { type: 'listItem', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Ordered list item two' }] }] },
+      ],
+    },
+    {
+      type: 'blockquote',
+      content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Blockquotes are converted into QuoteBlock (pull-quote variant).' }] }],
+    },
+    {
+      type: 'image',
+      attrs: {
+        src: '/images/design-system/sample-rich-text.jpg',
+        alt: 'Sample image node',
+        title: 'Image nodes render through ImageFrame, with the title attr shown as a caption.',
       },
-    ],
-  },
-  {
-    _type: 'block',
-    style: 'h2',
-    children: [{ _type: 'span', text: 'Heading 2 from CMS' }],
-  },
-  {
-    _type: 'block',
-    style: 'h3',
-    children: [{ _type: 'span', text: 'Heading 3 from CMS' }],
-  },
-  {
-    _type: 'block',
-    style: 'normal',
-    children: [
-      { _type: 'span', text: 'A paragraph with a ' },
-      { _type: 'span', text: 'link', marks: ['link'] },
-      {
-        _type: 'span',
-        text: ' inside. Links automatically become InlineLink components.',
-      },
-    ],
-    markDefs: [{ _type: 'link', href: '/about' }],
-  },
-  {
-    _type: 'block',
-    style: 'blockquote',
-    children: [
-      {
-        _type: 'span',
-        text: 'Blockquotes are converted into QuoteBlock (pull‑quote variant).',
-      },
-    ],
-  },
-];
+    },
+  ],
+};
 
 // -----------------------------------------------------------------------------
 // Main Typography Demo Page
@@ -146,11 +161,10 @@ export default function TypographyPage() {
         </DemoSection>
 
         {/* ========== RICH TEXT RENDERER ========== */}
-        <DemoSection title="RichTextRenderer" description="Renders Sanity Portable Text with design system components.">
+        <DemoSection title="RichTextRenderer" description="Renders Tiptap JSON — the same shape apps/admin's editor saves — with design system components.">
           <div className="w-full max-w-2xl border border-border-light p-space-6 rounded-md bg-surface-elevated">
-            <RichTextRenderer value={samplePortableText} />
+            <RichTextRenderer value={sampleTiptapDoc} />
           </div>
-          <p className="font-body text-caption text-text-muted mt-space-2">Note: Lists are supported but omitted from this example to avoid hydration warnings.</p>
         </DemoSection>
 
         {/* ========== SECTION HEADER ========== */}
