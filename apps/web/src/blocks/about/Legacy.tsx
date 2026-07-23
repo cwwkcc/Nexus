@@ -16,15 +16,14 @@ export default function Legacy({ legacy }: { legacy: AboutLegacyData }) {
           </VStack>
         </GridItem>
         <GridItem className="xl:col-span-2">
-          <Grid>
+          <Grid columns={1}>
             <EyebrowLabel className="mb-space-4">{legacy.heritage.eyebrow}</EyebrowLabel>
             <Heading level="h3" className="mb-space-4">
               {legacy.heritage.heading}
             </Heading>
-
             <Grid columns={2} gap={2}>
               {legacy.heritage.images.map((img) => (
-                <ImageFrame key={img.src + img.year} src={img.src} alt={img.alt} aspectRatio="square" className="max-h-size-80 max-w-full" />
+                <ImageFrame key={img.src + img.year} src={img.src} alt={img.alt} aspectRatio="news" className="max-h-size-80 max-w-full" />
               ))}
             </Grid>
             <Text variant="caption" color="muted" className="mt-space-4 text-center">
