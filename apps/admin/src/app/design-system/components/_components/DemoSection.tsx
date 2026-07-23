@@ -12,9 +12,11 @@ export interface DemoSectionProps {
   layout?: 'flex' | 'grid';
   columns?: number;
   className?: string;
+  /** Wraps the section in a bordered card so adjacent demos are easy to tell apart. Default true. */
+  bordered?: boolean;
 }
 
-export function DemoSection({ title, description, children, align = 'left', withAccentRule = false, sourceHref, layout = 'flex', columns = 3, className }: DemoSectionProps) {
+export function DemoSection({ title, description, children, align = 'left', withAccentRule = false, sourceHref, layout = 'flex', columns = 3, className, bordered = true }: DemoSectionProps) {
   const isCenter = align === 'center';
 
   const gridColumns = {
@@ -25,7 +27,7 @@ export function DemoSection({ title, description, children, align = 'left', with
   }[Math.min(columns, 4)];
 
   return (
-    <div className={cn('mb-space-16', className)}>
+    <section className={cn('mb-space-10 ', bordered && 'border border-border-light rounded-lg bg-surface-elevated p-space-8', className)}>
       {/* Header */}
       <div className={cn('mb-space-8', isCenter && 'text-center')}>
         <h2 className="font-display text-h2 text-text-primary">{title}</h2>
@@ -45,6 +47,6 @@ export function DemoSection({ title, description, children, align = 'left', with
 
       {/* Children container */}
       {layout === 'flex' ? <div className="flex flex-wrap gap-space-6 items-start w-size-full">{children}</div> : <div className={cn('grid gap-space-6 w-size-full', gridColumns)}>{children}</div>}
-    </div>
+    </section>
   );
 }
