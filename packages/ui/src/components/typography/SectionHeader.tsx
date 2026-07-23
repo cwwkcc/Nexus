@@ -1,4 +1,4 @@
-import { forwardRef, type ComponentPropsWithoutRef } from 'react';
+import { type Ref, type ComponentPropsWithoutRef } from 'react';
 
 import { EyebrowLabel } from './EyebrowLabel';
 import { Heading } from './Heading';
@@ -30,9 +30,10 @@ interface SectionHeaderProps extends ComponentPropsWithoutRef<'div'> {
   /** Custom bottom margin – use spacing tokens (e.g., 'mb-space-14') */
   marginBottom?: string;
   headingClassName?: string;
+  ref?: Ref<HTMLElement>;
 }
 
-export const SectionHeader = forwardRef<HTMLDivElement, SectionHeaderProps>(({ eyebrow, title, titleEm, description, align = 'left', withAccentRule = false, variant = 'eyebrow-title', headingLevel = 'h2', marginBottom = 'mb-space-14', headingClassName, className, ...rest }, ref) => {
+export const SectionHeader = ({ eyebrow, title, titleEm, description, align = 'left', withAccentRule = false, variant = 'eyebrow-title', headingLevel = 'h2', marginBottom = 'mb-space-14', headingClassName, className, ref, ...rest }: SectionHeaderProps) => {
   const isCenter = align === 'center';
   const showDescription = variant === 'eyebrow-title-description' && !!description;
 
@@ -59,6 +60,6 @@ export const SectionHeader = forwardRef<HTMLDivElement, SectionHeaderProps>(({ e
       )}
     </div>
   );
-});
+};
 
 SectionHeader.displayName = 'SectionHeader';

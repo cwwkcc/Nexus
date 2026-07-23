@@ -24,7 +24,7 @@ export function ScrollProgressBar() {
 
   return (
     <div role="progressbar" aria-valuenow={Math.round(progress)} aria-valuemin={0} aria-valuemax={100} className={cn('fixed top-0 left-0 right-0 z-[201]', 'h-size-0p5 bg-gold-base/20', 'transition-all duration-fast ease-out motion-reduce:transition-none')}>
-      <div className="h-full bg-gold-base" style={{ width: `${progress}%` }} />
+      <div className="h-size-full bg-gold-base" style={{ width: `${progress}%` }} />
     </div>
   );
 }

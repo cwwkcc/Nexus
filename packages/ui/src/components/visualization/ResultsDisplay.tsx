@@ -1,14 +1,13 @@
 // packages/ui/src/components/visualization/ResultsDisplay.tsx
 'use client';
+import { cn } from '../../utilities/cn';
+import { ButtonLink } from '../atoms/ButtonLink';
+import { ResultsGradeBadge } from '../atoms/ResultsGradeBadge';
 
 export interface SubjectResultData {
   name: string;
   grade: string;
 }
-
-import { cn } from '../../utilities/cn';
-import { ButtonLink } from '../atoms/ButtonLink';
-import { ResultsGradeBadge } from '../atoms/ResultsGradeBadge';
 
 export interface ResultsDisplayProps {
   studentName: string;

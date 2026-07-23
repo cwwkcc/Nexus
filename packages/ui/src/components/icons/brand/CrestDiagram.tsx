@@ -68,6 +68,7 @@ export function CrestDiagram({ symbols = DEFAULT_SYMBOLS, variant = 'ambient', c
 
   const containerRef = useRef<HTMLDivElement>(null);
   const [lines, setLines] = useState<Record<string, string>>({});
+  const [containerSize, setContainerSize] = useState({ width: 190, height: 100 });
 
   // ── Unified Interaction Handlers ──
   const handlePointerEnter = (id: string) => {
@@ -103,10 +104,12 @@ export function CrestDiagram({ symbols = DEFAULT_SYMBOLS, variant = 'ambient', c
     }
   };
 
-  // ── Responsive Line Path Calculations ──
+  // ── Responsive Line + Size Calculations ──
   const calculateLines = useCallback(() => {
     if (!containerRef.current) return;
     const container = containerRef.current.getBoundingClientRect();
+    setContainerSize({ width: container.width, height: container.height });
+
     const newLines: Record<string, string> = {};
 
     symbols.forEach((symbol) => {
@@ -133,8 +136,15 @@ export function CrestDiagram({ symbols = DEFAULT_SYMBOLS, variant = 'ambient', c
     calculateLines();
     const container = containerRef.current;
     if (!container) return;
+
     const observer = new ResizeObserver(() => calculateLines());
     observer.observe(container);
+
+    // Label size depends on font metrics — recalculate once the display
+    // typeface finishes loading so lines don't sit a few px off until
+    // something else happens to trigger a resize.
+    document.fonts?.ready.then(() => calculateLines());
+
     return () => observer.disconnect();
   }, [calculateLines]);
 
@@ -142,7 +152,7 @@ export function CrestDiagram({ symbols = DEFAULT_SYMBOLS, variant = 'ambient', c
     <div ref={containerRef} className={cn('relative select-none w-size-screen-80 aspect-[190/100]', 'my-space-2 bg-surface-active rounded-md overflow-hidden', className)}>
       {/* ── SVG Connector Network ── */}
       <svg className="absolute inset-space-0 w-full h-full pointer-events-none z-base" aria-hidden>
-        {debug && <SvgDebugGrid width={containerRef.current?.clientWidth || 190} height={containerRef.current?.clientHeight || 100} step={5} majorEvery={5} showLabels show={true} />}
+        {debug && <SvgDebugGrid width={containerSize.width} height={containerSize.height} step={5} majorEvery={5} showLabels show={true} />}
 
         {symbols.map((symbol) => {
           const isActive = activeId === symbol.id;
@@ -157,7 +167,7 @@ export function CrestDiagram({ symbols = DEFAULT_SYMBOLS, variant = 'ambient', c
             <motion.polyline
               key={symbol.id}
               points={points}
-              className={cn('fill-none transition-colors duration-300 ease-out', isActive ? 'stroke-gold-base' : isHovered && variant !== 'ambient' ? 'stroke-gold-base/60' : 'stroke-border-default')}
+              className={cn('fill-none transition-colors duration-300 ease-out', isActive ? 'stroke-gold-base' : isHovered && variant !== 'ambient' ? 'stroke-gold-base/60' : 'stroke-border-strong')}
               strokeWidth={isActive ? 2.5 : 3}
               strokeDasharray={isActive && variant !== 'ambient' ? '0' : '4 4'}
               strokeLinejoin="round"

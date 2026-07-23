@@ -1,5 +1,6 @@
 // packages/ui/src/components/visualization/TimetableGrid.tsx
 'use client';
+import { cn } from '../../utilities/cn';
 export interface TimetableEntryData {
   period: string;
   time: string;
@@ -10,8 +11,6 @@ export interface TimetableEntryData {
   friday?: string;
   saturday?: string;
 }
-
-import { cn } from '../../utilities/cn';
 
 export interface TimetableGridProps {
   entries: TimetableEntryData[];
