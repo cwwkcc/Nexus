@@ -28,13 +28,6 @@ const DOT_POSITIONS: Record<HotspotPosition, string> = {
   'bottom-left': 'bottom-[20%] -left-[11px]',
 };
 
-const LABEL_POSITIONS: Record<HotspotPosition, string> = {
-  'top-right': 'top-[5%] right-[2%]',
-  'bottom-right': 'bottom-[7%] right-[2%]',
-  'top-left': 'top-[3%] left-[2%]',
-  'bottom-left': 'bottom-[12%] left-[2%]',
-};
-
 const DEFAULT_SYMBOLS: CrestSymbol[] = [
   {
     id: 'lamp',
@@ -148,8 +141,29 @@ export function CrestDiagram({ symbols = DEFAULT_SYMBOLS, variant = 'ambient', c
     return () => observer.disconnect();
   }, [calculateLines]);
 
+  const renderLabel = (symbol: CrestSymbol) => {
+    const isActive = activeId === symbol.id;
+    const isHovered = hoveredId === symbol.id;
+
+    // Soften dimming logic for standard click behaviors to look natural during multi-hover
+    const isDimmed = activeId !== null && !isActive && (variant !== 'click' || !isHovered);
+    const isHighlighted = isActive || (variant !== 'ambient' && isHovered);
+
+    return (
+      <button key={symbol.id} data-label={symbol.id} onClick={() => handleClick(symbol.id)} onPointerDown={() => handlePointerDown(symbol.id)} onPointerUp={handlePointerUp} onPointerEnter={() => handlePointerEnter(symbol.id)} onPointerLeave={handlePointerLeave} className={cn('w-full text-center cursor-pointer bg-surface-elevated border-border-sm border-solid transition-all duration-300 z-dropdown rounded-md p-space-1p5', isDimmed ? 'opacity-20 scale-95 grayscale' : 'opacity-100 scale-100', isHighlighted ? 'border-gold-base shadow-lg -translate-y-1' : 'border-border-light shadow-sm')}>
+        <EyebrowLabel className={cn('transition-colors duration-fast block', isHighlighted ? 'text-gold-base' : 'text-text-muted')}>{symbol.name}</EyebrowLabel>
+        <Text variant="body-sm" color={isHighlighted ? 'gold' : 'muted'} className="mt-space-1 normal-case tracking-normal transition-colors duration-fast">
+          {symbol.meaning}
+        </Text>
+      </button>
+    );
+  };
+
+  const leftSymbols = symbols.filter((s) => s.position?.includes('left'));
+  const rightSymbols = symbols.filter((s) => s.position?.includes('right'));
+
   return (
-    <div ref={containerRef} className={cn('relative select-none w-size-screen-80 aspect-[190/100]', 'my-space-2 bg-surface-active rounded-md overflow-hidden', className)}>
+    <div ref={containerRef} className={cn('relative select-none w-size-pct-80 aspect-[190/100]', 'my-space-2 bg-surface-active rounded-md overflow-hidden', className)}>
       {/* ── SVG Connector Network ── */}
       <svg className="absolute inset-space-0 w-full h-full pointer-events-none z-base" aria-hidden>
         {debug && <SvgDebugGrid width={containerSize.width} height={containerSize.height} step={5} majorEvery={5} showLabels show={true} />}
@@ -183,7 +197,7 @@ export function CrestDiagram({ symbols = DEFAULT_SYMBOLS, variant = 'ambient', c
       </svg>
 
       {/* ── Center Crest Card ── */}
-      <Container padding="none" className={cn('w-size-screen-w-20 aspect-[1/1.2]', 'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-raised', 'rounded-md bg-surface-elevated border-border-sm border-solid border-border-light shadow-elevation-3', 'flex items-center justify-center')}>
+      <Container padding="none" className={cn('w-size-pct-20 aspect-[1/1.2]', 'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-raised', 'rounded-md bg-surface-elevated border-border-sm border-solid border-border-light shadow-elevation-3', 'flex items-center justify-center')}>
         <SchoolLogo />
         {symbols.map((symbol) => {
           const isActive = activeId === symbol.id;
@@ -193,24 +207,11 @@ export function CrestDiagram({ symbols = DEFAULT_SYMBOLS, variant = 'ambient', c
         })}
       </Container>
 
-      {/* ── Context Labels ── */}
-      {symbols.map((symbol) => {
-        const isActive = activeId === symbol.id;
-        const isHovered = hoveredId === symbol.id;
-
-        // Soften dimming logic for standard click behaviors to look natural during multi-hover
-        const isDimmed = activeId !== null && !isActive && (variant !== 'click' || !isHovered);
-        const isHighlighted = isActive || (variant !== 'ambient' && isHovered);
-
-        return (
-          <button key={symbol.id} data-label={symbol.id} onClick={() => handleClick(symbol.id)} onPointerDown={() => handlePointerDown(symbol.id)} onPointerUp={handlePointerUp} onPointerEnter={() => handlePointerEnter(symbol.id)} onPointerLeave={handlePointerLeave} className={cn('absolute w-size-screen-w-20 text-center cursor-pointer bg-surface-elevated border-border-sm border-solid transition-all duration-300 z-dropdown rounded-md p-space-1p5', isDimmed ? 'opacity-20 scale-95 grayscale' : 'opacity-100 scale-100', isHighlighted ? 'border-gold-base shadow-lg -translate-y-1' : 'border-border-light shadow-sm', LABEL_POSITIONS[(symbol.position as HotspotPosition) || 'top-right'])}>
-            <EyebrowLabel className={cn('transition-colors duration-fast block', isHighlighted ? 'text-gold-base' : 'text-text-muted')}>{symbol.name}</EyebrowLabel>
-            <Text variant="body-sm" color={isHighlighted ? 'gold' : 'muted'} className="mt-space-1 normal-case tracking-normal transition-colors duration-fast">
-              {symbol.meaning}
-            </Text>
-          </button>
-        );
-      })}
+      {/* ── Context Labels — grouped into left/right columns so two labels on
+           the same side space themselves apart based on real content height
+           instead of colliding at fixed top/bottom percentages ── */}
+      <div className="absolute left-[6%] top-[6%] bottom-[6%] w-size-pct-20 flex flex-col justify-between gap-space-6">{leftSymbols.map(renderLabel)}</div>
+      <div className="absolute right-[6%] top-[6%] bottom-[6%] w-size-pct-20 flex flex-col justify-between gap-space-6">{rightSymbols.map(renderLabel)}</div>
     </div>
   );
 }
