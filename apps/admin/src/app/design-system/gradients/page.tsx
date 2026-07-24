@@ -1,4 +1,3 @@
-// @ts-nocheck
 // apps/admin/src/app/design-system/gradients/page.tsx
 'use client';
 

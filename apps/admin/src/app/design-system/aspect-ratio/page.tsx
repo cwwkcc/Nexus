@@ -1,4 +1,3 @@
-// @ts-nocheck
 // apps/admin/src/app/design-system/aspect-ratio/page.tsx
 'use client';
 
@@ -93,7 +92,6 @@ export default function AspectRatioPage() {
               <p className="font-body text-caption text-text-muted mt-space-2">{description}</p>
             </div>
           ))}
-          <ImageFrame src="" alt="something" aspectRatio="hero"></ImageFrame>
         </div>
       </Section>
     </div>

@@ -1,4 +1,3 @@
-// @ts-nocheck
 // apps/admin/src/app/design-system/motion/page.tsx
 'use client';
 
@@ -164,7 +163,7 @@ export default function MotionPage() {
           {scaleTokens.map(({ token, value }) => (
             <div key={token} className="bg-surface-elevated border border-border-light rounded-md p-space-4 flex flex-col items-center gap-space-3">
               <div className="w-size-16 h-size-16 bg-green-base rounded-md transition-transform duration-fast hover:scale-card-hover" style={{ transform: `scale(${value})` }} />
-              <code className="font-mono text-label text-gold-base">{token}</code>
+              <code className="mt-space-3 font-mono text-label text-gold-base">{token}</code>
               <code className="font-mono text-caption text-text-muted">{value}</code>
             </div>
           ))}

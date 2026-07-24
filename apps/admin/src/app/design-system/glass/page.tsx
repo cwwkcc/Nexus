@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 // Glass tokens live in tokens.css as CSS custom properties.

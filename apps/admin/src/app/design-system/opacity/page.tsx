@@ -1,4 +1,3 @@
-// @ts-nocheck
 // apps/admin/src/app/design-system/opacity/page.tsx
 'use client';
 

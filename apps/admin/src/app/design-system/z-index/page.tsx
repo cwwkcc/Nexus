@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 // z-index tokens from zIndex.ts — keys: base, raised, dropdown, sticky, overlay, modal, toast, loading
