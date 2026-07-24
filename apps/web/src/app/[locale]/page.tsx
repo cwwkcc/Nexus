@@ -7,7 +7,14 @@ export default function HomePage() {
       <VStack className="m-space-10">
         <ButtonLink href="./about">About</ButtonLink>
 
-        <ButtonLink href="./academics">Academics</ButtonLink>
+        <ButtonLink
+          href="./academics"
+          className="bg-overlay-medium
+
+"
+        >
+          Academics
+        </ButtonLink>
 
         <ButtonLink href="./administration">Administration</ButtonLink>
 
