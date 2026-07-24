@@ -1,6 +1,6 @@
 # Nexus — Complete Feature Registry
 
-**C.W.W. Kannangara Central College Digital Platform** *Kannangara ICT Society (KITS) · Mathugama*
+**C.W.W. Kannangara Central College Digital Platform** _Kannangara ICT Society (KITS) · Mathugama_
 
 This document is the single authoritative list of every feature, system, and capability that Nexus will include. Every item here has a home in the Engineering Roadmap. Nothing is built that is not listed here. Nothing listed here is omitted from the build.
 
@@ -142,13 +142,19 @@ _Renamed from "Core & Common" — the `core/` folder this group used to describe
 
 _Renamed from "Editorial & Domain Schemas" — the `content/` and `school/` folders it used to describe are now `editorial/` and `domains/`, and a third folder, `shared/`, was carved out of the old `content/` for the display primitives that don't belong in either._
 
-**F-048 · Editorial Content Schemas** `editorial/`: News (article, category, featured), Events (event, category, calendar), Gallery (album, photo), Achievements (achievement, ticker-config) — unchanged in substance, just relocated. A block describes how a chunk of UI is shaped; an editorial schema describes a real recurring entity with its own identity, list views, and lifecycle.
+**F-048 · Editorial Content Schemas** `editorial/`: News (article, category, featured), Events (event, category, calendar), Gallery (album, photo), Achievements (achievement, ticker-config) — unchanged in substance, just relocated. A block describes how a chunk of UI is shaped; an editorial schema describes a real recurring entity with its own identity, list views, and lifecycle. **The Events sub-entry described here (a standalone `EventSchema` sitting alongside a separate `CalendarEntrySchema`) is superseded by F-198.** The two were never actually unified in the codebase — `CalendarEntrySchema` (`calendar.ts`) and `EventSchema` (`event.ts`) exist side by side with no relationship field between them, despite `calendar.ts`'s own header comment already claiming "the events page and home page upcoming strip both read from this." F-198 is the real design for how every dated item on the site — not just what most people would call an "event" — is meant to work.
 
 **F-049 · Shared Display Primitives** `shared/`: table-of-contents sections (`toc-section.ts`), filter options (`filter-option.ts`), a video-source enum (`video-source.ts`), a lightbox image shape derived via `.pick()` from the primitives `Image` schema (`lightbox-image.ts`), and search results (`search-result.ts`). Renamed from "Display & Interaction Contracts" and narrower than that name implied: there is no separate stats/stat-card shape here (stats lives solely in the `stats` block, F-047) and no process-steps/journey-node shape here either (process steps exist as both a block, F-047, and a domain schema, F-051, for admissions specifically) — this folder doesn't own either concept.
 
 **F-050 · Admin Form Schema Variants (not yet built)** No `.omit()` / `.extend()` admin create/edit form variants exist anywhere in the package yet — not for News, Staff, Events, or anything else. The pattern that has actually emerged is a different one: a `*Card` schema derived from a full domain entity via `.omit()` for compact public-facing views (see `StaffCardSchema` under F-051) — trimming an entity for display, not shaping a form's client-side validation surface. The two may end up sharing the same `.omit()`/`.extend()` mechanics, but nothing serving the admin-form use case has been written.
 
 **F-051 · Domain Type Contracts** `domains/`: academics (curriculum, department, subject, A/L stream, stream-comparison), admissions (key dates, process steps, eligibility requirements — no `application` schema exists), contact (contact-form, feedback-form), extracurriculars (activity, achievement), facilities (facility-profile, panoramic-viewer), people (staff-member, principal-profile, alumni — no `student` schema exists; prefects, who are students, are modeled as a `head-prefect` value on `StaffRoleEnum` instead), results (A/L aggregate statistics, O/L aggregate statistics, display), societies (society-profile, membership, society-achievement), and core school identity (`school-identity.ts` — today just a flat, hand-written `SchoolSchema`; the "assembled at runtime from Site Settings" idea depends on F-054, which hasn't been built). Several entities here now follow a `*Card` derivation pattern — a full entity schema plus a `.omit()`-derived `*CardSchema` for compact views, e.g. `StaffSchema` / `StaffCardSchema` — rather than a hand-written card shape.
+
+**F-198 · Calendar-First Event Architecture** The school calendar is the single source of truth for every dated item on the platform — holidays, exam dates, sports fixtures, cultural events, internal meetings, prize-givings, anything with a date. Nothing reaches the public site as an "event" through any path except a `CalendarEntry` row; there is no separate manual event-listing mechanism anywhere in the admin panel. Every `CalendarEntry` (`editorial/events/calendar.ts`) carries `id`, `title`, `date`, `category` (the existing `EventCategorySchema` from `editorial/events/category.ts`), and the existing optional recurrence fields (`isRecurring`, `recurrenceRule`, `notes`). Creating one is a single form with one fork, made at the point of creation: **(1) calendar-only** — the entry is saved as-is and appears on the calendar grid and nowhere else; or **(2) calendar + event card** — the same save additionally creates a linked `EventDetail` row (`slug`, `description`, `coverImage`, `location`, `isAllDay`, `registrationUrl` — the fields the current standalone `EventSchema` in `event.ts` already defines, now attached to a `CalendarEntry` by id instead of existing as its own independent entity) which is what produces an `EventCard` (F-024) projection and a routable detail page (F-146). A calendar-only entry — a public holiday, an internal staff meeting — is never rendered as a card and never gets a detail route, because there is nothing in it meant for public display beyond a date and a label.
+
+**Depends on:** F-047 (block library — `EventCardSchema`'s projection is consumed the same way any block-rendered card is), F-048 (Editorial Content Schemas — this feature supersedes the Events sub-entry described there).
+
+**Current state, honestly:** this is a design decision recorded here to close a real gap, not a description of code that already works this way. As of this revision, `CalendarEntrySchema` and `EventSchema` are two unconnected schemas in the same `editorial/events/` folder — no field on either references the other. Implementing F-198 means adding the relationship (an `eventDetailId` on `CalendarEntry`, or equivalently a required `calendarEntryId` on what `event.ts` currently calls `EventSchema`, renamed `EventDetailSchema`), updating the Events Module (F-166) to present the single two-branch creation form instead of two separate flows, and updating the Events Listing Page (F-145) and Event Detail Page (F-146) to read accordingly. No Prisma model changes are implied beyond this — both concepts already live under the same `ContentEntry` foundation (`editorial:calendar` scope per `calendar.ts`'s own comment); this is a contracts-and-UI change, not a new database table.
 
 ---
 
@@ -422,9 +428,9 @@ _Numbered out of sequence — appended at the end of the registry per the stable
 
 **F-144 · News Article Page** Individual article with rich text rendering via RichTextRenderer, author attribution, publication date, related articles, social sharing via ShareSheet. Statically generated at build time. OG metadata per article.
 
-**F-145 · Events Listing Page** Events with calendar view and list view, filterable by category and month. Upcoming events distinguished from past events.
+**F-145 · Events / School Calendar Listing Page** One page, two views, over a single dataset: every `CalendarEntry` (F-198), filterable by category and month. The calendar view renders every entry — a school holiday and a prize-giving are equally present on the grid. The list view renders only entries with a linked `EventDetail` as a full `EventCard` (title, date, venue, cover image where set); entries without one are never listed as cards, since there's no detail page for a card to link to. Upcoming and past are distinguished by date, not by a separate status field. There is no page-level manual event list independent of the calendar — nothing reaches this page except through a `CalendarEntry` row.
 
-**F-146 · Event Detail Page** Full event description, date, time, venue, category, optional registration link. Map embed for venue location.
+**F-146 · Event Detail Page** Full event description, date, time, venue, category, optional registration link. Map embed for venue location. Exists only for a `CalendarEntry` that was given an `EventDetail` (F-198) — a calendar-only entry (a holiday, an exam date, an internal meeting) has no detail page and no route resolves for it. The page renders from the `CalendarEntry` plus its linked `EventDetail`, not from a standalone `Event` row.
 
 **F-147 · Societies Hub** All societies with category filter. Each society shown as a SocietyCard. High-engagement page for current students.
 
@@ -470,7 +476,7 @@ _Numbered out of sequence — appended at the end of the registry per the stable
 
 **F-165 · Staff Module** List sorted by role hierarchy. Create/edit with name, title, role, department, tenure, quote, portrait via media library. Drag-and-drop reorder (the `order` field controls public site display sequence).
 
-**F-166 · Events Module** Calendar view and list view. Create/edit with title, description, date, time, venue, category, status, optional registration link. Status workflow mirrors news.
+**F-166 · Calendar & Events Module** Calendar view and list view over `CalendarEntry` rows (F-198). Every entry starts the same way — pick a date, a title, a category — then the editor makes one choice: **save as calendar-only** (the entry appears on the calendar and nowhere else), or **add event details** (the same save additionally opens the description, cover image, venue, and registration-link fields that create the linked `EventDetail`, publishing an `EventCard` and a detail page at F-146). There is no separate, disconnected "create an event" flow — every public-facing event on the site originates from this one calendar-entry form. Status workflow (draft → published → archived) applies to the `EventDetail` half only; a calendar-only entry has no publish state of its own, since it was never a piece of content meant for standalone review.
 
 **F-167 · Societies Module** Create/edit with name, slug, category, tagline, description, member count, founding year, logo upload, banner upload, advisor staff member selection.
 
@@ -544,30 +550,31 @@ _Numbered out of sequence — appended at the end of the registry per the stable
 
 ## Summary Table
 
-| Group                                                 | Range                | Count   |
-| ----------------------------------------------------- | -------------------- | ------- |
-| Monorepo & Developer Tooling                          | F-001 – F-011        | 11      |
-| Design System Tokens                                  | F-012 – F-020        | 9       |
-| Component Library                                     | F-021 – F-041        | 21      |
-| Contracts: Primitives, System & Shared Utilities      | F-042 – F-046        | 5       |
-| Contracts: Reusable Content Block Library             | F-047 – F-047        | 1       |
-| Contracts: Editorial, Shared Display & Domain Schemas | F-048 – F-051        | 4       |
-| Contracts: Page & Global Content Registry             | F-052 – F-055        | 4       |
-| Database                                              | F-056 – F-063        | 8       |
-| API Layer                                             | F-064 – F-072, F-195 | 10      |
-| Authentication & Access Control                       | F-073 – F-082        | 10      |
-| Internationalisation                                  | F-083 – F-089        | 7       |
-| Error Handling & Resilience                           | F-090 – F-094        | 5       |
-| Logging & Monitoring                                  | F-095 – F-100        | 6       |
-| Analytics                                             | F-101 – F-102        | 2       |
-| SEO & Discoverability                                 | F-103 – F-108        | 6       |
-| Performance                                           | F-109 – F-115        | 7       |
-| Infrastructure & Deployment                           | F-116 – F-125        | 10      |
-| Security                                              | F-126 – F-137        | 12      |
-| Testing                                               | F-138 – F-140        | 3       |
-| Public Website                                        | F-141 – F-161        | 21      |
-| Admin Panel                                           | F-162 – F-183        | 22      |
-| PWA & Offline Support                                 | F-184 – F-186        | 3       |
-| Comprehensive Project Documentation                   | F-187 – F-194        | 8       |
-| Contracts: Page & Global Content Registry (addendum)  | F-196 – F-197        | 2       |
-| **Total**                                             |                      | **197** |
+| Group                                                            | Range                | Count   |
+| ---------------------------------------------------------------- | -------------------- | ------- |
+| Monorepo & Developer Tooling                                     | F-001 – F-011        | 11      |
+| Design System Tokens                                             | F-012 – F-020        | 9       |
+| Component Library                                                | F-021 – F-041        | 21      |
+| Contracts: Primitives, System & Shared Utilities                 | F-042 – F-046        | 5       |
+| Contracts: Reusable Content Block Library                        | F-047 – F-047        | 1       |
+| Contracts: Editorial, Shared Display & Domain Schemas            | F-048 – F-051        | 4       |
+| Contracts: Editorial, Shared Display & Domain Schemas (addendum) | F-198                | 1       |
+| Contracts: Page & Global Content Registry                        | F-052 – F-055        | 4       |
+| Database                                                         | F-056 – F-063        | 8       |
+| API Layer                                                        | F-064 – F-072, F-195 | 10      |
+| Authentication & Access Control                                  | F-073 – F-082        | 10      |
+| Internationalisation                                             | F-083 – F-089        | 7       |
+| Error Handling & Resilience                                      | F-090 – F-094        | 5       |
+| Logging & Monitoring                                             | F-095 – F-100        | 6       |
+| Analytics                                                        | F-101 – F-102        | 2       |
+| SEO & Discoverability                                            | F-103 – F-108        | 6       |
+| Performance                                                      | F-109 – F-115        | 7       |
+| Infrastructure & Deployment                                      | F-116 – F-125        | 10      |
+| Security                                                         | F-126 – F-137        | 12      |
+| Testing                                                          | F-138 – F-140        | 3       |
+| Public Website                                                   | F-141 – F-161        | 21      |
+| Admin Panel                                                      | F-162 – F-183        | 22      |
+| PWA & Offline Support                                            | F-184 – F-186        | 3       |
+| Comprehensive Project Documentation                              | F-187 – F-194        | 8       |
+| Contracts: Page & Global Content Registry (addendum)             | F-196 – F-197        | 2       |
+| **Total**                                                        |                      | **198** |
