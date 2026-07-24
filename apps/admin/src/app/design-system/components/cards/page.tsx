@@ -1,5 +1,5 @@
 // @ts-nocheck
-// @ts-nocheck
+
 'use client';
 
 import { AcademicStreamCard, AchievementCard, DownloadableDocumentItem, EventCard, ExtracurricularCard, FacilityCard, GalleryAlbumCard, NewsCard, SocietyBanner, SocietyCard, StaffCard, StatCard } from '@nexus/ui';

@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 import { Caption, ImageFrame, Lightbox, PanoramicFacilityViewer, VideoFrame, type LightboxImage } from '@nexus/ui';

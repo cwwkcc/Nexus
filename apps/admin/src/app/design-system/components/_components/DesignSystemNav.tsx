@@ -29,7 +29,6 @@ const componentCategories = [
   { href: '/design-system/components/effects', label: 'Effects' },
   { href: '/design-system/components/feedback', label: 'Feedback' },
   { href: '/design-system/components/forms', label: 'Forms' },
-  { href: '/design-system/components/global', label: 'Global' },
   { href: '/design-system/components/icons', label: 'Icons' },
   { href: '/design-system/components/layout-components', label: 'Layout' },
   { href: '/design-system/components/media', label: 'Media' },

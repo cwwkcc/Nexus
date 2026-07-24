@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 import type { SearchResultData } from '@nexus/contracts';

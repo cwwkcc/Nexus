@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 import { Avatar, Badge, Button, ButtonLink, ResultsGradeBadge, Tag, ToolTip, InlineHelpText, BeatLoader, ScaleLoader } from '@nexus/ui';

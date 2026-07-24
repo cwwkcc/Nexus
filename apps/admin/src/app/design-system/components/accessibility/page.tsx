@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 import { Text, Button, Input, ToolTip } from '@nexus/ui';

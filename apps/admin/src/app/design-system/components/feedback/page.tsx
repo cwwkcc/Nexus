@@ -1,4 +1,3 @@
-// @ts-nocheck
 // apps/web/src/app/[locale]/components/feedback/page.tsx
 'use client';
 

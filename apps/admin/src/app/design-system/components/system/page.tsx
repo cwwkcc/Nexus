@@ -1,4 +1,3 @@
-// @ts-nocheck
 // apps/admin/src/app/design-system/components/system/page.tsx
 'use client';
 
