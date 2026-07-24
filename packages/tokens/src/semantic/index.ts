@@ -11,7 +11,7 @@ export const semantic = {
   surface,
   text,
   border,
-  status: statusColors,
+  semantic: statusColors,
   overlay,
   opacity: stateOpacity,
 } as const;
