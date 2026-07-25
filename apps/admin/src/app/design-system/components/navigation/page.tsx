@@ -1,7 +1,7 @@
 'use client';
 
 import type { SearchResultData } from '@nexus/contracts';
-import { Accordion, Breadcrumb, FilterBar, LanguageSwitcher, MobileMenu, NavLink, Pagination, SearchInput, TableOfContents, Tabs } from '@nexus/ui';
+import { Accordion, Breadcrumb, FilterBar, LanguageSwitcher, MobileMenu, NavLink, Navigation, Pagination, SearchInput, TableOfContents, Tabs } from '@nexus/ui';
 import { useState } from 'react';
 
 import { DemoSection } from '../_components/DemoSection';
@@ -231,6 +231,10 @@ export default function NavigationComponentsPage() {
               variant="pills"
             />
           </div>
+        </DemoSection>
+
+        <DemoSection title="Navigation">
+          <Navigation variant="solid" />
         </DemoSection>
       </div>
     </div>

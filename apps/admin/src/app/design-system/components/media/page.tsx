@@ -1,6 +1,6 @@
 'use client';
 
-import { Caption, ImageFrame, Lightbox, PanoramicFacilityViewer, VideoFrame, type LightboxImage } from '@nexus/ui';
+import { AudioPlayer, Caption, ImageFrame, Lightbox, MapEmbed, PanoramicFacilityViewer, VideoFrame, type LightboxImage } from '@nexus/ui';
 import { useState } from 'react';
 
 import { DemoSection } from '../_components/DemoSection';
@@ -97,6 +97,16 @@ export default function MediaPage() {
             <ImageFrame src="/images/white.jpg" alt="Demo" aspectRatio="hero" />
             <Caption variant="overlay">Overlay caption on image</Caption>
           </figure>
+        </DemoSection>
+
+        {/* Audio Player */}
+        <DemoSection title="AudioPlayer">
+          <AudioPlayer src="/audio/sample.mp3" title="School Anthem" />
+        </DemoSection>
+
+        {/* Map Embed */}
+        <DemoSection title="MapEmbed">
+          <MapEmbed src="https://www.openstreetmap.org/export/embed.html?bbox=80.0%2C6.0%2C80.1%2C6.1&layer=mapnik" title="KCC Location" />
         </DemoSection>
       </div>
     </div>

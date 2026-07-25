@@ -1,7 +1,7 @@
 // apps/web/src/app/[locale]/components/feedback/page.tsx
 'use client';
 
-import { Alert, Modal, Toast } from '@nexus/ui';
+import { Alert, AnnouncementBanner, Toast } from '@nexus/ui';
 import { useState } from 'react';
 
 function DemoSection({ title, children }: { title: string; children: React.ReactNode }) {
@@ -16,8 +16,6 @@ function DemoSection({ title, children }: { title: string; children: React.React
 export default function FeedbackPage() {
   const [toastVisible, setToastVisible] = useState(false);
   const [toastType, setToastType] = useState<'success' | 'error' | 'warning'>('success');
-  const [infoModalOpen, setInfoModalOpen] = useState(false);
-  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
 
   const showToast = (type: 'success' | 'error' | 'warning') => {
     setToastType(type);
@@ -40,20 +38,6 @@ export default function FeedbackPage() {
           <Alert variant="error">Error: Something went wrong.</Alert>
         </DemoSection>
 
-        {/* Modal */}
-        <DemoSection title="Modal – Information & Confirmation">
-          <button onClick={() => setInfoModalOpen(true)} className="px-space-4 py-space-2 bg-green-base text-text-inverse rounded-sm">
-            Open Information Modal
-          </button>
-          <button onClick={() => setConfirmModalOpen(true)} className="px-space-4 py-space-2 bg-semantic-error-base text-text-inverse rounded-sm">
-            Open Confirmation Modal
-          </button>
-
-          <Modal open={infoModalOpen} onClose={() => setInfoModalOpen(false)} variant="information" title="Information" description="This is an information modal. It can contain any content. Click outside or press Escape to close." />
-
-          <Modal open={confirmModalOpen} onClose={() => setConfirmModalOpen(false)} variant="confirmation" title="Delete Item" description="Are you sure you want to delete this item? This action cannot be undone." destructive confirmLabel="Delete" onConfirm={() => alert('Item deleted')} />
-        </DemoSection>
-
         {/* Toast */}
         <DemoSection title="Toast – All Variants">
           <div className="flex gap-space-4">
@@ -69,6 +53,17 @@ export default function FeedbackPage() {
           </div>
 
           <Toast variant={toastType} message={toastType === 'success' ? 'Operation completed successfully!' : toastType === 'error' ? 'Failed to save. Please try again.' : 'Your session will expire soon.'} visible={toastVisible} onDismiss={() => setToastVisible(false)} duration={4000} />
+        </DemoSection>
+
+        <DemoSection title="AnnouncementBanner">
+          <p className="font-body text-body-sm text-text-muted mb-space-3">Dismissible top‑of‑page announcement strip for urgent notices.</p>
+          <div className="space-y-space-4 w-full">
+            <AnnouncementBanner variant="info">School reopens on 5 May.</AnnouncementBanner>
+            <AnnouncementBanner variant="warning" dismissible>
+              Admissions closing soon – apply by 30 June.
+            </AnnouncementBanner>
+            <AnnouncementBanner variant="error">Website maintenance scheduled for Sunday 2 AM – 4 AM.</AnnouncementBanner>
+          </div>
         </DemoSection>
       </div>
     </div>

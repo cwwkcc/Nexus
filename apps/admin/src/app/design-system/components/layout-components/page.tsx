@@ -1,7 +1,7 @@
 // apps/web/src/app/[locale]/components/layout-components/page.tsx
 'use client';
 
-import { Breadcrumb, Container, Divider, Drawer, Grid, GridItem, Hero, Navigation, VStack, HStack } from '@nexus/ui';
+import { Container, Divider, Grid, GridItem, Hero, MasonryGrid, VStack, HStack, QuickAccessPortal } from '@nexus/ui';
 
 import { DemoSection } from '../_components/DemoSection';
 
@@ -11,10 +11,6 @@ export default function LayoutComponentsPage() {
       <div className="content-width">
         <h1 className="font-display text-h1 mb-space-4">Layout Components</h1>
         <p className="font-body text-body text-text-muted mb-space-12">Structural components for page layout – containers, grids, stacks, navigation, hero and footer.</p>
-
-        <DemoSection title="Breadcrumb">
-          <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Components' }]} />
-        </DemoSection>
 
         {/* Container */}
         <DemoSection title="Container – All Options">
@@ -228,12 +224,6 @@ export default function LayoutComponentsPage() {
           </div>
         </DemoSection>
 
-        <DemoSection title="Drawer (Persistent Sidebar)">
-          <Drawer persistent size="sm" className="relative h-size-48">
-            <div className="p-space-4">Persistent sidebar demo</div>
-          </Drawer>
-        </DemoSection>
-
         {/* Grid */}
         <DemoSection title="Grid – All Options">
           <div className="space-y-12 w-size-full">
@@ -363,12 +353,26 @@ export default function LayoutComponentsPage() {
           <Hero variant="minimal" heading="Hero Demo" subheading="A simple hero" />
         </DemoSection>
 
-        <DemoSection title="Navigation">
-          <Navigation variant="solid" />
+        <DemoSection title="QuickAccessPortal">
+          <p className="font-body text-body-sm text-text-muted mb-space-3">Sticky quick-access strip for role-based portal links.</p>
+          <QuickAccessPortal
+            links={[
+              { label: 'Admissions', href: '/admissions' },
+              { label: 'Academic Calendar', href: '/calendar' },
+              { label: 'Staff Directory', href: '/staff' },
+              { label: 'Contact Us', href: '/contact' },
+            ]}
+          />
         </DemoSection>
 
-        <DemoSection title="QuickAccessPortal">
-          <p className="font-body text-body-sm text-text-muted">Quick access portal demo coming soon.</p>
+        <DemoSection title="MasonryGrid">
+          <MasonryGrid columnCount={{ mobile: 2, tablet: 3, desktop: 4 }}>
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div key={i} className="bg-surface-elevated border border-border-light p-4 text-center">
+                Item {i}
+              </div>
+            ))}
+          </MasonryGrid>
         </DemoSection>
 
         <DemoSection title="VStack & HStack – All Options">

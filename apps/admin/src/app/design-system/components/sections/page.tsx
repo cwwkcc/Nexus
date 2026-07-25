@@ -127,10 +127,6 @@ export default function SectionsPage() {
           <AlumniLegacyBlock alumni={sampleAlumni} />
         </DemoSection>
 
-        <DemoSection title="AudioPlayer">
-          <AudioPlayer src="/audio/sample.mp3" title="School Anthem" />
-        </DemoSection>
-
         <DemoSection title="LifeAtKCCPhotoStrip">
           <LifeAtKCCPhotoStrip items={samplePhotos} />
         </DemoSection>

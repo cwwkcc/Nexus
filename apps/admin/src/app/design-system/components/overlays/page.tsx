@@ -1,6 +1,6 @@
 'use client';
 
-import { Drawer, DropdownMenu, ShareSheet, ToolTip, Button } from '@nexus/ui';
+import { Drawer, DropdownMenu, ShareSheet, ToolTip, Modal, Button } from '@nexus/ui';
 import { useState } from 'react';
 
 import { DemoSection } from '../_components/DemoSection';
@@ -8,6 +8,8 @@ import { DemoSection } from '../_components/DemoSection';
 export default function OverlaysPage() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
+  const [infoModalOpen, setInfoModalOpen] = useState(false);
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
 
   const dropdownItems = [
     { id: 'profile', label: 'Profile', href: '/profile' },
@@ -85,6 +87,26 @@ export default function OverlaysPage() {
               <span className="inline-block cursor-help underline decoration-dotted">Hover me (any element)</span>
             </ToolTip>
           </div>
+        </DemoSection>
+
+        {/* Modal */}
+        <DemoSection title="Modal – Information & Confirmation">
+          <button onClick={() => setInfoModalOpen(true)} className="px-space-4 py-space-2 bg-green-base text-text-inverse rounded-sm">
+            Open Information Modal
+          </button>
+          <button onClick={() => setConfirmModalOpen(true)} className="px-space-4 py-space-2 bg-semantic-error-base text-text-inverse rounded-sm">
+            Open Confirmation Modal
+          </button>
+
+          <Modal open={infoModalOpen} onClose={() => setInfoModalOpen(false)} variant="information" title="Information" description="This is an information modal. It can contain any content. Click outside or press Escape to close." />
+
+          <Modal open={confirmModalOpen} onClose={() => setConfirmModalOpen(false)} variant="confirmation" title="Delete Item" description="Are you sure you want to delete this item? This action cannot be undone." destructive confirmLabel="Delete" onConfirm={() => alert('Item deleted')} />
+        </DemoSection>
+
+        <DemoSection title="Drawer (Persistent Sidebar)">
+          <Drawer persistent size="sm" className="relative h-size-48">
+            <div className="p-space-4">Persistent sidebar demo</div>
+          </Drawer>
         </DemoSection>
       </div>
     </div>
