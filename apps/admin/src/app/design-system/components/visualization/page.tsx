@@ -1,6 +1,6 @@
 'use client';
 
-import { ComparisonBar, DataTable, ProgressArc, ResultsDisplay, StreamComparisonTable, StudentJourneyFlow, TimetableGrid } from '@nexus/ui';
+import { ComparisonBar, DataTable, ProgressArc, ResultsDisplay, StreamComparisonTable, StudentJourneyFlow, TimetableGrid, ProcessSteps } from '@nexus/ui';
 
 import { DemoSection } from '../_components/DemoSection';
 
@@ -110,6 +110,17 @@ export default function VisualizationPage() {
 
         <DemoSection title="TimetableGrid">
           <TimetableGrid entries={sampleTimetable} />
+        </DemoSection>
+
+        <DemoSection title="ProcessSteps">
+          <ProcessSteps
+            steps={[
+              { id: '1', step: 1, title: 'Submit Application', description: 'Complete the online admissions form with student and parent details.' },
+              { id: '2', step: 2, title: 'Document Verification', description: 'Bring birth certificate, previous school records, and proof of address.' },
+              { id: '3', step: 3, title: 'Entrance Assessment', description: 'Student attends a short assessment for grade placement.' },
+              { id: '4', step: 4, title: 'Confirmation', description: 'Offer letter issued and admission confirmed upon fee payment.' },
+            ]}
+          />
         </DemoSection>
       </div>
     </div>

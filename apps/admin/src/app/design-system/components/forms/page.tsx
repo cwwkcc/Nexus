@@ -1,7 +1,6 @@
-// @ts-nocheck
 'use client';
 
-import { Checkbox, ContactForm, FeedbackForm, FileUploadZone, FormErrorMessage, FormFieldGroup, FormSectionWrapper, Input, ProgressIndicator, Radio, RequirementsChecklist, Select, Slider, Textarea, Toggle, FormValidationSummary } from '@nexus/ui';
+import { Checkbox, ContactForm, FeedbackForm, FileUploadZone, FormErrorMessage, FormFieldGroup, FormSectionWrapper, Input, ProgressIndicator, Radio, RequirementsChecklist, Select, Slider, Textarea, Toggle, FormValidationSummary, Calendar } from '@nexus/ui';
 import { useState } from 'react';
 
 function DemoSection({ title, children }: { title: string; children: React.ReactNode }) {
@@ -12,6 +11,10 @@ function DemoSection({ title, children }: { title: string; children: React.React
     </div>
   );
 }
+
+const handleDemoSubmit = async (data: unknown) => {
+  console.log('Demo form submitted:', data);
+};
 
 export default function FormsPage() {
   const [sliderValue, setSliderValue] = useState(50);
@@ -153,15 +156,29 @@ export default function FormsPage() {
         {/* ContactForm (full) */}
         <DemoSection title="ContactForm (Full)">
           <div className="w-full max-w-md">
-            <ContactForm />
+            <ContactForm onSubmit={handleDemoSubmit} />
           </div>
         </DemoSection>
 
         {/* FeedbackForm (full) */}
+        {/* FeedbackForm (full) */}
         <DemoSection title="FeedbackForm (Full)">
           <div className="w-full max-w-md">
-            <FeedbackForm />
+            <FeedbackForm onSubmit={handleDemoSubmit} />
           </div>
+        </DemoSection>
+
+        {/* Calendar */}
+        <DemoSection title="Calendar">
+          <Calendar
+            variant="month-view"
+            month="2026-07"
+            events={[
+              { id: '1', title: 'Parent-Teacher Meeting', date: '2026-07-08', status: 'upcoming', category: 'Ceremony', href: '/events/ptm-july' },
+              { id: '2', title: 'Founders\u2019 Day', date: '2026-07-14', status: 'today', category: 'Ceremony', href: '/events/founders-day' },
+              { id: '3', title: 'Inter-House Sports Meet', date: '2026-07-22', status: 'upcoming', category: 'Sports', href: '/events/sports-meet-2026' },
+            ]}
+          />
         </DemoSection>
       </div>
     </div>
