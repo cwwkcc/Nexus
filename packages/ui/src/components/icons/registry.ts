@@ -26,6 +26,8 @@ import {
   Pause,
   Rewind,
   FastForward,
+  Volume2,
+  VolumeX,
 
   // File types
   FileText,
@@ -91,6 +93,8 @@ export const iconRegistry = {
   pause: Pause,
   rewind: Rewind,
   'fast-forward': FastForward,
+  'volume-2': Volume2,
+  'volume-x': VolumeX,
 
   // File types
   'file-text': FileText,
