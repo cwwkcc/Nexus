@@ -28,7 +28,7 @@ export default function CardsDemoPage() {
 
         {/* AchievementCard */}
         <DemoSection title="AchievementCard – Archive Post & Ticker Item">
-          <AchievementCard variant="archive-post" title="Gold at SLIIT Codefest 2024" year="2024" category="Technology" context="KITS team won first place in the全校 competition." imageSrc="/images/white.jpg" href="/achievements/codefest-2024" />
+          <AchievementCard variant="archive-post" title="Gold at SLIIT Codefest 2024" year="2024" category="Technology" context="KITS team won first place in the全校 competition." imageSrc="/assets/images/ironman.jpg" href="/achievements/codefest-2024" />
           <AchievementCard variant="archive-post" title="214 University Entrances" year="2026" category="Academics" context="Highest in Kalutara District – 95% pass rate." />
           <div className="flex flex-col gap-space-4">
             <AchievementCard variant="ticker-item" title="Gold Medal – Science Exhibition" year="2025" category="Science" />
@@ -58,16 +58,16 @@ export default function CardsDemoPage() {
         </DemoSection>
 
         <DemoSection title="EventCard – Featured">
-          <EventCard variant="featured" title="KITS Nexus Launch Ceremony" description="Official launch of the school's new digital platform, built entirely by students." date="2026-05-01" time="10:00 AM" venue="KCC Auditorium" category="Technology" status="registration-open" href="/events/nexus-launch" imageSrc="/images/white.jpg" registrationHref="/events/nexus-launch/register" relativeTime="Starts in 2 weeks" />
+          <EventCard variant="featured" title="KITS Nexus Launch Ceremony" description="Official launch of the school's new digital platform, built entirely by students." date="2026-05-01" time="10:00 AM" venue="KCC Auditorium" category="Technology" status="registration-open" href="/events/nexus-launch" imageSrc="/assets/images/ironman.jpg" registrationHref="/events/nexus-launch/register" relativeTime="Starts in 2 weeks" />
         </DemoSection>
 
         {/* ExtracurricularCard */}
         <DemoSection title="ExtracurricularCard – Sport">
-          <ExtracurricularCard id="cricket" category="sports" variant="sport" name="Cricket Team" description="The Men in Green – Kalutara District champions 2025." recentAchievements={['District Champions 2025', 'Pasdun Cup Winners 2024']} teacherInCharge="Mr. Silva" season="Current Season: 2026" imageSrc="/images/white.jpg" href="/extracurriculars/cricket" />
+          <ExtracurricularCard id="cricket" category="sports" variant="sport" name="Cricket Team" description="The Men in Green – Kalutara District champions 2025." recentAchievements={['District Champions 2025', 'Pasdun Cup Winners 2024']} teacherInCharge="Mr. Silva" season="Current Season: 2026" imageSrc="/assets/images/ironman.jpg" href="/extracurriculars/cricket" />
         </DemoSection>
 
         <DemoSection title="ExtracurricularCard – Performing Arts">
-          <ExtracurricularCard id="western-band" category="performing-arts" variant="performing-arts" name="Western Band" description="Performing at all major school events and competitions." studentQuote="Music is our second language." teacherInCharge="Mrs. Perera" imageSrc="/images/white.jpg" href="/extracurriculars/western-band" />
+          <ExtracurricularCard id="western-band" category="performing-arts" variant="performing-arts" name="Western Band" description="Performing at all major school events and competitions." studentQuote="Music is our second language." teacherInCharge="Mrs. Perera" imageSrc="/assets/images/ironman.jpg" href="/extracurriculars/western-band" />
         </DemoSection>
 
         <DemoSection title="ExtracurricularCard – Leadership">
@@ -76,8 +76,8 @@ export default function CardsDemoPage() {
 
         {/* FacilityCard */}
         <DemoSection title="FacilityCard – Standard">
-          <FacilityCard id="labs" slug="labs" type="laboratory" name="Science Laboratories" description="Fully equipped labs for physics, chemistry, and biology." features={['Modern equipment', 'Safety compliant', 'Separate prep rooms']} href="/facilities/labs" image={{ src: '/images/white.jpg', alt: 'Science laboratories' }} imageSrc="/images/white.jpg" />
-          <FacilityCard id="library" slug="library" type="library" name="Library" description="Over 10,000 books and digital resources." features={['Reading hall', 'E-library', 'Periodicals section']} href="/facilities/library" image={{ src: '/images/white.jpg', alt: 'Library' }} />
+          <FacilityCard id="labs" slug="labs" type="laboratory" name="Science Laboratories" description="Fully equipped labs for physics, chemistry, and biology." features={['Modern equipment', 'Safety compliant', 'Separate prep rooms']} href="/facilities/labs" image={{ src: '/assets/images/ironman.jpg', alt: 'Science laboratories' }} imageSrc="/assets/images/ironman.jpg" />
+          <FacilityCard id="library" slug="library" type="library" name="Library" description="Over 10,000 books and digital resources." features={['Reading hall', 'E-library', 'Periodicals section']} href="/facilities/library" image={{ src: '/assets/images/ironman.jpg', alt: 'Library' }} />
         </DemoSection>
 
         <DemoSection title="FacilityCard – Schedule (Swimming Pool)">
@@ -99,25 +99,25 @@ export default function CardsDemoPage() {
               },
             ]}
             href="/facilities/pool"
-            image={{ src: '/images/white.jpg', alt: 'Swimming pool' }}
-            imageSrc="/images/white.jpg"
+            image={{ src: '/assets/images/ironman.jpg', alt: 'Swimming pool' }}
+            imageSrc="/assets/images/ironman.jpg"
           />
         </DemoSection>
 
         {/* GalleryAlbumCard */}
         <DemoSection title="GalleryAlbumCard">
-          <GalleryAlbumCard title="Annual Prize Giving 2025" year="2025" photoCount={42} category="Events" href="/gallery/prize-giving-2025" coverSrc="/images/white.jpg" />
+          <GalleryAlbumCard title="Annual Prize Giving 2025" year="2025" photoCount={42} category="Events" href="/gallery/prize-giving-2025" coverSrc="/assets/images/ironman.jpg" />
           <GalleryAlbumCard title="Science Exhibition" year="2024" photoCount={28} category="Academics" href="/gallery/science-exhibition-2024" />
           <GalleryAlbumCard title="Big Match 2026" year="2026" photoCount={56} category="Sports" href="/gallery/big-match-2026" />
         </DemoSection>
 
         {/* NewsCard */}
         <DemoSection title="NewsCard – Featured">
-          <NewsCard variant="featured" title="KCC Tops Kalutara District Again with 214 University Entrances" excerpt="The highest number of university placements in the district, with a 95% pass rate at A/L examinations." category="Academics" date="May 2026" href="/news/results-2026" imageSrc="/images/white.jpg" />
+          <NewsCard variant="featured" title="KCC Tops Kalutara District Again with 214 University Entrances" excerpt="The highest number of university placements in the district, with a 95% pass rate at A/L examinations." category="Academics" date="May 2026" href="/news/results-2026" imageSrc="/assets/images/ironman.jpg" />
         </DemoSection>
 
         <DemoSection title="NewsCard – Standard">
-          <NewsCard variant="standard" title="KITS Launches Nexus" excerpt="The official school website built entirely by students under the guidance of KITS." category="Technology" date="April 2026" href="/news/nexus-launch" imageSrc="/images/white.jpg" />
+          <NewsCard variant="standard" title="KITS Launches Nexus" excerpt="The official school website built entirely by students under the guidance of KITS." category="Technology" date="April 2026" href="/news/nexus-launch" imageSrc="/assets/images/ironman.jpg" />
           <NewsCard variant="standard" title="Cadet Corps Annual Camp" excerpt="Students participated in the Rantambe training camp with great success." category="Extracurricular" date="March 2026" href="/news/cadet-camp" />
         </DemoSection>
 
@@ -131,7 +131,7 @@ export default function CardsDemoPage() {
 
         {/* SocietyBanner */}
         <DemoSection title="SocietyBanner">
-          <SocietyBanner name="Kannangara ICT Society" foundingYear={2010} coverImageSrc="/images/white.jpg" />
+          <SocietyBanner name="Kannangara ICT Society" foundingYear={2010} coverImageSrc="/assets/images/ironman.jpg" />
           <SocietyBanner name="Science Society" foundingYear={1975} />
         </DemoSection>
 
@@ -143,16 +143,16 @@ export default function CardsDemoPage() {
         </DemoSection>
 
         <DemoSection title="SocietyCard – Featured (KITS)">
-          <SocietyCard id="kits" slug="kits" variant="featured" name="KITS – Kannangara ICT Society" tagline="Building the digital future of KCC. Creators of Nexus and Paideon." category="technology" href="/societies/kits" memberCount={120} founded="2010" imageSrc="/images/white.jpg" />
+          <SocietyCard id="kits" slug="kits" variant="featured" name="KITS – Kannangara ICT Society" tagline="Building the digital future of KCC. Creators of Nexus and Paideon." category="technology" href="/societies/kits" memberCount={120} founded="2010" imageSrc="/assets/images/ironman.jpg" />
         </DemoSection>
 
         {/* StaffCard */}
         <DemoSection title="StaffCard – Principal">
-          <StaffCard id="principal" role="principal" variant="principal" name="Mr. Bandula Rajapaksa" title="Principal" tenure="Since 2019" quote="..." imageSrc="/images/white.jpg" href="/administration" />
+          <StaffCard id="principal" role="principal" variant="principal" name="Mr. Bandula Rajapaksa" title="Principal" tenure="Since 2019" quote="..." imageSrc="/assets/images/ironman.jpg" href="/administration" />
         </DemoSection>
 
         <DemoSection title="StaffCard – Grid">
-          <StaffCard id="deputy" role="deputy-principal" variant="grid" name="Mrs. Kamala Perera" title="Deputy Principal" portfolio="Academic Affairs" tenure="15 years" imageSrc="/images/white.jpg" />
+          <StaffCard id="deputy" role="deputy-principal" variant="grid" name="Mrs. Kamala Perera" title="Deputy Principal" portfolio="Academic Affairs" tenure="15 years" imageSrc="/assets/images/ironman.jpg" />
           <StaffCard id="hos" role="teacher" variant="grid" name="Mr. Nimal Jayasuriya" title="Head of Science" portfolio="Physics Department" tenure="10 years" />
           <StaffCard id="kits-teacher" role="teacher" variant="grid" name="Ms. Dilani Fernando" title="Teacher in Charge – KITS" portfolio="ICT & Computing" />
         </DemoSection>
