@@ -1,4 +1,4 @@
-// apps/web/src/app/[locale]/components/feedback/page.tsx
+// apps/web/src/app/[locale]/components/notifications/page.tsx
 'use client';
 
 import { Alert, AnnouncementBanner, Toast } from '@nexus/ui';
@@ -26,7 +26,7 @@ export default function FeedbackPage() {
     <div className="min-h-screen bg-surface-base py-space-12">
       <div className="content-width">
         <h1 className="font-display text-h1 mb-space-4">Feedback Components</h1>
-        <p className="font-body text-body text-text-muted mb-space-12">Alert, Modal, and Toast – user feedback and overlay components.</p>
+        <p className="font-body text-body text-text-muted mb-space-12">Alert, Modal,AnnouncementBanner, and Toast – user feedback and overlay components.</p>
 
         {/* Alert */}
         <DemoSection title="Alert – All Variants">

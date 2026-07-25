@@ -6,10 +6,10 @@ const categories = [
   { slug: 'atoms', name: 'Atoms', count: 9 }, // Avatar, Badge, Button, ButtonLink, InlineHelpText, ResultsGradeBadge, Tag, BeatLoader, ScaleLoader
   { slug: 'cards', name: 'Cards', count: 12 },
   { slug: 'effects', name: 'Effects', count: 1 },
-  { slug: 'feedback', name: 'Feedback', count: 3 }, // Alert, Modal, Toast
+  { slug: 'notifications', name: 'Notifications', count: 3 }, // Alert, Modal, Toast
   { slug: 'forms', name: 'Forms', count: 17 },
   { slug: 'icons', name: 'Icons', count: 29 }, // Icon + 3 brand + 25 social icon variants
-  { slug: 'layout-components', name: 'Layout', count: 11 },
+  { slug: 'layout', name: 'Layout', count: 9 },
   { slug: 'media', name: 'Media', count: 7 },
   { slug: 'navigation', name: 'Navigation', count: 10 }, // Accordion, Breadcrumb, FilterBar, LanguageSwitcher, MobileMenu, NavLink, Pagination, SearchInput, TableOfContents, Tabs
   { slug: 'overlays', name: 'Overlays', count: 4 }, // Drawer, DropDownMenu, ShareSheet, ToolTip

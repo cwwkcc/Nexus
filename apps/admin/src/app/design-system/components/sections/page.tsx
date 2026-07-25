@@ -1,7 +1,7 @@
 // apps/web/src/app/[locale]/components/sections/page.tsx
 'use client';
 
-import { AchievementTicker, AdmissionsProcessSteps, AdmissionsKeyDatesTimeline, AlumniLegacyBlock, AudioPlayer, LifeAtKCCPhotoStrip, PrincipalMessage, StatsStrip, Timeline, SectionSlider, type StatItem } from '@nexus/ui';
+import { AchievementTicker, AdmissionsProcessSteps, AdmissionsKeyDatesTimeline, AlumniLegacyBlock, LifeAtKCCPhotoStrip, PrincipalMessage, StatsStrip, Timeline, SectionSlider, type StatItem } from '@nexus/ui';
 
 function DemoSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (

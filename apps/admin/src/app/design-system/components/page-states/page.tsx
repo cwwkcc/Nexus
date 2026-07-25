@@ -1,7 +1,7 @@
 // apps/admin/src/app/design-system/components/system/page.tsx
 'use client';
 
-import { AnnouncementBanner, CookieConsentBanner, EmptyState, ErrorState, LoadingScreen, LoadingSkeleton, NotFoundPage, OfflineBanner, Button } from '@nexus/ui';
+import { CookieConsentBanner, EmptyState, ErrorState, LoadingScreen, LoadingSkeleton, NotFoundPage, OfflineBanner, Button } from '@nexus/ui';
 import { useState } from 'react';
 
 import { DemoSection } from '../_components/DemoSection';
@@ -14,17 +14,6 @@ export default function PageStates() {
       <div className="content-width">
         <h1 className="font-display text-h1 mb-space-4">System Components</h1>
         <p className="font-body text-body text-text-muted mb-space-12">Global system components – banners, empty/error states, loading screens, cookie consent, offline banners, and the 404 page.</p>
-
-        {/* Announcement Banner */}
-        <DemoSection title="AnnouncementBanner" description="Dismissible top‑of‑page announcement strip for urgent notices.">
-          <div className="space-y-space-4">
-            <AnnouncementBanner variant="info">School reopens on 5 May.</AnnouncementBanner>
-            <AnnouncementBanner variant="warning" dismissible>
-              Admissions closing soon – apply by 30 June.
-            </AnnouncementBanner>
-            <AnnouncementBanner variant="error">Website maintenance scheduled for Sunday 2 AM – 4 AM.</AnnouncementBanner>
-          </div>
-        </DemoSection>
 
         {/* Cookie Consent Banner */}
         <DemoSection title="CookieConsentBanner" description="Appears at the bottom of the page if consent not given. Uses localStorage to remember preference.">

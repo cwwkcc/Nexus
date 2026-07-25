@@ -1,4 +1,4 @@
-// apps/web/src/app/[locale]/components/layout-components/page.tsx
+// apps/web/src/app/[locale]/components/layout/page.tsx
 'use client';
 
 import { Container, Divider, Grid, GridItem, Hero, MasonryGrid, VStack, HStack, QuickAccessPortal } from '@nexus/ui';
@@ -10,7 +10,7 @@ export default function LayoutComponentsPage() {
     <div className="min-h-screen bg-surface-base py-space-space-12">
       <div className="content-width">
         <h1 className="font-display text-h1 mb-space-4">Layout Components</h1>
-        <p className="font-body text-body text-text-muted mb-space-12">Structural components for page layout – containers, grids, stacks, navigation, hero and footer.</p>
+        <p className="font-body text-body text-text-muted mb-space-12">Structural components for page layout – containers, grids, stacks, hero and footer.</p>
 
         {/* Container */}
         <DemoSection title="Container – All Options">

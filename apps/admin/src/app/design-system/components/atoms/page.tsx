@@ -9,7 +9,7 @@ export default function AtomsPage() {
     <div className="min-h-screen bg-surface-base py-space-12">
       <div className="content-width">
         <h1 className="font-display text-h1 mb-space-4">Atoms</h1>
-        <p className="font-body text-body text-text-muted mb-space-12">The smallest UI building blocks – buttons, badges, avatars, loaders, tags, ToolTips, and helper text.</p>
+        <p className="font-body text-body text-text-muted mb-space-12">The smallest UI building blocks – buttons, badges, avatars, loaders, tags, and helper text.</p>
 
         {/* ========== BUTTON ========== */}
         <DemoSection title="Button – Variants (action only)">
