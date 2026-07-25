@@ -20,13 +20,18 @@ interface AudioPlayerProps {
   rewindLabel?: string;
   forwardLabel?: string;
   seekLabel?: string;
+  volumeLabel?: string;
+  muteLabel?: string;
+  unmuteLabel?: string;
 }
 
-export function AudioPlayer({ src, title, subtitle, lyrics, lyricsSinhala, className, downloadLabel = 'Download Track', rewindLabel = 'Rewind 10 Seconds', forwardLabel = 'Forward 10 Seconds', seekLabel = 'Seek progress bar' }: AudioPlayerProps) {
+export function AudioPlayer({ src, title, subtitle, lyrics, lyricsSinhala, className, downloadLabel = 'Download Track', rewindLabel = 'Rewind 10 Seconds', forwardLabel = 'Forward 10 Seconds', seekLabel = 'Seek progress bar', volumeLabel = 'Volume', muteLabel = 'Mute', unmuteLabel = 'Unmute' }: AudioPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [showLyrics, setShowLyrics] = useState(false);
+  const [volume, setVolume] = useState(1);
+  const [isMuted, setIsMuted] = useState(false);
 
   const audioRef = useRef<HTMLAudioElement>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
@@ -34,33 +39,43 @@ export function AudioPlayer({ src, title, subtitle, lyrics, lyricsSinhala, class
   const dataArrayRef = useRef<Uint8Array | null>(null);
   const barsRef = useRef<(HTMLDivElement | null)[]>([]);
 
+  // Guard against duration being 0/NaN/Infinity before metadata loads
+  const safeDuration = Number.isFinite(duration) && duration > 0 ? duration : 0;
+
   // 1. Audio Lifecycle & Event Sync Setup
+
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
     const handleTimeUpdate = () => setCurrentTime(audio.currentTime);
-    const handleDurationChange = () => setDuration(audio.duration);
 
-    // Sync React state directly with DOM audio events
+    const updateDuration = () => {
+      console.log('duration event fired, audio.duration =', audio.duration);
+      if (Number.isFinite(audio.duration)) {
+        setDuration(audio.duration);
+      }
+    };
+
     const handlePlay = () => setIsPlaying(true);
     const handlePause = () => setIsPlaying(false);
 
-    // Reset state completely when track ends
     const handleEnded = () => {
       setIsPlaying(false);
       setCurrentTime(0);
     };
 
     audio.addEventListener('timeupdate', handleTimeUpdate);
-    audio.addEventListener('durationchange', handleDurationChange);
+    audio.addEventListener('loadedmetadata', updateDuration);
+    audio.addEventListener('durationchange', updateDuration);
     audio.addEventListener('play', handlePlay);
     audio.addEventListener('pause', handlePause);
     audio.addEventListener('ended', handleEnded);
 
     return () => {
       audio.removeEventListener('timeupdate', handleTimeUpdate);
-      audio.removeEventListener('durationchange', handleDurationChange);
+      audio.removeEventListener('loadedmetadata', updateDuration);
+      audio.removeEventListener('durationchange', updateDuration);
       audio.removeEventListener('play', handlePlay);
       audio.removeEventListener('pause', handlePause);
       audio.removeEventListener('ended', handleEnded);
@@ -75,6 +90,13 @@ export function AudioPlayer({ src, title, subtitle, lyrics, lyricsSinhala, class
       }
     };
   }, []);
+
+  // 3. Volume/Mute Sync
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = isMuted ? 0 : volume;
+    }
+  }, [volume, isMuted]);
 
   const initAudioVisualizer = () => {
     if (!audioContextRef.current && audioRef.current) {
@@ -99,7 +121,7 @@ export function AudioPlayer({ src, title, subtitle, lyrics, lyricsSinhala, class
     }
   };
 
-  // 3. Playback Controls
+  // 4. Playback Controls
   const togglePlay = () => {
     if (audioRef.current) {
       if (!audioContextRef.current) initAudioVisualizer();
@@ -108,7 +130,6 @@ export function AudioPlayer({ src, title, subtitle, lyrics, lyricsSinhala, class
       if (isPlaying) {
         audioRef.current.pause();
       } else {
-        // Safely handle play() Promise — swallow AbortError from rapid toggle/autoplay policy
         audioRef.current.play().catch((error) => {
           console.warn('Playback was prevented:', error);
         });
@@ -124,10 +145,9 @@ export function AudioPlayer({ src, title, subtitle, lyrics, lyricsSinhala, class
     }
   };
 
-  // New Feature: Forward 10s
   const handleForward = () => {
     if (audioRef.current) {
-      const newTime = Math.min(duration, audioRef.current.currentTime + 10);
+      const newTime = Math.min(safeDuration, audioRef.current.currentTime + 10);
       audioRef.current.currentTime = newTime;
       setCurrentTime(newTime);
     }
@@ -140,6 +160,14 @@ export function AudioPlayer({ src, title, subtitle, lyrics, lyricsSinhala, class
       setCurrentTime(newTime);
     }
   };
+
+  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newVolume = parseFloat(e.target.value);
+    setVolume(newVolume);
+    if (newVolume > 0 && isMuted) setIsMuted(false);
+  };
+
+  const toggleMute = () => setIsMuted((prev) => !prev);
 
   useAnimationFrame(() => {
     const bars = barsRef.current;
@@ -183,10 +211,9 @@ export function AudioPlayer({ src, title, subtitle, lyrics, lyricsSinhala, class
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   };
 
-  // Guard against duration being 0/NaN/Infinity before metadata loads,
-  // and clamp so float drift at track-end can't push the dot/fill past 100%.
-  const safeDuration = Number.isFinite(duration) && duration > 0 ? duration : 0;
+  // Clamp so float drift at track-end can't push the dot/fill past 100%
   const progressPercentage = safeDuration > 0 ? Math.min(100, Math.max(0, (currentTime / safeDuration) * 100)) : 0;
+  const volumePercentage = isMuted ? 0 : volume * 100;
 
   return (
     <Container className={cn('bg-surface-base border border-border-light rounded-md overflow-hidden shadow-elevation-2', className)}>
@@ -235,6 +262,20 @@ export function AudioPlayer({ src, title, subtitle, lyrics, lyricsSinhala, class
             <button onClick={handleForward} className="p-space-3 text-text-muted hover:text-gold-base transition-colors rounded-full hover:bg-surface-deep" aria-label={forwardLabel}>
               <Icon name="fast-forward" size="sm" />
             </button>
+
+            <button onClick={toggleMute} className="p-space-3 text-text-muted hover:text-gold-base transition-colors rounded-full hover:bg-surface-deep" aria-label={isMuted ? unmuteLabel : muteLabel}>
+              <Icon name={isMuted || volume === 0 ? 'volume-x' : 'volume-2'} size="sm" />
+            </button>
+
+            <div className="relative w-size-20 h-size-6 flex items-center group">
+              <div className="absolute w-full h-size-1p5 bg-border-light rounded-full overflow-hidden pointer-events-none">
+                <div className="h-full bg-gold-base transition-all duration-instant ease-out" style={{ width: `${volumePercentage}%` }} />
+              </div>
+
+              <input type="range" min={0} max={1} step={0.01} value={isMuted ? 0 : volume} onChange={handleVolumeChange} className="absolute w-full h-full opacity-0 cursor-pointer z-10" aria-label={volumeLabel} />
+
+              <div className="absolute top-1/2 -translate-y-1/2 h-size-3 w-size-3 bg-gold-base rounded-full shadow-elevation-1 z-0 pointer-events-none group-hover:scale-150 transition-transform" style={{ left: `calc(${volumePercentage}% - 6px)` }} />
+            </div>
           </div>
         </div>
 
