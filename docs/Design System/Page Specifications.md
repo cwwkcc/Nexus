@@ -31,6 +31,8 @@ Every page on Nexus serves a specific emotional and functional purpose. No page 
 /en/admissions         → Admissions
 /en/news               → News & Announcements
 /en/news/[slug]        → Full article page
+/en/events             → Events / School Calendar
+/en/events/[slug]      → Individual event detail page
 /en/facilities         → Facilities
 /en/extracurriculars   → Extracurriculars
 /en/societies          → Societies Hub
@@ -40,7 +42,7 @@ Every page on Nexus serves a specific emotional and functional purpose. No page 
 /en/search             → Unified Search
 /en/achievements       → Achievement Database
 /en/alumni             → Alumni Directory
-/en/digital-archive    → Digital Archive
+/en/archive            → Digital Archive
 ```
 
 All routes are prefixed with locale (`/en`, `/si`, `/ta`). English is the launch locale; Sinhala and Tamil infrastructure are ready.
@@ -90,6 +92,7 @@ interface HeroProps {
 | `/academics`                        | `0.9`    | monthly                |
 | `/admissions`                       | `0.9`    | weekly (during intake) |
 | `/news`                             | `0.8`    | daily                  |
+| `/events`                           | `0.7`    | weekly                 |
 | `/societies/*` (individual society) | `0.7`    | monthly                |
 | `/gallery`                          | `0.6`    | monthly                |
 | `/contact`                          | `0.5`    | yearly                 |
@@ -98,19 +101,24 @@ interface HeroProps {
 
 ## Page Status Tracking
 
-| Page             | Status        | Owner                               | Target completion |
-| ---------------- | ------------- | ----------------------------------- | ----------------- |
-| Home             | Complete      | Administration + KITS               | v1.0              |
-| About            | Complete      | Administration                      | v1.0              |
-| Administration   | Planned       | Administration                      | v1.1              |
-| Academics        | Planned       | Academic Section Heads              | v1.1              |
-| Admissions       | Planned       | Admissions Office                   | v1.0              |
-| News             | Planned (CMS) | Editorial Team                      | v1.0              |
-| Facilities       | Planned       | Administration                      | v1.1              |
-| Extracurriculars | Planned       | Sports / Cultural units             | v1.2              |
-| Societies Hub    | Planned       | Society Advisor + Student Committee | v1.1              |
-| Gallery          | Planned       | Media Unit                          | v1.2              |
-| Contact          | Complete      | Administration                      | v1.0              |
+| Page                 | Status        | Owner                               | Target completion |
+| -------------------- | ------------- | ----------------------------------- | ----------------- |
+| Home                 | Planned       | Administration + KITS               | v1.0              |
+| About                | Complete      | Administration                      | v1.0              |
+| Administration       | Complete      | Administration                      | v1.1              |
+| Academics            | Complete      | Academic Section Heads              | v1.1              |
+| Admissions           | Planned       | Admissions Office                   | v1.0              |
+| News                 | Planned (CMS) | Editorial Team                      | v1.0              |
+| Events               | Planned       | Administration + KITS               | v1.1              |
+| Facilities           | Complete      | Administration                      | v1.1              |
+| Extracurriculars     | Planned       | Sports / Cultural units             | v1.2              |
+| Societies Hub        | Planned       | Society Advisor + Student Committee | v1.1              |
+| Gallery              | Planned       | Media Unit                          | v1.2              |
+| Contact              | Complete      | Administration                      | v1.0              |
+| Search               | Planned       | KITS                                | v1.2              |
+| Achievement Database | Planned       | Administration                      | v1.2              |
+| Alumni Directory     | Planned       | OBA / Alumni Committee              | v1.2              |
+| Digital Archive      | Planned       | Administration + OBA                | v1.2              |
 
 ---
 
@@ -332,7 +340,42 @@ interface HeroProps {
 
 ---
 
-## 07 – Facilities (`/en/facilities`)
+## 07 – Events / School Calendar (`/en/events`)
+
+**Purpose:** One place for every date that matters to the school — holidays, exam schedules, sports fixtures, cultural events, prize-givings — with a calendar view for at-a-glance browsing and a list view for the events worth reading more about. Every event on the site is defined through this calendar; there is no separate, manual event-listing mechanism anywhere else.
+
+**Owner:** Administration + KITS (calendar entries); Editorial Team for entries that get a full event listing.
+
+**SEO metadata:**
+
+- Title pattern: `Events & Calendar – C.W.W. Kannangara Central College`
+- Description: `School calendar, term dates, and upcoming events at C.W.W. Kannangara Central College.`
+- Open Graph image: School crest, or a recent event photo where the specific event has one.
+
+**Data source:** Custom CMS (`CalendarEntry` rows, each optionally linked to an `EventDetail`). Revalidate on-demand when an entry is created, edited, or its publish status changes.
+
+**Loading / empty / error states:**
+
+- Loading: Skeleton grid for the calendar month view; skeleton cards for the list view.
+- Empty: “No events scheduled this month.” for the calendar; the list view simply shows fewer cards if no entry in the visible range has a full listing.
+- Error: `ErrorState` with retry.
+
+**i18n keys:** `events.hero`, `events.calendar`, `events.list`, `events.filter`
+
+### Section Map
+
+| Section                                 | Component                                | Content / Data                                                                                                                                                                             |
+| --------------------------------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Hero                                    | `Hero` (subpage)                         | Eyebrow, title, subtitle, breadcrumb                                                                                                                                                       |
+| View Toggle                             | `Tabs` (Calendar / List)                 | Switches between the calendar grid and the list view; both read from the same set of `CalendarEntry` rows                                                                                  |
+| Calendar Grid                           | `CalendarView` (month grid)              | Every `CalendarEntry` in the visible month, colour-coded by category. Entries without a full listing show as a plain date chip; entries with one are clickable and open the list-view card |
+| Filter Bar                              | `FilterBar` (category tabs)              | Categories: All, Academic, Sports, Cultural, Holiday, Meeting                                                                                                                              |
+| Event List                              | `EventCard` (grid, paginated)            | Entries that have a linked `EventDetail`, upcoming first (nearest date first), past events shown separately below                                                                          |
+| Event Detail Page (`/en/events/[slug]`) | `Hero` + `RichTextRenderer` + `MapEmbed` | Full description, date/time, venue with optional map, registration link — this route only resolves for an entry that has an `EventDetail`                                                  |
+
+---
+
+## 08 – Facilities (`/en/facilities`)
 
 **Purpose:** Trust‑building for parents evaluating the school. Every facility must feel like a _space_, not a bullet point.
 
@@ -374,7 +417,7 @@ Each card includes: hero image, name, description, key features list, capacity/s
 
 ---
 
-## 08 – Extracurriculars (`/en/extracurriculars`)
+## 09 – Extracurriculars (`/en/extracurriculars`)
 
 **Purpose:** Whole‑child development – Head, Heart, Hand made visible.
 
@@ -408,7 +451,7 @@ Each card includes: hero image, name, description, key features list, capacity/s
 
 ---
 
-## 09 – Societies Hub (`/en/societies`)
+## 10 – Societies Hub (`/en/societies`)
 
 **Purpose:** Showcase student‑led organisations. Encourage participation and belonging.
 
@@ -460,7 +503,7 @@ Mandatory sections (canonical order):
 
 ---
 
-## 10 – Gallery (`/en/gallery`)
+## 11 – Gallery (`/en/gallery`)
 
 **Purpose:** Visual storytelling of school life. Celebratory and archival.
 
@@ -497,7 +540,7 @@ Mandatory sections (canonical order):
 
 ---
 
-## 11 – Contact (`/en/contact`)
+## 12 – Contact (`/en/contact`)
 
 **Purpose:** Provide clear, accessible contact information for all stakeholders. Encourage enquiries and feedback.
 
@@ -529,7 +572,7 @@ Mandatory sections (canonical order):
 
 ---
 
-## 12 – 404 Page
+## 13 – 404 Page
 
 **Purpose:** Dignified interruption – consistent with identity, not a gimmick.
 
@@ -557,16 +600,17 @@ Mandatory sections (canonical order):
 
 The following content types must be defined in the custom CMS (PostgreSQL via Prisma, `packages/database`) to support the pages above:
 
-| Content type         | Used on pages                                                        |
-| -------------------- | -------------------------------------------------------------------- |
-| `newsArticle`        | Home, News                                                           |
-| `society`            | Home, Societies Hub, Society detail                                  |
-| `staffProfile`       | Administration, Society detail (leadership), About (alumni optional) |
-| `achievement`        | Home, About (alumni), Society detail                                 |
-| `facility`           | Facilities                                                           |
-| `extracurricular`    | Extracurriculars                                                     |
-| `galleryAlbum`       | Gallery                                                              |
-| `announcementBanner` | Home, News (optional)                                                |
+| Content type                    | Used on pages                                                        |
+| ------------------------------- | -------------------------------------------------------------------- |
+| `newsArticle`                   | Home, News                                                           |
+| `calendarEntry` / `eventDetail` | Home (upcoming strip), Events, Event detail                          |
+| `society`                       | Home, Societies Hub, Society detail                                  |
+| `staffProfile`                  | Administration, Society detail (leadership), About (alumni optional) |
+| `achievement`                   | Home, About (alumni), Society detail                                 |
+| `facility`                      | Facilities                                                           |
+| `extracurricular`               | Extracurriculars                                                     |
+| `galleryAlbum`                  | Gallery                                                              |
+| `announcementBanner`            | Home, News (optional)                                                |
 
 Each content type must include appropriate fields (title, slug, body (Tiptap JSON), images, categories, dates, relationships). Detailed schemas are documented in `packages/contracts` and `packages/database/prisma/schema.prisma`.
 
@@ -582,6 +626,7 @@ Each content type must include appropriate fields (title, slug, body (Tiptap JSO
 | Academics        | Admin config (streams only — no live results-derived stats)  | Daily                                                  |
 | Admissions       | Static + CMS (documents)                                     | On‑demand for dates                                    |
 | News             | CMS                                                          | ISR 1 hour                                             |
+| Events           | CMS (`CalendarEntry`, optionally joined to `EventDetail`)    | On‑demand, on entry create/edit/status change          |
 | Facilities       | CMS                                                          | Daily                                                  |
 | Extracurriculars | CMS                                                          | Daily                                                  |
 | Societies        | CMS                                                          | Daily                                                  |
@@ -607,7 +652,16 @@ _C.W.W. Kannangara Central College – Est. 1873 – Wisdom is All Wealth_
 
 ## Changelog
 
-**This revision** — audited against Feature Registry F-001–F-196 (source of truth):
+**This revision** — added the Events / School Calendar page and fixed a routing error found along the way:
+
+- Added new section "07 – Events / School Calendar" (`/en/events`), covering the calendar-first design: a single `CalendarEntry` dataset behind both a calendar grid and a list view, with entries optionally getting a full `EventDetail` (and a card + detail page at `/en/events/[slug]`) at creation time. Sections 07–12 renumbered to 08–13.
+- Added `/en/events` and `/en/events/[slug]` to the Route Structure list.
+- Fixed `/en/digital-archive` → `/en/archive` in the Route Structure list — the actual route folder in `apps/web` is `archive`, not `digital-archive`.
+- Added Events to the Page Status Tracking table, and corrected three statuses that were stale in the other direction: Administration, Academics, and Facilities were marked "Planned" but are built; Home was marked "Complete" but is currently a placeholder.
+- Added an Events row to the Sitemap Priority table and the Dynamic Content & Data Fetching Notes table.
+- Added `calendarEntry` / `eventDetail` to the CMS Content Models Reference table.
+
+**Previous revision** — audited against Feature Registry F-001–F-196 (source of truth):
 
 - Removed the entire "07 – Results Portal" page specification section. Sections 08–13 renumbered to 07–12.
 - Removed `/en/results` from the Route Structure list and the Results row from Page Status Tracking and the Dynamic Content & Data Fetching Notes table.

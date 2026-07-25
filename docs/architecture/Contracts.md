@@ -41,13 +41,13 @@ This package explicitly does **not**:
 - **primitives/** — foundational, dependency-free value shapes used across every other folder.
   - locale.ts — the closed `LocaleEnum` (en, si, ta) and its runtime value list.
   - localized-text.ts — the reusable field-level shape for a short string that must exist in all three locales.
-  - image.ts — a still image reference: source, per-locale alt text, dimensions, blur placeholder, optional caption.
   - link.ts — an internal or external link with a per-locale label.
   - address.ts — a physical address shape.
   - seo.ts — page-level SEO metadata (per-locale title/description, canonical URL, social image).
   - pagination.ts — generic pagination request parameters (page/cursor, page size) used by any listing query.
   - rich-text.ts — the constrained, serializable rich-text document shape used wherever long-form authored prose appears.
   - media/
+    - image.ts — a still image reference: source, per-locale alt text, dimensions, blur placeholder, optional caption; also exports `AvatarSchema`. **Previously listed at the top level of `primitives/` — it actually lives here, in `media/`.**
     - audio.ts — an audio media reference.
     - video.ts — a video media reference.
     - document.ts — a downloadable document reference (PDF, DOCX, and so on).
@@ -57,6 +57,7 @@ This package explicitly does **not**:
     - visibility.ts — public / internal / admin-only.
     - priority.ts — low / medium / high / urgent.
     - sort-direction.ts — ascending / descending, for query ordering.
+    - link-target.ts — self / blank, for whether a link opens in the same tab or a new one. Not currently listed here.
     - index.ts
   - index.ts
 - **constants/** — pure compile-time constants that are not schemas and not runtime configuration.
@@ -125,7 +126,7 @@ This package explicitly does **not**:
     - index.ts
   - admissions/ — *the application form itself lives outside this package; see section 8.*
     - key-dates.ts
-    - process-steps.ts — built from `shared/process-step.ts`.
+    - process-steps.ts — self-contained; not built from a shared file (no `shared/process-step.ts` exists).
     - eligibility-requirements.ts
     - index.ts
   - people/ — *the student record itself lives outside this package; see section 8.*
@@ -138,6 +139,7 @@ This package explicitly does **not**:
     - panoramic-viewer.ts
     - index.ts
   - extracurriculars/
+    - achievement.ts — `ExtracurricularAchievementSchema`, an achievement earned through an activity; imports `AchievementLevel` from `editorial/achievements/achievement.ts`. **Not currently listed here, and its bare filename collides with `editorial/achievements/achievement.ts` the same way `domains/societies/achievement.ts` once did** — that one was renamed to `society-achievement.ts` for exactly this reason (see below); this file wasn't given the equivalent treatment.
     - activity.ts
     - index.ts
   - societies/
@@ -148,6 +150,7 @@ This package explicitly does **not**:
   - results/
     - ol-aggregate-statistics.ts
     - al-aggregate-statistics.ts
+    - display.ts — `GradeBadgeSchema` and related display/formatting shapes composed from the two aggregate-statistics files. Not currently listed here.
     - index.ts
   - contact/
     - contact-form.ts
@@ -155,18 +158,18 @@ This package explicitly does **not**:
     - index.ts
   - identity/
     - school-identity.ts
-    - academic-year.ts
-    - term.ts
-    - timetable.ts
     - index.ts
+    - **Listed here previously but not present in the package: `academic-year.ts`, `term.ts`, `timetable.ts`.** This folder currently holds only `school-identity.ts`.
   - index.ts
 - **editorial/** — CMS-authored content types that are not page-composition blocks.
   - news/
-    - article.ts — includes featured-pin fields (`isPinned`, `pinnedOrder`) directly.
+    - article.ts — `NewsArticleSchema` (id, title, slug, excerpt, content, coverImage, category, author, publishedAt, tags, seo, locale) and the lighter `ArticleCardSchema` projection. **Does not include `isPinned`/`pinnedOrder` fields — previously described as including them directly; featuring is a separate mechanism, below.**
     - category.ts
+    - featured.ts — `FeaturedArticleSchema`/`FeaturedNewsSchema`: a lightweight pointer (`articleId`, optional `displayUntil`) to one primary and any number of secondary featured articles, stored as its own `ContentEntry` (`sectionKey: 'news.featured'`) rather than a field on the article. Not currently listed here.
     - index.ts
   - events/
     - event.ts
+    - calendar.ts — calendar entries (holidays, exam dates, assemblies, recurring or single-date) via `CalendarEntrySchema`, plus `AcademicCalendarSchema`. Distinct from `event.ts`'s one-off published events; the two schemas are not related to each other.
     - recurrence-rule.ts
     - category.ts
     - index.ts
@@ -181,15 +184,17 @@ This package explicitly does **not**:
   - index.ts
 - **shared/** — small, cross-cutting content utilities that are neither foundational primitives nor page-composition blocks.
   - search-result.ts
-  - nav-structure.ts
-  - media-lightbox-item.ts
-  - process-step.ts
+  - filter-option.ts — `value`/`label`/optional `count`, for any filterable listing (news category, gallery year, and so on).
+  - lightbox-image.ts — a `pick()` off `ImageSchema` (src, alt, caption) for gallery/lightbox display. **Previously listed here as `media-lightbox-item.ts` — that name doesn't match the actual file.**
+  - toc-section.ts — `id`/`label` pair for a page's table-of-contents navigation.
+  - video-source.ts — the `youtube` / `vimeo` / `direct` enum for embedded video.
   - index.ts
+  - **Previously listed here but not present in the package: `nav-structure.ts`, `process-step.ts`.** `process-step.ts` isn't shared at all — `domains/admissions/process-steps.ts` is self-contained (see below, which previously said it was "built from `shared/process-step.ts`").
 - **registry/** — the composition layer; the only folder permitted to depend on every other folder.
-  - section-definition.ts — the atomic unit of page/global composition (section key, scope, content-type identifier, order). Locale-requirement is *not* declared here — it is intrinsic to the content type itself and is looked up from `content-type-key.ts`, not re-declared per section.
-  - page-definition.ts — a full page's section list plus its SEO defaults, keyed by a closed `PageKeyEnum`.
-  - content-type-key.ts — the single identifier system for every content type in the package (see section 6 for the full construction pattern). Contains, in order: the ordered tuple of every registrable schema; the derived `ContentTypeKeyEnum`; the derived all-content discriminated-union schema; the derived `CONTENT_TYPE_REGISTRY` record of `ContentTypeDefinition` values.
-  - lookup.ts — the only supported way to query the registry: `getContentSchema()`, `getContentTypeDefinition()`, `getContentTypesByCategory()`, `getSectionDefinition()`, `getPageDefinition()`, `getGlobalSection()`. Nothing outside this file indexes `CONTENT_TYPE_REGISTRY`, `PAGE_REGISTRY`, or `GLOBAL_REGISTRY` directly.
+  - page-key.ts — `PAGE_KEY_VALUES`/`PageKeyEnum`, the closed set of 13 public page keys. **Previously listed here as a separate `page-definition.ts`** — that file doesn't exist; this file's own header comment explains why: it used to also hold a serializable `PageDefinitionSchema` (the old `PageConfig` shape) that had zero consumers anywhere in the codebase, and that's been removed from here rather than carried forward.
+  - types.ts — `PageSection` (`key`, `blockKey`, `label`, `description`, `schema` — a direct, live schema reference, not a content-type-key indirection) and `PageRegistry` (`page`, `scope`, `label`, `description`, `sections`), the plain TypeScript interfaces every page-registry and global-registry file is built from. **Previously listed here as `section-definition.ts`, described as using Zod schemas (`SectionDefinitionSchema`) with a `contentTypeKey` field** — that's not the shape actually in use; see the correction to section 6 below.
+  - content-type-key.ts — `CONTENT_TYPE_KEY_VALUES`, a flat array combining every block type with a hand-written list of editorial and domain type name strings (`'news-article'`, `'event'`, `'staff-member'`, and so on), and the `ContentTypeKeyEnum` built from it. See the correction to section 6 — this is considerably less than what was previously described here.
+  - lookup.ts — `PAGE_REGISTRY` and `GLOBAL_SECTIONS`, built by directly aggregating each page-registry/global-registry file's exported object (not by resolving anything through `content-type-key.ts`), plus the query functions: `getPageDefinition()`, `getSectionDefinition()`, `getGlobalSection()`, `getAllSectionSchemas()`, `getGlobalSectionSchemas()` (both used by `content-entry.ts`'s `update` mutation to validate against the right schema), `getContentSchema()`, `getContentTypeDefinition()`, `getContentTypesByCategory()`. Nothing outside this file indexes `PAGE_REGISTRY` or `GLOBAL_SECTIONS` directly. **There is no `CONTENT_TYPE_REGISTRY` anywhere in the package** — see the correction to section 6.
   - page-registry/
     - about.ts
     - home.ts
@@ -204,11 +209,11 @@ This package explicitly does **not**:
     - news.ts
     - results.ts
     - societies.ts
-    - index.ts — builds and exports `PAGE_REGISTRY`, exhaustively checked against `PageKeyEnum`.
+    - index.ts — a barrel, re-exporting every page file. **`PAGE_REGISTRY` itself is not built here** — it's assembled in `lookup.ts`, which imports this barrel as `* as PageRegistries` and hand-lists each page's registry object against `PageKeyEnum`.
   - global-registry/
     - navigation.ts
     - footer.ts
-    - index.ts — builds and exports `GLOBAL_REGISTRY`.
+    - index.ts — a barrel, re-exporting `footer.ts` and `navigation.ts`. **Builds nothing called `GLOBAL_REGISTRY`** — the real array is `GLOBAL_SECTIONS`, built in `lookup.ts` from this barrel's exports, not here.
   - index.ts
 - **index.ts** — the package root barrel. Re-exports each top-level folder as its own namespace (`Primitives`, `Constants`, `Utils`, `System`, `Blocks`, `Domains`, `Editorial`, `Shared`, `Registry`), each namespace itself built from explicit named exports, never a wildcard re-export at any level.
 
@@ -284,35 +289,21 @@ Every schema file in the package follows the same internal shape and ordering:
 
 ## 6. The content-type identifier and registry contract
 
-A single identifier system, not two. Every concept that can be stored as a `ContentEntry` — whether it's a page block (`hero`), an editorial content type (`news-article`), or a domain content type (`staff-member`) — is a member of one closed enum, `ContentTypeKeyEnum`, built in `registry/content-type-key.ts`. Blocks are not a separate identifier universe with their own registry; they are simply the subset of content types whose `category` is `"block"`.
+**Correction up front:** this section previously described an elegant, fully-unified design — one tuple deriving an enum, a discriminated-union schema, and a `CONTENT_TYPE_REGISTRY` of rich `ContentTypeDefinition` values, covering blocks, editorial, and domain content alike. That design isn't what's implemented. What's real is smaller, and the real code is honest about the gap in its own comments (`content-type-key.ts`: _"Editorial and domain content types aren't mapped yet — that's the remaining TODO"_; `lookup.ts`: the same TODO, repeated). Rewritten below to describe the actual system.
 
-**Construction pattern.** `registry/content-type-key.ts` declares one ordered array literal — an `as const` tuple, not a plain array — listing every registrable concept's already-exported schema and content-type constant, one entry per concept (`HeroSchema` alongside `HERO_CONTENT_TYPE`, `NewsArticleSchema` alongside `NEWS_ARTICLE_CONTENT_TYPE`, and so on for every block, domain, and editorial concept). Three further artifacts are then *derived* from that one tuple, using the generic helper in `utils/schema.ts`, and never independently declared:
+**What actually exists.** `registry/content-type-key.ts` declares `CONTENT_TYPE_KEY_VALUES`, a flat `as const` array: every block type (spread in from `BLOCK_TYPE_VALUES`), followed by a hand-written list of editorial and domain type-name strings (`'news-article'`, `'news-category'`, `'event'`, `'event-category'`, `'gallery-album'`, `'gallery-photo'`, `'achievement'`, `'achievement-ticker'`, `'department'`, `'subject'`, `'stream'`, `'staff-member'`, `'facility'`, `'extracurricular'`, `'society'`, `'contact-form'`, `'feedback-form'`). `ContentTypeKeyEnum` is a plain `z.enum` over that array. There is no per-entry pairing of a schema with its constant, no derived discriminated-union schema, and no `CONTENT_TYPE_REGISTRY` — none of those three artifacts exist anywhere in the package.
 
-- The `ContentTypeKeyEnum` itself, built from the tuple's content-type constants.
-- The all-content discriminated-union schema, built directly over the tuple's schemas.
-- `CONTENT_TYPE_REGISTRY`, a record keyed by each entry's content-type constant, whose value is a `ContentTypeDefinition`: the schema, a `category` (`"block" | "domain" | "editorial"`), an `editable` flag, a `localeRequired` flag, and an optional `fieldDefinitions` reference.
+**What the enum is actually used for.** Only the block-type subset is functional. `lookup.ts` hand-writes `BLOCK_SCHEMA_MAP` and imports `BLOCK_RENDERER_MAP` (from `blocks/block-registry.ts`), each keyed by block type, and builds `getContentSchema(key)` and `getContentTypeDefinition(key)` on top of those two maps alone. Call either with an editorial or domain key from `ContentTypeKeyEnum` and you get `undefined` back, or a `{ key, renderer: undefined, schema: undefined }` shell — not a lookup failure exactly, just nothing behind the door yet. `getContentTypesByCategory('editorial' | 'domain')` is even more explicit about it: it returns an empty array unconditionally, with a comment pointing back at `content-type-key.ts`. `getContentTypesByCategory('block')` is the one category that actually works, returning `Object.keys(BLOCK_SCHEMA_MAP)`.
 
-Declaring the tuple first and deriving the enum, the union, and the record from it — rather than building a plain keyed record up front and trying to reconstruct a discriminated union from its values afterward — is what keeps every entry's discriminant a literal type all the way through every derived artifact. Building the union from `Object.values()` of an already-built record widens the discriminant to a plain `string`, which is not narrow enough for `z.discriminatedUnion` to actually discriminate. The tuple is the one source of truth; everything else is a projection of it.
+**Page and global composition don't go through this system at all.** `PageSection` and `PageRegistry` (`registry/types.ts`) are plain TypeScript interfaces, not Zod schemas, and a `PageSection` carries a `blockKey` plus a _direct_ `schema` reference — there's no `contentTypeKey` field, and nothing about placing a section on a page ever touches `ContentTypeKeyEnum` or the maps in `lookup.ts`. `PAGE_REGISTRY` is built in `lookup.ts` by directly importing and assembling each page-registry file's already-constructed `PageRegistry` object (`home: PageRegistries.homeRegistry`, `about: PageRegistries.aboutRegistry`, and so on) — not by resolving anything through the content-type identifier system this section is about. `getPageDefinition()`, `getSectionDefinition()`, and `getGlobalSection()` all operate on `PAGE_REGISTRY`/`GLOBAL_SECTIONS` directly and work as advertised. Two functions not previously mentioned in this document at all, `getAllSectionSchemas()` and `getGlobalSectionSchemas()`, flatten every page's (or every global section's) schemas into one `sectionKey → schema` map — this is what `content-entry.ts`'s `update` mutation actually validates incoming admin-panel data against.
 
-**What this buys structurally:** adding a concept to the tuple without it being a real, already-exported schema is a type error, since the tuple's entries are typed against the concrete schema and constant exports themselves, not against `unknown`. Referencing a content-type key anywhere in the registry (a section definition's `contentTypeKey` field) that isn't a member of `ContentTypeKeyEnum` is a type error for the same reason `BlockTypeEnum` used to guarantee this for blocks alone — the guarantee is unchanged, it's just now expressed once, over the whole content-type space, instead of twice.
-
-**What is deliberately not in `ContentTypeDefinition`:** a renderer name, or any reference to a UI component. `packages/ui`maintains its own `RendererRegistry`, keyed by the same `ContentTypeKeyEnum` imported from this package for type-safety, mapping each content-type key to the actual component that renders it. `@nexus/contracts` supplies the identifier space; it has no opinion about, and no dependency on, what renders each identifier.
-
-**The registry's public API.** Nothing outside `registry/lookup.ts` indexes `CONTENT_TYPE_REGISTRY`, `PAGE_REGISTRY`, or `GLOBAL_REGISTRY` directly. `getContentSchema(key)`, `getContentTypeDefinition(key)`, `getContentTypesByCategory(category)` (used, for example, by the admin "add a block" picker, which only wants the `"block"` category), `getSectionDefinition(scope, sectionKey)`, `getPageDefinition(pageKey)`, and `getGlobalSection(sectionKey)` are the entire consumer-facing surface of the registry layer.
-
-**`SectionDefinitionSchema`** ties a `sectionKey` (unique within its owning page or the global scope, and exactly the value written to `ContentEntry.sectionKey`), a `scope` (`global` or `page:<pageKey>`, exactly matching `ContentEntry.scope`), a `contentTypeKey` (typed against `ContentTypeKeyEnum`), and an `order` integer. It does not carry its own locale-requirement flag — that's looked up from the content type's own `ContentTypeDefinition`, since whether a concept is translated is intrinsic to the concept, not to where it's placed.
-
-**`PageDefinitionSchema`** is a `pageKey` drawn from a closed `PageKeyEnum`, the page's route `path`, an ordered array of `SectionDefinitionData`, and a default `SeoMetadataSchema`-shaped SEO block.
-
-**Mapping to the database:** the triple of `scope`, `sectionKey`, and (when the content type's `localeRequired` is true) `locale` is exactly the natural key a `ContentEntry` row satisfies. `getContentSchema()` resolves a `(scope, sectionKey)` pair, by way of its `contentTypeKey`, to the concrete schema that must validate that entry's `data` payload — used identically by `apps/admin` before writing and by `apps/web` after reading.
-
----
+**Net effect.** For blocks, the enum-plus-lookup pattern is real and does what a reader would expect. For editorial and domain content (news, events, staff, facilities, and so on), `ContentTypeKeyEnum` is currently just a closed list of name strings with no schema, renderer, or category resolution behind any of them — those concepts are validated and rendered entirely through their own dedicated schemas in `editorial/`/`domains/` and the page-registry files that reference them directly, bypassing this system entirely rather than routing through it.
 
 ## 7. Locale handling
 
 - **`LocaleEnum`**, in `primitives/locale.ts`, is the single closed set of supported locales — English, Sinhala, Tamil.
 - Two distinct, non-overlapping patterns cover every case of locale-scoped data:
-  1. **Row-level locale scoping**, used for anything stored as a `ContentEntry`: one full row per locale, sharing the same `sectionKey` and `scope`, distinguished by the `locale` column on the entry itself. Whether a given content type uses this pattern is recorded once, on its `ContentTypeDefinition` (`localeRequired`), not per placement.
+  1. **Row-level locale scoping**, used for anything stored as a `ContentEntry`: one full row per locale, sharing the same `sectionKey` and `scope`, distinguished by the `locale` column on the entry itself. **Correction:** there is no formal `localeRequired` flag recorded anywhere in the registry (see section 6) — whether a concept uses this pattern is implicit in its own schema, not looked up from a shared definition.
   2. **Field-level locale scoping**, used inside a single schema for short translatable strings that travel alongside locale-independent structural data, modeled through `primitives/localized-text.ts`. All three locales are required — a missing translation fails validation immediately rather than silently falling back at render time.
 - A single concept never mixes both patterns.
 - Enum values themselves are never locale-scoped; any user-facing label for an enum value is a separate lookup owned by the UI/i18n layer (`messages/` JSON), never something this package produces.
@@ -343,45 +334,42 @@ Every remaining PII-adjacent boundary still uses the doc-comment convention as a
 
 ## 9. How to add X
 
-**Adding a new content block**
+**Adding a new content block** _(corrected to match the real mechanism — see section 6)_
 
-1. Create `blocks/<block-name>.ts` following the canonical concept-file template: its schema, its inferred type, and its own `<NAME>_CONTENT_TYPE` constant.
-2. Add that schema and constant as one new entry in the ordered tuple at the top of `registry/content-type-key.ts`, with `category: "block"`.
-3. Reference the new content-type constant from any `SectionDefinitionData` in `registry/page-registry/` or `registry/global-registry/`that should use it.
-
-The enum, the discriminated union, and the registry record all update automatically from step 2 — there is no second map to remember to touch.
+1. Create `blocks/<block-name>.ts` following the canonical concept-file template: its schema and its inferred type.
+2. Add the new key to `BLOCK_TYPE_VALUES` in `blocks/block-type.ts`.
+3. Add the schema to `BLOCK_SCHEMA_MAP`, and its renderer to `BLOCK_RENDERER_MAP`, in `lookup.ts`/`block-registry.ts`. **These are two hand-written maps, not derived from anything — both need updating, and nothing enforces that they stay in sync with each other beyond the `satisfies Record<BlockTypeEnumData, z.ZodTypeAny>` check on `BLOCK_SCHEMA_MAP`.**
+4. Add the same key string to `CONTENT_TYPE_KEY_VALUES` in `content-type-key.ts`.
+5. Reference the new block from any `PageSection.blockKey` in `registry/page-registry/` or `registry/global-registry/` that should use it.
 
 **Adding a new page to the registry**
 
-1. Add the new page's key to the closed `PageKeyEnum`.
-2. Create `registry/page-registry/<page-key>.ts`, exporting a `PageDefinitionData` built from an ordered list of `SectionDefinitionData`entries, each pointing at a content-type key already present in `content-type-key.ts`.
-3. Register the new file's export in `registry/page-registry/index.ts`'s `PAGE_REGISTRY` map.
-4. If the page introduces any new content-type identifiers, add them to `registry/content-type-key.ts`'s tuple first.
+1. Add the new page's key to `PAGE_KEY_VALUES` in `page-key.ts`.
+2. Create `registry/page-registry/<page-key>.ts`, exporting a `PageRegistry` object (the interface from `types.ts`) built from an ordered list of `PageSection` entries, each with a direct `blockKey` and `schema`.
+3. Re-export the new file from `registry/page-registry/index.ts` (a plain barrel).
+4. Add the new page as one more entry in the hand-written `PAGE_REGISTRY` map in `lookup.ts`.
 
 **Adding a new domain entity**
 
-1. Decide which existing `domains/` subfolder the concept belongs to, or create a new one with its own `index.ts`.
-2. If the concept carries PII or must never reach the public app, it does not go in `domains/` at all — it goes in `packages/contracts-restricted`, following the same template.
-3. Otherwise, create the concept file following the canonical concept-file template, export it from the subfolder's `index.ts`, and confirm the subfolder is exported from `domains/index.ts`.
-4. If the concept should appear as a registry section anywhere, add it to `registry/content-type-key.ts`'s tuple with `category: "domain"` and reference it from the relevant page or global section definition.
+1. Decide which existing `domains/` subfolder the concept belongs to, or create a new one with its own `index.ts`.
+2. If the concept carries PII or must never reach the public app, it does not go in `domains/` at all — it goes in `packages/contracts-restricted`, following the same template.
+3. Otherwise, create the concept file following the canonical concept-file template, export it from the subfolder's `index.ts`, and confirm the subfolder is exported from `domains/index.ts`.
+4. If the concept's identifier should be part of the closed list, add its name string to `CONTENT_TYPE_KEY_VALUES`. **Be aware this is currently bookkeeping only** — as section 6 now explains, nothing wires an editorial or domain entry in that list to a schema or renderer yet; validation for these concepts happens entirely through the page-registry section that references the concept's own schema directly.
 
 **Adding a new global section**
 
-1. Create `registry/global-registry/<section-name>.ts`, exporting a `SectionDefinitionData` with `scope` set to `global`.
-2. Register it in `registry/global-registry/index.ts`'s `GLOBAL_REGISTRY` map.
-3. If the section's content shape doesn't already exist, add it to `shared/` or the appropriate domain/editorial folder, then add its content-type constant to `registry/content-type-key.ts`'s tuple.
-
----
+1. Create `registry/global-registry/<section-name>.ts`, exporting a `PageSection` (from `types.ts`) with `key` set to `global.<section-name>`.
+2. Re-export it from `registry/global-registry/index.ts` (a plain barrel).
+3. Add it to the hand-written `GLOBAL_SECTIONS` array in `lookup.ts`.
+4. If the section's content shape doesn't already exist, add it to `shared/` or the appropriate domain/editorial folder.
 
 ## 10. Anti-patterns
 
 - **Ambiguous nesting.** A folder that repeats its parent's name one level down, or a directory and a file of the same name coexisting in the same parent.
-- **Duplicate concept homes.** Defining the same shape twice under two different names because it was needed from two different folders. If a shape is genuinely reused, it belongs in exactly one place and every other consumer imports that one definition.
-- **A second identifier universe.** Maintaining a separate enum or registry for any subset of content types (blocks, or any other category) instead of one member of the single `ContentTypeKeyEnum` with a `category` field. This was a real mistake in an earlier draft of this package and is the single largest structural change this revision makes.
-- **Renderer knowledge leaking into contracts.** A field, map, or constant anywhere in this package that names a UI component, even as a plain string. That knowledge belongs entirely to `packages/ui`'s own registry.
-- **Reconstructing a discriminated union from a record's values.** Building `CONTENT_TYPE_REGISTRY` first and deriving the all-content schema from `Object.values()` of it, rather than declaring the ordered tuple first and deriving both the record and the union from that one tuple. The former silently widens every discriminant to `string` and breaks narrowing.
-- **Untyped, string-based registry keys.** A `contentTypeKey` field typed as bare `string` anywhere in the registry layer.
-- **Indexing a registry map directly.** Reaching into `CONTENT_TYPE_REGISTRY`, `PAGE_REGISTRY`, or `GLOBAL_REGISTRY` from outside `registry/lookup.ts` instead of calling the corresponding `get*()` function.
+- **A second identifier universe.** Maintaining a separate enum or registry for any subset of content types (blocks, or any other category) instead of one member of `ContentTypeKeyEnum`. **Correction:** as of this revision, only the block subset actually has working schema/renderer resolution behind `ContentTypeKeyEnum` — see section 6. The anti-pattern still holds (don't build a second parallel enum), it's just that today's real system doesn't yet resolve editorial/domain members either, which is a gap to close, not a model to copy.
+- **Two hand-written maps drifting apart.** `BLOCK_SCHEMA_MAP` and `BLOCK_RENDERER_MAP` in `lookup.ts` are maintained by hand, keyed by the same `BlockTypeEnumData`. Only `BLOCK_SCHEMA_MAP` has a `satisfies Record<BlockTypeEnumData, ...>` check forcing every key to be present; `BLOCK_RENDERER_MAP` (in `blocks/block-registry.ts`) doesn't have the equivalent guarantee mentioned here. Adding a block type to one map without the other is the real risk, not the discriminated-union concern this bullet previously described — there is no tuple-derived union in this package (section 6).
+- **Untyped, string-based keys.** A `blockKey` (or any registry key) typed as bare `string` anywhere in the registry layer, rather than against `BlockTypeEnumData` or `PageKeyEnumData`.
+- **Indexing a registry map directly.** Reaching into `PAGE_REGISTRY` or `GLOBAL_SECTIONS` from outside `registry/lookup.ts` instead of calling the corresponding `get*()` function. (Not `CONTENT_TYPE_REGISTRY` or `GLOBAL_REGISTRY` — neither exists; see section 6 and the corrected registry/ listing above.)
 - **Mixing CMS mechanics into domain entities.** A domain schema directly embedding fields that belong to `system/cms` (a `status` workflow field, a raw `sectionKey`).
 - **Bare inferred type names.** Exporting `type Event = z.infer<...>` instead of `EventData`, on the assumption that a particular name is unlikely to collide with a global type.
 - **Object-level schema defaults.** Applying a `.default()` to an entire object rather than to individual structural fields.
