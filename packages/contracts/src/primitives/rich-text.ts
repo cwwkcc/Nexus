@@ -1,23 +1,42 @@
-// packages/contracts/src/primitieves/rich-text.ts
+// packages/contracts/src/primitives/rich-text.ts
 
-// Rich text content contract for Tiptap-authored HTML.
-//
-// Should contain:
-//   RichTextSchema  — z.object({ content: z.string() })
-//                     content is sanitised HTML produced by the Tiptap editor
-//   RichTextData    — z.infer<typeof RichTextSchema>
+// Rich text content contract for Tiptap-authored content.
 //
 // Notes:
-//   Content is stored as sanitised HTML in ContentEntry.data.
+//   Content is stored as a Tiptap/ProseMirror JSON document in ContentEntry.data,
+//   matching what apps/admin's RichTextEditor (F-150) will save via editor.getJSON().
 //   Rendered in the web app via the RichTextRenderer component in @nexus/ui.
-//   Sanitisation happens server-side on write — validate on ingest, not on read.
-//   If you switch to Tiptap JSON format later, update this schema and
-//   RichTextRenderer together.
+//   Keep this schema's node/mark shape in sync with the TiptapNode type in
+//   RichTextRenderer.tsx — if the editor's extensions change (new node types,
+//   renamed attrs), update both together.
 
 import { z } from 'zod';
 
+const TiptapMarkSchema = z.object({
+  type: z.string(),
+  attrs: z.record(z.string(), z.unknown()).optional(),
+});
+
+export type TiptapNode = {
+  type: string;
+  attrs?: Record<string, unknown>;
+  content?: TiptapNode[];
+  marks?: z.infer<typeof TiptapMarkSchema>[];
+  text?: string;
+};
+
+const TiptapNodeSchema: z.ZodType<TiptapNode> = z.lazy(() =>
+  z.object({
+    type: z.string(),
+    attrs: z.record(z.string(), z.unknown()).optional(),
+    content: z.array(TiptapNodeSchema).optional(),
+    marks: z.array(TiptapMarkSchema).optional(),
+    text: z.string().optional(),
+  }),
+);
+
 export const RichTextSchema = z.object({
-  content: z.string().min(1),
+  content: TiptapNodeSchema,
 });
 
 export type RichTextData = z.infer<typeof RichTextSchema>;
