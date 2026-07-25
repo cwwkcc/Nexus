@@ -1,6 +1,6 @@
 'use client';
 
-import { Avatar, Badge, Button, ButtonLink, ResultsGradeBadge, Tag, ToolTip, InlineHelpText, BeatLoader, ScaleLoader } from '@nexus/ui';
+import { Avatar, Badge, Button, ButtonLink, ResultsGradeBadge, Tag, InlineHelpText, BeatLoader, ScaleLoader } from '@nexus/ui';
 
 import { DemoSection } from '../_components/DemoSection';
 
@@ -137,31 +137,6 @@ export default function AtomsPage() {
           <Avatar name="No Image" size="lg" />
           <Avatar name="" size="lg" />
           <Avatar name="A" size="lg" />
-        </DemoSection>
-
-        {/* ========== ToolTip ========== */}
-        <DemoSection title="ToolTip – Positions">
-          <ToolTip content="Top ToolTip" position="top">
-            <Button variant="secondary">Top</Button>
-          </ToolTip>
-          <ToolTip content="Bottom ToolTip" position="bottom">
-            <Button variant="secondary">Bottom</Button>
-          </ToolTip>
-          <ToolTip content="Left ToolTip" position="left">
-            <Button variant="secondary">Left</Button>
-          </ToolTip>
-          <ToolTip content="Right ToolTip" position="right">
-            <Button variant="secondary">Right</Button>
-          </ToolTip>
-        </DemoSection>
-
-        <DemoSection title="ToolTip – On any element">
-          <ToolTip content="I also work on spans">
-            <span className="cursor-help underline decoration-dotted">Hover me</span>
-          </ToolTip>
-          <ToolTip content="Focusable">
-            <button aria-label="Focus me">Tab to focus</button>
-          </ToolTip>
         </DemoSection>
 
         {/* ========== INLINE HELP TEXT ========== */}
