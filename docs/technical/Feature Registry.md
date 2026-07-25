@@ -1,6 +1,6 @@
 # Nexus — Complete Feature Registry
 
-**C.W.W. Kannangara Central College Digital Platform** _Kannangara ICT Society (KITS) · Mathugama_
+**C.W.W. Kannangara Central College Digital Platform** *Kannangara ICT Society (KITS) · Mathugama*
 
 This document is the single authoritative list of every feature, system, and capability that Nexus will include. Every item here has a home in the Engineering Roadmap. Nothing is built that is not listed here. Nothing listed here is omitted from the build.
 
