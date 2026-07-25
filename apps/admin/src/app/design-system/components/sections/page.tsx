@@ -35,8 +35,8 @@ export default function SectionsPage() {
     {
       id: '1',
       name: 'Dr. A. Silva',
-      graduationYear: 1990,
-      role: 'Doctor',
+      graduationYear: '1990',
+      currentRole: 'Doctor',
       quote: 'KCC shaped my future.',
     },
   ];
