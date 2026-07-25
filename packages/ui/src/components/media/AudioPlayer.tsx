@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { cn } from '../../utilities/cn';
 import { Button } from '../atoms/Button';
+import { Icon } from '../icons/Icon';
 import { Container } from '../layout/Container';
 import { Heading } from '../typography/Heading';
 import { Text } from '../typography/Text';
@@ -107,8 +108,10 @@ export function AudioPlayer({ src, title, subtitle, lyrics, lyricsSinhala, class
       if (isPlaying) {
         audioRef.current.pause();
       } else {
-        // Safely handle play() Promise
-        audioRef.current.play();
+        // Safely handle play() Promise — swallow AbortError from rapid toggle/autoplay policy
+        audioRef.current.play().catch((error) => {
+          console.warn('Playback was prevented:', error);
+        });
       }
     }
   };
@@ -139,21 +142,32 @@ export function AudioPlayer({ src, title, subtitle, lyrics, lyricsSinhala, class
   };
 
   useAnimationFrame(() => {
+    const bars = barsRef.current;
+
     if (isPlaying && analyserRef.current && dataArrayRef.current) {
       // @ts-expect-error TypeScript DOM mismatch correctly typed
       analyserRef.current.getByteFrequencyData(dataArrayRef.current);
 
-      barsRef.current.forEach((bar, i) => {
-        if (bar && dataArrayRef.current) {
-          const dataIndex = Math.floor(i * (dataArrayRef.current.length / 40));
-          const value = dataArrayRef.current[dataIndex];
-          const height = 20 + (value / 255) * 60;
-          bar.style.height = `${height}px`;
-          bar.style.opacity = `${0.3 + (value / 255) * 0.7}`;
-        }
+      const barCount = bars.length;
+      const center = (barCount - 1) / 2;
+      const binCount = dataArrayRef.current.length;
+
+      bars.forEach((bar, i) => {
+        if (!bar || !dataArrayRef.current) return;
+
+        // Map distance-from-center -> frequency bin, so bass (low bins,
+        // usually the loudest) drives the middle bars and higher
+        // frequencies fan out toward the edges.
+        const normalizedDistance = Math.abs(i - center) / center;
+        const dataIndex = Math.min(binCount - 1, Math.floor(normalizedDistance * (binCount - 1)));
+
+        const value = dataArrayRef.current[dataIndex];
+        const height = 20 + (value / 255) * 60;
+        bar.style.height = `${height}px`;
+        bar.style.opacity = `${0.3 + (value / 255) * 0.7}`;
       });
     } else if (!isPlaying) {
-      barsRef.current.forEach((bar) => {
+      bars.forEach((bar) => {
         if (bar) {
           bar.style.height = '20px';
           bar.style.opacity = '0.3';
@@ -169,7 +183,10 @@ export function AudioPlayer({ src, title, subtitle, lyrics, lyricsSinhala, class
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   };
 
-  const progressPercentage = (currentTime / (duration || 1)) * 100;
+  // Guard against duration being 0/NaN/Infinity before metadata loads,
+  // and clamp so float drift at track-end can't push the dot/fill past 100%.
+  const safeDuration = Number.isFinite(duration) && duration > 0 ? duration : 0;
+  const progressPercentage = safeDuration > 0 ? Math.min(100, Math.max(0, (currentTime / safeDuration) * 100)) : 0;
 
   return (
     <Container className={cn('bg-surface-base border border-border-light rounded-md overflow-hidden shadow-elevation-2', className)}>
@@ -204,38 +221,19 @@ export function AudioPlayer({ src, title, subtitle, lyrics, lyricsSinhala, class
 
           <div className="flex items-center gap-space-2">
             <a href={src} download={title} className="p-space-3 text-text-muted hover:text-gold-base transition-colors rounded-full hover:bg-surface-deep" aria-label={downloadLabel}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <polyline points="7 10 12 15 17 10" />
-                <line x1="12" y1="15" x2="12" y2="3" />
-              </svg>
+              <Icon name="download" size="sm" />
             </a>
 
             <button onClick={handleRewind} className="p-space-3 text-text-muted hover:text-gold-base transition-colors rounded-full hover:bg-surface-deep" aria-label={rewindLabel}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polygon points="11 19 2 12 11 5 11 19" />
-                <polygon points="22 19 13 12 22 5 22 19" />
-              </svg>
+              <Icon name="rewind" size="sm" />
             </button>
 
             <Button onClick={togglePlay} variant="primary" size="icon-xl" className="rounded-full shadow-elevation-1 transition-transform hover:scale-105 active:scale-95 !w-14 !h-14" aria-label={isPlaying ? 'Pause' : 'Play'}>
-              {isPlaying ? (
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="1">
-                  <rect x="6" y="4" width="4" height="16" />
-                  <rect x="14" y="4" width="4" height="16" />
-                </svg>
-              ) : (
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="ml-1" stroke="currentColor" strokeWidth="1">
-                  <polygon points="5 3 19 12 5 21 5 3" />
-                </svg>
-              )}
+              <Icon name={isPlaying ? 'pause' : 'play'} size="md" />
             </Button>
 
             <button onClick={handleForward} className="p-space-3 text-text-muted hover:text-gold-base transition-colors rounded-full hover:bg-surface-deep" aria-label={forwardLabel}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polygon points="13 19 22 12 13 5 13 19" />
-                <polygon points="2 19 11 12 2 5 2 19" />
-              </svg>
+              <Icon name="fast-forward" size="sm" />
             </button>
           </div>
         </div>
@@ -247,9 +245,9 @@ export function AudioPlayer({ src, title, subtitle, lyrics, lyricsSinhala, class
               <div className="h-full bg-gold-base transition-all duration-instant ease-out" style={{ width: `${progressPercentage}%` }} />
             </div>
 
-            <input type="range" min={0} max={duration || 0} step="0.1" value={currentTime} onChange={handleSeek} className="absolute w-full h-full opacity-0 cursor-pointer z-10" aria-label={seekLabel} />
+            <input type="range" min={0} max={safeDuration} step="0.1" value={currentTime} onChange={handleSeek} className="absolute w-full h-full opacity-0 cursor-pointer z-10" aria-label={seekLabel} />
 
-            <motion.div className="absolute h-size-3 w-size-3 bg-gold-base rounded-full shadow-elevation-1 z-0 pointer-events-none group-hover:scale-150 transition-transform" style={{ left: `calc(${progressPercentage}% - 6px)` }} />
+            <motion.div className="absolute top-1/2 -translate-y-1/2 h-size-3 w-size-3 bg-gold-base rounded-full shadow-elevation-1 z-0 pointer-events-none group-hover:scale-150 transition-transform" style={{ left: `calc(${progressPercentage}% - 6px)` }} />
           </div>
 
           <div className="flex justify-between mt-space-1 px-1">
@@ -267,9 +265,9 @@ export function AudioPlayer({ src, title, subtitle, lyrics, lyricsSinhala, class
           <Container className="mt-space-4 flex flex-col items-center">
             <button onClick={() => setShowLyrics(!showLyrics)} className="text-gold-base uppercase tracking-label text-label-sm font-label py-space-2 px-space-4 rounded-full hover:bg-gold-glow transition-colors flex items-center gap-space-2">
               {showLyrics ? 'Hide Lyrics' : 'View Lyrics'}
-              <motion.svg animate={{ rotate: showLyrics ? 180 : 0 }} width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                <polyline points="6 9 12 15 18 9" />
-              </motion.svg>
+              <motion.span animate={{ rotate: showLyrics ? 180 : 0 }} className="inline-flex">
+                <Icon name="chevron-down" size="xs" />
+              </motion.span>
             </button>
 
             <AnimatePresence>
