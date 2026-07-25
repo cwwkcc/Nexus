@@ -306,7 +306,7 @@ kcc-assets/
 ---
 
 **Prepared by:** Kannangara ICT Society (KITS), C.W.W. Kannangara Central College, Mathugama  
-**Date:** June 2026
+**Date:** July 2026
 
 ---
 

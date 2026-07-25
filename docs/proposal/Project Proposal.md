@@ -1,4 +1,4 @@
-**To:** The Principal, C.W.W. Kannangara Central College, Mathugama **From:** Kannangara ICT Society (KITS) **Date:** June 2026 **Subject:** Implementation of the "Nexus" Digital Institution
+**To:** The Principal, C.W.W. Kannangara Central College, Mathugama **From:** Kannangara ICT Society (KITS) **Date:** July 2026 **Subject:** Implementation of the "Nexus" Digital Institution
 
 ---
 
@@ -67,7 +67,7 @@ The school already possesses the student talent, technical planning, and organis
 | **Official Social Media** | Managed presence on Facebook, Instagram, YouTube, LinkedIn, and WhatsApp Channel. Where unofficial accounts already exist, KITS will coordinate the transfer of administration to bring them under school oversight and align them with the school's official visual identity.                                                                                                                                                                                                                                       |
 | **Technical Foundation**  | Infrastructure, database, and architecture that allows the school to grow its digital presence for the next decade.                                                                                                                                                                                                                                                                                                                                                                                                  |
 
-> **Scope note:** The table above describes what stakeholders will see and interact with at launch. It is not the full technical scope. The complete engineering build — including infrastructure, design system internals, accessibility, performance, and administrative tooling — is defined in `Feature Registry.md`, the single authoritative list of all **198 features** Nexus will include. Approving this proposal approves that full scope.
+> **Scope note:** The table above describes what stakeholders will see and interact with at launch. It is not the full technical scope. The complete engineering build — including infrastructure, design system internals, accessibility, performance, and administrative tooling — is defined in `Feature Registry.md`, the single authoritative list of all **200 features** Nexus will include. Approving this proposal approves that full scope.
 
 > **Scope note (Social Media):** Social media is a core component of Nexus, not an add-on. Official account creation, management, and the coordinated transfer of any existing unofficial accounts (where appropriate and approved by the school) are approved as part of this proposal (see Section 13.3). Social media _management_ is an operational activity and is not listed in the Feature Registry, which covers the web platform only.
 
@@ -189,7 +189,7 @@ Preliminary research, architecture design, component development, and technical 
 | Visual identity & design system        | Complete (internal, no cost) | Colours, typography, spacing, and motion — the consistent "look" of the school's brand online.                            |
 | Reusable page components               | Complete (internal, no cost) | 100+ building blocks (cards, forms, navigation, etc.) used to assemble every page.                                        |
 | Reliability & trilingual foundation    | Complete (internal, no cost) | Safeguards against crashes/broken pages; the English/Sinhala/Tamil framework built in from the start.                     |
-| **Principal presentation & approval**  | **June 2026 — now**          | This proposal: formal mandate to proceed, plus administration's cooperation on content, photography, and alumni outreach. |
+| **Principal presentation & approval**  | **July 2026 — now**          | This proposal: formal mandate to proceed, plus administration's cooperation on content, photography, and alumni outreach. |
 | Database & content infrastructure      | June – July 2026             | Secure database and content-management infrastructure; staff sign-in via existing school Google accounts.                 |
 | Admin Panel                            | July 2026                    | Staff dashboard for managing News, Staff, Societies, Calendar & Events, Gallery, and Media — no coding required.          |
 | Public pages go live with real content | July – August 2026           | Every public page connected to real content.                                                                              |
@@ -374,6 +374,6 @@ By approving this proposal, the school authorizes the development and deployment
 
 ---
 
-**Prepared by:** Kannangara ICT Society (KITS), C.W.W. Kannangara Central College, Mathugama **Date:** June 2026
+**Prepared by:** Kannangara ICT Society (KITS), C.W.W. Kannangara Central College, Mathugama **Date:** July 2026
 
 _"Wisdom is All Wealth" – Est. 1873_
