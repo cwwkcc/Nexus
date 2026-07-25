@@ -35,7 +35,7 @@ const componentCategories = [
   { href: '/design-system/components/navigation', label: 'Navigation' },
   { href: '/design-system/components/overlays', label: 'Overlays' },
   { href: '/design-system/components/sections', label: 'Sections' },
-  { href: '/design-system/components/system', label: 'System' },
+  { href: '/design-system/components/page-states', label: 'Page States' },
   { href: '/design-system/components/typography', label: 'Typography' },
   { href: '/design-system/components/utilities', label: 'Utilities' },
   { href: '/design-system/components/visualization', label: 'Visualization' },

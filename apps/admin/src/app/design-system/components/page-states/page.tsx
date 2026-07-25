@@ -6,7 +6,7 @@ import { useState } from 'react';
 
 import { DemoSection } from '../_components/DemoSection';
 
-export default function SystemPage() {
+export default function PageStates() {
   const [showLoading, setShowLoading] = useState(false);
 
   return (

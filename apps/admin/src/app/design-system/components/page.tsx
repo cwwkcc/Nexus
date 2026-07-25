@@ -9,7 +9,6 @@ const categories = [
   { slug: 'effects', name: 'Effects', count: 1 },
   { slug: 'feedback', name: 'Feedback', count: 3 }, // Alert, Modal, Toast
   { slug: 'forms', name: 'Forms', count: 16 },
-  { slug: 'global', name: 'Global', count: 7 }, // AnnouncementBanner, BackToTopButton, etc.
   { slug: 'icons', name: 'Icons', count: 6 }, // Icon component + social icons
   { slug: 'layout-components', name: 'Layout', count: 11 },
   { slug: 'logos', name: 'Logos', count: 1 },
@@ -17,7 +16,7 @@ const categories = [
   { slug: 'navigation', name: 'Navigation', count: 10 }, // Accordion, Breadcrumb, FilterBar, LanguageSwitcher, MobileMenu, NavLink, Pagination, SearchInput, TableOfContents, Tabs
   { slug: 'overlays', name: 'Overlays', count: 4 }, // Drawer, DropDownMenu, ShareSheet, ToolTip
   { slug: 'sections', name: 'Sections', count: 9 },
-  { slug: 'system', name: 'System', count: 7 }, // AnnouncementBanner, CookieConsentBanner, EmptyState, ErrorState, LoadingScreen, LoadingSkeleton, NotFoundPage, OfflineBanner
+  { slug: 'page-states', name: 'Page States', count: 7 }, // AnnouncementBanner, CookieConsentBanner, EmptyState, ErrorState, LoadingScreen, LoadingSkeleton, NotFoundPage, OfflineBanner
   { slug: 'typography', name: 'Typography', count: 7 }, // EyebrowLabel, Heading, InlineLink, QuoteBlock, RichTextRenderer, SectionHeader, Text
   { slug: 'utilities', name: 'Utilities', count: 3 }, // BackToTopButton, CountdownTimer, ScrollProgressBar
   { slug: 'visualization', name: 'Data Visualization', count: 8 },
