@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 'use client';
 
 import { AcademicStreamCard, AchievementCard, DownloadableDocumentItem, EventCard, ExtracurricularCard, FacilityCard, GalleryAlbumCard, NewsCard, SocietyBanner, SocietyCard, StaffCard, StatCard } from '@nexus/ui';
@@ -78,12 +76,15 @@ export default function CardsDemoPage() {
 
         {/* FacilityCard */}
         <DemoSection title="FacilityCard – Standard">
-          <FacilityCard name="Science Laboratories" description="Fully equipped labs for physics, chemistry, and biology." features={['Modern equipment', 'Safety compliant', 'Separate prep rooms']} href="/facilities/labs" imageSrc="/images/white.jpg" />
-          <FacilityCard name="Library" description="Over 10,000 books and digital resources." features={['Reading hall', 'E-library', 'Periodicals section']} href="/facilities/library" />
+          <FacilityCard id="labs" slug="labs" type="laboratory" name="Science Laboratories" description="Fully equipped labs for physics, chemistry, and biology." features={['Modern equipment', 'Safety compliant', 'Separate prep rooms']} href="/facilities/labs" image={{ src: '/images/white.jpg', alt: 'Science laboratories' }} imageSrc="/images/white.jpg" />
+          <FacilityCard id="library" slug="library" type="library" name="Library" description="Over 10,000 books and digital resources." features={['Reading hall', 'E-library', 'Periodicals section']} href="/facilities/library" image={{ src: '/images/white.jpg', alt: 'Library' }} />
         </DemoSection>
 
         <DemoSection title="FacilityCard – Schedule (Swimming Pool)">
           <FacilityCard
+            id="pool"
+            slug="pool"
+            type="pool"
             variant="schedule"
             name="Swimming Pool"
             description="25m indoor pool with modern filtration."
@@ -98,6 +99,7 @@ export default function CardsDemoPage() {
               },
             ]}
             href="/facilities/pool"
+            image={{ src: '/images/white.jpg', alt: 'Swimming pool' }}
             imageSrc="/images/white.jpg"
           />
         </DemoSection>
@@ -135,42 +137,42 @@ export default function CardsDemoPage() {
 
         {/* SocietyCard */}
         <DemoSection title="SocietyCard – Hub Grid">
-          <SocietyCard variant="hub-grid" name="Science Society" tagline="Exploring the wonders of science through experiments and field trips." category="Academic" href="/societies/science" memberCount={60} founded="1975" />
-          <SocietyCard variant="hub-grid" name="Drama Club" tagline="Annual stage plays and cultural performances." category="Performing Arts" href="/societies/drama" memberCount={35} founded="1980" />
-          <SocietyCard variant="hub-grid" name="Sports Council" tagline="Organizing inter-house and district-level competitions." category="Sports" href="/societies/sports" memberCount={120} founded="1950" />
+          <SocietyCard id="science-society" slug="science" variant="hub-grid" name="Science Society" tagline="Exploring the wonders of science through experiments and field trips." category="academic" href="/societies/science" memberCount={60} founded="1975" />
+          <SocietyCard id="drama-club" slug="drama" variant="hub-grid" name="Drama Club" tagline="Annual stage plays and cultural performances." category="arts" href="/societies/drama" memberCount={35} founded="1980" />
+          <SocietyCard id="sports-council" slug="sports" variant="hub-grid" name="Sports Council" tagline="Organizing inter-house and district-level competitions." category="sports" href="/societies/sports" memberCount={120} founded="1950" />
         </DemoSection>
 
         <DemoSection title="SocietyCard – Featured (KITS)">
-          <SocietyCard variant="featured" name="KITS – Kannangara ICT Society" tagline="Building the digital future of KCC. Creators of Nexus and Paideon." category="Technology" href="/societies/kits" memberCount={120} founded="2010" imageSrc="/images/white.jpg" />
+          <SocietyCard id="kits" slug="kits" variant="featured" name="KITS – Kannangara ICT Society" tagline="Building the digital future of KCC. Creators of Nexus and Paideon." category="technology" href="/societies/kits" memberCount={120} founded="2010" imageSrc="/images/white.jpg" />
         </DemoSection>
 
         {/* StaffCard */}
         <DemoSection title="StaffCard – Principal">
-          <StaffCard variant="principal" name="Mr. Bandula Rajapaksa" title="Principal" tenure="Since 2019" quote="Education is not a privilege – it is the birthright of every child who walks through these gates." imageSrc="/images/white.jpg" href="/administration" />
+          <StaffCard id="principal" role="principal" variant="principal" name="Mr. Bandula Rajapaksa" title="Principal" tenure="Since 2019" quote="..." imageSrc="/images/white.jpg" href="/administration" />
         </DemoSection>
 
         <DemoSection title="StaffCard – Grid">
-          <StaffCard variant="grid" name="Mrs. Kamala Perera" title="Deputy Principal" portfolio="Academic Affairs" tenure="15 years" imageSrc="/images/white.jpg" />
-          <StaffCard variant="grid" name="Mr. Nimal Jayasuriya" title="Head of Science" portfolio="Physics Department" tenure="10 years" />
-          <StaffCard variant="grid" name="Ms. Dilani Fernando" title="Teacher in Charge – KITS" portfolio="ICT & Computing" />
+          <StaffCard id="deputy" role="deputy-principal" variant="grid" name="Mrs. Kamala Perera" title="Deputy Principal" portfolio="Academic Affairs" tenure="15 years" imageSrc="/images/white.jpg" />
+          <StaffCard id="hos" role="teacher" variant="grid" name="Mr. Nimal Jayasuriya" title="Head of Science" portfolio="Physics Department" tenure="10 years" />
+          <StaffCard id="kits-teacher" role="teacher" variant="grid" name="Ms. Dilani Fernando" title="Teacher in Charge – KITS" portfolio="ICT & Computing" />
         </DemoSection>
 
         <DemoSection title="StaffCard – Compact">
-          <StaffCard variant="compact" name="Lakshan Perera" title="Head Prefect" />
-          <StaffCard variant="compact" name="Ms. Priyani Silva" title="Assistant Principal – Primary" />
-          <StaffCard variant="compact" name="Mr. Sunil Rathnayake" title="Sports Director" />
+          <StaffCard id="head-prefect" role="head-prefect" variant="compact" name="Lakshan Perera" title="Head Prefect" />
+          <StaffCard id="asst-principal" role="assistant-principal" variant="compact" name="Ms. Priyani Silva" title="Assistant Principal – Primary" />
+          <StaffCard id="sports-director" role="teacher" variant="compact" name="Mr. Sunil Rathnayake" title="Sports Director" />
         </DemoSection>
 
         {/* StatCard */}
         <DemoSection title="StatCard – Single Metric">
-          <StatCard value={5000} suffix="+" label="Students" />
-          <StatCard value={153} label="Years of Excellence" />
-          <StatCard value={200} suffix="+" label="University Entrances (2025)" />
+          <StatCard id="students" target={5000} suffix="+" label="Students" />
+          <StatCard id="years" target={153} label="Years of Excellence" />
+          <StatCard id="entrances" target={200} suffix="+" label="University Entrances (2025)" />
         </DemoSection>
 
         <DemoSection title="StatCard – With Trend">
-          <StatCard value={98} suffix="%" label="O/L Pass Rate" variant="with-trend" trend="up" trendValue="+5%" trendLabel="vs 2024" />
-          <StatCard value={76} suffix="%" label="A/L Pass Rate" variant="with-trend" trend="up" trendValue="+8%" />
+          <StatCard id="ol-pass" target={98} suffix="%" label="O/L Pass Rate" variant="with-trend" trend={{ direction: 'up', value: '+5%', label: 'vs 2024' }} />
+          <StatCard id="al-pass" target={76} suffix="%" label="A/L Pass Rate" variant="with-trend" trend={{ direction: 'up', value: '+8%' }} />{' '}
         </DemoSection>
       </div>
     </div>
