@@ -29,8 +29,11 @@ nexus/
 │   └── admin/        # Admin panel
 ├── packages/
 │   ├── ui/           # Shared component library
-│   ├── config/       # Design tokens and Tailwind preset
-│   ├── validation/   # Zod schemas
+│   ├── config/       # Next.js/Tailwind/font build configuration
+│   ├── tokens/       # Design tokens (generates CSS vars + Tailwind class groups)
+│   ├── contracts/    # Zod schemas, Page Registry, content blocks (ADR-005)
+│   ├── env/          # Typed, validated environment variables (server/client split)
+│   ├── transport/    # Non-tRPC HTTP client, for third-party APIs (Resend, R2, reCAPTCHA)
 │   ├── database/     # Prisma client and schema
 │   └── api/          # tRPC router definitions
 └── docker-compose.yml
@@ -99,5 +102,18 @@ Nx provides:
 - Clear package ownership and boundaries (ADR-009)
 - `nx affected` prevents slow CI
 - Regular codebase hygiene reviews
+
+---
+
+## Update Note
+
+The original version of this ADR listed five packages: `ui`, `config` (which it described as also holding design tokens), `validation`, `database`, and `api`. The monorepo decision itself hasn't changed, but the package list has grown as the platform did:
+
+- `validation` was renamed to **`contracts`** — see the Naming Note in ADR-005.
+- Design tokens split out of `config` into their own **`tokens`** package, which generates CSS variables and Tailwind class groups from a single source; `config` now holds Next.js, Tailwind, and font build configuration only.
+- **`env`** was added to centralise typed, validated environment variable access, split into server and client entry points.
+- **`transport`** was added as a lightweight HTTP client for calls that don't go through tRPC — third-party services such as Resend, R2, and reCAPTCHA.
+
+The structure diagram above reflects the current eight-package layout.
 
 ---
