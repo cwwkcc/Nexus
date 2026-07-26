@@ -2080,17 +2080,3 @@ _Adjust based on actual start date and available resources._
 _Nexus Platform — Kannangara ICT Society (KITS)_
 
 ---
-
-## Changelog
-
-**This revision** — audited against Feature Registry F-001–F-196 (source of truth) and corrected to match:
-
-- Removed six tasks describing features cut from scope entirely: the Page Configuration System (old Task 6.5), Page Configuration Module (old Task 7.10), Results Module (old Task 7.8), Results Portal and Results Portal Security & Privacy (old Tasks 8.9/8.9a). Every remaining task in Phases 6, 7, and 8 has been renumbered sequentially — task numbers referenced elsewhere in this document have been updated to match.
-- Renamed and rewrote the tasks that build the actual replacement system: `packages/validation` → `packages/contracts` (Task 4.1), `PageContent` → `ContentEntry` throughout (Task 6.8, formerly 6.5b; Task 7.9, formerly 7.10b; Task 8.3, formerly 8.2b).
-- Rewrote Task 6.1's schema table and Task 6.4/6.6's router table to reflect the actual current-vs-deferred split (F-056/F-057/F-064/F-068/F-069): only `User`, `ContentEntry`, `ContentEntryVersion`, and `SiteSetting` exist today; every other domain model and router is added alongside its own Phase 7 module, not built in one pass.
-- Rewrote Task 6.9/6.12's disaster-recovery language and Task 14.0b's accidental-deletion procedure to reflect status-based archiving (F-063) — there is no `deletedAt` soft-delete column.
-- Rewrote Task 7.11/7.10's Analytics Module to reflect the Umami-based approach (F-101/F-102) rather than a custom in-house event collector.
-- Repurposed Task 12.4a from a Results-Portal-specific PII review into a platform-wide one (Alumni Directory, Achievement Database, Digital Archive, Contact form, cookie consent).
-- Removed remaining scattered references to the cut Results Portal / `ExamResult` (Task 0.2 scope inventory, Task 4.2 error boundaries, Task 4.6 i18n feature areas, Task 3.9/3.2 component lists, Task 8.15 Academics Page, Task 10.2 JSON-LD, Task 10.3 sitemap, Task 12.4 security review, Task 13.2 analytics review, Task 14.0 content governance).
-- Fixed a dangling cross-reference to a non-existent "Task 4.3b" in Task 11.8's CSP row.
-- Updated the intro's registry range from "F-001 through F-181" to "F-001 through F-196," noting F-195/F-196 are appended past F-194 per the registry's stable-number rule rather than causing a renumber.

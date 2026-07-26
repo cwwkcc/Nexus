@@ -173,7 +173,3 @@ This maintenance schedule is approved by:
 ## End of Operations Documentation
 
 ---
-
-## Changelog
-
-**This revision** — removed "Results portal usage" from the weekly analytics review checklist; the results portal was cut from scope.

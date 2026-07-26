@@ -238,5 +238,3 @@ This social media governance document is approved by:
 **C.W.W. Kannangara Central College, Est. 1873. "Wisdom is All Wealth."**
 
 ---
-
-# governance/Data-Privacy-Policy.md

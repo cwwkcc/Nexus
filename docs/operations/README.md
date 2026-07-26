@@ -64,9 +64,3 @@ _As of this revision: the four stub files this table used to point at (`Runbook.
 **C.W.W. Kannangara Central College, Est. 1873. "Wisdom is All Wealth."**
 
 ---
-
----
-
-## Changelog
-
-**This revision** — the Document Index previously linked to filenames with hyphens (`Runbook.md`, `Disaster-Recovery.md`, etc.) that didn't match any real file's actual spacing, and several of those links pointed at 3-line placeholder stubs rather than the fully written documents sitting right next to them under different names. Fixed to point at the real files. `docs/operations/Content Governance.md` — an outdated, shorter duplicate of `docs/governance/Content Governance.md` — was deleted; the index now points across folders to the canonical copy.

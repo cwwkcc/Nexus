@@ -241,5 +241,3 @@ Before submitting content, confirm:
 **C.W.W. Kannangara Central College, Est. 1873. "Wisdom is All Wealth."**
 
 ---
-
-# governance/Content-Guidelines.md

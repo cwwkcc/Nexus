@@ -321,11 +321,3 @@ This content governance document is approved by:
 </file>
 
 ---
-
-## Changelog
-
-**This revision** — audited against Feature Registry F-001–F-196 (source of truth):
-
-- Removed the "Examination Results" content type entirely (ownership matrix row, full "§4 Examination Results" subsection, archival policy row) — the exam results portal was cut from scope. Remaining subsections renumbered 4–10.
-- Renamed "§11 Page Content" to "§10 ContentEntry Pages" to match the current data model (ADR-009).
-- This is now the sole canonical Content Governance document — the near-duplicate previously at `docs/operations/Content Governance.md` (a shorter, outdated draft) has been deleted; see `docs/operations/README.md`'s changelog.

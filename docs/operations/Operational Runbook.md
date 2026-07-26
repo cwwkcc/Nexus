@@ -355,9 +355,3 @@ curl -vI https://cwwkcc.lk
 **C.W.W. Kannangara Central College, Est. 1873. "Wisdom is All Wealth."**
 
 ---
-
----
-
-## Changelog
-
-**This revision** — audited against Feature Registry F-001–F-196 (source of truth): replaced three results-portal references (deployment verification step, scaling triggers, read-replica rationale) with equivalents that match the actual `ContentEntry`/tag-based-caching architecture (F-056, F-195); the results portal was cut from scope.

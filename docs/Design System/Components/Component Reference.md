@@ -673,16 +673,3 @@
 ---
 
 _Last updated: June 2026 · Nexus monorepo — CWWKCC school website project._
-
----
-
-## Changelog
-
-**This revision** — audited against Feature Registry F-001–F-196 (source of truth):
-
-- Removed the entire "Results Blocks" section (`ResultsHero`, `ResultsSearchSection`, `ResultsOutputSection`, `ResultsDownloadsSection`, `ResultsAggregateStatsSection`) and its Table of Contents entry — the exam results portal was cut from scope entirely.
-- Removed `ResultsGradeBadge` (Atoms) and `ResultsDisplay` (Visualization) components.
-- Removed the `/results` rows from both the Web App Pages table and the Admin Panel — Pages table.
-- Fixed descriptions that referenced Results Portal in passing: `SearchForm` (now tied to the site-wide Search page, F-157), `QuickAccessPortal`, `PrintButton`, `HomeQuickLinks`, `AdminNotificationDrawer`.
-- Fixed `/analytics` admin page description — Umami (self-hosted, F-101/F-102), not "GA4 embed or custom."
-- Added missing Web App Pages rows for pages that exist in the Feature Registry but were never listed here: `/search` (F-157), `/digital-archive` (F-155). `/academics` was already present.

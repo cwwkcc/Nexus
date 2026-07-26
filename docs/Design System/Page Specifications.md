@@ -649,24 +649,3 @@ Placeholder links to design mockups (to be added once available):
 _C.W.W. Kannangara Central College – Est. 1873 – Wisdom is All Wealth_
 
 ---
-
-## Changelog
-
-**This revision** — added the Events / School Calendar page and fixed a routing error found along the way:
-
-- Added new section "07 – Events / School Calendar" (`/en/events`), covering the calendar-first design: a single `CalendarEntry` dataset behind both a calendar grid and a list view, with entries optionally getting a full `EventDetail` (and a card + detail page at `/en/events/[slug]`) at creation time. Sections 07–12 renumbered to 08–13.
-- Added `/en/events` and `/en/events/[slug]` to the Route Structure list.
-- Fixed `/en/digital-archive` → `/en/archive` in the Route Structure list — the actual route folder in `apps/web` is `archive`, not `digital-archive`.
-- Added Events to the Page Status Tracking table, and corrected three statuses that were stale in the other direction: Administration, Academics, and Facilities were marked "Planned" but are built; Home was marked "Complete" but is currently a placeholder.
-- Added an Events row to the Sitemap Priority table and the Dynamic Content & Data Fetching Notes table.
-- Added `calendarEntry` / `eventDetail` to the CMS Content Models Reference table.
-
-**Previous revision** — audited against Feature Registry F-001–F-196 (source of truth):
-
-- Removed the entire "07 – Results Portal" page specification section. Sections 08–13 renumbered to 07–12.
-- Removed `/en/results` from the Route Structure list and the Results row from Page Status Tracking and the Dynamic Content & Data Fetching Notes table.
-- Fixed the Academics page spec (`## 04`) — removed the claim that performance statistics are "computed live from `ExamResult` data"; there is no live results feed. Softened the SEO description accordingly.
-- Fixed the About page's data-source description in the fetching notes table to say `ContentEntry` instead of "Static (i18n)," matching ADR-009.
-- Fixed a `packages/validation` reference to `packages/contracts`.
-- Removed the "Results portal" placeholder wireframe link.
-- Added routes for pages that exist in the Feature Registry but had no entry here: `/en/search`, `/en/achievements`, `/en/alumni`, `/en/digital-archive`. **Note:** these four pages still have no full page-specification section (Purpose/Owner/SEO/Data sources/Section Map) in this document — only Results had one, now removed. Writing those four from scratch wasn't attempted here since it means authoring new design decisions, not correcting stale ones; flagging as a follow-up.

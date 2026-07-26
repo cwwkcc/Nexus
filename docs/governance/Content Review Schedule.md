@@ -214,5 +214,3 @@ This document defines the review schedule for all content on the Nexus platform.
 **C.W.W. Kannangara Central College, Est. 1873. "Wisdom is All Wealth."**
 
 ---
-
-# governance/Approval-Template.md
