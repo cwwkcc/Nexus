@@ -67,12 +67,12 @@ An immersive journey from **sunlit canopy** to **deep forest floor**.
 
 Four layers of tokens for scalability:
 
-| Layer                                          | Purpose                                                                   | Example                                                                                                               |
-| ---------------------------------------------- | ------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| **Foundation Tokens**                          | Raw primitives (colours, spacing, fonts)                                  | `green-base`                                                                                                          |
-| **Semantic Tokens**                            | Purpose‑bound (surface, text, border)                                     | `surface-base`, `text-muted`                                                                                          |
-| **Component Tokens** _(rare, exception‑based)_ | Component‑specific overrides — only when semantic tokens are insufficient | See [Component State Tokens](https://claude.ai/chat/fe3d0a5e-5192-4270-832b-0a40a831e5e1#21-component-states--tokens) |
-| **Theme Overrides**                            | For variations (Alumni Portal, Admin)                                     | `--theme-alumni-accent`                                                                                               |
+| Layer                                          | Purpose                                                                                 | Example                                                    |
+| ---------------------------------------------- | --------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| **Foundation Tokens**                          | Raw primitives (colours, spacing, fonts)                                                | `green-base`                                               |
+| **Semantic Tokens**                            | Purpose‑bound (surface, text, border)                                                   | `surface-base`, `text-muted`                               |
+| **Component Tokens** _(rare, exception‑based)_ | Component‑specific overrides — only when semantic tokens are insufficient               | See [Component State Tokens](#21-component-states--tokens) |
+| **Theme Overrides**                            | For a distinct future interface (e.g. a members-only portal), should one ever be scoped | `--theme-<name>-accent`                                    |
 
 **Theme overrides may adjust:**
 
@@ -124,7 +124,7 @@ All tokens follow a consistent **hierarchical naming pattern**.
 ## 5. Colour System
 
 All colours must be referenced via **design tokens** – no raw hex codes.  
-Actual colour values are listed in the **[Tokens Reference](https://claude.ai/chat/Tokens%20Reference.md)**.
+Actual colour values are listed in the **[Tokens Reference](./Tokens Reference.md)**.
 
 | Role            | Token             |
 | --------------- | ----------------- |
@@ -183,30 +183,30 @@ Actual colour values are listed in the **[Tokens Reference](https://claude.ai/ch
 | `text-body`    | Paragraphs      |
 | `text-caption` | Fine print      |
 
-Complete type scale (sizes, line heights, letter spacing) in **[Tokens Reference](https://claude.ai/chat/Tokens%20Reference.md)**.
+Complete type scale (sizes, line heights, letter spacing) in **[Tokens Reference](./Tokens Reference.md)**.
 
 ---
 
 ## 7. Responsive Typography Rules
 
-| Rule                                         | Implementation                                                                                                            |
-| -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| **Never manually shrink headings on mobile** | Use tokenised `clamp()` values only.                                                                                      |
-| **Body text minimum**                        | Minimum `1rem` — `text-body` value is in **[Tokens Reference](https://claude.ai/chat/Tokens%20Reference.md#font-sizes)**. |
-| **Sinhala body line‑height**                 | Must be `leading-relaxed` — see **[Tokens Reference](https://claude.ai/chat/Tokens%20Reference.md#line-heights)**.        |
-| **Letter‑spacing**                           | Only use `tracking-*` tokens.                                                                                             |
+| Rule                                         | Implementation                                                                                     |
+| -------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| **Never manually shrink headings on mobile** | Use tokenised `clamp()` values only.                                                               |
+| **Body text minimum**                        | Minimum `1rem` — `text-body` value is in **[Tokens Reference](./Tokens Reference.md#font-sizes)**. |
+| **Sinhala body line‑height**                 | Must be `leading-relaxed` — see **[Tokens Reference](./Tokens Reference.md#line-heights)**.        |
+| **Letter‑spacing**                           | Only use `tracking-*` tokens.                                                                      |
 
 ---
 
 ## 8. Internationalisation Rules
 
-| Rule                       | Implementation                                                                                                           |
-| -------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| **Sinhala line‑height**    | `leading-relaxed` for body text — see **[Tokens Reference](https://claude.ai/chat/Tokens%20Reference.md#line-heights)**. |
-| **Mixed‑language content** | Wrap each segment with `lang` attribute and appropriate font class.                                                      |
-| **Date formatting**        | Use `next-intl` locale‑aware formatters.                                                                                 |
-| **Number formatting**      | Use `toLocaleString(locale)`.                                                                                            |
-| **Text expansion**         | Assume Sinhala is 30–40% longer; design containers with padding and wrapping.                                            |
+| Rule                       | Implementation                                                                                    |
+| -------------------------- | ------------------------------------------------------------------------------------------------- |
+| **Sinhala line‑height**    | `leading-relaxed` for body text — see **[Tokens Reference](./Tokens Reference.md#line-heights)**. |
+| **Mixed‑language content** | Wrap each segment with `lang` attribute and appropriate font class.                               |
+| **Date formatting**        | Use `next-intl` locale‑aware formatters.                                                          |
+| **Number formatting**      | Use `toLocaleString(locale)`.                                                                     |
+| **Text expansion**         | Assume Sinhala is 30–40% longer; design containers with padding and wrapping.                     |
 
 ---
 
@@ -218,23 +218,27 @@ Complete type scale (sizes, line heights, letter spacing) in **[Tokens Reference
 - All spacing tokens: `space-{n}` where n = number of 4px units.
 - Use `p-space-*`, `m-space-*`, `gap-space-*`.
 - **No arbitrary values** – `mt-[22px]` forbidden.  
-   Complete spacing list in **[Tokens Reference](https://claude.ai/chat/Tokens%20Reference.md)**.
+   Complete spacing list in **[Tokens Reference](./Tokens Reference.md)**.
 
 ### Breakpoint System (Mobile‑first)
 
-| Breakpoint     | Min width | Columns |
-| -------------- | --------- | ------- |
-| `sm` (default) | `0px`     | 4       |
-| `md`           | `768px`   | 8       |
-| `lg`           | `1024px`  | 12      |
-| `xl`           | `1280px`  | 12      |
-| `2xl`          | `1536px`  | 12      |
+| Breakpoint              | Min width | Columns |
+| ----------------------- | --------- | ------- |
+| _(default, unprefixed)_ | `0px`     | 4       |
+| `xs`                    | `480px`   | —       |
+| `sm`                    | `640px`   | —       |
+| `md`                    | `768px`   | 8       |
+| `lg`                    | `1024px`  | 12      |
+| `xl`                    | `1280px`  | 12      |
+| `2xl`                   | `1536px`  | 12      |
+
+There are six named breakpoints (`xs` through `2xl`), not five — `xs` and `sm` don't yet have an assigned grid column count.
 
 ### Grid System
 
 - Use `Grid` component from `@nexus/ui`.
 - Default gutter: `gap-space-6` (24px).
-- Container max‑widths are defined as tokens (see [Sizing & Container Tokens](https://claude.ai/chat/fe3d0a5e-5192-4270-832b-0a40a831e5e1#10-sizing--container-tokens)).
+- Container max‑widths are defined as tokens (see [Sizing & Container Tokens](#10-sizing--container-tokens)).
 
 ---
 
@@ -247,7 +251,7 @@ Complete type scale (sizes, line heights, letter spacing) in **[Tokens Reference
 | `max-w-content` | Default container                          |
 | `max-w-wide`    | Large containers (hero, featured sections) |
 
-Complete sizing tokens in **[Tokens Reference](https://claude.ai/chat/Tokens%20Reference.md)**.
+Complete sizing tokens in **[Tokens Reference](./Tokens Reference.md)**.
 
 ---
 
@@ -260,7 +264,7 @@ Complete sizing tokens in **[Tokens Reference](https://claude.ai/chat/Tokens%20R
 | `rounded-lg`   | Hero containers     |
 | `rounded-full` | Avatars, badges     |
 
-Values are intentionally larger than typical to support the soft‑glass aesthetic. For exact pixel values, see **[Tokens Reference](https://claude.ai/chat/Tokens%20Reference.md#7-border-radius-tokens)**.
+Values are intentionally larger than typical to support the soft‑glass aesthetic. For exact pixel values, see **[Tokens Reference](./Tokens Reference.md#7-border-radius-tokens)**.
 
 ---
 
@@ -273,7 +277,7 @@ Values are intentionally larger than typical to support the soft‑glass aesthet
 | `shadow-elevation-3` | Modals, dropdowns     |
 | `shadow-elevation-5` | Hero glass containers |
 
-Complete shadow tokens in **[Tokens Reference](https://claude.ai/chat/Tokens%20Reference.md)**.
+Complete shadow tokens in **[Tokens Reference](./Tokens Reference.md)**.
 
 ---
 
@@ -281,37 +285,44 @@ Complete shadow tokens in **[Tokens Reference](https://claude.ai/chat/Tokens%20R
 
 **Rule:** No `backdrop-filter` ever. Glass is achieved through dedicated tokens:
 
-| Token                  | Usage                               |
-| ---------------------- | ----------------------------------- |
-| `glass-surface-light`  | Light floating panels (white‑based) |
-| `glass-surface-medium` | Medium translucency                 |
-| `glass-border`         | Border for glass panels             |
-| `glass-shadow`         | Shadow for glass panels             |
+| Token                    | Usage                                  |
+| ------------------------ | -------------------------------------- |
+| `surface-glass`          | Default floating panel (white‑based)   |
+| `surface-glass-subtle`   | Lightest translucency                  |
+| `surface-glass-medium`   | Same weight as the default today       |
+| `surface-glass-card`     | Denser glass, for cards                |
+| `surface-glass-canopy`   | Glass tinted with the canopy accent    |
+| `glass-border`           | Border for glass panels                |
+| `glass-border-highlight` | Top/left edge highlight on glass       |
+| `glass-shadow`           | Shadow for glass panels                |
+| `glass-shadow-heavy`     | Heavier shadow for denser glass panels |
 
-These tokens are defined in **[Tokens Reference](https://claude.ai/chat/Tokens%20Reference.md)**.  
+These tokens are defined in **[Tokens Reference](./Tokens Reference.md)**.  
 Blur filters are **never** used for glass – they are reserved for image effects, glows, and loading states.
 
 ---
 
 ## 14. Z-Index Layering
 
-| Token        | Layer              |
-| ------------ | ------------------ |
-| `z-base`     | Default            |
-| `z-raised`   | Slightly raised    |
-| `z-sticky`   | Sticky headers     |
-| `z-dropdown` | Dropdown menus     |
-| `z-overlay`  | Backdrops          |
-| `z-modal`    | Modals, lightboxes |
-| `z-toast`    | Toasts             |
-| `z-loading`  | Full‑page loading  |
+| Token        | Layer              | Value |
+| ------------ | ------------------ | ----- |
+| `z-base`     | Default            | `0`   |
+| `z-raised`   | Slightly raised    | `10`  |
+| `z-dropdown` | Dropdown menus     | `100` |
+| `z-sticky`   | Sticky headers     | `200` |
+| `z-overlay`  | Backdrops          | `300` |
+| `z-modal`    | Modals, lightboxes | `400` |
+| `z-toast`    | Toasts             | `500` |
+| `z-loading`  | Full‑page loading  | `900` |
+
+Note the order: `z-dropdown` sits **below** `z-sticky`, not above it.
 
 ---
 
 ## 15. Icon System
 
 - **Library:** Lucide React.
-- **Sizes:** `icon-sm`, `icon-md`, `icon-lg`, `icon-xl` — see **[Tokens Reference](https://claude.ai/chat/Tokens%20Reference.md#17-icon-size-tokens)** for values.
+- **Sizes:** `icon-sm`, `icon-md`, `icon-lg`, `icon-xl` — see **[Tokens Reference](./Tokens Reference.md#17-icon-size-tokens)** for values.
 - **Stroke width:** `1.5px` (Lucide default).
 - **Colour:** Inherits current text colour unless overridden with token.
 
@@ -319,7 +330,7 @@ Blur filters are **never** used for glass – they are reserved for image effect
 
 ## 16. Touch Target Specification
 
-**All interactive elements must have a minimum hit area of 44×44px** (see `size-11` in **[Tokens Reference](https://claude.ai/chat/Tokens%20Reference.md#4-sizing-tokens)**).
+**All interactive elements must have a minimum hit area of 44×44px** (see `size-11` in **[Tokens Reference](./Tokens Reference.md#4-sizing-tokens)**).
 
 | Element             | Requirement                                                          |
 | ------------------- | -------------------------------------------------------------------- |
@@ -337,12 +348,12 @@ Blur filters are **never** used for glass – they are reserved for image effect
 
 Two libraries with clear boundaries:
 
-| Library           | Responsibility                                                                                                            |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| **Framer Motion** | Component‑level: scroll reveals, hover effects, layout animations, micro‑interactions, state transitions.                 |
-| **GSAP**          | Timeline‑based, cinematic sequences: crest drawing, page‑level ambient animations, coordinated multi‑element transitions. |
+| Library              | Responsibility                                                                                                                                                                                                                                                                                                                              |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Framer Motion**    | Component‑level: scroll reveals, hover effects, layout animations, micro‑interactions, state transitions.                                                                                                                                                                                                                                   |
+| **GSAP** _(planned)_ | Timeline‑based, cinematic sequences: crest drawing, page‑level ambient animations, coordinated multi‑element transitions. **Not yet a package dependency anywhere in the repo** — currently a documented intent only, referenced as a placeholder note in the admin design-system showcase page rather than actually installed or imported. |
 
-All durations, easings, and transform scales must use tokens (see **[Tokens Reference](https://claude.ai/chat/Tokens%20Reference.md)**).  
+All durations, easings, and transform scales must use tokens (see **[Tokens Reference](./Tokens Reference.md)**).  
 No custom inline timings or scale values.
 
 | Transform Token    | Value  | Usage               |
@@ -386,7 +397,7 @@ No custom inline timings or scale values.
 | Context            | Token                   |
 | ------------------ | ----------------------- |
 | Hero               | `aspect-hero` (16:9)    |
-| News cards         | `aspect-news` (16:9)    |
+| News cards         | `aspect-news` (4:3)     |
 | Staff profiles     | `aspect-portrait` (3:4) |
 | Gallery thumbnails | `aspect-square` (1:1)   |
 | Event featured     | `aspect-event` (16:7)   |
@@ -428,16 +439,16 @@ Nexus must meet **WCAG 2.1 Level AA**.
 
 ## 21. Component States & Tokens
 
-Every interactive component must define and use the following state tokens (see **[Tokens Reference](https://claude.ai/chat/Tokens%20Reference.md)** for values):
+Every interactive component must define and use the following state tokens (see **[Tokens Reference](./Tokens Reference.md)** for values):
 
-| State        | Tokens                                                      |
-| ------------ | ----------------------------------------------------------- |
-| **Default**  | base styles                                                 |
-| **Hover**    | `surface-hover`, `text-link-hover`, etc.                    |
-| **Focus**    | `focus-ring-color`, `focus-ring-width`, `focus-ring-offset` |
-| **Active**   | `scale-press`, `surface-active`                             |
-| **Disabled** | `opacity-disabled` (0.5), `surface-disabled`                |
-| **Loading**  | `opacity-loading` (0.6), skeleton colours                   |
+| State        | Tokens                                                                           |
+| ------------ | -------------------------------------------------------------------------------- |
+| **Default**  | base styles                                                                      |
+| **Hover**    | `surface-hover`, plus any hover treatment built from existing text/border tokens |
+| **Focus**    | `focus-ring-color`, `focus-ring-width`, `focus-ring-offset`                      |
+| **Active**   | `scale-press`, `surface-active`                                                  |
+| **Disabled** | `opacity-disabled` (0.5), `surface-disabled`                                     |
+| **Loading**  | `opacity-loading` (0.6), skeleton colours                                        |
 
 All state styles use tokens – no custom colours or scales.
 
@@ -545,8 +556,9 @@ Use Next.js `generateMetadata` pattern.
 
 | Package         | Ownership         | Responsibility                                                                                                 |
 | --------------- | ----------------- | -------------------------------------------------------------------------------------------------------------- |
-| `@nexus/config` | KITS              | **Tokens only** – colours, spacing, typography, motion, etc. No components.                                    |
-| `@nexus/ui`     | KITS              | **Reusable components** – all UI building blocks. Depends on `@nexus/config`.                                  |
+| `@nexus/tokens` | KITS              | **Tokens only** – colours, spacing, typography, motion, etc. No components.                                    |
+| `@nexus/config` | KITS              | Next.js, Tailwind, and font build configuration. Consumes `@nexus/tokens`; owns no token values itself.        |
+| `@nexus/ui`     | KITS              | **Reusable components** – all UI building blocks. Depends on `@nexus/tokens` and `@nexus/config`.              |
 | `apps/web`      | KITS              | **Composition only** – pages, data fetching, routing. Must not redefine tokens or duplicate shared components. |
 | `apps/admin`    | KITS (restricted) | **Admin Panel** – same rule: composition only, no token redefinition.                                          |
 
@@ -556,20 +568,27 @@ Use Next.js `generateMetadata` pattern.
 
 ## 29. Component Inventory
 
-All approved components are in `@nexus/ui`. Full catalogue in `Component Reference.md` (or Storybook).
+Most approved components are in `@nexus/ui`. Full catalogue in `Component Reference.md` (or Storybook). **`Footer` is the one notable exception** — it's composed directly in `apps/web/src/components/layout/`, not `@nexus/ui`, since it isn't reused anywhere else.
 
-| Category        | Components                                                                                                                 |
-| --------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| **Foundations** | (covered in this document)                                                                                                 |
-| **Navigation**  | Navbar, Footer, Breadcrumb, MobileMenu, NavLink, LanguageSwitcher                                                          |
-| **Layout**      | Container, Grid, GridItem, Stack, Drawer, Hero                                                                             |
-| **Cards**       | AcademicStreamCard, AchievementCard, EventCard, FacilityCard, GalleryAlbumCard, NewsCard, SocietyCard, StaffCard, StatCard |
-| **Forms**       | Input, Textarea, Select, Checkbox, Radio, Toggle, FileUploadZone, Slider, FormValidationSummary, RequirementsChecklist     |
-| **Feedback**    | Alert, Modal, Toast, ProgressIndicator, EmptyState, ErrorState, LoadingSkeleton                                            |
-| **Data**        | DataTable, Timeline, StatsStrip, ResultsDisplay, StreamComparisonTable, TimetableGrid, StudentJourneyFlow                  |
-| **Media**       | ImageFrame, VideoFrame, Lightbox, PanoramicFacilityViewer, AudioPlayer                                                     |
-| **Typography**  | Heading, Text, EyebrowLabel, QuoteBlock, SectionHeader, InlineLink, RichTextRenderer                                       |
-| **Utility**     | CountdownTimer, ShareSheet, BackToTopButton, ScrollProgressBar                                                             |
+| Category                 | Components                                                                                                                                                                                                                           |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Foundations**          | (covered in this document)                                                                                                                                                                                                           |
+| **Atoms**                | Avatar, Badge, Button, ButtonLink, InlineHelpText, ResultsGradeBadge, Tag, BeatLoader, ScaleLoader                                                                                                                                   |
+| **Navigation**           | Navigation, Breadcrumb, MobileMenu, NavLink, LanguageSwitcher, Accordion, FilterBar, Pagination, SearchInput, TableOfContents, Tabs                                                                                                  |
+| **Layout**               | Container, Divider, Grid, Hero, MasonryGrid, QuickAccessPortal, Stack                                                                                                                                                                |
+| **Cards**                | AcademicStreamCard, AchievementCard, DownloadableDocumentItem, EventCard, ExtracurricularCard, FacilityCard, GalleryAlbumCard, NewsCard, SocietyBanner, SocietyCard, StaffCard, StatCard                                             |
+| **Forms**                | Calendar, Checkbox, ContactForm, FeedbackForm, FileUploadZone, FormErrorMessage, FormFieldGroup, FormSectionWrapper, FormValidationSummary, Input, ProgressIndicator, Radio, RequirementsChecklist, Select, Slider, Textarea, Toggle |
+| **Feedback**             | Alert, AnnouncementBanner, Toast, CookieConsentBanner, EmptyState, ErrorState, LoadingScreen, LoadingSkeleton, NotFound, OfflineBanner                                                                                               |
+| **Overlays**             | Drawer, DropDownMenu, Modal, ShareSheet, ToolTip                                                                                                                                                                                     |
+| **Data & Visualization** | ComparisonBar, DataTable, ProcessSteps, ProgressArc, ResultsDisplay, StreamComparisonTable, StudentJourneyFlow, TimetableGrid                                                                                                        |
+| **Page Sections**        | AchievementTicker, AdmissionsKeyDatesTimeline, AdmissionsProcessSteps, AlumniLegacyBlock, LifeAtKCCPhotoStrip, PrincipalMessage, SectionErrorBoundary, SectionSlider, StatsStrip, Timeline                                           |
+| **Media**                | AudioPlayer, Caption, ImageFrame, Lightbox, MapEmbed, PanoramicFacilityViewer, VideoFrame                                                                                                                                            |
+| **Typography**           | Heading, Text, EyebrowLabel, QuoteBlock, SectionHeader, InlineLink, RichTextRenderer                                                                                                                                                 |
+| **Icons**                | Icon (Lucide wrapper), brand marks (CrestAnimation, CrestDiagram, SchoolLogo), social icon sets for Facebook/Instagram/LinkedIn/WhatsApp/YouTube/GitHub, each with multiple colour/style variants                                    |
+| **Effects**              | AmbientEmbers                                                                                                                                                                                                                        |
+| **Accessibility**        | SkipToContent                                                                                                                                                                                                                        |
+| **Utility**              | CountdownTimer, BackToTopButton, ScrollProgressBar                                                                                                                                                                                   |
+| **Dev-only**             | ComponentPlayground, SvgDebugGrid, TokensViewer — internal design-system showcase tools, not for product pages                                                                                                                       |
 
 Every component must have:
 
@@ -659,9 +678,9 @@ A release is considered complete when:
 
 ## Related Documentation
 
-- **[Design Tokens Reference](https://claude.ai/chat/Tokens%20Reference.md)** – Complete listing of all token values.
+- **[Design Tokens Reference](./Tokens Reference.md)** – Complete listing of all token values.
 - **Component Reference.md** – Full component catalogue and usage.
-- **[Page Specifications](https://claude.ai/chat/Page%20Specifications.md)** – Page layouts and content requirements.
+- **[Page Specifications](./Page Specifications.md)** – Page layouts and content requirements.
 
 ---
 

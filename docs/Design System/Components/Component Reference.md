@@ -30,6 +30,7 @@
    - [Gallery Blocks]
    - [Contact Blocks]
    - [Administration Blocks]
+   - [Alumni Blocks]
 4. [Web App Pages — `apps/web/src/app/[locale]`]
 5. [Admin Panel — UI Components]
 6. [Admin Panel — Pages]
@@ -43,15 +44,16 @@
 
 ### Atoms
 
-| Status | Component        | Notes                                                                                                    |
-| ------ | ---------------- | -------------------------------------------------------------------------------------------------------- |
-| ✅     | `BeatLoader`     | 3‑dot bounce loader. Sizes: `sm/md/lg`. Variants: `green/gold/muted`. Respects `prefers-reduced-motion`. |
-| ✅     | `ScaleLoader`    | 5‑bar wave loader. Same API as BeatLoader.                                                               |
-| ✅     | `Avatar`         | Circular avatar with image + initials fallback. Sizes: `xs/sm/md/lg/xl`.                                 |
-| ✅     | `Badge`          | Inline label. Variants: `category`, `status` (draft/published/archived/unread/reviewed), `achievement`.  |
-| ✅     | `Button`         | Primary action element — variants, sizes, loading state, icon slots, `href` for links.                   |
-| ✅     | `InlineHelpText` | Helper text below form fields.                                                                           |
-| ✅     | `Tag`            | Pill label for subjects, career paths, categories.                                                       |
+| Status | Component           | Notes                                                                                                                                       |
+| ------ | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| ✅     | `BeatLoader`        | 3‑dot bounce loader. Sizes: `sm/md/lg`. Variants: `green/gold/muted`. Respects `prefers-reduced-motion`.                                    |
+| ✅     | `ScaleLoader`       | 5‑bar wave loader. Same API as BeatLoader.                                                                                                  |
+| ✅     | `Avatar`            | Circular avatar with image + initials fallback. Sizes: `xs/sm/md/lg/xl`.                                                                    |
+| ✅     | `Badge`             | Inline label. Variants: `category`, `status` (draft/published/archived/unread/reviewed), `achievement`.                                     |
+| ✅     | `Button`            | Primary action element — variants, sizes, loading state, icon slots, `href` for links.                                                      |
+| ✅     | `InlineHelpText`    | Helper text below form fields.                                                                                                              |
+| ✅     | `ResultsGradeBadge` | Grade display badge (A/B/C/S/F style). For school-level aggregate pass-rate statistics only — not the abandoned per-student results lookup. |
+| ✅     | `Tag`               | Pill label for subjects, career paths, categories.                                                                                          |
 
 ---
 
@@ -148,17 +150,17 @@
 | ------ | ------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | ✅     | `Container`         | Max‑width centred wrapper with responsive padding.                                                                 |
 | ✅     | `Divider`           | Horizontal/vertical separator with gold accent variants.                                                           |
-| ✅     | `Footer`            | Site‑wide footer: logo, nav links, social icons, copyright, "Built by KITS".                                       |
 | ✅     | `Grid` / `GridItem` | CSS Grid wrapper with column/gap presets and responsive span utilities.                                            |
 | ✅     | `Hero`              | Full‑viewport / tall hero section wrapper with bg image/video support. Variants: `homepage`, `subpage`, `minimal`. |
 | ✅     | `MasonryGrid`       | Variable‑height masonry layout (gallery).                                                                          |
-| ✅     | `Navigation`        | Top nav bar: logo, nav links, language switcher, CTA. Responsive mobile menu.                                      |
 | ✅     | `QuickAccessPortal` | Floating quick‑access dock (Apply, Contact, etc.).                                                                 |
 | ✅     | `VStack` / `HStack` | Vertical/horizontal flex stack with gap presets.                                                                   |
 | 🔨     | `PageLayout`        | Standard page wrapper: `<Navigation>` + `{children}` + `<Footer>`.                                                 |
 | 🔨     | `SectionWrapper`    | Section with consistent top/bottom padding and optional `id`.                                                      |
 | 🔨     | `TwoColumnLayout`   | Main content + sidebar layout (news article, society detail).                                                      |
 | ⭐     | `StickyAside`       | Sticky sidebar for TableOfContents on long‑form pages.                                                             |
+
+> **Footer isn't listed above.** Unlike everything else in this document, `Footer` doesn't live in `packages/ui` — it's composed directly in `apps/web/src/components/layout/Footer.tsx`, since it isn't reused anywhere else in the platform. It's built (✅) — just not a shared-library component.
 
 ---
 
@@ -181,20 +183,21 @@
 
 ### Navigation Components
 
-| Status | Component          | Notes                                                                                               |
-| ------ | ------------------ | --------------------------------------------------------------------------------------------------- |
-| ✅     | `Accordion`        | Expand/collapse for FAQ sections.                                                                   |
-| ✅     | `Breadcrumb`       | Hierarchical page path with home link.                                                              |
-| ✅     | `FilterBar`        | Horizontal pill/tab filter row (news, gallery, events). Variants: `category‑tabs`, `year‑selector`. |
-| ✅     | `LanguageSwitcher` | EN / සිං / தமி locale toggle.                                                                       |
-| ✅     | `MobileMenu`       | Full‑screen mobile nav overlay.                                                                     |
-| ✅     | `NavLink`          | Internal/external link with active state (supports `onDark`, prefetch).                             |
-| ✅     | `Pagination`       | Page number controls with ellipsis and sibling count.                                               |
-| ✅     | `SearchInput`      | Search bar with icon, placeholder, clear, and dropdown results.                                     |
-| ✅     | `TableOfContents`  | Sticky in‑page section jump links.                                                                  |
-| ✅     | `Tabs`             | Horizontal tab group for content panels. Variants: `line`, `pills`.                                 |
-| ⭐     | `DropdownNav`      | Mega‑menu or grouped dropdown for desktop nav.                                                      |
-| ⭐     | `CommandPalette`   | Cmd+K style global search/navigation palette.                                                       |
+| Status | Component          | Notes                                                                                                                                                                                              |
+| ------ | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ✅     | `Accordion`        | Expand/collapse for FAQ sections.                                                                                                                                                                  |
+| ✅     | `Breadcrumb`       | Hierarchical page path with home link.                                                                                                                                                             |
+| ✅     | `FilterBar`        | Horizontal pill/tab filter row (news, gallery, events). Variants: `category‑tabs`, `year‑selector`.                                                                                                |
+| ✅     | `LanguageSwitcher` | EN / සිං / தமி locale toggle.                                                                                                                                                                      |
+| ✅     | `MobileMenu`       | Full‑screen mobile nav overlay.                                                                                                                                                                    |
+| ✅     | `NavLink`          | Internal/external link with active state (supports `onDark`, prefetch).                                                                                                                            |
+| ✅     | `Navigation`       | Top nav bar: logo, nav links, language switcher, CTA. Responsive mobile menu. (Listed under Layout in some earlier drafts — it actually lives in `navigation/`, alongside the rest of this table.) |
+| ✅     | `Pagination`       | Page number controls with ellipsis and sibling count.                                                                                                                                              |
+| ✅     | `SearchInput`      | Search bar with icon, placeholder, clear, and dropdown results.                                                                                                                                    |
+| ✅     | `TableOfContents`  | Sticky in‑page section jump links.                                                                                                                                                                 |
+| ✅     | `Tabs`             | Horizontal tab group for content panels. Variants: `line`, `pills`.                                                                                                                                |
+| ⭐     | `DropdownNav`      | Mega‑menu or grouped dropdown for desktop nav.                                                                                                                                                     |
+| ⭐     | `CommandPalette`   | Cmd+K style global search/navigation palette.                                                                                                                                                      |
 
 ---
 
@@ -292,73 +295,72 @@
 
 ### Visualization
 
-| Status | Component                 | Notes                                                                 |
-| ------ | ------------------------- | --------------------------------------------------------------------- |
-| ✅     | `ComparisonBar`           | Horizontal bar comparing two values (e.g. pass rates).                |
-| ✅     | `DataTable`               | Sortable/filterable table with pagination.                            |
-| ✅     | `ProcessSteps`            | Numbered step sequence (admissions, how to apply).                    |
-| ✅     | `ProgressArc`             | Circular arc progress for performance stats.                          |
-| ✅     | `StreamComparisonTable`   | Side‑by‑side A/L stream comparison (subjects, careers, requirements). |
-| ✅     | `StudentJourneyFlow`      | Visual flow: Grade 10 → Grade 11 → A/L (interactive diagram).         |
-| ✅     | `TimetableGrid`           | Weekly timetable display grid.                                        |
-| ⭐     | `PassRateChart`           | Bar/line chart for historical O/L and A/L pass rates.                 |
-| ⭐     | `UniversityEntranceChart` | Yearly university entrance count chart.                               |
-| ⭐     | `SubjectPopularityBar`    | Horizontal bar chart of subject enrolment by stream.                  |
+| Status | Component                 | Notes                                                                                                                |
+| ------ | ------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| ✅     | `ComparisonBar`           | Horizontal bar comparing two values (e.g. pass rates).                                                               |
+| ✅     | `ResultsDisplay`          | School-level aggregate O/L and A/L pass-rate display. Not the abandoned per-student results lookup — see note below. |
+| ✅     | `DataTable`               | Sortable/filterable table with pagination.                                                                           |
+| ✅     | `ProcessSteps`            | Numbered step sequence (admissions, how to apply).                                                                   |
+| ✅     | `ProgressArc`             | Circular arc progress for performance stats.                                                                         |
+| ✅     | `StreamComparisonTable`   | Side‑by‑side A/L stream comparison (subjects, careers, requirements).                                                |
+| ✅     | `StudentJourneyFlow`      | Visual flow: Grade 10 → Grade 11 → A/L (interactive diagram).                                                        |
+| ✅     | `TimetableGrid`           | Weekly timetable display grid.                                                                                       |
+| ⭐     | `PassRateChart`           | Bar/line chart for historical O/L and A/L pass rates.                                                                |
+| ⭐     | `UniversityEntranceChart` | Yearly university entrance count chart.                                                                              |
+| ⭐     | `SubjectPopularityBar`    | Horizontal bar chart of subject enrolment by stream.                                                                 |
+
+> **On "results":** the per-student results lookup portal (search by index number, view individual grades) was cut from scope entirely, and stays out of this document. That's a different thing from school-level aggregate pass-rate statistics (O/L and A/L pass rates as static, editable content) — `domains/results/` in `packages/contracts` still defines that, and `ResultsGradeBadge` / `ResultsDisplay` are its real, existing components. An earlier revision of this document removed both while removing the portal; that was an overcorrection, now fixed.
 
 ---
 
 ## 2. Hooks — `packages/ui/src/hooks`
 
-| Status | Hook                  | Description                                                               |
-| ------ | --------------------- | ------------------------------------------------------------------------- |
-| ✅     | `useActiveSection`    | Tracks which page section is in viewport (TableOfContents).               |
-| ✅     | `useCountUp`          | Animates a number from 0 to target. Supports easing, pause/resume, delay. |
-| ✅     | `useFormField`        | Generates IDs and described‑by attributes for form fields.                |
-| ✅     | `useInView`           | Returns `true` when element enters viewport (IntersectionObserver).       |
-| ✅     | `useLocalStorage`     | Persistent state via localStorage (cookie consent, locale pref).          |
-| ✅     | `useMediaQuery`       | Reactive CSS media query matcher.                                         |
-| ✅     | `useScrollDirection`  | Returns `'up'` or `'down'` for nav hide/show.                             |
-| ⭐     | `useDebounce`         | Debounces a value. Used in SearchInput and admin filtering.               |
-| ⭐     | `useClickOutside`     | Fires callback when click outside a ref element (dropdowns, modals).      |
-| ⭐     | `useOnlineStatus`     | Boolean `isOnline` — drives OfflineBanner.                                |
-| ⭐     | `useCopyToClipboard`  | Copy text, returns `{ copied, copy }`.                                    |
-| ⭐     | `usePagination`       | Page number, offset, limit calculations.                                  |
-| ⭐     | `useThrottle`         | Throttles a value or function call (scroll events).                       |
-| ⭐     | `usePrevious`         | Returns the previous render's value.                                      |
-| ⭐     | `useResizeObserver`   | Observes element dimension changes.                                       |
-| ⭐     | `useKeyboardShortcut` | Registers a keyboard shortcut with a callback.                            |
+| Status | Hook                  | Description                                                                                     |
+| ------ | --------------------- | ----------------------------------------------------------------------------------------------- |
+| ✅     | `useActiveSection`    | Tracks which page section is in viewport (TableOfContents).                                     |
+| ✅     | `useCountUp`          | Animates a number from 0 to target. Supports easing, pause/resume, delay.                       |
+| ✅     | `useFormField`        | Generates IDs and described‑by attributes for form fields.                                      |
+| ✅     | `useInView`           | Returns `true` when element enters viewport (IntersectionObserver).                             |
+| ✅     | `useLocalStorage`     | Persistent state via localStorage (cookie consent, locale pref).                                |
+| ✅     | `useLockBodyScroll`   | Locks `document.body` scroll while active — used by `Modal`/`Drawer` to stop background scroll. |
+| ✅     | `useMediaQuery`       | Reactive CSS media query matcher.                                                               |
+| ✅     | `useScrollDirection`  | Returns `'up'` or `'down'` for nav hide/show.                                                   |
+| ⭐     | `useDebounce`         | Debounces a value. Used in SearchInput and admin filtering.                                     |
+| ⭐     | `useClickOutside`     | Fires callback when click outside a ref element (dropdowns, modals).                            |
+| ⭐     | `useOnlineStatus`     | Boolean `isOnline` — drives OfflineBanner.                                                      |
+| ⭐     | `useCopyToClipboard`  | Copy text, returns `{ copied, copy }`.                                                          |
+| ⭐     | `usePagination`       | Page number, offset, limit calculations.                                                        |
+| ⭐     | `useThrottle`         | Throttles a value or function call (scroll events).                                             |
+| ⭐     | `usePrevious`         | Returns the previous render's value.                                                            |
+| ⭐     | `useResizeObserver`   | Observes element dimension changes.                                                             |
+| ⭐     | `useKeyboardShortcut` | Registers a keyboard shortcut with a callback.                                                  |
 
 ---
 
 ## 3. Page Blocks — `apps/web/src/blocks`
 
-> Each folder corresponds to a page’s sections. Files are composed from `packages/ui` primitives + page‑specific data.
+> **Status note:** an earlier revision of this document described a granular, per-page block breakdown (10–11 separately named blocks per page — `HomeHero`, `HomeStatsStrip`, `HomePrincipalMessage`, and so on) that reads as a target composition plan rather than a record of what's actually in the repo. In several folders (News, Events, Societies, Extracurriculars, Gallery) **no block files exist at all yet** — those pages are still placeholder-sized `page.tsx` stubs (see `Page Specifications.md`'s Page Status Tracking table). Where a folder does exist, the real files are fewer and differently named than previously documented. This revision lists what's actually in `apps/web/src/blocks/` today, and keeps the original per-page composition plan as a **Target composition** note wherever it still reflects real intent — worth keeping for whoever builds these next, just not presented as already-built.
 
 ---
 
 ### Home Blocks
 
-`apps/web/src/blocks/home/`
+`apps/web/src/blocks/home/` — 4 files, each 90–200 chars (placeholder-sized, matching the homepage's own placeholder status).
 
-| Status | Block                   | Description                                                                                                                     |
-| ------ | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| 🔨     | `HomeHero`              | Full‑viewport hero: carousel panels, CrestAnimation, AmbientEmbers, tagline, established year, dual CTAs ("Explore" + "Apply"). |
-| 🔨     | `HomeStatsStrip`        | Wraps `StatsStrip` with live counts: students, staff, years, university entrances.                                              |
-| 🔨     | `HomePrincipalMessage`  | Wraps `PrincipalMessage` section with CMS data.                                                                                 |
-| 🔨     | `HomeLatestNews`        | SectionHeader + NewsCard grid (3 latest) + "All News →" link.                                                                   |
-| 🔨     | `HomeAcademicStreams`   | SectionHeader + 4× AcademicStreamCard grid.                                                                                     |
-| 🔨     | `HomeLifeAtKCC`         | SectionHeader + LifeAtKCCPhotoStrip.                                                                                            |
-| 🔨     | `HomeAchievementTicker` | SectionHeader + AchievementTicker (auto‑scrolling).                                                                             |
-| 🔨     | `HomeSocietiesPreview`  | SectionHeader + 4 SocietyCard grid + "All Societies →".                                                                         |
-| 🔨     | `HomeUpcomingEvents`    | SectionHeader + 3 EventCard row + "View All Events →".                                                                          |
-| 🔨     | `HomeQuickLinks`        | QuickAccessPortal visible block: Apply, Contact, Gallery.                                                                       |
-| ⭐     | `HomeAnnouncements`     | Inline announcement cards for active school notices.                                                                            |
+| Status | Block                 | Notes |
+| ------ | --------------------- | ----- |
+| 🔨     | `HeroBlock`           | Stub. |
+| 🔨     | `LatestNewsBlock`     | Stub. |
+| 🔨     | `QuickAccessBlock`    | Stub. |
+| 🔨     | `UpcomingEventsBlock` | Stub. |
+
+**Target composition** (not yet broken out into separate files): full-viewport hero, stats strip, principal's message, latest news grid, academic streams grid, Life at KCC photo strip, achievement ticker, societies preview, quick-access links, and an announcements block.
 
 ---
 
 ### About Blocks
 
-`apps/web/src/blocks/about/` — **All 12 blocks built.**
+`apps/web/src/blocks/about/` — 12 real, substantial blocks (267–1684 chars each), plus **4 orphaned stub files that appear to be dead code**: `EthosBlock.tsx` (77 chars), `NamesakeBlock.tsx` (129 chars), `SchoolAnthemBlock.tsx` (114 chars), and `SchoolStoryBlock.tsx` (110 chars) sit alongside the real, working `Ethos.tsx`, `OurNameSake.tsx`, `SchoolAnthem.tsx`, and `OurStory.tsx` — same concept, "Block"-suffixed name, a fraction of the size. These look like leftovers from a rename that were never deleted; worth a cleanup PR.
 
 | Status | Block              | Description                                                                 |
 | ------ | ------------------ | --------------------------------------------------------------------------- |
@@ -379,238 +381,176 @@
 
 ### Academics Blocks
 
-`apps/web/src/blocks/academics/`
+`apps/web/src/blocks/academics/` — 5 real files, reasonably built out (334–2079 chars).
 
-| Status | Block                            | Description                                                                                   |
-| ------ | -------------------------------- | --------------------------------------------------------------------------------------------- |
-| 🔨     | `AcademicsHero`                  | Hero: eyebrow "Academic Excellence", title, subtitle.                                         |
-| 🔨     | `AcademicsCurriculumOverview`    | O/L (Grade 6–11) and A/L (Grade 12–13) structure overview.                                    |
-| 🔨     | `AcademicsStreamsGrid`           | 4× AcademicStreamCard: Science / Commerce / Arts / Technology.                                |
-| 🔨     | `AcademicsStreamDetail`          | Per‑stream deep dive: subjects, career paths, requirements, entry criteria.                   |
-| 🔨     | `AcademicsComparisonSection`     | Wraps StreamComparisonTable with heading and context copy.                                    |
-| 🔨     | `AcademicsStudentJourneySection` | Wraps StudentJourneyFlow with explanatory text.                                               |
-| 🔨     | `AcademicsPerformanceSection`    | Historical O/L & A/L pass rates, university entrance stats. Uses PassRateChart + ProgressArc. |
-| 🔨     | `AcademicsSubjectList`           | Per‑stream subject grid with Tag pills.                                                       |
-| ⭐     | `AcademicsTeachingPhilosophy`    | Short section on the school's academic approach.                                              |
+| Status | Block                | Notes                                                                       |
+| ------ | -------------------- | --------------------------------------------------------------------------- |
+| ✅     | `AcademicsHero`      | Hero section.                                                               |
+| ✅     | `AcademicsCTA`       | Call-to-action block.                                                       |
+| ✅     | `DepartmentContacts` | Department contact listing — the largest file in this folder (2,079 chars). |
+| ✅     | `StreamCards`        | Stream (Science/Commerce/Arts/Technology) card grid.                        |
+| ✅     | `StreamComparison`   | Stream comparison section.                                                  |
+
+**Target composition** (not yet separate files): a curriculum overview (O/L vs A/L structure), per-stream deep-dive detail, and a dedicated performance-statistics section — currently these live folded into the five blocks above rather than as their own files.
 
 ---
 
 ### Admissions Blocks
 
-`apps/web/src/blocks/admissions/`
+`apps/web/src/blocks/admissions/` — 2 files, both tiny stubs.
 
-| Status | Block                           | Description                                                                          |
-| ------ | ------------------------------- | ------------------------------------------------------------------------------------ |
-| 🔨     | `AdmissionsHero`                | Hero: eyebrow "Join the Legacy", title "Admissions".                                 |
-| 🔨     | `AdmissionsOverview`            | Grade‑level entry points: Grade 1 / Grade 6 / Other. Links to relevant sub‑sections. |
-| 🔨     | `AdmissionsProcessSection`      | Wraps AdmissionsProcessSteps with section heading.                                   |
-| 🔨     | `AdmissionsKeyDatesSection`     | Wraps AdmissionsKeyDatesTimeline.                                                    |
-| 🔨     | `AdmissionsRequirementsSection` | Wraps RequirementsChecklist — per grade level.                                       |
-| 🔨     | `AdmissionsFAQSection`          | Accordion FAQ — common admissions questions.                                         |
-| 🔨     | `AdmissionsEnquirySection`      | ContactForm variant with "Enquiry" heading + submission handling.                    |
-| 🔨     | `AdmissionsDownloadsSection`    | DownloadableDocumentItem list: application forms, prospectus, circulars.             |
-| ⭐     | `AdmissionsCountdownBanner`     | CountdownTimer for application deadline within page.                                 |
+| Status | Block               | Notes             |
+| ------ | ------------------- | ----------------- |
+| 🔨     | `ProcessBlock`      | Stub (120 chars). |
+| 🔨     | `RequirementsBlock` | Stub (69 chars).  |
+
+**Target composition**: hero, grade-level entry-point overview, process steps (wraps `AdmissionsProcessSteps`), key dates (wraps `AdmissionsKeyDatesTimeline`), requirements checklist, FAQ accordion, enquiry form, and a downloadable-documents section.
 
 ---
 
 ### News Blocks
 
-`apps/web/src/blocks/news/`
+`apps/web/src/blocks/news/` — **this folder doesn't exist yet.** `/en/news` and `/en/news/[slug]` are both placeholder-sized `page.tsx` stubs today.
 
-| Status | Block                 | Description                                                                  |
-| ------ | --------------------- | ---------------------------------------------------------------------------- |
-| 🔨     | `NewsHero`            | Minimal hero: eyebrow "Stay Informed", title "News & Announcements".         |
-| 🔨     | `NewsFeaturedArticle` | Large hero card for pinned/featured article — top of news listing.           |
-| 🔨     | `NewsFilterSearchBar` | FilterBar (All / Academic / Sports / Events / Achievements) + SearchInput.   |
-| 🔨     | `NewsGrid`            | Responsive NewsCard grid — 3 col desktop, 2 tablet, 1 mobile.                |
-| 🔨     | `NewsPagination`      | Pagination controls below grid.                                              |
-| 🔨     | `ArticleHero`         | Single‑article hero: large image, title, category badge, date, read time.    |
-| 🔨     | `ArticleMeta`         | Inline author, date, category, read time. Appears below hero.                |
-| 🔨     | `ArticleBody`         | RichTextRenderer in a `max‑w‑prose` two‑column layout with optional sidebar. |
-| 🔨     | `ArticleShareSection` | ShareSheet + CopyToClipboardButton.                                          |
-| 🔨     | `ArticleRelated`      | "More from KCC" — 3× RelatedArticleCard.                                     |
+**Target composition**: hero, featured-article block, filter/search bar, paginated news grid, and — for the article page — hero, meta line, rich-text body, share section, and a related-articles block.
 
 ---
 
 ### Events Blocks
 
-`apps/web/src/blocks/events/`
+`apps/web/src/blocks/events/` — **this folder doesn't exist yet.** `/en/events` and `/en/events/[slug]` are both placeholder-sized stubs.
 
-| Status | Block                  | Description                                                         |
-| ------ | ---------------------- | ------------------------------------------------------------------- |
-| 🔨     | `EventsHero`           | Minimal hero with filter tabs inline.                               |
-| 🔨     | `EventsNextHighlight`  | Featured next major event: large card with CountdownTimer.          |
-| 🔨     | `EventsFilterBar`      | FilterBar: Upcoming / Past / category tabs.                         |
-| 🔨     | `EventsGrid`           | Responsive EventCard grid with Pagination.                          |
-| 🔨     | `EventDetailHero`      | Single event: large banner, title, date/time, venue.                |
-| 🔨     | `EventDetailBody`      | RichTextRenderer for event description.                             |
-| 🔨     | `EventDetailMeta`      | Structured meta: organiser, location (MapEmbed), registration link. |
-| 🔨     | `EventDetailShare`     | ShareSheet for event URL.                                           |
-| 🔨     | `EventDetailRelated`   | 3× EventCard — other upcoming events.                               |
-| ⭐     | `EventsCalendarToggle` | Toggle between grid view and calendar view (Calendar component).    |
+**Target composition**: hero with inline filter tabs, a next-event highlight with countdown, filterable event grid, and — for the detail page — hero, rich-text body, structured meta (organiser/venue/map), share section, and related events.
 
 ---
 
 ### Societies Blocks
 
-`apps/web/src/blocks/societies/`
+`apps/web/src/blocks/societies/` — **this folder doesn't exist yet.** `/en/societies` and `/en/societies/[slug]` are both placeholder-sized stubs.
 
-| Status | Block                      | Description                                                       |
-| ------ | -------------------------- | ----------------------------------------------------------------- |
-| 🔨     | `SocietiesHero`            | Hero: eyebrow "Beyond the Classroom", title "Societies at KCC".   |
-| 🔨     | `SocietiesFeaturedBanner`  | KITS society SocietyBanner with tagline + join CTA.               |
-| 🔨     | `SocietiesHub`             | FilterBar + SocietyCard grid for all societies.                   |
-| 🔨     | `SocietyDetailHero`        | Individual society page hero: logo, name, tagline, founding year. |
-| 🔨     | `SocietyAboutSection`      | About section with RichTextRenderer.                              |
-| 🔨     | `SocietyActivitiesSection` | Regular activities / projects grid.                               |
-| 🔨     | `SocietyTeamSection`       | Advisor StaffCard + student leader Avatar list.                   |
-| 🔨     | `SocietyGallerySection`    | GalleryAlbumCard grid (society‑specific albums).                  |
-| 🔨     | `SocietyEventsSection`     | Upcoming EventCard list for the society.                          |
-| ⭐     | `SocietyJoinForm`          | Inline expression‑of‑interest form.                               |
+**Target composition**: hub hero, featured-society banner, filterable society grid, and — for the detail page — hero, about section, activities grid, team section, gallery section, and upcoming events.
 
 ---
 
 ### Facilities Blocks
 
-`apps/web/src/blocks/facilities/`
+`apps/web/src/blocks/facilities/` — 4 real files, reasonably built out (257–1065 chars).
 
-| Status | Block                      | Description                                                         |
-| ------ | -------------------------- | ------------------------------------------------------------------- |
-| 🔨     | `FacilitiesHero`           | Hero: eyebrow "Campus & Infrastructure", title "Facilities".        |
-| 🔨     | `FacilitiesGrid`           | FacilityCard grid — all 7 named facilities.                         |
-| 🔨     | `FacilitySpotlightSection` | Featured facility with PanoramicFacilityViewer or large ImageFrame. |
-| 🔨     | `FacilitiesMapSection`     | MapEmbed (campus map) + transport/directions text.                  |
-| ⭐     | `FacilitiesVirtualTour`    | Linked CTA or embed for a full virtual campus tour.                 |
+| Status | Block             | Notes                           |
+| ------ | ----------------- | ------------------------------- |
+| ✅     | `FacilitiesHero`  | Hero section.                   |
+| ✅     | `FacilitiesGrid`  | Facility card grid.             |
+| ✅     | `FacilitiesCTA`   | Call-to-action block.           |
+| ✅     | `FacilitiesStats` | Facilities-related stats block. |
+
+**Target composition** (not yet separate files): a featured-facility spotlight (using `PanoramicFacilityViewer`) and a dedicated map/directions section.
 
 ---
 
 ### Extracurriculars Blocks
 
-`apps/web/src/blocks/extracurriculars/`
+`apps/web/src/blocks/extracurriculars/` — **this folder doesn't exist yet.** `/en/extracurriculars` is a placeholder-sized stub.
 
-| Status | Block                                   | Description                                                         |
-| ------ | --------------------------------------- | ------------------------------------------------------------------- |
-| 🔨     | `ExtracurricularsHero`                  | Hero: eyebrow "Head, Heart, Hand", title "Extracurriculars".        |
-| 🔨     | `ExtracurricularsSportsSection`         | ExtracurricularCard grid for all sports.                            |
-| 🔨     | `ExtracurricularsPerformingArtsSection` | ExtracurricularCard grid for performing arts (dance, drama, music). |
-| 🔨     | `ExtracurricularsScoutsSection`         | Scouts group info, activities, achievements.                        |
-| 🔨     | `ExtracurricularsCadetsSection`         | NCC (National Cadet Corps) info, parades, achievements.             |
-| 🔨     | `ExtracurricularsAchievementsSection`   | Combined achievements ticker / grid.                                |
-| ⭐     | `ExtracurricularsJoinCTA`               | Join / express interest CTA block.                                  |
+**Target composition**: hero, and grouped sections for sports, performing arts, scouts, and the National Cadet Corps, each built from `ExtracurricularCard`.
 
 ---
 
 ### Gallery Blocks
 
-`apps/web/src/blocks/gallery/`
+`apps/web/src/blocks/gallery/` — **this folder doesn't exist yet.** `/en/gallery` and `/en/gallery/[albumSlug]` are both placeholder-sized stubs.
 
-| Status | Block                  | Description                                                |
-| ------ | ---------------------- | ---------------------------------------------------------- |
-| 🔨     | `GalleryHero`          | Hero: eyebrow "Moments in Time", title "Gallery".          |
-| 🔨     | `GalleryFilterSection` | FilterBar: All / Events / Sports / Academic / Cultural.    |
-| 🔨     | `GalleryAlbumsGrid`    | Responsive GalleryAlbumCard grid + Pagination.             |
-| 🔨     | `AlbumHero`            | Individual album hero: title, category, date, photo count. |
-| 🔨     | `AlbumMasonrySection`  | MasonryGrid of ImageFrame + Lightbox integration.          |
-| 🔨     | `AlbumRelatedSection`  | "More Albums" — 3× GalleryAlbumCard.                       |
+**Target composition**: hero, filter bar, album grid, and — for the individual album page — an album hero, masonry photo grid with lightbox, and a related-albums section.
 
 ---
 
 ### Contact Blocks
 
-`apps/web/src/blocks/contact/`
+`apps/web/src/blocks/contact/` — 3 real files, well built out (330–4312 chars).
 
-| Status | Block                          | Description                                              |
-| ------ | ------------------------------ | -------------------------------------------------------- |
-| 🔨     | `ContactHero`                  | Hero: eyebrow "Get in Touch", title "Contact Us".        |
-| 🔨     | `ContactDepartmentsSection`    | Department contact grid — StaffCard per department head. |
-| 🔨     | `ContactGeneralEnquirySection` | ContactForm + submission feedback.                       |
-| 🔨     | `ContactFeedbackSection`       | FeedbackForm for complaints / feedback.                  |
-| 🔨     | `ContactOfficeHoursSection`    | Office hours structured display.                         |
-| 🔨     | `ContactEmergencySection`      | Emergency contacts: principal, admin, security.          |
-| 🔨     | `ContactDirectionsSection`     | MapEmbed + written transport / bus route instructions.   |
+| Status | Block                | Notes                                                                                                                                                                                       |
+| ------ | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ✅     | `ContactHero`        | Hero section.                                                                                                                                                                               |
+| ✅     | `ContactCTA`         | Call-to-action block.                                                                                                                                                                       |
+| ✅     | `ContactInfoSection` | The largest block in the whole `blocks/` tree (4,312 chars) — department contacts, map, forms, office hours, and transport info combined into one section rather than split across several. |
 
 ---
 
 ### Administration Blocks
 
-`apps/web/src/blocks/administration/`
+`apps/web/src/blocks/administration/` — 5 real files, well built out (344–1416 chars).
 
-| Status | Block                     | Description                                                |
-| ------ | ------------------------- | ---------------------------------------------------------- |
-| 🔨     | `AdministrationHero`      | Hero: eyebrow "School Leadership", title "Administration". |
-| 🔨     | `PrincipalProfileSection` | Large featured StaffCard for principal with extended bio.  |
-| 🔨     | `DeputyPrincipalsSection` | StaffCard grid for deputy principals.                      |
-| 🔨     | `DepartmentHeadsSection`  | StaffCard grid for HODs per department.                    |
-| 🔨     | `SchoolStructureSection`  | Org chart or text‑based authority structure.               |
-| ⭐     | `AdvisoryBoardSection`    | School development advisory board members.                 |
+| Status | Block                   | Notes                                      |
+| ------ | ----------------------- | ------------------------------------------ |
+| ✅     | `AdministrationHero`    | Hero section.                              |
+| ✅     | `PrincipalSection`      | Principal profile block.                   |
+| ✅     | `AdvisoryBoardSection`  | School development advisory board section. |
+| ✅     | `StaffGridSection`      | Deputy/assistant principal and staff grid. |
+| ✅     | `AdministrationContact` | Contact block for the administration page. |
 
 ---
+
+### Alumni Blocks
+
+`apps/web/src/blocks/alumni/` — 1 file, a tiny stub. **This folder existed in the codebase but had no entry anywhere in this document's Table of Contents — added here.**
+
+| Status | Block                | Notes                                                                                                 |
+| ------ | -------------------- | ----------------------------------------------------------------------------------------------------- |
+| 🔨     | `SubmitProfileBlock` | Stub (106 chars) — an alumni profile submission form, matching `/en/alumni`'s own placeholder status. |
 
 ## 4. Web App Pages
 
 `apps/web/src/app/[locale]/`
 
-| Status | Route               | Notes                                                                                                         |
-| ------ | ------------------- | ------------------------------------------------------------------------------------------------------------- |
-| 🔨     | `/`                 | **Home** — HomeHero, StatsStrip, PrincipalMessage, LatestNews, AcademicStreams, LifeAtKCC, Ticker, Societies. |
-| ✅     | `/about`            | **About KCC** — All 12 blocks built.                                                                          |
-| 🔨     | `/academics`        | **Academics** — All academics blocks.                                                                         |
-| 🔨     | `/admissions`       | **Admissions** — All admissions blocks.                                                                       |
-| 🔨     | `/news`             | **News Listing** — Hero, FilterSearch, FeaturedArticle, Grid, Pagination.                                     |
-| 🔨     | `/news/[slug]`      | **News Article** — ArticleHero, Meta, Body, Share, Related.                                                   |
-| 🔨     | `/events`           | **Events Listing** — Hero, NextHighlight, FilterBar, Grid, Pagination.                                        |
-| 🔨     | `/events/[slug]`    | **Event Detail** — DetailHero, Body, Meta, Share, Related.                                                    |
-| 🔨     | `/societies`        | **Societies Hub** — Hero, Featured (KITS), Hub grid.                                                          |
-| 🔨     | `/societies/[slug]` | **Society Detail** — All society detail blocks.                                                               |
-| 🔨     | `/facilities`       | **Facilities** — Hero, Grid, Spotlight, MapSection.                                                           |
-| 🔨     | `/extracurriculars` | **Extracurriculars** — Hero + 4 category sections + Achievements.                                             |
-| 🔨     | `/gallery`          | **Gallery Hub** — Hero, FilterSection, AlbumsGrid.                                                            |
-| 🔨     | `/gallery/[album]`  | **Album View** — AlbumHero, MasonrySection, RelatedSection.                                                   |
-| 🔨     | `/contact`          | **Contact** — Hero, Departments, Enquiry form, Feedback form, Hours, Emergency, Map.                          |
-| 🔨     | `/administration`   | **Administration** — Hero, Principal profile, Deputies, HODs.                                                 |
-| ⭐     | `/search`           | **Unified Search** — Single query across all content types, results grouped by type, ranked by relevance.     |
-| ⭐     | `/achievements`     | **Achievements Archive** — Full archive of AchievementCard posts.                                             |
-| ⭐     | `/alumni`           | **Alumni** — AlumniCard grid, submission form, legacy stories.                                                |
-| ⭐     | `/digital-archive`  | **Digital Archive** — Historical photographs, archived magazines (searchable PDF metadata), prefect lists.    |
-| ⭐     | `/privacy-policy`   | **Privacy Policy** — RichTextRenderer on a CMS‑authored doc.                                                  |
-| ⭐     | `/terms`            | **Terms** — RichTextRenderer on a CMS‑authored doc.                                                           |
+| Status | Route                  | Notes                                                                                                                                                                                                     |
+| ------ | ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 🔨     | `/`                    | **Home** — placeholder page (`HeroBlock`, `LatestNewsBlock`, `QuickAccessBlock`, `UpcomingEventsBlock`, all stub-sized). See Page Blocks §Home for the target composition.                                |
+| ✅     | `/about`               | **About KCC** — All 12 blocks built.                                                                                                                                                                      |
+| ✅     | `/academics`           | **Academics** — built (`AcademicsHero`, `AcademicsCTA`, `DepartmentContacts`, `StreamCards`, `StreamComparison`).                                                                                         |
+| 🔨     | `/admissions`          | **Admissions** — placeholder page; blocks folder has only two stub files.                                                                                                                                 |
+| 🔨     | `/news`                | **News Listing** — placeholder page; no blocks folder exists yet.                                                                                                                                         |
+| 🔨     | `/news/[slug]`         | **News Article** — placeholder page.                                                                                                                                                                      |
+| 🔨     | `/events`              | **Events Listing** — placeholder page; no blocks folder exists yet.                                                                                                                                       |
+| 🔨     | `/events/[slug]`       | **Event Detail** — placeholder page.                                                                                                                                                                      |
+| 🔨     | `/societies`           | **Societies Hub** — placeholder page; no blocks folder exists yet.                                                                                                                                        |
+| 🔨     | `/societies/[slug]`    | **Society Detail** — placeholder page.                                                                                                                                                                    |
+| ✅     | `/facilities`          | **Facilities** — built (`FacilitiesHero`, `FacilitiesGrid`, `FacilitiesCTA`, `FacilitiesStats`).                                                                                                          |
+| 🔨     | `/extracurriculars`    | **Extracurriculars** — placeholder page; no blocks folder exists yet.                                                                                                                                     |
+| 🔨     | `/gallery`             | **Gallery Hub** — placeholder page; no blocks folder exists yet.                                                                                                                                          |
+| 🔨     | `/gallery/[albumSlug]` | **Album View** — placeholder page.                                                                                                                                                                        |
+| ✅     | `/contact`             | **Contact** — built (`ContactHero`, `ContactCTA`, `ContactInfoSection`).                                                                                                                                  |
+| ✅     | `/administration`      | **Administration** — built (`AdministrationHero`, `PrincipalSection`, `AdvisoryBoardSection`, `StaffGridSection`, `AdministrationContact`).                                                               |
+| 🔨     | `/search`              | **Unified Search** — placeholder page. Target: single query across all content types, results grouped by type, ranked by relevance.                                                                       |
+| 🔨     | `/achievements`        | **Achievements Archive** — placeholder page. Target: full archive of `AchievementCard` posts.                                                                                                             |
+| 🔨     | `/alumni`              | **Alumni** — placeholder page; blocks folder has one stub file (`SubmitProfileBlock`). Target: `AlumniCard` grid, submission form, legacy stories.                                                        |
+| 🔨     | `/archive`             | **Digital Archive** — placeholder page (route is `archive`, not `digital-archive`). Target: historical photographs, archived magazines (searchable PDF metadata), prefect lists.                          |
+| ⭐     | `/privacy-policy`      | **Privacy Policy** — no route exists yet. Target: RichTextRenderer on a CMS‑authored doc. Not yet listed in `Page Specifications.md`'s Route Structure either — worth adding there when this gets scoped. |
+| ⭐     | `/terms`               | **Terms** — no route exists yet. Target: RichTextRenderer on a CMS‑authored doc. Same gap as above.                                                                                                       |
 
 ---
 
 ## 5. Admin Panel — UI Components
 
-`apps/admin/src/components/`
+> **Status note:** `apps/admin/src/components/` — the folder this section was originally documenting — is actually **empty** (just a `.gitkeep`). The real admin-specific components live in `apps/admin/src/features/`, organized by feature domain (`auth/`, `content-preview/`, `editor/`, `media/`, `page-content/`, `shell/`) rather than as a flat, "Admin"-prefixed component list. Every real file here is small (67–465 chars) — skeleton-level, not fully built out. The previously-documented component set below is kept as a **Target** list since the naming still communicates real intent, mapped to its closest real counterpart where one exists.
 
-> These are admin‑specific — not in `packages/ui`. Not needed by the public web app.
+`apps/admin/src/features/`
 
-| Status | Component                 | Notes                                                                                      |
-| ------ | ------------------------- | ------------------------------------------------------------------------------------------ |
-| 🔨     | `AdminLayout`             | Root layout: `AdminSidebar` + `AdminTopBar` + `{children}`.                                |
-| 🔨     | `AdminSidebar`            | Left nav with section groups: Content, Media, Settings. Collapsible.                       |
-| 🔨     | `AdminTopBar`             | Top bar: breadcrumb, notification bell, user avatar + dropdown.                            |
-| 🔨     | `AdminPageHeader`         | Page‑level header: title + primary action button (e.g. "New Article").                     |
-| 🔨     | `AdminStatCard`           | Dashboard KPI card: icon, metric, label, trend indicator.                                  |
-| 🔨     | `AdminDataTable`          | Extended DataTable with: row checkboxes, actions column, bulk‑select, inline status badge. |
-| 🔨     | `AdminBulkActionsBar`     | Slides up when rows selected: count + Publish / Archive / Delete.                          |
-| 🔨     | `AdminFilterSidebar`      | Left filter panel for list pages (status, date range, category).                           |
-| 🔨     | `AdminSearchBar`          | Debounced search for admin list pages.                                                     |
-| 🔨     | `AdminEmptyState`         | Admin‑specific empty state (no content yet / no search results).                           |
-| 🔨     | `AdminConfirmDialog`      | Destructive‑action confirm modal (wraps `ConfirmDialog`).                                  |
-| 🔨     | `AdminBreadcrumb`         | Path breadcrumb for admin pages.                                                           |
-| 🔨     | `ContentStatusBar`        | Draft / Published / Archived switcher + schedule timestamp.                                |
-| 🔨     | `RichTextEditor`          | WYSIWYG editor built on Tiptap, outputs Tiptap JSON.                                       |
-| 🔨     | `MediaLibrary`            | Browse/search all uploaded assets. Grid + list toggle. Select for insertion.               |
-| 🔨     | `MediaUploader`           | File upload zone → Cloudflare R2 (S3‑compatible API). Progress indicator, preview.         |
-| 🔨     | `ImageCropper`            | Crop tool for uploaded images (staff portraits, hero images).                              |
-| 🔨     | `SEOMetaPanel`            | SEO sidebar panel: meta title, description, OG image, canonical.                           |
-| 🔨     | `SlugInput`               | Auto‑generates slug from title. Editable, validates uniqueness.                            |
-| 🔨     | `SchedulePublishPanel`    | Calendar date picker to schedule future publish.                                           |
-| 🔨     | `AdminUserAvatar`         | Top‑right user avatar dropdown: profile, settings, logout.                                 |
-| ⭐     | `ActivityLog`             | Audit trail feed for content changes (who changed what, when).                             |
-| ⭐     | `VersionHistoryPanel`     | Sidebar showing previous saves of a content item with restore option.                      |
-| ⭐     | `AdminNotificationDrawer` | In‑app notifications (new enquiry, new feedback, alumni profile submitted).                |
-| ⭐     | `ContentLockBanner`       | "Currently being edited by [user]" warning to prevent conflicts.                           |
-| ⭐     | `PreviewButton`           | Opens a draft preview of the public page in a new tab.                                     |
+| Status | Component                                 | Notes                                                                                                                                                               |
+| ------ | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 🔨     | `SessionProvider` _(auth/)_               | Auth session context provider. Skeleton (141 chars).                                                                                                                |
+| 🔨     | `PreviewButton` _(content-preview/)_      | Opens a draft preview of the public page in a new tab. Skeleton (179 chars).                                                                                        |
+| 🔨     | `MediaPickerPlugin` _(editor/)_           | Tiptap plugin for inserting media into rich text. Skeleton (129 chars).                                                                                             |
+| 🔨     | `RichTextEditor` _(editor/)_              | WYSIWYG editor built on Tiptap. Skeleton (197 chars).                                                                                                               |
+| 🔨     | `MediaLibraryPicker` _(media/)_           | Browse/select uploaded assets for insertion. Skeleton (204 chars).                                                                                                  |
+| 🔨     | `UploadZone` _(media/)_                   | File upload zone. Skeleton (197 chars).                                                                                                                             |
+| 🔨     | `PageContentEditor` _(page-content/)_     | Editor for a page's `ContentEntry` sections — the real engine behind `/content`. Skeleton (201 chars).                                                              |
+| 🔨     | `SectionVersionHistory` _(page-content/)_ | Previous-saves panel for a content section. Skeleton (122 chars).                                                                                                   |
+| 🔨     | `AdminShell` _(shell/)_                   | Root admin layout. Skeleton (203 chars).                                                                                                                            |
+| 🔨     | `AdminPlaceholder` _(shell/)_             | Generic placeholder shown on not-yet-built admin pages — the largest file in `features/` (465 chars), and likely what most stub pages in Section 6 actually render. |
+| 🔨     | `Sidebar` _(shell/)_                      | Left nav. Skeleton (128 chars).                                                                                                                                     |
+| 🔨     | `Topbar` _(shell/)_                       | Top bar. Skeleton (79 chars).                                                                                                                                       |
+| 🔨     | `Breadcrumb` _(shell/)_                   | Path breadcrumb. Skeleton (67 chars).                                                                                                                               |
+
+**Target components** (named in an earlier revision, no matching file exists yet): `AdminPageHeader`, `AdminStatCard`, `AdminDataTable`, `AdminBulkActionsBar`, `AdminFilterSidebar`, `AdminSearchBar`, `AdminEmptyState`, `AdminConfirmDialog`, `ContentStatusBar`, `ImageCropper`, `SEOMetaPanel`, `SlugInput`, `SchedulePublishPanel`, `AdminUserAvatar`, `ActivityLog`, `AdminNotificationDrawer`, `ContentLockBanner`.
 
 ---
 
@@ -618,58 +558,77 @@
 
 `apps/admin/src/app/`
 
-| Status | Route               | Description                                                                                                                                                                                                                                        |
-| ------ | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 🔨     | `/login`            | Admin login page. "Sign in with Google" restricted to `@cwwkcc.lk`, with a clear rejection message for other domains. A separate, deliberately unadvertised path leads to the break‑glass credentials login, used only for bootstrap and recovery. |
-| 🔨     | `/` (dashboard)     | Dashboard: 6× AdminStatCard, recent activity feed, quick links.                                                                                                                                                                                    |
-| 🔨     | `/news`             | News listing: AdminDataTable with filter + search + bulk actions.                                                                                                                                                                                  |
-| 🔨     | `/news/new`         | New article editor: title, slug, body (RichTextEditor), hero image, SEO panel, status.                                                                                                                                                             |
-| 🔨     | `/news/[id]`        | Edit article — same as new, pre‑filled. VersionHistory panel.                                                                                                                                                                                      |
-| 🔨     | `/events`           | Events listing: AdminDataTable.                                                                                                                                                                                                                    |
-| 🔨     | `/events/new`       | New event: title, slug, date/time, venue, body, registration link, hero image.                                                                                                                                                                     |
-| 🔨     | `/events/[id]`      | Edit event.                                                                                                                                                                                                                                        |
-| 🔨     | `/staff`            | Staff listing: AdminDataTable (name, role, department, status).                                                                                                                                                                                    |
-| 🔨     | `/staff/new`        | New staff member: name, designation, department, portrait upload, bio.                                                                                                                                                                             |
-| 🔨     | `/staff/[id]`       | Edit staff member.                                                                                                                                                                                                                                 |
-| 🔨     | `/societies`        | Societies listing: AdminDataTable.                                                                                                                                                                                                                 |
-| 🔨     | `/societies/new`    | New society: name, slug, description, logo, advisor (StaffCard select), events.                                                                                                                                                                    |
-| 🔨     | `/societies/[id]`   | Edit society.                                                                                                                                                                                                                                      |
-| 🔨     | `/gallery`          | Gallery albums: AdminDataTable + cover thumbnail.                                                                                                                                                                                                  |
-| 🔨     | `/gallery/new`      | New album: title, category, date, cover, photos upload (MediaUploader multi).                                                                                                                                                                      |
-| 🔨     | `/gallery/[id]`     | Edit album / manage photos: reorder, delete individual photos.                                                                                                                                                                                     |
-| 🔨     | `/admissions`       | Admissions enquiry inbox: table of ContactForm submissions with status.                                                                                                                                                                            |
-| 🔨     | `/admissions/[id]`  | Individual enquiry: full details + status update + notes.                                                                                                                                                                                          |
-| 🔨     | `/announcements`    | Announcement list: text, start date, end date, priority, active toggle.                                                                                                                                                                            |
-| 🔨     | `/settings`         | Site settings: contact info, social links, office hours, footer text.                                                                                                                                                                              |
-| 🔨     | `/settings/users`   | User management: invite, role (admin/editor), deactivate.                                                                                                                                                                                          |
-| ⭐     | `/analytics`        | Traffic dashboard: page views, top pages, search queries — pulled from self-hosted Umami, not GA4.                                                                                                                                                 |
-| ⭐     | `/achievements`     | Achievements management: add/edit achievement ticker items.                                                                                                                                                                                        |
-| ⭐     | `/alumni`           | Alumni submissions management: pending/approved/rejected queue, plus direct entry.                                                                                                                                                                 |
-| ⭐     | `/academics`        | Academic Programs admin screen: edit stream descriptions and subject lists. Fixed set of streams — no add or remove.                                                                                                                               |
-| ⭐     | `/extracurriculars` | Extracurriculars listing: AdminDataTable. Full CRUD — add, edit, and retire activities and teams.                                                                                                                                                  |
-| ⭐     | `/facilities`       | Facilities listing: AdminDataTable. Full CRUD — add, edit, and reorder facilities.                                                                                                                                                                 |
-| ⭐     | `/archive`          | Digital Archive: upload and catalogue historical photographs, magazines, and prefect lists by year and category.                                                                                                                                   |
+| Status | Route                                                                  | Notes                                                                                                                                                                                                                 |
+| ------ | ---------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 🔨     | `/login`                                                               | Admin login page (390 chars — skeleton). "Sign in with Google" restricted to `@cwwkcc.lk` is the design intent; a separate, deliberately unadvertised break-glass credentials path is planned for bootstrap/recovery. |
+| 🔨     | `/` (dashboard)                                                        | Dashboard (351 chars — skeleton).                                                                                                                                                                                     |
+| ✅     | `/content`                                                             | Page-content list — real and substantial (3,739 chars). This is the actual CMS entry point: pick one of the 13 registered pages to edit its sections.                                                                 |
+| ✅     | `/content/[pageKey]`                                                   | Edit a page's sections — the largest real admin page (6,436 chars), built on `PageContentEditor`.                                                                                                                     |
+| 🔨     | `/news`, `/news/new`, `/news/[id]`                                     | Skeleton pages (326–344 chars each).                                                                                                                                                                                  |
+| 🔨     | `/events`, `/events/new`, `/events/[id]`                               | Skeleton pages (188–243 chars each).                                                                                                                                                                                  |
+| 🔨     | `/staff`, `/staff/new`, `/staff/[id]`                                  | Skeleton pages (209–266 chars each).                                                                                                                                                                                  |
+| 🔨     | `/societies`, `/societies/new`, `/societies/[id]`                      | Skeleton pages (193–214 chars each).                                                                                                                                                                                  |
+| 🔨     | `/gallery`, `/gallery/new`, `/gallery/[albumId]`                       | Skeleton pages (226–282 chars each). Route param is `[albumId]`, not `[id]`.                                                                                                                                          |
+| 🔨     | `/announcements`, `/announcements/new`, `/announcements/[id]`          | Skeleton pages (197–243 chars each).                                                                                                                                                                                  |
+| 🔨     | `/extracurriculars`, `/extracurriculars/new`, `/extracurriculars/[id]` | Skeleton pages (203–211 chars each).                                                                                                                                                                                  |
+| 🔨     | `/facilities`, `/facilities/new`, `/facilities/[id]`                   | Skeleton pages (190–222 chars each).                                                                                                                                                                                  |
+| 🔨     | `/achievements`, `/achievements/new`, `/achievements/[id]`             | Skeleton pages (195–226 chars each).                                                                                                                                                                                  |
+| 🔨     | `/alumni`, `/alumni/[id]`                                              | Skeleton pages (220–334 chars each).                                                                                                                                                                                  |
+| 🔨     | `/archive`, `/archive/new`, `/archive/[id]`                            | Skeleton pages (192–245 chars each).                                                                                                                                                                                  |
+| 🔨     | `/academic-programs`                                                   | Academic Programs admin screen (440 chars). Route is `academic-programs`, not `academics` as an earlier revision had it.                                                                                              |
+| 🔨     | `/analytics`                                                           | Traffic dashboard (314 chars — skeleton). Target: pulled from self-hosted Umami, not GA4.                                                                                                                             |
+| 🔨     | `/audit`                                                               | Audit log (307 chars — skeleton). Wasn't listed in an earlier revision at all.                                                                                                                                        |
+| 🔨     | `/auth/setup-totp`                                                     | Two-factor auth setup (341 chars — skeleton). Wasn't listed in an earlier revision at all.                                                                                                                            |
+| 🔨     | `/pages`                                                               | Listing across the 13 registered pages (220 chars — skeleton). Wasn't listed in an earlier revision at all.                                                                                                           |
+| 🔨     | `/media`                                                               | Media library (317 chars — skeleton).                                                                                                                                                                                 |
+| 🔨     | `/settings`                                                            | Site settings (328 chars — skeleton).                                                                                                                                                                                 |
+| 🔨     | `/users`, `/users/[id]`                                                | User management (202–300 chars). This is a top-level route, not nested under `/settings/users` as an earlier revision had it.                                                                                         |
+
+There is **no `/admissions` route** in the admin app — an earlier revision documented an admissions-enquiry inbox here that doesn't exist in the codebase.
 
 ---
 
 ## 7. Accessibility & Infrastructure
 
-| Status | Component / Item         | Notes                                                                                         |
-| ------ | ------------------------ | --------------------------------------------------------------------------------------------- |
-| ⭐     | `SkipToContent`          | Hidden `<a href="#main-content">` that appears on focus — WCAG requirement.                   |
-| ⭐     | `A11yLiveRegion`         | `aria‑live` region for screen reader announcements (search results, form feedback).           |
-| 🔨     | `FocusTrap`              | Traps focus inside active modal/drawer — built into `Modal` and `Drawer`, verify is complete. |
-| ⭐     | `SchemaMarkup`           | JSON‑LD components: `Organization`, `School`, `Event`, `Article`. Injected per page.          |
-| ⭐     | `OpenGraphMeta`          | Per‑page OG: title, description, image, locale. Uses `next/head` or metadata API.             |
-| ⭐     | `LocaleAwareDateDisplay` | Formats dates per active locale (EN/SI/TA) using `Intl.DateTimeFormat`.                       |
-| ⭐     | `SinhalaFontLoader`      | Loads Noto Sans Sinhala + Iskola Pota on SI locale activation.                                |
-| ⭐     | `TamilFontLoader`        | Loads Noto Sans Tamil on TA locale activation.                                                |
-| ⭐     | `ColorSchemeScript`      | Prevents flash of wrong colour scheme on load.                                                |
-| ⭐     | `ServiceWorker`          | PWA offline caching — static assets + last‑visited pages.                                     |
-| ⭐     | `WebVitalsReporter`      | Sends Core Web Vitals to analytics (LCP, CLS, FID).                                           |
-| ⭐     | `RobotsAndSitemap`       | Auto‑generated `robots.txt` and `sitemap.xml` from page/content data.                         |
-| ⭐     | `ErrorBoundary`          | React error boundary wrapping major page sections — shows ErrorState, not blank screen.       |
+| Status | Component / Item         | Notes                                                                                                                                 |
+| ------ | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------- |
+| ✅     | `SkipToContent`          | Hidden `<a href="#main-content">` that appears on focus — WCAG requirement. Real file in `packages/ui/src/components/accessibility/`. |
+| ⭐     | `A11yLiveRegion`         | `aria‑live` region for screen reader announcements (search results, form feedback).                                                   |
+| ✅     | `FocusTrap`              | Traps focus inside active modal/drawer — a real focus trap is implemented in `Modal`.                                                 |
+| ⭐     | `SchemaMarkup`           | JSON‑LD components: `Organization`, `School`, `Event`, `Article`. Injected per page.                                                  |
+| ✅     | `OpenGraphMeta`          | Per‑page OG image generation — built, via `default-og-image.tsx` and per-route `opengraph-image.tsx` files.                           |
+| ⭐     | `LocaleAwareDateDisplay` | Formats dates per active locale (EN/SI/TA) using `Intl.DateTimeFormat`.                                                               |
+| ⭐     | `SinhalaFontLoader`      | Loads Noto Sans Sinhala + Iskola Pota on SI locale activation.                                                                        |
+| ⭐     | `TamilFontLoader`        | Loads Noto Sans Tamil on TA locale activation.                                                                                        |
+| ⭐     | `ColorSchemeScript`      | Prevents flash of wrong colour scheme on load. Moot for now — theme switching itself isn't implemented (see `Tokens Reference.md`).   |
+| ✅     | `ServiceWorker`          | PWA offline caching — a real TypeScript service worker exists at `apps/web/src/service-worker/sw.ts`.                                 |
+| ⭐     | `WebVitalsReporter`      | Sends Core Web Vitals to analytics (LCP, CLS, FID).                                                                                   |
+| ✅     | `RobotsAndSitemap`       | `robots.ts` and `sitemap.ts` (with hreflang cross-references) both exist and are built.                                               |
+| ✅     | `ErrorBoundary`          | Real as `SectionErrorBoundary`, a class-based error boundary — see Page Sections in the Foundations component inventory.              |
 
 ---
 
-_Last updated: June 2026 · Nexus monorepo — CWWKCC school website project._
+_Last updated: July 2026 · Nexus monorepo — CWWKCC school website project._
+
+---
+
+## Changelog
+
+**This revision** — full cross-check against the actual repo, not just the Feature Registry:
+
+- Restored `ResultsGradeBadge` and `ResultsDisplay` — the previous revision removed both while removing the abandoned per-student results portal, but both files are real, substantial, and serve the separate, still-live aggregate pass-rate statistics feature. See the note in the Visualization section.
+- Rewrote the entire Page Blocks section (§3): the previous granular per-page breakdown didn't match the repo. Five block folders (News, Events, Societies, Extracurriculars, Gallery) don't exist at all; where folders do exist, real files use different names and are far fewer. Kept the original breakdown as a "Target composition" note in each section rather than deleting it outright. Also surfaced 4 apparently-orphaned dead stub files in `blocks/about/`.
+- Fixed the Web App Pages table (§4) to match real `page.tsx` sizes: `/academics`, `/facilities`, `/contact`, and `/administration` are genuinely built (were marked 🔨); `/search`, `/achievements`, `/alumni`, and the archive route are stub pages that exist in code (were marked ⭐, which implied no file at all). Fixed `/digital-archive` → `/archive` (route name already corrected once in `Page Specifications.md`, hadn't propagated here) and `/gallery/[album]` → `/gallery/[albumSlug]`.
+- Rewrote the Admin Panel sections (§5, §6): `apps/admin/src/components/` — the folder §5 claimed to document — is actually empty. Real admin components live in `apps/admin/src/features/`, organized differently and named differently, and every real file is skeleton-level. §6's page table had a fictional `/admissions` enquiry inbox that doesn't exist, `/settings/users` where the real route is top-level `/users`, `/academics` where the real route is `/academic-programs`, and was missing `/content`/`/content/[pageKey]` (the actual, and only substantially-built, admin pages), plus `/audit`, `/auth/setup-totp`, and `/pages`.
+- Fixed §7 (Accessibility & Infrastructure): `SkipToContent`, `FocusTrap`, `OpenGraphMeta`, `ServiceWorker`, `RobotsAndSitemap`, and `ErrorBoundary` (as `SectionErrorBoundary`) are all real and built — the previous revision marked all six as not-yet-started.
+- Fixed `Footer`/`Navigation` categorization: `Footer` isn't in `packages/ui` at all (it's in `apps/web`); `Navigation` lives in the `navigation/` folder, not `layout/`.
+- Added `useLockBodyScroll`, a real hook that existed in code but wasn't documented.
+
+**Previous revision** — audited against Feature Registry F-001–F-196 (source of truth):
+
+- Removed the entire "Results Blocks" section (`ResultsHero`, `ResultsSearchSection`, `ResultsOutputSection`, `ResultsDownloadsSection`, `ResultsAggregateStatsSection`) and its Table of Contents entry — the exam results portal was cut from scope entirely.
+- Removed `ResultsGradeBadge` (Atoms) and `ResultsDisplay` (Visualization) components.
+- Removed the `/results` rows from both the Web App Pages table and the Admin Panel — Pages table.
+- Fixed descriptions that referenced Results Portal in passing: `SearchForm` (now tied to the site-wide Search page, F-157), `QuickAccessPortal`, `PrintButton`, `HomeQuickLinks`, `AdminNotificationDrawer`.
+- Fixed `/analytics` admin page description — Umami (self-hosted, F-101/F-102), not "GA4 embed or custom."
+- Added missing Web App Pages rows for pages that exist in the Feature Registry but were never listed here: `/search` (F-157), `/digital-archive` (F-155). `/academics` was already present.
