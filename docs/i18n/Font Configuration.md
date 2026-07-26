@@ -16,10 +16,10 @@ Nexus supports three scripts with automatic font selection via CSS variable stac
 
 ```css
 /* CSS custom properties */
---font-family-display: 'Cormorant Garamond', 'Maname', 'Noto Serif Tamil', Georgia, serif;
+--font-family-display: 'Cormorant Garamond', 'Maname', 'Noto Serif Tamil' /* planned, not yet configured */, Georgia, serif;
 --font-family-body: 'Inter', 'Noto Serif Sinhala', 'Noto Serif Tamil', system-ui, sans-serif;
---font-family-mono: 'IBM Plex Mono', 'Noto Serif Tamil', monospace;
---font-family-quote: 'Cormorant Upright', 'Cormorant Garamond', 'Maname', serif;
+--font-family-mono: 'IBM Plex Mono', Menlo, monospace;
+--font-family-quote: 'Cormorant Upright', 'Cormorant Garamond', 'Maname', 'Noto Serif Tamil' /* planned, not yet configured */, serif;
 ```
 
 ### How Font Selection Works
@@ -85,6 +85,12 @@ const tamilBody = NotoSerifTamil({
   variable: '--font-tamil-body',
   weight: ['400', '500', '600', '700'],
 });
+
+// ⚠️ Gap: packages/tokens' fontFamily definition references `var(--font-tamil-display)`
+// in both its display and quote stacks, but no Tamil display font is configured here —
+// only `--font-tamil-body` exists. Until a Tamil display font is chosen and added,
+// `--font-tamil-display` resolves to nothing and those two stacks silently skip to
+// their next fallback (Georgia/serif) for Tamil display text.
 ```
 
 ### CSS Variable Composition
@@ -92,11 +98,13 @@ const tamilBody = NotoSerifTamil({
 ```css
 /* tokens.css or global.css */
 :root {
-  --font-family-display: var(--font-display), var(--font-sinhala-display), var(--font-tamil-body), Georgia, serif;
+  --font-family-display: var(--font-display), var(--font-sinhala-display), var(--font-tamil-display), Georgia, serif;
   --font-family-body: var(--font-body), var(--font-sinhala-body), var(--font-tamil-body), system-ui, sans-serif;
-  --font-family-mono: var(--font-mono), var(--font-tamil-body), monospace;
+  --font-family-mono: var(--font-mono), monospace;
 }
 ```
+
+This matches `packages/tokens/src/primitives/typography.ts`'s actual `fontFamily` object exactly — including its reference to `--font-tamil-display`, which (per the gap noted above) has no font behind it yet. `--font-family-mono` doesn't stack a Tamil fallback in the real token source; monospace content doesn't need script-specific fonts.
 
 ---
 

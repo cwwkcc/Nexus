@@ -12,11 +12,13 @@ This document covers how to add a new locale to the Nexus platform. Currently su
 
 ## Current Locales
 
-| Locale | Language | Script  | Status      |
-| ------ | -------- | ------- | ----------- |
-| `en`   | English  | Latin   | Complete    |
-| `si`   | Sinhala  | Sinhala | In Progress |
-| `ta`   | Tamil    | Tamil   | In Progress |
+| Locale | Language | Script  | Status                                                               |
+| ------ | -------- | ------- | -------------------------------------------------------------------- |
+| `en`   | English  | Latin   | Routing complete; translation content is the site's own English copy |
+| `si`   | Sinhala  | Sinhala | Routing complete; no translated content yet                          |
+| `ta`   | Tamil    | Tamil   | Routing complete; no translated content yet                          |
+
+**Concrete current state:** `apps/web/src/i18n/request.ts` has a `loadMessages()` function that returns an empty object unconditionally, with the comment `// Skip loading messages since NAMESPACES is empty`. There's no `apps/web/src/i18n/messages/` folder yet either. In other words, the next-intl routing and locale-negotiation machinery is real and working (`si`/`ta` URLs resolve correctly), but no translated string has been loaded anywhere yet — every locale currently renders whatever hardcoded English text is in the component, regardless of URL locale.
 
 ---
 
@@ -27,22 +29,29 @@ This document covers how to add a new locale to the Nexus platform. Currently su
 Edit `apps/web/src/i18n/routing.ts`:
 
 ```typescript
-// apps/web/src/i18n/routing.ts
-export const locales = ['en', 'si', 'ta', 'new-locale'] as const;
-export const defaultLocale = 'en';
+// apps/web/src/i18n/routing.ts (actual current file)
+import { defineRouting } from 'next-intl/routing';
+
+export const routing = defineRouting({
+  locales: ['en', 'si', 'ta', 'new-locale'],
+  defaultLocale: 'en',
+});
 ```
 
-### Step 2: Create Message Files
+### Step 2: Create Message Files and Wire Up Loading
 
-Create the new locale's message files:
+**This step doesn't yet have anything to copy from.** `apps/web/src/i18n/messages/` doesn't exist for any locale yet, and `request.ts`'s `loadMessages()` function is currently a stub that returns an empty object regardless of locale:
 
-```bash
-# Copy English message files
-cp -r apps/web/src/i18n/messages/en apps/web/src/i18n/messages/new-locale
-
-# Rename and edit message files
-# Translate all keys from English to the new locale
+```typescript
+// apps/web/src/i18n/request.ts (actual current file)
+async function loadMessages(locale: LocaleEnumData) {
+  const messages: Record<string, unknown> = {};
+  // Skip loading messages since NAMESPACES is empty
+  return messages;
+}
 ```
+
+Adding real translation support means: creating the `messages/<locale>/` folder structure for each locale, translating every key, **and** implementing `loadMessages()` to actually import and merge those files — not just copying an existing English folder, since there isn't one yet.
 
 ### Step 3: Add Font Support
 
@@ -56,7 +65,8 @@ const newFont = NewFont({
 });
 
 // Add to font stack
-const displayFontStack = ['var(--font-display)', 'var(--font-sinhala-display)', 'var(--font-tamil-body)', 'var(--font-new)', 'Georgia, serif'].join(', ');
+const displayFontStack = ['var(--font-display)', 'var(--font-sinhala-display)', 'var(--font-tamil-display)', 'var(--font-new)', 'Georgia, serif'].join(', ');
+// Note: --font-tamil-display isn't actually configured yet — see Font Configuration.md.
 ```
 
 ### Step 4: Update Language Switcher
@@ -64,7 +74,8 @@ const displayFontStack = ['var(--font-display)', 'var(--font-sinhala-display)', 
 Add the new locale to the LanguageSwitcher component:
 
 ```tsx
-// apps/web/src/components/LanguageSwitcher.tsx
+// packages/ui/src/components/navigation/LanguageSwitcher.tsx
+// (not apps/web — LanguageSwitcher is a shared @nexus/ui component)
 const languages = [
   { code: 'en', name: 'English' },
   { code: 'si', name: 'සිංහල' },
@@ -130,13 +141,21 @@ const formatted = formatNumber(number);
 ## Locale Fallback Configuration
 
 ```typescript
-// apps/web/src/i18n/index.ts
-export const localeConfig = {
+// apps/web/src/i18n/routing.ts (actual current file)
+export const routing = defineRouting({
+  locales: ['en', 'si', 'ta'],
   defaultLocale: 'en',
-  fallbackLocale: 'en',
-  localeDetection: true,
-};
+});
+
+// apps/web/src/i18n/request.ts (actual current file)
+// Falls back to routing.defaultLocale whenever the requested locale
+// isn't in SUPPORTED_LOCALES:
+if (!locale || !SUPPORTED_LOCALES.includes(locale as LocaleEnumData)) {
+  locale = routing.defaultLocale;
+}
 ```
+
+There's no separate `apps/web/src/i18n/index.ts` or hand-rolled `localeConfig` object — `routing.ts` and `request.ts` (using next-intl's own `defineRouting`/`getRequestConfig`) are the whole of it.
 
 ### Fallback Behavior
 

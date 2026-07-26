@@ -43,6 +43,8 @@ All three languages are supported across the entire platform — public website,
 
 ### Location
 
+**Status: none of this exists yet.** `apps/web/src/i18n/messages/` isn't in the repo, and `request.ts`'s `loadMessages()` function is currently a no-op that returns an empty object for every locale (see `Locale Management.md`). The structure below is the target design, not a description of what's built.
+
 ```
 apps/web/src/i18n/messages/
 ├── en/                    # English
@@ -55,7 +57,6 @@ apps/web/src/i18n/messages/
 │   ├── societies.json     # Societies page content
 │   ├── facilities.json    # Facilities page content
 │   ├── admissions.json    # Admissions page content
-│   ├── results.json       # Results portal content
 │   ├── contact.json       # Contact page content
 │   └── gallery.json       # Gallery page content
 ├── si/                    # Sinhala
@@ -239,7 +240,7 @@ http://localhost:3000/ta
 
 ```css
 /* CSS variables for font families */
---font-family-display: 'Cormorant Garamond', 'Maname', 'Noto Serif Tamil', Georgia, serif;
+--font-family-display: 'Cormorant Garamond', 'Maname', 'Noto Serif Tamil' /* planned, not yet configured — see Font Configuration.md */, Georgia, serif;
 --font-family-body: 'Inter', 'Noto Serif Sinhala', 'Noto Serif Tamil', system-ui, sans-serif;
 ```
 
@@ -266,14 +267,7 @@ http://localhost:3000/ta
 
 ## Glossary
 
-| Term      | English                           | Sinhala                | Tamil                   |
-| --------- | --------------------------------- | ---------------------- | ----------------------- |
-| School    | C.W.W. Kannangara Central College | කන්නන්ගර මධ්ය විද්යාලය | கன்னங்கர மத்திய கல்லூரி |
-| Motto     | Wisdom is All Wealth              | සුඛෝ පඤ්ඤාය පඨිලාභෝ    | [Tamil translation]     |
-| Principal | Principal                         | විදුහල්පති             | [Tamil translation]     |
-| Teacher   | Teacher                           | ගුරුවරයා               | [Tamil translation]     |
-| Student   | Student                           | ශිෂ්යයා                | [Tamil translation]     |
-| Alumni    | Alumni                            | ආදි ශිෂ්ය              | [Tamil translation]     |
+The school name, motto, and key institutional titles in English, Sinhala, and Tamil live in **[Institutional Glossary.md](./Institutional%20Glossary.md)**, not duplicated here. (An earlier revision of this document had a small amount of that content inline here, while the dedicated glossary file sat empty and the bulk of the real glossary content had ended up misplaced inside `Translation Workflow.md`. Everything has now been consolidated into the one dedicated file.)
 
 ---
 
