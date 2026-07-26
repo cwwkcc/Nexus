@@ -41,17 +41,17 @@ Content is accessible to all users, regardless of ability or device.
 
 ## Governance Documents
 
-| Document                                                             | Purpose                                     |
-| -------------------------------------------------------------------- | ------------------------------------------- |
-| **[Content-Governance.md](./Content-Governance.md)**                 | Content ownership and update schedules      |
-| **[Roles-and-Responsibilities.md](./Roles-and-Responsibilities.md)** | Staff and editor roles                      |
-| **[Content-Approval-Workflow.md](./Content-Approval-Workflow.md)**   | Review and publishing process               |
-| **[Content-Guidelines.md](./Content-Guidelines.md)**                 | Writing, image, and accessibility standards |
-| **[Accessibility-Policy.md](./Accessibility-Policy.md)**             | WCAG 2.1 AA compliance                      |
-| **[Editorial-Style-Guide.md](./Editorial-Style-Guide.md)**           | Tone, voice, and style                      |
-| **[Social-Media-Governance.md](./Social-Media-Governance.md)**       | Social media policies                       |
-| **[Data-Privacy-Policy.md](./Data-Privacy-Policy.md)**               | Student and staff data protection           |
-| **[Content-Review-Schedule.md](./Content-Review-Schedule.md)**       | Regular review cycles                       |
+| Document                                                                 | Purpose                                     |
+| ------------------------------------------------------------------------ | ------------------------------------------- |
+| **[Content Governance.md](./Content%20Governance.md)**                   | Content ownership and update schedules      |
+| **[Roles and Responsibilities.md](./Roles%20and%20Responsibilities.md)** | Staff and editor roles                      |
+| **[Content Approval Workflow.md](./Content%20Approval%20Workflow.md)**   | Review and publishing process               |
+| **[Content Guidelines.md](./Content%20Guidelines.md)**                   | Writing, image, and accessibility standards |
+| **[Accessibility Policy.md](./Accessibility%20Policy.md)**               | WCAG 2.1 AA compliance                      |
+| **[Editorial Style Guide.md](./Editorial%20Style%20Guide.md)**           | Tone, voice, and style                      |
+| **[Social Media Governance.md](./Social%20Media%20Governance.md)**       | Social media policies                       |
+| **[Data Privacy Policy.md](./Data%20Privacy%20Policy.md)**               | Student and staff data protection           |
+| **[Content Review Schedule.md](./Content%20Review%20Schedule.md)**       | Regular review cycles                       |
 
 ---
 

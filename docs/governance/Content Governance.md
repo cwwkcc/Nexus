@@ -257,10 +257,16 @@ A perfect CMS with no assigned content owners becomes a dead website within six 
 | About            | Administration / History Committee | Quarterly        |
 | Academics        | Academic Office                    | Annually         |
 | Admissions       | Admissions Office                  | Annually         |
+| News             | Editorial Team                     | Monthly          |
+| Events           | Event Coordinators                 | Weekly           |
+| Gallery          | Media Unit                         | Monthly          |
 | Contact          | Administration                     | Quarterly        |
 | Facilities       | Administration                     | Annually         |
 | Extracurriculars | Sports / Cultural Units            | Annually         |
 | Societies        | Staff Advisor                      | Annually         |
+| Digital Archive  | History Committee                  | Annually         |
+
+Achievements and Alumni pages don't yet have an assigned owner here — worth adding once one is designated.
 
 ---
 
@@ -313,11 +319,3 @@ This content governance document is approved by:
 ---
 
 **C.W.W. Kannangara Central College, Est. 1873. "Wisdom is All Wealth."**
-
----
-
-# governance/Roles-and-Responsibilities.md
-
-</file>
-
----

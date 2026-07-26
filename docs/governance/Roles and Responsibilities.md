@@ -276,5 +276,3 @@ This document defines the roles and responsibilities of everyone involved in man
 ---
 
 **C.W.W. Kannangara Central College, Est. 1873. "Wisdom is All Wealth."**
-
----

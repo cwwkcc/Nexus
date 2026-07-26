@@ -226,3 +226,11 @@ Nexus complies with:
 **C.W.W. Kannangara Central College, Est. 1873. "Wisdom is All Wealth."**
 
 ---
+
+## Changelog
+
+**This revision** — audited against Feature Registry F-001–F-196 (source of truth):
+
+- Removed exam results as a tracked data category throughout (Scope, Purpose Limitation, Data Minimisation, Storage Limitation, Student Data table, Data Published, User Rights) — the exam results portal was cut from scope; no exam performance data is collected at all.
+- Removed the "Examinations Office" row from the data-access RBAC table — that role no longer has a reason to exist without a results system.
+- Adjusted the Student Data table's "Names" row — previously marked "not stored" specifically to preserve exam-result anonymity; since that constraint no longer applies, names may be stored with consent for the Achievement Database (celebrating a named student's award is normal practice; this doesn't reintroduce any exam-performance data).
