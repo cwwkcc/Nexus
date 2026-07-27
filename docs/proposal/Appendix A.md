@@ -293,28 +293,30 @@ services:
 
 ### A.8.1 Backup Strategy
 
-| Type              | Schedule                  | Location          | Retention |
-| ----------------- | ------------------------- | ----------------- | --------- |
-| **Database**      | Nightly                   | R2 (encrypted)    | 30 days   |
-| **Database**      | Hourly (transaction logs) | R2 (encrypted)    | 7 days    |
-| **Media Assets**  | Nightly                   | Secondary storage | 30 days   |
-| **Docker Images** | Each deployment           | GHCR              | Unlimited |
+| Type              | Schedule            | Location                                                       | Retention |
+| ----------------- | ------------------- | -------------------------------------------------------------- | --------- |
+| **Database**      | Daily (recommended) | AWS S3, GPG-encrypted (**not** Cloudflare R2 — see note below) | 30 days   |
+| **Docker Images** | Each deployment     | GHCR                                                           | Unlimited |
+
+> **Note:** An earlier revision of this table also listed hourly transaction-log backups and a nightly media-asset backup, both to "R2 (encrypted)." Neither exists: the real backup automation (`infra/scripts/backup.sh`) is a single daily full-database dump, uploaded to **AWS S3** (not R2) after GPG encryption. There is currently no point-in-time recovery and no separate media backup — see `Backup and Restore Procedure.md` for the full, current picture. This is worth resolving (either building the missing pieces, or budgeting/documenting the gap) rather than presenting it as already covered.
 
 ### A.8.2 Recovery Procedures
 
-| Failure Mode        | Recovery Time | Procedure                                                         |
-| ------------------- | ------------- | ----------------------------------------------------------------- |
-| Server failure      | 2-4 hours     | Provision new Hetzner server; restore from R2 backup              |
-| Database corruption | 1-2 hours     | Stop services; restore from latest backup; verify integrity       |
-| Accidental deletion | Minutes       | Audit log identifies deletion; soft-delete recovery from database |
-| Domain loss         | Hours-Days    | Contact LK domain registry with proof of institutional ownership  |
-| R2 failure          | Hours         | Restore from secondary backup; migrate to alternative storage     |
+| Failure Mode        | Recovery Time | Procedure                                                                                                                   |
+| ------------------- | ------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| Server failure      | 2-4 hours     | Provision new Hetzner server; restore from S3 backup via `infra/scripts/restore.sh`                                         |
+| Database corruption | 1-2 hours     | Stop services; restore via `infra/scripts/restore.sh`; verify integrity                                                     |
+| Accidental deletion | Minutes       | Audit log identifies deletion; soft-delete recovery from database                                                           |
+| Domain loss         | Hours-Days    | Contact LK domain registry with proof of institutional ownership                                                            |
+| R2 failure          | Hours         | R2 holds live media only, not backups — restore original assets from source if lost; no secondary media backup exists today |
 
 ---
 
 ## A.9 Monitoring
 
 ### A.9.1 Health Checks
+
+**Note:** `/api/health` doesn't exist in the codebase yet for either app — the table below describes the target design, not something already running. See `Deployment Checklist.md` in `docs/operations/`.
 
 | Service     | Health Check Endpoint   | Interval | Alert On                        |
 | ----------- | ----------------------- | -------- | ------------------------------- |
@@ -330,3 +332,13 @@ services:
 | UptimeRobot (`cwwkcc.lk`)       | 5 minutes      | Email + SMS to KITS lead |
 | UptimeRobot (`admin.cwwkcc.lk`) | 5 minutes      | Email + SMS to KITS lead |
 | SSL Certificate Expiry          | 30 days before | Email notification       |
+
+---
+
+## Changelog
+
+**This revision:**
+
+- Removed a "Results Portal" rate-limiting row — that feature was cut from scope entirely.
+- Fixed the Disaster Recovery / Backup Strategy tables: backups actually go to AWS S3 with GPG encryption, not Cloudflare R2. Removed hourly transaction-log and nightly media-backup rows — neither exists as an actual script; there's no point-in-time recovery and no separate media backup today.
+- Flagged that `/api/health` doesn't exist in the codebase yet, even though it's referenced here (and depended on by the real CD pipeline's automatic rollback) as if already built.

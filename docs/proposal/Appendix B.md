@@ -343,3 +343,20 @@ Every interactive component defines and uses these state tokens:
 | **404**            | `NotFoundPage`        | Designed 404 with institutional treatment |
 | **Offline**        | `OfflineBanner`       | Connectivity lost notification            |
 | **Cookie Consent** | `CookieConsentBanner` | GDPR-compliant consent banner             |
+
+---
+
+## Changelog
+
+**This revision** — this document shared the same stale token values found and fixed in `docs/Design System/Tokens Reference.md`; brought in line with the same source-verified figures:
+
+- Colour palette was an entirely fictional light-mint theme; replaced with the real "parchment + forest" palette.
+- Glass token names didn't match any real token; fixed.
+- Type scale clamp formulas were all wrong (simplified `vw`-only clamps instead of the real `min-rem + vw` formula); fixed, and flagged that Tamil doesn't have a display/quote font configured yet.
+- `leading-relaxed` was claimed as "1.8, updated for Sinhala" — the shipped value is 1.7.
+- Breakpoints were missing `xs` (480px) and had `sm` wrong (was listed as 0px; it's 640px).
+- Fixed `packages/config` → `packages/tokens` in the component hierarchy diagram.
+- Removed "Results" from the Page Blocks diagram — that feature was cut from scope.
+- Noted `Footer` as the one component living outside `packages/ui`.
+- `aspect-news` was 16:9; it's actually 4:3.
+- Removed a reference to a `text-link-hover` token that doesn't exist.
