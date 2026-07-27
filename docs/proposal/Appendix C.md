@@ -53,13 +53,13 @@
 
 ### C.2.3 Academic Content
 
-| Asset                            | Format          | Status  | Responsible Party   | Notes                         |
-| -------------------------------- | --------------- | ------- | ------------------- | ----------------------------- |
-| O/L Pass Rate Statistics         | Data            | Pending | Examinations Office | By year, for Academics page   |
-| A/L Pass Rate Statistics         | Data            | Pending | Examinations Office | By stream, for Academics page |
-| University Entrance Data         | Data            | Pending | Examinations Office | By year and university        |
-| Subject Offerings                | Structured data | Pending | Academic Office     | Per stream                    |
-| Examination Results (Historical) | Data/PDF        | Pending | Examinations Office | For Results Portal            |
+| Asset                            | Format          | Status  | Responsible Party   | Notes                                                                                                                                                       |
+| -------------------------------- | --------------- | ------- | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| O/L Pass Rate Statistics         | Data            | Pending | Examinations Office | By year, for Academics page                                                                                                                                 |
+| A/L Pass Rate Statistics         | Data            | Pending | Examinations Office | By stream, for Academics page                                                                                                                               |
+| University Entrance Data         | Data            | Pending | Examinations Office | By year and university                                                                                                                                      |
+| Subject Offerings                | Structured data | Pending | Academic Office     | Per stream                                                                                                                                                  |
+| Examination Results (Historical) | Data/PDF        | Pending | Examinations Office | Aggregate pass-rate figures only, not per-student records — the interactive results lookup portal this was originally meant for was cut from scope entirely |
 
 ### C.2.4 Facility Content
 
@@ -125,14 +125,14 @@
 
 ### C.3.1 Design System
 
-| Asset             | Format     | Status      | Responsible Party | Notes                                      |
-| ----------------- | ---------- | ----------- | ----------------- | ------------------------------------------ |
-| Color Tokens      | TypeScript | ✅ Complete | KITS              | `packages/config/src/tokens/color.ts`      |
-| Typography Tokens | TypeScript | ✅ Complete | KITS              | `packages/config/src/tokens/typography.ts` |
-| Spacing Tokens    | TypeScript | ✅ Complete | KITS              | `packages/config/src/tokens/spacing.ts`    |
-| Motion Tokens     | TypeScript | ✅ Complete | KITS              | `packages/config/src/tokens/motion.ts`     |
-| Tailwind Preset   | TypeScript | ✅ Complete | KITS              | `packages/config/src/nexus-preset.ts`      |
-| tokens.css        | CSS        | ✅ Complete | KITS              | Generated from token definitions           |
+| Asset             | Format     | Status      | Responsible Party | Notes                                          |
+| ----------------- | ---------- | ----------- | ----------------- | ---------------------------------------------- |
+| Color Tokens      | TypeScript | ✅ Complete | KITS              | `packages/tokens/src/primitives/colors.ts`     |
+| Typography Tokens | TypeScript | ✅ Complete | KITS              | `packages/tokens/src/primitives/typography.ts` |
+| Spacing Tokens    | TypeScript | ✅ Complete | KITS              | `packages/tokens/src/primitives/spacing.ts`    |
+| Motion Tokens     | TypeScript | ✅ Complete | KITS              | `packages/tokens/src/primitives/motion.ts`     |
+| Tailwind Preset   | TypeScript | ✅ Complete | KITS              | `packages/tokens/src/generators/tailwind.ts`   |
+| tokens.css        | CSS        | ✅ Complete | KITS              | Generated from token definitions               |
 
 ### C.3.2 Component Library
 
@@ -291,17 +291,17 @@ kcc-assets/
 
 ## C.6 Asset Responsibility Matrix
 
-| Content Type         | Content Owner           | Technical Owner (KITS)       | Update Frequency        |
-| -------------------- | ----------------------- | ---------------------------- | ----------------------- |
-| School Brand Assets  | Administration          | Lead Developer               | As needed               |
-| Staff Information    | Administration          | Developer (Staff Module)     | When staff changes      |
-| News & Announcements | Editorial Team          | Developer (News Module)      | Weekly minimum          |
-| Events               | Event Organisers        | Developer (Events Module)    | As events are scheduled |
-| Society Information  | Society Advisors        | Developer (Societies Module) | Annually / as needed    |
-| Gallery Photos       | Media Unit              | Developer (Gallery Module)   | After events            |
-| Examination Results  | Examinations Office     | Developer (Results Module)   | After results release   |
-| Alumni Profiles      | OBA / Alumni            | Developer (Alumni Module)    | Ongoing                 |
-| Digital Archive      | OBA / History Committee | Developer (Archive Module)   | Ongoing                 |
+| Content Type              | Content Owner           | Technical Owner (KITS)       | Update Frequency        |
+| ------------------------- | ----------------------- | ---------------------------- | ----------------------- |
+| School Brand Assets       | Administration          | Lead Developer               | As needed               |
+| Staff Information         | Administration          | Developer (Staff Module)     | When staff changes      |
+| News & Announcements      | Editorial Team          | Developer (News Module)      | Weekly minimum          |
+| Events                    | Event Organisers        | Developer (Events Module)    | As events are scheduled |
+| Society Information       | Society Advisors        | Developer (Societies Module) | Annually / as needed    |
+| Gallery Photos            | Media Unit              | Developer (Gallery Module)   | After events            |
+| Aggregate Exam Statistics | Examinations Office     | Developer (Academics Module) | After results release   |
+| Alumni Profiles           | OBA / Alumni            | Developer (Alumni Module)    | Ongoing                 |
+| Digital Archive           | OBA / History Committee | Developer (Archive Module)   | Ongoing                 |
 
 ---
 
@@ -311,3 +311,12 @@ kcc-assets/
 ---
 
 _"Wisdom is All Wealth" – Est. 1873_
+
+---
+
+## Changelog
+
+**This revision:**
+
+- Fixed two references to a "Results Portal"/"Results Module" — that interactive per-student lookup feature was cut from scope entirely. Reworded both to reflect what's actually still planned: aggregate, school-level pass-rate statistics, not a portal.
+- Fixed `packages/config` → `packages/tokens` (and matching real file paths) for where design tokens actually live in the codebase — tokens moved to their own dedicated package.
