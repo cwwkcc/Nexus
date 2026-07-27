@@ -20,40 +20,41 @@
 
 **Core Palette**
 
-| Token         | Value                   | Usage                            |
-| ------------- | ----------------------- | -------------------------------- |
-| `green-base`  | `#1A4A2E`               | Primary institutional colour     |
-| `green-light` | `#235C3A`               | Hover states, accents            |
-| `gold-base`   | `#C9973A`               | Accent colour, links, highlights |
-| `gold-light`  | `#E8B84B`               | Hover states for gold elements   |
-| `gold-glow`   | `rgba(201,151,58,0.28)` | Subtle glow effects              |
+The `forest` ramp is light-dominant (parchment/cream surfaces, warm-ink text), running light to dark from `50` to `900`.
+
+| Token        | Value                   | Usage                            |
+| ------------ | ----------------------- | -------------------------------- |
+| `green-base` | `#1A4A2E`               | Primary institutional colour     |
+| `gold-base`  | `#C9973A`               | Accent colour, links, highlights |
+| `gold-light` | `#E8B84B`               | Hover states for gold elements   |
+| `gold-glow`  | `rgba(201,151,58,0.32)` | Subtle glow effects              |
 
 **Surface Tokens**
 
-| Token              | Value     | Usage              |
-| ------------------ | --------- | ------------------ |
-| `surface-base`     | `#E6F2EA` | Default background |
-| `surface-default`  | `#D1E6D9` | Card backgrounds   |
-| `surface-elevated` | `#F0F7F2` | Elevated surfaces  |
-| `surface-inverse`  | `#0F2918` | Dark backgrounds   |
+| Token              | Value                    | Usage                  |
+| ------------------ | ------------------------ | ---------------------- |
+| `surface-base`     | `forest-50` (`#FBF9F2`)  | Page floor (parchment) |
+| `surface-default`  | `forest-100` (`#F5EFE0`) | Card backgrounds       |
+| `surface-elevated` | `#FFFFFF`                | Modals/popovers        |
+| `surface-inverse`  | `forest-900` (`#1C1A16`) | Dark backgrounds       |
 
 **Text Tokens**
 
-| Token          | Value       | Usage                    |
-| -------------- | ----------- | ------------------------ |
-| `text-primary` | `#1C1A16`   | Primary body text        |
-| `text-muted`   | `#4A5C4D`   | Secondary text           |
-| `text-inverse` | `#F5EFE4`   | Text on dark backgrounds |
-| `text-link`    | `gold-base` | Link colour              |
+| Token          | Value                    | Usage                    |
+| -------------- | ------------------------ | ------------------------ |
+| `text-primary` | `forest-900` (`#1C1A16`) | Primary body text        |
+| `text-muted`   | `forest-700` (`#3D5C52`) | Secondary text           |
+| `text-inverse` | `forest-50` (`#FBF9F2`)  | Text on dark backgrounds |
+| `text-gold`    | `gold-base`              | Link/accent colour       |
 
 **Glass Tokens**
 
-| Token                  | Value                        | Usage                 |
-| ---------------------- | ---------------------------- | --------------------- |
-| `glass-surface-light`  | `rgba(255,255,255,0.85)`     | Light floating panels |
-| `glass-surface-medium` | `rgba(255,255,255,0.7)`      | Medium translucency   |
-| `glass-border`         | `border-light` + `border-sm` | Glass panel border    |
-| `glass-shadow`         | `shadow-elevation-2`         | Glass panel shadow    |
+| Token                | Value                                           | Usage                   |
+| -------------------- | ----------------------------------------------- | ----------------------- |
+| `surface-glass`      | `rgba(255,255,255,0.55)`                        | Default floating panel  |
+| `surface-glass-card` | `rgba(255,255,255,0.70)`                        | Denser glass, for cards |
+| `glass-border`       | `rgba(28,26,22,0.08)`                           | Glass panel border      |
+| `glass-shadow`       | Dedicated shadow value (not an elevation alias) | Glass panel shadow      |
 
 > **Important:** Glass **never** uses `backdrop-filter`. Glass is achieved through opacity and shadows only.
 
@@ -62,36 +63,40 @@
 **Font Stack (Unified Multilingual)**
 
 ```css
---font-family-display: 'Cormorant Garamond', 'Maname', 'Noto Serif Tamil', Georgia, serif;
+--font-family-display: 'Cormorant Garamond', 'Maname', 'Noto Serif Tamil' /* planned, not yet configured */, Georgia, serif;
 --font-family-body: 'Inter', 'Noto Serif Sinhala', 'Noto Serif Tamil', system-ui, sans-serif;
 ```
 
-| Script  | Display Font       | Body Font          | Quote Font        |
-| ------- | ------------------ | ------------------ | ----------------- |
-| English | Cormorant Garamond | Inter              | Cormorant Upright |
-| Sinhala | Maname             | Noto Serif Sinhala | Maname            |
-| Tamil   | Noto Serif Tamil   | Noto Serif Tamil   | Noto Serif Tamil  |
+| Script  | Display Font                    | Body Font          | Quote Font           |
+| ------- | ------------------------------- | ------------------ | -------------------- |
+| English | Cormorant Garamond              | Inter              | Cormorant Upright    |
+| Sinhala | Maname                          | Noto Serif Sinhala | Maname               |
+| Tamil   | _Not yet configured — see note_ | Noto Serif Tamil   | _Not yet configured_ |
+
+> A Tamil display/quote font hasn't been chosen and wired up yet — only the Tamil body font is currently configured. Until it is, Tamil display text falls back to Georgia/serif.
 
 **Type Scale (Key Sizes)**
 
-| Token          | Size                           | Usage            |
-| -------------- | ------------------------------ | ---------------- |
-| `text-display` | `clamp(3.86rem, 10vw, 4rem)`   | Hero heading     |
-| `text-h1`      | `clamp(3.2rem, 7vw, 3.36rem)`  | Page title       |
-| `text-h2`      | `clamp(2.4rem, 4.5vw, 2.8rem)` | Section heading  |
-| `text-body`    | `1.05rem`                      | Paragraphs       |
-| `text-label`   | `0.83rem`                      | Labels, metadata |
-| `text-eyebrow` | `0.75rem`                      | All-caps labels  |
-| `text-caption` | `0.69rem`                      | Fine print       |
+Real formula: `clamp(<min>, <min-rem> + <fluid-vw>, <max>)` — not a flat vw-only clamp.
+
+| Token          | Size                                      | Usage            |
+| -------------- | ----------------------------------------- | ---------------- |
+| `text-display` | `clamp(2.25rem, 1.75rem + 2.5vw, 4rem)`   | Hero heading     |
+| `text-h1`      | `clamp(2rem, 1.61rem + 1.94vw, 3.36rem)`  | Page title       |
+| `text-h2`      | `clamp(1.75rem, 1.45rem + 1.5vw, 2.8rem)` | Section heading  |
+| `text-body`    | `1.05rem`                                 | Paragraphs       |
+| `text-label`   | `0.83rem`                                 | Labels, metadata |
+| `text-eyebrow` | `0.75rem`                                 | All-caps labels  |
+| `text-caption` | `0.69rem`                                 | Fine print       |
 
 **Line Heights**
 
-| Token               | Value | Usage             |
-| ------------------- | ----- | ----------------- |
-| `leading-normal`    | `1.6` | Default           |
-| `leading-relaxed`   | `1.8` | Sinhala body text |
-| `leading-display`   | `1`   | Display text      |
-| `leading-pullquote` | `1.3` | Pull quotes       |
+| Token               | Value | Usage                                                                                                                                                                                                                                                    |
+| ------------------- | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `leading-normal`    | `1.6` | Default                                                                                                                                                                                                                                                  |
+| `leading-relaxed`   | `1.7` | General relaxed reading (not 1.8 — an earlier revision described this as "updated for Sinhala," but the shipped value is 1.7; Sinhala body copy gets its own dedicated line-height directly on the Sinhala font-size token, not through this shared one) |
+| `leading-display`   | `1`   | Display text                                                                                                                                                                                                                                             |
+| `leading-pullquote` | `1.3` | Pull quotes                                                                                                                                                                                                                                              |
 
 ### B.2.3 Spacing System
 
@@ -108,13 +113,16 @@
 
 **Breakpoints (Mobile-first)**
 
-| Breakpoint     | Min Width | Columns |
-| -------------- | --------- | ------- |
-| `sm` (default) | 0px       | 4       |
-| `md`           | 768px     | 8       |
-| `lg`           | 1024px    | 12      |
-| `xl`           | 1280px    | 12      |
-| `2xl`          | 1536px    | 12      |
+| Breakpoint | Min Width | Columns |
+| ---------- | --------- | ------- |
+| `xs`       | 480px     | —       |
+| `sm`       | 640px     | —       |
+| `md`       | 768px     | 8       |
+| `lg`       | 1024px    | 12      |
+| `xl`       | 1280px    | 12      |
+| `2xl`      | 1536px    | 12      |
+
+There are six breakpoints, not five — an earlier revision omitted `xs` (480px) and mislabeled `sm` as a bare 0px default rather than its real value, 640px.
 
 ---
 
@@ -134,7 +142,7 @@
 │                  (apps/web/src/blocks)                          │
 │  Home / About / Academics / Admissions / News / Events         │
 │  Societies / Facilities / Extracurriculars / Gallery           │
-│  Contact / Results / Administration                            │
+│  Contact / Administration                                      │
 └─────────────────────────┬───────────────────────────────────────┘
                           │
                           ▼
@@ -148,7 +156,7 @@
                           ▼
 ┌─────────────────────────────────────────────────────────────────┐
 │                    Design System Tokens                         │
-│                   (packages/config)                             │
+│                   (packages/tokens)                             │
 │  Colors / Typography / Spacing / Motion / Shadows / Glass      │
 └─────────────────────────────────────────────────────────────────┘
 ```
@@ -179,7 +187,8 @@
 
 **Layout** (Structural)
 
-- `Container`, `Grid`, `Hero`, `Navigation`, `Footer`
+- `Container`, `Grid`, `Hero`, `Navigation`
+- `Footer` is the one exception to "everything lives in packages/ui" — it's composed directly in apps/web instead, since it isn't reused anywhere else
 - `Stack`, `MasonryGrid`, `QuickAccessPortal`
 
 **Navigation** (Wayfinding)
@@ -286,7 +295,7 @@ Nexus targets **WCAG 2.1 Level AA**.
 | Token             | Ratio | Usage                 |
 | ----------------- | ----- | --------------------- |
 | `aspect-hero`     | 16:9  | Hero images           |
-| `aspect-news`     | 16:9  | News cards            |
+| `aspect-news`     | 4:3   | News cards            |
 | `aspect-portrait` | 3:4   | Staff profiles        |
 | `aspect-square`   | 1:1   | Gallery thumbnails    |
 | `aspect-event`    | 16:7  | Event featured images |
@@ -312,14 +321,14 @@ Nexus targets **WCAG 2.1 Level AA**.
 
 Every interactive component defines and uses these state tokens:
 
-| State        | Tokens                                                      |
-| ------------ | ----------------------------------------------------------- |
-| **Default**  | Base styles                                                 |
-| **Hover**    | `surface-hover`, `text-link-hover`                          |
-| **Focus**    | `focus-ring-color`, `focus-ring-width`, `focus-ring-offset` |
-| **Active**   | `scale-press`, `surface-active`                             |
-| **Disabled** | `opacity-disabled` (0.5), `surface-disabled`                |
-| **Loading**  | `opacity-loading` (0.6), skeleton colours                   |
+| State        | Tokens                                                                                   |
+| ------------ | ---------------------------------------------------------------------------------------- |
+| **Default**  | Base styles                                                                              |
+| **Hover**    | `surface-hover` (there is no `text-link-hover` token — an earlier revision invented one) |
+| **Focus**    | `focus-ring-color`, `focus-ring-width`, `focus-ring-offset`                              |
+| **Active**   | `scale-press`, `surface-active`                                                          |
+| **Disabled** | `opacity-disabled` (0.5), `surface-disabled`                                             |
+| **Loading**  | `opacity-loading` (0.6), skeleton colours                                                |
 
 ---
 
