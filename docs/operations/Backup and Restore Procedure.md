@@ -6,6 +6,8 @@
 
 ## Overview
 
+**This document previously described a different backup system than what's actually implemented** — Cloudflare R2 + `rclone`, with encryption described only as "at rest in R2." The real scripts (`infra/scripts/backup.sh` and `infra/scripts/restore.sh`, documented authoritatively in `infra/README.md`) use **AWS S3 + GPG client-side encryption**, not R2/rclone at all. This revision is rebuilt from those real scripts.
+
 This document covers:
 
 1. **Backup Strategy** — What is backed up, how often, and where
@@ -19,34 +21,22 @@ This document covers:
 
 ### Database Backup
 
-| Detail           | Specification                           |
-| ---------------- | --------------------------------------- |
-| **Frequency**    | Nightly (every day at 2:00 AM)          |
-| **Location**     | Cloudflare R2 (`kcc-backups/database/`) |
-| **Format**       | Compressed SQL dump (`.sql.gz`)         |
-| **Retention**    | 30 days                                 |
-| **Encryption**   | Encrypted at rest in R2                 |
-| **Verification** | Weekly restore test                     |
+| Detail           | Specification                                                                                                                                                                                                                                                                             |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Frequency**    | Daily, recommended at 2:00 AM UTC (via cron — not yet actually scheduled anywhere; see Backup Procedure below)                                                                                                                                                                            |
+| **Location**     | AWS S3 (`s3://nexus-backups-bucket`) — **not Cloudflare R2**. R2 is used elsewhere in the platform (media storage), but backups go to S3.                                                                                                                                                 |
+| **Format**       | `pg_dump` SQL, gzip-compressed, then **GPG-encrypted (AES256)** before upload                                                                                                                                                                                                             |
+| **Retention**    | 30 days, enforced by the script itself parsing `aws s3 ls` output and deleting anything older                                                                                                                                                                                             |
+| **Encryption**   | Client-side GPG encryption _before_ upload — not just provider-side "encrypted at rest." The passphrase lives in a separate file, `/opt/nexus/secrets/backup-key.gpg`, which itself needs its own backup/rotation plan since losing it means every existing backup becomes unrecoverable. |
+| **Verification** | Supported via `restore.sh <file> --verify-only` — not yet actually scheduled as a recurring weekly job anywhere                                                                                                                                                                           |
 
 ### Media Backup
 
-| Detail         | Specification                        |
-| -------------- | ------------------------------------ |
-| **Frequency**  | Nightly (every day at 3:00 AM)       |
-| **Location**   | Cloudflare R2 (`kcc-backups/media/`) |
-| **Format**     | Sync of R2 bucket                    |
-| **Retention**  | 30 days                              |
-| **Encryption** | Encrypted at rest in R2              |
+**No script or automation for this exists in the codebase.** An earlier revision of this document described a nightly R2-to-R2 sync job (`kcc-backups/media/`) — there's no such script anywhere in `infra/scripts/`. Media currently has no backup story beyond whatever durability Cloudflare R2 itself provides for the live bucket.
 
-### Transaction Log Backup (Optional)
+### Transaction Log Backup (Point-in-Time Recovery)
 
-| Detail        | Specification                      |
-| ------------- | ---------------------------------- |
-| **Frequency** | Hourly                             |
-| **Location**  | Cloudflare R2 (`kcc-backups/wal/`) |
-| **Format**    | PostgreSQL WAL files               |
-| **Retention** | 7 days                             |
-| **Purpose**   | Point-in-time recovery             |
+**No script for this exists either.** An earlier revision described an hourly WAL-shipping setup — nothing in `infra/scripts/` does this. Point-in-time recovery, beyond restoring the most recent full nightly dump, isn't currently possible.
 
 ---
 
@@ -54,14 +44,12 @@ This document covers:
 
 ### Automated Backups
 
-Backups are automated via a cron job on the Hetzner server:
+**Not yet actually scheduled.** `infra/README.md`'s own setup instructions show the cron line as something to _add_ during production setup, not something already running:
 
 ```bash
-# Backup script location
-/opt/nexus/scripts/backup.sh
-
-# Cron job
-0 2 * * * /opt/nexus/scripts/backup.sh
+# infra/README.md's documented setup step — confirm this has actually
+# been added to the server's crontab, don't assume it has:
+0 2 * * * /opt/nexus/infra/scripts/backup.sh >> /var/log/nexus-backup.log 2>&1
 ```
 
 ### Manual Backup
@@ -74,41 +62,39 @@ ssh user@server-ip
 cd /opt/nexus
 
 # 3. Run the backup script
-./scripts/backup.sh
+./infra/scripts/backup.sh
 
-# 4. Verify the backup was created
-rclone ls r2:kcc-backups/database/
-
-# 5. Check the backup file size (should be > 0 bytes)
+# 4. Verify the backup was uploaded
+aws s3 ls s3://nexus-backups-bucket/
 ```
 
-### Backup Script Contents
+### What the Script Actually Does
+
+`infra/scripts/backup.sh` (real contents, condensed):
 
 ```bash
 #!/bin/bash
-# /opt/nexus/scripts/backup.sh
+set -euo pipefail
 
-# Set variables
-BACKUP_DIR="/tmp/nexus-backup"
-DATE=$(date +%Y-%m-%d)
+BACKUP_DIR="/opt/nexus/backups"
+RETENTION_DAYS=30
+ENCRYPTION_KEY_FILE="/opt/nexus/secrets/backup-key.gpg"
 DB_NAME="nexus"
 DB_USER="nexus"
+S3_BUCKET="s3://nexus-backups-bucket"
 
-# Create backup directory
-mkdir -p $BACKUP_DIR
+TIMESTAMP=$(date -u +"%Y%m%d_%H%M%S")
+BACKUP_FILE="nexus_backup_${TIMESTAMP}.sql"
 
-# Dump database
-docker compose exec -T postgres pg_dump -U $DB_USER $DB_NAME | gzip > $BACKUP_DIR/backup-$DATE.sql.gz
-
-# Upload to R2
-rclone copy $BACKUP_DIR/backup-$DATE.sql.gz r2:kcc-backups/database/
-
-# Clean up
-rm -f $BACKUP_DIR/backup-$DATE.sql.gz
-
-# Delete backups older than 30 days
-rclone delete r2:kcc-backups/database/ --min-age 30d
+# Dump → compress → encrypt → upload → clean up local files → enforce retention
+pg_dump -h localhost -p 5432 -U "$DB_USER" -d "$DB_NAME" > "$BACKUP_DIR/$BACKUP_FILE"
+gzip "$BACKUP_DIR/$BACKUP_FILE"
+gpg --batch --yes --cipher-algo AES256 --passphrase-file "$ENCRYPTION_KEY_FILE" -c "$BACKUP_DIR/${BACKUP_FILE}.gz"
+aws s3 cp "$BACKUP_DIR/${BACKUP_FILE}.gz.gpg" "$S3_BUCKET/${BACKUP_FILE}.gz.gpg"
+# ... cleans up local files, then deletes anything on S3 older than 30 days
 ```
+
+Note `pg_dump` runs directly against `localhost:5432`, not through `docker compose exec` — this script assumes it runs on the host with direct Postgres access, or that the port is exposed to the host.
 
 ---
 
@@ -116,101 +102,82 @@ rclone delete r2:kcc-backups/database/ --min-age 30d
 
 ### Prerequisites
 
-- A known-good backup file (latest nightly backup or a specific backup)
+- A known-good backup file (list them with `aws s3 ls s3://nexus-backups-bucket/`)
 - Access to the Hetzner server
-- The database service running
+- The GPG decryption passphrase file at `/opt/nexus/secrets/backup-key.gpg`
 
 ### Restore from Backup
 
 ```bash
 # 1. SSH into the server
 ssh user@server-ip
-
-# 2. Stop the web and admin services (prevent writes during restore)
 cd /opt/nexus
-docker compose stop nexus-web nexus-admin
 
-# 3. Identify the backup to restore
-rclone ls r2:kcc-backups/database/
-
-# 4. Download the backup
-rclone copy r2:kcc-backups/database/backup-YYYY-MM-DD.sql.gz /tmp/
-
-# 5. Drop and recreate the database
-docker compose exec postgres psql -U nexus -c "DROP DATABASE IF EXISTS nexus;"
-docker compose exec postgres psql -U nexus -c "CREATE DATABASE nexus;"
-
-# 6. Restore the backup
-gunzip -c /tmp/backup-YYYY-MM-DD.sql.gz | docker compose exec -T postgres psql -U nexus -d nexus
-
-# 7. Restart all services
-docker compose up -d
-
-# 8. Verify the data is restored
-# Check the admin panel and public site for correct content
+# 2. Run the restore script — it handles everything below automatically:
+#    download from S3 (if not already local) → decrypt → decompress →
+#    confirm ("type 'yes' to continue") → stop nexus-web/nexus-admin →
+#    drop and recreate the database → restore → restart services
+./infra/scripts/restore.sh nexus_backup_20260113_020000.sql.gz.gpg
 ```
 
-### Point-in-Time Recovery (Optional)
+There's no separate manual step-by-step needed — `restore.sh` is the whole procedure, including its own safety confirmation prompt and service stop/start. Don't run the underlying `psql`/`gpg` commands by hand unless the script itself is broken.
 
-If you have transaction log backups enabled, you can restore to a specific point in time:
+### Verify a Backup Without Restoring
 
 ```bash
-# 1. Restore from the latest full backup
-# 2. Apply WAL logs up to the target time
-# This requires pg_restore and WAL replay
+./infra/scripts/restore.sh nexus_backup_20260113_020000.sql.gz.gpg --verify-only
 ```
+
+This downloads, decrypts, decompresses, and shows the first 20 lines of the SQL — without touching the live database.
+
+### Point-in-Time Recovery
+
+**Not currently possible.** No WAL-shipping or transaction-log backup exists (see Backup Strategy above) — restoring means restoring the most recent full nightly dump and accepting up to 24 hours of data loss.
 
 ---
 
 ## Verification
 
-### Verify Database Backup
+### Verify a Database Backup
 
-```bash
-# 1. Download the backup
-rclone copy r2:kcc-backups/database/backup-YYYY-MM-DD.sql.gz /tmp/
+Use `restore.sh`'s built-in verify mode (above) rather than hand-rolling a check — it already downloads, decrypts, and decompresses correctly, which a manual `grep` on the raw S3 object (still gzipped and GPG-encrypted) wouldn't.
 
-# 2. Extract and test
-gunzip -c /tmp/backup-YYYY-MM-DD.sql.gz | head -100
+### Verify Media
 
-# 3. Verify the backup contains valid SQL
-grep -i "CREATE TABLE" /tmp/backup-YYYY-MM-DD.sql
-grep -i "INSERT INTO" /tmp/backup-YYYY-MM-DD.sql
-```
-
-### Verify Media Backup
-
-```bash
-# 1. Check the media backup exists
-rclone ls r2:kcc-backups/media/
-
-# 2. Verify the backup size matches the source
-rclone size kcc-assets/
-rclone size r2:kcc-backups/media/
-```
+There's no media backup to verify (see Media Backup above).
 
 ---
 
 ## Backup Schedule
 
-| Type            | Frequency | Time    | Retention | Purpose                |
-| --------------- | --------- | ------- | --------- | ---------------------- |
-| Full database   | Nightly   | 2:00 AM | 30 days   | Full recovery          |
-| Media sync      | Nightly   | 3:00 AM | 30 days   | Media recovery         |
-| Transaction log | Hourly    | :00     | 7 days    | Point-in-time recovery |
+| Type            | Frequency                       | Status                                                                                |
+| --------------- | ------------------------------- | ------------------------------------------------------------------------------------- |
+| Full database   | Daily (recommended 2:00 AM UTC) | Script exists (`backup.sh`); confirm the cron job is actually installed on the server |
+| Media sync      | —                               | **No script exists.**                                                                 |
+| Transaction log | —                               | **No script exists.**                                                                 |
 
 ---
 
 ## Backup Checklist
 
-- [ ] Nightly backup completed successfully
-- [ ] Backup uploaded to R2
+- [ ] Confirm the cron job for `backup.sh` is actually installed on the production server (`crontab -l`)
+- [ ] Backup uploaded to `s3://nexus-backups-bucket`
 - [ ] Backup file size is > 0 bytes
-- [ ] Backup contains valid SQL
-- [ ] Old backups cleaned up
+- [ ] `restore.sh <file> --verify-only` runs cleanly
+- [ ] Old backups (30+ days) are being cleaned up on S3
+- [ ] The GPG passphrase file (`/opt/nexus/secrets/backup-key.gpg`) itself has a backup/recovery plan — losing it makes every existing backup unrecoverable
 
 ---
 
 **C.W.W. Kannangara Central College, Est. 1873. "Wisdom is All Wealth."**
 
 ---
+
+## Changelog
+
+**This revision** — rebuilt entirely against the real `infra/scripts/backup.sh`/`restore.sh` and `infra/README.md`:
+
+- Replaced Cloudflare R2 + `rclone` throughout with the real AWS S3 + GPG-encryption pipeline.
+- Removed the Media Backup and Transaction Log Backup sections' implied automation — no scripts for either exist anywhere in the repo.
+- Replaced the fabricated backup script contents and manual restore steps with the real script behavior, including the safety confirmation prompt and `--verify-only` mode that `restore.sh` actually has.
+- Flagged that the backup cron job is documented as a setup step, not confirmed as actually running.

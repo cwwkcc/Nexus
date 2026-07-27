@@ -206,13 +206,13 @@ If a negative incident occurs:
 
 ### Key Metrics
 
-| Metric             | Target          | Measurement        |
-| ------------------ | --------------- | ------------------ |
-| Post reach         | 1,000+ per post | Platform analytics |
-| Engagement rate    | 5%+             | Platform analytics |
-| Follower growth    | 10%+ monthly    | Platform analytics |
-| Click-through rate | 2%+             | Platform analytics |
-| Website referrals  | 100+ monthly    | Google Analytics   |
+| Metric             | Target          | Measurement         |
+| ------------------ | --------------- | ------------------- |
+| Post reach         | 1,000+ per post | Platform analytics  |
+| Engagement rate    | 5%+             | Platform analytics  |
+| Follower growth    | 10%+ monthly    | Platform analytics  |
+| Click-through rate | 2%+             | Platform analytics  |
+| Website referrals  | 100+ monthly    | Umami (self-hosted) |
 
 ### Reporting Schedule
 

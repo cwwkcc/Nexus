@@ -28,7 +28,7 @@
 ### Automatic Deployment (Default)
 
 1. Push changes to `main` branch
-2. GitHub Actions automatically builds and deploys
+2. This triggers the **CI** workflow; once CI succeeds on `main`, it automatically triggers the **CD** workflow (`deploy.yml`) — deployment isn't triggered directly by the push itself, but by CI completing successfully
 3. Monitor the Actions tab for success/failure
 4. Verify the site is working at `https://cwwkcc.lk`
 
@@ -44,13 +44,20 @@ cd /opt/nexus
 # 3. Pull the latest images
 docker compose pull
 
-# 4. Restart services
-docker compose up -d
+# 4. Run database migrations BEFORE starting the new app containers
+# (the dedicated one-shot `migrate` service carries the Prisma CLI —
+# nexus-web and nexus-admin don't)
+docker compose run --rm migrate
 
-# 5. Check health
+# 5. Restart services
+docker compose up -d --wait --wait-timeout 120
+
+# 6. Check health
 curl https://cwwkcc.lk/api/health
 curl https://admin.cwwkcc.lk/api/health
 ```
+
+**Note:** `/api/health` doesn't exist in the codebase yet — see `Deployment Checklist.md` for details. Until it's built, the health checks above (and the automatic rollback in `deploy.yml` that depends on the same endpoint) won't behave as described.
 
 ### Verifying a Successful Deployment
 
@@ -72,6 +79,8 @@ curl https://admin.cwwkcc.lk/api/health
 
 ### Rollback Procedure
 
+**`deploy.yml` already does this automatically** if the post-deploy health checks fail — it restores a `.env.rollback` snapshot (taken just before the new deployment started) and re-pulls/restarts. The manual version below is for rolling back deliberately, after the fact, to a specific earlier commit:
+
 ```bash
 # 1. SSH into the server
 ssh user@server-ip
@@ -79,23 +88,28 @@ ssh user@server-ip
 # 2. Navigate to the project directory
 cd /opt/nexus
 
-# 3. Get the previous image tag
-# GitHub Container Registry stores images with commit SHA tags
-# Check the GitHub Actions run to find the previous successful commit SHA
+# 3. Find the previous successful commit SHA
+# Images are tagged by commit SHA in GHCR — check the GitHub Actions
+# history for the last successful deploy's SHA.
 
-# 4. Pull the previous image
-docker pull ghcr.io/kits/nexus-web:previous-commit-sha
-docker pull ghcr.io/kits/nexus-admin:previous-commit-sha
+# 4. Update the image tags in .env (not docker-compose.yml — the compose
+# file reads these as variables, it isn't edited directly per deployment)
+sed -i '/^WEB_IMAGE_TAG=/d;/^ADMIN_IMAGE_TAG=/d;/^MIGRATE_IMAGE_TAG=/d' .env
+{
+  echo "WEB_IMAGE_TAG=<previous-commit-sha>"
+  echo "ADMIN_IMAGE_TAG=<previous-commit-sha>"
+  echo "MIGRATE_IMAGE_TAG=<previous-commit-sha>"
+} >> .env
 
-# 5. Update docker-compose.yml to use the previous image tags
-# Edit the image: lines to point to the previous commit SHA
+# 5. Pull and restart
+docker compose pull
+docker compose up -d --wait --wait-timeout 120
 
-# 6. Restart services
-docker compose up -d
-
-# 7. Verify the site is working
+# 6. Verify the site is working
 curl https://cwwkcc.lk/api/health
 ```
+
+**Rolling back doesn't undo database migrations.** If the commit you're rolling back past included a schema migration, rolling back the app code alone can leave the database ahead of what the older code expects — this needs a deliberate decision, not just a code-image rollback.
 
 ---
 
@@ -202,10 +216,11 @@ docker compose up -d
    - Create new JSON files in `apps/web/src/i18n/messages/[locale]/`
    - Copy all keys from English and translate them
    - Every key that exists in English must exist in the new locale
+   - **Heads up:** this folder doesn't exist for any locale yet, English included — `request.ts`'s `loadMessages()` is currently a stub that returns nothing. See `i18n/Locale Management.md` for the concrete current state before starting this.
 
 3. **Add font support**
    - Add the new script's fonts to `next/font` configuration
-   - Update the font stack in `packages/config`
+   - Update the font stack in `packages/tokens` (not `packages/config` — token values, including the font stack, live in the dedicated tokens package; `config` only holds Next.js/Tailwind/font build configuration)
 
 4. **Update the LanguageSwitcher component**
    - Add the new language option
@@ -329,6 +344,8 @@ curl -vI https://cwwkcc.lk
 
 ### Health Checks
 
+**`/api/health` doesn't exist in the codebase yet** — see `Deployment Checklist.md` for the full context. The commands below are the target, not yet functional.
+
 | Service     | Check Command                                |
 | ----------- | -------------------------------------------- |
 | Public site | `curl -f https://cwwkcc.lk/api/health`       |
@@ -355,3 +372,16 @@ curl -vI https://cwwkcc.lk
 **C.W.W. Kannangara Central College, Est. 1873. "Wisdom is All Wealth."**
 
 ---
+
+---
+
+## Changelog
+
+**This revision:**
+
+- Manual Deployment steps were missing the migration step entirely (`docker compose run --rm migrate`) — following them as written would have skipped database migrations on every manual deploy.
+- Rollback Procedure described editing `docker-compose.yml` directly with a previous image tag; the real mechanism (in `deploy.yml`) works through `.env` variables (`WEB_IMAGE_TAG`, etc.) that compose reads, and there's an automatic version of this that runs on health-check failure already — added both the correct manual procedure and a note about the automatic one, plus a note that rolling back doesn't undo database migrations.
+- Fixed `packages/config` → `packages/tokens` for where the font stack actually lives.
+- Flagged that `apps/web/src/i18n/messages/` doesn't exist for any locale yet (English included), and that `/api/health` doesn't exist anywhere in the codebase — both referenced in this doc as if already built.
+
+**Previous revision** — audited against Feature Registry F-001–F-196 (source of truth): replaced three results-portal references (deployment verification step, scaling triggers, read-replica rationale) with equivalents that match the actual `ContentEntry`/tag-based-caching architecture (F-056, F-195); the results portal was cut from scope.

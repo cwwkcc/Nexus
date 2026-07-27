@@ -53,6 +53,8 @@ This checklist ensures every deployment to production is safe and complete. Runn
 
 ### Health Checks
 
+**See the note under Quick Reference below — `/api/health` doesn't exist in the codebase yet.**
+
 ```bash
 # Run these commands after deployment
 curl https://cwwkcc.lk/api/health
@@ -93,7 +95,7 @@ curl https://admin.cwwkcc.lk/api/health
 ### Rollback Plan
 
 - [ ] The previous image tag is known (from the last successful deployment)
-- [ ] The rollback procedure is documented (see Runbook.md)
+- [ ] The rollback procedure is documented (see `Operational Runbook.md`)
 - [ ] The team knows how to roll back if needed
 
 ---
@@ -102,24 +104,34 @@ curl https://admin.cwwkcc.lk/api/health
 
 ### Health Check Commands
 
+**⚠️ `/api/health` doesn't exist in the codebase yet** — there's no route file for it anywhere in `apps/web` or `apps/admin`. This is a real gap, not just a documentation one: `.github/workflows/deploy.yml`'s deploy job depends on exactly this endpoint (`curl --fail ... https://cwwkcc.lk/api/health`) to decide whether to roll back. Until this route is built, any deployment through that pipeline will fail its own health check and trigger an automatic rollback — worth building this before relying on the CD pipeline for a real deployment. The response shape below is therefore a proposed target, not a confirmed one.
+
 ```bash
 # Check public site health
 curl https://cwwkcc.lk/api/health
-# Expected: {"status":"ok"}
+# Proposed: {"status":"ok"}
 
 # Check admin site health
 curl https://admin.cwwkcc.lk/api/health
-# Expected: {"status":"ok"}
+# Proposed: {"status":"ok"}
 ```
 
 ### Rollback Command
 
+**This doc's own rollback command doesn't match how rollback actually works in `deploy.yml`.** The real pipeline already rolls back _automatically_ on health-check failure — it isn't something to invoke by hand in the normal case. Its mechanism: before deploying, it copies the current `.env` to `.env.rollback`; if the health checks fail after the new containers come up, it restores `.env.rollback` over `.env` and re-runs `docker compose pull && docker compose up -d --wait`, which pulls back the _previous_ image tags recorded in that restored `.env`. There's no `docker compose pull nexus-web:commit-sha` form — Compose doesn't take an image tag as a pull argument like that.
+
+To manually roll back to a specific earlier commit (e.g., outside the automatic path, or to go back further than one deployment):
+
 ```bash
-# Rollback to a specific commit SHA
 cd /opt/nexus
-docker compose stop nexus-web nexus-admin
-docker compose pull nexus-web:commit-sha nexus-admin:commit-sha
-docker compose up -d nexus-web nexus-admin
+sed -i '/^WEB_IMAGE_TAG=/d;/^ADMIN_IMAGE_TAG=/d;/^MIGRATE_IMAGE_TAG=/d' .env
+{
+  echo "WEB_IMAGE_TAG=<previous-commit-sha>"
+  echo "ADMIN_IMAGE_TAG=<previous-commit-sha>"
+  echo "MIGRATE_IMAGE_TAG=<previous-commit-sha>"
+} >> .env
+docker compose pull
+docker compose up -d --wait --wait-timeout 120
 ```
 
 ---
@@ -132,4 +144,6 @@ docker compose up -d nexus-web nexus-admin
 
 ## Changelog
 
-**This revision** — replaced "The results portal loads correctly" with a digital archive check; the results portal was cut from scope.
+**This revision** — fixed a broken link to a file that's since been deleted (`Runbook.md` → `Operational Runbook.md`); flagged that `/api/health` doesn't exist anywhere in the codebase yet, even though `.github/workflows/deploy.yml`'s automatic rollback depends on it; and rewrote the Rollback Command section, which described a manual procedure that doesn't match how `deploy.yml`'s real rollback mechanism actually works (`.env.rollback` restore + re-pull, not a per-service tag argument to `docker compose pull`).
+
+**Previous revision** — replaced "The results portal loads correctly" with a digital archive check; the results portal was cut from scope.

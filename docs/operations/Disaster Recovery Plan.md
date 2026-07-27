@@ -55,7 +55,7 @@ git clone https://github.com/kits/nexus.git /opt/nexus
 # 8. Pull the latest images
 docker compose pull
 
-# 9. Restore the database (see Restoring from Database Backup in Runbook.md)
+# 9. Restore the database (see Restoring from Database Backup in Operational Runbook.md)
 
 # 10. Update DNS to point to the new server IP
 # Update Cloudflare DNS records
@@ -87,36 +87,29 @@ curl https://cwwkcc.lk/api/health
 **Procedure:**
 
 ```bash
-# 1. Stop the web and admin services (prevent writes during restore)
+# 1. Stop the web and admin services (restore.sh does this itself, but
+# confirming first is good practice)
 cd /opt/nexus
-docker compose stop nexus-web nexus-admin
+docker compose ps nexus-web nexus-admin
 
 # 2. Identify the most recent known-good backup
-# Backups are stored in Cloudflare R2: kcc-backups/database/
-rclone ls r2:kcc-backups/database/
+# Backups are stored in AWS S3, not Cloudflare R2 — see Backup and Restore
+# Procedure.md for the full, real pipeline (backup.sh/restore.sh use S3 + GPG)
+aws s3 ls s3://nexus-backups-bucket/
 
-# 3. Download the backup
-rclone copy r2:kcc-backups/database/backup-YYYY-MM-DD.sql.gz /tmp/
+# 3. Run the restore script — it handles stop/drop/recreate/restore/restart,
+# including its own confirmation prompt
+./infra/scripts/restore.sh nexus_backup_20260113_020000.sql.gz.gpg
 
-# 4. Drop and recreate the database
-docker compose exec postgres psql -U nexus -c "DROP DATABASE IF EXISTS nexus;"
-docker compose exec postgres psql -U nexus -c "CREATE DATABASE nexus;"
-
-# 5. Restore the backup
-gunzip -c /tmp/backup-YYYY-MM-DD.sql.gz | docker compose exec -T postgres psql -U nexus -d nexus
-
-# 6. Restart all services
-docker compose up -d
-
-# 7. Verify the data is restored
+# 4. Verify the data is restored
 # Check the admin panel and public site for correct content
 ```
 
 **Prevention:**
 
-- Nightly automated backups
+- Daily automated backups (once the cron job is confirmed installed — see Backup and Restore Procedure.md)
 - Soft-delete pattern (content is never hard-deleted)
-- Hourly transaction log backups for critical tables
+- No transaction-log/point-in-time backup exists today — recovery means accepting up to 24 hours of data loss (see Backup and Restore Procedure.md)
 
 ---
 
@@ -217,8 +210,8 @@ UPDATE "News" SET "deletedAt" = NULL WHERE id = '...';
 # Images will load again automatically
 
 # 3. If data is lost:
-# Restore from secondary backup
-# The backup procedure is documented in Backup-Restore-Procedure.md
+# There is currently no separate media backup — see Backup and Restore
+# Procedure.md. R2's own durability is the only protection today.
 
 # 4. If R2 is permanently inaccessible:
 # Migrate to an alternative storage provider (e.g., Backblaze B2)
@@ -228,9 +221,8 @@ UPDATE "News" SET "deletedAt" = NULL WHERE id = '...';
 
 **Prevention:**
 
-- Secondary backups to a separate storage provider
-- S3-compatible API allows migration to other providers
-- Media assets are also backed up to the primary server
+- **No secondary media backup exists today** — an earlier revision of this document claimed one did ("secondary backups to a separate storage provider," "media assets are also backed up to the primary server"); neither is true. `infra/scripts/` has no media backup script at all. This is a real, open gap, not just a documentation one.
+- S3-compatible API allows migration to other providers if needed
 
 ---
 
@@ -304,5 +296,11 @@ UPDATE "News" SET "deletedAt" = NULL WHERE id = '...';
 ---
 
 **C.W.W. Kannangara Central College, Est. 1873. "Wisdom is All Wealth."**
+
+---
+
+## Changelog
+
+**This revision** — the Database Corruption procedure described a Cloudflare R2 + `rclone` restore; the real pipeline (`infra/scripts/restore.sh`) uses AWS S3 + GPG decryption instead — replaced with the real script usage. Fixed a broken reference to a deleted file (`Runbook.md` → `Operational Runbook.md`) and a wrong filename (`Backup-Restore-Procedure.md` → `Backup and Restore Procedure.md`). Removed claims of "hourly transaction log backups" and "secondary media backups to a separate provider" — neither exists anywhere in `infra/scripts/`; both are real open gaps, not things already in place.
 
 ---
