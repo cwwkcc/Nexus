@@ -1,6 +1,6 @@
 **To:** The Principal, C.W.W. Kannangara Central College
 **From:** Kannangara ICT Society (KITS)
-**Date:** June 2026
+**Date:** July 2026
 **Subject:** Implementation of the "Nexus" Digital Institution
 
 ---
