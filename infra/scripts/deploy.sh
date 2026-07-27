@@ -5,6 +5,9 @@ set -euo pipefail
 # Called by GitHub Actions CD pipeline.
 # SSH into Hetzner, pull new images from GHCR, restart services.
 # Waits for Docker healthchecks to report healthy before marking success.
+# No changes needed here — matches docs/operations/Deployment Checklist.md
+# and Appendix A §A.7, and F-010 is the one feature tag in this directory
+# that already matched the current Feature Registry.
 
 # Configuration
 DEPLOY_DIR="/opt/nexus"
@@ -53,7 +56,7 @@ check_health() {
   local service=$1
   local url=$2
   local elapsed=0
-  
+
   while [ $elapsed -lt $HEALTH_CHECK_TIMEOUT ]; do
     if curl --fail --silent --max-time 5 "$url" > /dev/null 2>&1; then
       echo "✓ $service is healthy"
@@ -62,7 +65,7 @@ check_health() {
     sleep $HEALTH_CHECK_INTERVAL
     elapsed=$((elapsed + HEALTH_CHECK_INTERVAL))
   done
-  
+
   echo "✗ $service health check failed"
   return 1
 }
