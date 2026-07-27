@@ -6,7 +6,7 @@ This directory contains all operational documentation for the Nexus platform. Th
 
 ## Document Index
 
-_As of this revision: the four stub files this table used to point at (`Runbook.md`, `Disaster-Recovery.md`, `Incident-Response.md`, and their hyphenated names never matching any real file's spacing) have been deleted — they were empty placeholders left over from early scaffolding, each superseded by a fully written document under a different name below. `Secrets Rotation Procedures.md` was also a placeholder with no full version anywhere; it's listed below as not yet written, not deleted, since the work itself is still outstanding (F-135)._
+_As of this revision: the four stub files this table used to point at (`Runbook.md`, `Disaster-Recovery.md`, `Incident-Response.md`, and their hyphenated names never matching any real file's spacing) have been deleted — they were empty placeholders left over from early scaffolding, each superseded by a fully written document under a different name below. `Secrets Rotation Procedures.md` was also a placeholder with no full version anywhere; it's now been written up from the real `infra/scripts/rotate-secret.sh` and `rotate-breakglass-password.sh` scripts, including two real bugs found in the former._
 
 | Document                                                                       | Purpose                                       | When to Use                                                                                                                                                                       |
 | ------------------------------------------------------------------------------ | --------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -20,7 +20,7 @@ _As of this revision: the four stub files this table used to point at (`Runbook.
 | **[Deployment Checklist.md](./Deployment%20Checklist.md)**                     | Pre-deployment checks                         | Before every deployment to production                                                                                                                                             |
 | **[Incident Response Plan.md](./Incident%20Response%20Plan.md)**               | Security incident response                    | When a security incident is suspected or confirmed                                                                                                                                |
 | **[Maintenance Schedule.md](./Maintenance%20Schedule.md)**                     | Regular maintenance tasks                     | For scheduled maintenance: weekly, monthly, yearly                                                                                                                                |
-| _Secrets Rotation Procedures.md_                                               | Rotating credentials without downtime (F-135) | **Not yet written** — currently a placeholder only                                                                                                                                |
+| **[Secrets Rotation Procedures.md](./Secrets%20Rotation%20Procedures.md)**     | Rotating credentials without downtime (F-135) | When rotating any credential — note the document itself flags two real bugs in the rotation script                                                                                |
 
 ---
 

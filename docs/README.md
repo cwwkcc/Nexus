@@ -28,9 +28,9 @@ All documentation is version-controlled alongside the source code. If you find a
 | **See the complete build plan**                         | [`technical/Engineering Roadmap.md`](./technical/Engineering%20Roadmap.md)                                 |
 | **Know exactly what features are included**             | [`technical/Feature Registry.md`](./technical/Feature%20Registry.md)                                       |
 | **Understand the technical architecture**               | [`technical/Technical Architecture Overview.md`](./technical/Technical%20Architecture%20Overview.md)       |
-| **Learn the design system**                             | [`design-system/`](./design-system/) — Foundations, Tokens, Components                                     |
+| **Learn the design system**                             | [`Design System/`](./Design%20System/) — Foundations, Tokens, Components                                   |
 | **Set up your development environment**                 | [`technical/Developer Onboarding Guide.md`](./technical/Developer%20Onboarding%20Guide.md)                 |
-| **Perform operational tasks (deploy, backup, restore)** | [`operations/Runbook.md`](./operations/Runbook.md)                                                         |
+| **Perform operational tasks (deploy, backup, restore)** | [`operations/Operational Runbook.md`](./operations/Operational%20Runbook.md)                               |
 | **Understand why key decisions were made**              | [`adr/`](./adr/) — Architecture Decision Records                                                           |
 | **Manage content (who owns what, approval workflow)**   | [`governance/`](./governance/)                                                                             |
 | **Work with translations**                              | [`i18n/`](./i18n/)                                                                                         |
@@ -47,17 +47,22 @@ docs/
 │   ├── ADR002 - Next.js App Router.md
 │   ├── ADR003 - PostgreSQL Selection.md
 │   ├── ADR004 - tRPC Selection.md
-│   ├── ADR005 - Zod contracts Strategy.md
+│   ├── ADR005 - Zod Validation Strategy.md
 │   ├── ADR006 - R2 Storage Selection.md
 │   ├── ADR007 - Analytics Strategy.md
 │   ├── ADR008 - Multilingual Font Architecture.md
 │   └── ADR009 - Page Content Architecture.md
 │
-├── design-system/                 # Visual language and component library
+├── architecture/                  # Deep-dive architecture references
+│   ├── Contracts.md               # Full @nexus/contracts package map
+│   └── nexus-architecture-map.html
+│
+├── Design System/                 # Visual language and component library
 │   ├── Foundations.md             # Principles, colours, typography, spacing, motion
 │   ├── Tokens Reference.md        # All token values (single source of truth)
 │   ├── Page Specifications.md     # Every page: sections, components, data sources
-│   └── Component Reference.md     # All components: props, usage, status
+│   └── Components/
+│       └── Component Reference.md # All components: props, usage, status
 │
 ├── governance/                    # Content policies and workflows
 │   ├── Governance Overview.md
@@ -76,11 +81,12 @@ docs/
 │   ├── Internationalisation (i18n) Overview.md
 │   ├── Locale Management.md
 │   ├── Translation Workflow.md
-│   └── Font Configuration.md
+│   ├── Font Configuration.md
+│   └── Institutional Glossary.md  # School terms in EN/SI/TA
 │
 ├── operations/                    # Operational runbooks and procedures
 │   ├── README.md                  # Operations overview and quick reference
-│   ├── Runbook.md                 # Daily operations (deploy, backup, restore)
+│   ├── Operational Runbook.md     # Daily operations (deploy, backup, restore)
 │   ├── Disaster Recovery Plan.md  # Recovery from every failure mode
 │   ├── Environment Variables.md   # All env vars documented
 │   ├── Deployment Checklist.md    # Pre-deployment checks
@@ -88,6 +94,7 @@ docs/
 │   ├── Maintenance Schedule.md
 │   ├── Google OAuth Setup.md
 │   ├── Backup and Restore Procedure.md
+│   ├── Secrets Rotation Procedures.md
 │   └── Social Media Strategy.md
 │
 ├── proposal/                      # Project proposal (for principal approval)
@@ -103,10 +110,12 @@ docs/
 ├── technical/                     # Technical specifications
 │   ├── Technical Architecture Overview.md
 │   ├── Engineering Roadmap.md     # Complete phased build plan
-│   ├── Feature Registry.md        # All 181 features (F-001 to F-181)
-│   ├── Design System Summary.md
+│   ├── Feature Registry.md        # All 200 features (F-001 to F-200)
 │   ├── Developer Onboarding Guide.md
-│   └── Asset Inventory.md
+│   ├── Developer Knowledge Map.md # "Where does X live" / "is X actually built" quick reference
+│   ├── nexus-feature-map.html
+│   ├── Design System Summary.md   # Pointer — see proposal/Appendix B.md
+│   └── Asset Inventory.md         # Pointer — see proposal/Appendix C.md
 │
 └── README.md                      # This file
 ```
@@ -128,7 +137,7 @@ docs/
 2. **[Engineering Roadmap](./technical/Engineering%20Roadmap.md)** — What to build and in what order
 3. **[Feature Registry](./technical/Feature%20Registry.md)** — Complete list of features
 4. **[Architecture Decision Records (ADRs)](./adr/)** — Why each technology was chosen
-5. **[Runbook](./operations/Runbook.md)** — Day-to-day operational tasks
+5. **[Operational Runbook](./operations/Operational%20Runbook.md)** — Day-to-day operational tasks
 
 ### For Content Editors
 
@@ -150,14 +159,17 @@ docs/
 
 | Category      | Status      | Last Updated |
 | ------------- | ----------- | ------------ |
-| ADRs          | ✅ Complete | June 2026    |
-| Design System | ✅ Complete | June 2026    |
-| Governance    | ✅ Complete | June 2026    |
-| i18n          | ✅ Complete | June 2026    |
-| Operations    | ✅ Complete | June 2026    |
-| Proposal      | ✅ Complete | June 2026    |
-| Reference     | ✅ Complete | June 2026    |
-| Technical     | ✅ Complete | June 2026    |
+| ADRs          | ✅ Complete | July 2026    |
+| Architecture  | ✅ Complete | July 2026    |
+| Design System | ✅ Complete | July 2026    |
+| Governance    | ✅ Complete | July 2026    |
+| i18n          | ✅ Complete | July 2026    |
+| Operations    | ✅ Complete | July 2026    |
+| Proposal      | ✅ Complete | July 2026    |
+| Reference     | ✅ Complete | July 2026    |
+| Technical     | ✅ Complete | July 2026    |
+
+This entire tree went through a full cross-check against the actual codebase in July 2026 — broken links, stale package names, fictional token values, a wrong backup system description, wrong Feature Registry cross-references, and duplicate/dead files were all found and corrected in that pass. See each folder's own changelog sections for specifics.
 
 ---
 
@@ -197,11 +209,11 @@ docs/
 
 For questions about this documentation or the Nexus project:
 
-| Role                   | Contact                                |
-| ---------------------- | -------------------------------------- |
-| **KITS Lead**          | [To be filled — contact Staff Advisor] |
-| **Staff Advisor**      | Mrs. Tharindrie Perera                 |
-| **Project Repository** | `https://github.com/cwwkcc/nexus`      |
+| Role                   | Contact                                                                                                                                                                                                                                                                                                                                                                       |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **KITS Lead**          | [To be filled — contact Staff Advisor]                                                                                                                                                                                                                                                                                                                                        |
+| **Staff Advisor**      | Mrs. Tharindrie Perera                                                                                                                                                                                                                                                                                                                                                        |
+| **Project Repository** | `https://github.com/cwwkcc/nexus` — **double-check this before publishing**: `docker-compose`/GHCR references elsewhere in these docs use the image path `ghcr.io/kits/nexus-web`, implying the GitHub org might actually be `kits`, not `cwwkcc`. The real CI/CD workflow resolves this dynamically rather than hardcoding it, so it doesn't settle the question either way. |
 
 ---
 
