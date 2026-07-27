@@ -187,11 +187,10 @@ The entire platform runs on a single Hetzner VPS, with all services containerise
 
 ### A.5.3 Rate Limiting
 
-| Endpoint       | Limit                 | Implementation                       |
-| -------------- | --------------------- | ------------------------------------ |
-| Results Portal | 10 requests/minute/IP | Next.js middleware or Cloudflare WAF |
-| Contact Form   | 5 requests/hour/IP    | Next.js middleware or Cloudflare WAF |
-| General API    | Configurable baseline | Next.js middleware                   |
+| Endpoint     | Limit                 | Implementation                       |
+| ------------ | --------------------- | ------------------------------------ |
+| Contact Form | 5 requests/hour/IP    | Next.js middleware or Cloudflare WAF |
+| General API  | Configurable baseline | Next.js middleware                   |
 
 ---
 
