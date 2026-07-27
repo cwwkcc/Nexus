@@ -6,189 +6,103 @@ This directory contains infrastructure configuration and scripts for deploying a
 
 ```
 infra/
-├── postgres/           # PostgreSQL data volume (gitignored)
-└── scripts/            # Operational scripts
-    ├── backup.sh                    # Database backup with encryption
-    ├── restore.sh                   # Database restore for disaster recovery
-    ├── deploy.sh                    # Zero-downtime deployment
-    ├── rotate-secret.sh             # Credential rotation
-    └── rotate-breakglass-password.sh # Break-glass password rotation
+├── postgres/                # PostgreSQL data volume (gitignored)
+└── scripts/
+    ├── lib/
+    │   └── common.sh                     # Shared helpers (env loading, rclone/R2 setup)
+    ├── backup.sh                         # Nightly database backup → R2
+    ├── backup-wal.sh                     # Hourly transaction log backup → R2
+    ├── backup-media.sh                   # Nightly media asset backup → R2 (+ optional Storage Box)
+    ├── restore.sh                        # Database restore for disaster recovery
+    ├── deploy.sh                         # Zero-downtime deployment
+    ├── rotate-secret.sh                  # Credential rotation
+    └── rotate-breakglass-password.sh     # Break-glass password rotation
 ```
+
+## Backup Strategy
+
+Matches Appendix A §A.8.1 of the Project Proposal and `docs/operations/Backup and Restore Procedure.md`:
+
+| Type             | Schedule      | Destination                                                                          | Retention |
+| ---------------- | ------------- | ------------------------------------------------------------------------------------ | --------- |
+| Database (full)  | Nightly, 2 AM | Cloudflare R2 (`kcc-backups/database/`)                                              | 30 days   |
+| Transaction logs | Hourly        | Cloudflare R2 (`kcc-backups/wal/`)                                                   | 7 days    |
+| Media assets     | Nightly, 3 AM | Cloudflare R2 (encrypted, `kcc-backups/media/`), optionally also Hetzner Storage Box | 30 days   |
+
+All backups are **encrypted before leaving the server** (F-134), with the encryption key stored separately from the backups at `/opt/nexus/secrets/backup-key.gpg`. Off-site storage is **Cloudflare R2**, not AWS — R2 is what's budgeted (Section 9) and specified (Appendix A); there is no AWS dependency anywhere in this stack.
+
+### Cron
+
+```bash
+0 2 * * * /opt/nexus/scripts/backup.sh
+0 3 * * * /opt/nexus/scripts/backup-media.sh
+0 * * * * /opt/nexus/scripts/backup-wal.sh
+```
+
+### Prerequisite for `backup-wal.sh`
+
+WAL archiving must be enabled in Postgres itself before this script has anything to ship. See the comment block at the top of `backup-wal.sh` for the required `postgresql.conf` / `docker-compose.yml` settings.
+
+### Prerequisite for `backup-media.sh`'s Hetzner Storage Box copy
+
+Set `HETZNER_STORAGE_BOX_REMOTE` in `.env` to a configured rclone remote (e.g. an SFTP remote pointing at the Storage Box) to get a real off-provider secondary copy, per the Disaster Recovery Plan's R2-failure mitigation. Without it, the script still runs (R2-to-R2 encrypted copy) but logs a reminder that the true secondary copy isn't configured.
 
 ## Scripts
 
 ### backup.sh
 
-Automated database backup script that:
+- Dumps the database with `pg_dump` **inside** the postgres container (Postgres is internal-only — no host-exposed DB port)
+- Compresses with gzip, encrypts with GPG (AES256)
+- Uploads to R2 via `rclone`
+- Applies 30-day retention via `rclone delete --min-age 30d`
 
-- Dumps the PostgreSQL database using `pg_dump`
-- Compresses the backup with gzip
-- Encrypts with GPG (AES256)
-- Uploads to S3 for off-site storage
-- Applies 30-day retention policy
+**Requirements:** `rclone`, GPG with encryption key at `/opt/nexus/secrets/backup-key.gpg`, `R2_ACCESS_KEY_ID` / `R2_SECRET_ACCESS_KEY` / `R2_ENDPOINT` in `.env`.
 
-**Usage:**
+### backup-wal.sh
 
-```bash
-./infra/scripts/backup.sh
-```
+Ships archived WAL segments to R2 hourly for point-in-time recovery. See prerequisite above.
 
-**Requirements:**
+### backup-media.sh
 
-- PostgreSQL client tools
-- GPG with encryption key at `/opt/nexus/secrets/backup-key.gpg`
-- AWS CLI configured with S3 access
-- Run via cron schedule (recommended: daily)
+Syncs the primary media bucket into an encrypted R2 path, versioned so accidental deletions upstream don't propagate silently. Optionally also syncs to a genuinely separate provider (Hetzner Storage Box) if configured.
 
 ### restore.sh
 
-Database restore script for disaster recovery and backup verification.
-
-**Usage:**
-
 ```bash
 # Restore from backup
-./infra/scripts/restore.sh nexus_backup_20240113_120000.sql.gz.gpg
+./infra/scripts/restore.sh nexus_backup_20260113_020000.sql.gz.gpg
 
 # Verify backup integrity only
-./infra/scripts/restore.sh nexus_backup_20240113_120000.sql.gz.gpg --verify-only
+./infra/scripts/restore.sh nexus_backup_20260113_020000.sql.gz.gpg --verify-only
 ```
 
-**Safety:**
-
-- Requires explicit confirmation before restore
-- Stops application services during restore
-- Supports verification mode without data modification
+Downloads from R2 via `rclone`, decrypts with GPG, restores inside the postgres container. Requires explicit `yes` confirmation before a destructive restore; `--verify-only` never touches the live database.
 
 ### deploy.sh
 
-Zero-downtime deployment script called by GitHub Actions CD pipeline.
-
-**Usage:**
+Unchanged — already matched the Deployment Checklist and Appendix A §A.7.
 
 ```bash
 ./infra/scripts/deploy.sh <image_tag>
 ```
 
-**Features:**
-
-- Pulls new images from GHCR
-- Creates rollback snapshot before deployment
-- Waits for Docker healthchecks
-- Automatic rollback on failure
-- Health check verification for both web and admin
-
 ### rotate-secret.sh
 
-Rotates credentials without service downtime.
-
-**Usage:**
-
 ```bash
-# Rotate with auto-generated password
-./infra/scripts/rotate-secret.sh DB_PASSWORD
-
-# Rotate with specific value
-./infra/scripts/rotate-secret.sh NEXTAUTH_SECRET "my-new-secret"
+./infra/scripts/rotate-secret.sh <secret_name> [new_value]
+# Available secrets: DB_PASSWORD, NEXTAUTH_SECRET, R2_ACCESS_KEY, R2_SECRET_KEY, RESEND_API_KEY
 ```
 
-**Supported secrets:**
-
-- `DB_PASSWORD` - Database password
-- `NEXTAUTH_SECRET` - Auth.js secret
-- `R2_ACCESS_KEY` - Cloudflare R2 access key
-- `R2_SECRET_KEY` - Cloudflare R2 secret key
-- `RESEND_API_KEY` - Resend API key
+`DB_PASSWORD` actually rotates the Postgres role's password (`ALTER ROLE ... WITH PASSWORD`) and updates only the password segment of `DATABASE_URL`, rather than overwriting the whole connection string. Backs up `.env` first and restores it automatically if the affected services don't come back up.
 
 ### rotate-breakglass-password.sh
-
-Server-side script for rotating the break-glass admin password directly in the database.
-
-**Usage:**
 
 ```bash
 ./infra/scripts/rotate-breakglass-password.sh <new_password>
 ```
 
-**Security:**
+Rotates the break-glass admin password directly in the database (min. 16 characters, argon2id hash). Reads the account email from `ADMIN_EMAIL` in `.env` rather than hardcoding it.
 
-- Must be run over SSH on production server
-- No internet-facing reset surface
-- Password must be at least 16 characters
-- Uses argon2id hashing
+---
 
-## Caddy Configuration
-
-The Caddy reverse proxy configuration is located in `infra/caddy/Caddyfile` (mounted as `/etc/caddy/Caddyfile` in production).
-
-**Features:**
-
-- Automatic TLS via Let's Encrypt
-- Reverse proxy for web (cwwkcc.lk) and admin (admin.cwwkcc.lk)
-- Security headers: HSTS, CSP, X-Frame-Options, etc.
-
-## PostgreSQL Data
-
-The `infra/postgres/` directory contains the PostgreSQL data volume and is **gitignored**. This directory is mounted into the PostgreSQL container for persistent storage.
-
-**Important:** Never commit this directory to version control.
-
-## Production Setup
-
-1. **Create directories:**
-
-   ```bash
-   sudo mkdir -p /opt/nexus/{backups,secrets}
-   sudo chown -R $USER:$USER /opt/nexus
-   ```
-
-2. **Generate encryption key:**
-
-   ```bash
-   openssl rand -base64 32 > /opt/nexus/secrets/backup-key.gpg
-   chmod 600 /opt/nexus/secrets/backup-key.gpg
-   ```
-
-3. **Configure environment variables:**
-
-   ```bash
-   cp .env.example .env
-   # Edit .env with production values
-   ```
-
-4. **Set up cron for backups:**
-   ```bash
-   # Add to crontab: daily at 2 AM UTC
-   0 2 * * * /opt/nexus/infra/scripts/backup.sh >> /var/log/nexus-backup.log 2>&1
-   ```
-
-## Security Considerations
-
-- All scripts use `set -euo pipefail` for error handling
-- Secrets are stored separately from backup files
-- Break-glass password has no internet-facing reset surface
-- All credentials can be rotated without downtime
-- Backups are encrypted before upload to S3
-
-## Disaster Recovery
-
-See the Disaster Recovery Plan (F-178) for detailed procedures. Quick reference:
-
-1. **Verify backup integrity:**
-
-   ```bash
-   ./infra/scripts/restore.sh <backup_file> --verify-only
-   ```
-
-2. **Restore from backup:**
-
-   ```bash
-   ./infra/scripts/restore.sh <backup_file>
-   ```
-
-3. **Verify services:**
-   ```bash
-   docker compose ps
-   curl https://cwwkcc.lk/api/health
-   curl https://admin.cwwkcc.lk/api/health
-   ```
+**C.W.W. Kannangara Central College, Est. 1873. "Wisdom is All Wealth."**
