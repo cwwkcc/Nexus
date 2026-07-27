@@ -91,8 +91,25 @@ pnpm dev:admin # Admin panel on http://localhost:3001
 ## Project Structure
 
 ```
-
+nexus/
+├── apps/
+│   ├── web/              # Public website (apps/web/src/app/[locale]/...)
+│   └── admin/            # Admin panel (apps/admin/src/app/...)
+├── packages/
+│   ├── ui/                # Shared component library (~100+ components)
+│   ├── config/            # Next.js/Tailwind/font build configuration
+│   ├── tokens/             # Design tokens — source of truth for colours, type, spacing, motion
+│   ├── contracts/         # Zod schemas, Page Registry, content-type identifiers
+│   ├── env/               # Typed, validated environment variables (server/client split)
+│   ├── transport/          # HTTP client for non-tRPC third-party calls (Resend, R2, reCAPTCHA)
+│   ├── database/          # Prisma schema, client, and seed scripts
+│   └── api/                # tRPC router definitions
+└── infra/
+    ├── scripts/            # backup.sh, restore.sh, deploy.sh, rotate-secret.sh, rotate-breakglass-password.sh
+    └── caddy/              # Caddyfile (reverse proxy config)
 ```
+
+See `docs/adr/ADR001 - Monorepo Architecture.md` for how this evolved (in particular, tokens split out of `config` into its own package after this guide's original diagram was written).
 
 ---
 
@@ -115,7 +132,7 @@ pnpm dev:admin # Admin panel on http://localhost:3001
 ### Adding a New API Endpoint
 
 1. Add procedure to the appropriate router in `packages/api/src/routers/`
-2. Add or reuse a schema in `packages/contracts/src/` — under `blocks/` for a content block type, `school/` or `content/` for a domain entity, `core/` for a shared primitive
+2. Add or reuse a schema in `packages/contracts/src/` — under `blocks/` for a content block type, `domains/` for a business entity (academics, admissions, people, facilities, etc.), `editorial/` for CMS content that isn't a block (news, events, gallery), or `primitives/` for a shared foundational shape. There's no `school/`, `content/`, or `core/` folder — see `docs/architecture/Contracts.md` for the full, real folder structure.
 3. Use `protectedProcedure` or `adminProcedure` for authenticated endpoints
 
 ### Running Commands
@@ -143,8 +160,10 @@ pnpm test:watch
 
 ### Working with Translations
 
+**Heads up:** `apps/web/src/i18n/messages/` doesn't exist yet for any locale, including English — `request.ts`'s message loader is currently a stub that returns nothing. See `docs/i18n/Locale Management.md` for the concrete current state before starting this.
+
 ```bash
-# Add a new translation key
+# Add a new translation key (once the messages/ folder exists)
 # 1. Edit the English JSON file
 # 2. Add placeholder entries to Sinhala and Tamil JSON files
 # 3. Run the type check to ensure all keys exist

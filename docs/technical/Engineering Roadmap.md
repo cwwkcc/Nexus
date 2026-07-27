@@ -219,8 +219,8 @@ docs/
 │   ├── Page Specifications.md
 │   └── Component Reference.md
 ├── operations/
-│   ├── Runbook.md
-│   └── Disaster Recovery.md
+│   ├── Operational Runbook.md
+│   └── Disaster Recovery Plan.md
 ├── governance/
 │   └── Content Governance.md
 └── i18n/
@@ -287,14 +287,14 @@ The institutional character of the site requires that animations feel deliberate
 
 ### Task 2.5 — Define the Glass and Shadow System
 
-The visual identity of Nexus is built on the glass morphism treatment — a dark forest green base with translucent layered surfaces.
+The visual identity of Nexus is built on the glass morphism treatment — a light, parchment-and-forest base with translucent layered surfaces (not the dark forest-green base described in earlier drafts of this roadmap — the shipped palette is light-dominant, and dark-theme support isn't implemented at all yet; see `docs/Design System/Tokens Reference.md`).
 
-| Token                  | Value                        | Usage                 |
-| ---------------------- | ---------------------------- | --------------------- |
-| `glass-surface-light`  | `rgba(255,255,255,0.85)`     | Light floating panels |
-| `glass-surface-medium` | `rgba(255,255,255,0.7)`      | Medium translucency   |
-| `glass-border`         | `border-light` + `border-sm` | Glass panel border    |
-| `glass-shadow`         | `shadow-elevation-2`         | Glass panel shadow    |
+| Token                | Value                                           | Usage                   |
+| -------------------- | ----------------------------------------------- | ----------------------- |
+| `surface-glass`      | `rgba(255,255,255,0.55)`                        | Default floating panel  |
+| `surface-glass-card` | `rgba(255,255,255,0.70)`                        | Denser glass, for cards |
+| `glass-border`       | `rgba(28,26,22,0.08)`                           | Glass panel border      |
+| `glass-shadow`       | Dedicated shadow value (not an elevation alias) | Glass panel shadow      |
 
 **Important:** Glass never uses `backdrop-filter`. Glass is achieved through opacity and shadows only.
 
@@ -1980,7 +1980,7 @@ Write it as if explaining to someone who has never seen the codebase.
 
 ### Task 14.3 — Runbook
 
-Write an operational runbook at `docs/operations/Runbook.md` covering:
+Write an operational runbook at `docs/operations/Operational Runbook.md` (the file ended up with this name, not the bare `Runbook.md` sketched here) covering:
 
 - How to deploy a change
 - How to roll back a bad deployment
@@ -2080,3 +2080,23 @@ _Adjust based on actual start date and available resources._
 _Nexus Platform — Kannangara ICT Society (KITS)_
 
 ---
+
+## Changelog
+
+**This revision** — audited against Feature Registry F-001–F-196 (source of truth) and corrected to match:
+
+- Removed six tasks describing features cut from scope entirely: the Page Configuration System (old Task 6.5), Page Configuration Module (old Task 7.10), Results Module (old Task 7.8), Results Portal and Results Portal Security & Privacy (old Tasks 8.9/8.9a). Every remaining task in Phases 6, 7, and 8 has been renumbered sequentially — task numbers referenced elsewhere in this document have been updated to match.
+- Renamed and rewrote the tasks that build the actual replacement system: `packages/validation` → `packages/contracts` (Task 4.1), `PageContent` → `ContentEntry` throughout (Task 6.8, formerly 6.5b; Task 7.9, formerly 7.10b; Task 8.3, formerly 8.2b).
+- Rewrote Task 6.1's schema table and Task 6.4/6.6's router table to reflect the actual current-vs-deferred split (F-056/F-057/F-064/F-068/F-069): only `User`, `ContentEntry`, `ContentEntryVersion`, and `SiteSetting` exist today; every other domain model and router is added alongside its own Phase 7 module, not built in one pass.
+- Rewrote Task 6.9/6.12's disaster-recovery language and Task 14.0b's accidental-deletion procedure to reflect status-based archiving (F-063) — there is no `deletedAt` soft-delete column.
+- Rewrote Task 7.11/7.10's Analytics Module to reflect the Umami-based approach (F-101/F-102) rather than a custom in-house event collector.
+- Repurposed Task 12.4a from a Results-Portal-specific PII review into a platform-wide one (Alumni Directory, Achievement Database, Digital Archive, Contact form, cookie consent).
+- Removed remaining scattered references to the cut Results Portal / `ExamResult` (Task 0.2 scope inventory, Task 4.2 error boundaries, Task 4.6 i18n feature areas, Task 3.9/3.2 component lists, Task 8.15 Academics Page, Task 10.2 JSON-LD, Task 10.3 sitemap, Task 12.4 security review, Task 13.2 analytics review, Task 14.0 content governance).
+- Fixed a dangling cross-reference to a non-existent "Task 4.3b" in Task 11.8's CSP row.
+- Updated the intro's registry range from "F-001 through F-181" to "F-001 through F-196," noting F-195/F-196 are appended past F-194 per the registry's stable-number rule rather than causing a renumber.
+
+---
+
+## Changelog (this audit pass)
+
+**This revision:** fixed two references to `docs/operations/Runbook.md`/`Disaster Recovery.md` (the file names sketched in the original task list) — the files that actually got built are named `Operational Runbook.md` and `Disaster Recovery Plan.md`. Fixed a stale glass-token table (fictional token names/values, and a description of the palette as "dark forest green" — the shipped palette is light-dominant, and dark theme isn't implemented at all). Verified the four existing "Results Portal" mentions and the one "packages/validation" mention already in this document are legitimate historical changelog entries describing the removal/rename, not stale live references — left as-is.

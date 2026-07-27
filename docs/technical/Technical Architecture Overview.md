@@ -301,6 +301,8 @@ services:
 
 ### Health Checks
 
+**Note:** `/api/health` doesn't exist in the codebase yet for either app — the table below describes the target design. See `docs/operations/Deployment Checklist.md` for the full context, including how this affects the CD pipeline's automatic rollback.
+
 | Service     | Health Check Endpoint   | Interval | Alert On                        |
 | ----------- | ----------------------- | -------- | ------------------------------- |
 | nexus-web   | `/api/health`           | 10s      | Container unhealthy (5 retries) |
@@ -321,3 +323,7 @@ services:
 **C.W.W. Kannangara Central College, Est. 1873. "Wisdom is All Wealth."**
 
 ---
+
+## Changelog
+
+## **This revision:** flagged that `/api/health` doesn't exist in the codebase yet, even though it's referenced in the health-check table and depended on by the real CD pipeline's automatic rollback. Everything else in this document checked out against the actual codebase — this is the one file among the three `docs/proposal/` Appendix "twins" that had already been kept current rather than left to drift (its Results Portal reference had already been fixed, unlike the copies in `technical/Asset Inventory.md` and `technical/Design System Summary.md`, which duplicated `Appendix C.md`/`Appendix B.md` and had gone stale — those two were replaced with pointers instead).
