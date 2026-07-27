@@ -1,58 +1,63 @@
 #!/bin/bash
 set -euo pipefail
 
-# Automated database backup script (F-049)
-# pg_dump → compress → encrypt → upload to off-site storage.
-# Run on schedule. Retention policy enforced.
-# Encryption key stored separately from backup files (F-120).
+# Automated database backup script (F-061, F-134)
+# pg_dump (inside the postgres container — Postgres is internal-only, see
+# Appendix A §A.5.2) → compress → GPG-encrypt → upload to Cloudflare R2 via
+# rclone. Destination, tooling, and encryption match:
+#   - Appendix A §A.8.1  (Database backup → R2, encrypted, 30-day retention)
+#   - docs/operations/Backup and Restore Procedure.md  (R2 + rclone)
+#   - F-134  (Backup Encryption: encrypted before off-site storage,
+#             key stored separately from the backups)
+# Run nightly via cron (docs specify 0 2 * * *):
+#   0 2 * * * /opt/nexus/scripts/backup.sh
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=lib/common.sh
+source "$SCRIPT_DIR/lib/common.sh"
 
 # Configuration
+DEPLOY_DIR="/opt/nexus"
+ENV_FILE="$DEPLOY_DIR/.env"
+COMPOSE_FILE="$DEPLOY_DIR/docker-compose.yml"
 BACKUP_DIR="/opt/nexus/backups"
 RETENTION_DAYS=30
 ENCRYPTION_KEY_FILE="/opt/nexus/secrets/backup-key.gpg"
-DB_NAME="nexus"
-DB_USER="nexus"
-DB_HOST="localhost"
-DB_PORT="5432"
-S3_BUCKET="s3://nexus-backups-bucket"
+RCLONE_REMOTE="r2"
+BACKUP_BUCKET="${R2_BACKUP_BUCKET_NAME:-kcc-backups}"
+LOCK_FILE="/tmp/nexus-backup.lock"
 
-# Create backup directory
+load_env "$ENV_FILE"
+configure_rclone_r2 "$RCLONE_REMOTE"
+
+DB_NAME="${POSTGRES_DB:-nexus}"
+DB_USER="${POSTGRES_USER:-nexus}"
+
+# Prevent overlapping runs if a previous backup is still going
+exec 200>"$LOCK_FILE"
+flock -n 200 || { log "Another backup run is already in progress. Exiting."; exit 1; }
+
 mkdir -p "$BACKUP_DIR"
 
-# Generate timestamp
 TIMESTAMP=$(date -u +"%Y%m%d_%H%M%S")
-BACKUP_FILE="nexus_backup_${TIMESTAMP}.sql"
-COMPRESSED_FILE="${BACKUP_FILE}.gz"
+COMPRESSED_FILE="nexus_backup_${TIMESTAMP}.sql.gz"
 ENCRYPTED_FILE="${COMPRESSED_FILE}.gpg"
 
-# Dump database
-echo "Starting database backup..."
-pg_dump -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" > "$BACKUP_DIR/$BACKUP_FILE"
+log "Starting database backup..."
+docker compose -f "$COMPOSE_FILE" exec -T postgres pg_dump -U "$DB_USER" -d "$DB_NAME" \
+  | gzip > "$BACKUP_DIR/$COMPRESSED_FILE"
 
-# Compress
-echo "Compressing backup..."
-gzip "$BACKUP_DIR/$BACKUP_FILE"
+log "Encrypting backup..."
+gpg --batch --yes --cipher-algo AES256 --passphrase-file "$ENCRYPTION_KEY_FILE" \
+  -c "$BACKUP_DIR/$COMPRESSED_FILE"
 
-# Encrypt
-echo "Encrypting backup..."
-gpg --batch --yes --cipher-algo AES256 --compress-algo 1 --passphrase-file "$ENCRYPTION_KEY_FILE" -c "$BACKUP_DIR/$COMPRESSED_FILE"
+log "Uploading to R2 (${RCLONE_REMOTE}:${BACKUP_BUCKET}/database/)..."
+rclone copy "$BACKUP_DIR/$ENCRYPTED_FILE" "$RCLONE_REMOTE:$BACKUP_BUCKET/database/"
 
-# Upload to S3
-echo "Uploading to S3..."
-aws s3 cp "$BACKUP_DIR/$ENCRYPTED_FILE" "$S3_BUCKET/$ENCRYPTED_FILE"
-
-# Clean up local files
+log "Cleaning up local files..."
 rm -f "$BACKUP_DIR/$COMPRESSED_FILE" "$BACKUP_DIR/$ENCRYPTED_FILE"
 
-# Apply retention policy
-echo "Applying retention policy..."
-aws s3 ls "$S3_BUCKET/" | while read -r line; do
-  FILE_DATE=$(echo "$line" | awk '{print $2}' | cut -d_ -f1)
-  FILE_DAYS=$(( ($(date +%s) - $(date -d "$FILE_DATE" +%s)) / 86400 ))
-  if [ "$FILE_DAYS" -gt "$RETENTION_DAYS" ]; then
-    FILE_NAME=$(echo "$line" | awk '{print $4}')
-    aws s3 rm "$S3_BUCKET/$FILE_NAME"
-  fi
-done
+log "Applying ${RETENTION_DAYS}-day retention policy..."
+rclone delete "$RCLONE_REMOTE:$BACKUP_BUCKET/database/" --min-age "${RETENTION_DAYS}d"
 
-echo "Backup completed successfully: $ENCRYPTED_FILE"
+log "Backup completed successfully: $ENCRYPTED_FILE"
