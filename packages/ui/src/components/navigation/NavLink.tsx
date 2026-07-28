@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { forwardRef, type ReactNode, type ElementType } from 'react';
+import { type ReactNode, type ElementType } from 'react';
 
 import { cn } from '../../utilities/cn';
 
@@ -10,7 +10,7 @@ const checkIsExternal = (href: string): boolean => href.startsWith('http://') ||
 
 export type AriaCurrentValue = 'page' | 'step' | 'location' | 'date' | 'time' | true;
 
-export interface NavLinkProps extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> {
+export interface NavLinkProps extends Omit<React.ComponentProps<'a'>, 'href'> {
   href: string;
   children: ReactNode;
   active?: boolean;
@@ -36,7 +36,7 @@ const activeStyles = {
   dark: 'text-gold-base border-gold-base',
 } as const;
 
-export const NavLink = forwardRef<HTMLElement, NavLinkProps>(({ href, children, active, onDark = false, className, activeClassName, external, onClick, prefetch = true, ariaCurrent = 'page', as: Component, ...rest }, ref) => {
+export function NavLink({ href, children, active, onDark = false, className, activeClassName, external, onClick, prefetch = true, ariaCurrent = 'page', as: Component, ref, ...rest }: NavLinkProps) {
   const pathname = usePathname();
   const isExternal = external ?? checkIsExternal(href);
 
@@ -83,6 +83,4 @@ export const NavLink = forwardRef<HTMLElement, NavLinkProps>(({ href, children, 
       {children}
     </Link>
   );
-});
-
-NavLink.displayName = 'NavLink';
+}
