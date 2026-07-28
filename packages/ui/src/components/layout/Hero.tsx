@@ -107,11 +107,13 @@ export function Hero({ variant = 'homepage', heading, subheading, eyebrow, image
   const contentPadding = variant === 'homepage' ? 'text-center' : 'text-left';
   const maxWidthClass = variant === 'homepage' ? 'max-w-prose' : 'max-w-content';
 
-  // Overlay gradient – mapped from design system tokens
+  // Overlay gradient – tied directly to the design tokens (text-primary /
+  // forest.900 "ink" and green-base / green.100) via color-mix, instead of
+  // duplicating their RGB values by hand.
   const OVERLAY_GRADIENT_CLASSES: Record<HeroVariant, string> = {
-    homepage: 'bg-gradient-to-b from-[rgba(28,26,22,0.55)] via-[rgba(26,74,46,0.72)] to-[rgba(28,26,22,0.82)]',
-    subpage: 'bg-gradient-to-b from-[rgba(28,26,22,0.5)] to-[rgba(26,74,46,0.78)]',
-    minimal: 'bg-[rgba(26,74,46,0.88)]',
+    homepage: 'bg-gradient-to-b from-[color-mix(in_srgb,var(--color-text-primary)_55%,transparent)] via-[color-mix(in_srgb,var(--color-green-base)_72%,transparent)] to-[color-mix(in_srgb,var(--color-text-primary)_82%,transparent)]',
+    subpage: 'bg-gradient-to-b from-[color-mix(in_srgb,var(--color-text-primary)_50%,transparent)] to-[color-mix(in_srgb,var(--color-green-base)_78%,transparent)]',
+    minimal: 'bg-[color-mix(in_srgb,var(--color-green-base)_88%,transparent)]',
   };
 
   // Framer Motion variants for staggered children
@@ -168,7 +170,16 @@ export function Hero({ variant = 'homepage', heading, subheading, eyebrow, image
         )}
 
         {/* Overlay */}
-        {overlayOpacity !== undefined ? <div className="absolute inset-0" style={{ background: `linear-gradient(to bottom, rgba(28,26,22,${overlayOpacity * 0.8}), rgba(26,74,46,${overlayOpacity}))` }} /> : <div className={cn('absolute inset-0', OVERLAY_GRADIENT_CLASSES[variant])} />}
+        {overlayOpacity !== undefined ? (
+          <div
+            className="absolute inset-0"
+            style={{
+              background: `linear-gradient(to bottom, color-mix(in srgb, var(--color-text-primary) ${overlayOpacity * 80}%, transparent), color-mix(in srgb, var(--color-green-base) ${overlayOpacity * 100}%, transparent))`,
+            }}
+          />
+        ) : (
+          <div className={cn('absolute inset-0', OVERLAY_GRADIENT_CLASSES[variant])} />
+        )}
       </div>
 
       {/* Content */}
