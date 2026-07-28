@@ -65,11 +65,12 @@ export function LoadingScreen({ visible = true, onExited, ariaLabel = 'Loading' 
               {/* Shine sweep */}
               {!shouldReduceMotion && (
                 <motion.div
-                  className="absolute inset-0 overflow-hidden rounded-full pointer-events-none"
+                  className="absolute inset-0 overflow-hidden rounded-full pointer-events-none w-[40%] h-full bg-[linear-gradient(90deg,transparent,color-mix(in_srgb,var(--color-gold-light)_50%,transparent),transparent)]"
                   aria-hidden="true"
-                  initial={{ x: '-200%', opacity: 0 }}
+                  initial={{ x: '-200%', skewX: -20, opacity: 0 }}
                   animate={{
                     x: ['-200%', '200%'],
+                    skewX: -20,
                     opacity: [0, 0.6, 0],
                   }}
                   transition={{
@@ -78,12 +79,6 @@ export function LoadingScreen({ visible = true, onExited, ariaLabel = 'Loading' 
                     ease: 'easeInOut',
                     delay: 0.6,
                     times: [0, 0.2, 1],
-                  }}
-                  style={{
-                    width: '40%',
-                    height: '100%',
-                    background: 'linear-gradient(90deg, transparent, rgba(232,184,75,0.5), transparent)',
-                    transform: 'skewX(-20deg)',
                   }}
                 />
               )}

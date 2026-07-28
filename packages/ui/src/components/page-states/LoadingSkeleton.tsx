@@ -44,10 +44,10 @@ function CardSkeleton() {
     <div className={cn('bg-surface-elevated border border-border-light', 'overflow-hidden')}>
       <SkeletonBase className="h-size-48" /> {/* 192px – closest to 200px */}
       <div className="flex flex-col gap-space-3 p-space-5 pb-space-6">
-        <SkeletonBase className="h-size-3 w-[30%] rounded-sm" />
-        <SkeletonBase className="h-[22px] w-[85%] rounded-sm" /> {/* 22px not tokenized, keep */}
-        <SkeletonBase className="h-size-3p5 w-full rounded-sm" /> {/* 14px */}
-        <SkeletonBase className="h-size-3p5 w-[75%] rounded-sm" />
+        <SkeletonBase className="h-size-3 w-size-pct-30 rounded-sm" />
+        <SkeletonBase className="h-[22px] w-size-pct-85 rounded-sm" /> {/* 22px not tokenized, keep */}
+        <SkeletonBase className="h-size-3p5 w-size-full rounded-sm" /> {/* 14px */}
+        <SkeletonBase className="h-size-3p5 w-size-pct-75 rounded-sm" />
         <SkeletonBase className="h-size-3 w-[25%] rounded-sm mt-space-1" />
       </div>
     </div>
@@ -57,10 +57,10 @@ function CardSkeleton() {
 function TableRowSkeleton() {
   return (
     <div className={cn('flex items-center gap-space-4 py-space-3p5', 'border-b border-border-light')}>
-      <SkeletonBase className="h-size-4 w-[8%] rounded-sm shrink-0" /> {/* 16px */}
-      <SkeletonBase className="h-size-4 w-[30%] rounded-sm" />
-      <SkeletonBase className="h-size-4 w-[20%] rounded-sm" />
-      <SkeletonBase className="h-size-4 w-[15%] rounded-sm ml-auto" />
+      <SkeletonBase className="h-size-4 w-size-pct-8 rounded-sm shrink-0" /> {/* 16px */}
+      <SkeletonBase className="h-size-4 w-size-pct-20 rounded-sm" />
+      <SkeletonBase className="h-size-4 w-size-pct-30 rounded-sm" />
+      <SkeletonBase className="h-size-4 w-size-pct-15 rounded-sm ml-auto" />
     </div>
   );
 }
@@ -69,9 +69,9 @@ function SectionSkeleton() {
   return (
     <div className="flex flex-col gap-space-6">
       <div className="flex flex-col gap-space-3">
-        <SkeletonBase className="h-size-3 w-[15%] rounded-sm" />
-        <SkeletonBase className="h-size-9 w-[40%] rounded-sm" /> {/* 36px – size-9 */}
-        <SkeletonBase className="h-[18px] w-[60%] rounded-sm" /> {/* 18px not tokenized, keep */}
+        <SkeletonBase className="h-size-3 w-size-pct-15 rounded-sm" />
+        <SkeletonBase className="h-size-9 w-size-pct-40 rounded-sm" /> {/* 36px – size-9 */}
+        <SkeletonBase className="h-[18px] w-size-pct-60 rounded-sm" /> {/* 18px not tokenized, keep */}
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-space-4">
         <CardSkeleton />
