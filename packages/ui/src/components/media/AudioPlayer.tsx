@@ -23,9 +23,13 @@ interface AudioPlayerProps {
   volumeLabel?: string;
   muteLabel?: string;
   unmuteLabel?: string;
+  playLabel?: string;
+  pauseLabel?: string;
+  showLyricsLabel?: string;
+  hideLyricsLabel?: string;
 }
 
-export function AudioPlayer({ src, title, subtitle, lyrics, lyricsSinhala, className, downloadLabel = 'Download Track', rewindLabel = 'Rewind 10 Seconds', forwardLabel = 'Forward 10 Seconds', seekLabel = 'Seek progress bar', volumeLabel = 'Volume', muteLabel = 'Mute', unmuteLabel = 'Unmute' }: AudioPlayerProps) {
+export function AudioPlayer({ src, title, subtitle, lyrics, lyricsSinhala, className, downloadLabel = 'Download Track', rewindLabel = 'Rewind 10 Seconds', forwardLabel = 'Forward 10 Seconds', seekLabel = 'Seek progress bar', volumeLabel = 'Volume', muteLabel = 'Mute', unmuteLabel = 'Unmute', playLabel = 'Play', pauseLabel = 'Pause', showLyricsLabel = 'View Lyrics', hideLyricsLabel = 'Hide Lyrics' }: AudioPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -51,7 +55,6 @@ export function AudioPlayer({ src, title, subtitle, lyrics, lyricsSinhala, class
     const handleTimeUpdate = () => setCurrentTime(audio.currentTime);
 
     const updateDuration = () => {
-      console.log('duration event fired, audio.duration =', audio.duration);
       if (Number.isFinite(audio.duration)) {
         setDuration(audio.duration);
       }
@@ -130,8 +133,13 @@ export function AudioPlayer({ src, title, subtitle, lyrics, lyricsSinhala, class
       if (isPlaying) {
         audioRef.current.pause();
       } else {
+        // A rejected play() (e.g. blocked by the browser's autoplay policy)
+        // isn't actionable here — the UI already reflects it correctly
+        // since `isPlaying` only flips via the audio element's own 'play'
+        // event, which simply never fires in that case. Swallowing it
+        // silently just avoids an unhandled promise rejection.
         audioRef.current.play().catch((error) => {
-          console.warn('Playback was prevented:', error);
+          console.log(error);
         });
       }
     }
@@ -255,7 +263,7 @@ export function AudioPlayer({ src, title, subtitle, lyrics, lyricsSinhala, class
               <Icon name="rewind" size="sm" />
             </button>
 
-            <Button onClick={togglePlay} variant="primary" size="icon-xl" className="rounded-full shadow-elevation-1 transition-transform hover:scale-105 active:scale-95 !w-14 !h-14" aria-label={isPlaying ? 'Pause' : 'Play'}>
+            <Button onClick={togglePlay} variant="primary" size="icon-xl" className="rounded-full shadow-elevation-1 transition-transform hover:scale-105 active:scale-95 !w-14 !h-14" aria-label={isPlaying ? pauseLabel : playLabel}>
               <Icon name={isPlaying ? 'pause' : 'play'} size="md" />
             </Button>
 
@@ -305,7 +313,7 @@ export function AudioPlayer({ src, title, subtitle, lyrics, lyricsSinhala, class
         {(lyrics || lyricsSinhala) && (
           <Container className="mt-space-4 flex flex-col items-center">
             <button onClick={() => setShowLyrics(!showLyrics)} className="text-gold-base uppercase tracking-label text-label-sm font-label py-space-2 px-space-4 rounded-full hover:bg-gold-glow transition-colors flex items-center gap-space-2">
-              {showLyrics ? 'Hide Lyrics' : 'View Lyrics'}
+              {showLyrics ? hideLyricsLabel : showLyricsLabel}
               <motion.span animate={{ rotate: showLyrics ? 180 : 0 }} className="inline-flex">
                 <Icon name="chevron-down" size="xs" />
               </motion.span>
