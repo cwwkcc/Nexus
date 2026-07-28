@@ -114,8 +114,6 @@ docs/
 │   ├── Developer Onboarding Guide.md
 │   ├── Developer Knowledge Map.md # "Where does X live" / "is X actually built" quick reference
 │   ├── nexus-feature-map.html
-│   ├── Design System Summary.md   # Pointer — see proposal/Appendix B.md
-│   └── Asset Inventory.md         # Pointer — see proposal/Appendix C.md
 │
 └── README.md                      # This file
 ```
