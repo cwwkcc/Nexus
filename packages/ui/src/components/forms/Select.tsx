@@ -1,7 +1,5 @@
 'use client';
 
-import { forwardRef } from 'react';
-
 import { useFormField } from '../../hooks/useFormField';
 import { cn } from '../../utilities/cn';
 
@@ -24,11 +22,12 @@ type Props = {
   onBlur?: React.FocusEventHandler<HTMLSelectElement>;
   name?: string;
   className?: string;
+  ref?: React.Ref<HTMLSelectElement>;
 };
 
 const selectBase = 'w-full font-body text-body text-text-primary bg-surface-elevated ' + 'border rounded-sm px-space-4 py-space-3 ' + 'transition-all duration-fast ease-snap ' + 'appearance-none cursor-pointer ' + 'disabled:bg-surface-deep disabled:text-text-muted disabled:cursor-not-allowed ' + 'focus-visible:outline-2 focus-visible:outline-gold-base focus-visible:outline-offset-[3px]';
 
-export const Select = forwardRef<HTMLSelectElement, Props>(({ label, options, helperText, error, disabled = false, required = false, placeholder, value, defaultValue, onChange, onBlur, name, className }, ref) => {
+export function Select({ label, options, helperText, error, disabled = false, required = false, placeholder, value, defaultValue, onChange, onBlur, name, className, ref }: Props) {
   const { id, errorId, helperId, hasError, describedBy } = useFormField({
     error,
     helperText,
@@ -75,6 +74,4 @@ export const Select = forwardRef<HTMLSelectElement, Props>(({ label, options, he
       )}
     </div>
   );
-});
-
-Select.displayName = 'Select';
+}

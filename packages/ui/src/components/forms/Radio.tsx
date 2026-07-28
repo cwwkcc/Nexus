@@ -1,6 +1,6 @@
 'use client';
 
-import { forwardRef, useId } from 'react';
+import { useId } from 'react';
 
 import { cn } from '../../utilities/cn';
 
@@ -13,9 +13,10 @@ type Props = {
   name?: string;
   value: string;
   className?: string;
+  ref?: React.Ref<HTMLInputElement>;
 };
 
-export const Radio = forwardRef<HTMLInputElement, Props>(({ label, checked, defaultChecked, disabled = false, onChange, name, value, className }, ref) => {
+export function Radio({ label, checked, defaultChecked, disabled = false, onChange, name, value, className, ref }: Props) {
   const id = useId();
 
   return (
@@ -24,6 +25,4 @@ export const Radio = forwardRef<HTMLInputElement, Props>(({ label, checked, defa
       <span className="font-body text-body text-text-primary">{label}</span>
     </label>
   );
-});
-
-Radio.displayName = 'Radio';
+}

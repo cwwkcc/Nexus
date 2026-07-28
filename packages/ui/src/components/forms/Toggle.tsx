@@ -1,6 +1,6 @@
 'use client';
 
-import { forwardRef, useId } from 'react';
+import { useId } from 'react';
 
 import { cn } from '../../utilities/cn';
 
@@ -12,9 +12,10 @@ type Props = {
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   name?: string;
   className?: string;
+  ref?: React.Ref<HTMLInputElement>;
 };
 
-export const Toggle = forwardRef<HTMLInputElement, Props>(({ label, checked, defaultChecked, disabled = false, onChange, name, className }, ref) => {
+export function Toggle({ label, checked, defaultChecked, disabled = false, onChange, name, className, ref }: Props) {
   const id = useId();
 
   return (
@@ -26,6 +27,4 @@ export const Toggle = forwardRef<HTMLInputElement, Props>(({ label, checked, def
       <span className="font-body text-body text-text-primary">{label}</span>
     </label>
   );
-});
-
-Toggle.displayName = 'Toggle';
+}

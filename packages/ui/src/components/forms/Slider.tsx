@@ -1,6 +1,6 @@
 'use client';
 
-import { forwardRef, useRef, useState, type ChangeEvent } from 'react';
+import { useRef, useState, type ChangeEvent } from 'react';
 
 import { cn } from '../../utilities/cn';
 
@@ -17,9 +17,10 @@ export interface SliderProps {
   showMarks?: boolean;
   disabled?: boolean;
   className?: string;
+  ref?: React.Ref<HTMLInputElement>;
 }
 
-export const Slider = forwardRef<HTMLInputElement, SliderProps>(({ label, name, min = 0, max = 100, step = 1, value, defaultValue = 50, onChange, showValue = true, showMarks = false, disabled = false, className }, ref) => {
+export function Slider({ label, name, min = 0, max = 100, step = 1, value, defaultValue = 50, onChange, showValue = true, showMarks = false, disabled = false, className, ref }: SliderProps) {
   const [internalValue, setInternalValue] = useState(defaultValue);
   const currentValue = value !== undefined ? value : internalValue;
   const percentage = ((currentValue - min) / (max - min)) * 100;
@@ -93,6 +94,4 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(({ label, name, 
       )}
     </div>
   );
-});
-
-Slider.displayName = 'Slider';
+}

@@ -1,6 +1,6 @@
 'use client';
 
-import { forwardRef, useId, type ChangeEventHandler } from 'react';
+import { useId, type ChangeEventHandler } from 'react';
 
 import { cn } from '../../utilities/cn';
 
@@ -14,9 +14,10 @@ type Props = {
   name?: string;
   value?: string;
   className?: string;
+  ref?: React.Ref<HTMLInputElement>;
 };
 
-export const Checkbox = forwardRef<HTMLInputElement, Props>(({ label, description, checked, defaultChecked, disabled = false, onChange, name, value, className }, ref) => {
+export function Checkbox({ label, description, checked, defaultChecked, disabled = false, onChange, name, value, className, ref }: Props) {
   const id = useId();
   const descriptionId = description ? `${id}-description` : undefined;
 
@@ -40,6 +41,4 @@ export const Checkbox = forwardRef<HTMLInputElement, Props>(({ label, descriptio
       </span>
     </label>
   );
-});
-
-Checkbox.displayName = 'Checkbox';
+}

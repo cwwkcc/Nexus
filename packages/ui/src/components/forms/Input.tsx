@@ -1,7 +1,5 @@
 'use client';
 
-import { forwardRef } from 'react';
-
 import { useFormField } from '../../hooks/useFormField';
 import { cn } from '../../utilities/cn';
 
@@ -20,11 +18,12 @@ type Props = {
   name?: string;
   autoComplete?: string;
   className?: string;
+  ref?: React.Ref<HTMLInputElement>;
 };
 
 const inputBase = 'w-full font-body text-body text-text-primary bg-surface-elevated ' + 'border rounded-sm px-space-4 py-space-3 ' + 'transition-all duration-fast ease-snap ' + 'placeholder:text-text-muted ' + 'disabled:bg-surface-deep disabled:text-text-muted disabled:cursor-not-allowed ' + 'focus-visible:outline-2 focus-visible:outline-gold-base focus-visible:outline-offset-[3px]';
 
-export const Input = forwardRef<HTMLInputElement, Props>(({ label, helperText, error, disabled = false, required = false, placeholder, type = 'text', value, defaultValue, onChange, onBlur, name, autoComplete, className }, ref) => {
+export function Input({ label, helperText, error, disabled = false, required = false, placeholder, type = 'text', value, defaultValue, onChange, onBlur, name, autoComplete, className, ref }: Props) {
   const { id, errorId, helperId, hasError, describedBy } = useFormField({
     error,
     helperText,
@@ -53,6 +52,4 @@ export const Input = forwardRef<HTMLInputElement, Props>(({ label, helperText, e
       )}
     </div>
   );
-});
-
-Input.displayName = 'Input';
+}
