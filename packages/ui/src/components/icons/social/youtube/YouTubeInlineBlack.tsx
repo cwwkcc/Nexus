@@ -1,13 +1,12 @@
 // Auto-generated – do not edit manually.
 // Source: packages/ui/scripts/generate-icons.js
-import { forwardRef } from 'react';
 
 import { cn } from '../../../../utilities/cn';
 import { type SocialIconProps, sizeMap } from '../types';
 
 export type { SocialIconProps };
 
-export const YouTubeInlineBlack = forwardRef<SVGSVGElement, SocialIconProps>(({ size = 'md', color, className, style, ...props }, ref) => {
+export function YouTubeInlineBlack({ size = 'md', color, className, style, ref, ...props }: SocialIconProps) {
   const isToken = typeof size === 'string' && size in sizeMap;
   const sizeClass = isToken ? sizeMap[size] : '';
   const customStyle = !isToken && size ? { width: size, height: size, ...style } : style;
@@ -24,6 +23,4 @@ export const YouTubeInlineBlack = forwardRef<SVGSVGElement, SocialIconProps>(({ 
       <path d="M0,0 L124,0 L124,37 L83,37 L83,253 L41,253 L41,37 L0,37 Z " fill={color || '#212121'} transform="translate(1010,159)" />
     </svg>
   );
-});
-
-YouTubeInlineBlack.displayName = 'YouTubeInlineBlack';
+}

@@ -1,13 +1,12 @@
 // Auto-generated – do not edit manually.
 // Source: packages/ui/scripts/generate-icons.js
-import { forwardRef } from 'react';
 
 import { cn } from '../../../../utilities/cn';
 import { type SocialIconProps, sizeMap } from '../types';
 
 export type { SocialIconProps };
 
-export const GitHubLockupWhiteClearspace = forwardRef<SVGSVGElement, SocialIconProps>(({ size = 'md', color, className, style, ...props }, ref) => {
+export function GitHubLockupWhiteClearspace({ size = 'md', color, className, style, ref, ...props }: SocialIconProps) {
   const isToken = typeof size === 'string' && size in sizeMap;
   const sizeClass = isToken ? sizeMap[size] : '';
   const customStyle = !isToken && size ? { width: size, height: size, ...style } : style;
@@ -25,6 +24,4 @@ export const GitHubLockupWhiteClearspace = forwardRef<SVGSVGElement, SocialIconP
       </defs>
     </svg>
   );
-});
-
-GitHubLockupWhiteClearspace.displayName = 'GitHubLockupWhiteClearspace';
+}

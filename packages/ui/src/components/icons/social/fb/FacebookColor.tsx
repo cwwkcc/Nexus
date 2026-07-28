@@ -1,13 +1,12 @@
 // Auto-generated – do not edit manually.
 // Source: packages/ui/scripts/generate-icons.js
-import { forwardRef } from 'react';
 
 import { cn } from '../../../../utilities/cn';
 import { type SocialIconProps, sizeMap } from '../types';
 
 export type { SocialIconProps };
 
-export const FacebookColor = forwardRef<SVGSVGElement, SocialIconProps>(({ size = 'md', color, className, style, ...props }, ref) => {
+export function FacebookColor({ size = 'md', color, className, style, ref, ...props }: SocialIconProps) {
   const isToken = typeof size === 'string' && size in sizeMap;
   const sizeClass = isToken ? sizeMap[size] : '';
   const customStyle = !isToken && size ? { width: size, height: size, ...style } : style;
@@ -18,6 +17,4 @@ export const FacebookColor = forwardRef<SVGSVGElement, SocialIconProps>(({ size 
       <path d="M0,0 L55,0 L91,2 L137,6 L200,14 L235,20 L255,25 L258,26 L258,315 L197,312 L109,312 L85,314 L60,317 L32,323 L8,331 L-15,342 L-30,352 L-43,363 L-53,373 L-64,388 L-73,404 L-80,419 L-87,440 L-92,463 L-96,487 L-98,510 L-99,656 L241,656 L239,670 L230,719 L221,767 L213,812 L205,854 L199,887 L188,948 L183,974 L182,975 L-99,975 L-99,1691 L-123,1694 L-161,1697 L-180,1698 L-272,1698 L-318,1695 L-363,1690 L-409,1683 L-454,1674 L-478,1668 L-478,975 L-692,975 L-692,656 L-478,656 L-478,507 L-477,471 L-474,427 L-470,390 L-463,350 L-455,314 L-445,280 L-435,253 L-424,228 L-413,206 L-398,181 L-386,164 L-375,150 L-363,136 L-348,120 L-340,113 L-328,102 L-311,89 L-295,78 L-277,67 L-255,55 L-231,44 L-211,36 L-177,25 L-145,17 L-114,11 L-72,5 L-40,2 Z " fill={color || '#FEFEFF'} transform="translate(1268,386)" />
     </svg>
   );
-});
-
-FacebookColor.displayName = 'FacebookColor';
+}

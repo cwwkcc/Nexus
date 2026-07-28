@@ -1,13 +1,12 @@
 // Auto-generated – do not edit manually.
 // Source: packages/ui/scripts/generate-icons.js
-import { forwardRef } from 'react';
 
 import { cn } from '../../../../utilities/cn';
 import { type SocialIconProps, sizeMap } from '../types';
 
 export type { SocialIconProps };
 
-export const WhatsAppStackedWhite = forwardRef<SVGSVGElement, SocialIconProps>(({ size = 'md', color: _color, className, style, ...props }, ref) => {
+export function WhatsAppStackedWhite({ size = 'md', color: _color, className, style, ref, ...props }: SocialIconProps) {
   const isToken = typeof size === 'string' && size in sizeMap;
   const sizeClass = isToken ? sizeMap[size] : '';
   const customStyle = !isToken && size ? { width: size, height: size, ...style } : style;
@@ -32,6 +31,4 @@ export const WhatsAppStackedWhite = forwardRef<SVGSVGElement, SocialIconProps>((
       </g>
     </svg>
   );
-});
-
-WhatsAppStackedWhite.displayName = 'WhatsAppStackedWhite';
+}

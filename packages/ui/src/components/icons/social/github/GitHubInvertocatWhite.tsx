@@ -1,13 +1,12 @@
 // Auto-generated – do not edit manually.
 // Source: packages/ui/scripts/generate-icons.js
-import { forwardRef } from 'react';
 
 import { cn } from '../../../../utilities/cn';
 import { type SocialIconProps, sizeMap } from '../types';
 
 export type { SocialIconProps };
 
-export const GitHubInvertocatWhite = forwardRef<SVGSVGElement, SocialIconProps>(({ size = 'md', color, className, style, ...props }, ref) => {
+export function GitHubInvertocatWhite({ size = 'md', color, className, style, ref, ...props }: SocialIconProps) {
   const isToken = typeof size === 'string' && size in sizeMap;
   const sizeClass = isToken ? sizeMap[size] : '';
   const customStyle = !isToken && size ? { width: size, height: size, ...style } : style;
@@ -24,6 +23,4 @@ export const GitHubInvertocatWhite = forwardRef<SVGSVGElement, SocialIconProps>(
       </defs>
     </svg>
   );
-});
-
-GitHubInvertocatWhite.displayName = 'GitHubInvertocatWhite';
+}

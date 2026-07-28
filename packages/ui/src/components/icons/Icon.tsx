@@ -1,5 +1,4 @@
 // packages/ui/src/components/icons/Icon.tsx
-import { forwardRef } from 'react';
 
 import { iconRegistry, type IconName } from './registry';
 import { cn } from '../../utilities/cn';
@@ -23,13 +22,11 @@ const sizeMap = {
   xl: 'w-size-12 h-size-12', // 48px
 } as const;
 
-export const Icon = forwardRef<SVGSVGElement, IconProps>(({ name, size = 'md', strokeWidth = 2, className, ...rest }, ref) => {
+export function Icon({ name, size = 'md', strokeWidth = 2, className, ref, ...rest }: IconProps) {
   const LucideIcon = iconRegistry[name];
   if (!LucideIcon) {
     return null;
   }
 
   return <LucideIcon ref={ref} strokeWidth={strokeWidth} className={cn(sizeMap[size], className)} {...rest} />;
-});
-
-Icon.displayName = 'Icon';
+}

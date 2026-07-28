@@ -1,13 +1,12 @@
 // Auto-generated – do not edit manually.
 // Source: packages/ui/scripts/generate-icons.js
-import { forwardRef } from 'react';
 
 import { cn } from '../../../../utilities/cn';
 import { type SocialIconProps, sizeMap } from '../types';
 
 export type { SocialIconProps };
 
-export const LinkedInWhite = forwardRef<SVGSVGElement, SocialIconProps>(({ size = 'md', color, className, style, ...props }, ref) => {
+export function LinkedInWhite({ size = 'md', color, className, style, ref, ...props }: SocialIconProps) {
   const isToken = typeof size === 'string' && size in sizeMap;
   const sizeClass = isToken ? sizeMap[size] : '';
   const customStyle = !isToken && size ? { width: size, height: size, ...style } : style;
@@ -19,6 +18,4 @@ export const LinkedInWhite = forwardRef<SVGSVGElement, SocialIconProps>(({ size 
       <path d="M0,0 L11,0 L16,2 L17,3 L17,11 L15,13 L12,13 L18,23 L13,23 L8,16 L8,14 L4,14 L4,23 L0,23 Z M4,4 L4,10 L12,10 L13,5 L11,4 Z " fill={color || '#FFFFFF'} transform="translate(811,636)" />
     </svg>
   );
-});
-
-LinkedInWhite.displayName = 'LinkedInWhite';
+}

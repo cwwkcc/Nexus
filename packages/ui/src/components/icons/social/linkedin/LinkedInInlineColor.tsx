@@ -1,13 +1,12 @@
 // Auto-generated – do not edit manually.
 // Source: packages/ui/scripts/generate-icons.js
-import { forwardRef } from 'react';
 
 import { cn } from '../../../../utilities/cn';
 import { type SocialIconProps, sizeMap } from '../types';
 
 export type { SocialIconProps };
 
-export const LinkedInInlineColor = forwardRef<SVGSVGElement, SocialIconProps>(({ size = 'md', color, className, style, ...props }, ref) => {
+export function LinkedInInlineColor({ size = 'md', color, className, style, ref, ...props }: SocialIconProps) {
   const isToken = typeof size === 'string' && size in sizeMap;
   const sizeClass = isToken ? sizeMap[size] : '';
   const customStyle = !isToken && size ? { width: size, height: size, ...style } : style;
@@ -26,6 +25,4 @@ export const LinkedInInlineColor = forwardRef<SVGSVGElement, SocialIconProps>(({
       <path d="M0,0 L21,0 L27,3 L29,6 L30,13 L27,20 L21,23 L26,32 L30,38 L30,40 L23,40 L13,25 L13,23 L7,23 L7,40 L0,40 Z M7,6 L7,18 L16,18 L21,16 L23,13 L22,8 L20,6 Z " fill={color || '#2867B2'} transform="translate(2161,483)" />
     </svg>
   );
-});
-
-LinkedInInlineColor.displayName = 'LinkedInInlineColor';
+}
