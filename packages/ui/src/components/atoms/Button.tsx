@@ -1,6 +1,6 @@
 'use client';
 
-import { forwardRef, ComponentPropsWithoutRef } from 'react';
+import { ComponentProps } from 'react';
 
 import { BeatLoader } from './Spinners/BeatLoader';
 import { cn } from '../../utilities/cn';
@@ -9,7 +9,7 @@ type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline' | 'destructiv
 
 type ButtonSize = 'sm' | 'md' | 'lg' | 'icon-sm' | 'icon-md' | 'icon-lg' | 'icon-xl';
 
-interface ButtonProps extends ComponentPropsWithoutRef<'button'> {
+interface ButtonProps extends ComponentProps<'button'> {
   variant?: ButtonVariant;
   size?: ButtonSize;
   loading?: boolean;
@@ -50,7 +50,7 @@ const loaderSize: Record<ButtonSize, 'sm' | 'md' | 'lg'> = {
   'icon-xl': 'lg',
 };
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({ variant = 'primary', size = 'md', type = 'button', loading = false, loadingText, disabled = false, fullWidth = false, leftIcon, rightIcon, children, className, onClick, ...rest }, ref) => {
+export function Button({ variant = 'primary', size = 'md', type = 'button', loading = false, loadingText, disabled = false, fullWidth = false, leftIcon, rightIcon, children, className, onClick, ref, ...rest }: ButtonProps) {
   const isDisabled = disabled || loading;
 
   const handleClick: React.MouseEventHandler<HTMLButtonElement> = (e) => {
@@ -83,6 +83,4 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({ variant = 'p
       </span>
     </button>
   );
-});
-
-Button.displayName = 'Button';
+}

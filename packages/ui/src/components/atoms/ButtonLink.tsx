@@ -1,6 +1,6 @@
 'use client';
 
-import { forwardRef, ComponentPropsWithoutRef, MouseEvent } from 'react';
+import { ComponentProps, MouseEvent } from 'react';
 
 import { cn } from '../../utilities/cn';
 
@@ -8,7 +8,7 @@ type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline' | 'destructiv
 
 type ButtonSize = 'sm' | 'md' | 'lg' | 'icon-sm' | 'icon-md' | 'icon-lg' | 'icon-xl';
 
-interface ButtonLinkProps extends ComponentPropsWithoutRef<'a'> {
+interface ButtonLinkProps extends ComponentProps<'a'> {
   href: string;
   variant?: ButtonVariant;
   size?: ButtonSize;
@@ -40,7 +40,7 @@ const sizes: Record<ButtonSize, string> = {
   'icon-xl': 'w-icon-xl h-icon-xl',
 };
 
-export const ButtonLink = forwardRef<HTMLAnchorElement, ButtonLinkProps>(({ href, variant = 'primary', size = 'md', disabled = false, fullWidth = false, leftIcon, rightIcon, children, className, onClick, ...rest }, ref) => {
+export function ButtonLink({ href, variant = 'primary', size = 'md', disabled = false, fullWidth = false, leftIcon, rightIcon, children, className, onClick, ref, ...rest }: ButtonLinkProps) {
   const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
     if (disabled) {
       e.preventDefault();
@@ -58,6 +58,4 @@ export const ButtonLink = forwardRef<HTMLAnchorElement, ButtonLinkProps>(({ href
       </span>
     </a>
   );
-});
-
-ButtonLink.displayName = 'ButtonLink';
+}

@@ -1,6 +1,6 @@
 'use client';
 
-import { forwardRef, ElementType } from 'react';
+import { ElementType } from 'react';
 
 import { cn } from '../../utilities/cn';
 
@@ -14,12 +14,14 @@ type BadgeProps =
       label: string;
       className?: string;
       as?: ElementType;
+      ref?: React.Ref<HTMLElement>;
     }
   | {
       variant: 'status';
       status: BadgeStatus;
       className?: string;
       as?: ElementType;
+      ref?: React.Ref<HTMLElement>;
     };
 
 const variantStyles: Record<Exclude<BadgeVariant, 'status'>, string> = {
@@ -45,8 +47,8 @@ const statusLabels: Record<BadgeStatus, string> = {
 
 const base = 'inline-flex items-center px-space-2 py-space-1 rounded-full font-body text-caption ' + 'uppercase tracking-caption leading-none select-none whitespace-nowrap';
 
-export const Badge = forwardRef<HTMLElement, BadgeProps>((props, ref) => {
-  const { variant, className, as: Tag = 'span' } = props;
+export function Badge(props: BadgeProps) {
+  const { variant, className, as: Tag = 'span', ref } = props;
 
   let colorClass = '';
   let label = '';
@@ -66,6 +68,4 @@ export const Badge = forwardRef<HTMLElement, BadgeProps>((props, ref) => {
       {label}
     </Tag>
   );
-});
-
-Badge.displayName = 'Badge';
+}
