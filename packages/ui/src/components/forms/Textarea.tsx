@@ -20,7 +20,12 @@ type Props = {
   ref?: React.Ref<HTMLTextAreaElement>;
 };
 
-const textareaBase = 'w-full font-body text-body text-text-primary bg-surface-elevated ' + 'border rounded-sm px-space-4 py-space-3 ' + 'transition-all duration-fast ease-snap ' + 'placeholder:text-text-muted resize-y min-h-[120px] ' + 'disabled:bg-surface-deep disabled:text-text-muted disabled:cursor-not-allowed ' + 'focus-visible:outline-2 focus-visible:outline-gold-base focus-visible:outline-offset-[3px]';
+const textareaBase = `w-full font-body text-body text-text-primary bg-surface-elevated 
+border rounded-sm px-space-4 py-space-3 
+transition-all duration-fast ease-snap 
+placeholder:text-text-muted resize-y min-h-[120px] 
+disabled:bg-surface-deep disabled:text-text-muted disabled:cursor-not-allowed 
+focus-visible:outline-2 focus-visible:outline-gold-base focus-visible:outline-offset-[3px]`;
 
 export function Textarea({ label, helperText, error, disabled = false, required = false, placeholder, rows = 4, value, defaultValue, onChange, onBlur, name, className, ref }: Props) {
   const { id, errorId, helperId, hasError, describedBy } = useFormField({

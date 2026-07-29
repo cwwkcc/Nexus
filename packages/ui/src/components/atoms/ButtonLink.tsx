@@ -19,7 +19,11 @@ interface ButtonLinkProps extends ComponentProps<'a'> {
   disabled?: boolean;
 }
 
-const base = 'relative inline-flex items-center justify-center gap-space-2 font-body text-label ' + 'uppercase tracking-label rounded-sm border whitespace-nowrap select-none ' + 'transition-colors transition-transform duration-fast ease-snap motion-reduce:transition-none ' + 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-base focus-visible:ring-offset-2 ' + 'active:scale-[0.98] motion-reduce:active:scale-100';
+const base = `relative inline-flex items-center justify-center gap-space-2 font-body text-label 
+uppercase tracking-label rounded-sm border whitespace-nowrap select-none 
+transition-colors transition-transform duration-fast ease-snap motion-reduce:transition-none 
+focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-base focus-visible:ring-offset-2 
+active:scale-[0.98] motion-reduce:active:scale-100`;
 
 const variants: Record<ButtonVariant, string> = {
   primary: 'bg-green-base text-text-inverse border-transparent hover:bg-green-hover active:bg-gold-active',

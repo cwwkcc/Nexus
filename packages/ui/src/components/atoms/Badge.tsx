@@ -45,7 +45,8 @@ const statusLabels: Record<BadgeStatus, string> = {
   reviewed: 'Reviewed',
 };
 
-const base = 'inline-flex items-center px-space-2 py-space-1 rounded-full font-body text-caption ' + 'uppercase tracking-caption leading-none select-none whitespace-nowrap';
+const base = `inline-flex items-center px-space-2 py-space-1 rounded-full font-body text-caption 
+uppercase tracking-caption leading-none select-none whitespace-nowrap`;
 
 export function Badge(props: BadgeProps) {
   const { variant, className, as: Tag = 'span', ref } = props;
