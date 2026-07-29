@@ -106,9 +106,9 @@
 > Note: this folder is largely repetitive brand-mark variants (color/white/inline per platform). Worth deciding whether to keep as individual components or consolidate into a single `SocialIcon` component driven by props — flag during cleanup rather than fixing each one independently.
 
 - [ ] brand/CrestAnimation.tsx
-- [ ] brand/CrestDiagram.tsx
+- [x] brand/CrestDiagram.tsx
 - [ ] brand/SchoolLogo.tsx
-- [ ] Icon.tsx
+- [x] Icon.tsx
 - [ ] social/fb/FacebookColor.tsx
 - [ ] social/fb/FacebookWhite.tsx
 - [ ] social/github/GitHubInvertocatBlack.tsx
@@ -221,9 +221,9 @@
 
 ## utilities/ (3)
 
-- [ ] BackToTopButton.tsx
-- [ ] CountdownTimer.tsx
-- [ ] ScrollProgressBar.tsx
+- [x] BackToTopButton.tsx
+- [x] CountdownTimer.tsx
+- [x] ScrollProgressBar.tsx
 
 ## visualization/ (8)
 
