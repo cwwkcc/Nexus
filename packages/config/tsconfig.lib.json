@@ -12,7 +12,12 @@
     "skipLibCheck": true,
     "composite": true,
     "declaration": true,
-    "declarationMap": true
+    "declarationMap": true,
+    "paths": {
+      "@nexus/env/*": ["../env/src/*"],
+      "@nexus/tokens": ["../tokens/src/index.ts"],
+      "@nexus/contracts": ["../contracts/src/index.ts"]
+    }
   },
   "include": ["src/**/*.ts"],
   "exclude": ["src/**/*.test.ts", "**/__tests__/**"],
