@@ -106,8 +106,8 @@ function EventCardStandard({ title, description, date, time, venue, category, st
             <h3 className={cn('font-display text-h3 font-medium text-text-primary mb-space-2', 'transition-colors duration-fast group-hover:text-gold-active')}>{title}</h3>
             {description && <p className="font-body text-body-sm text-text-muted line-clamp-2 mb-space-2.5">{description}</p>}
             <div className="flex flex-wrap gap-space-4 font-body text-caption uppercase tracking-caption text-text-muted">
-              {time && <span>⏱ {time}</span>}
-              {venue && <span>📍 {venue}</span>}
+              {time && <span> {time}</span>}
+              {venue && <span> {venue}</span>}
               {relativeTime && <span className="text-gold-base">{relativeTime}</span>}
             </div>
           </div>
@@ -171,7 +171,7 @@ function EventCardFeatured({ title, description, date, time, venue, category, st
           <h2 className="font-display text-[clamp(1.4rem,2.5vw,2rem)] font-medium text-text-primary mb-space-3">{title}</h2>
           {description && <p className="font-body text-body text-text-muted leading-relaxed">{description}</p>}
         </div>
-        {venue && <p className="font-body text-caption uppercase tracking-caption text-text-muted">📍 {venue}</p>}
+        {venue && <p className="font-body text-caption uppercase tracking-caption text-text-muted"> {venue}</p>}
         <div className="flex flex-wrap gap-space-3">
           <Link href={href} className="inline-block px-space-6 py-space-2.5 bg-green-base text-text-inverse font-body text-caption uppercase tracking-caption">
             {viewDetailsLabel}
