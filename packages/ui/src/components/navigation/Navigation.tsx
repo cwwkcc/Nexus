@@ -3,11 +3,11 @@
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
-import { cn } from '../../utilities/cn';
-import { HStack } from '../layout/Stack';
 import { LanguageSwitcher, type LanguageOption } from './LanguageSwitcher';
 import { MobileMenu } from './MobileMenu';
 import { NavLink } from './NavLink';
+import { cn } from '../../utilities/cn';
+import { HStack } from '../layout/Stack';
 
 type NavVariant = 'transparent-overlay' | 'solid';
 
