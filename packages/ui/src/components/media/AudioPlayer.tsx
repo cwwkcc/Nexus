@@ -132,15 +132,6 @@ export function AudioPlayer({ src, title, subtitle, lyrics, lyricsSinhala, class
 
       if (isPlaying) {
         audioRef.current.pause();
-      } else {
-        // A rejected play() (e.g. blocked by the browser's autoplay policy)
-        // isn't actionable here — the UI already reflects it correctly
-        // since `isPlaying` only flips via the audio element's own 'play'
-        // event, which simply never fires in that case. Swallowing it
-        // silently just avoids an unhandled promise rejection.
-        audioRef.current.play().catch((error) => {
-          console.log(error);
-        });
       }
     }
   };
