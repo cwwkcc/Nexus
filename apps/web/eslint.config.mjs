@@ -15,6 +15,6 @@ export default [
     },
   },
   {
-    ignores: ['.next/**/*', '**/out-tsc'],
+    ignores: ['.next/**/*', '**/out-tsc', 'public/sw.js'],
   },
 ];
