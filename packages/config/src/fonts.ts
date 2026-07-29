@@ -5,7 +5,6 @@
 // (this package is already in transpilePackages, so that works here, but a
 // non-Next consumer of the root barrel would break on this).
 
-// @ts-expect-error - next/font/google is a Next.js specific module
 import { Cormorant_Garamond, Cormorant_Upright, Inter, IBM_Plex_Mono, Maname, Noto_Serif_Sinhala, Noto_Serif_Tamil } from 'next/font/google';
 
 // Latin fonts — identical everywhere, always preloaded.
