@@ -7,20 +7,14 @@ export default function HomePage() {
       <VStack className="m-space-10">
         <ButtonLink href="./about">About</ButtonLink>
 
-        <ButtonLink
-          href="./academics"
-          className="bg-overlay-medium
+        {/* <ButtonLink href="./contact">Contact</ButtonLink>
 
-"
-        >
-          Academics
-        </ButtonLink>
+        <ButtonLink href="./academics">Academics</ButtonLink>
 
         <ButtonLink href="./administration">Administration</ButtonLink>
 
-        <ButtonLink href="./contact">About</ButtonLink>
 
-        <ButtonLink href="./facilites">Facilities</ButtonLink>
+        <ButtonLink href="./facilites">Facilities</ButtonLink> */}
       </VStack>
     </main>
   );
