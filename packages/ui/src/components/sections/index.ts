@@ -1,9 +1,10 @@
 export { AchievementTicker } from './AchievementTicker';
-export { AdmissionsKeyDatesTimeline } from './AdmissionsKeyDatesTimeline';
+export { MilestoneTimeline } from './MilestoneTimeline';
+export type { MilestoneTimelineProps, KeyDate } from './MilestoneTimeline';
 export { ProfileCarousel } from './ProfileCarousel';
-export { LifeAtKCCPhotoStrip } from './LifeAtKCCPhotoStrip';
-export { PrincipalMessage } from './PrincipalMessage';
+export { CategorizedPhotoStrip, type CategorizedPhotoStripProps, type PhotoStripItem } from './CategorizedPhotoStrip';
+export { LeaderMessage } from './LeaderMessage';
+export type { LeaderMessageProps } from './LeaderMessage';
 export { SectionSlider } from './SectionSlider';
 export { StatsStrip, type StatItem } from './StatsStrip';
 export { Timeline } from './Timeline';
-export { SectionErrorBoundary } from './SectionErrorBoundary';
