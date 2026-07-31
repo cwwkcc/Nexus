@@ -1,7 +1,6 @@
 export { AchievementTicker } from './AchievementTicker';
 export { AdmissionsKeyDatesTimeline } from './AdmissionsKeyDatesTimeline';
-export { AdmissionsProcessSteps } from './AdmissionsProcessSteps';
-export { AlumniLegacyBlock } from './AlumniLegacyBlock';
+export { ProfileCarousel } from './ProfileCarousel';
 export { LifeAtKCCPhotoStrip } from './LifeAtKCCPhotoStrip';
 export { PrincipalMessage } from './PrincipalMessage';
 export { SectionSlider } from './SectionSlider';
