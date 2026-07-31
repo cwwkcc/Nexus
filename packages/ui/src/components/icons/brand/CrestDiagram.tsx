@@ -156,7 +156,7 @@ export function CrestDiagram({ symbols = DEFAULT_SYMBOLS, variant = 'ambient', c
   }, [calculateLines]);
 
   return (
-    <div ref={containerRef} className={cn('relative select-none w-size-screen-80 aspect-[190/100]', 'my-space-2 bg-surface-active rounded-md overflow-hidden', className)}>
+    <div ref={containerRef} className={cn('relative select-none w-size-screen-w-80 aspect-[190/100]', 'my-space-2 bg-surface-active rounded-md overflow-hidden', className)}>
       {/* ── SVG Connector Network ── */}
       <svg className="absolute inset-0 w-full h-full pointer-events-none z-base" viewBox={`0 0 ${containerSize.width} ${containerSize.height}`} aria-hidden>
         {debug && <SvgDebugGrid width={containerSize.width} height={containerSize.height} step={5} majorEvery={5} showLabels show={true} />}
