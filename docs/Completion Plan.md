@@ -27,23 +27,23 @@ Decision made: split generic reusable primitives from page-narrative-specific bl
 - [x] **Rename** `AlumniLegacyBlock` → `ProfileCarousel`
   - [x] Update export in `sections/index.ts`
   - [x] Update import in `apps/web/src/blocks/about/AlumniLegacy.tsx`
-- [ ] **Rename/merge** `AdmissionsKeyDatesTimeline` — either fold into `Timeline` as a variant, or rename to something generic (e.g. `MilestoneTimeline`) and keep separate
-  - [ ] Update export in `sections/index.ts`
-  - [ ] Update consuming imports
-- [ ] **Rename** `PrincipalMessage` → `LeaderMessage` (or `SpotlightMessage`)
-  - [ ] Update export in `sections/index.ts`
-  - [ ] Update consuming imports
-- [ ] **Rename** `LifeAtKCCPhotoStrip` → `CategorizedPhotoStrip`
-  - [ ] Refactor to use `ImageFrame` instead of raw `next/image`
-  - [ ] Update export in `sections/index.ts`
-  - [ ] Update consuming imports
-- [ ] **Relocate** `SectionErrorBoundary` out of `sections/` into `page-states/` or `utilities/`
-  - [ ] Update export path in the moved-to folder's `index.ts`
-  - [ ] Remove from `sections/index.ts`
-  - [ ] Update consuming imports
-- [ ] Build `apps/web/src/blocks/admissions/ProcessBlock.tsx` as a thin wrapper around the consolidated `ProcessSteps`(currently a stub)
-- [ ] Build `apps/web/src/blocks/admissions/RequirementsBlock.tsx` (currently a stub)
-- [ ] Sweep the rest of `sections/` (and spot-check other categories) for the same smell — any other component named after a page/content concept instead of its UI shape
+- [x] **Rename/merge** `AdmissionsKeyDatesTimeline` — either fold into `Timeline` as a variant, or rename to something generic (e.g. `MilestoneTimeline`) and keep separate
+  - [x] Update export in `sections/index.ts`
+  - [x] Update consuming imports
+- [x] **Rename** `PrincipalMessage` → `LeaderMessage` (or `SpotlightMessage`)
+  - [x] Update export in `sections/index.ts`
+  - [x] Update consuming imports
+- [x] **Rename** `LifeAtKCCPhotoStrip` → `CategorizedPhotoStrip`
+  - [x] Refactor to use `ImageFrame` instead of raw `next/image`
+  - [x] Update export in `sections/index.ts`
+  - [x] Update consuming imports
+- [x] **Relocate** `SectionErrorBoundary` out of `sections/` into `page-states/` or `utilities/`
+  - [x] Update export path in the moved-to folder's `index.ts`
+  - [x] Remove from `sections/index.ts`
+  - [x] Update consuming imports
+- [x] Build `apps/web/src/blocks/admissions/ProcessBlock.tsx` as a thin wrapper around the consolidated `ProcessSteps`(currently a stub)
+- [x] Build `apps/web/src/blocks/admissions/RequirementsBlock.tsx` (currently a stub)
+- [x] Sweep the rest of `sections/` (and spot-check other categories) for the same smell — any other component named after a page/content concept instead of its UI shape
 
 ---
 
