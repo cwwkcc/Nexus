@@ -1,7 +1,7 @@
 // apps/web/src/app/[locale]/components/sections/page.tsx
 'use client';
 
-import { AchievementTicker, AdmissionsProcessSteps, AdmissionsKeyDatesTimeline, AlumniLegacyBlock, LifeAtKCCPhotoStrip, PrincipalMessage, StatsStrip, Timeline, SectionSlider, type StatItem } from '@nexus/ui';
+import { AchievementTicker, ProcessSteps, MilestoneTimeline, ProfileCarousel, CategorizedPhotoStrip, LeaderMessage, StatsStrip, Timeline, SectionSlider, type StatItem } from '@nexus/ui';
 
 function DemoSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -15,16 +15,16 @@ function DemoSection({ title, children }: { title: string; children: React.React
 export default function SectionsPage() {
   const sampleSteps = [
     {
+      id: 'step-1',
       step: 1,
       title: 'Apply Online',
       description: 'Fill the application form',
-      timeframe: 'May – June',
     },
     {
+      id: 'step-2',
       step: 2,
       title: 'Interview',
       description: 'Shortlisted candidates called',
-      timeframe: 'July',
     },
   ];
   const sampleDates = [
@@ -115,24 +115,24 @@ export default function SectionsPage() {
           <AchievementTicker achievements={sampleAchievements} archiveHref="/achievements" />
         </DemoSection>
 
-        <DemoSection title="AdmissionsProcessSteps">
-          <AdmissionsProcessSteps steps={sampleSteps} activeStep={1} />
+        <DemoSection title="ProcessSteps">
+          <ProcessSteps steps={sampleSteps} />
         </DemoSection>
 
-        <DemoSection title="AdmissionsKeyDatesTimeline">
-          <AdmissionsKeyDatesTimeline dates={sampleDates} />
+        <DemoSection title="MilestoneTimeline">
+          <MilestoneTimeline dates={sampleDates} />
         </DemoSection>
 
-        <DemoSection title="AlumniLegacyBlock">
-          <AlumniLegacyBlock alumni={sampleAlumni} />
+        <DemoSection title="ProfileCarousel">
+          <ProfileCarousel profiles={sampleAlumni} />
         </DemoSection>
 
-        <DemoSection title="LifeAtKCCPhotoStrip">
-          <LifeAtKCCPhotoStrip items={samplePhotos} />
+        <DemoSection title="CategorizedPhotoStrip">
+          <CategorizedPhotoStrip items={samplePhotos} />
         </DemoSection>
 
-        <DemoSection title="PrincipalMessage">
-          <PrincipalMessage name="Mr. Bandula Rajapaksa" title="Principal" tenure="Since 2019" portraitSrc="/images/white.jpg" portraitAlt="Principal" message="Welcome to KCC" fullMessageHref="/administration" />
+        <DemoSection title="LeaderMessage">
+          <LeaderMessage name="Mr. Bandula Rajapaksa" title="Principal" tenure="Since 2019" portraitSrc="/images/white.jpg" portraitAlt="Principal" message="Welcome to KCC" fullMessageHref="/administration" />
         </DemoSection>
 
         <DemoSection title="StatsStrip">
