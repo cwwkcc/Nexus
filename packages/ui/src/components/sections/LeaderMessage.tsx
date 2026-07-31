@@ -4,7 +4,7 @@ import { ButtonLink } from '../atoms/ButtonLink';
 import { ImageFrame } from '../media/ImageFrame';
 import { QuoteBlock } from '../typography/QuoteBlock';
 
-export interface PrincipalMessageProps {
+export interface LeaderMessageProps {
   name: string;
   title: string;
   tenure: string;
@@ -17,7 +17,7 @@ export interface PrincipalMessageProps {
   className?: string;
 }
 
-export function PrincipalMessage({ name, title, tenure, portraitSrc, portraitAlt, message, quote, fullMessageHref, fullMessageLabel = 'Read Full Message →', className }: PrincipalMessageProps) {
+export function LeaderMessage({ name, title, tenure, portraitSrc, portraitAlt, message, quote, fullMessageHref, fullMessageLabel = 'Read Full Message →', className }: LeaderMessageProps) {
   return (
     <div className={clsx('grid md:grid-cols-2 gap-12 items-center', className)}>
       {/* Portrait */}
