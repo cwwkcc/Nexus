@@ -1,4 +1,4 @@
-// packages/ui/src/components/sections/AdmissionsKeyDatesTimeline.tsx
+// packages/ui/src/components/sections/MilestoneTimeline.tsx
 'use client';
 
 import { clsx } from 'clsx';
@@ -12,12 +12,12 @@ export interface KeyDate {
   isCompleted?: boolean;
 }
 
-export interface AdmissionsKeyDatesTimelineProps {
+export interface MilestoneTimelineProps {
   dates: KeyDate[];
   className?: string;
 }
 
-export function AdmissionsKeyDatesTimeline({ dates, className }: AdmissionsKeyDatesTimelineProps) {
+export function MilestoneTimeline({ dates, className }: MilestoneTimelineProps) {
   return (
     <div className={clsx('relative', className)}>
       {/* Vertical line */}
