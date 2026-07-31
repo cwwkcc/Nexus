@@ -1,2 +1,14 @@
 // Admissions process steps block (F-136).
-// Wraps AdmissionsProcessSteps domain component. Content from PageContent.
+// Wraps ProcessSteps visualization component. Content from PageContent.
+
+import type { AdmissionsProcessData } from '@nexus/contracts';
+import { ProcessSteps } from '@nexus/ui/visualization/ProcessSteps';
+
+export interface ProcessBlockProps {
+  data: AdmissionsProcessData;
+  className?: string;
+}
+
+export function ProcessBlock({ data, className }: ProcessBlockProps) {
+  return <ProcessSteps steps={data.steps} className={className} />;
+}
