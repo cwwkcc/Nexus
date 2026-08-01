@@ -17,6 +17,7 @@ type Props = {
   onBlur?: React.FocusEventHandler<HTMLInputElement>;
   name?: string;
   autoComplete?: string;
+  inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
   className?: string;
   ref?: React.Ref<HTMLInputElement>;
 };
@@ -28,7 +29,7 @@ placeholder:text-text-muted
 disabled:bg-surface-deep disabled:text-text-muted disabled:cursor-not-allowed 
 focus-visible:outline-2 focus-visible:outline-gold-base focus-visible:outline-offset-[3px]`;
 
-export function Input({ label, helperText, error, disabled = false, required = false, placeholder, type = 'text', value, defaultValue, onChange, onBlur, name, autoComplete, className, ref }: Props) {
+export function Input({ label, helperText, error, disabled = false, required = false, placeholder, type = 'text', value, defaultValue, onChange, onBlur, name, autoComplete, inputMode, className, ref }: Props) {
   const { id, errorId, helperId, hasError, describedBy } = useFormField({
     error,
     helperText,
@@ -44,7 +45,7 @@ export function Input({ label, helperText, error, disabled = false, required = f
           </span>
         )}
       </label>
-      <input ref={ref} id={id} name={name} type={type} value={value} defaultValue={defaultValue} placeholder={placeholder} disabled={disabled} required={required} autoComplete={autoComplete} onChange={onChange} onBlur={onBlur} aria-invalid={hasError} aria-describedby={describedBy} className={cn(inputBase, hasError ? 'border-semantic-error-base focus-visible:border-semantic-error-base focus-visible:outline-semantic-error-base' : 'border-border-default hover:border-border-default focus-visible:border-gold-base')} />
+      <input ref={ref} id={id} name={name} type={type} value={value} defaultValue={defaultValue} placeholder={placeholder} disabled={disabled} required={required} autoComplete={autoComplete} inputMode={inputMode} onChange={onChange} onBlur={onBlur} aria-invalid={hasError} aria-describedby={describedBy} className={cn(inputBase, hasError ? 'border-semantic-error-base focus-visible:border-semantic-error-base focus-visible:outline-semantic-error-base' : 'border-border-default hover:border-border-default focus-visible:border-gold-base')} />
       {hasError && (
         <p id={errorId} className="font-body text-caption text-semantic-error-base" role="alert">
           {error}
