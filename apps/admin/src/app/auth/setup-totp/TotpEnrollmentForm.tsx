@@ -1,64 +1,79 @@
-// TOTP Setup Page for the break-glass account (F-066/F-080)
-//
-// Renders a QR code for standard authenticator apps and, once confirmed,
-// 10 single-use backup codes. Not linked from any navigation — reached
-// directly at /auth/setup-totp by whoever is provisioning the break-glass
-// account, immediately after the seed script creates it.
+'use client';
 
-import { Container, Heading, Text } from '@nexus/ui';
-import { redirect } from 'next/navigation';
+import { Button, Input, Text } from '@nexus/ui';
+import { useState } from 'react';
 
-import { auth } from '@/lib/auth';
-import { db, totpKeyUri, totpQrCodeDataUrl, generateTotpSecret } from '@nexus/db';
+import { confirmTotpSetup } from './actions';
 
-import { TotpEnrollmentForm } from './TotpEnrollmentForm';
+interface TotpEnrollmentFormProps {
+  secret: string;
+  qrDataUrl: string;
+  email: string;
+}
 
-export const dynamic = 'force-dynamic';
+export function TotpEnrollmentForm({ secret, qrDataUrl, email }: TotpEnrollmentFormProps) {
+  const [code, setCode] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [backupCodes, setBackupCodes] = useState<string[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-export default async function SetupTotpPage() {
-  const session = await auth();
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setIsSubmitting(true);
+    setError(null);
 
-  if (!session?.user?.id) {
-    redirect('/login');
+    const result = await confirmTotpSetup(secret, code);
+    setIsSubmitting(false);
+
+    if (!result.ok) {
+      setError(result.error ?? 'Unable to complete setup.');
+      return;
+    }
+
+    if (result.backupCodes?.length) {
+      setBackupCodes(result.backupCodes);
+    }
   }
 
-  const user = await db.user.findUnique({
-    where: { id: session.user.id },
-    select: { email: true, totpEnabledAt: true },
-  });
-
-  if (!user) {
-    redirect('/login');
+  if (backupCodes.length > 0) {
+    return (
+      <div className="space-y-4">
+        <Text color="muted">Authenticator setup complete for {email}. Save these backup codes in a safe place.</Text>
+        <ul className="grid gap-2 rounded-2xl border border-slate-700 bg-slate-950 p-4 text-sm text-slate-200">
+          {backupCodes.map((item) => (
+            <li key={item} className="font-mono text-xs">
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
   }
 
   return (
-    <Container size="sm" padding="lg" className="flex min-h-screen items-center justify-center">
-      <div className="w-full max-w-sm space-y-8 rounded-3xl border border-slate-800 bg-slate-900 p-8 shadow-lg shadow-slate-950/30">
-        <div className="space-y-2 text-center">
-          <Heading level="h1">Set up an authenticator</Heading>
-          <Text color="muted">{user.email}</Text>
-        </div>
-
-        {user.totpEnabledAt ? (
-          <Text color="muted" className="text-center">
-            An authenticator is already set up for this account.
-          </Text>
-        ) : (
-          <EnrollmentSetup email={user.email} />
-        )}
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="rounded-2xl border border-slate-700 bg-slate-950 p-4">
+        <img src={qrDataUrl} alt="QR code for authenticator app" className="mx-auto h-44 w-44 rounded-xl bg-white p-2" />
       </div>
-    </Container>
+
+      <div className="space-y-2 text-sm text-slate-300">
+        <p>Scan this code with your authenticator app and enter the 6-digit verification code below.</p>
+        <p className="font-mono text-xs text-slate-500">Secret: {secret}</p>
+      </div>
+
+      <Input label="Verification code" name="totpCode" value={code} onChange={(event) => setCode(event.target.value)} placeholder="123456" autoComplete="one-time-code" inputMode="numeric" />
+
+      {error ? (
+        <Text color="error" className="text-sm">
+          {error}
+        </Text>
+      ) : null}
+
+      <Button type="submit" variant="primary" disabled={isSubmitting || code.length < 6} className="w-full">
+        {isSubmitting ? 'Verifying…' : 'Complete setup'}
+      </Button>
+    </form>
   );
 }
 
-async function EnrollmentSetup({ email }: { email: string }) {
-  // Generated fresh on every render of this branch and only persisted by
-  // the confirmTotpSetup server action once the user proves they scanned
-  // it correctly — see actions.ts. Reloading this page before confirming
-  // simply issues a new secret; nothing is left half-configured.
-  const secret = generateTotpSecret();
-  const keyUri = totpKeyUri(email, secret);
-  const qrDataUrl = await totpQrCodeDataUrl(keyUri);
-
-  return <TotpEnrollmentForm secret={secret} qrDataUrl={qrDataUrl} email={email} />;
-}
+export default TotpEnrollmentForm;
