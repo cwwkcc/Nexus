@@ -7,6 +7,8 @@ import './global.css';
 import { adminFontVariables } from '@nexus/config/fonts';
 import { cn, BackToTopButton } from '@nexus/ui';
 
+import { SessionProvider } from '@/features/auth/SessionProvider';
+
 export const metadata = {
   title: 'Nexus Admin',
   description: 'Admin panel for Nexus',
@@ -24,9 +26,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={cn('min-w-size-64 bg-slate-950 text-slate-100', adminFontVariables.join(' '))}>
-        {children}
+        <SessionProvider>
+          {children}
 
-        <BackToTopButton />
+          <BackToTopButton />
+        </SessionProvider>
       </body>
     </html>
   );

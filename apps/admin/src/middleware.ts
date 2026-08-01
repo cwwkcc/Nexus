@@ -1,11 +1,15 @@
-import type { NextRequest } from 'next/server';
-import { NextResponse } from 'next/server';
+// apps/admin/src/middleware.ts
 
-// Auth session check not yet wired (F-062/F-063). Pass through until
-// Google Workspace OAuth lands; replace with redirect-to-/login logic then.
-export function middleware(_request: NextRequest) {
-  return NextResponse.next();
-}
+// Real redirect-to-/login logic (Task 6.3), replacing the previous
+// pass-through stub. Uses the Edge-compatible `authConfig` (no Prisma
+// adapter, no bcrypt) rather than the full config in `./lib/auth.ts` — see
+// the comment at the top of `./lib/auth.config.ts` for why.
+
+import NextAuth from 'next-auth';
+
+import { authConfig } from './lib/auth.config.js';
+
+export const { auth: middleware } = NextAuth(authConfig);
 
 export const config = {
   matcher: ['/((?!api|_next|_vercel|.*\\..*).*)'],
