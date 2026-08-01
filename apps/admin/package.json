@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@auth/prisma-adapter": "^2.11.3",
     "@nexus/api": "workspace:*",
     "@nexus/config": "workspace:*",
     "@nexus/contracts": "workspace:*",
@@ -16,6 +17,7 @@
     "@nexus/ui": "workspace:*",
     "framer-motion": "^12.42.2",
     "next": "^16.2.11",
+    "next-auth": "5.0.0-beta.32",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   }
