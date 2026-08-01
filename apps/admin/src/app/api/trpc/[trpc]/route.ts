@@ -1,12 +1,16 @@
 import { appRouter, createContext } from '@nexus/api';
 import { fetchRequestHandler } from '@trpc/server/adapters/fetch';
 
-function handler(req: Request) {
+import { auth, toSessionContext } from '@/lib/auth';
+
+async function handler(req: Request) {
+  const session = await auth();
+
   return fetchRequestHandler({
     endpoint: '/api/trpc',
     req,
     router: appRouter,
-    createContext: () => createContext(req.headers),
+    createContext: () => createContext(toSessionContext(session)),
   });
 }
 

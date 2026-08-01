@@ -2,12 +2,13 @@
 
 // Single place this package reads process.env. Everything downstream
 // (context, middleware, services) consumes `ApiConfig` through
-// `ctx.config` instead of touching `process.env` directly. This replaces
+// `ctx.config` instead of touching `process.env` directly.
+//
+// `adminSecret` (the former `x-admin-secret` bootstrap stub) is gone as of
+// Task 6.3 — real Auth.js sessions replace it entirely, see init.ts's
+// `SessionContext` and middleware/auth.ts.
 
 export interface ApiConfig {
-  /** Comparison target for the temporary admin-secret auth stub — see
-   *  middleware/auth.ts. Trimmed; an empty string is treated as unset. */
-  adminSecret: string | null;
   revalidate: {
     /** On-demand cache invalidation (F-195) — see modules/content/service.ts. */
     webAppUrl: string | null;
@@ -25,7 +26,6 @@ export interface ApiConfig {
  */
 export function loadApiConfig(env: NodeJS.ProcessEnv = process.env): ApiConfig {
   return {
-    adminSecret: env.ADMIN_API_SECRET?.trim() || null,
     revalidate: {
       webAppUrl: env.WEB_APP_URL_INTERNAL?.trim() || null,
       secret: env.REVALIDATE_SECRET?.trim() || null,

@@ -1,10 +1,11 @@
 // apps/admin/src/app/content/[pageKey]/page.tsx
 
-import { createServerCaller } from '@nexus/api';
 import { PAGE_REGISTRY, getPageDefinition } from '@nexus/contracts';
 import { Button, Container, Heading, SectionHeader, Text, Textarea } from '@nexus/ui';
 import { revalidatePath } from 'next/cache';
 import { notFound } from 'next/navigation';
+
+import { getServerCaller } from '@/lib/server-caller';
 
 export const dynamic = 'force-dynamic';
 
@@ -36,8 +37,7 @@ async function saveSection(formData: FormData) {
     throw new Error('Invalid JSON payload — check for syntax errors.');
   }
 
-  const caller = createServerCaller();
-
+  const caller = await getServerCaller();
   await caller.contentEntry.update({
     scope,
     sectionKey,
@@ -63,7 +63,7 @@ export default async function PageEditorPage({ params, searchParams }: PageEdito
   const registry = getPageDefinition(pageKey as Parameters<typeof getPageDefinition>[0]);
   if (!registry) notFound();
 
-  const caller = createServerCaller();
+  const caller = await getServerCaller();
   const stored = await caller.contentEntry.adminGetByScope({
     scope: registry.scope,
     locale,

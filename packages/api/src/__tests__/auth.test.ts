@@ -4,74 +4,50 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import { createContext } from '../context.js';
-import { adminProcedure, createCallerFactory, router } from '../trpc.js';
+import type { SessionContext } from '../init.js';
+import { adminOnlyProcedure, adminProcedure, createCallerFactory, router } from '../trpc.js';
 
-test('server-side callers can authenticate with the configured admin secret', async () => {
-  process.env.ADMIN_API_SECRET = 'test-secret';
+const editorSession: SessionContext = { userId: 'user_1', email: 'editor@cwwkcc.lk', role: 'editor' };
+const adminSession: SessionContext = { userId: 'user_2', email: 'admin@cwwkcc.lk', role: 'admin' };
 
-  const testRouter = router({
-    ping: adminProcedure.query(() => 'ok'),
-  });
-
-  const createCaller = createCallerFactory(testRouter);
-  const caller = createCaller(createContext());
-
-  assert.equal(await caller.ping(), 'ok');
-});
-
-test('admin procedures are accessible without a configured secret in bootstrap mode', async () => {
-  delete process.env.ADMIN_API_SECRET;
-
-  const testRouter = router({
-    ping: adminProcedure.query(() => 'ok'),
-  });
-
-  const createCaller = createCallerFactory(testRouter);
-  const caller = createCaller(createContext());
-
-  assert.equal(await caller.ping(), 'ok');
-});
-
-test('HTTP requests without the header are rejected once a secret is configured', async () => {
-  process.env.ADMIN_API_SECRET = 'test-secret';
-
-  const testRouter = router({
-    ping: adminProcedure.query(() => 'ok'),
-  });
-
-  const createCaller = createCallerFactory(testRouter);
-  // A real Headers object with no x-admin-secret set — this is the "HTTP
-  // caller forgot the header" case, distinct from createContext() with no
-  // argument at all (the direct server caller case, tested above).
-  const caller = createCaller(createContext(new Headers()));
+test('adminProcedure rejects a request with no session', async () => {
+  const testRouter = router({ ping: adminProcedure.query(() => 'ok') });
+  const caller = createCallerFactory(testRouter)(createContext(null));
 
   await assert.rejects(() => caller.ping(), { code: 'UNAUTHORIZED' });
 });
 
-test('HTTP requests with the correct header are accepted', async () => {
-  process.env.ADMIN_API_SECRET = 'test-secret';
-
-  const testRouter = router({
-    ping: adminProcedure.query(() => 'ok'),
-  });
-
-  const createCaller = createCallerFactory(testRouter);
-  const headers = new Headers({ 'x-admin-secret': 'test-secret' });
-  const caller = createCaller(createContext(headers));
+test('adminProcedure accepts any signed-in role (editor)', async () => {
+  const testRouter = router({ ping: adminProcedure.query(() => 'ok') });
+  const caller = createCallerFactory(testRouter)(createContext(editorSession));
 
   assert.equal(await caller.ping(), 'ok');
 });
 
-test('HTTP requests with the wrong header are rejected', async () => {
-  process.env.ADMIN_API_SECRET = 'test-secret';
+test('adminProcedure accepts any signed-in role (admin)', async () => {
+  const testRouter = router({ ping: adminProcedure.query(() => 'ok') });
+  const caller = createCallerFactory(testRouter)(createContext(adminSession));
 
-  const testRouter = router({
-    ping: adminProcedure.query(() => 'ok'),
-  });
+  assert.equal(await caller.ping(), 'ok');
+});
 
-  const createCaller = createCallerFactory(testRouter);
-  const headers = new Headers({ 'x-admin-secret': 'wrong-secret' });
-  const caller = createCaller(createContext(headers));
+test('adminOnlyProcedure rejects a signed-in editor', async () => {
+  const testRouter = router({ ping: adminOnlyProcedure.query(() => 'ok') });
+  const caller = createCallerFactory(testRouter)(createContext(editorSession));
+
+  await assert.rejects(() => caller.ping(), { code: 'FORBIDDEN' });
+});
+
+test('adminOnlyProcedure rejects an unauthenticated request', async () => {
+  const testRouter = router({ ping: adminOnlyProcedure.query(() => 'ok') });
+  const caller = createCallerFactory(testRouter)(createContext(null));
 
   await assert.rejects(() => caller.ping(), { code: 'UNAUTHORIZED' });
+});
+
+test('adminOnlyProcedure accepts an admin', async () => {
+  const testRouter = router({ ping: adminOnlyProcedure.query(() => 'ok') });
+  const caller = createCallerFactory(testRouter)(createContext(adminSession));
+
+  assert.equal(await caller.ping(), 'ok');
 });

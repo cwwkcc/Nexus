@@ -12,9 +12,13 @@ import { db } from '@nexus/db';
 import { Container, Grid, GridItem, Heading, SectionHeader, Text } from '@nexus/ui';
 import Link from 'next/link';
 
+import { auth, signOut } from '@/lib/auth';
+
 export const dynamic = 'force-dynamic';
 
 export default async function AdminDashboardPage() {
+  const session = await auth();
+
   const [totalEntries, publishedEntries, draftEntries] = await Promise.all([db.contentEntry.count(), db.contentEntry.count({ where: { status: 'published' } }), db.contentEntry.count({ where: { status: 'draft' } })]);
 
   const recentVersions = await db.contentEntryVersion.findMany({
@@ -36,6 +40,27 @@ export default async function AdminDashboardPage() {
 
   return (
     <Container size="full" padding="lg" className="space-y-10">
+      {/*
+        Placeholder account affordance until M2 builds a real Topbar
+        (Task 7.1–7.2) — for now, just enough to confirm who's signed in
+        and to be able to sign out at all.
+      */}
+      <div className="flex flex-wrap items-center justify-between gap-4 text-sm text-slate-400">
+        <Text color="muted">
+          Signed in as {session?.user?.email} ({session?.user?.role})
+        </Text>
+        <form
+          action={async () => {
+            'use server';
+            await signOut({ redirectTo: '/login' });
+          }}
+        >
+          <button type="submit" className="rounded-lg bg-slate-800 px-3 py-1.5 text-slate-200 transition hover:bg-slate-700">
+            Sign out
+          </button>
+        </form>
+      </div>
+
       <SectionHeader eyebrow="Admin Dashboard" title="Overview" description="Content entry counts and recent save activity." />
 
       <Grid columns={1} gap={6} className="lg:grid-cols-4">

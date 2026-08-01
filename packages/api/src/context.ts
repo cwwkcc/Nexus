@@ -3,29 +3,20 @@
 import { db } from '@nexus/db';
 
 import { loadApiConfig } from './config.js';
-import type { Context } from './init.js';
+import type { Context, SessionContext } from './init.js';
 
 /**
- * Builds tRPC context from an optional Headers object. The HTTP fetch
- * adapter (apps/web/src/app/api/trpc/[trpc]/route.ts) passes real request
- * headers; the direct server caller (used by React Server Components, which
- * never go over HTTP) calls this with no arguments at all.
- *
- * `headers === undefined` is what actually means "direct server call" —
- * checking that instead of "was x-admin-secret present" matters because a
- * real HTTP request that simply forgot to set the header also produces an
- * empty header value, and the two cases must not be treated the same way
- * (see middleware/auth.ts).
+ * Builds tRPC context from an already-resolved session (or null, for an
+ * unauthenticated request). Resolving *how* to get that session — reading
+ * the Auth.js cookie for an HTTP request, or calling `auth()` directly for
+ * an RSC's direct server caller — is the hosting app's job, not this
+ * package's: see apps/admin/src/lib/auth.ts and src/lib/server-caller.ts.
+ * This keeps packages/api free of any Next.js or Auth.js dependency.
  */
-
-export function createContext(headers?: Headers): Context {
-  const isDirectServerCall = headers === undefined;
-  const providedAdminSecret = headers?.get('x-admin-secret')?.trim() || null;
-
+export function createContext(session: SessionContext | null = null): Context {
   return {
     db,
     config: loadApiConfig(),
-    isDirectServerCall,
-    providedAdminSecret,
+    session,
   };
 }
