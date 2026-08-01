@@ -72,11 +72,11 @@ Everything here can be built and tested now, without external access.
 
 ## M2 — Admin Shell (Task 7.1–7.2)
 
-- [ ] Build `AdminShell.tsx` layout for real
-- [ ] Build `Sidebar.tsx` — role-aware (hide User Management from Editors)
-- [ ] Build `Topbar.tsx`
-- [ ] Build `Breadcrumb.tsx`
-- [ ] Build the dashboard (`dashboard/page.tsx`) — content counts + quick actions first pass (audit-entries panel can wait for M5)
+- [x] Build `AdminShell.tsx` layout for real
+- [x] Build `Sidebar.tsx` — role-aware (hide User Management from Editors)
+- [x] Build `Topbar.tsx`
+- [x] Build `Breadcrumb.tsx`
+- [x] Build the dashboard (`dashboard/page.tsx`) — content counts + quick actions first pass (audit-entries panel can wait for M5)
 
 ---
 
