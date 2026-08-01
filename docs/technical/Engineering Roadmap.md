@@ -864,6 +864,8 @@ Set up Auth.js with the Prisma adapter and the Google provider as the primary si
 
 Create the middleware that protects all admin routes and redirects unauthenticated users to the login page.
 
+> **M1a status:** Done, ahead of Task 6.4 — sequenced as `docs/Completion Plan.md`'s M1a, which builds everything auth-related that doesn't need Google Cloud Console access first. Auth.js is wired against a Credentials provider (the break-glass account from Task 6.5, done alongside this) rather than Google, which is genuinely Task 6.4's job below. Sessions use the JWT strategy rather than "database" — Auth.js's Credentials provider doesn't support database sessions; see the top-of-file comment in `apps/admin/src/lib/auth.ts` and the F-073 update note in the Feature Registry for the reasoning and what to revisit once Google's added. The middleware itself runs against a separate, Edge-compatible config (`auth.config.ts`) rather than the full one, since it may run on the Edge runtime and the Prisma adapter needs Node.js.
+
 ### Task 6.4 — Configure Google Cloud Console
 
 Create OAuth 2.0 credentials in Google Cloud Console:
@@ -888,6 +890,8 @@ Seed one Credentials-based super-admin account from environment variables (`ADMI
 - Password rotation via server-side CLI script over SSH — never a self-service email flow
 
 No other admin account needs TOTP — every other admin's account security is inherited from the school's own Google Workspace 2FA enforcement.
+
+> **M1a status:** Mostly done. Seeding (`packages/database/prisma/seed/auth.ts`, idempotent, bcrypt-hashed) and TOTP (QR setup at `/auth/setup-totp`, ten backup codes shown once, confirm-then-persist so an abandoned setup leaves nothing half-configured) are both implemented and were verified standalone against the real `bcryptjs`/`otplib`/`qrcode` packages. **Not done:** the dedicated server-side CLI rotation script over SSH described above — today, re-running the seed script with an updated `ADMIN_PASSWORD` will refresh the password (see the seed script's idempotency behavior), which covers the same need but isn't the purpose-built CLI tool this task describes. Worth building properly before relying on it operationally.
 
 ### Task 6.6 — Implement tRPC
 

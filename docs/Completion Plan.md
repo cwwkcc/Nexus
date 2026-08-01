@@ -1,6 +1,8 @@
 # Nexus — Completion Plan (Track B: Engineering)
 
-**Status:** Phase 5 approval secured (Task 5.4) — clear to build the backend phase. **Scope of this document:** Track B only (engineering). Track A (content collection per Task 5.5 / Appendix C.4) runs in parallel on its own timeline and isn't tracked here. **Convention:** task/feature numbers reference `docs/technical/Engineering Roadmap.md` and `docs/technical/Feature Registry.md`. Check items off as they land — mirrors the `docs/TODO.md` style you're already using.
+**Status:** Phase 5 approval secured (Task 5.4) — clear to build
+
+the backend phase. **Scope of this document:** Track B only (engineering). Track A (content collection per Task 5.5 / Appendix C.4) runs in parallel on its own timeline and isn't tracked here. **Convention:** task/feature numbers reference `docs/technical/Engineering Roadmap.md` and `docs/technical/Feature Registry.md`. Check items off as they land — mirrors the `docs/TODO.md` style you're already using.
 
 ---
 
@@ -51,18 +53,20 @@ Decision made: split generic reusable primitives from page-narrative-specific bl
 
 Everything here can be built and tested now, without external access.
 
-- [ ] Add `User`, `Account`, `Session`, `VerificationToken` models to `schema.prisma` (Auth.js adapter shape)
-- [ ] Write and run the migration
-- [ ] Wire Auth.js with a stand-in provider (Credentials/dev login) so the flow is testable end-to-end locally
-- [ ] Define RBAC roles/permissions (Admin, Editor, etc.)
-- [ ] Seed the break-glass admin account + TOTP (Task 6.5 — doesn't need Google)
-- [ ] Replace `apps/admin/src/middleware.ts` pass-through with real redirect-to-`/login` logic
-- [ ] Build `SessionProvider.tsx` for real
-- [ ] Build the real `login/page.tsx` (currently a stub) — dev-provider sign-in for now, Google button added in M1b
-- [ ] Upgrade `packages/api`'s `authMiddleware` from the `x-admin-secret` header check to real session-based auth
-- [ ] Fix `auditMiddleware` (currently writes to a nonexistent `ctx.db.auditLog` — will resolve once the `AuditLog` model lands in M5, but wire the logic now)
+- [x] Add `User`, `Account`, `Session`, `VerificationToken` models to `schema.prisma` (Auth.js adapter shape)
+- [x] Write and run the migration
+- [x] Wire Auth.js with a stand-in provider (Credentials/dev login) so the flow is testable end-to-end locally
+- [x] Define RBAC roles/permissions (Admin, Editor, etc.)
+- [x] Seed the break-glass admin account + TOTP (Task 6.5 — doesn't need Google)
+- [x] Replace `apps/admin/src/middleware.ts` pass-through with real redirect-to-`/login` logic
+- [x] Build `SessionProvider.tsx` for real
+- [x] Build the real `login/page.tsx` (currently a stub) — dev-provider sign-in for now, Google button added in M1b
+- [x] Upgrade `packages/api`'s `authMiddleware` from the `x-admin-secret` header check to real session-based auth
+- [x] Fix `auditMiddleware` (currently writes to a nonexistent `ctx.db.auditLog` — will resolve once the `AuditLog` model lands in M5, but wire the logic now)
 
 **Exit criteria:** a dev/break-glass login reaches a protected dashboard; an unauthenticated request is redirected.
+
+> **Verification note (2026-07-31):** Migration SQL was hand-verified against a real local PostgreSQL 16 instance (this sandbox has no network route to `binaries.prisma.sh`, so `prisma generate`/`migrate dev` couldn't be run directly here — run `pnpm db:generate && pnpm db:migrate` on a machine with normal network access to produce the tracked Prisma Client and confirm the migration name Prisma assigns). Password/TOTP/backup-code logic was verified standalone against the real `bcryptjs`/`otplib`/`qrcode` packages. `packages/contracts`, `packages/env`, and `packages/config` were fully typechecked and pass. The full `packages/api`/`apps/admin` typecheck and test suite still need to run once the Prisma Client is generated — do that before treating this milestone as done-done.
 
 ---
 
