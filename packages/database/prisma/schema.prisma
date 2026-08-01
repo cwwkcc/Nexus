@@ -61,6 +61,27 @@ model SiteSetting {
   @@id([key, locale])
 }
 
+model NewsArticle {
+  id          String    @id @default(cuid())
+  locale      Locale
+  slug        String
+  title       String
+  excerpt     String?
+  content     String    @db.Text
+  category    String
+  status      ContentStatus @default(draft)
+  featured    Boolean   @default(false)
+  imageUrl    String?
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([locale, slug])
+  @@index([locale, status])
+  @@index([category])
+  @@index([featured])
+}
+
 // ─── Authentication (M1a — Task 6.3/6.5, F-057/F-073/F-078) ────────────────
 //
 // Account/Session/VerificationToken follow the canonical Auth.js Prisma
