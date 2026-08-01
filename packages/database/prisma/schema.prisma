@@ -60,3 +60,113 @@ model SiteSetting {
 
   @@id([key, locale])
 }
+
+// ─── Authentication (M1a — Task 6.3/6.5, F-057/F-073/F-078) ────────────────
+//
+// Account/Session/VerificationToken follow the canonical Auth.js Prisma
+// adapter shape verbatim so `@auth/prisma-adapter` works with zero mapping
+// code. Sessions use Auth.js's "database" strategy, not JWT — every active
+// session is a real row here and can be revoked server-side (F-081) by
+// deleting it, not just by waiting out a token's expiry.
+//
+// Google Workspace OAuth (F-073) is not wired until M1b. Today the only
+// provider is the Credentials-based break-glass account (F-078) — the
+// passwordHash/TOTP fields below exist solely for that one account. Every
+// other admin authenticates via Account (provider = "google") once M1b
+// lands and never touches passwordHash or the TOTP fields at all.
+
+enum UserRole {
+  admin
+  editor
+  viewer
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  role          UserRole  @default(editor)
+
+  /// F-081 — users are deactivated, never deleted, so audit history stays
+  /// attributable. A deactivated user's sessions are also revoked; see
+  /// apps/admin/src/lib/auth.ts's `session` callback.
+  isActive Boolean @default(true)
+
+  /// Break-glass account only (F-078). Bcrypt hash; null for every
+  /// Google-provisioned admin, which has no password in this system at all.
+  passwordHash String?
+
+  /// Break-glass account only (F-080). Encrypted-at-rest is out of scope for
+  /// this milestone (single-server deploy, disk-level encryption per
+  /// ADR-006-adjacent ops posture) — treated as a secret at the same level
+  /// as passwordHash, never returned by any tRPC procedure or logged.
+  totpSecret    String?
+  totpEnabledAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  accounts    Account[]
+  sessions    Session[]
+  backupCodes BackupCode[]
+
+  @@index([role])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+/// Single-use TOTP recovery codes for the break-glass account (F-080).
+/// Hashed at rest like passwordHash. Marked `usedAt` rather than deleted on
+/// redemption, so "was this code already spent" stays answerable without an
+/// audit-log cross-reference.
+model BackupCode {
+  id       String    @id @default(cuid())
+  userId   String
+  codeHash String
+  usedAt   DateTime?
+
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}

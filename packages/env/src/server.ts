@@ -32,9 +32,14 @@ const serverEnvSchema = z.object({
   NEXTAUTH_SECRET: z.string().min(32, 'NEXTAUTH_SECRET must be at least 32 characters'),
   NEXTAUTH_URL: z.string().url('NEXTAUTH_URL must be a valid URL'),
 
-  // Google OAuth
-  GOOGLE_CLIENT_ID: z.string().min(1, 'GOOGLE_CLIENT_ID is required'),
-  GOOGLE_CLIENT_SECRET: z.string().min(1, 'GOOGLE_CLIENT_SECRET is required'),
+  // Google OAuth (F-073) — deferred to M1b. Optional for now: M1a wires
+  // Auth.js against the Credentials-based break-glass account only (F-078),
+  // and the app must be able to boot in dev/staging before Google Cloud
+  // Console access exists. Becomes required again once M1b adds the real
+  // Google provider — track that as a release gate, the same way
+  // ADMIN_API_SECRET's removal below closed out the previous one.
+  GOOGLE_CLIENT_ID: z.string().min(1).optional(),
+  GOOGLE_CLIENT_SECRET: z.string().min(1).optional(),
 
   // Cloudflare R2
   R2_ACCOUNT_ID: z.string().min(1, 'R2_ACCOUNT_ID is required'),
@@ -45,14 +50,6 @@ const serverEnvSchema = z.object({
 
   // Resend (Email)
   RESEND_API_KEY: z.string().min(1, 'RESEND_API_KEY is required'),
-
-  // Admin API auth — currently a bootstrap/temporary stub (see trpc.ts):
-  // when unset, adminProcedure allows all requests through with no check
-  // at all. Optional here to match that intentional early-phase behavior,
-  // but this needs to become required (or replaced by real Auth.js
-  // session auth) before production launch — track it as a release gate,
-  // not something to silently ship as-is.
-  ADMIN_API_SECRET: z.string().optional(),
 
   // On-demand revalidation auth (apps/web /api/revalidate). Required, not
   // optional — the route compares `secret !== process.env.REVALIDATE_SECRET`,
@@ -87,7 +84,6 @@ export const serverEnv: ServerEnv = parseEnv(
     R2_BUCKET_NAME: process.env.R2_BUCKET_NAME,
     R2_PUBLIC_URL: process.env.R2_PUBLIC_URL,
     RESEND_API_KEY: process.env.RESEND_API_KEY,
-    ADMIN_API_SECRET: process.env.ADMIN_API_SECRET,
     REVALIDATE_SECRET: process.env.REVALIDATE_SECRET,
     ADMIN_EMAIL: process.env.ADMIN_EMAIL,
     ADMIN_PASSWORD: process.env.ADMIN_PASSWORD,

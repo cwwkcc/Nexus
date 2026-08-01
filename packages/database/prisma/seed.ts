@@ -1,12 +1,13 @@
 // packages/database/prisma/seed.ts
 
 import 'dotenv/config';
-import { seedGlobals, seedPages } from './seed/index.js';
+import { seedBreakGlassAdmin, seedGlobals, seedPages } from './seed/index.js';
 import { db } from '../src/lib/db.js';
 
 async function main() {
   await seedGlobals(db);
   await seedPages(db);
+  await seedBreakGlassAdmin(db);
 }
 
 main()
