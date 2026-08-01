@@ -5,12 +5,13 @@ import { auth, toSessionContext } from '@/lib/auth';
 
 async function handler(req: Request) {
   const session = await auth();
+  const sessionContext = toSessionContext(session);
 
   return fetchRequestHandler({
     endpoint: '/api/trpc',
     req,
     router: appRouter,
-    createContext: () => createContext(toSessionContext(session)),
+    createContext: () => createContext(sessionContext),
   });
 }
 

@@ -9,7 +9,9 @@ import NextAuth from 'next-auth';
 
 import { authConfig } from './lib/auth.config.js';
 
-export const { auth: middleware } = NextAuth(authConfig);
+const authMiddleware: any = NextAuth(authConfig);
+
+export const middleware: any = authMiddleware.auth;
 
 export const config = {
   matcher: ['/((?!api|_next|_vercel|.*\\..*).*)'],

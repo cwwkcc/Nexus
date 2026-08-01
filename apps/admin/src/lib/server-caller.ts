@@ -14,5 +14,6 @@ import { auth, toSessionContext } from './auth.js';
 
 export async function getServerCaller(): Promise<ReturnType<typeof createServerCaller>> {
   const session = await auth();
-  return createServerCaller(toSessionContext(session));
+  const sessionContext = toSessionContext(session);
+  return createServerCaller(sessionContext);
 }

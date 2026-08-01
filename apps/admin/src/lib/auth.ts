@@ -43,15 +43,13 @@ declare module 'next-auth' {
   }
 }
 
-declare module 'next-auth/jwt' {
-  interface JWT {
-    userId?: string;
-    role?: RoleEnumData;
-    isActive?: boolean;
-  }
-}
+type AuthToken = {
+  userId?: string;
+  role?: RoleEnumData;
+  isActive?: boolean;
+} & Record<string, unknown>;
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
+const authInstance: any = NextAuth({
   ...authConfig,
   adapter: PrismaAdapter(db),
   providers: [
@@ -108,10 +106,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   ],
   callbacks: {
     ...authConfig.callbacks,
-    async jwt({ token, user }) {
+    async jwt({ token, user }: { token: AuthToken; user?: { id?: string; role?: RoleEnumData } }) {
       if (user) {
-        // Initial sign-in — `authorize()` above has already checked
-        // `isActive` for this attempt.
         token.userId = user.id;
         token.role = user.role;
         token.isActive = true;
@@ -120,15 +116,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
       if (!token.userId) return token;
 
-      // Runs on every request under the JWT strategy (unlike the database
-      // strategy, where this callback is skipped entirely) — so this is
-      // where a deactivated account's `isActive` flag actually gets
-      // noticed, not just at the next sign-in. Enforcement itself happens
-      // downstream, in `toSessionContext()` below and in middleware.ts,
-      // rather than by trying to make Auth.js drop the token here — there
-      // is no reliably documented way to invalidate a JWT mid-flight from
-      // inside this callback, so this only refreshes the flag; whoever
-      // reads it decides what to do.
       const current = await db.user.findUnique({
         where: { id: token.userId },
         select: { isActive: true, role: true },
@@ -138,16 +125,22 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       token.role = current?.role ?? token.role;
       return token;
     },
-    async session({ session, token }) {
-      if (session.user && token.userId && token.role) {
-        session.user.id = token.userId;
-        session.user.role = token.role;
-        session.user.isActive = token.isActive ?? false;
+    async session({ session, token }: { session: any; token: AuthToken }) {
+      const typedSession = session as any;
+      if (typedSession?.user && token.userId && token.role) {
+        typedSession.user.id = token.userId;
+        typedSession.user.role = token.role;
+        typedSession.user.isActive = token.isActive ?? false;
       }
-      return session;
+      return typedSession;
     },
   },
 });
+
+export const handlers: any = authInstance.handlers;
+export const auth: any = authInstance.auth;
+export const signIn: any = authInstance.signIn;
+export const signOut: any = authInstance.signOut;
 
 /**
  * Maps an Auth.js session down to the plain shape packages/api's context
@@ -157,8 +150,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
  * Returns null — the same as "no session" — for a deactivated user. This
  * is the actual enforcement point for F-081, not the jwt() callback above.
  */
-export function toSessionContext(session: Awaited<ReturnType<typeof auth>>) {
-  if (!session?.user?.id || !session.user.email || !session.user.role || !session.user.isActive) {
+export function toSessionContext(session: { user?: { id?: string | null; email?: string | null; role?: RoleEnumData | null; isActive?: boolean | null } } | null) {
+  if (!session?.user?.id || !session.user.email || !session.user.role || typeof session.user.isActive !== 'boolean' || !session.user.isActive) {
     return null;
   }
 
