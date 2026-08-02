@@ -25,7 +25,16 @@ export type TiptapNode = {
   text?: string;
 };
 
-const TiptapNodeSchema: z.ZodType<TiptapNode> = z.lazy(() =>
+/**
+ * The exact shape RichTextRenderer.tsx consumes directly as its `value`
+ * prop — a single Tiptap document node (`{ type: 'doc', content: [...] }`),
+ * not wrapped in anything. Exported (not just used internally) so any
+ * consumer that stores a bare Tiptap document — e.g. NewsArticle.content,
+ * which is a dedicated Prisma Json column rather than a ContentEntry.data
+ * blob — can validate against this directly instead of RichTextSchema's
+ * wrapped shape below.
+ */
+export const TiptapNodeSchema: z.ZodType<TiptapNode> = z.lazy(() =>
   z.object({
     type: z.string(),
     attrs: z.record(z.string(), z.unknown()).optional(),
@@ -35,6 +44,14 @@ const TiptapNodeSchema: z.ZodType<TiptapNode> = z.lazy(() =>
   }),
 );
 
+/**
+ * ⚠️ Wrapped shape (`{ content: TiptapNode }`) — kept for whatever
+ * ContentEntry-authored `RichTextData`-typed fields already rely on it.
+ * Note this does NOT match what RichTextRenderer takes as `value` — pass
+ * `.content`, not the whole object, e.g. `<RichTextRenderer value={data.content} />`.
+ * New code storing a bare Tiptap document (no wrapper) should use
+ * `TiptapNodeSchema` directly instead of introducing another wrapped field.
+ */
 export const RichTextSchema = z.object({
   content: TiptapNodeSchema,
 });

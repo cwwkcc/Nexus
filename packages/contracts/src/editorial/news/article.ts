@@ -2,15 +2,13 @@
 //
 // News article contract.
 //
-// NewsArticleSchema     — the full entity: id, title, slug, excerpt,
-//                         content (RichText HTML), coverImage? (R2 key),
-//                         category (NewsCategoryKey), author?, publishedAt (ISO),
-//                         tags?: string[], seo? (SeoData), locale
-// ArticleCardSchema     — lighter projection for list views (used by @nexus/ui)
+// NewsArticleSchema     — @deprecated, see below.
+// ArticleCardSchema     — lighter projection for list views (used by @nexus/ui's
+//                         NewsCard) — still live, populated from the real
+//                         NewsArticle domain model (packages/api/src/modules/news)
+//                         as of M3, not from NewsArticleSchema below.
 //
 // Notes:
-//   Articles are stored as ContentEntry rows with scope 'editorial:news'.
-//   Full content is Tiptap HTML — render with RichTextRenderer in @nexus/ui.
 //   Category reuses NewsCategorySchema from category.ts rather than a
 //   separate ArticleCategory enum.
 
@@ -22,7 +20,15 @@ import { ImageSchema, LocaleEnum, RichTextSchema, SeoSchema } from '../../primit
 
 export const NEWS_ARTICLE_CONTENT_TYPE = 'news-article';
 
-// The full entity — CMS/admin CRUD and ContentEntry storage.
+/**
+ * @deprecated Superseded as of M3 by the real `NewsArticle` Prisma model
+ * (packages/database/prisma/schema.prisma) and its validators in
+ * packages/api/src/modules/news/validators.ts. This schema described a
+ * ContentEntry-stored article from when News was still a "deferred domain
+ * model" (F-057) — nothing constructs data against it anymore. Kept in
+ * place (not deleted) only because it's a public package export; new code
+ * should use the news module's own types, not this.
+ */
 export const NewsArticleSchema = z.object({
   id: z.string(),
   title: z.string().max(MAX_TITLE_LENGTH),
