@@ -67,8 +67,18 @@ model NewsArticle {
   slug        String
   title       String
   excerpt     String?
-  content     String    @db.Text
+  // Tiptap/ProseMirror document (`{ type: 'doc', content: [...] }`), not an
+  // HTML string — this is what RichTextEditor.tsx produces via
+  // `editor.getJSON()` and what RichTextRenderer.tsx consumes directly as
+  // its `value` prop. Was `String @db.Text` until M3; nothing had ever
+  // written a real article through the (until-M3 nonfunctional)
+  // RichTextEditor stub, so no data migration was needed for this change.
+  content     Json
   category    String
+  // Free-text byline (e.g. "School Media Team", a teacher's name) — not a
+  // relation to User, since most articles are attributed to a group or a
+  // non-admin-panel staff member, not necessarily a system account holder.
+  author      String?
   status      ContentStatus @default(draft)
   featured    Boolean   @default(false)
   imageUrl    String?
@@ -77,7 +87,7 @@ model NewsArticle {
   updatedAt   DateTime  @updatedAt
 
   @@unique([locale, slug])
-  @@index([locale, status])
+  @@index([locale, status, publishedAt])
   @@index([category])
   @@index([featured])
 }
