@@ -18,3 +18,7 @@ export function internalError(message: string, cause?: unknown): TRPCError {
 export function unauthorizedError(message: string): TRPCError {
   return new TRPCError({ code: 'UNAUTHORIZED', message });
 }
+
+export function conflictError(message: string): TRPCError {
+  return new TRPCError({ code: 'CONFLICT', message });
+}
