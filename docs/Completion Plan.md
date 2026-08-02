@@ -68,6 +68,8 @@ Everything here can be built and tested now, without external access.
 
 > **Verification note (2026-07-31):** Migration SQL was hand-verified against a real local PostgreSQL 16 instance (this sandbox has no network route to `binaries.prisma.sh`, so `prisma generate`/`migrate dev` couldn't be run directly here — run `pnpm db:generate && pnpm db:migrate` on a machine with normal network access to produce the tracked Prisma Client and confirm the migration name Prisma assigns). Password/TOTP/backup-code logic was verified standalone against the real `bcryptjs`/`otplib`/`qrcode` packages. `packages/contracts`, `packages/env`, and `packages/config` were fully typechecked and pass. The full `packages/api`/`apps/admin` typecheck and test suite still need to run once the Prisma Client is generated — do that before treating this milestone as done-done.
 
+> **Addendum (2026-08-02):** the migration referenced above was never actually committed — `schema.prisma` had `User`/`Account`/`Session`/`VerificationToken`/`BackupCode` declared, but `packages/database/prisma/migrations/` only ever contained `20260712053043_init` (ContentEntry/ContentEntryVersion/SiteSetting). Found and fixed while starting M3, since it would otherwise conflate this milestone's schema drift with News's in whatever migration got generated next. Added `20260713090000_add_auth_models` to cover it retroactively. Same "hand-verified, not machine-run" caveat as above applies to this migration file too.
+
 ---
 
 ## M2 — Admin Shell (Task 7.1–7.2)
@@ -78,20 +80,34 @@ Everything here can be built and tested now, without external access.
 - [x] Build `Breadcrumb.tsx`
 - [x] Build the dashboard (`dashboard/page.tsx`) — content counts + quick actions first pass (audit-entries panel can wait for M5)
 
+> **Addendum (2026-08-02):** `AdminShell`/`Sidebar`/`Topbar`/`Breadcrumb` (and `login/page.tsx`, adjacent) were hand-rolling raw Tailwind slate/green classes instead of `@nexus/tokens` — root cause is that `getDarkTheme()`/`getLightTheme()`/`getHighContrastTheme()` in `packages/tokens/src/themes/` are literal `throw new Error(...)` stubs, and the generated CSS variables are identical (and light-only) across both apps, so there was no working dark theme to follow. Fixed these four files plus `login/page.tsx` to use the real (parchment/forest) semantic tokens instead. **Not fixed:** `dashboard/page.tsx`, the `content/` admin editor, and the `design-system/` showcase pages still have the same raw-Tailwind pattern — a real dark theme, if still wanted for admin, is its own separate piece of work (CSS-variable wiring + `getDarkTheme()` + a `data-theme` switch), not a quick follow-on to this.
+
 ---
 
 ## M3 — First vertical slice: News (Task 7.3 / 8.4, F-057, F-069)
 
 Build this one completely before parallelizing — it's the template every later module copies.
 
-- [ ] Add `News` model to `schema.prisma`, write migration
-- [ ] Build `newsRouter` in `packages/api/src/modules/news/` (`router.ts`, `service.ts`, `validators.ts`, `errors.ts`, tests) — mirror the existing `content` module's shape
-- [ ] Build admin News list view (status badges, search, category/date filter, bulk publish/archive/delete)
-- [ ] Build admin News new/edit forms
+- [x] Add `News` model to `schema.prisma`, write migration
+- [x] Build `newsRouter` in `packages/api/src/modules/news/` (`router.ts`, `service.ts`, `validators.ts`, `errors.ts`, tests) — mirror the existing `content` module's shape
+- [x] Build admin News list view (status badges, search, category/date filter, bulk publish/archive/delete)
+- [x] Build admin News new/edit forms
 - [ ] Get `apps/admin/e2e/news-crud.spec.ts` passing against the real implementation
-- [ ] Wire public News listing page (`apps/web/src/app/[locale]/news/page.tsx`)
-- [ ] Wire public News detail page (`apps/web/src/app/[locale]/news/[slug]/page.tsx`)
+- [x] Wire public News listing page (`apps/web/src/app/[locale]/news/page.tsx`)
+- [x] Wire public News detail page (`apps/web/src/app/[locale]/news/[slug]/page.tsx`)
 - [ ] Verify a published article renders correctly in all three locales
+
+**Exit criteria:** an editor can create, publish, and see an article live on the public site in all three languages, with the e2e spec passing in CI.
+
+> **Verification note (2026-08-02):** `packages/contracts`, `packages/api`, `apps/admin`, and `apps/web` all typecheck clean (`tsc -p tsconfig.lib.json`/`tsconfig.json --noEmit`) except for `TS6305` project-reference errors, which are exclusively because `packages/database`'s Prisma Client can't be generated in this sandbox (no route to `binaries.prisma.sh` — same limitation as M1a) — nothing else in the referenced-project chain builds without it either. Two real bugs were caught and fixed by this typecheck, not just theorized: (1) `NewsCategoryInput`'s enum construction didn't satisfy Zod 4's stricter `z.enum()` overloads — replaced with reusing `NewsCategorySchema` directly from `@nexus/contracts` instead of re-deriving it; (2) `err instanceof Prisma.PrismaClientKnownRequestError` doesn't narrow `err` in this project's TS setup (the same reason `contentService.ts` already casts explicitly with `(err as Prisma.PrismaClientKnownRequestError)` rather than relying on the `instanceof` guard alone) — matched that existing pattern. `apps/admin/src/lib/news.test.ts` was actually **run** (via `tsx --test`, not just typechecked) — 3/3 pass. `packages/api/src/modules/news/__tests__/router.test.ts` cannot run at all here — it fails at module resolution (`packages/database/src/generated/prisma/client.js` doesn't exist) before any test body executes, the direct consequence of the same missing Prisma Client, not a bug in the test. Run it for real once `pnpm db:generate` succeeds somewhere with network access.
+>
+> Two real architecture problems were found and fixed as prerequisites, not scope creep — the checklist above couldn't be honestly completed without them:
+>
+> - **Category taxonomy mismatch:** the original `packages/api/modules/news/validators.ts` invented `['Academic','Sports','Events','Achievements','General']`, which collides with the real Event/Achievement models landing in M4. Now derives from `@nexus/contracts`' `NEWS_CATEGORIES` (`academic/sports/cultural/community/general`), the taxonomy `ArticleCardSchema`/`NewsCard` already used.
+> - **Content storage type mismatch:** `NewsArticle.content` was `String @db.Text`, but `RichTextRenderer` (@nexus/ui, already built) expects a Tiptap/ProseMirror JSON document, and `RichTextEditor.tsx` (the thing meant to produce that JSON) was a 3-line comment stub. Changed the column to `Json`, built a real Tiptap-based editor (F-150) scoped to exactly what `RichTextRenderer` renders, and exported `TiptapNodeSchema` from `@nexus/contracts` for validating it.
+> - Removed the `news.featured`/`news.feed` `PageRegistry` sections (and the now-fully-dead `NewsFeaturedSchema`/`NewsFeedSchema`) — ContentEntry-era placeholders from when News was still a "deferred domain model" (F-057), superseded by the real router and never cleaned up.
+>
+> **Not done:** the e2e spec and `playwright.config.ts` are written for real (not stubs) but **not run** — no browser, no live Postgres, no dev-server chain in this sandbox. Needs `pnpm --filter @nexus/admin exec playwright install` plus a real seeded DB and `ADMIN_EMAIL`/`ADMIN_PASSWORD` to actually execute. Trilingual rendering is correct by construction (locale flows through every query, `NEWS_STRINGS` covers en/si/ta) but **not visually verified** — no browser available here either, and the Sinhala/Tamil UI strings are a best-effort translation, not reviewed by a native speaker. Both remaining checkboxes need a real dev environment, not more code, to close out.
 
 ---
 
