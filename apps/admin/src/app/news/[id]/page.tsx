@@ -1,51 +1,34 @@
-import { Button, Container, FormFieldGroup, Input, SectionHeader, Select, Textarea } from '@nexus/ui';
+// apps/admin/src/app/news/[id]/page.tsx
+//
+// F-164 edit form. Was a static prototype rendering the same hardcoded
+// values regardless of [id] — now fetches the real article via
+// caller.news.adminGetById and 404s (via notFound()) if it doesn't exist,
+// rather than silently showing an empty/wrong form.
 
-import { AdminShell } from '@/features/shell/AdminShell';
+import { notFound } from 'next/navigation';
 
-export default function Page() {
+import { AdminShell } from '../../../features/shell/AdminShell.js';
+import { getServerCaller } from '../../../lib/server-caller.js';
+import { NewsForm } from '../NewsForm.js';
+
+interface EditNewsArticlePageProps {
+  params: Promise<{ id: string }>;
+}
+
+export default async function EditNewsArticlePage({ params }: EditNewsArticlePageProps) {
+  const { id } = await params;
+  const caller = await getServerCaller();
+
+  let article;
+  try {
+    article = await caller.news.adminGetById({ id });
+  } catch {
+    notFound();
+  }
+
   return (
-    <AdminShell title="Edit article">
-      <Container size="lg" padding="none" className="space-y-8">
-        <SectionHeader eyebrow="News" title="Edit article" description="Update the article content, categories, and publication status." variant="eyebrow-title-description" />
-
-        <form className="space-y-6 rounded-3xl border border-slate-800 bg-slate-900 p-6 shadow-lg shadow-slate-950/30">
-          <FormFieldGroup>
-            <Input label="Title" defaultValue="School wins district sports title" required />
-            <Input label="Slug" defaultValue="school-wins-district-sports-title" required />
-            <Input label="Excerpt" defaultValue="Students celebrated a memorable finish after a strong season across all major fixtures." />
-            <Select
-              label="Category"
-              defaultValue="Sports"
-              options={[
-                { label: 'Academic', value: 'Academic' },
-                { label: 'Sports', value: 'Sports' },
-                { label: 'Events', value: 'Events' },
-                { label: 'Achievements', value: 'Achievements' },
-                { label: 'General', value: 'General' },
-              ]}
-            />
-            <Select
-              label="Status"
-              defaultValue="published"
-              options={[
-                { label: 'Draft', value: 'draft' },
-                { label: 'Published', value: 'published' },
-                { label: 'Archived', value: 'archived' },
-              ]}
-            />
-            <Textarea label="Content" rows={10} defaultValue="<p>Students celebrated a memorable finish after a strong season across all major fixtures.</p>" />
-          </FormFieldGroup>
-
-          <div className="flex flex-wrap gap-3">
-            <Button type="submit" variant="primary">
-              Save changes
-            </Button>
-            <Button type="button" variant="secondary">
-              Save as draft
-            </Button>
-          </div>
-        </form>
-      </Container>
+    <AdminShell title={`Edit: ${article.title}`}>
+      <NewsForm mode="edit" initial={article} />
     </AdminShell>
   );
 }
