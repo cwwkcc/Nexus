@@ -1,28 +1,30 @@
-export type NewsStatus = 'draft' | 'published' | 'archived';
-export type NewsCategory = 'Academic' | 'Sports' | 'Events' | 'Achievements' | 'General';
+// apps/admin/src/lib/news.ts
+//
+// M3 rewrite. This used to be a self-contained mock-data helper (a
+// `normalizeNewsArticle` that invented sensible defaults for a client-only
+// prototype, plus the old 5-category enum). Now that the news pages read
+// real data via tRPC, `AdminNewsArticle` is inferred directly from the
+// actual router output (inferRouterOutputs<AppRouter>) rather than
+// hand-declared, so it can't silently drift from the API. `slugify` and
+// `filterNewsArticles` survive since both are still genuinely useful;
+// `normalizeNewsArticle` is gone — there's nothing left to "normalize",
+// since createArticle/updateArticle now validate against the real schema
+// and reject bad input outright instead of silently coercing it.
 
-export interface NewsArticle {
-  id: string;
-  title: string;
-  slug: string;
-  excerpt: string;
-  category: NewsCategory;
-  status: NewsStatus;
-  featured: boolean;
-  publishedAt: string;
-  content: string;
-  imageUrl: string;
-  createdAt?: string;
-  updatedAt?: string;
-}
+import type { AppRouter } from '@nexus/api';
+import type { inferRouterOutputs } from '@trpc/server';
+
+type RouterOutputs = inferRouterOutputs<AppRouter>;
+
+export type AdminNewsArticle = RouterOutputs['news']['adminList']['items'][number];
+export type NewsStatus = AdminNewsArticle['status'];
+export type NewsCategory = AdminNewsArticle['category'];
 
 export interface NewsFilters {
   query?: string;
   status?: NewsStatus | 'all';
   category?: NewsCategory | 'all';
 }
-
-const categorySet = new Set<NewsCategory>(['Academic', 'Sports', 'Events', 'Achievements', 'General']);
 
 export function slugify(value: string): string {
   return value
@@ -34,34 +36,16 @@ export function slugify(value: string): string {
     .replace(/^-|-$/g, '');
 }
 
-export function normalizeNewsArticle(input: Partial<NewsArticle> & Pick<NewsArticle, 'title' | 'slug' | 'category' | 'publishedAt' | 'status' | 'featured' | 'content'>): NewsArticle {
-  const safeCategory = categorySet.has(input.category as NewsCategory) ? (input.category as NewsCategory) : 'General';
-  const normalizedTitle = input.title?.trim() ?? 'Untitled article';
-  const normalizedSlug = slugify(input.slug ?? normalizedTitle) || slugify(normalizedTitle) || 'untitled-article';
-
-  return {
-    id: input.id ?? normalizedSlug,
-    title: normalizedTitle,
-    slug: normalizedSlug,
-    excerpt: (input.excerpt ?? '').trim(),
-    category: safeCategory,
-    status: input.status ?? 'draft',
-    publishedAt: input.publishedAt ?? new Date().toISOString(),
-    featured: Boolean(input.featured),
-    content: input.content?.trim() || 'No content provided yet.',
-    imageUrl: input.imageUrl ?? '',
-    createdAt: input.createdAt ?? new Date().toISOString(),
-    updatedAt: input.updatedAt ?? new Date().toISOString(),
-  };
-}
-
-export function filterNewsArticles(articles: NewsArticle[], filters: NewsFilters = {}): NewsArticle[] {
+/** Plain-text search over title/excerpt/author. Not searching `content` —
+ * it's a Tiptap document object now, not a string; see service.ts's note
+ * on the same limitation for the server-side search. */
+export function filterNewsArticles(articles: AdminNewsArticle[], filters: NewsFilters = {}): AdminNewsArticle[] {
   const query = (filters.query ?? '').trim().toLowerCase();
   const status = filters.status ?? 'all';
   const category = filters.category ?? 'all';
 
   return articles.filter((article) => {
-    const matchesQuery = !query || [article.title, article.excerpt, article.content, article.slug].some((value) => value.toLowerCase().includes(query));
+    const matchesQuery = !query || [article.title, article.excerpt ?? '', article.author ?? '', article.slug].some((value) => value.toLowerCase().includes(query));
     const matchesStatus = status === 'all' || article.status === status;
     const matchesCategory = category === 'all' || article.category === category;
 
