@@ -49,7 +49,7 @@ export default function LoginPage() {
 
   return (
     <Container size="sm" padding="lg" className="flex min-h-screen items-center justify-center">
-      <div className="w-full max-w-sm space-y-8 rounded-3xl border border-slate-800 bg-slate-900 p-8 shadow-lg shadow-slate-950/30">
+      <div className="w-full max-w-sm space-y-8 rounded-3xl border border-border-default bg-surface-elevated p-8 shadow-lg">
         <div className="space-y-2 text-center">
           <Heading level="h1">Nexus Admin</Heading>
           <Text color="muted">C.W.W. Kannangara Central College</Text>

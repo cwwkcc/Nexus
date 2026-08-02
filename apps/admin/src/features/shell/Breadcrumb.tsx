@@ -29,21 +29,21 @@ export function Breadcrumb() {
   }, []);
 
   if (crumbs.length === 0) {
-    return <div className="text-xs uppercase tracking-[0.18em] text-slate-500">Admin</div>;
+    return <div className="text-xs uppercase tracking-[0.18em] text-text-subtle">Admin</div>;
   }
 
   return (
-    <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-xs uppercase tracking-[0.18em] text-slate-500">
-      <Link href="/" className="transition hover:text-slate-200">
+    <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-xs uppercase tracking-[0.18em] text-text-subtle">
+      <Link href="/" className="transition hover:text-text-primary">
         Home
       </Link>
       {crumbs.map((crumb, index) => (
         <div key={crumb.href} className="flex items-center gap-2">
           <span>/</span>
           {index === crumbs.length - 1 ? (
-            <span className="text-slate-200">{crumb.label}</span>
+            <span className="text-text-primary">{crumb.label}</span>
           ) : (
-            <Link href={crumb.href} className="transition hover:text-slate-200">
+            <Link href={crumb.href} className="transition hover:text-text-primary">
               {crumb.label}
             </Link>
           )}

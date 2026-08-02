@@ -12,7 +12,7 @@ interface AdminShellProps {
 
 export function AdminShell({ children, title }: AdminShellProps) {
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
+    <div className="min-h-screen bg-surface-base text-text-primary">
       <div className="mx-auto flex min-h-screen max-w-[1800px]">
         <Sidebar />
         <div className="flex min-w-0 flex-1 flex-col">
