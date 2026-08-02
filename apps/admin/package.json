@@ -15,10 +15,20 @@
     "@nexus/db": "workspace:*",
     "@nexus/env": "workspace:*",
     "@nexus/ui": "workspace:*",
+    "@tiptap/core": "^3.29.2",
+    "@tiptap/extension-image": "^3.29.2",
+    "@tiptap/extension-link": "^3.29.2",
+    "@tiptap/pm": "^3.29.2",
+    "@tiptap/react": "^3.29.2",
+    "@tiptap/starter-kit": "^3.29.2",
     "framer-motion": "^12.42.2",
     "next": "^16.2.11",
     "next-auth": "5.0.0-beta.32",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "@trpc/server": "^11.18.0"
   }
 }
