@@ -64,6 +64,20 @@ import {
   Flag,
   Code,
   Minus,
+
+  // Rich text editor toolbar (F-150)
+  Bold,
+  Italic,
+  Heading2,
+  Heading3,
+  Heading4,
+  List,
+  ListOrdered,
+  Quote,
+  Link2,
+  Image as ImageIcon,
+  Undo2,
+  Redo2,
 } from 'lucide-react';
 
 export const iconRegistry = {
@@ -131,6 +145,20 @@ export const iconRegistry = {
   flag: Flag,
   code: Code,
   minus: Minus,
+
+  // Rich text editor toolbar
+  bold: Bold,
+  italic: Italic,
+  'heading-2': Heading2,
+  'heading-3': Heading3,
+  'heading-4': Heading4,
+  list: List,
+  'list-ordered': ListOrdered,
+  quote: Quote,
+  link: Link2,
+  image: ImageIcon,
+  undo: Undo2,
+  redo: Redo2,
 } as const;
 
 export type IconName = keyof typeof iconRegistry;
