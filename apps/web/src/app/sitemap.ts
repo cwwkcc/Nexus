@@ -17,10 +17,13 @@
 // only reading static config. Left as a follow-up rather than guessing
 // at a query shape here.
 //
-// news/[slug] articles aren't included — news/[slug]/page.tsx (F-130)
-// isn't built yet, so there's no article list to iterate over.
+// News articles (F-130 built as of M3) are appended below the static
+// pages — each published article, per locale it's actually published in,
+// with a real lastModified from its own updatedAt (unlike the static
+// pages above, which are still the new Date() placeholder noted above).
 
 import { PUBLIC_PAGE_KEYS, localizedPath } from '@nexus/config';
+import { createServerCaller } from '@nexus/api';
 import { SUPPORTED_LOCALES } from '@nexus/contracts';
 import { clientEnv } from '@nexus/env/client';
 import type { MetadataRoute } from 'next';
@@ -28,8 +31,25 @@ import type { MetadataRoute } from 'next';
 // No more `?? 'https://cwwkcc.lk'` fallback — see the note in metadata.ts.
 const siteUrl = clientEnv.NEXT_PUBLIC_SITE_URL;
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  return PUBLIC_PAGE_KEYS.flatMap((page) =>
+const NEWS_SITEMAP_PAGE_SIZE = 200; // generous ceiling for a school's yearly article volume; revisit if this ever needs real cursor pagination.
+
+async function newsRoutes(): Promise<MetadataRoute.Sitemap> {
+  const caller = createServerCaller();
+  const perLocale = await Promise.all(
+    SUPPORTED_LOCALES.map((locale) =>
+      caller.news.list({ locale, status: 'published', page: 1, pageSize: NEWS_SITEMAP_PAGE_SIZE }).then((result) =>
+        result.items.map((article) => ({
+          url: `${siteUrl}/${locale}/news/${article.slug}`,
+          lastModified: new Date(article.updatedAt),
+        })),
+      ),
+    ),
+  );
+  return perLocale.flat();
+}
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const staticRoutes = PUBLIC_PAGE_KEYS.flatMap((page) =>
     SUPPORTED_LOCALES.map((locale) => ({
       url: `${siteUrl}${localizedPath(locale, page)}`,
       lastModified: new Date(),
@@ -38,4 +58,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       },
     })),
   );
+
+  return [...staticRoutes, ...(await newsRoutes())];
 }
