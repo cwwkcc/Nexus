@@ -14,6 +14,20 @@ export interface ApiConfig {
     webAppUrl: string | null;
     secret: string | null;
   };
+  /**
+   * Cloudflare R2 (S3-compatible), used only by modules/media (F-067/F-120).
+   * All five are required together in any environment that actually serves
+   * uploads — `null` here means "not configured", and modules/media/
+   * r2-client.ts throws a clear config error rather than letting the AWS
+   * SDK fail confusingly deep inside a signed-request call.
+   */
+  r2: {
+    accountId: string | null;
+    accessKeyId: string | null;
+    secretAccessKey: string | null;
+    bucketName: string | null;
+    publicUrl: string | null;
+  };
 }
 
 /**
@@ -29,6 +43,13 @@ export function loadApiConfig(env: NodeJS.ProcessEnv = process.env): ApiConfig {
     revalidate: {
       webAppUrl: env.WEB_APP_URL_INTERNAL?.trim() || null,
       secret: env.REVALIDATE_SECRET?.trim() || null,
+    },
+    r2: {
+      accountId: env.R2_ACCOUNT_ID?.trim() || null,
+      accessKeyId: env.R2_ACCESS_KEY_ID?.trim() || null,
+      secretAccessKey: env.R2_SECRET_ACCESS_KEY?.trim() || null,
+      bucketName: env.R2_BUCKET_NAME?.trim() || null,
+      publicUrl: env.R2_PUBLIC_URL?.trim().replace(/\/+$/, '') || null,
     },
   };
 }

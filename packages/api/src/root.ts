@@ -14,12 +14,14 @@
 //   ✓ apps/admin/src/app/page.tsx — dashboard no longer queries dead models
 
 import { contentEntryRouter } from './modules/content/router.js';
+import { mediaRouter } from './modules/media/router.js';
 import { newsRouter } from './modules/news/router.js';
 import { router } from './trpc.js';
 
 export const appRouter = router({
   contentEntry: contentEntryRouter,
   news: newsRouter,
+  media: mediaRouter,
 });
 
 export type AppRouter = typeof appRouter;
