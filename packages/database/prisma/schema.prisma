@@ -92,6 +92,56 @@ model NewsArticle {
   @@index([featured])
 }
 
+// ─── Media Library (M4 — Task 7.8, F-067/F-115/F-120/F-169) ───────────────
+//
+// The R2 object key is the canonical, portable reference — the public CDN
+// URL is derived at read time from R2_PUBLIC_URL + key (see
+// modules/media/service.ts's `toUrl`) rather than stored, so a future CDN
+// domain change never needs a data migration. Same reasoning as
+// @nexus/contracts' ImageSchema doc comment ("Never store full CDN URLs —
+// keys are portable if the CDN domain changes"), applied here to the row
+// that actually owns the key.
+//
+// A row here only ever represents a confirmed, present R2 object — there is
+// no draft/pending status the way NewsArticle has one. The presigned-PUT
+// staging key a browser uploads to (see modules/media/router.ts's
+// `requestUpload`) never gets a MediaAsset row at all unless `confirmUpload`
+// completes; an abandoned client-side upload simply leaves an orphaned
+// object under the `tmp/` prefix in R2, not a stuck row here, which is
+// exactly F-062's "temporary upload artifacts" — a cleanup job cleans the
+// bucket, this table stays clean by construction.
+model MediaAsset {
+  id       String @id @default(cuid())
+  key      String @unique
+  fileName String
+  mimeType String
+  fileSize Int
+
+  /// Matches @nexus/contracts' UploadFolderEnum ('images' | 'documents' |
+  /// 'media' | 'avatars') — stored as a plain string and validated at the
+  /// Zod layer, the same convention as NewsArticle.category.
+  folder String
+
+  /// Populated only for image assets, after Sharp processing (F-115) —
+  /// null for documents/audio/video.
+  width  Int?
+  height Int?
+
+  altText String?
+  caption String?
+  tags    String[] @default([])
+
+  uploadedBy String?
+  uploader   User?   @relation(fields: [uploadedBy], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([folder])
+  @@index([uploadedBy])
+  @@index([createdAt])
+}
+
 // ─── Authentication (M1a — Task 6.3/6.5, F-057/F-073/F-078) ────────────────
 //
 // Account/Session/VerificationToken follow the canonical Auth.js Prisma
@@ -139,9 +189,14 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  accounts    Account[]
-  sessions    Session[]
-  backupCodes BackupCode[]
+  accounts     Account[]
+  sessions     Session[]
+  backupCodes  BackupCode[]
+  /// onDelete: SetNull on the other side (MediaAsset.uploader) — in
+  /// practice this never fires today since F-081 deactivates users rather
+  /// than deleting them, but it's the correct behavior if that ever
+  /// changes: an asset outlives the account that uploaded it.
+  mediaAssets  MediaAsset[]
 
   @@index([role])
 }
