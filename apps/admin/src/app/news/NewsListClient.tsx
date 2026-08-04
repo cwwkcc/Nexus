@@ -10,9 +10,9 @@
 
 import { LOCALE_LABELS, NEWS_CATEGORIES, SUPPORTED_LOCALES, type LocaleEnumData } from '@nexus/contracts';
 import { Badge, Button, Input, Pagination, Select } from '@nexus/ui';
+import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState, useTransition } from 'react';
-import Link from 'next/link';
 
 import { bulkSetNewsArticleStatus, setNewsArticleStatus } from './actions.js';
 import type { AdminNewsArticle, NewsCategory, NewsStatus } from '../../lib/news.js';
@@ -97,8 +97,8 @@ export function NewsListClient({ articles, pagination, currentQuery, currentStat
   };
 
   return (
-    <div className="flex flex-col gap-space-6">
-      <div className="flex flex-col gap-space-4 md:flex-row md:items-end">
+    <div className="gap-space-6 flex flex-col">
+      <div className="gap-space-4 flex flex-col md:flex-row md:items-end">
         <form
           className="flex-1"
           onSubmit={(e) => {
@@ -117,13 +117,13 @@ export function NewsListClient({ articles, pagination, currentQuery, currentStat
       </div>
 
       {bulkError && (
-        <div role="alert" className="rounded-md border border-semantic-error-base bg-surface-elevated px-space-4 py-space-3 text-body text-semantic-error-base">
+        <div role="alert" className="border-semantic-error-base bg-surface-elevated px-space-4 py-space-3 text-body text-semantic-error-base rounded-md border">
           {bulkError}
         </div>
       )}
 
       {selected.size > 0 && (
-        <div className="flex flex-wrap items-center gap-space-3 rounded-md border border-border-default bg-surface-default px-space-4 py-space-3">
+        <div className="gap-space-3 border-border-default bg-surface-default px-space-4 py-space-3 flex flex-wrap items-center rounded-md border">
           <span className="text-label text-text-primary">{selected.size} selected</span>
           <Button size="sm" variant="secondary" onClick={() => runBulk('published')}>
             Publish
@@ -139,25 +139,25 @@ export function NewsListClient({ articles, pagination, currentQuery, currentStat
 
       <div className={isPending ? 'opacity-50 transition-opacity' : 'transition-opacity'}>
         {articles.length === 0 ? (
-          <div className="rounded-md border border-dashed border-border-default px-space-6 py-space-8 text-center text-body text-text-muted">No articles match these filters.</div>
+          <div className="border-border-default px-space-6 py-space-8 text-body text-text-muted rounded-md border border-dashed text-center">No articles match these filters.</div>
         ) : (
-          <div className="overflow-hidden rounded-md border border-border-default">
+          <div className="border-border-default overflow-hidden rounded-md border">
             <table className="w-full border-collapse text-left">
               <thead className="bg-surface-default">
                 <tr>
                   <th className="w-space-9 px-space-4 py-space-3">
                     <input type="checkbox" aria-label="Select all articles" checked={selected.size === articles.length && articles.length > 0} onChange={toggleSelectAll} />
                   </th>
-                  <th className="px-space-4 py-space-3 text-label uppercase tracking-label text-text-muted">Title</th>
-                  <th className="px-space-4 py-space-3 text-label uppercase tracking-label text-text-muted">Category</th>
-                  <th className="px-space-4 py-space-3 text-label uppercase tracking-label text-text-muted">Status</th>
-                  <th className="px-space-4 py-space-3 text-label uppercase tracking-label text-text-muted">Updated</th>
-                  <th className="px-space-4 py-space-3 text-label uppercase tracking-label text-text-muted">Actions</th>
+                  <th className="px-space-4 py-space-3 text-label tracking-label text-text-muted uppercase">Title</th>
+                  <th className="px-space-4 py-space-3 text-label tracking-label text-text-muted uppercase">Category</th>
+                  <th className="px-space-4 py-space-3 text-label tracking-label text-text-muted uppercase">Status</th>
+                  <th className="px-space-4 py-space-3 text-label tracking-label text-text-muted uppercase">Updated</th>
+                  <th className="px-space-4 py-space-3 text-label tracking-label text-text-muted uppercase">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {articles.map((article) => (
-                  <tr key={article.id} className="border-t border-border-default bg-surface-elevated">
+                  <tr key={article.id} className="border-border-default bg-surface-elevated border-t">
                     <td className="px-space-4 py-space-3">
                       <input type="checkbox" aria-label={`Select "${article.title}"`} checked={selected.has(article.id)} onChange={() => toggleSelected(article.id)} />
                     </td>
@@ -173,7 +173,7 @@ export function NewsListClient({ articles, pagination, currentQuery, currentStat
                     </td>
                     <td className="px-space-4 py-space-3 text-body text-text-muted">{new Date(article.updatedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</td>
                     <td className="px-space-4 py-space-3">
-                      <div className="flex items-center gap-space-2">
+                      <div className="gap-space-2 flex items-center">
                         <Button size="sm" variant="ghost" onClick={() => router.push(`/news/${article.id}`)}>
                           Edit
                         </Button>

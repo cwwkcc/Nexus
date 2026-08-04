@@ -6,9 +6,9 @@
 
 import { SUPPORTED_LOCALES, type LocaleEnumData } from '@nexus/contracts';
 
+import { NewsListClient } from './NewsListClient.js';
 import { AdminShell } from '../../features/shell/AdminShell.js';
 import { getServerCaller } from '../../lib/server-caller.js';
-import { NewsListClient } from './NewsListClient.js';
 
 interface NewsPageProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;

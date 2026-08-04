@@ -16,6 +16,8 @@ import { useState } from 'react';
 
 import { createNewsArticle, updateNewsArticle, type NewsArticleFormInput } from './actions.js';
 import { RichTextEditor } from '../../features/editor/RichTextEditor.js';
+import { MediaLibraryPicker } from '../../features/media/MediaLibraryPicker.js';
+import type { AdminMediaAsset } from '../../lib/media.js';
 import type { AdminNewsArticle, NewsCategory, NewsStatus } from '../../lib/news.js';
 import { slugify } from '../../lib/news.js';
 
@@ -46,6 +48,7 @@ export function NewsForm({ mode, initial }: NewsFormProps) {
   const [category, setCategory] = useState<NewsCategory>(initial?.category ?? 'general');
   const [author, setAuthor] = useState(initial?.author ?? '');
   const [imageUrl, setImageUrl] = useState(initial?.imageUrl ?? '');
+  const [imagePickerOpen, setImagePickerOpen] = useState(false);
   const [featured, setFeatured] = useState(initial?.featured ?? false);
   const [status, setStatus] = useState<NewsStatus>(initial?.status ?? 'draft');
 
@@ -145,8 +148,43 @@ export function NewsForm({ mode, initial }: NewsFormProps) {
 
       <div className="grid grid-cols-1 gap-space-6 md:grid-cols-2">
         <Input label="Author" value={author} onChange={(e) => setAuthor(e.target.value)} placeholder="e.g. Ms. Perera, ICT Society" helperText="Optional byline." />
-        <Input label="Cover image URL" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder="https://…" type="url" helperText="A direct image URL for now — pulling this from the media library lands in M4." />
+
+        <div className="flex flex-col gap-space-2">
+          <span className="font-body text-label uppercase tracking-label text-text-primary">Cover image</span>
+          {imageUrl ? (
+            <div className="flex items-center gap-space-4">
+              <div className="relative h-space-16 w-space-16 shrink-0 overflow-hidden rounded-md border border-border-default">
+                {/* eslint-disable-next-line @next/next/no-img-el -- imageUrl may still hold an arbitrary external URL saved before this field used the Media Library (it used to be a free-text URL input); next/image would throw for any host outside next.config's remotePatterns, which only covers R2. */}
+                <img src={imageUrl} alt="" className="h-full w-full object-cover" />
+              </div>
+              <div className="flex flex-col gap-space-2">
+                <Button type="button" variant="secondary" size="sm" onClick={() => setImagePickerOpen(true)}>
+                  Change image
+                </Button>
+                <Button type="button" variant="ghost" size="sm" onClick={() => setImageUrl('')}>
+                  Remove
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <Button type="button" variant="outline" onClick={() => setImagePickerOpen(true)}>
+              Choose from Media Library
+            </Button>
+          )}
+          <span className="font-body text-caption text-text-muted">Shown on the listing page and in link previews.</span>
+        </div>
       </div>
+
+      <MediaLibraryPicker
+        open={imagePickerOpen}
+        onClose={() => setImagePickerOpen(false)}
+        onSelect={(asset: AdminMediaAsset) => {
+          setImageUrl(asset.url);
+          setImagePickerOpen(false);
+        }}
+        folder="images"
+        title="Choose cover image"
+      />
 
       <div className="flex flex-wrap items-center gap-space-6">
         <Select label="Status" required options={statusOptions} value={status} onChange={(e) => setStatus(e.target.value as NewsStatus)} className="w-full max-w-xs" />

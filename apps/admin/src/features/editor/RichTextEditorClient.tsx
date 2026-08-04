@@ -23,6 +23,8 @@ import { EditorContent, useEditor, type Editor, type JSONContent } from '@tiptap
 import { StarterKit } from '@tiptap/starter-kit';
 import { useEffect } from 'react';
 
+import { useMediaPickerPlugin } from './MediaPickerPlugin.js';
+
 export interface RichTextEditorProps {
   /** Tiptap document (`{ type: 'doc', content: [...] }`), or null/undefined for an empty editor. */
   value: JSONContent | null | undefined;
@@ -43,6 +45,8 @@ function ToolbarButton({ active, disabled, label, icon, onClick }: { active?: bo
 }
 
 function Toolbar({ editor }: { editor: Editor }) {
+  const mediaPicker = useMediaPickerPlugin(editor);
+
   const promptForLink = () => {
     const previousUrl = editor.getAttributes('link').href as string | undefined;
     // eslint-disable-next-line no-alert -- a lightweight prompt is a reasonable stopgap for a single-field input; revisit if the editor grows a proper link dialog.
@@ -53,15 +57,6 @@ function Toolbar({ editor }: { editor: Editor }) {
       return;
     }
     editor.chain().focus().extendMarkRange('link').setLink({ href: url.trim() }).run();
-  };
-
-  const promptForImage = () => {
-    // eslint-disable-next-line no-alert
-    const src = window.prompt('Image URL:');
-    if (!src || !src.trim()) return;
-    // eslint-disable-next-line no-alert
-    const alt = window.prompt('Alt text (for screen readers and SEO):') ?? '';
-    editor.chain().focus().setImage({ src: src.trim(), alt }).run();
   };
 
   return (
@@ -78,10 +73,11 @@ function Toolbar({ editor }: { editor: Editor }) {
       <ToolbarButton label="Quote" icon="quote" active={editor.isActive('blockquote')} onClick={() => editor.chain().focus().toggleBlockquote().run()} />
       <span className="mx-space-1 h-icon-md w-px bg-border-default" aria-hidden="true" />
       <ToolbarButton label="Link" icon="link" active={editor.isActive('link')} onClick={promptForLink} />
-      <ToolbarButton label="Image" icon="image" onClick={promptForImage} />
+      <ToolbarButton label="Image" icon="image" onClick={mediaPicker.open} />
       <span className="mx-space-1 h-icon-md w-px bg-border-default" aria-hidden="true" />
       <ToolbarButton label="Undo" icon="undo" disabled={!editor.can().undo()} onClick={() => editor.chain().focus().undo().run()} />
       <ToolbarButton label="Redo" icon="redo" disabled={!editor.can().redo()} onClick={() => editor.chain().focus().redo().run()} />
+      {mediaPicker.render()}
     </div>
   );
 }
