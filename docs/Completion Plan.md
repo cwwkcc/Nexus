@@ -115,12 +115,24 @@ Build this one completely before parallelizing — it's the template every later
 
 Suggested order (Media Library pulled forward since News/Gallery both depend on real upload). For each module: **model + migration → router → admin UI → public page.**
 
-**Media Library** (Task 7.8, F-057)
+**Media Library** (Task 7.8, F-057/F-067/F-115/F-120/F-169)
 
-- [ ] `MediaAsset` model + migration
-- [ ] `mediaRouter`
-- [ ] Admin media library UI (`MediaLibraryPicker.tsx`, `UploadZone.tsx` — currently stubs) + R2 upload wiring
-- [ ] Wire into News module's image fields retroactively if needed
+- [x] `MediaAsset` model + migration
+- [x] `mediaRouter`
+- [x] Admin media library UI (`MediaLibraryPicker.tsx`, `UploadZone.tsx` — currently stubs) + R2 upload wiring
+- [x] Wire into News module's image fields retroactively if needed
+
+> **Verification note (2026-08-02):** This sandbox had a working route to `registry.npmjs.org` (M1a/M3 didn't) — ran a real `pnpm install` (1,398 packages resolved) rather than typechecking against nothing. Isolated the dependency chain by hand: `@nexus/contracts`, `@nexus/env`, `@nexus/tokens`, `@nexus/config` all **build** (not just typecheck) with zero errors. `@nexus/db` fails at exactly the two lines everyone already knew about — `Cannot find module '../generated/prisma/client.js'` — confirmed still exclusively `binaries.prisma.sh` returning 403, nothing else. With that isolated, `@nexus/api` (including this module) typechecks down to exactly one residual error class, shared identically by `content/service.ts` and `news/service.ts`: `Module '"@nexus/db"' has no exported member 'Prisma'` — the direct, unavoidable fallout of the missing client, not a defect in any of the three modules. `apps/admin` typechecks clean except one pre-existing, unrelated error in `app/page.tsx` (`recentVersions.map((v) => ...)`, implicit-any — same root cause, not introduced here, not fixed here since patching it would mean adding a real `any` where a generated type belongs). ESLint ran clean (0 errors) across every new and modified file in `packages/api`, `packages/ui`, and `apps/admin` — including, incidentally, three **pre-existing** `import/order` violations in already-shipped `news/actions.ts`, `news/page.tsx`, and `NewsListClient.tsx` that had apparently never actually been linted with working `node_modules` before now; fixed alongside (mechanical reordering only, no behavior change). `packages/api/src/modules/media/__tests__/router.test.ts` was written and fails at the same module-resolution point as `news/__tests__/router.test.ts`, for the same reason — not run for real here.
+>
+> Three real things were found and fixed along the way, not scope creep:
+>
+> - The three stub files this task replaces (`UploadZone.tsx`, `MediaLibraryPicker.tsx`, `MediaPickerPlugin.tsx`) cited stale feature IDs (F-155, F-101, F-116) that don't match `Feature Registry.md` (the real ones are F-169, F-115, F-067) — same class of drift M3's audit found elsewhere. Fixed in the replacing code's own comments.
+> - `useLockBodyScroll` existed in `packages/ui` and was already used internally by `Modal`, but wasn't re-exported from the hooks barrel — meant `@nexus/ui` didn't actually expose it as public API. `MediaLibraryPicker` is a bespoke overlay (neither `Modal` at 520px nor `Drawer` at 384px fits a real media grid) that needed the same body-scroll-lock behavior, so this got added to the barrel rather than reimplemented.
+> - F-067 ("browser uploads directly to R2") and F-115 ("processed with Sharp before upload to R2") read as contradictory taken literally — Sharp needs the bytes in a Node process, which the first phrase seems to rule out. Resolved as a two-key flow: the browser PUTs the original to a `tmp/`-prefixed staging key directly (satisfies F-067/F-120's actual point — the Next.js server never sees the raw upload bandwidth), then `confirmUpload` downloads _that_ small staged object, runs Sharp, writes the processed result to its final key, and deletes the staging object. Non-image folders skip the download entirely (`CopyObjectCommand`, staging → final, bytes never enter the Node process).
+>
+> **Also decided, not just implemented:** usage-tracking (F-169's "which content uses each asset") only checks `NewsArticle.imageUrl` — the only model that references media so far. It's written to be honest about that limit (a code comment says exactly which `Promise.all` to extend) rather than pretending to cover Staff/Gallery/Events/etc. that don't exist yet. Bulk delete uses a blanket warning instead of a per-item usage check (one `getUsage` round trip per selected asset doesn't scale); single-asset delete does the real check.
+>
+> **Not done:** no live R2 bucket, no live Postgres, no browser — so the actual presigned-PUT round trip, Sharp processing against a real image, and the picker's interactive behavior have not been exercised, only written and statically verified as far as this sandbox allows. Needs `pnpm db:generate` + a real R2 bucket + `pnpm --filter @nexus/admin dev` to close out for real.
 
 **Staff** (Task 7.4)
 
