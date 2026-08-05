@@ -142,6 +142,73 @@ model MediaAsset {
   @@index([createdAt])
 }
 
+// ─── Staff Module (M4 — Task 7.4, F-165) ───────────────────────────────────
+//
+// `role` and `department` are plain String columns validated against
+// StaffRoleEnum/DepartmentKeyEnum (@nexus/contracts) at the Zod layer, the
+// same convention NewsArticle.category and MediaAsset.folder already use
+// for hyphenated, Zod-managed taxonomies — a native Postgres enum can't
+// hold a bare identifier like `deputy-principal` without a `@map` that
+// would desync the Prisma Client-facing value from the exact string the
+// contracts package already exports and validates.
+//
+// `order` controls display sequence within one `role` group (F-165's
+// drag-and-drop reorder) — scoped per-role, not global: "3rd deputy
+// principal" and "3rd teacher" are independent orderings, and a single
+// global sequence would force a re-number of every other role's rows every
+// time one role's list was reordered.
+//
+// No draft/published status: StaffSchema (@nexus/contracts) never modeled
+// one, and F-165's spec ("Create/edit ... Drag-and-drop reorder") doesn't
+// call for one — every row is live on the public site as soon as it's
+// saved, the same way MediaAsset has no draft state either. An editor who
+// isn't ready to publish a profile simply doesn't create it yet. Removing
+// someone is therefore a real (admin-role-only) delete, not an archive —
+// see modules/staff/router.ts.
+model Staff {
+  id    String @id @default(cuid())
+  name  String
+  role  String
+  title String
+
+  /// DepartmentKeyEnum value — optional since not every role (principal,
+  /// head-prefect) belongs to an academic department.
+  department String?
+
+  /// e.g. "Head of Mathematics Department" — distinct from `title` (e.g.
+  /// "Deputy Principal (Academic)"), matching StaffSchema's own naming.
+  portfolio String?
+
+  tenure String?
+  quote  String?
+  bio    String?
+
+  /// AvatarSchema's shape ({ src, alt }) split into two columns and
+  /// reassembled into the nested object at the service layer's serialize()
+  /// — the same flattened-storage-then-nest pattern NewsArticle.imageUrl
+  /// uses for its cover image, just with the alt text a single-string
+  /// field doesn't need. `portraitUrl` holds a full CDN URL (an
+  /// R2_PUBLIC_URL-resolved MediaAsset.url), matching NewsArticle.imageUrl's
+  /// established convention — not an R2 key, despite ImageSchema/
+  /// AvatarSchema's own doc comment recommending keys; News already set
+  /// this precedent and this module follows it for consistency rather than
+  /// re-litigating storage format module-by-module.
+  portraitUrl String?
+  portraitAlt String?
+
+  contactEmail String?
+  joinedYear   String?
+
+  /// Display order within `role`'s group (F-165 drag-and-drop reorder).
+  order Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([role, order])
+  @@index([department])
+}
+
 // ─── Authentication (M1a — Task 6.3/6.5, F-057/F-073/F-078) ────────────────
 //
 // Account/Session/VerificationToken follow the canonical Auth.js Prisma
