@@ -9,6 +9,18 @@
 // "Heads of Department", "Advisory Board") that don't match the real page
 // spec at all (Institutional Statement, Principal, Deputy Principals,
 // Assistant Principals, Head Prefects, School Development Society).
+//
+// M4 (Staff Module, F-165) update: `principal`/`staff` below are no longer
+// meant to be hand-authored as raw JSON through the generic ContentEntry
+// editor — apps/web/src/server/content/administration.ts now populates
+// them from a live `staff.byRole` query against the real Staff table. Only
+// the small section-chrome fields each schema still carries (`eyebrow`,
+// `heading`, `messageLinkHref`) are still read from a ContentEntry row, if
+// an editor has set one. `principal` is `.optional()` specifically because
+// it now depends on a Staff row existing at read time — true for
+// hand-authored content (you'd never save an incomplete section), not
+// guaranteed for a live query against a database that may not have a
+// principal entered yet (see PrincipalSection.tsx's guard).
 
 import { z } from 'zod';
 
@@ -26,7 +38,7 @@ export type AdministrationStatementData = z.infer<typeof AdministrationStatement
 export const AdministrationPrincipalSchema = z.object({
   eyebrow: z.string().optional(),
   heading: z.string().optional(),
-  principal: StaffSchema,
+  principal: StaffSchema.optional(),
   messageLinkHref: z.string().optional(),
 });
 export type AdministrationPrincipalData = z.infer<typeof AdministrationPrincipalSchema>;

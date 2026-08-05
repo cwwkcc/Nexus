@@ -16,7 +16,7 @@ import type { RoleEnumData } from './role.ts';
  * arrive routinely as modules land (Task 6.6+) and adding one should only
  * ever require touching this matrix, not the shared schema.
  */
-export const RESOURCES = ['content', 'media', 'users', 'settings', 'audit-log'] as const;
+export const RESOURCES = ['content', 'media', 'staff', 'users', 'settings', 'audit-log'] as const;
 export type Resource = (typeof RESOURCES)[number];
 
 type Action = PermissionData['action'];
@@ -34,11 +34,18 @@ type Action = PermissionData['action'];
  * - `viewer`: read-only everywhere. Scaffolded ahead of any concrete
  *   feature that needs it (F-045); not yet exposed in the admin UI and not
  *   yet granted anywhere beyond read access.
+ *
+ * `staff` (M4, F-165): an Editor can create/edit staff profiles but, like
+ * media, cannot hard-delete one — the Staff Module has no draft/archive
+ * state to fall back to (see schema.prisma's Staff model doc comment), so
+ * removing a row is always the permanent `admin` action, mirroring media's
+ * own hard-delete-is-admin-only reasoning.
  */
 const ROLE_PERMISSIONS: Record<RoleEnumData, Partial<Record<Resource, readonly Action[]>>> = {
   admin: {
     content: ['read', 'write', 'publish', 'admin'],
     media: ['read', 'write', 'publish', 'admin'],
+    staff: ['read', 'write', 'publish', 'admin'],
     users: ['read', 'write', 'publish', 'admin'],
     settings: ['read', 'write', 'publish', 'admin'],
     'audit-log': ['read'],
@@ -46,10 +53,12 @@ const ROLE_PERMISSIONS: Record<RoleEnumData, Partial<Record<Resource, readonly A
   editor: {
     content: ['read', 'write', 'publish'],
     media: ['read', 'write'],
+    staff: ['read', 'write'],
   },
   viewer: {
     content: ['read'],
     media: ['read'],
+    staff: ['read'],
   },
 };
 

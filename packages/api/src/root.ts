@@ -16,12 +16,14 @@
 import { contentEntryRouter } from './modules/content/router.js';
 import { mediaRouter } from './modules/media/router.js';
 import { newsRouter } from './modules/news/router.js';
+import { staffRouter } from './modules/staff/router.js';
 import { router } from './trpc.js';
 
 export const appRouter = router({
   contentEntry: contentEntryRouter,
   news: newsRouter,
   media: mediaRouter,
+  staff: staffRouter,
 });
 
 export type AppRouter = typeof appRouter;
