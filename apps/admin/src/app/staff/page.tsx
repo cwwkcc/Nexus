@@ -1,8 +1,37 @@
-// Staff Module list view (F-151)
-// List sorted by role hierarchy. Drag-and-drop reorder.
+// apps/admin/src/app/staff/page.tsx
+//
+// F-165 Staff Module list. Was a stub — `AdminPlaceholder` with a comment
+// citing "F-151", which is actually the Gallery Listing Page's feature id
+// in the Feature Registry, not the Staff Module's (that's F-165; see the
+// Feature Registry's own Staff Module entry). Now reads real data via
+// caller.staff.adminList and delegates the role-grouped, drag-reorderable
+// display to StaffListClient.
 
-import { AdminPlaceholder } from '@/features/shell/AdminPlaceholder';
+import { StaffListClient } from './StaffListClient.js';
+import { AdminShell } from '../../features/shell/AdminShell.js';
+import { getServerCaller } from '../../lib/server-caller.js';
 
-export default function Page() {
-  return <AdminPlaceholder title="staff" />;
+interface StaffPageProps {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}
+
+function firstValue(value: string | string[] | undefined): string | undefined {
+  return Array.isArray(value) ? value[0] : value;
+}
+
+export default async function StaffPage({ searchParams }: StaffPageProps) {
+  const params = await searchParams;
+  const query = firstValue(params.q) ?? '';
+  const role = firstValue(params.role) ?? 'all';
+  const department = firstValue(params.department) ?? 'all';
+
+  const caller = await getServerCaller();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- role/department are narrowed to StaffRoleEnum/DepartmentKeyEnum by the router's own Zod validation; a bad value from the URL is simply rejected rather than silently coerced.
+  const staff = await caller.staff.adminList({ query, role, department } as any);
+
+  return (
+    <AdminShell title="Staff">
+      <StaffListClient staff={staff} currentQuery={query} currentRole={role} currentDepartment={department} />
+    </AdminShell>
+  );
 }
