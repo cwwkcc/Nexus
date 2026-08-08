@@ -1,41 +1,32 @@
 // packages/contracts/src/editorial/events/event.ts
 //
-// Calendar event contract.
+// F-198 "Calendar-First Event Architecture" (see Feature Registry) super-
+// sedes the standalone `EventSchema` that used to live here. There is no
+// longer a full "Event" entity independent of the calendar: every dated
+// item on the platform — a holiday, an exam date, a prize-giving — is a
+// `CalendarEntry` row (calendar.ts), and a `CalendarEntry` optionally
+// carries a linked `EventDetail` (description, cover image, location,
+// registration link, draft/published/archived status) that is what
+// actually produces a public card and a routable /events/[slug] page. A
+// calendar-only entry has no detail, is never rendered as a card, and has
+// no route.
 //
-// EventSchema     — the full entity: id, title, slug, description, coverImage?,
-//                   category (EventCategoryKey), startDate, endDate?, location?,
-//                   isAllDay?, registrationUrl?, locale
-// EventCardSchema — lighter projection for list/calendar display (used by @nexus/ui)
+// `EventDetail` (the real, persisted entity `EventSchema` used to
+// describe) now lives as Zod I/O schemas in
+// packages/api/src/modules/events/validators.ts, matching the same
+// layering `NewsArticleCreateInput`/`NewsArticleOutput` already
+// established for News: @nexus/contracts holds the display projection
+// consumed across apps (`EventCardSchema` below) and the shared taxonomy
+// (category.ts), not the full admin-CRUD entity shape — that belongs next
+// to the router/service that actually validates and persists it.
 //
-// Notes:
-//   EventSchema is for one-off or date-ranged events.
-//   Recurring events (weekly assembly etc.) use CalendarEntrySchema in calendar.ts.
+// EventCardSchema stays here unchanged — it's the projection @nexus/ui's
+// EventCard/Calendar components already consume directly, independent of
+// which module produced the data.
 
 import { z } from 'zod';
 
-import { EventCategorySchema } from './category.ts';
-import { MAX_TITLE_LENGTH, MAX_DESCRIPTION_LENGTH } from '../../constants/index.ts';
-import { ImageSchema, LocaleEnum } from '../../primitives/index.ts';
-
 export const EVENT_CONTENT_TYPE = 'event';
-
-// The full entity — CMS/admin CRUD and ContentEntry storage.
-export const EventSchema = z.object({
-  id: z.string(),
-  title: z.string().max(MAX_TITLE_LENGTH),
-  slug: z.string(),
-  description: z.string().max(MAX_DESCRIPTION_LENGTH),
-  coverImage: ImageSchema.optional(),
-  category: EventCategorySchema,
-  startDate: z.string(), // ISO
-  endDate: z.string().optional(), // ISO
-  location: z.string().optional(),
-  isAllDay: z.boolean().optional(),
-  registrationUrl: z.string().url().optional(),
-  locale: LocaleEnum,
-});
-
-export type EventData = z.infer<typeof EventSchema>;
 
 export const EventStatus = z.enum(['upcoming', 'today', 'ongoing', 'past', 'registration-open', 'registration-closed']);
 

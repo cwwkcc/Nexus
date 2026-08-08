@@ -16,7 +16,7 @@ import type { RoleEnumData } from './role.ts';
  * arrive routinely as modules land (Task 6.6+) and adding one should only
  * ever require touching this matrix, not the shared schema.
  */
-export const RESOURCES = ['content', 'media', 'staff', 'users', 'settings', 'audit-log'] as const;
+export const RESOURCES = ['content', 'media', 'staff', 'events', 'users', 'settings', 'audit-log'] as const;
 export type Resource = (typeof RESOURCES)[number];
 
 type Action = PermissionData['action'];
@@ -40,12 +40,23 @@ type Action = PermissionData['action'];
  * state to fall back to (see schema.prisma's Staff model doc comment), so
  * removing a row is always the permanent `admin` action, mirroring media's
  * own hard-delete-is-admin-only reasoning.
+ *
+ * `events` (M4, F-198/F-166): an Editor can create/edit calendar entries
+ * and event details, and can publish/unpublish an event's detail — same
+ * `publish` grant News holds, since EventDetail carries the identical
+ * draft/published/archived status. What Editors don't get is `admin`:
+ * hard-deleting a CalendarEntry (which cascades and permanently removes
+ * any linked EventDetail) is irreversible the same way Staff's hard
+ * delete is — a bare CalendarEntry has no archived/soft-deleted state to
+ * fall back to either, so removing one from the calendar altogether stays
+ * admin-only.
  */
 const ROLE_PERMISSIONS: Record<RoleEnumData, Partial<Record<Resource, readonly Action[]>>> = {
   admin: {
     content: ['read', 'write', 'publish', 'admin'],
     media: ['read', 'write', 'publish', 'admin'],
     staff: ['read', 'write', 'publish', 'admin'],
+    events: ['read', 'write', 'publish', 'admin'],
     users: ['read', 'write', 'publish', 'admin'],
     settings: ['read', 'write', 'publish', 'admin'],
     'audit-log': ['read'],
@@ -54,11 +65,13 @@ const ROLE_PERMISSIONS: Record<RoleEnumData, Partial<Record<Resource, readonly A
     content: ['read', 'write', 'publish'],
     media: ['read', 'write'],
     staff: ['read', 'write'],
+    events: ['read', 'write', 'publish'],
   },
   viewer: {
     content: ['read'],
     media: ['read'],
     staff: ['read'],
+    events: ['read'],
   },
 };
 
