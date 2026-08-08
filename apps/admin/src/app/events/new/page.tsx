@@ -1,7 +1,14 @@
-// New Event form (F-152). Date, time, venue, category, status, registration link.
+// apps/admin/src/app/events/new/page.tsx
+//
+// F-166 create form.
 
-import { AdminPlaceholder } from '@/features/shell/AdminPlaceholder';
+import { AdminShell } from '../../../features/shell/AdminShell.js';
+import { EventForm } from '../EventForm.js';
 
-export default function Page() {
-  return <AdminPlaceholder title="events / new" />;
+export default function NewCalendarEntryPage() {
+  return (
+    <AdminShell title="New calendar entry">
+      <EventForm mode="create" />
+    </AdminShell>
+  );
 }
