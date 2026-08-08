@@ -209,6 +209,99 @@ model Staff {
   @@index([department])
 }
 
+// ─── Calendar & Events (M4 — Task 7.5, F-145/F-146/F-166/F-198) ────────────
+//
+// F-198 "Calendar-First Event Architecture" (see Feature Registry)
+// supersedes the plain Task 7.5 spec ("Event model + migration") and the
+// old standalone EventSchema in @nexus/contracts — nothing reaches the
+// public site as an "event" except through a CalendarEntry row.
+// CalendarEntry is the single source of truth for every dated item on the
+// platform: holidays, exam dates, sports fixtures, cultural events,
+// internal meetings, prize-givings. A CalendarEntry optionally carries a
+// linked EventDetail — the fields the old standalone EventSchema defined
+// beyond what CalendarEntry itself already covers (id/title/date/category
+// move onto CalendarEntry; description/coverImage/location/isAllDay/
+// registrationUrl stay on the detail) — which is what actually produces a
+// public EventCard (F-024) and a routable /events/[slug] page (F-146). A
+// calendar-only entry (a public holiday, an internal staff meeting) has no
+// EventDetail, is never rendered as a card, and has no detail route.
+model CalendarEntry {
+  id     String @id @default(cuid())
+  locale Locale
+
+  title String
+  /// Date-only identity for the calendar grid — F-198's carried-over field
+  /// list for EventDetail names slug/description/coverImage/location/
+  /// isAllDay/registrationUrl explicitly and does not include a second
+  /// `endDate`; a multi-day event is represented as one CalendarEntry
+  /// whose EventDetail states the span in its description, not a second
+  /// date column. A real multi-day-span UI is a reasonable future
+  /// enhancement, not silently dropped scope — flagged here rather than
+  /// worked around with an unrequested field.
+  date DateTime @db.Date
+
+  /// EventCategorySchema value (academic/sports/cultural/exam/holiday/
+  /// other) — plain String validated at the Zod layer, the same
+  /// hyphenated-taxonomy convention NewsArticle.category, MediaAsset.folder,
+  /// and Staff.role/department already established.
+  category String
+
+  isRecurring    Boolean @default(false)
+  recurrenceRule String?
+  notes          String?
+
+  eventDetail EventDetail?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([locale, date])
+  @@index([category])
+}
+
+/// Attached 1:1 to a CalendarEntry — see CalendarEntry's own doc comment.
+/// `locale` is denormalized from the parent (kept in sync by
+/// modules/events/service.ts, never independently editable — a detail
+/// always lives in its calendar entry's own locale) purely so the public
+/// /events/[slug] route can look a detail up by (locale, slug) with one
+/// indexed unique-constraint query instead of a join filter, matching
+/// NewsArticle's (locale, slug) convention exactly.
+model EventDetail {
+  id              String        @id @default(cuid())
+  calendarEntryId String        @unique
+  calendarEntry   CalendarEntry @relation(fields: [calendarEntryId], references: [id], onDelete: Cascade)
+
+  locale Locale
+  slug   String
+
+  description String
+
+  coverImageUrl String?
+  coverImageAlt String?
+
+  location String?
+  /// Free-text ("10:00 AM", "2:00 – 4:00 PM") — Engineering Roadmap Task
+  /// 7.5's spec explicitly asks for a time field and EventCardSchema.time/
+  /// EventCard's DateBlock both expect one, even though F-198's own
+  /// carried-over field enumeration doesn't name it outright. Null
+  /// whenever isAllDay is true.
+  startTime String?
+  isAllDay  Boolean @default(false)
+
+  registrationUrl String?
+
+  /// F-166: "Status workflow (draft → published → archived) applies to the
+  /// EventDetail half only; a calendar-only entry has no publish state of
+  /// its own." Reuses ContentStatus, the same enum NewsArticle.status uses.
+  status ContentStatus @default(draft)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([locale, slug])
+  @@index([locale, status])
+}
+
 // ─── Authentication (M1a — Task 6.3/6.5, F-057/F-073/F-078) ────────────────
 //
 // Account/Session/VerificationToken follow the canonical Auth.js Prisma
