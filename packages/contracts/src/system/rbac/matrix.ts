@@ -16,7 +16,7 @@ import type { RoleEnumData } from './role.ts';
  * arrive routinely as modules land (Task 6.6+) and adding one should only
  * ever require touching this matrix, not the shared schema.
  */
-export const RESOURCES = ['content', 'media', 'staff', 'events', 'users', 'settings', 'audit-log'] as const;
+export const RESOURCES = ['content', 'media', 'staff', 'events', 'societies', 'users', 'settings', 'audit-log'] as const;
 export type Resource = (typeof RESOURCES)[number];
 
 type Action = PermissionData['action'];
@@ -50,6 +50,12 @@ type Action = PermissionData['action'];
  * delete is — a bare CalendarEntry has no archived/soft-deleted state to
  * fall back to either, so removing one from the calendar altogether stays
  * admin-only.
+ *
+ * `societies` (M4, Task 7.6/F-167): same shape as `staff`, not `events` —
+ * a Society has no draft/published/archived status either (see
+ * schema.prisma's Society model doc comment), so there's no `publish`
+ * grant to hand out, and a hard delete is admin-only for the identical
+ * "nothing to fall back to" reason.
  */
 const ROLE_PERMISSIONS: Record<RoleEnumData, Partial<Record<Resource, readonly Action[]>>> = {
   admin: {
@@ -57,6 +63,7 @@ const ROLE_PERMISSIONS: Record<RoleEnumData, Partial<Record<Resource, readonly A
     media: ['read', 'write', 'publish', 'admin'],
     staff: ['read', 'write', 'publish', 'admin'],
     events: ['read', 'write', 'publish', 'admin'],
+    societies: ['read', 'write', 'publish', 'admin'],
     users: ['read', 'write', 'publish', 'admin'],
     settings: ['read', 'write', 'publish', 'admin'],
     'audit-log': ['read'],
@@ -66,12 +73,14 @@ const ROLE_PERMISSIONS: Record<RoleEnumData, Partial<Record<Resource, readonly A
     media: ['read', 'write'],
     staff: ['read', 'write'],
     events: ['read', 'write', 'publish'],
+    societies: ['read', 'write'],
   },
   viewer: {
     content: ['read'],
     media: ['read'],
     staff: ['read'],
     events: ['read'],
+    societies: ['read'],
   },
 };
 
