@@ -195,13 +195,33 @@ Suggested order (Media Library pulled forward since News/Gallery both depend on 
 >
 > **Not done:** no live Postgres, no live R2, no browser — the migration has never run for real, and the admin form's Media Library picker / month-navigation interactions have been read carefully and typechecked but not clicked through. Needs `pnpm db:generate` (once `binaries.prisma.sh` is reachable) + `pnpm db:migrate:deploy` + a real dev server to close out for real. The admin browsing UI is a filtered/paginated table, not a drag-interactive month grid — Task 7.5's "calendar view" is fully real on the **public** side (`@nexus/ui`'s `Calendar` component, its actual intended consumer); building a second, admin-only interactive grid widget from scratch was judged out of scope for this pass. `UpcomingEventsBlock.tsx` is real and wired to live data but, like `LatestNewsBlock.tsx` before it, isn't composed into the home page yet — that's a separate, larger milestone (`docs/Completion Plan.md`'s own M6 section, below).
 
-**Societies** (Task 7.6)
+**Societies** (Task 7.6)
 
-- [ ] `Society` model + migration
-- [ ] `societiesRouter`
-- [ ] Admin Societies module (list/new/edit)
-- [ ] Public Societies hub page
-- [ ] Public Society detail page
+- [x] `Society` model + migration
+- [x] `societiesRouter`
+- [x] Admin Societies module (list/new/edit)
+- [x] Public Societies hub page
+- [x] Public Society detail page
+
+> **Verification note (2026-08-08):** Same sandbox constraints as every prior pass — `prisma generate` still 403s against `binaries.prisma.sh`. Extended the hand-written stub client (`packages/database/src/generated/prisma/client.ts`, gitignored, deleted before this patch was produced) with a precisely-modeled `SocietyRow`, matching Events' own precedent from the previous pass. **Zero** type errors across `@nexus/contracts`, `@nexus/database`, `@nexus/api` (all six modules), `apps/admin`, and `apps/web` — the same four pre-existing `apps/web` errors as the Events pass (confirmed unchanged via `git status`), none introduced by this one. `packages/api/src/modules/societies/__tests__/router.test.ts` executed (`tsx --test`), 7/7 — DB-failure degradation on every public/admin read, RBAC gating on `create`/`delete`, slug validation at the Zod layer. `apps/admin/src/lib/societies.test.ts` (3/3) also executed and passes. Full suite across all three packages, this task's tests plus everything from before it: **58/58**.
+>
+> Real things found and fixed along the way, not scope creep:
+>
+> - `apps/web/src/app/[locale]/societies/page.tsx` and `[slug]/page.tsx` were the same class of bug as Events' own pair last pass — comment-only files with **no default export at all**. Every request to either route would have failed to build outright.
+> - **`staffRouter` had no way to look up one specific staff member by id** — only `byRole` (a role-group listing), which F-148's "advisor StaffCard" can't use. Added a public `staff.byId` (degrades to `null`, matching every other public read's convention) to the _already-shipped_ Staff module — a small, necessary extension to fulfill a requirement this task's own spec explicitly states, not a reopening of that module's actual scope. Covered by a new test in staff's own `router.test.ts` (6/6 now, was 5/5).
+> - `@nexus/contracts`' `society-profile.ts` had a bare `SocietyCategoryEnum` with **no label map at all** — every other taxonomy in this codebase (`EVENT_CATEGORIES`/`EVENT_CATEGORY_META`, `STAFF_ROLE_LABELS`) has one; there was no way to render a human-readable category name anywhere. Added `SOCIETY_CATEGORIES`/`SOCIETY_CATEGORY_META`, matching `EVENT_CATEGORY_META`'s exact shape.
+>
+> **Also decided, not just implemented:**
+>
+> - **Society follows the News/EventDetail per-locale-row pattern, not Staff's single-global-row one** — `locale` + `(locale, slug)` unique index. Two structural signals point this way, not the Staff way: `tagline`/`description`/`meetingSchedule`/`howToJoin` are prose that genuinely needs translation for a trilingual site, and F-148 requires an individually routable `/societies/[slug]` page, which Staff (no slug, no individual page) doesn't have at all. Documented directly in `schema.prisma`'s own `Society` doc comment, contrasting explicitly with `Staff`'s.
+> - **No draft/published/archived status** — matching Staff's precedent here, not News/EventDetail's. F-167's field list doesn't include one, and a school society either exists on the roster or it doesn't; there's no realistic "written but not ready to announce" state the way there is for a news article.
+> - **`advisorStaffId` is nullable with `onDelete: SetNull`, not a required FK or `Cascade`.** A society keeps existing (and keeps its own page) if its advisor is ever removed from the staff roster — it just stops showing an advisor card until a new one is assigned. A required FK would make deleting _any_ staff member who happens to advise a society throw a foreign-key violation on an otherwise-unrelated admin action, which is the wrong failure mode.
+> - **Admin list is unpaginated**, matching Staff's precedent, not Events'/News's — a school's roster of societies is a small, bounded set, the same order of magnitude as its staff roster, not an ever-growing archive.
+> - **`generateStaticParams` _is_ implemented on the society detail page** — the opposite call from the Events pass's own event-detail page, and deliberately so: F-112 explicitly lists society pages for static generation; nothing in F-146/Task 7.5 asked for it on events. Same reasoning, opposite spec, opposite answer — not an inconsistency.
+> - **Recent Events and Gallery preview are not rendered** on the society detail page, despite F-148 listing both. Recent Events would need a Society↔CalendarEntry relation that doesn't exist — Task 7.5 didn't call for one, and adding it now would mean reopening an already-shipped, already-verified module for a feature outside _this_ task's own explicit spec (F-167's admin field list has no such relation either). Gallery preview has no possible real implementation yet — the Gallery module (Task 7.7: `GalleryAlbum`/`GalleryPhoto`) doesn't exist at all. Both are flagged here explicitly rather than either faked with placeholder content or silently dropped without a note.
+> - **Achievements/membership are out of scope.** `SocietyAchievementSchema`/`SocietyMemberSchema` already existed in `@nexus/contracts` (untouched by this pass) but neither F-167's admin field list nor Task 7.6's own spec table mentions achievements or membership management — left as-is for a future milestone, not built speculatively.
+>
+> **Not done:** no live Postgres, no live R2, no browser — same standing limitation as every prior milestone. The admin form's advisor picker / Media Library interactions have been read carefully and typechecked but not clicked through. Needs `pnpm db:generate` (once `binaries.prisma.sh` is reachable) + `pnpm db:migrate:deploy` + a real dev server to close out for real.
 
 **Gallery** (Task 7.7)
 
