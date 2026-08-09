@@ -25,6 +25,17 @@ test('staff byRole (public) degrades gracefully when the database is unavailable
   assert.deepEqual(result, []);
 });
 
+test('staff byId (public) degrades to null when the database is unavailable', async () => {
+  // Added for Societies (Task 7.6, F-148) — see service.ts's own doc
+  // comment on why this needed a separate public-safe lookup.
+  const testRouter = router({ staff: staffRouter });
+  const createCaller = createCallerFactory(testRouter);
+  const caller = createCaller(createContext(null));
+
+  const result = await caller.staff.byId({ id: 'does-not-matter' });
+  assert.equal(result, null);
+});
+
 test('staff adminList degrades gracefully when the database is unavailable', async () => {
   const testRouter = router({ staff: staffRouter });
   const createCaller = createCallerFactory(testRouter);

@@ -17,6 +17,7 @@ import { contentEntryRouter } from './modules/content/router.js';
 import { eventsRouter } from './modules/events/router.js';
 import { mediaRouter } from './modules/media/router.js';
 import { newsRouter } from './modules/news/router.js';
+import { societiesRouter } from './modules/societies/router.js';
 import { staffRouter } from './modules/staff/router.js';
 import { router } from './trpc.js';
 
@@ -26,6 +27,7 @@ export const appRouter = router({
   media: mediaRouter,
   staff: staffRouter,
   events: eventsRouter,
+  societies: societiesRouter,
 });
 
 export type AppRouter = typeof appRouter;

@@ -74,6 +74,24 @@ export async function byRole(db: typeof Db, input: StaffByRoleQuery) {
   }
 }
 
+/** Public — added for Societies (Task 7.6, F-148): the Society detail
+ * page's advisor StaffCard needs to look up one specific staff member by
+ * id, which `byRole` (a role-group listing) can't do. Distinct from the
+ * admin-only `getById` below: this one degrades to `null` on a missing
+ * row or DB failure rather than throwing NOT_FOUND — a society whose
+ * advisor was since removed from the roster should render its page
+ * without that section, not 500 the whole page, matching every other
+ * public read's degrade-gracefully convention (e.g. eventsService.getBySlug). */
+export async function publicById(db: typeof Db, input: StaffGetById) {
+  try {
+    const staff = await db.staff.findUnique({ where: { id: input.id } });
+    return staff ? serialize(staff) : null;
+  } catch (err) {
+    console.error('[staffService.publicById] falling back to null —', err);
+    return null;
+  }
+}
+
 /** Admin edit-by-id. */
 export async function getById(db: typeof Db, input: StaffGetById) {
   const staff = await db.staff.findUnique({ where: { id: input.id } });
