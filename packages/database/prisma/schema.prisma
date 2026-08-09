@@ -205,8 +205,79 @@ model Staff {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  /// Back-relation for Society.advisorStaffId (Task 7.6, F-167) — a
+  /// staff member may advise zero or more societies. No display-order or
+  /// other concern lives on this side; it exists purely so Prisma can
+  /// model the relation bidirectionally.
+  advisedSocieties Society[]
+
   @@index([role, order])
   @@index([department])
+}
+
+// ─── Societies (M4 — Task 7.6, F-147/F-148/F-167) ──────────────────────────
+//
+// Like NewsArticle/EventDetail (not like Staff): `locale` + a
+// `(locale, slug)` unique index, one independently-authored row per
+// language. A Society profile's identity fields (name, tagline,
+// description, meetingSchedule, howToJoin) are prose that genuinely needs
+// translation for a trilingual site, and F-167/Task 8.6 both require a
+// routable `/societies/[slug]` detail page — the same two structural
+// signals (prose content + a slug-routed individual page) that put
+// CalendarEntry/EventDetail in the per-locale camp rather than Staff's
+// single-global-row one (see schema.prisma's own note on Staff — a
+// person's name/role/title are facts, not per-locale prose, and there's
+// no individual staff page to route to).
+//
+// No draft/published/archived status, matching Staff's precedent, not
+// News/EventDetail's: F-167's field list doesn't include one, and a
+// school society either exists on the roster or doesn't — there's no
+// realistic "written but not yet ready to announce" state for it the way
+// there is for a news article or an event.
+model Society {
+  id     String @id @default(cuid())
+  locale Locale
+  slug   String
+
+  name     String
+  tagline  String?
+  /// SocietyCategoryEnum value (academic/sports/arts/technology).
+  category String
+
+  foundingYear    String?
+  description     String?
+  meetingSchedule String?
+  memberCount     Int?
+  howToJoin       String?
+
+  /// Same flattened-storage-then-nest pattern as Staff.portraitUrl/
+  /// portraitAlt — see that model's own doc comment for the full
+  /// reasoning (full CDN URL, not an R2 key).
+  logoUrl   String?
+  logoAlt   String?
+  bannerUrl String?
+  bannerAlt String?
+
+  /// F-147: the Societies Hub renders one SocietyCard in the featured
+  /// slot (KITS, this project's own society) when true.
+  isFeatured Boolean @default(false)
+
+  /// F-148's "advisor StaffCard" — nullable and `onDelete: SetNull`
+  /// rather than `Cascade` or a required FK: a society keeps existing
+  /// (and keeps its own page) if its advisor is ever removed from the
+  /// staff roster, it just stops showing an advisor card until a new one
+  /// is assigned. A required FK would make deleting any staff member who
+  /// happens to advise a society throw a foreign-key violation, which is
+  /// the wrong failure mode for an unrelated admin action.
+  advisorStaffId String?
+  advisorStaff   Staff?  @relation(fields: [advisorStaffId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([locale, slug])
+  @@index([category])
+  @@index([advisorStaffId])
 }
 
 // ─── Calendar & Events (M4 — Task 7.5, F-145/F-146/F-166/F-198) ────────────
