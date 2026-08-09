@@ -11,6 +11,7 @@ const navItems = [
   { href: '/news', label: 'News' },
   { href: '/staff', label: 'Staff' },
   { href: '/events', label: 'Events' },
+  { href: '/societies', label: 'Societies' },
   { href: '/users', label: 'User Management', adminOnly: true },
   { href: '/settings', label: 'Settings', adminOnly: true },
 ];
