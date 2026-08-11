@@ -15,6 +15,7 @@
 
 import { contentEntryRouter } from './modules/content/router.js';
 import { eventsRouter } from './modules/events/router.js';
+import { galleryRouter } from './modules/gallery/router.js';
 import { mediaRouter } from './modules/media/router.js';
 import { newsRouter } from './modules/news/router.js';
 import { societiesRouter } from './modules/societies/router.js';
@@ -28,6 +29,7 @@ export const appRouter = router({
   staff: staffRouter,
   events: eventsRouter,
   societies: societiesRouter,
+  gallery: galleryRouter,
 });
 
 export type AppRouter = typeof appRouter;
