@@ -223,13 +223,33 @@ Suggested order (Media Library pulled forward since News/Gallery both depend on 
 >
 > **Not done:** no live Postgres, no live R2, no browser — same standing limitation as every prior milestone. The admin form's advisor picker / Media Library interactions have been read carefully and typechecked but not clicked through. Needs `pnpm db:generate` (once `binaries.prisma.sh` is reachable) + `pnpm db:migrate:deploy` + a real dev server to close out for real.
 
-**Gallery** (Task 7.7)
+**Gallery** (Task 7.7)
 
-- [ ] `GalleryAlbum` + `GalleryPhoto` models + migration
-- [ ] `galleryRouter`
-- [ ] Admin Gallery module (album/new/edit)
-- [ ] Public Gallery listing page
-- [ ] Public Gallery album detail page
+- [x] `GalleryAlbum` + `GalleryPhoto` models + migration
+- [x] `galleryRouter`
+- [x] Admin Gallery module (album/new/edit)
+- [x] Public Gallery listing page
+- [x] Public Gallery album detail page
+
+> **Verification note (2026-08-09):** Same sandbox constraints as every prior pass — `prisma generate` still 403s against `binaries.prisma.sh`. Extended the hand-written stub client with precisely-modeled `GalleryAlbumRow`/`GalleryPhotoRow`. **Zero** type errors across `@nexus/contracts`, `@nexus/database`, `@nexus/api` (all seven modules), `apps/admin`, and `apps/web` — the same four pre-existing `apps/web` errors as the last two passes (confirmed unchanged), none introduced by this one. `packages/api/src/modules/gallery/__tests__/router.test.ts` executed (`tsx --test`), 10/10 — DB-failure degradation, RBAC gating on `create`/`delete`, the reorder-is-not-admin-only distinction, required-alt-text and id-present-means-update validation at the Zod layer. `apps/admin/src/lib/gallery.test.ts` (4/4) also executed and passes. Full suite across all three packages: **72/72**.
+>
+> Real things found and fixed along the way, not scope creep:
+>
+> - `apps/web/src/app/[locale]/gallery/page.tsx` and `[albumSlug]/page.tsx` were the same class of bug as Events'/Societies' own pairs — comment-only files with **no default export at all**.
+>
+> **Reused rather than rebuilt:** F-168's "batch photo upload to R2 with progress indicators" is `UploadZone` (`apps/admin/src/features/media/`), the exact same component the Media Library (Task 7.8/M4) already built and battle-tested — wired directly into `AlbumForm.tsx` rather than writing a second upload pipeline. Every uploaded photo arrives as a real `AdminMediaAsset` (already WebP-converted, already has a real CDN URL) that the form appends to its local photo list.
+>
+> **Also decided, not just implemented:**
+>
+> - **Photos are one array on the album's own create/update input, not separate per-photo mutations.** A photo has no independent lifecycle outside its album — F-168's whole flow is "batch upload into an album, set alt text, save." `updateAlbum` reconciles the submitted array against the database in one transaction: photos with a matching `id` are updated, photos without one are created, and any existing photo missing from the submitted array was removed by the editor and gets deleted. Documented in full in `validators.ts`'s header comment.
+> - **`coverPhotoUrl`/`coverPhotoAlt` are a denormalized copy taken at selection time, not a live FK to a `GalleryPhoto` row.** A real FK would need two named relations between the same two models (the existing one-to-many `photos`, plus a reverse one-to-one "this album's cover") to save re-copying two strings. The only real cost of the simpler choice: editing a photo's alt text after it's been chosen as cover doesn't retroactively update the cover's own copy — an acceptable, documented staleness window (`schema.prisma`'s own `GalleryAlbum` doc comment) for a field edited far less often than it's read.
+> - **`year: Int`, not the old relocated entity schema's `date: string`.** Task 7.7's own field table and F-151 ("Albums sorted by year") both ask for exactly a year, not a full date — `editorial/gallery/album.ts`'s header comment flags this as a deliberate divergence from the schema being relocated out of, not an oversight.
+> - **`category` stays free text, no enum.** No gallery category taxonomy is defined anywhere in the docs, unlike Events/Societies' closed sets, and neither Task 7.7 nor F-168 specifies one — kept exactly as the old relocated schema already had it rather than inventing a taxonomy nothing asked for. Consequently the public listing page only filters by year (matching F-151's literal wording), not by category.
+> - **GalleryAlbum follows the News/EventDetail/Society per-locale-row pattern** — prose fields needing translation, plus F-152/Task 8.9's individually routable `/gallery/[slug]` page with `generateStaticParams` (F-112 explicitly lists gallery albums). One real wrinkle unique to this model, documented directly in `schema.prisma`: the _photos_ inside an album are physical files, not per-locale prose, so nothing stops an editor authoring a second locale's album from reusing an already-uploaded photo's URL instead of re-uploading it — each locale-row still owns its own independent `GalleryPhoto` rows (and its own translated alt text/captions), matching every other locale-scoped entity's shape, rather than inventing a fourth architecture pattern for this one case.
+> - **Photo reordering within an album is move-up/move-down buttons, not drag-and-drop** — deliberately lighter-weight than the _album_-level reordering in the admin list (which does get full drag-and-drop, mirroring Staff's exact precedent). F-168's own "Reorder" line sits under the admin list's own field description, not under an individual album editor's, so this reads as album-level scope, not photo-level — flagged in `schema.prisma`'s `GalleryPhoto.order` doc comment as a deliberate reading, not a dropped requirement.
+> - **`reorder` stays on `adminMutation`, not `adminOnlyMutation`** — matching Staff's own reorder precedent exactly: moving an album's position isn't the kind of irreversible action the admin-only gate exists for, unlike hard-deleting one.
+>
+> **Not done:** no live Postgres, no live R2, no browser — same standing limitation as every prior milestone. The batch-upload-then-set-alt-text-then-save flow, the cover-photo picker, and the drag-and-drop album reorder have all been read carefully and typechecked but not clicked through. Needs `pnpm db:generate` (once `binaries.prisma.sh` is reachable) + `pnpm db:migrate:deploy` + a real dev server to close out for real.
 
 **Announcements** (Task 7.13)
 
