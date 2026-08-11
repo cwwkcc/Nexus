@@ -16,7 +16,7 @@ import type { RoleEnumData } from './role.ts';
  * arrive routinely as modules land (Task 6.6+) and adding one should only
  * ever require touching this matrix, not the shared schema.
  */
-export const RESOURCES = ['content', 'media', 'staff', 'events', 'societies', 'users', 'settings', 'audit-log'] as const;
+export const RESOURCES = ['content', 'media', 'staff', 'events', 'societies', 'gallery', 'users', 'settings', 'audit-log'] as const;
 export type Resource = (typeof RESOURCES)[number];
 
 type Action = PermissionData['action'];
@@ -56,6 +56,13 @@ type Action = PermissionData['action'];
  * schema.prisma's Society model doc comment), so there's no `publish`
  * grant to hand out, and a hard delete is admin-only for the identical
  * "nothing to fall back to" reason.
+ *
+ * `gallery` (M4, Task 7.7/F-168): same shape as `staff`/`societies` — a
+ * GalleryAlbum has no draft/published/archived status (see
+ * schema.prisma's GalleryAlbum model doc comment), so no `publish` grant;
+ * hard-deleting an album (which cascades and removes every one of its
+ * photos) is admin-only for the same "nothing to fall back to" reason
+ * every other hard-delete in this matrix already follows.
  */
 const ROLE_PERMISSIONS: Record<RoleEnumData, Partial<Record<Resource, readonly Action[]>>> = {
   admin: {
@@ -64,6 +71,7 @@ const ROLE_PERMISSIONS: Record<RoleEnumData, Partial<Record<Resource, readonly A
     staff: ['read', 'write', 'publish', 'admin'],
     events: ['read', 'write', 'publish', 'admin'],
     societies: ['read', 'write', 'publish', 'admin'],
+    gallery: ['read', 'write', 'publish', 'admin'],
     users: ['read', 'write', 'publish', 'admin'],
     settings: ['read', 'write', 'publish', 'admin'],
     'audit-log': ['read'],
@@ -74,6 +82,7 @@ const ROLE_PERMISSIONS: Record<RoleEnumData, Partial<Record<Resource, readonly A
     staff: ['read', 'write'],
     events: ['read', 'write', 'publish'],
     societies: ['read', 'write'],
+    gallery: ['read', 'write'],
   },
   viewer: {
     content: ['read'],
@@ -81,6 +90,7 @@ const ROLE_PERMISSIONS: Record<RoleEnumData, Partial<Record<Resource, readonly A
     staff: ['read'],
     events: ['read'],
     societies: ['read'],
+    gallery: ['read'],
   },
 };
 

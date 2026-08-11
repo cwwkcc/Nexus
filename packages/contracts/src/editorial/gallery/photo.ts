@@ -1,23 +1,10 @@
 // packages/contracts/src/editorial/gallery/photo.ts
 //
-// Individual photo within an album.
-//
-// Notes:
-//   src is an R2 key resolved to a CDN URL at render time.
-//   order determines display sequence within the album lightbox.
-
-import { z } from 'zod';
+// Task 7.7/F-168: the full, persisted `GalleryPhoto` entity (src, alt,
+// caption, order) lives as Zod I/O schemas in
+// packages/api/src/modules/gallery/validators.ts, the same relocation
+// album.ts's own header comment describes. `LightboxImageSchema`
+// (shared/lightbox-image.ts) is the separate, unrelated projection
+// @nexus/ui's Lightbox actually renders from — untouched by this move.
 
 export const GALLERY_PHOTO_CONTENT_TYPE = 'gallery-photo';
-
-export const PhotoSchema = z.object({
-  id: z.string().min(1),
-  albumId: z.string().min(1),
-  src: z.string().min(1),
-  alt: z.string().min(1),
-  caption: z.string().optional(),
-  takenAt: z.string().optional(),
-  order: z.number().int().nonnegative(),
-});
-
-export type PhotoData = z.infer<typeof PhotoSchema>;

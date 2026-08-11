@@ -1,36 +1,23 @@
 // packages/contracts/src/editorial/gallery/album.ts
 //
-// Photo album contract.
+// Task 7.7/F-168 (Gallery Module): the full, persisted `GalleryAlbum`
+// entity lives as Zod I/O schemas in
+// packages/api/src/modules/gallery/validators.ts — the same layering
+// established for News/Events/Societies (see events/event.ts's header
+// comment for the fullest explanation). What survives here is only
+// `GalleryAlbumCardSchema` — the projection @nexus/ui's GalleryAlbumCard
+// actually renders directly.
 //
-// GalleryAlbumSchema     — the full entity: id, title, slug, description?,
-//                          coverImage (R2 key), category?, date (ISO), photoCount, locale
-// GalleryAlbumCardSchema — lighter projection for grid display (used by @nexus/ui)
-//
-// Notes:
-//   Albums are the top-level container. Individual photos are in gallery/photo.ts.
-//   Gallery page shows AlbumCard grid; clicking opens the album lightbox.
+// One deliberate divergence from the old, now-relocated entity schema:
+// this task's own spec (Engineering Roadmap Task 7.7's field table,
+// F-151 "Albums sorted by year") asks for a plain `year`, not a full
+// ISO `date` — the new `GalleryAlbumCreateInput`/`Output` in the API
+// layer stores `year: number` accordingly, not the old schema's
+// `date: string`.
 
 import { z } from 'zod';
 
-import { MAX_TITLE_LENGTH, MAX_DESCRIPTION_LENGTH, MAX_GALLERY_IMAGES } from '../../constants/index.ts';
-import { ImageSchema, LocaleEnum } from '../../primitives/index.ts';
-
 export const GALLERY_ALBUM_CONTENT_TYPE = 'gallery-album';
-
-// The full entity — CMS/admin CRUD and ContentEntry storage.
-export const GalleryAlbumSchema = z.object({
-  id: z.string(),
-  title: z.string().max(MAX_TITLE_LENGTH),
-  slug: z.string(),
-  description: z.string().max(MAX_DESCRIPTION_LENGTH).optional(),
-  coverImage: ImageSchema,
-  category: z.string().optional(),
-  date: z.string(), // ISO
-  photoCount: z.number().int().nonnegative().max(MAX_GALLERY_IMAGES),
-  locale: LocaleEnum,
-});
-
-export type GalleryAlbumData = z.infer<typeof GalleryAlbumSchema>;
 
 // Card projection — matches @nexus/ui's GalleryAlbumCardProps exactly.
 export const GalleryAlbumCardSchema = z.object({
