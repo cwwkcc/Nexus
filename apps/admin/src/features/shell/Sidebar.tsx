@@ -12,6 +12,7 @@ const navItems = [
   { href: '/staff', label: 'Staff' },
   { href: '/events', label: 'Events' },
   { href: '/societies', label: 'Societies' },
+  { href: '/gallery', label: 'Gallery' },
   { href: '/users', label: 'User Management', adminOnly: true },
   { href: '/settings', label: 'Settings', adminOnly: true },
 ];

@@ -1,8 +1,33 @@
-// Gallery Album detail (F-154).
-// Batch photo upload with progress. Per-photo alt text (required). Photo reorder.
+// apps/admin/src/app/gallery/[albumId]/page.tsx
+//
+// F-168 edit form. Fetches the real album via caller.gallery.adminGetById
+// and 404s (via notFound()) if it doesn't exist, matching
+// societies/[id]/page.tsx's shape.
 
-import { AdminPlaceholder } from '@/features/shell/AdminPlaceholder';
+import { notFound } from 'next/navigation';
 
-export default function Page() {
-  return <AdminPlaceholder title="gallery / :albumId" />;
+import { AlbumForm } from '../AlbumForm.js';
+import { AdminShell } from '../../../features/shell/AdminShell.js';
+import { getServerCaller } from '../../../lib/server-caller.js';
+
+interface EditAlbumPageProps {
+  params: Promise<{ albumId: string }>;
+}
+
+export default async function EditAlbumPage({ params }: EditAlbumPageProps) {
+  const { albumId } = await params;
+  const caller = await getServerCaller();
+
+  let album;
+  try {
+    album = await caller.gallery.adminGetById({ id: albumId });
+  } catch {
+    notFound();
+  }
+
+  return (
+    <AdminShell title={`Edit: ${album.title}`}>
+      <AlbumForm mode="edit" initial={album} />
+    </AdminShell>
+  );
 }
