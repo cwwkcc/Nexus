@@ -373,6 +373,102 @@ model EventDetail {
   @@index([locale, status])
 }
 
+// ─── Gallery (M4 — Task 7.7, F-151/F-152/F-168) ────────────────────────────
+//
+// Same per-locale-row shape as Society/EventDetail (`locale` +
+// `(locale, slug)`), not Staff's single-global-row one — title/description
+// are prose that needs translation, and F-152/Task 8.9 require an
+// individually routable `/gallery/[slug]` album page with
+// `generateStaticParams` (F-112). One real wrinkle unique to this model:
+// the *photos* inside an album are physical image files, not per-locale
+// prose — re-uploading the same picture three times (once per language)
+// would be wasteful. This schema still keeps each locale's GalleryAlbum
+// row with its own independent set of GalleryPhoto rows (an English album
+// and a Sinhala album are two separate album rows, each with their own
+// photos), same as every other locale-scoped entity — but nothing stops
+// an editor authoring the Sinhala album from picking the *same*
+// already-uploaded Media Library asset URL for a photo instead of
+// re-uploading the file, so the same underlying R2 object can be
+// referenced by photo rows under multiple locale-rows without
+// duplicating storage. What differs, and should, is each locale's own
+// alt text/caption — translated per row like everything else here.
+model GalleryAlbum {
+  id     String @id @default(cuid())
+  locale Locale
+  slug   String
+
+  title       String
+  description String?
+  /// Free text, not a closed enum — no gallery category taxonomy is
+  /// defined anywhere (unlike Events/Societies), and neither Task 7.7's
+  /// field table nor F-168 specifies one, so this keeps the original
+  /// pre-relocation entity schema's own choice rather than inventing a
+  /// taxonomy nothing asked for.
+  category String?
+  /// Task 7.7 asks for "year", not a full date (contrast with the old,
+  /// now-relocated GalleryAlbumSchema's `date: string` — see
+  /// editorial/gallery/album.ts's header comment) — F-151 "Albums sorted
+  /// by year" confirms year-level organization is genuinely all that's
+  /// wanted here.
+  year Int
+
+  /// Denormalized copy of the chosen cover photo's `src`/`alt` at
+  /// selection time — not a live FK to a GalleryPhoto row. A real FK
+  /// would need two named relations between GalleryAlbum and
+  /// GalleryPhoto (the existing one-to-many `photos`, plus a reverse
+  /// one-to-one "this album's cover") purely to save re-copying two
+  /// strings; simpler, and the only real cost is that editing a photo's
+  /// alt text after it's been chosen as a cover doesn't retroactively
+  /// update the cover's own alt copy — an acceptable, documented
+  /// staleness window for a field that's edited far less often than it's
+  /// read.
+  coverPhotoUrl String?
+  coverPhotoAlt String?
+
+  /// F-168 drag-and-drop album reordering, same pattern as Staff.order.
+  order Int @default(0)
+
+  photos GalleryPhoto[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([locale, slug])
+  @@index([locale, year])
+  @@index([category])
+}
+
+model GalleryPhoto {
+  id      String       @id @default(cuid())
+  albumId String
+  album   GalleryAlbum @relation(fields: [albumId], references: [id], onDelete: Cascade)
+
+  /// Full CDN URL (an already-uploaded MediaAsset's `.url`), matching
+  /// Staff.portraitUrl/Society.logoUrl's established convention — not an
+  /// R2 key needing separate resolution.
+  src String
+  /// Required — F-168: "Per-photo alt text | Required — accessibility
+  /// compliance." Deliberately not nullable, unlike every other alt-text
+  /// field elsewhere in this schema.
+  alt     String
+  caption String?
+
+  /// Display sequence within the album lightbox. New photos from a batch
+  /// upload append at the end (current max + 1); reordered via move-up/
+  /// move-down actions in the admin album form, not full drag-and-drop —
+  /// F-168's own "Reorder" line is about *album* ordering (Task 7.7's
+  /// field table lists it directly under the admin list, not under an
+  /// individual album's editor), so this is a deliberately lighter-weight
+  /// but still real, keyboard-operable affordance, not a silently-dropped
+  /// requirement.
+  order Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([albumId, order])
+}
+
 // ─── Authentication (M1a — Task 6.3/6.5, F-057/F-073/F-078) ────────────────
 //
 // Account/Session/VerificationToken follow the canonical Auth.js Prisma
