@@ -16,7 +16,7 @@ import type { RoleEnumData } from './role.ts';
  * arrive routinely as modules land (Task 6.6+) and adding one should only
  * ever require touching this matrix, not the shared schema.
  */
-export const RESOURCES = ['content', 'media', 'staff', 'events', 'societies', 'gallery', 'users', 'settings', 'audit-log'] as const;
+export const RESOURCES = ['content', 'media', 'staff', 'events', 'societies', 'gallery', 'announcements', 'users', 'settings', 'audit-log'] as const;
 export type Resource = (typeof RESOURCES)[number];
 
 type Action = PermissionData['action'];
@@ -63,6 +63,14 @@ type Action = PermissionData['action'];
  * hard-deleting an album (which cascades and removes every one of its
  * photos) is admin-only for the same "nothing to fall back to" reason
  * every other hard-delete in this matrix already follows.
+ *
+ * `announcements` (M4, Task 7.13/F-172): same shape again — no
+ * draft/published workflow (an announcement is either active or it
+ * isn't, toggled directly, not staged through a publish step), and a
+ * hard delete is admin-only. `deactivate` (see
+ * modules/announcements/router.ts) stays on the plain `write` grant, not
+ * a separate permission — flipping `isActive` off is exactly as
+ * reversible as any other field edit an Editor can already make.
  */
 const ROLE_PERMISSIONS: Record<RoleEnumData, Partial<Record<Resource, readonly Action[]>>> = {
   admin: {
@@ -72,6 +80,7 @@ const ROLE_PERMISSIONS: Record<RoleEnumData, Partial<Record<Resource, readonly A
     events: ['read', 'write', 'publish', 'admin'],
     societies: ['read', 'write', 'publish', 'admin'],
     gallery: ['read', 'write', 'publish', 'admin'],
+    announcements: ['read', 'write', 'publish', 'admin'],
     users: ['read', 'write', 'publish', 'admin'],
     settings: ['read', 'write', 'publish', 'admin'],
     'audit-log': ['read'],
@@ -83,6 +92,7 @@ const ROLE_PERMISSIONS: Record<RoleEnumData, Partial<Record<Resource, readonly A
     events: ['read', 'write', 'publish'],
     societies: ['read', 'write'],
     gallery: ['read', 'write'],
+    announcements: ['read', 'write'],
   },
   viewer: {
     content: ['read'],
@@ -91,6 +101,7 @@ const ROLE_PERMISSIONS: Record<RoleEnumData, Partial<Record<Resource, readonly A
     events: ['read'],
     societies: ['read'],
     gallery: ['read'],
+    announcements: ['read'],
   },
 };
 
