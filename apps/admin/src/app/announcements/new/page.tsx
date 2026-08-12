@@ -1,7 +1,14 @@
-// New Announcement form (F-159). Variant, message, publishAt, expiresAt.
+// apps/admin/src/app/announcements/new/page.tsx
+//
+// F-172 create form.
 
-import { AdminPlaceholder } from '@/features/shell/AdminPlaceholder';
+import { AnnouncementForm } from '../AnnouncementForm.js';
+import { AdminShell } from '../../../features/shell/AdminShell.js';
 
-export default function Page() {
-  return <AdminPlaceholder title="announcements / new" />;
+export default function NewAnnouncementPage() {
+  return (
+    <AdminShell title="New announcement">
+      <AnnouncementForm mode="create" />
+    </AdminShell>
+  );
 }
