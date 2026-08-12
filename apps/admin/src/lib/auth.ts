@@ -22,8 +22,8 @@
 //    Credentials too" — not a call to make speculatively now.
 
 import { PrismaAdapter } from '@auth/prisma-adapter';
-import { db, verifyBackupCode, verifyPassword, verifyTotpToken } from '@nexus/db';
 import type { RoleEnumData } from '@nexus/contracts';
+import { db, verifyBackupCode, verifyPassword, verifyTotpToken } from '@nexus/db';
 import NextAuth, { type DefaultSession } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 

@@ -14,9 +14,8 @@
 // spreads this config and adds the adapter/provider/session-refresh logic
 // on top for everywhere else (route handlers, RSC pages).
 
-import type { NextAuthConfig } from 'next-auth';
-
 import { serverEnv } from '@nexus/env/server';
+import type { NextAuthConfig } from 'next-auth';
 
 export const authConfig = {
   // Set explicitly, matching auth.ts, rather than relying on Auth.js's
