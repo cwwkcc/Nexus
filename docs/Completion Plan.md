@@ -251,11 +251,28 @@ Suggested order (Media Library pulled forward since News/Gallery both depend on 
 >
 > **Not done:** no live Postgres, no live R2, no browser — same standing limitation as every prior milestone. The batch-upload-then-set-alt-text-then-save flow, the cover-photo picker, and the drag-and-drop album reorder have all been read carefully and typechecked but not clicked through. Needs `pnpm db:generate` (once `binaries.prisma.sh` is reachable) + `pnpm db:migrate:deploy` + a real dev server to close out for real.
 
-**Announcements** (Task 7.13)
+**Announcements** (Task 7.13)
 
-- [ ] Confirm data shape (may ride on `SiteSetting` or need its own model)
-- [ ] Admin Announcements module
-- [ ] `AnnouncementBanner` wired to real data on public site
+- [x] Confirm data shape (may ride on `SiteSetting` or need its own model)
+- [x] Admin Announcements module
+- [x] `AnnouncementBanner` wired to real data on public site
+
+> **Data shape decision:** a real `Announcement` model, not `SiteSetting`. F-172 requires "View all active AND PAST" announcements plus individually "deactivate or delete" — a growing list of independently-lifecycled records, which `SiteSetting`'s key-value singleton shape (`@@id([key, locale])`, one row per key per locale) can't represent without cramming an array into a single JSON blob, the same ContentEntry-placeholder anti-pattern already removed from every other M4 module. Full reasoning in `schema.prisma`'s own `Announcement` model doc comment.
+>
+> **Verification note (2026-08-10):** Same sandbox constraints as every prior pass — `prisma generate` still 403s against `binaries.prisma.sh`. Extended the hand-written stub client with a precisely-modeled `AnnouncementRow`. **Zero** type errors across `@nexus/contracts`, `@nexus/database`, `@nexus/api` (all eight modules), `apps/admin`, and `apps/web` — the same four pre-existing `apps/web` errors as every pass since Events (confirmed unchanged), none introduced by this one. `packages/api/src/modules/announcements/__tests__/router.test.ts` executed (`tsx --test`), 9/9 — DB-failure degradation, RBAC gating on `create`/`delete`, the deactivate-is-not-admin-only distinction, variant/datetime validation at the Zod layer. `apps/admin/src/lib/announcements.test.ts` (7/7, including a datetime-local round-trip case) also executed and passes. Full suite across all three packages: **88/88**.
+>
+> One real bug caught mid-edit, not after: while wiring `AnnouncementBanner` into `apps/web/src/app/[locale]/layout.tsx`, a copy-paste edit produced a syntactically invalid import (`import { i18n/routing' } from ...`) — caught immediately by a full-app `tsc` pass before it ever reached the diff under review, same discipline as every other module: nothing in this codebase gets called "done" without an actual `tsc -p tsconfig.json --noEmit` run confirming it.
+>
+> **Also decided, not just implemented:**
+>
+> - **`variant` is a separate three-value enum (info/warning/error) from the unrelated page-embeddable `AnnouncementSchema` content block's four-value one (adds 'success').** These are two different concepts that happen to share a name — the block schema (`packages/contracts/src/blocks/generic/announcement.ts`) is for a one-off notice authored into a specific page's own content; this module is the site-wide, scheduled, database-backed banner Task 6.10/F-031 describe. The block schema is completely untouched by this task.
+> - **No draft/published/archived `ContentStatus`**, matching Staff/Society/GalleryAlbum's precedent. F-172's own two states — `isActive` (an explicit manual toggle) and time-bounded visibility (`publishAt`/`expiresAt`) — aren't a publish workflow, they're independent axes; whether an announcement is currently visible to the public is the conjunction of all three, computed at read time in `service.ts` (`isCurrentlyVisible`), never stored, so it can't drift out of sync with the current time the way a cached status column could.
+> - **The public site shows at most one announcement, not a list or stack.** F-172 calls this "deliberately simple — not a full notification platform." When multiple are simultaneously active, `getActive` picks the single most urgent one (error > warning > info, then most recently published) rather than showing several banners stacked on top of each other.
+> - **`deactivate` is a dedicated single-click mutation, not folded into the general `update`.** F-172 phrases it as its own distinct action ("Deactivate or delete"), and it stays on `adminMutation` (any signed-in Editor), not `adminOnlyMutation` — flipping `isActive` off is exactly as reversible as any other field edit an Editor can already make, unlike the hard delete.
+> - **Locale-scoped per row, no slug, no individual page.** The message is prose that needs translating like every other M4 content type, but a banner has nothing to route to — no `generateStaticParams` concern here at all, the simplest of the five M4 modules built so far in exactly that respect.
+> - **`publishAt`/`expiresAt` are full timestamps, not date-only** (contrast with `CalendarEntry.date`'s `@db.Date`) — a same-day school-closure announcement genuinely needs hour-level precision. `Input`'s `type` union gained `'datetime-local'` for this (following the exact same pattern `'date'`/`'time'` were added for Events), and `apps/admin/src/lib/announcements.ts` carries dedicated, independently-tested `toDateTimeLocalValue`/`fromDateTimeLocalValue` conversions — a local-time-string round trip through a UTC ISO instant is exactly the kind of thing that's easy to get subtly wrong (see `formatEventDate`'s and `service.ts`'s own toISODate's identical timezone-safety concern from the Events pass) and hard to notice without a real browser to click through.
+>
+> **Not done:** no live Postgres, no browser — same standing limitation as every prior milestone. The `AnnouncementBanner` wiring in the shared locale layout has been read carefully and typechecked but never actually rendered against a real announcement row.
 
 **Extracurriculars** (Task 7.17)
 
