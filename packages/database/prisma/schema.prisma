@@ -469,6 +469,73 @@ model GalleryPhoto {
   @@index([albumId, order])
 }
 
+// ─── Announcements (M4 — Task 6.10/7.13, F-031/F-172) ──────────────────────
+//
+// Resolves this task's own open question in the Completion Plan checklist
+// ("Confirm data shape — may ride on SiteSetting or need its own model")
+// definitively: SiteSetting is a key-value singleton (`@@id([key, locale])`
+// — one row per key per locale, nothing more), and F-172 explicitly
+// requires "View all active AND PAST" announcements plus individually
+// "deactivate or delete" — a growing list of independently-lifecycled
+// records, which is exactly what SiteSetting can't represent without
+// cramming an array into one JSON blob under a single key (the same
+// ContentEntry-placeholder anti-pattern this codebase has already
+// removed for News/Events/Societies/Gallery, not something to introduce
+// fresh here). A real model, like every other content type before it.
+//
+// Locale-scoped per row (`locale` + no slug, no individual page — a
+// banner has no route to be individually generated for, unlike every
+// other M4 content type) — `message` is prose that needs translating,
+// the same reasoning as everywhere else, just without the slug/
+// generateStaticParams half those other models also needed.
+//
+// No draft/published/archived ContentStatus — matching Staff/Society/
+// GalleryAlbum's precedent (see those models' own doc comments), not
+// News/EventDetail's. F-172's own two states are `isActive` (an explicit
+// manual toggle — "Deactivate") and time-bounded visibility
+// (`publishAt`/`expiresAt` — "publish date, optional expiry"). Public
+// visibility is the conjunction of all three:
+// `isActive && publishAt <= now && (expiresAt == null || expiresAt > now)`
+// — computed at query time in modules/announcements/service.ts, not
+// stored, so it can never drift out of sync with the current time the
+// way a cached `status` column could.
+model Announcement {
+  id     String @id @default(cuid())
+  locale Locale
+
+  /// AnnouncementBanner's own variant union (@nexus/ui) — 'info' |
+  /// 'warning' | 'error', plain String validated at the Zod layer like
+  /// every other closed-taxonomy field in this schema. Not the same
+  /// enum as the *unrelated* page-embeddable `AnnouncementSchema` block
+  /// (packages/contracts/src/blocks/generic/announcement.ts), which adds
+  /// a fourth 'success' value for a different purpose entirely (a
+  /// one-off notice authored into a specific page's own content, not a
+  /// site-wide scheduled banner) — that block schema is untouched by
+  /// this task.
+  variant String @default("info")
+  message String
+
+  linkLabel String?
+  linkHref  String?
+
+  /// "Scheduling" (Task 6.10) — an announcement can be created now for a
+  /// future publishAt, not just an immediate one; defaults to "now" at
+  /// creation so an admin who doesn't touch this field gets immediate
+  /// publication, the common case.
+  publishAt DateTime @default(now())
+  expiresAt DateTime?
+
+  /// The explicit "Deactivate" action from F-172 — independent of
+  /// publishAt/expiresAt, since an admin may need to pull an announcement
+  /// early regardless of its scheduled expiry.
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([locale, isActive, publishAt])
+}
+
 // ─── Authentication (M1a — Task 6.3/6.5, F-057/F-073/F-078) ────────────────
 //
 // Account/Session/VerificationToken follow the canonical Auth.js Prisma
