@@ -10,7 +10,7 @@ type Props = {
   disabled?: boolean;
   required?: boolean;
   placeholder?: string;
-  type?: 'text' | 'email' | 'tel' | 'password' | 'number' | 'search' | 'url' | 'date' | 'time';
+  type?: 'text' | 'email' | 'tel' | 'password' | 'number' | 'search' | 'url' | 'date' | 'time' | 'datetime-local';
   value?: string;
   defaultValue?: string;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
