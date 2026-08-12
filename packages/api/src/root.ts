@@ -13,6 +13,7 @@
 //   ✓ apps/admin/src/app/page-content/page.tsx — calls contentEntry.adminGetByScope
 //   ✓ apps/admin/src/app/page.tsx — dashboard no longer queries dead models
 
+import { announcementsRouter } from './modules/announcements/router.js';
 import { contentEntryRouter } from './modules/content/router.js';
 import { eventsRouter } from './modules/events/router.js';
 import { galleryRouter } from './modules/gallery/router.js';
@@ -30,6 +31,7 @@ export const appRouter = router({
   events: eventsRouter,
   societies: societiesRouter,
   gallery: galleryRouter,
+  announcements: announcementsRouter,
 });
 
 export type AppRouter = typeof appRouter;
