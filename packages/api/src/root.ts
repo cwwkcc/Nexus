@@ -16,6 +16,7 @@
 import { announcementsRouter } from './modules/announcements/router.js';
 import { contentEntryRouter } from './modules/content/router.js';
 import { eventsRouter } from './modules/events/router.js';
+import { extracurricularsRouter } from './modules/extracurriculars/router.js';
 import { galleryRouter } from './modules/gallery/router.js';
 import { mediaRouter } from './modules/media/router.js';
 import { newsRouter } from './modules/news/router.js';
@@ -32,6 +33,7 @@ export const appRouter = router({
   societies: societiesRouter,
   gallery: galleryRouter,
   announcements: announcementsRouter,
+  extracurriculars: extracurricularsRouter,
 });
 
 export type AppRouter = typeof appRouter;
