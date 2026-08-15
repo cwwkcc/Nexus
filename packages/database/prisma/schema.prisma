@@ -211,6 +211,11 @@ model Staff {
   /// model the relation bidirectionally.
   advisedSocieties Society[]
 
+  /// Back-relation for ExtracurricularActivity.coachStaffId (Task 7.17,
+  /// F-179) — same reasoning as advisedSocieties above, just for the
+  /// separate Extracurriculars roster instead of Societies.
+  coachedActivities ExtracurricularActivity[]
+
   @@index([role, order])
   @@index([department])
 }
@@ -534,6 +539,117 @@ model Announcement {
   updatedAt DateTime @updatedAt
 
   @@index([locale, isActive, publishAt])
+}
+
+// ─── Extracurriculars (M4 — Task 7.17, F-161/F-179) ────────────────────────
+//
+// Per-locale row (`locale` + no slug, no individual page) — the same shape
+// as Announcement, not Society/GalleryAlbum: `description` (and
+// `studentQuote`) are prose that needs translating for a trilingual site,
+// the same signal that puts every per-locale model in this schema in that
+// camp, but F-161's own field list — ExtracurricularCard via a single
+// listing page grouped by category — never asks for an individually
+// routable detail page the way F-148/F-152/F-146 do for Society/Gallery/
+// EventDetail. So this table gets Announcement's lighter shape (no slug,
+// no generateStaticParams) rather than Society's. (The admin stub this
+// module replaced also mentioned an "ExtracurricularsJoinCTA section" —
+// that doesn't correspond to anything in "Design System/Page
+// Specifications.md" section 09 or an existing @nexus/ui component; see
+// apps/web/src/app/[locale]/extracurriculars/page.tsx's own header
+// comment for where that's flagged.)
+//
+// `coachStaffId` is a real FK to Staff (F-179: "coach/advisor via staff
+// selection"), nullable and `onDelete: SetNull` for the exact same reason
+// as Society.advisorStaffId — an activity outlives whichever staff member
+// currently coaches it. The public card's own free-text `teacherInCharge`
+// field (@nexus/contracts' ActivitySchema — a display projection, not this
+// entity) is resolved from this FK at the service layer, the same
+// resolve-then-project pattern Society's advisor already established for
+// its own StaffCard.
+//
+// `isActive` (F-179: "active/inactive status") is the one real structural
+// difference from Society/Staff/GalleryAlbum's "no draft/published state"
+// precedent: F-179's own words — "Unlike Academic Programs, activities
+// genuinely get added and retired over the years" — describe a permanent
+// retirement flag, not a draft-review workflow, so this reuses
+// Announcement.isActive's plain-Boolean shape (not NewsArticle/EventDetail's
+// three-state ContentStatus). Filtered at query time in
+// modules/extracurriculars/service.ts's public `list` only — the admin
+// list still shows retired activities so an editor can reactivate one.
+//
+// No `order` field: F-179's spec doesn't ask for drag-and-drop reordering
+// the way F-165/F-168 explicitly do for Staff/GalleryAlbum, so both the
+// public and admin lists sort by category then name — deterministic
+// without inventing a field nothing requested.
+model ExtracurricularActivity {
+  id     String @id @default(cuid())
+  locale Locale
+
+  name String
+  /// ExtracurricularCategoryEnum value (sports/performing-arts/leadership).
+  category String
+
+  description String
+
+  /// Optional per-card flourish — @nexus/ui's ExtracurricularCard only
+  /// renders this for the 'performing-arts' variant. Matches
+  /// ActivitySchema's own optional `studentQuote`.
+  studentQuote String?
+  /// Free text (e.g. "Jan – Mar term"), matches ActivitySchema.season.
+  season String?
+
+  /// F-179's "coach/advisor via staff selection" — see this model's own
+  /// header comment for the SetNull reasoning.
+  coachStaffId String?
+  coachStaff   Staff?  @relation(fields: [coachStaffId], references: [id], onDelete: SetNull)
+
+  /// Same flattened-storage-then-nest pattern as Staff.portraitUrl/
+  /// Society.logoUrl — a full CDN URL, not an R2 key.
+  photoUrl String?
+  photoAlt String?
+
+  /// F-179's "active/inactive status" — see this model's own header
+  /// comment for why this is a plain Boolean, not ContentStatus.
+  isActive Boolean @default(true)
+
+  achievements ExtracurricularAchievement[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([locale, category])
+  @@index([locale, isActive])
+  @@index([coachStaffId])
+}
+
+/// F-179's "achievements" — a structured record earned through one
+/// activity, distinct from the school-wide `Achievement` model (Task
+/// 7.19, home page + a dedicated achievements list — see
+/// @nexus/contracts' editorial/achievements/achievement.ts header comment
+/// for that separate entity). No independent lifecycle outside its
+/// activity, the same reasoning as GalleryPhoto/GalleryAlbum — cascades on
+/// delete, and is reconciled as a single array on the activity's own
+/// create/update input rather than separate add/remove mutations (see
+/// modules/extracurriculars/validators.ts's header comment).
+model ExtracurricularAchievement {
+  id         String                   @id @default(cuid())
+  activityId String
+  activity   ExtracurricularActivity  @relation(fields: [activityId], references: [id], onDelete: Cascade)
+
+  title       String
+  description String?
+  /// AchievementLevel value (national/provincial/district/school) — the
+  /// same taxonomy the school-wide Achievement model will reuse (Task
+  /// 7.19), not a parallel one invented for this table alone.
+  level String
+  date  DateTime @db.Date
+
+  awardedBy String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([activityId, date])
 }
 
 // ─── Authentication (M1a — Task 6.3/6.5, F-057/F-073/F-078) ────────────────
