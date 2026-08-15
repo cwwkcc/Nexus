@@ -1,33 +1,36 @@
 // packages/contracts/src/registry/page-registry/extracurriculars.ts
 //
 // Page registry for: Extracurriculars (docs/Design System/Page
-// Specifications.md section 08). The page spec names four subsections
-// (Sports, Performing Arts, Scouts, National Cadet Corps), but
-// ExtracurricularCategoryEnum has three values — Scouts and the NCC are
-// both 'leadership', matching the real ExtracurricularCard component's own
-// variant vocabulary (see Component Reference.md). They're still two
-// separate ActivitySchema entries, just sharing a category.
-
-import { z } from 'zod';
+// Specifications.md section 08). Only page *chrome* lives here now — the
+// hero banner. The three ContentEntry-backed `extracurriculars.sports` /
+// `.performingArts` / `.leadership` "grid" sections this file previously
+// defined were the same placeholder pattern already removed from
+// registry/page-registry/news.ts and events.ts once a real router took
+// over: F-179 (Task 7.17) gave every activity a genuine
+// `ExtracurricularActivity` row served by
+// packages/api/src/modules/extracurriculars/router.ts, so there is no
+// longer any ActivitySchema-shaped JSON blob for an editor to hand-author
+// through the generic block-content system. See events.ts's own header
+// comment for the fullest telling of this exact same migration.
+//
+// The page spec names four subsections (Sports, Performing Arts, Scouts,
+// National Cadet Corps), but ExtracurricularCategoryEnum has three values
+// — Scouts and the NCC are both 'leadership', matching the real
+// ExtracurricularCard component's own variant vocabulary (see Component
+// Reference.md). They're still two separate ExtracurricularActivity rows,
+// just sharing a category — the public page groups by category, not by
+// this four-way split, the same way F-161 describes it.
 
 import { HeroSchema } from '../../blocks/index.ts';
-import { ActivitySchema } from '../../domains/extracurriculars/activity.ts';
 import type { PageRegistry } from '../types.ts';
 
 export const ExtracurricularsHeroSchema = HeroSchema;
-
-export const ExtracurricularsGridSchema = z.object({
-  eyebrow: z.string().optional(),
-  heading: z.string().optional(),
-  activities: z.array(ActivitySchema),
-});
-export type ExtracurricularsGridData = z.infer<typeof ExtracurricularsGridSchema>;
 
 export const extracurricularsRegistry: PageRegistry = {
   page: 'extracurriculars',
   scope: 'page:extracurriculars',
   label: 'Extracurriculars',
-  description: 'Manage Extracurriculars — sports, performing arts, scouts, and the National Cadet Corps.',
+  description: 'Manage the Extracurriculars page\u2019s hero banner. Activities themselves are managed under Extracurriculars in the admin sidebar, not here.',
   sections: [
     {
       key: 'extracurriculars.hero',
@@ -35,27 +38,6 @@ export const extracurricularsRegistry: PageRegistry = {
       label: 'Hero Banner',
       description: 'Top-of-page headline and eyebrow text.',
       schema: ExtracurricularsHeroSchema,
-    },
-    {
-      key: 'extracurriculars.sports',
-      blockKey: 'rich-text-block',
-      label: 'Sports',
-      description: 'Cricket, athletics, volleyball, etc. ActivitySchema entries with category = sports.',
-      schema: ExtracurricularsGridSchema,
-    },
-    {
-      key: 'extracurriculars.performingArts',
-      blockKey: 'rich-text-block',
-      label: 'Performing Arts',
-      description: 'Western band, Eastern band, drama, etc. ActivitySchema entries with category = performing-arts.',
-      schema: ExtracurricularsGridSchema,
-    },
-    {
-      key: 'extracurriculars.leadership',
-      blockKey: 'rich-text-block',
-      label: 'Scouts and National Cadet Corps',
-      description: 'History, President\u2019s Award winners, teacher in charge, annual camps. ActivitySchema entries with category = leadership.',
-      schema: ExtracurricularsGridSchema,
     },
   ],
 };
