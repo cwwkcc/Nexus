@@ -20,6 +20,12 @@ enum ContentStatus {
   archived
 }
 
+enum AlumniStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 model ContentEntry {
   id          String   @id @default(cuid())
   scope       String   
@@ -765,4 +771,159 @@ model BackupCode {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
+}
+
+// ─── Alumni (M4 — Task 7.18, F-154/F-180) ────────────────────────────────
+//
+// Unlike Staff/Society/ExtracurricularActivity (single global row or
+// per-locale row with a slug), AlumniProfile has neither `locale` nor a
+// `slug` — it's a single global directory record. An alumnus's name,
+// graduation year, current role, and quote are facts, not per-locale prose,
+// and F-154/F-180 both describe a single searchable directory (not three
+// language-specific directories). The only translation concern would be
+// if the directory itself needed translated UI labels, which is a
+// presentation-layer concern, not a data-model one.
+//
+// The key distinction from other M4 modules is the moderation workflow:
+// public submissions arrive as `PENDING` and await admin approval
+// (F-180's "two entry paths" requirement), while admin-direct entries
+// can be created as `APPROVED` immediately. `REJECTED` carries an optional
+// `rejectionReason` for audit purposes. No draft/published/archived
+// `ContentStatus` — the moderation workflow itself is the publication gate.
+model AlumniProfile {
+  id    String @id @default(cuid())
+  name  String
+
+  /// e.g. "2023" — stored as string to match AlumniSchema's existing
+  /// convention and to support future non-year formats if needed.
+  graduationYear String
+
+  /// ALStreamEnum value — optional since not every alumnus's stream is
+  /// relevant to their current career or may not be known.
+  stream String?
+
+  /// e.g. "Software Engineer" — matches AlumniSchema's `currentRole`.
+  currentRole String?
+
+  /// e.g. "Google" — matches AlumniSchema's `currentOrg`.
+  currentOrg String?
+
+  /// AvatarSchema's shape ({ src, alt }) split into two columns and
+  /// reassembled into the nested object at the service layer's serialize()
+  /// — the same flattened-storage-then-nest pattern Staff.portraitUrl/
+  /// portraitAlt and NewsArticle.imageUrl use. Full CDN URL (an
+  /// R2_PUBLIC_URL-resolved MediaAsset.url), not an R2 key.
+  portraitUrl String?
+  portraitAlt String?
+
+  /// Optional quote for feature-worthy alumni — displayed on the public
+  /// directory if present.
+  quote String?
+
+  /// Flag for homepage/higher-visibility display — F-154's "featured alumni"
+  /// concept, distinct from the general directory listing.
+  isFeatureworthy Boolean @default(false)
+
+  /// Moderation status — PENDING for public submissions, APPROVED for
+  /// published profiles, REJECTED for discarded submissions with an
+  /// optional audit reason.
+  status AlumniStatus @default(PENDING)
+
+  /// Optional reason for rejection — logged when an admin rejects a
+  /// pending submission (F-180's "discard with optional logged reason").
+  rejectionReason String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@index([graduationYear])
+}
+
+// ─── Achievements (M4 — Task 7.19, F-156/F-181) ───────────────────────────────
+//
+// Like AlumniProfile (not like Society/EventDetail), Achievement has no
+// `locale` field — school-wide achievements are facts, not per-locale prose.
+// A student's name, achievement level, and date don't need translation; only
+// the surrounding page chrome (hero, section titles) does, which is handled
+// by ContentEntry. No draft/published/archived ContentStatus — the same
+// simple create/edit/delete shape as Events (F-181's own wording: "no
+// draft/review workflow").
+//
+// The AchievementSchema in @nexus/contracts (`editorial/achievements/`)
+// is the ContentEntry-era contract; this Prisma model is the real
+// domain model that replaced it. The card schema (AchievementCardSchema)
+// survives unchanged since @nexus/ui renders directly from it.
+model Achievement {
+  id          String @id @default(cuid())
+  title       String
+  description String?
+
+  /// AchievementLevelEnum value — national/provincial/district/school.
+  level String
+
+  /// AchievementCategoryEnum value — academic/sports/cultural/other.
+  category String
+
+  /// Full ISO date string — @db.Date is insufficient since achievements
+  /// may need year+month precision (e.g. "March 2025") rather than just year.
+  date String
+
+  /// Optional awarding body (e.g. "Ministry of Education").
+  awardedBy String?
+
+  /// ImageSchema's shape ({ src, alt }) split into two columns and
+  /// reassembled into the nested object at the service layer's serialize()
+  /// — the same flattened-storage-then-nest pattern every other module
+  /// with an image field uses. Full CDN URL (an R2_PUBLIC_URL-resolved
+  /// MediaAsset.url), not an R2 key.
+  imageUrl String?
+  imageAlt String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([category])
+  @@index([date])
+}
+
+// ─── Digital Archive (M4 — Task 7.20, F-155/F-182) ───────────────────────────
+//
+// Like Achievement/AlumniProfile (not like Society/EventDetail), Archive has
+// no `locale` field — historical documents are facts, not per-locale prose.
+// No draft/published/archived ContentStatus — simple create/edit/delete shape.
+// Curated content layer over Media Library: each entry references a file
+// uploaded through the standard Media Library pipeline, with metadata
+// (title, year, category, description) that the Media Library alone doesn't
+// have (F-182: "the Media Library alone has no concept of 'this PDF is the
+// 1987 prefects list'").
+//
+// Categories: photograph, magazine, prize-giving record, prefect list.
+// The `file` field stores a full CDN URL (an R2_PUBLIC_URL-resolved
+// MediaAsset.url), not an R2 key — the same pattern every other module
+// with an image field uses.
+model Archive {
+  id          String @id @default(cuid())
+  title       String
+  year        String
+
+  /// ArchiveCategoryEnum value — photograph/magazine/prize_giving_record/prefect_list
+  /// (hyphenated strings for enum compatibility with Prisma).
+  category String
+
+  description String?
+
+  /// ImageSchema's shape ({ src, alt }) split into two columns and
+  /// reassembled into the nested object at the service layer's serialize()
+  /// — the same flattened-storage-then-nest pattern every other module
+  /// with an image field uses. Full CDN URL (an R2_PUBLIC_URL-resolved
+  /// MediaAsset.url), not an R2 key.
+  fileUrl String
+  fileAlt String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([category])
+  @@index([year])
 }
