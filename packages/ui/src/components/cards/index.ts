@@ -1,5 +1,7 @@
 export { AcademicStreamCard } from './AcademicStreamCard';
 export { AchievementCard } from './AchievementCard';
+export { AlumniCard } from './AlumniCard';
+export { ArchiveCard } from './ArchiveCard';
 export { DownloadableDocumentItem } from './DownloadableDocumentItem';
 export { EventCard } from './EventCard';
 export { ExtracurricularCard } from './ExtracurricularCard';
