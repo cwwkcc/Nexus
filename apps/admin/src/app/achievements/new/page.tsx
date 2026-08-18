@@ -1,7 +1,14 @@
-// New Achievement form (F-168).
+// apps/admin/src/app/achievements/new/page.tsx
+//
+// F-181 create form (Task 7.19). Mirrors alumni/new/page.tsx's shape.
 
-import { AdminPlaceholder } from '@/features/shell/AdminPlaceholder';
+import { AdminShell } from '../../../features/shell/AdminShell.js';
+import { AchievementForm } from '../AchievementForm.js';
 
-export default function Page() {
-  return <AdminPlaceholder title="achievements / new" />;
+export default function NewAchievementPage() {
+  return (
+    <AdminShell title="New achievement">
+      <AchievementForm mode="create" />
+    </AdminShell>
+  );
 }

@@ -1,7 +1,14 @@
-// New Archive Entry form (F-169). Title, year, category, description, file upload.
+// apps/admin/src/app/archive/new/page.tsx
+//
+// F-182 create form (Task 7.20). Mirrors achievements/new/page.tsx's shape.
 
-import { AdminPlaceholder } from '@/features/shell/AdminPlaceholder';
+import { AdminShell } from '../../../features/shell/AdminShell.js';
+import { ArchiveForm } from '../ArchiveForm.js';
 
-export default function Page() {
-  return <AdminPlaceholder title="archive / new" />;
+export default function NewArchiveEntryPage() {
+  return (
+    <AdminShell title="New archive entry">
+      <ArchiveForm mode="create" />
+    </AdminShell>
+  );
 }
