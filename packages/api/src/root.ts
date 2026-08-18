@@ -13,7 +13,10 @@
 //   ✓ apps/admin/src/app/page-content/page.tsx — calls contentEntry.adminGetByScope
 //   ✓ apps/admin/src/app/page.tsx — dashboard no longer queries dead models
 
+import { achievementsRouter } from './modules/achievements/router.js';
+import { alumniRouter } from './modules/alumni/router.js';
 import { announcementsRouter } from './modules/announcements/router.js';
+import { archiveRouter } from './modules/archive/router.js';
 import { contentEntryRouter } from './modules/content/router.js';
 import { eventsRouter } from './modules/events/router.js';
 import { extracurricularsRouter } from './modules/extracurriculars/router.js';
@@ -34,6 +37,9 @@ export const appRouter = router({
   gallery: galleryRouter,
   announcements: announcementsRouter,
   extracurriculars: extracurricularsRouter,
+  alumni: alumniRouter,
+  achievements: achievementsRouter,
+  archive: archiveRouter,
 });
 
 export type AppRouter = typeof appRouter;
