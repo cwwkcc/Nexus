@@ -1,20 +1,23 @@
 // packages/contracts/src/editorial/achievements/achievement.ts
 //
-// School-level achievement contract.
+// School-level achievement contract (Task 7.19, F-156/F-181).
 //
 // AchievementSchema     — the full entity: id, title, description?, level,
-//                         category, date (ISO), awardedBy?, image? (R2 key), locale
+//                         category, date (ISO), awardedBy?, image? (R2 key)
 // AchievementCardSchema — lighter projection for grid display (used by @nexus/ui)
+// AchievementInputSchema — create/update input for admin forms
+// AchievementOutputSchema — API output with serialized image
 //
 // Notes:
 //   School-wide achievements — distinct from features/societies/achievement.ts
 //   (which is specific to a single society).
 //   Used on the home page achievement section and a dedicated achievements list.
+//   No locale field — achievements are facts, not per-locale prose.
 
 import { z } from 'zod';
 
 import { MAX_TITLE_LENGTH, MAX_DESCRIPTION_LENGTH } from '../../constants/index.ts';
-import { ImageSchema, LocaleEnum } from '../../primitives/index.ts';
+import { ImageSchema } from '../../primitives/index.ts';
 
 export const ACHIEVEMENT_CONTENT_TYPE = 'achievement';
 
@@ -22,7 +25,7 @@ export const AchievementLevel = z.enum(['national', 'provincial', 'district', 's
 
 export const AchievementCategory = z.enum(['academic', 'sports', 'cultural', 'other']);
 
-// The full entity — CMS/admin CRUD and ContentEntry storage.
+// The full entity — CMS/admin CRUD and database storage.
 export const AchievementSchema = z.object({
   id: z.string(),
   title: z.string().max(MAX_TITLE_LENGTH),
@@ -32,12 +35,45 @@ export const AchievementSchema = z.object({
   date: z.string(), // ISO date
   awardedBy: z.string().optional(),
   image: ImageSchema.optional(),
-  locale: LocaleEnum,
 });
 
 export type AchievementData = z.infer<typeof AchievementSchema>;
 export type AchievementLevelData = z.infer<typeof AchievementLevel>;
 export type AchievementCategoryData = z.infer<typeof AchievementCategory>;
+
+// Input schema for create/update operations.
+export const AchievementInputSchema = z.object({
+  title: z.string().min(1).max(MAX_TITLE_LENGTH),
+  description: z.string().max(MAX_DESCRIPTION_LENGTH).optional(),
+  level: AchievementLevel,
+  category: AchievementCategory,
+  date: z.string(),
+  awardedBy: z.string().optional(),
+  image: ImageSchema.optional(),
+});
+
+export const AchievementUpdateSchema = AchievementInputSchema.partial().extend({
+  id: z.string().min(1),
+});
+
+export type AchievementInput = z.infer<typeof AchievementInputSchema>;
+export type AchievementUpdate = z.infer<typeof AchievementUpdateSchema>;
+
+// Output schema with serialized image (from flattened storage).
+export const AchievementOutputSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  description: z.string().nullable(),
+  level: AchievementLevel,
+  category: AchievementCategory,
+  date: z.string(),
+  awardedBy: z.string().nullable(),
+  image: ImageSchema.nullable(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+});
+
+export type AchievementOutput = z.infer<typeof AchievementOutputSchema>;
 
 // Card projection — matches @nexus/ui's AchievementCardProps exactly.
 export const AchievementCardSchema = z.object({
