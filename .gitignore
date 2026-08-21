@@ -90,3 +90,6 @@ infra/postgres/
 .nx/polygraph
 .nx/self-healing
 .nx/migrate-runs
+
+# Tamporary files
+Master Roadmap to World-Class.md
