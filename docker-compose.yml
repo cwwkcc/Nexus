@@ -5,10 +5,8 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_USER: nexus
-      POSTGRES_PASSWORD: nexus
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: nexus
-    ports:
-      - '5432:5432'
     volumes:
       - ./infra/postgres:/var/lib/postgresql/data
     healthcheck:
@@ -19,74 +17,79 @@ services:
     networks:
       - nexus-network
 
-  # nexus-web:
-  #   build:
-  #     context: .
-  #     dockerfile: apps/web/Dockerfile
-  #   container_name: nexus-web
-  #   restart: unless-stopped
-  #   ports:
-  #     - '3000:3000'
-  #   environment:
-  #     NODE_ENV: production
-  #     DATABASE_URL: postgresql://nexus:nexus@postgres:5432/nexus
-  #   depends_on:
-  #     postgres:
-  #       condition: service_healthy
-  #   networks:
-  #     - nexus-network
+  nexus-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: web-runner
+    container_name: nexus-web
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://nexus:${POSTGRES_PASSWORD}@postgres:5432/nexus
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - nexus-network
 
-  # nexus-admin:
-  #   build:
-  #     context: .
-  #     dockerfile: apps/admin/Dockerfile
-  #   container_name: nexus-admin
-  #   restart: unless-stopped
-  #   ports:
-  #     - '3001:3001'
-  #   environment:
-  #     NODE_ENV: production
-  #     DATABASE_URL: postgresql://nexus:nexus@postgres:5432/nexus
-  #   depends_on:
-  #     postgres:
-  #       condition: service_healthy
-  #   networks:
-  #     - nexus-network
+  nexus-admin:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: admin-runner
+    container_name: nexus-admin
+    restart: unless-stopped
+    ports:
+      - '3001:3001'
+    environment:
+      NODE_ENV: production
+      PORT: '3001'
+      DATABASE_URL: postgresql://nexus:${POSTGRES_PASSWORD}@postgres:5432/nexus
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - nexus-network
 
-  # caddy:
-  #   image: caddy:latest
-  #   container_name: nexus-caddy
-  #   restart: unless-stopped
-  #   ports:
-  #     - '80:80'
-  #     - '443:443'
-  #   volumes:
-  #     - ./infra/caddy/Caddyfile:/etc/caddy/Caddyfile
-  #     - caddy_data:/data
-  #     - caddy_config:/config
-  #   depends_on:
-  #     - nexus-web
-  #     - nexus-admin
-  #   networks:
-  #     - nexus-network
+  caddy:
+    image: caddy:latest
+    container_name: nexus-caddy
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./infra/caddy/Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - nexus-web
+      - nexus-admin
+    networks:
+      - nexus-network
 
-  # migrate:
-  #   build:
-  #     context: .
-  #     dockerfile: apps/migrate/Dockerfile
-  #   container_name: nexus-migrate
-  #   command: pnpm --filter @nexus/database migrate:deploy
-  #   environment:
-  #     DATABASE_URL: postgresql://nexus:nexus@postgres:5432/nexus
-  #   depends_on:
-  #     postgres:
-  #       condition: service_healthy
-  #   networks:
-  #     - nexus-network
+  migrate:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: base
+    container_name: nexus-migrate
+    command: pnpm --filter @nexus/db db:migrate:deploy
+    environment:
+      DATABASE_URL: postgresql://nexus:${POSTGRES_PASSWORD}@postgres:5432/nexus
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - nexus-network
 
 networks:
   nexus-network:
     driver: bridge
-# volumes:
-#   caddy_data:
-#   caddy_config:
+
+volumes:
+  caddy_data:
+  caddy_config:
