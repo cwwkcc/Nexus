@@ -15,6 +15,7 @@ const navItems = [
   { href: '/gallery', label: 'Gallery' },
   { href: '/announcements', label: 'Announcements' },
   { href: '/extracurriculars', label: 'Extracurriculars' },
+  { href: '/alumni', label: 'Alumni' },
   { href: '/users', label: 'User Management', adminOnly: true },
   { href: '/settings', label: 'Settings', adminOnly: true },
 ];

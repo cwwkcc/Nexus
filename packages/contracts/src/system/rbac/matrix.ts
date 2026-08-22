@@ -16,7 +16,7 @@ import type { RoleEnumData } from './role.ts';
  * arrive routinely as modules land (Task 6.6+) and adding one should only
  * ever require touching this matrix, not the shared schema.
  */
-export const RESOURCES = ['content', 'media', 'staff', 'events', 'societies', 'gallery', 'announcements', 'extracurriculars', 'users', 'settings', 'audit-log'] as const;
+export const RESOURCES = ['content', 'media', 'staff', 'events', 'societies', 'gallery', 'announcements', 'extracurriculars', 'alumni', 'users', 'settings', 'audit-log'] as const;
 export type Resource = (typeof RESOURCES)[number];
 
 type Action = PermissionData['action'];
@@ -79,6 +79,23 @@ type Action = PermissionData['action'];
  * reversible field edit, not a separate permission. A hard delete is
  * admin-only, the same "nothing to fall back to" reason every other
  * hard-delete in this matrix already follows.
+ *
+ * `alumni` (M4, Task 7.18/F-154/F-180): shaped like `events`, not
+ * `staff`/`societies` — an AlumniProfile's PENDING/APPROVED/REJECTED
+ * moderation workflow is a real publish gate (only APPROVED profiles are
+ * visible on the public directory, see modules/alumni/service.ts's
+ * `listPublicAlumni`), so an Editor holds `publish`: they can moderate a
+ * public submission (`updateStatus`/`bulkUpdateStatus`, i.e. approve or
+ * reject it) the same way they can publish/unpublish a News article or
+ * Event. What they don't get is `admin` — hard-deleting a profile is
+ * irreversible with nothing to fall back to, the same reasoning every
+ * other hard-delete in this matrix follows. Note this matrix's grants
+ * aren't wired into modules/alumni/router.ts's own procedures yet (no
+ * module's router calls `hasPermission`/`checkPermission` today — see this
+ * matrix's own module-level doc comment above); this entry documents the
+ * intended shape ahead of M5's User Management UI actually enforcing it,
+ * consistent with how every other M4 module's entry was added at ship
+ * time rather than at enforcement time.
  */
 const ROLE_PERMISSIONS: Record<RoleEnumData, Partial<Record<Resource, readonly Action[]>>> = {
   admin: {
@@ -90,6 +107,7 @@ const ROLE_PERMISSIONS: Record<RoleEnumData, Partial<Record<Resource, readonly A
     gallery: ['read', 'write', 'publish', 'admin'],
     announcements: ['read', 'write', 'publish', 'admin'],
     extracurriculars: ['read', 'write', 'publish', 'admin'],
+    alumni: ['read', 'write', 'publish', 'admin'],
     users: ['read', 'write', 'publish', 'admin'],
     settings: ['read', 'write', 'publish', 'admin'],
     'audit-log': ['read'],
@@ -103,6 +121,7 @@ const ROLE_PERMISSIONS: Record<RoleEnumData, Partial<Record<Resource, readonly A
     gallery: ['read', 'write'],
     announcements: ['read', 'write'],
     extracurriculars: ['read', 'write'],
+    alumni: ['read', 'write', 'publish'],
   },
   viewer: {
     content: ['read'],
@@ -113,6 +132,7 @@ const ROLE_PERMISSIONS: Record<RoleEnumData, Partial<Record<Resource, readonly A
     gallery: ['read'],
     announcements: ['read'],
     extracurriculars: ['read'],
+    alumni: ['read'],
   },
 };
 
