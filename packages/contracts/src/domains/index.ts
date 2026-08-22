@@ -7,3 +7,4 @@ export * from './societies/index.ts';
 export * from './results/index.ts';
 export * from './contact/index.ts';
 export * from './identity/index.ts';
+export * from './archive/index.ts';

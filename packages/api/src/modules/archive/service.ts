@@ -17,13 +17,13 @@ import { Prisma, type db as Db } from '@nexus/db';
 import type { z } from 'zod';
 
 import { archiveErrors } from './errors.js';
-import type { ArchiveCreate, ArchiveGetById, ArchiveList, ArchiveUpdate } from './validators.js';
+import type { ArchiveCreateInput, ArchiveGetByIdInput, ArchiveListInput, ArchiveUpdateInput } from './validators.js';
 import type { ApiConfig } from '../../config.js';
 
-export type ArchiveListQuery = z.infer<typeof ArchiveList>;
-export type ArchiveCreate = z.infer<typeof ArchiveCreate>;
-export type ArchiveUpdate = z.infer<typeof ArchiveUpdate>;
-export type ArchiveGetById = z.infer<typeof ArchiveGetById>;
+export type ArchiveListQuery = z.infer<typeof ArchiveListInput>;
+export type ArchiveCreate = z.infer<typeof ArchiveCreateInput>;
+export type ArchiveUpdate = z.infer<typeof ArchiveUpdateInput>;
+export type ArchiveGetById = z.infer<typeof ArchiveGetByIdInput>;
 
 type ArchiveRow = Awaited<ReturnType<typeof Db.archive.findFirstOrThrow>>;
 
@@ -108,7 +108,7 @@ export async function getById(db: typeof Db, input: ArchiveGetById) {
 
     return serialize(archive);
   } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && (error as Prisma.PrismaClientKnownRequestError).code === 'P2025') {
       throw archiveErrors.notFound(id);
     }
     throw error;
@@ -120,24 +120,24 @@ export async function getById(db: typeof Db, input: ArchiveGetById) {
 export async function createArchive(db: typeof Db, config: ApiConfig, input: ArchiveCreate) {
   const { title, year, category, description, file } = input;
 
+  let archive: ArchiveRow;
   try {
-    const archive = await db.archive.create({
+    archive = await db.archive.create({
       data: {
         title,
         year,
         category,
-        description,
+        description: description ?? null,
         fileUrl: file.src,
         fileAlt: file.alt,
       },
     });
-
-    await triggerRevalidation(config, ['archive']);
-
-    return serialize(archive);
   } catch (error) {
-    throw error;
+    throw archiveErrors.saveFailed(error);
   }
+
+  await revalidateArchive(config);
+  return serialize(archive);
 }
 
 /** Update an existing archive entry — immediately live (no moderation workflow).
@@ -145,30 +145,30 @@ export async function createArchive(db: typeof Db, config: ApiConfig, input: Arc
 export async function updateArchive(db: typeof Db, config: ApiConfig, input: ArchiveUpdate) {
   const { id, title, year, category, description, file } = input;
 
+  let archive: ArchiveRow;
   try {
-    const archive = await db.archive.update({
+    archive = await db.archive.update({
       where: { id },
       data: {
         ...(title !== undefined && { title }),
         ...(year !== undefined && { year }),
         ...(category !== undefined && { category }),
-        ...(description !== undefined && { description }),
+        ...(description !== undefined && { description: description ?? null }),
         ...(file !== undefined && {
           fileUrl: file.src,
           fileAlt: file.alt,
         }),
       },
     });
-
-    await triggerRevalidation(config, ['archive']);
-
-    return serialize(archive);
   } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && (error as Prisma.PrismaClientKnownRequestError).code === 'P2025') {
       throw archiveErrors.notFound(id);
     }
-    throw error;
+    throw archiveErrors.saveFailed(error);
   }
+
+  await revalidateArchive(config);
+  return serialize(archive);
 }
 
 /** Delete an archive entry — hard delete, no soft-archive. Triggers revalidation. */
@@ -179,14 +179,26 @@ export async function deleteArchive(db: typeof Db, config: ApiConfig, input: Arc
     await db.archive.delete({
       where: { id },
     });
-
-    await triggerRevalidation(config, ['archive']);
-
-    return { success: true };
   } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && (error as Prisma.PrismaClientKnownRequestError).code === 'P2025') {
       throw archiveErrors.notFound(id);
     }
-    throw error;
+    throw archiveErrors.deleteFailed(error);
   }
+
+  await revalidateArchive(config);
+  return { success: true };
+}
+
+/** On-demand cache invalidation (F-195), same mechanism as
+ * alumniService.revalidateAlumni. Archive has no locale dimension. */
+async function revalidateArchive(config: ApiConfig): Promise<void> {
+  const { webAppUrl, secret } = config.revalidate;
+
+  if (!webAppUrl || !secret) {
+    console.error('[archiveService] skipping revalidation — WEB_APP_URL_INTERNAL or REVALIDATE_SECRET not set');
+    return;
+  }
+
+  await triggerRevalidation({ webAppUrl, secret, scope: 'archive' });
 }

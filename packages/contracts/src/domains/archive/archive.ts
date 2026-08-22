@@ -65,7 +65,6 @@ export const ArchiveOutputSchema = z.object({
 });
 
 export type ArchiveOutput = z.infer<typeof ArchiveOutputSchema>;
-export type ArchiveCategoryData = z.infer<typeof ArchiveCategory>;
 
 // Card projection — lighter display for grid.
 export const ArchiveCardSchema = z.object({
@@ -90,5 +89,3 @@ export function toArchiveCardData(archive: ArchiveOutput): ArchiveCardData {
     fileAlt: archive.file.alt,
   };
 }
-
-export { ARCHIVE_CATEGORY_LABELS };

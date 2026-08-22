@@ -15,13 +15,13 @@ import { Prisma, type db as Db } from '@nexus/db';
 import type { z } from 'zod';
 
 import { achievementErrors } from './errors.js';
-import type { AchievementCreate, AchievementGetById, AchievementList, AchievementUpdate } from './validators.js';
+import type { AchievementCreateInput, AchievementGetByIdInput, AchievementListInput, AchievementUpdateInput } from './validators.js';
 import type { ApiConfig } from '../../config.js';
 
-export type AchievementListQuery = z.infer<typeof AchievementList>;
-export type AchievementCreate = z.infer<typeof AchievementCreate>;
-export type AchievementUpdate = z.infer<typeof AchievementUpdate>;
-export type AchievementGetById = z.infer<typeof AchievementGetById>;
+export type AchievementListQuery = z.infer<typeof AchievementListInput>;
+export type AchievementCreate = z.infer<typeof AchievementCreateInput>;
+export type AchievementUpdate = z.infer<typeof AchievementUpdateInput>;
+export type AchievementGetById = z.infer<typeof AchievementGetByIdInput>;
 
 type AchievementRow = Awaited<ReturnType<typeof Db.achievement.findFirstOrThrow>>;
 
@@ -105,7 +105,7 @@ export async function getById(db: typeof Db, input: AchievementGetById) {
 
     return serialize(achievement);
   } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && (error as Prisma.PrismaClientKnownRequestError).code === 'P2025') {
       throw achievementErrors.notFound(id);
     }
     throw error;
@@ -117,26 +117,26 @@ export async function getById(db: typeof Db, input: AchievementGetById) {
 export async function createAchievement(db: typeof Db, config: ApiConfig, input: AchievementCreate) {
   const { title, description, level, category, date, awardedBy, image } = input;
 
+  let achievement: AchievementRow;
   try {
-    const achievement = await db.achievement.create({
+    achievement = await db.achievement.create({
       data: {
         title,
-        description,
+        description: description ?? null,
         level,
         category,
         date,
-        awardedBy,
+        awardedBy: awardedBy ?? null,
         imageUrl: image?.src ?? null,
         imageAlt: image?.alt ?? null,
       },
     });
-
-    await triggerRevalidation(config, ['achievements']);
-
-    return serialize(achievement);
   } catch (error) {
-    throw error;
+    throw achievementErrors.saveFailed(error);
   }
+
+  await revalidateAchievements(config);
+  return serialize(achievement);
 }
 
 /** Update an existing achievement — immediately live (no moderation workflow).
@@ -144,32 +144,32 @@ export async function createAchievement(db: typeof Db, config: ApiConfig, input:
 export async function updateAchievement(db: typeof Db, config: ApiConfig, input: AchievementUpdate) {
   const { id, title, description, level, category, date, awardedBy, image } = input;
 
+  let achievement: AchievementRow;
   try {
-    const achievement = await db.achievement.update({
+    achievement = await db.achievement.update({
       where: { id },
       data: {
         ...(title !== undefined && { title }),
-        ...(description !== undefined && { description }),
+        ...(description !== undefined && { description: description ?? null }),
         ...(level !== undefined && { level }),
         ...(category !== undefined && { category }),
         ...(date !== undefined && { date }),
-        ...(awardedBy !== undefined && { awardedBy }),
+        ...(awardedBy !== undefined && { awardedBy: awardedBy ?? null }),
         ...(image !== undefined && {
           imageUrl: image?.src ?? null,
           imageAlt: image?.alt ?? null,
         }),
       },
     });
-
-    await triggerRevalidation(config, ['achievements']);
-
-    return serialize(achievement);
   } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && (error as Prisma.PrismaClientKnownRequestError).code === 'P2025') {
       throw achievementErrors.notFound(id);
     }
-    throw error;
+    throw achievementErrors.saveFailed(error);
   }
+
+  await revalidateAchievements(config);
+  return serialize(achievement);
 }
 
 /** Delete an achievement — hard delete, no soft-archive. Triggers revalidation. */
@@ -180,14 +180,26 @@ export async function deleteAchievement(db: typeof Db, config: ApiConfig, input:
     await db.achievement.delete({
       where: { id },
     });
-
-    await triggerRevalidation(config, ['achievements']);
-
-    return { success: true };
   } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && (error as Prisma.PrismaClientKnownRequestError).code === 'P2025') {
       throw achievementErrors.notFound(id);
     }
-    throw error;
+    throw achievementErrors.deleteFailed(error);
   }
+
+  await revalidateAchievements(config);
+  return { success: true };
+}
+
+/** On-demand cache invalidation (F-195), same mechanism as
+ * alumniService.revalidateAlumni. Achievements has no locale dimension. */
+async function revalidateAchievements(config: ApiConfig): Promise<void> {
+  const { webAppUrl, secret } = config.revalidate;
+
+  if (!webAppUrl || !secret) {
+    console.error('[achievementsService] skipping revalidation — WEB_APP_URL_INTERNAL or REVALIDATE_SECRET not set');
+    return;
+  }
+
+  await triggerRevalidation({ webAppUrl, secret, scope: 'achievements' });
 }

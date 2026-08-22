@@ -26,6 +26,8 @@ export const AchievementUpdateInput = AchievementUpdateSchema;
 
 // ─── Output schemas ───────────────────────────────────────────────────────
 
+export const AchievementOutput = AchievementOutputSchema;
+
 export const AchievementListOutput = z.object({
   items: AchievementOutputSchema.array(),
   pagination: z.object({

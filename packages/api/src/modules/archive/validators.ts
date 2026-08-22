@@ -26,6 +26,8 @@ export const ArchiveUpdateInput = ArchiveUpdateSchema;
 
 // ─── Output schemas ───────────────────────────────────────────────────────
 
+export const ArchiveOutput = ArchiveOutputSchema;
+
 export const ArchiveListOutput = z.object({
   items: ArchiveOutputSchema.array(),
   pagination: z.object({
