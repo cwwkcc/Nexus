@@ -1,3 +1,5 @@
+export { AlumniSubmitForm, buildAlumniSubmitSchema } from './AlumniSubmitForm';
+export type { AlumniSubmitFormProps, AlumniSubmitFormLabels, AlumniSubmitFormValues, AlumniSubmitValues } from './AlumniSubmitForm';
 export { Calendar } from './Calendar';
 export { Checkbox } from './Checkbox';
 export { ContactForm, buildContactSchema } from './ContactForm';

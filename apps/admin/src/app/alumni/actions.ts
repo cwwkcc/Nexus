@@ -44,7 +44,6 @@ export async function createAlumniProfile(input: AlumniFormInput): Promise<Actio
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- input is validated server-side against AlumniCreateInput; re-declaring that shape here would just be a second copy to keep in sync.
     const alumni = await caller.alumni.create(input as any);
     revalidatePath('/alumni');
-    revalidatePath('/alumni');
     return { ok: true, data: { id: alumni.id } };
   } catch (err) {
     return { ok: false, error: messageFor(err) };

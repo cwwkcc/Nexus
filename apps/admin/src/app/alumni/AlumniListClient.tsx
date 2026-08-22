@@ -92,7 +92,7 @@ export function AlumniListClient({ alumni, currentQuery, currentStatus, currentG
       return;
     }
 
-    const rejectionReason = status === 'REJECTED' ? window.prompt('Reason for rejection (optional):') : undefined;
+    const rejectionReason = status === 'REJECTED' ? (window.prompt('Reason for rejection (optional):') ?? undefined) : undefined;
     setActionError(null);
 
     const result = await bulkUpdateAlumniStatus(Array.from(selectedIds), status, rejectionReason);

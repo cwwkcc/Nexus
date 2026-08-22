@@ -11,7 +11,7 @@
 // for the moderation workflow. Admin-direct entries can be set to APPROVED
 // immediately, while public submissions default to PENDING.
 
-import { ALStreamEnum, AlumniStatusEnum, type ALStreamEnumData, type AlumniStatusEnumData } from '@nexus/contracts';
+import { ALStreamEnum } from '@nexus/contracts';
 import { Button, Input, Select, Textarea } from '@nexus/ui';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -19,10 +19,10 @@ import { useState } from 'react';
 import { createAlumniProfile, updateAlumniProfile, type AlumniFormInput } from './actions.js';
 import { MediaLibraryPicker } from '../../features/media/MediaLibraryPicker.js';
 import type { AdminMediaAsset } from '../../lib/media.js';
-import { ALUMNI_STATUS_LABELS, type AdminAlumni } from '../../lib/alumni.js';
+import { ALUMNI_STATUS_LABELS, type AdminAlumni, type AlumniStatus } from '../../lib/alumni.js';
 
 const streamOptions = [{ value: '', label: '— Unknown —' }, ...ALStreamEnum.options.map((value) => ({ value, label: value }))];
-const statusOptions = AlumniStatusEnum.options.map((value) => ({ value, label: ALUMNI_STATUS_LABELS[value as AlumniStatusEnumData] }));
+const statusOptions = (['PENDING', 'APPROVED', 'REJECTED'] as const satisfies readonly AlumniStatus[]).map((value) => ({ value, label: ALUMNI_STATUS_LABELS[value] }));
 
 interface AlumniFormProps {
   mode: 'create' | 'edit';
@@ -34,12 +34,12 @@ export function AlumniForm({ mode, initial }: AlumniFormProps) {
 
   const [name, setName] = useState(initial?.name ?? '');
   const [graduationYear, setGraduationYear] = useState(initial?.graduationYear ?? '');
-  const [stream, setStream] = useState<ALStreamEnumData | ''>(initial?.stream ?? '');
+  const [stream, setStream] = useState(initial?.stream ?? '');
   const [currentRole, setCurrentRole] = useState(initial?.currentRole ?? '');
   const [currentOrg, setCurrentOrg] = useState(initial?.currentOrg ?? '');
   const [quote, setQuote] = useState(initial?.quote ?? '');
   const [isFeatureworthy, setIsFeatureworthy] = useState(initial?.isFeatureworthy ?? false);
-  const [status, setStatus] = useState<AlumniStatusEnumData>(initial?.status ?? 'PENDING');
+  const [status, setStatus] = useState<AlumniStatus>(initial?.status ?? 'PENDING');
   const [rejectionReason, setRejectionReason] = useState(initial?.rejectionReason ?? '');
   const [portraitUrl, setPortraitUrl] = useState(initial?.portrait?.src ?? '');
   const [portraitAlt, setPortraitAlt] = useState(initial?.portrait?.alt ?? '');
@@ -113,8 +113,8 @@ export function AlumniForm({ mode, initial }: AlumniFormProps) {
       </div>
 
       <div className="grid grid-cols-1 gap-space-6 md:grid-cols-2">
-        <Select label="Stream" options={streamOptions} value={stream} onChange={(e) => setStream(e.target.value as ALStreamEnumData | '')} helperText="Optional — A/L stream if known." />
-        <Select label="Status" options={statusOptions} value={status} onChange={(e) => setStatus(e.target.value as AlumniStatusEnumData)} helperText="Admin-direct entries can be APPROVED immediately; public submissions default to PENDING." />
+        <Select label="Stream" options={streamOptions} value={stream} onChange={(e) => setStream(e.target.value)} helperText="Optional — A/L stream if known." />
+        <Select label="Status" options={statusOptions} value={status} onChange={(e) => setStatus(e.target.value as AlumniStatus)} helperText="Admin-direct entries can be APPROVED immediately; public submissions default to PENDING." />
       </div>
 
       <div className="grid grid-cols-1 gap-space-6 md:grid-cols-2">

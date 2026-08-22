@@ -5,6 +5,10 @@
 //
 // Public procedures:
 //   - list: public alumni directory (APPROVED only)
+//   - submit: public profile submission (F-180) — the first public
+//     mutation in this codebase; every other router's mutations are
+//     admin-gated. See validators.ts's `AlumniSubmitInput` and
+//     service.ts's `submitProfile` for why this is safe to leave open.
 // Admin procedures:
 //   - adminList: all profiles (filterable by status)
 //   - adminGetById: single profile for edit
@@ -16,8 +20,8 @@
 
 import { z } from 'zod';
 
-import { bulkUpdateStatus, createProfile, deleteProfile, getById, listAdminAlumni, listPublicAlumni, updateProfile, updateStatus } from './service.js';
-import { AlumniBulkStatusUpdateInput, AlumniCreateInput, AlumniGetByIdInput, AlumniListInput, AlumniListOutput, AlumniOutput, AlumniStatusUpdateInput, AlumniUpdateInput } from './validators.js';
+import { bulkUpdateStatus, createProfile, deleteProfile, getById, listAdminAlumni, listPublicAlumni, submitProfile, updateProfile, updateStatus } from './service.js';
+import { AlumniBulkStatusUpdateInput, AlumniCreateInput, AlumniGetByIdInput, AlumniListInput, AlumniListOutput, AlumniOutput, AlumniStatusUpdateInput, AlumniSubmitInput, AlumniSubmitOutput, AlumniUpdateInput } from './validators.js';
 import { adminMutation, adminOnlyMutation, adminProcedure, publicProcedure, router } from '../../trpc.js';
 
 export const alumniRouter = router({
@@ -25,6 +29,11 @@ export const alumniRouter = router({
     .input(AlumniListInput.omit({ status: true }))
     .output(AlumniListOutput)
     .query(({ ctx, input }) => listPublicAlumni(ctx.db, input)),
+
+  submit: publicProcedure
+    .input(AlumniSubmitInput)
+    .output(AlumniSubmitOutput)
+    .mutation(({ ctx, input }) => submitProfile(ctx.db, ctx.config, input)),
 
   adminList: adminProcedure
     .input(AlumniListInput)

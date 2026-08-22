@@ -20,6 +20,14 @@ export interface AlumniStrings {
   organization: string;
   stream: string;
   quote: string;
+  // Submission form (F-180) — SubmitProfileBlock.tsx
+  name: string;
+  namePlaceholder: string;
+  graduationYearPlaceholder: string;
+  streamUnknown: string;
+  submitButton: string;
+  submitSuccess: string;
+  submitError: string;
 }
 
 export const ALUMNI_STRINGS: Record<LocaleEnumData, AlumniStrings> = {
@@ -36,6 +44,13 @@ export const ALUMNI_STRINGS: Record<LocaleEnumData, AlumniStrings> = {
     organization: 'Organization',
     stream: 'Stream',
     quote: 'Quote',
+    name: 'Full Name',
+    namePlaceholder: 'e.g. Kamal Perera',
+    graduationYearPlaceholder: 'e.g. 2020',
+    streamUnknown: '— Unknown —',
+    submitButton: 'Submit Profile',
+    submitSuccess: 'Thank you! Your profile has been submitted and will appear once reviewed.',
+    submitError: 'Failed to submit. Please try again later.',
   },
   si: {
     pageTitle: 'ආදු සිසු නාමාවලිය',
@@ -50,6 +65,13 @@ export const ALUMNI_STRINGS: Record<LocaleEnumData, AlumniStrings> = {
     organization: 'ආයතනය',
     stream: 'ධාරාව',
     quote: 'උද්ධෘතය',
+    name: 'සම්පූර්ණ නම',
+    namePlaceholder: 'උදා. කමල් පෙරේරා',
+    graduationYearPlaceholder: 'උදා. 2020',
+    streamUnknown: '— නොදනී —',
+    submitButton: 'පැතිකඩ ඉදිරිපත් කරන්න',
+    submitSuccess: 'ස්තූතියි! ඔබේ පැතිකඩ ඉදිරිපත් කර ඇති අතර සමාලෝචනයෙන් පසු දිස්වනු ඇත.',
+    submitError: 'ඉදිරිපත් කිරීම අසාර්ථක විය. කරුණාකර නැවත උත්සාහ කරන්න.',
   },
   ta: {
     pageTitle: 'முன்னாள் மாணவர் அடைவு',
@@ -64,5 +86,12 @@ export const ALUMNI_STRINGS: Record<LocaleEnumData, AlumniStrings> = {
     organization: 'நிறுவனம்',
     stream: 'பாதை',
     quote: 'மேற்கோள்',
+    name: 'முழுப்பெயர்',
+    namePlaceholder: 'எ.கா. கமல் பெரேரா',
+    graduationYearPlaceholder: 'எ.கா. 2020',
+    streamUnknown: '— தெரியவில்லை —',
+    submitButton: 'சுயவிவரத்தை சமர்ப்பிக்கவும்',
+    submitSuccess: 'நன்றி! உங்கள் சுயவிவரம் சமர்ப்பிக்கப்பட்டது, மதிப்பாய்வுக்குப் பிறகு தோன்றும்.',
+    submitError: 'சமர்ப்பிக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்.',
   },
 };

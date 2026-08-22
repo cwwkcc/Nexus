@@ -5,12 +5,13 @@
 // Was a comment-only stub with no default export at all — every request to
 // this route would have failed to build.
 
-import { SUPPORTED_LOCALES, type LocaleEnumData } from '@nexus/contracts';
+import { SUPPORTED_LOCALES, ALStreamEnum, type LocaleEnumData } from '@nexus/contracts';
 import { AlumniCard, Container, Grid, Hero, Text } from '@nexus/ui';
 import type { Metadata } from 'next';
 
 import { ALUMNI_STRINGS } from '../../../lib/alumni-i18n';
 import { getAlumniList, getAlumniPageChrome } from '../../../server/alumni';
+import { SubmitProfileBlock } from '../../../blocks/alumni/SubmitProfileBlock';
 
 interface AlumniPageProps {
   params: Promise<{ locale: string }>;
@@ -78,6 +79,10 @@ export default async function AlumniPage({ params, searchParams }: AlumniPagePro
                 </div>
               </div>
             )}
+          </div>
+
+          <div className="mt-space-12">
+            <SubmitProfileBlock strings={strings} streamOptions={ALStreamEnum.options} />
           </div>
         </div>
       </Container>
