@@ -36,6 +36,6 @@ export const ContentTypeKeyEnum = z.enum(CONTENT_TYPE_KEY_VALUES);
 
 export type ContentTypeKeyEnumData = z.infer<typeof ContentTypeKeyEnum>;
 
-// The schema map and renderer map over the block-type subset now live in
-// lookup.ts (BLOCK_SCHEMA_MAP, BLOCK_RENDERER_MAP). Editorial and domain
-// content types aren't mapped yet — that's the remaining TODO.
+// The schema map over the block-type subset lives in lookup.ts
+// (BLOCK_SCHEMA_MAP). Editorial and domain content types aren't mapped
+// yet — that's the remaining TODO.

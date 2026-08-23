@@ -8,7 +8,6 @@ import type { z } from 'zod';
 
 import { ContentTypeKeyEnum } from './content-type-key.ts';
 import type { PageKeyEnumData } from './page-key.ts';
-import { BLOCK_RENDERER_MAP } from '../blocks/block-registry.ts';
 import type { BlockTypeEnumData } from '../blocks/block-type.ts';
 import { AnnouncementSchema, AnthemSchema, ContactInfoSchema, CrestSchema, CtaSchema, DownloadsSchema, FaqSchema, GallerySchema, HeroSchema, KeyDatesSchema, MapSchema, MembersSchema, PhotoStripSchema, ProcessStepsSchema, QuoteSchema, ResultsDisplaySchema, RichTextBlockSchema, StatsSchema, TimelineSchema, ValuesSchema } from '../blocks/index.ts';
 import * as GlobalRegistry from './global-registry/index.ts';
@@ -117,16 +116,6 @@ export function getGlobalSectionSchemas(): Record<string, z.ZodTypeAny> {
 
 export function getContentSchema(key: BlockTypeEnumData): z.ZodTypeAny | undefined {
   return BLOCK_SCHEMA_MAP[key];
-}
-
-export function getContentTypeDefinition(key: string) {
-  const parsed = ContentTypeKeyEnum.safeParse(key);
-  if (!parsed.success) {
-    return undefined;
-  }
-  const renderer = parsed.data in BLOCK_RENDERER_MAP ? BLOCK_RENDERER_MAP[parsed.data as BlockTypeEnumData] : undefined;
-  const schema = parsed.data in BLOCK_SCHEMA_MAP ? BLOCK_SCHEMA_MAP[parsed.data as BlockTypeEnumData] : undefined;
-  return { key: parsed.data, renderer, schema };
 }
 
 export function getContentTypesByCategory(category: 'block' | 'editorial' | 'domain'): readonly string[] {

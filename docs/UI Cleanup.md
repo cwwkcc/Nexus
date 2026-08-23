@@ -23,7 +23,7 @@
 | cards         | 12      | ☐    |
 | dev           | 3       | ☐    |
 | effects       | 1       | ☐    |
-| forms         | 17      | ☐    |
+| forms         | 18      | ☐    |
 | icons         | 33      | ☐    |
 | layout        | 7       | ☐    |
 | media         | 7       | ☐    |
@@ -31,7 +31,7 @@
 | notifications | 3       | ☐    |
 | overlays      | 5       | ☐    |
 | page-states   | 7       | ☐    |
-| sections      | 9       | ☐    |
+| sections      | 8       | ☐    |
 | typography    | 7       | ☐    |
 | utilities     | 3       | ☐    |
 | visualization | 8       | ☐    |
@@ -81,8 +81,9 @@
 
 - [ ] AmbientEmbers.tsx
 
-## forms/ (17)
+## forms/ (18)
 
+- [ ] AlumniSubmitForm.tsx
 - [ ] Calendar.tsx
 - [ ] Checkbox.tsx
 - [ ] ContactForm.tsx
@@ -197,14 +198,13 @@
 - [ ] NotFound.tsx
 - [ ] OfflineBanner.tsx
 
-## sections/ (9)
+## sections/ (8)
 
 - [ ] AchievementTicker.tsx
-- [ ] AdmissionsKeyDatesTimeline.tsx
-- [ ] AdmissionsProcessSteps.tsx
-- [ ] AlumniLegacyBlock.tsx
-- [ ] LifeAtKCCPhotoStrip.tsx
-- [ ] PrincipalMessage.tsx
+- [ ] CategorizedPhotoStrip.tsx
+- [ ] LeaderMessage.tsx
+- [ ] MilestoneTimeline.tsx
+- [ ] ProfileCarousel.tsx
 - [ ] SectionSlider.tsx
 - [ ] StatsStrip.tsx
 - [ ] Timeline.tsx
