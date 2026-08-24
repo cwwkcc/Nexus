@@ -58,6 +58,10 @@ export const getFeaturedNews = cache(async (locale: LocaleEnumData, limit = 3) =
   return createServerCaller().news.getFeatured({ locale, limit });
 });
 
+export const getPinnedNews = cache(async (locale: LocaleEnumData) => {
+  return createServerCaller().news.getPinned({ locale });
+});
+
 export const getRelatedNews = cache(async (locale: LocaleEnumData, excludeId: string, category: string, limit = 3) => {
   return createServerCaller().news.getRelated({ locale, excludeId, category: category as never, limit });
 });
