@@ -11,7 +11,7 @@ import type { Metadata } from 'next';
 
 import { toArticleCard } from '../../../lib/news-card';
 import { NEWS_STRINGS } from '../../../lib/news-i18n';
-import { getNewsListing, getNewsPageChrome } from '../../../server/news';
+import { getNewsListing, getNewsPageChrome, getPinnedNews } from '../../../server/news';
 import { NewsListingControls } from './NewsListingControls';
 
 interface NewsPageProps {
@@ -47,7 +47,16 @@ export default async function NewsPage({ params, searchParams }: NewsPageProps) 
   const category = firstValue(query.category) ?? 'all';
   const search = firstValue(query.q) ?? '';
 
-  const [{ hero, announcement }, listing] = await Promise.all([getNewsPageChrome(safeLocale), getNewsListing({ locale: safeLocale, page, category: category === 'all' ? undefined : category, query: search || undefined })]);
+  // The pinned hero only makes sense on the plain, unfiltered first page —
+  // once the visitor has filtered, searched, or paged past it, showing an
+  // unrelated pinned article above their results would just be noise.
+  const showPinned = category === 'all' && page === 1 && !search;
+
+  const [{ hero, announcement }, listing, pinned] = await Promise.all([getNewsPageChrome(safeLocale), getNewsListing({ locale: safeLocale, page, category: category === 'all' ? undefined : category, query: search || undefined }), showPinned ? getPinnedNews(safeLocale) : Promise.resolve(null)]);
+
+  // Pinned article gets its own hero slot above the feed, so it's excluded
+  // from the grid rather than appearing twice.
+  const gridItems = pinned ? listing.items.filter((item) => item.id !== pinned.id) : listing.items;
 
   return (
     <>
@@ -55,16 +64,24 @@ export default async function NewsPage({ params, searchParams }: NewsPageProps) 
       <Hero variant="subpage" heading={hero.title} eyebrow={hero.eyebrow} subheading={hero.subtitle} breadcrumb={[{ label: 'Home', href: `/${safeLocale}` }, { label: strings.pageTitle }]} />
 
       <Container size="lg" padding="lg" as="section">
+        {pinned && (
+          <div className="mb-space-10">
+            <NewsCard {...toArticleCard(pinned, safeLocale, 'featured')} readMoreLabel={strings.readMore} />
+          </div>
+        )}
+
         <NewsListingControls locale={safeLocale} strings={strings} currentCategory={category} currentQuery={search} page={listing.pagination.page} totalPages={listing.pagination.totalPages} />
 
-        {listing.items.length === 0 ? (
-          <Text color="muted" className="py-space-12 text-center">
-            {strings.noResults}
-          </Text>
+        {gridItems.length === 0 ? (
+          pinned ? null : (
+            <Text color="muted" className="py-space-12 text-center">
+              {strings.noResults}
+            </Text>
+          )
         ) : (
           <Grid columns="repeat(auto-fit, minmax(300px, 1fr))" gap={7} className="mt-space-8">
-            {listing.items.map((article) => (
-              <NewsCard key={article.id} {...toArticleCard(article, safeLocale, article.featured ? 'featured' : 'standard')} readMoreLabel={strings.readMore} />
+            {gridItems.map((article) => (
+              <NewsCard key={article.id} {...toArticleCard(article, safeLocale, 'standard')} readMoreLabel={strings.readMore} />
             ))}
           </Grid>
         )}
