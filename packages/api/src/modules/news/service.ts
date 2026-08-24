@@ -23,6 +23,14 @@
 //     getRelated (F-144 "related articles"), getById (admin edit-by-id),
 //     and bulkSetStatus (admin bulk actions, F-164).
 //
+// Pinned/featured-hero enforcement (F-143's "Featured Article" section):
+// createArticle/updateArticle now unset any other featured: true row in the
+// same locale inside the same transaction as the write, so at most one
+// article can hold the listing page's hero slot per locale at a time.
+// getPinned reads that slot; see its own doc comment for how it differs
+// from getFeatured below, which is a different thing that happens to share
+// the word "featured".
+//
 // Unlike ContentEntry, a NewsArticle row is not itself a translation of one
 // canonical entry — each locale's article is authored independently, so
 // there's no English-first fallback here the way contentService.getByScope
@@ -35,7 +43,7 @@ import { Prisma, type db as Db } from '@nexus/db';
 import type { z } from 'zod';
 
 import { newsErrors } from './errors.js';
-import type { NewsArticleCreateInput, NewsArticleUpdateInput, NewsBulkStatusUpdateInput, NewsBySlugInput, NewsCategoryInput, NewsFeaturedInput, NewsGetByIdInput, NewsListInput, NewsRelatedInput, NewsStatusUpdateInput } from './validators.js';
+import type { NewsArticleCreateInput, NewsArticleUpdateInput, NewsBulkStatusUpdateInput, NewsBySlugInput, NewsCategoryInput, NewsFeaturedInput, NewsGetByIdInput, NewsListInput, NewsPinnedInput, NewsRelatedInput, NewsStatusUpdateInput } from './validators.js';
 import type { ApiConfig } from '../../config.js';
 
 export type NewsListQuery = z.infer<typeof NewsListInput>;
@@ -47,6 +55,7 @@ export type NewsBySlug = z.infer<typeof NewsBySlugInput>;
 export type NewsGetById = z.infer<typeof NewsGetByIdInput>;
 export type NewsFeaturedQuery = z.infer<typeof NewsFeaturedInput>;
 export type NewsRelatedQuery = z.infer<typeof NewsRelatedInput>;
+export type NewsPinnedQuery = z.infer<typeof NewsPinnedInput>;
 
 type NewsArticleRow = Awaited<ReturnType<typeof Db.newsArticle.findFirstOrThrow>>;
 
@@ -168,6 +177,27 @@ export async function getFeatured(db: typeof Db, input: NewsFeaturedQuery) {
   }
 }
 
+/** F-143 "Featured Article" hero slot on the listing page — the one
+ * published article currently pinned via the `featured` flag, or null if
+ * none is. Independent of getFeatured above: that's the home page's "N
+ * most recent" and never looks at this flag. The shared word "featured" is
+ * an unfortunate naming collision between two different concepts, not the
+ * same mechanism used twice. orderBy is a defensive tiebreaker only —
+ * normal operation should never have more than one row with featured: true
+ * per locale, see createArticle/updateArticle. */
+export async function getPinned(db: typeof Db, input: NewsPinnedQuery) {
+  try {
+    const article = await db.newsArticle.findFirst({
+      where: { locale: input.locale, status: 'published', featured: true },
+      orderBy: [{ publishedAt: 'desc' }, { createdAt: 'desc' }],
+    });
+    return article ? serialize(article) : null;
+  } catch (err) {
+    console.error('[newsService.getPinned] falling back to null —', err);
+    return null;
+  }
+}
+
 /** F-144 "related articles" — same category, published, excluding the
  * current article, most recent first. */
 export async function getRelated(db: typeof Db, input: NewsRelatedQuery) {
@@ -206,7 +236,14 @@ export async function createArticle(db: typeof Db, config: ApiConfig, input: New
 
   let article;
   try {
-    article = await db.newsArticle.create({ data: payload });
+    if (input.featured) {
+      // Only one article can hold the pinned/hero slot per locale — unset
+      // whoever currently holds it in the same transaction as the insert.
+      const [, created] = await db.$transaction([db.newsArticle.updateMany({ where: { locale: input.locale, featured: true }, data: { featured: false } }), db.newsArticle.create({ data: payload })]);
+      article = created;
+    } else {
+      article = await db.newsArticle.create({ data: payload });
+    }
   } catch (err) {
     if (err instanceof Prisma.PrismaClientKnownRequestError && (err as Prisma.PrismaClientKnownRequestError).code === 'P2002') {
       throw newsErrors.slugConflict(input.locale, input.slug);
@@ -236,7 +273,12 @@ export async function updateArticle(db: typeof Db, config: ApiConfig, input: New
 
   let article;
   try {
-    article = await db.newsArticle.update({ where: { id }, data: payload });
+    if (rest.featured) {
+      const [, updated] = await db.$transaction([db.newsArticle.updateMany({ where: { locale: rest.locale, featured: true, id: { not: id } }, data: { featured: false } }), db.newsArticle.update({ where: { id }, data: payload })]);
+      article = updated;
+    } else {
+      article = await db.newsArticle.update({ where: { id }, data: payload });
+    }
   } catch (err) {
     if (err instanceof Prisma.PrismaClientKnownRequestError && (err as Prisma.PrismaClientKnownRequestError).code === 'P2025') {
       throw newsErrors.notFound(id);

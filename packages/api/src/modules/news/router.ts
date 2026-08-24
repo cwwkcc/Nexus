@@ -10,8 +10,8 @@
 //   - create/update split onto NewsArticleCreateInput/NewsArticleUpdateInput
 //     instead of sharing one NewsArticleInput — see validators.ts's note.
 
-import { bulkUpdateStatus, createArticle, getById, getBySlug, getFeatured, getRelated, listNews, updateArticle, updateStatus } from './service.js';
-import { NewsArticleCreateInput, NewsArticleOutput, NewsArticleUpdateInput, NewsBulkStatusUpdateInput, NewsBySlugInput, NewsFeaturedInput, NewsGetByIdInput, NewsListInput, NewsListOutput, NewsRelatedInput, NewsStatusUpdateInput } from './validators.js';
+import { bulkUpdateStatus, createArticle, getById, getBySlug, getFeatured, getPinned, getRelated, listNews, updateArticle, updateStatus } from './service.js';
+import { NewsArticleCreateInput, NewsArticleOutput, NewsArticleUpdateInput, NewsBulkStatusUpdateInput, NewsBySlugInput, NewsFeaturedInput, NewsGetByIdInput, NewsListInput, NewsListOutput, NewsPinnedInput, NewsRelatedInput, NewsStatusUpdateInput } from './validators.js';
 import { adminMutation, adminProcedure, publicProcedure, router } from '../../trpc.js';
 
 export const newsRouter = router({
@@ -29,6 +29,11 @@ export const newsRouter = router({
     .input(NewsFeaturedInput)
     .output(NewsArticleOutput.array())
     .query(({ ctx, input }) => getFeatured(ctx.db, input)),
+
+  getPinned: publicProcedure
+    .input(NewsPinnedInput)
+    .output(NewsArticleOutput.nullable())
+    .query(({ ctx, input }) => getPinned(ctx.db, input)),
 
   getRelated: publicProcedure
     .input(NewsRelatedInput)

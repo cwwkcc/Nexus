@@ -130,3 +130,8 @@ export const NewsRelatedInput = z.object({
   category: NewsCategoryInput,
   limit: z.number().int().min(1).max(12).default(3),
 });
+
+/** F-143 "Featured Article" hero slot — see service.ts's getPinned. */
+export const NewsPinnedInput = z.object({
+  locale: LocaleEnum,
+});
