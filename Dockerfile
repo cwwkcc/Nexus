@@ -11,7 +11,6 @@ RUN pnpm install --frozen-lockfile --ignore-scripts
 
 RUN pnpm --filter @nexus/db exec prisma generate
 
-# All five internal packages now build the same way — no special cases.
 RUN pnpm --filter @nexus/tokens build
 RUN pnpm --filter @nexus/contracts build
 RUN pnpm --filter @nexus/env build
