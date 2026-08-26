@@ -79,7 +79,11 @@ test.describe('News module', () => {
         .check();
     }
 
-    await page.getByRole('button', { name: 'Publish' }).click();
+    // Scoped to the bulk-action toolbar specifically — every selected row
+    // here is a fresh draft, so each also has its own row-level "Publish"
+    // button; an unscoped page-wide locator matches more than one element.
+    const bulkBar = page.getByRole('toolbar', { name: 'Bulk actions' });
+    await bulkBar.getByRole('button', { name: 'Publish' }).click();
 
     for (const title of titles) {
       await expect(page.getByRole('row', { name: new RegExp(title) }).getByText('Published', { exact: true })).toBeVisible();
@@ -92,6 +96,6 @@ test.describe('News module', () => {
         .getByRole('checkbox')
         .check();
     }
-    await page.getByRole('button', { name: 'Archive' }).click();
+    await bulkBar.getByRole('button', { name: 'Archive' }).click();
   });
 });
