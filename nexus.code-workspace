@@ -9,6 +9,10 @@
       "path": "apps/admin",
     },
     {
+      "name": "MIGRATE",
+      "path": "apps/migrate",
+    },
+    {
       "name": "API",
       "path": "packages/api",
     },
@@ -39,6 +43,10 @@
     {
       "name": "UI",
       "path": "packages/ui",
+    },
+    {
+      "name": "INFRA",
+      "path": "infra/",
     },
     {
       "name": "DOCS",
