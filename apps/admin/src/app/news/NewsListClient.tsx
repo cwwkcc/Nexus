@@ -2,11 +2,13 @@
 
 // apps/admin/src/app/news/NewsListClient.tsx
 //
-// F-164: status badges, search, category/date filter, bulk actions. Search
-// and category/status filters push into the URL (?q=&category=&status=&
-// page=) so the server component re-fetches via caller.news.adminList —
-// real server-side pagination, not a client-side slice-of-100 pretending
-// to paginate.
+// F-164: status badges, search, category/date filter, bulk actions. Search,
+// category/status filters, and the date range push into the URL (?q=&
+// category=&status=&dateFrom=&dateTo=&page=) so the server component
+// re-fetches via caller.news.adminList — real server-side pagination, not
+// a client-side slice-of-100 pretending to paginate. The date range
+// filters on `updatedAt` (see validators.ts's NewsListInput) rather than
+// publishedAt, so it applies to drafts too, not just published articles.
 
 import { LOCALE_LABELS, NEWS_CATEGORIES, SUPPORTED_LOCALES, type LocaleEnumData } from '@nexus/contracts';
 import { Badge, Button, Input, Pagination, Select } from '@nexus/ui';
@@ -33,9 +35,11 @@ interface NewsListClientProps {
   currentStatus: string;
   currentCategory: string;
   currentLocale: LocaleEnumData;
+  currentDateFrom: string;
+  currentDateTo: string;
 }
 
-export function NewsListClient({ articles, pagination, currentQuery, currentStatus, currentCategory, currentLocale }: NewsListClientProps) {
+export function NewsListClient({ articles, pagination, currentQuery, currentStatus, currentCategory, currentLocale, currentDateFrom, currentDateTo }: NewsListClientProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
@@ -110,6 +114,8 @@ export function NewsListClient({ articles, pagination, currentQuery, currentStat
         </form>
         <Select label="Category" options={categoryOptions} value={currentCategory} onChange={(e) => pushParams({ category: e.target.value })} className="w-full md:w-56" />
         <Select label="Status" options={statusOptions} value={currentStatus} onChange={(e) => pushParams({ status: e.target.value })} className="w-full md:w-48" />
+        <Input label="From" type="date" value={currentDateFrom} onChange={(e) => pushParams({ dateFrom: e.target.value })} className="w-full md:w-40" />
+        <Input label="To" type="date" value={currentDateTo} onChange={(e) => pushParams({ dateTo: e.target.value })} className="w-full md:w-40" />
         <Select label="Language" options={localeOptions} value={currentLocale} onChange={(e) => pushParams({ locale: e.target.value })} className="w-full md:w-40" />
         <Button type="button" variant="secondary" onClick={() => router.push('/news/new')}>
           New article
@@ -123,7 +129,7 @@ export function NewsListClient({ articles, pagination, currentQuery, currentStat
       )}
 
       {selected.size > 0 && (
-        <div className="gap-space-3 border-border-default bg-surface-default px-space-4 py-space-3 flex flex-wrap items-center rounded-md border">
+        <div role="toolbar" aria-label="Bulk actions" className="gap-space-3 border-border-default bg-surface-default px-space-4 py-space-3 flex flex-wrap items-center rounded-md border">
           <span className="text-label text-text-primary">{selected.size} selected</span>
           <Button size="sm" variant="secondary" onClick={() => runBulk('published')}>
             Publish

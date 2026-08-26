@@ -24,6 +24,8 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
   const status = (firstValue(params.status) ?? 'all') as 'all' | 'draft' | 'published' | 'archived';
   const category = (firstValue(params.category) ?? 'all') as 'all' | string;
   const query = firstValue(params.q) ?? '';
+  const dateFrom = firstValue(params.dateFrom) ?? '';
+  const dateTo = firstValue(params.dateTo) ?? '';
   const rawLocale = firstValue(params.locale) ?? 'en';
   const locale = (SUPPORTED_LOCALES as readonly string[]).includes(rawLocale) ? (rawLocale as LocaleEnumData) : 'en';
 
@@ -36,11 +38,13 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- narrowed to the real NewsCategoryInput enum by the router's own Zod validation; a bad value from the URL is simply rejected rather than silently coerced.
     category: category as any,
     query,
+    dateFrom: dateFrom || undefined,
+    dateTo: dateTo || undefined,
   });
 
   return (
     <AdminShell title="News">
-      <NewsListClient articles={items} pagination={{ page: pagination.page, totalPages: pagination.totalPages }} currentQuery={query} currentStatus={status} currentCategory={category} currentLocale={locale} />
+      <NewsListClient articles={items} pagination={{ page: pagination.page, totalPages: pagination.totalPages }} currentQuery={query} currentStatus={status} currentCategory={category} currentLocale={locale} currentDateFrom={dateFrom} currentDateTo={dateTo} />
     </AdminShell>
   );
 }

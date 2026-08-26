@@ -46,6 +46,13 @@ export const NewsListInput = PageInputSchema.extend({
     .optional()
     .default('all'),
   query: z.string().trim().max(200).optional(),
+  /** F-164 admin list "filter by category and date" — filters on
+   * `updatedAt`, not `publishedAt`: drafts have no publishedAt and would
+   * otherwise disappear from a date-filtered view with no visible reason
+   * why. Plain YYYY-MM-DD, matching <input type="date">'s native value
+   * format. */
+  dateFrom: z.string().date().optional(),
+  dateTo: z.string().date().optional(),
 });
 
 const NewsArticleFields = {

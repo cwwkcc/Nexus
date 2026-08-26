@@ -89,7 +89,7 @@ function emptyPage(page: number, pageSize: number) {
  * contentService.getByScope/adminGetByScope, a read degrades to an empty
  * result on DB failure rather than 500ing the news page or admin list. */
 export async function listNews(db: typeof Db, input: NewsListQuery) {
-  const { locale, query, status, category, page, pageSize } = input;
+  const { locale, query, status, category, page, pageSize, dateFrom, dateTo } = input;
 
   const where: Record<string, unknown> = { locale };
 
@@ -99,6 +99,13 @@ export async function listNews(db: typeof Db, input: NewsListQuery) {
 
   if (category && category !== 'all') {
     where.category = category;
+  }
+
+  if (dateFrom || dateTo) {
+    where.updatedAt = {
+      ...(dateFrom ? { gte: new Date(`${dateFrom}T00:00:00.000Z`) } : {}),
+      ...(dateTo ? { lte: new Date(`${dateTo}T23:59:59.999Z`) } : {}),
+    };
   }
 
   if (query && query.trim()) {
