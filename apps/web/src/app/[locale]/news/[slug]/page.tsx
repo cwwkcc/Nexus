@@ -58,12 +58,16 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
   return {
     title: `${article.title} — C.W.W. Kannangara Central College`,
     description,
+    // No `images` here: this segment has its own opengraph-image.tsx, and
+    // Next.js's file-convention route already generates the og:image tag
+    // for it. Setting images here too used to point social shares at the
+    // raw uploaded cover photo instead of the branded template — two
+    // uncoordinated sources for the same tag, whichever Next.js picked.
     openGraph: {
       title: article.title,
       description,
       type: 'article',
       publishedTime: article.publishedAt ?? undefined,
-      images: article.imageUrl ? [{ url: article.imageUrl }] : undefined,
     },
   };
 }
