@@ -24,6 +24,7 @@ const categoryOptions = [{ value: 'all', label: 'All categories' }, ...Object.en
 const statusOptions = [
   { value: 'all', label: 'All statuses' },
   { value: 'draft', label: 'Draft' },
+  { value: 'review', label: 'In Review' },
   { value: 'published', label: 'Published' },
   { value: 'archived', label: 'Archived' },
 ];
@@ -131,6 +132,9 @@ export function NewsListClient({ articles, pagination, currentQuery, currentStat
       {selected.size > 0 && (
         <div role="toolbar" aria-label="Bulk actions" className="gap-space-3 border-border-default bg-surface-default px-space-4 py-space-3 flex flex-wrap items-center rounded-md border">
           <span className="text-label text-text-primary">{selected.size} selected</span>
+          <Button size="sm" variant="secondary" onClick={() => runBulk('review')}>
+            Submit for review
+          </Button>
           <Button size="sm" variant="secondary" onClick={() => runBulk('published')}>
             Publish
           </Button>
@@ -183,7 +187,12 @@ export function NewsListClient({ articles, pagination, currentQuery, currentStat
                         <Button size="sm" variant="ghost" onClick={() => router.push(`/news/${article.id}`)}>
                           Edit
                         </Button>
-                        {article.status !== 'published' && (
+                        {article.status === 'draft' && (
+                          <Button size="sm" variant="ghost" onClick={() => runRowAction(article.id, 'review')}>
+                            Submit for Review
+                          </Button>
+                        )}
+                        {article.status === 'review' && (
                           <Button size="sm" variant="ghost" onClick={() => runRowAction(article.id, 'published')}>
                             Publish
                           </Button>

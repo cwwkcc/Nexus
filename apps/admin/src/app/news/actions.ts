@@ -19,6 +19,7 @@ import { TRPCError } from '@trpc/server';
 import { revalidatePath } from 'next/cache';
 
 import { getServerCaller } from '../../lib/server-caller.js';
+import type { NewsStatus } from '../../lib/news.js';
 
 export type ActionResult<T = undefined> = { ok: true; data: T } | { ok: false; error: string };
 
@@ -30,7 +31,7 @@ export interface NewsArticleFormInput {
   content: unknown;
   category: string;
   author?: string | null;
-  status: 'draft' | 'published' | 'archived';
+  status: NewsStatus;
   featured: boolean;
   imageUrl?: string | null;
   publishedAt?: string | null;
@@ -71,7 +72,7 @@ export async function updateNewsArticle(id: string, input: NewsArticleFormInput)
   }
 }
 
-export async function setNewsArticleStatus(id: string, status: 'draft' | 'published' | 'archived'): Promise<ActionResult> {
+export async function setNewsArticleStatus(id: string, status: NewsStatus): Promise<ActionResult> {
   try {
     const caller = await getServerCaller();
     await caller.news.setStatus({ id, status });
@@ -82,7 +83,7 @@ export async function setNewsArticleStatus(id: string, status: 'draft' | 'publis
   }
 }
 
-export async function bulkSetNewsArticleStatus(ids: string[], status: 'draft' | 'published' | 'archived'): Promise<ActionResult> {
+export async function bulkSetNewsArticleStatus(ids: string[], status: NewsStatus): Promise<ActionResult> {
   try {
     const caller = await getServerCaller();
     await caller.news.bulkSetStatus({ ids, status });

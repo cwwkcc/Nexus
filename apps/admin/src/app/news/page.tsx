@@ -21,7 +21,7 @@ function firstValue(value: string | string[] | undefined): string | undefined {
 export default async function NewsPage({ searchParams }: NewsPageProps) {
   const params = await searchParams;
   const page = Number(firstValue(params.page) ?? '1') || 1;
-  const status = (firstValue(params.status) ?? 'all') as 'all' | 'draft' | 'published' | 'archived';
+  const status = (firstValue(params.status) ?? 'all') as 'all' | 'draft' | 'review' | 'published' | 'archived';
   const category = (firstValue(params.category) ?? 'all') as 'all' | string;
   const query = firstValue(params.q) ?? '';
   const dateFrom = firstValue(params.dateFrom) ?? '';

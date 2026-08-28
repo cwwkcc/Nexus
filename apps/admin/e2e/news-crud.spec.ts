@@ -51,8 +51,13 @@ test.describe('News module', () => {
     await expect(page).toHaveURL('/news');
     await expect(page.getByText(updatedTitle)).toBeVisible();
 
-    // Publish via the row action
+    // Submit for review, then publish — a draft's row action is now
+    // "Submit for Review", not a direct-to-published shortcut, now that
+    // News has its own draft → review → published → archived workflow.
     const updatedRow = page.getByRole('row', { name: new RegExp(updatedTitle) });
+    await updatedRow.getByRole('button', { name: 'Submit for Review' }).click();
+    await expect(updatedRow.getByText('In Review', { exact: true })).toBeVisible();
+
     await updatedRow.getByRole('button', { name: 'Publish' }).click();
     await expect(updatedRow.getByText('Published', { exact: true })).toBeVisible();
 
@@ -79,9 +84,11 @@ test.describe('News module', () => {
         .check();
     }
 
-    // Scoped to the bulk-action toolbar specifically — every selected row
-    // here is a fresh draft, so each also has its own row-level "Publish"
-    // button; an unscoped page-wide locator matches more than one element.
+    // Scoped to the bulk-action toolbar specifically: a fresh draft's own
+    // row action is "Submit for Review" now, not "Publish", but any
+    // review-status article already in the list still has its own
+    // row-level "Publish" button — an unscoped page-wide locator risks
+    // matching more than one element either way.
     const bulkBar = page.getByRole('toolbar', { name: 'Bulk actions' });
     await bulkBar.getByRole('button', { name: 'Publish' }).click();
 

@@ -25,6 +25,7 @@ const categoryOptions = Object.entries(NEWS_CATEGORIES).map(([value, label]) => 
 const localeOptions = SUPPORTED_LOCALES.map((value) => ({ value, label: LOCALE_LABELS[value] }));
 const statusOptions: Array<{ value: NewsStatus; label: string }> = [
   { value: 'draft', label: 'Draft' },
+  { value: 'review', label: 'In Review' },
   { value: 'published', label: 'Published' },
   { value: 'archived', label: 'Archived' },
 ];
@@ -135,6 +136,24 @@ export function NewsForm({ mode, initial }: NewsFormProps) {
       />
 
       <Textarea label="Excerpt" value={excerpt} onChange={(e) => setExcerpt(e.target.value)} rows={2} helperText="Short summary shown on the listing page and in link previews (up to 280 characters)." />
+
+      {/* F-164 "SEO preview" — a read-only mockup of Title/Slug/Excerpt, not
+          a separate data field: the real NewsArticle model dropped the old
+          deprecated schema's `seo` override object in M3, so title/excerpt
+          already *are* the meta title/description (see [slug]/page.tsx's
+          generateMetadata) — nothing else to preview against. The domain
+          below is a plain display string, not resolved from an env var —
+          the admin app has no NEXT_PUBLIC_SITE_URL of its own the way the
+          web app's clientEnv does, and this is illustrative only, never a
+          real link. */}
+      <div className="flex flex-col gap-space-1 rounded-md border border-border-default bg-surface-default p-space-4">
+        <span className="font-body text-label uppercase tracking-label text-text-muted">Search preview</span>
+        <span className="truncate font-body text-body text-semantic-info-base">{title.trim() ? `${title.trim()} — C.W.W. Kannangara Central College` : 'C.W.W. Kannangara Central College'}</span>
+        <span className="font-body text-caption text-text-muted">
+          cwwkcc.lk/{locale}/news/{slug ? slugify(slug) : 'your-slug-here'}
+        </span>
+        <span className="line-clamp-2 font-body text-caption text-text-muted">{excerpt.trim() || 'No excerpt yet — search engines will generate a snippet automatically instead.'}</span>
+      </div>
 
       <div className="flex flex-col gap-space-2">
         <label className="font-body text-label uppercase tracking-label text-text-primary">
