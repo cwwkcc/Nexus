@@ -4,7 +4,7 @@ import { ElementType } from 'react';
 
 import { cn } from '../../utilities/cn';
 
-type BadgeStatus = 'draft' | 'published' | 'archived' | 'unread' | 'reviewed';
+type BadgeStatus = 'draft' | 'review' | 'published' | 'archived' | 'unread' | 'reviewed';
 type BadgeVariant = 'category' | 'status' | 'achievement';
 
 // Discriminated union for better type safety
@@ -31,6 +31,7 @@ const variantStyles: Record<Exclude<BadgeVariant, 'status'>, string> = {
 
 const statusStyles: Record<BadgeStatus, string> = {
   draft: 'bg-semantic-warning-surface text-semantic-warning-base',
+  review: 'bg-semantic-info-surface text-semantic-info-base',
   published: 'bg-semantic-success-surface text-semantic-success-base',
   archived: 'bg-surface-default text-text-muted',
   unread: 'bg-semantic-info-surface text-semantic-info-base',
@@ -39,6 +40,7 @@ const statusStyles: Record<BadgeStatus, string> = {
 
 const statusLabels: Record<BadgeStatus, string> = {
   draft: 'Draft',
+  review: 'In Review',
   published: 'Published',
   archived: 'Archived',
   unread: 'Unread',
