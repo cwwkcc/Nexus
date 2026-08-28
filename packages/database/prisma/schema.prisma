@@ -67,6 +67,19 @@ model SiteSetting {
   @@id([key, locale])
 }
 
+/// F-164's admin workflow calls for an editorial review step
+/// (draft → review → published → archived) that's News-specific — nothing
+/// else on the platform asked for one (see EventDetail's status field,
+/// which explicitly does not), so this extends ContentStatus's vocabulary
+/// with one more state rather than adding "review" to the shared enum
+/// every other content type also reuses.
+enum NewsStatus {
+  draft
+  review
+  published
+  archived
+}
+
 model NewsArticle {
   id          String    @id @default(cuid())
   locale      Locale
@@ -85,7 +98,7 @@ model NewsArticle {
   // relation to User, since most articles are attributed to a group or a
   // non-admin-panel staff member, not necessarily a system account holder.
   author      String?
-  status      ContentStatus @default(draft)
+  status      NewsStatus @default(draft)
   featured    Boolean   @default(false)
   imageUrl    String?
   publishedAt DateTime?
@@ -374,7 +387,9 @@ model EventDetail {
 
   /// F-166: "Status workflow (draft → published → archived) applies to the
   /// EventDetail half only; a calendar-only entry has no publish state of
-  /// its own." Reuses ContentStatus, the same enum NewsArticle.status uses.
+  /// its own." Reuses the shared ContentStatus (draft/published/archived) —
+  /// unlike NewsArticle, which moved to its own 4-state NewsStatus once
+  /// F-164 called for a News-only editorial review step.
   status ContentStatus @default(draft)
 
   createdAt DateTime @default(now())
