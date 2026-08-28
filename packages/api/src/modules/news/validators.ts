@@ -35,12 +35,12 @@
 import { LocaleEnum, NewsCategorySchema, PageInputSchema, PaginationMetaSchema, TiptapNodeSchema } from '@nexus/contracts';
 import { z } from 'zod';
 
-export const NewsStatusInput = z.enum(['draft', 'published', 'archived']);
+export const NewsStatusInput = z.enum(['draft', 'review', 'published', 'archived']);
 export const NewsCategoryInput = NewsCategorySchema;
 
 export const NewsListInput = PageInputSchema.extend({
   locale: LocaleEnum,
-  status: z.enum(['all', 'draft', 'published', 'archived']).optional().default('all'),
+  status: z.enum(['all', 'draft', 'review', 'published', 'archived']).optional().default('all'),
   category: z
     .union([NewsCategoryInput, z.literal('all')])
     .optional()
