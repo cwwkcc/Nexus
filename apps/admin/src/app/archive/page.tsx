@@ -26,6 +26,7 @@ export default async function ArchivePage({ searchParams }: ArchivePageProps) {
   const archive = await caller.archive.adminList({
     category: category === 'all' ? undefined : (category as 'photograph' | 'magazine' | 'prize_giving_record' | 'prefect_list'),
     year: year || undefined,
+    query: query || undefined,
   });
 
   return (

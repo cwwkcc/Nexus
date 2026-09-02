@@ -26,6 +26,7 @@ export default async function AchievementsPage({ searchParams }: AchievementsPag
   const achievements = await caller.achievements.adminList({
     category: category === 'all' ? undefined : (category as 'academic' | 'sports' | 'cultural' | 'other'),
     year: year || undefined,
+    query: query || undefined,
   });
 
   return (
