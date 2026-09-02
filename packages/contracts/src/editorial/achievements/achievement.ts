@@ -25,6 +25,25 @@ export const AchievementLevel = z.enum(['national', 'provincial', 'district', 's
 
 export const AchievementCategory = z.enum(['academic', 'sports', 'cultural', 'other']);
 
+// Display labels — shared so admin and public consumers show the same
+// formatted text instead of the raw enum value. Matches
+// domains/archive/archive.ts's ARCHIVE_CATEGORY_LABELS pattern; previously
+// apps/admin/src/lib/achievements.ts declared its own local copy of the
+// category one and the web app had no equivalent at all.
+export const ACHIEVEMENT_CATEGORY_LABELS: Record<z.infer<typeof AchievementCategory>, string> = {
+  academic: 'Academic',
+  sports: 'Sports',
+  cultural: 'Cultural',
+  other: 'Other',
+};
+
+export const ACHIEVEMENT_LEVEL_LABELS: Record<z.infer<typeof AchievementLevel>, string> = {
+  national: 'National',
+  provincial: 'Provincial',
+  district: 'District',
+  school: 'School',
+};
+
 // The full entity — CMS/admin CRUD and database storage.
 export const AchievementSchema = z.object({
   id: z.string(),
