@@ -12,6 +12,9 @@ import { ArchiveCategory, ArchiveInputSchema, ArchiveOutputSchema, ArchiveUpdate
 export const ArchiveListInput = z.object({
   category: ArchiveCategory.optional(),
   year: z.string().optional(),
+  /** Same fix as achievements/validators.ts's AchievementListInput.query —
+   * see its comment. */
+  query: z.string().trim().optional(),
   page: z.number().int().positive().default(1),
   pageSize: z.number().int().positive().max(100).default(20),
 });

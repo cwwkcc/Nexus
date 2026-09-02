@@ -51,7 +51,7 @@ function emptyPage(page: number, pageSize: number) {
  * degrades to an empty result on DB failure rather than 500ing the database
  * or admin list. */
 export async function listAchievements(db: typeof Db, input: AchievementListQuery) {
-  const { category, year, page, pageSize } = input;
+  const { category, year, query, page, pageSize } = input;
 
   const where: Record<string, unknown> = {};
 
@@ -61,6 +61,10 @@ export async function listAchievements(db: typeof Db, input: AchievementListQuer
 
   if (year) {
     where.date = { startsWith: year };
+  }
+
+  if (query) {
+    where.title = { contains: query, mode: 'insensitive' };
   }
 
   try {

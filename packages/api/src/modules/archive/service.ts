@@ -54,7 +54,7 @@ function emptyPage(page: number, pageSize: number) {
  * degrades to an empty result on DB failure rather than 500ing the archive
  * or admin list. */
 export async function listArchive(db: typeof Db, input: ArchiveListQuery) {
-  const { category, year, page, pageSize } = input;
+  const { category, year, query, page, pageSize } = input;
 
   const where: Record<string, unknown> = {};
 
@@ -64,6 +64,10 @@ export async function listArchive(db: typeof Db, input: ArchiveListQuery) {
 
   if (year) {
     where.year = year;
+  }
+
+  if (query) {
+    where.title = { contains: query, mode: 'insensitive' };
   }
 
   try {

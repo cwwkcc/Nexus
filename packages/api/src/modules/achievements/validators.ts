@@ -12,6 +12,11 @@ import { AchievementCategory, AchievementInputSchema, AchievementOutputSchema, A
 export const AchievementListInput = z.object({
   category: AchievementCategory.optional(),
   year: z.string().optional(),
+  /** The admin search box and public page both send this — was captured
+   * from the URL and displayed in the search input, but never actually
+   * reached this schema or the query, so typing a search term silently
+   * did nothing. */
+  query: z.string().trim().optional(),
   page: z.number().int().positive().default(1),
   pageSize: z.number().int().positive().max(100).default(20),
 });
