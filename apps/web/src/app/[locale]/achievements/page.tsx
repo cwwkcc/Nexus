@@ -4,10 +4,11 @@
 // Filterable by year and category. Was a comment-only stub with no default
 // export at all — every request to this route would have failed to build.
 
-import { SUPPORTED_LOCALES, type LocaleEnumData } from '@nexus/contracts';
+import { SUPPORTED_LOCALES, ACHIEVEMENT_CATEGORY_LABELS, type LocaleEnumData } from '@nexus/contracts';
 import { AchievementCard, Container, Grid, Hero, Text } from '@nexus/ui';
 import type { Metadata } from 'next';
 
+import { AchievementsPagination } from './AchievementsPagination';
 import { ACHIEVEMENTS_STRINGS } from '../../../lib/achievements-i18n';
 import { getAchievementList, getAchievementsPageChrome } from '../../../server/achievements';
 
@@ -60,7 +61,7 @@ export default async function AchievementsPage({ params, searchParams }: Achieve
             ) : (
               <Grid columns="repeat(auto-fill, minmax(300px, 1fr))" gap={6}>
                 {achievements.items.map((achievement) => (
-                  <AchievementCard key={achievement.id} id={achievement.id} title={achievement.title} year={achievement.date.substring(0, 4)} category={achievement.category} context={achievement.awardedBy || undefined} imageSrc={achievement.image?.src || undefined} imageAlt={achievement.image?.alt || undefined} />
+                  <AchievementCard key={achievement.id} id={achievement.id} title={achievement.title} year={achievement.date.substring(0, 4)} category={ACHIEVEMENT_CATEGORY_LABELS[achievement.category]} context={achievement.awardedBy || undefined} imageSrc={achievement.image?.src || undefined} imageAlt={achievement.image?.alt || undefined} />
                 ))}
               </Grid>
             )}
@@ -70,11 +71,7 @@ export default async function AchievementsPage({ params, searchParams }: Achieve
                 <div className="text-sm text-text-muted">
                   Showing {achievements.pagination.page * achievements.pagination.pageSize - achievements.pagination.pageSize + 1} to {Math.min(achievements.pagination.page * achievements.pagination.pageSize, achievements.pagination.total)} of {achievements.pagination.total}
                 </div>
-                <div className="flex items-center gap-space-2">
-                  <span className="text-sm">
-                    Page {achievements.pagination.page} of {achievements.pagination.totalPages}
-                  </span>
-                </div>
+                <AchievementsPagination currentPage={achievements.pagination.page} totalPages={achievements.pagination.totalPages} />
               </div>
             )}
           </div>

@@ -9,6 +9,7 @@ import { ArchiveCard, Container, Grid, Hero, Text } from '@nexus/ui';
 import { toArchiveCardData } from '@nexus/contracts';
 import type { Metadata } from 'next';
 
+import { ArchivePagination } from './ArchivePagination';
 import { ARCHIVE_STRINGS } from '../../../lib/archive-i18n';
 import { getArchiveList, getArchivePageChrome } from '../../../server/archive';
 
@@ -71,11 +72,7 @@ export default async function ArchivePage({ params, searchParams }: ArchivePageP
                 <div className="text-sm text-text-muted">
                   Showing {archive.pagination.page * archive.pagination.pageSize - archive.pagination.pageSize + 1} to {Math.min(archive.pagination.page * archive.pagination.pageSize, archive.pagination.total)} of {archive.pagination.total}
                 </div>
-                <div className="flex items-center gap-space-2">
-                  <span className="text-sm">
-                    Page {archive.pagination.page} of {archive.pagination.totalPages}
-                  </span>
-                </div>
+                <ArchivePagination currentPage={archive.pagination.page} totalPages={archive.pagination.totalPages} />
               </div>
             )}
           </div>
