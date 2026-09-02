@@ -84,7 +84,9 @@ export function toArchiveCardData(archive: ArchiveOutput): ArchiveCardData {
     id: archive.id,
     title: archive.title,
     year: archive.year,
-    category: archive.category,
+    // Was the raw enum value ('prize_giving_record') reaching ArchiveCard
+    // directly — every caller of this helper gets the fix for free.
+    category: ARCHIVE_CATEGORY_LABELS[archive.category],
     fileSrc: archive.file.src,
     fileAlt: archive.file.alt,
   };

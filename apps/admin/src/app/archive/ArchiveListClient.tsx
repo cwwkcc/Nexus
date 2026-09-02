@@ -14,7 +14,7 @@ import { useSession } from 'next-auth/react';
 import { useState, useTransition } from 'react';
 
 import { deleteArchiveEntry } from './actions.js';
-import { categoryOptions, getYears, type AdminArchive } from '../../lib/archive.js';
+import { ARCHIVE_CATEGORY_LABELS, categoryOptions, getYears, type AdminArchive } from '../../lib/archive.js';
 
 interface ArchiveListClientProps {
   archive: {
@@ -129,7 +129,7 @@ export function ArchiveListClient({ archive, currentQuery, currentCategory, curr
                         <div className="font-medium">{entry.title}</div>
                       </div>
                     </td>
-                    <td className="px-space-4 py-space-3">{entry.category}</td>
+                    <td className="px-space-4 py-space-3">{ARCHIVE_CATEGORY_LABELS[entry.category]}</td>
                     <td className="px-space-4 py-space-3">{entry.year}</td>
                     <td className="px-space-4 py-space-3 text-right">
                       <div className="flex items-center justify-end gap-space-2">

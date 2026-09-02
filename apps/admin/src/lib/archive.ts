@@ -14,6 +14,11 @@ type RouterOutputs = inferRouterOutputs<AppRouter>;
 export type AdminArchive = RouterOutputs['archive']['adminList']['items'][number];
 export type ArchiveCategory = AdminArchive['category'];
 
+// Was only used internally to build categoryOptions below — never
+// re-exported, which is why ArchiveListClient.tsx's table fell back to
+// showing the raw category value instead of a formatted label.
+export { ARCHIVE_CATEGORY_LABELS };
+
 export const categoryOptions = [{ value: 'all', label: 'All categories' }, ...ArchiveCategory.options.map((value) => ({ value, label: ARCHIVE_CATEGORY_LABELS[value as ArchiveCategory] }))];
 
 /**
