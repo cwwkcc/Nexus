@@ -1,7 +1,6 @@
 // packages/contracts/src/blocks/index.ts
 
 export * from './block-type.js';
-export * from './block-registry.js';
 
 // generic blocks
 export * from './generic/announcement.js';
