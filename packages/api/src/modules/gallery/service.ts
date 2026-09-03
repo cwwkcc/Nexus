@@ -90,7 +90,7 @@ export async function list(db: typeof Db, input: GalleryAlbumListQuery) {
 
   try {
     const albums = await db.galleryAlbum.findMany({ where, orderBy: [{ year: 'desc' }, { order: 'asc' }], include: { photos: { select: { id: true } } } });
-    return albums.map(serializeSummary);
+    return albums.map((album: any) => serializeSummary(album));
   } catch (err) {
     console.error('[galleryService.list] falling back to [] —', err);
     return emptyList();
@@ -134,7 +134,7 @@ export async function adminList(db: typeof Db, input: GalleryAlbumAdminListQuery
 
   try {
     const albums = await db.galleryAlbum.findMany({ where, orderBy: [{ order: 'asc' }, { year: 'desc' }], include: { photos: { select: { id: true } } } });
-    return albums.map(serializeSummary);
+    return albums.map((album: any) => serializeSummary(album));
   } catch (err) {
     console.error('[galleryService.adminList] falling back to [] —', err);
     return emptyList();

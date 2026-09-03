@@ -250,7 +250,7 @@ export async function adminList(db: typeof Db, input: CalendarAdminListQuery) {
 
 function detailWriteData(detail: NonNullable<CalendarEntryCreate['detail']>, locale: string) {
   return {
-    locale,
+    locale: locale as any,
     slug: detail.slug,
     description: detail.description,
     coverImageUrl: detail.coverImageUrl ?? null,
