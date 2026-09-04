@@ -91,5 +91,8 @@ infra/postgres/
 .nx/self-healing
 .nx/migrate-runs
 
+# Prisma generated client
+packages/database/src/generated/prisma/
+
 # Tamporary files
 Master Roadmap to World-Class.md
