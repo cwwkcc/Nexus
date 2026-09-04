@@ -94,5 +94,10 @@ infra/postgres/
 # Prisma generated client
 packages/database/src/generated/prisma/
 
+# Ignore any compiled JS/typings at the root of any package (keep source .ts files)
+packages/*/*.js
+packages/*/*.d.ts
+packages/*/*.d.ts.map
+
 # Tamporary files
 Master Roadmap to World-Class.md
