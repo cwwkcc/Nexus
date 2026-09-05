@@ -31,6 +31,7 @@ interface AchievementFormProps {
 export function AchievementForm({ mode, initial }: AchievementFormProps) {
   const router = useRouter();
 
+  const [studentName, setStudentName] = useState(initial?.studentName ?? '');
   const [title, setTitle] = useState(initial?.title ?? '');
   const [description, setDescription] = useState(initial?.description ?? '');
   const [level, setLevel] = useState<AchievementLevel>(initial?.level ?? 'school');
@@ -44,18 +45,25 @@ export function AchievementForm({ mode, initial }: AchievementFormProps) {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [titleError, setTitleError] = useState<string | null>(null);
+  const [studentNameError, setStudentNameError] = useState<string | null>(null);
   const [dateError, setDateError] = useState<string | null>(null);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setError(null);
     setTitleError(null);
+    setStudentNameError(null);
     setDateError(null);
 
+    const trimmedStudentName = studentName.trim();
     const trimmedTitle = title.trim();
     const trimmedDate = date.trim();
     let hasError = false;
 
+    if (!trimmedStudentName) {
+      setStudentNameError('Student name is required.');
+      hasError = true;
+    }
     if (!trimmedTitle) {
       setTitleError('Title is required.');
       hasError = true;
@@ -69,6 +77,7 @@ export function AchievementForm({ mode, initial }: AchievementFormProps) {
     setSubmitting(true);
 
     const payload: AchievementFormInput = {
+      studentName: trimmedStudentName,
       title: trimmedTitle,
       description: description.trim() || null,
       level,
@@ -99,6 +108,8 @@ export function AchievementForm({ mode, initial }: AchievementFormProps) {
           {error}
         </div>
       )}
+
+      <Input label="Student Name" required value={studentName} error={studentNameError ?? undefined} onChange={(e) => setStudentName(e.target.value)} placeholder="e.g. Priya Fernando" />
 
       <Input label="Title" required value={title} error={titleError ?? undefined} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. National Science Olympiad Gold Medal" />
 

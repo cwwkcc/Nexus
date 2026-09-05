@@ -47,6 +47,7 @@ export const ACHIEVEMENT_LEVEL_LABELS: Record<z.infer<typeof AchievementLevel>, 
 // The full entity — CMS/admin CRUD and database storage.
 export const AchievementSchema = z.object({
   id: z.string(),
+  studentName: z.string().min(1).max(MAX_TITLE_LENGTH),
   title: z.string().max(MAX_TITLE_LENGTH),
   description: z.string().max(MAX_DESCRIPTION_LENGTH).optional(),
   level: AchievementLevel,
@@ -62,6 +63,7 @@ export type AchievementCategoryData = z.infer<typeof AchievementCategory>;
 
 // Input schema for create/update operations.
 export const AchievementInputSchema = z.object({
+  studentName: z.string().min(1).max(MAX_TITLE_LENGTH),
   title: z.string().min(1).max(MAX_TITLE_LENGTH),
   description: z.string().max(MAX_DESCRIPTION_LENGTH).optional(),
   level: AchievementLevel,
@@ -81,6 +83,7 @@ export type AchievementUpdate = z.infer<typeof AchievementUpdateSchema>;
 // Output schema with serialized image (from flattened storage).
 export const AchievementOutputSchema = z.object({
   id: z.string(),
+  studentName: z.string(),
   title: z.string(),
   description: z.string().nullable(),
   level: AchievementLevel,
@@ -97,6 +100,7 @@ export type AchievementOutput = z.infer<typeof AchievementOutputSchema>;
 // Card projection — matches @nexus/ui's AchievementCardProps exactly.
 export const AchievementCardSchema = z.object({
   id: z.string(),
+  studentName: z.string(),
   title: z.string(),
   year: z.string(),
   category: z.string().optional(),

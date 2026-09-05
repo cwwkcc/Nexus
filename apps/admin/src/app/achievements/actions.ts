@@ -15,6 +15,7 @@ import { getServerCaller } from '../../lib/server-caller.js';
 export type ActionResult<T = undefined> = { ok: true; data: T } | { ok: false; error: string };
 
 export interface AchievementFormInput {
+  studentName: string;
   title: string;
   description?: string | null;
   level: string;

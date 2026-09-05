@@ -871,6 +871,11 @@ model AlumniProfile {
 // survives unchanged since @nexus/ui renders directly from it.
 model Achievement {
   id          String @id @default(cuid())
+  /// F-156/F-181: required — the public Achievement Database is meant to
+  /// be filterable by student name, and this was missing entirely until
+  /// now. Existing rows get '' via the migration's temporary default;
+  /// there's no real name to backfill them with automatically.
+  studentName String
   title       String
   description String?
 

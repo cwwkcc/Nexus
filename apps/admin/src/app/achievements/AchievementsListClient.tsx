@@ -88,7 +88,7 @@ export function AchievementsListClient({ achievements, currentQuery, currentCate
             pushParams({ q: query });
           }}
         >
-          <Input label="Search" placeholder="Search by title…" value={query} onChange={(e) => setQuery(e.target.value)} type="search" />
+          <Input label="Search" placeholder="Search by title or student name…" value={query} onChange={(e) => setQuery(e.target.value)} type="search" />
         </form>
         <Select label="Category" options={categoryOptions} value={currentCategory} onChange={(e) => pushParams({ category: e.target.value })} className="w-full md:w-48" />
         <Select label="Year" options={[{ value: '', label: 'All years' }, ...years.map((year) => ({ value: year, label: year }))]} value={currentYear} onChange={(e) => pushParams({ year: e.target.value })} className="w-full md:w-48" />
@@ -111,6 +111,7 @@ export function AchievementsListClient({ achievements, currentQuery, currentCate
             <table className="w-full border-collapse text-left">
               <thead className="border-border-default bg-surface-elevated border-b">
                 <tr>
+                  <th className="px-space-4 py-space-3 text-body font-medium">Student</th>
                   <th className="px-space-4 py-space-3 text-body font-medium">Title</th>
                   <th className="px-space-4 py-space-3 text-body font-medium">Category</th>
                   <th className="px-space-4 py-space-3 text-body font-medium">Level</th>
@@ -122,6 +123,7 @@ export function AchievementsListClient({ achievements, currentQuery, currentCate
               <tbody>
                 {items.map((achievement) => (
                   <tr key={achievement.id} className="border-border-default border-b last:border-b-0 hover:bg-surface-hover">
+                    <td className="px-space-4 py-space-3 font-medium">{achievement.studentName}</td>
                     <td className="px-space-4 py-space-3">
                       <div className="flex items-center gap-space-3">
                         {achievement.image && <img src={achievement.image.src} alt={achievement.image.alt} className="w-10 h-10 rounded object-cover" />}

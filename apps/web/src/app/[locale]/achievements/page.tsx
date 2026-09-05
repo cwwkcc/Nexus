@@ -61,7 +61,7 @@ export default async function AchievementsPage({ params, searchParams }: Achieve
             ) : (
               <Grid columns="repeat(auto-fill, minmax(300px, 1fr))" gap={6}>
                 {achievements.items.map((achievement) => (
-                  <AchievementCard key={achievement.id} id={achievement.id} title={achievement.title} year={achievement.date.substring(0, 4)} category={ACHIEVEMENT_CATEGORY_LABELS[achievement.category]} context={achievement.awardedBy || undefined} imageSrc={achievement.image?.src || undefined} imageAlt={achievement.image?.alt || undefined} />
+                  <AchievementCard key={achievement.id} id={achievement.id} studentName={achievement.studentName} title={achievement.title} year={achievement.date.substring(0, 4)} category={ACHIEVEMENT_CATEGORY_LABELS[achievement.category]} context={achievement.awardedBy || undefined} imageSrc={achievement.image?.src || undefined} imageAlt={achievement.image?.alt || undefined} />
                 ))}
               </Grid>
             )}

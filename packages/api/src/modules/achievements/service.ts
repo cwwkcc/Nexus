@@ -28,6 +28,7 @@ type AchievementRow = Awaited<ReturnType<typeof Db.achievement.findFirstOrThrow>
 function serialize(achievement: AchievementRow) {
   return {
     id: achievement.id,
+    studentName: achievement.studentName,
     title: achievement.title,
     description: achievement.description ?? null,
     level: achievement.level as 'national' | 'provincial' | 'district' | 'school',
@@ -64,7 +65,9 @@ export async function listAchievements(db: typeof Db, input: AchievementListQuer
   }
 
   if (query) {
-    where.title = { contains: query, mode: 'insensitive' };
+    // F-156: "filterable by ... student name" — was title-only when this
+    // search was first wired up, before studentName existed as a field.
+    where.OR = [{ title: { contains: query, mode: 'insensitive' } }, { studentName: { contains: query, mode: 'insensitive' } }];
   }
 
   try {
@@ -119,12 +122,13 @@ export async function getById(db: typeof Db, input: AchievementGetById) {
 /** Create a new achievement — immediately live (no moderation workflow).
  * Triggers revalidation of the achievements page on create. */
 export async function createAchievement(db: typeof Db, config: ApiConfig, input: AchievementCreate) {
-  const { title, description, level, category, date, awardedBy, image } = input;
+  const { studentName, title, description, level, category, date, awardedBy, image } = input;
 
   let achievement: AchievementRow;
   try {
     achievement = await db.achievement.create({
       data: {
+        studentName,
         title,
         description: description ?? null,
         level,
@@ -146,13 +150,14 @@ export async function createAchievement(db: typeof Db, config: ApiConfig, input:
 /** Update an existing achievement — immediately live (no moderation workflow).
  * Triggers revalidation on update. */
 export async function updateAchievement(db: typeof Db, config: ApiConfig, input: AchievementUpdate) {
-  const { id, title, description, level, category, date, awardedBy, image } = input;
+  const { id, studentName, title, description, level, category, date, awardedBy, image } = input;
 
   let achievement: AchievementRow;
   try {
     achievement = await db.achievement.update({
       where: { id },
       data: {
+        ...(studentName !== undefined && { studentName }),
         ...(title !== undefined && { title }),
         ...(description !== undefined && { description: description ?? null }),
         ...(level !== undefined && { level }),
