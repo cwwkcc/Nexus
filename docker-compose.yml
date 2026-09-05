@@ -24,6 +24,9 @@ services:
       context: .
       dockerfile: Dockerfile
       target: web-runner
+      args:
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL}
+        NEXT_PUBLIC_ADMIN_URL: ${NEXT_PUBLIC_ADMIN_URL}
     container_name: nexus-web
     restart: unless-stopped
     ports:

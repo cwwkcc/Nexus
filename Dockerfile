@@ -13,6 +13,7 @@ RUN pnpm --filter @nexus/db exec prisma generate
 
 RUN pnpm --filter @nexus/tokens build
 RUN pnpm --filter @nexus/contracts build
+RUN pnpm --filter @nexus/db build
 RUN pnpm --filter @nexus/env build
 RUN pnpm --filter @nexus/config build
 RUN pnpm --filter @nexus/api build
@@ -21,6 +22,10 @@ ENV NODE_OPTIONS=--max-old-space-size=3072
 
 # ---- web ----
 FROM base AS web-build
+ARG NEXT_PUBLIC_SITE_URL
+ARG NEXT_PUBLIC_ADMIN_URL
+ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
+ENV NEXT_PUBLIC_ADMIN_URL=$NEXT_PUBLIC_ADMIN_URL
 RUN pnpm --filter @nexus/web build
 
 FROM node:22-alpine AS web-runner
