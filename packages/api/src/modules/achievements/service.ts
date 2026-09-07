@@ -35,6 +35,7 @@ function serialize(achievement: AchievementRow) {
     category: achievement.category as 'academic' | 'sports' | 'cultural' | 'other',
     date: achievement.date,
     awardedBy: achievement.awardedBy ?? null,
+    relatedNewsArticleId: achievement.relatedNewsArticleId ?? null,
     image: achievement.imageUrl && achievement.imageAlt ? { src: achievement.imageUrl, alt: achievement.imageAlt } : null,
     createdAt: achievement.createdAt.toISOString(),
     updatedAt: achievement.updatedAt.toISOString(),
@@ -122,7 +123,7 @@ export async function getById(db: typeof Db, input: AchievementGetById) {
 /** Create a new achievement — immediately live (no moderation workflow).
  * Triggers revalidation of the achievements page on create. */
 export async function createAchievement(db: typeof Db, config: ApiConfig, input: AchievementCreate) {
-  const { studentName, title, description, level, category, date, awardedBy, image } = input;
+  const { studentName, title, description, level, category, date, awardedBy, relatedNewsArticleId, image } = input;
 
   let achievement: AchievementRow;
   try {
@@ -135,6 +136,7 @@ export async function createAchievement(db: typeof Db, config: ApiConfig, input:
         category,
         date,
         awardedBy: awardedBy ?? null,
+        relatedNewsArticleId: relatedNewsArticleId ?? null,
         imageUrl: image?.src ?? null,
         imageAlt: image?.alt ?? null,
       },
@@ -150,7 +152,7 @@ export async function createAchievement(db: typeof Db, config: ApiConfig, input:
 /** Update an existing achievement — immediately live (no moderation workflow).
  * Triggers revalidation on update. */
 export async function updateAchievement(db: typeof Db, config: ApiConfig, input: AchievementUpdate) {
-  const { id, studentName, title, description, level, category, date, awardedBy, image } = input;
+  const { id, studentName, title, description, level, category, date, awardedBy, relatedNewsArticleId, image } = input;
 
   let achievement: AchievementRow;
   try {
@@ -164,6 +166,7 @@ export async function updateAchievement(db: typeof Db, config: ApiConfig, input:
         ...(category !== undefined && { category }),
         ...(date !== undefined && { date }),
         ...(awardedBy !== undefined && { awardedBy: awardedBy ?? null }),
+        ...(relatedNewsArticleId !== undefined && { relatedNewsArticleId: relatedNewsArticleId ?? null }),
         ...(image !== undefined && {
           imageUrl: image?.src ?? null,
           imageAlt: image?.alt ?? null,

@@ -26,10 +26,18 @@ const levelOptions = AchievementLevel.options.map((value) => ({ value, label: AC
 interface AchievementFormProps {
   mode: 'create' | 'edit';
   initial?: AdminAchievement;
+  /** Published articles for the "related News article" picker — fetched
+   * server-side by the page wrapper (new/page.tsx, [id]/page.tsx) since
+   * this is a client component and achievements has no locale field to
+   * scope the query by; deliberately simplified to just the 'en' locale's
+   * published articles rather than resolving per-locale. */
+  newsArticles: Array<{ id: string; title: string }>;
 }
 
-export function AchievementForm({ mode, initial }: AchievementFormProps) {
+export function AchievementForm({ mode, initial, newsArticles }: AchievementFormProps) {
   const router = useRouter();
+
+  const articleOptions = [{ value: '', label: 'None' }, ...newsArticles.map((article) => ({ value: article.id, label: article.title }))];
 
   const [studentName, setStudentName] = useState(initial?.studentName ?? '');
   const [title, setTitle] = useState(initial?.title ?? '');
@@ -38,6 +46,7 @@ export function AchievementForm({ mode, initial }: AchievementFormProps) {
   const [category, setCategory] = useState<AchievementCategory>(initial?.category ?? 'academic');
   const [date, setDate] = useState(initial?.date ?? '');
   const [awardedBy, setAwardedBy] = useState(initial?.awardedBy ?? '');
+  const [relatedNewsArticleId, setRelatedNewsArticleId] = useState(initial?.relatedNewsArticleId ?? '');
   const [imageUrl, setImageUrl] = useState(initial?.image?.src ?? '');
   const [imageAlt, setImageAlt] = useState(initial?.image?.alt ?? '');
   const [imagePickerOpen, setImagePickerOpen] = useState(false);
@@ -84,6 +93,7 @@ export function AchievementForm({ mode, initial }: AchievementFormProps) {
       category,
       date: trimmedDate,
       awardedBy: awardedBy.trim() || null,
+      relatedNewsArticleId: relatedNewsArticleId || null,
       imageUrl: imageUrl.trim() || null,
       imageAlt: imageAlt.trim() || null,
     };
@@ -121,6 +131,8 @@ export function AchievementForm({ mode, initial }: AchievementFormProps) {
       <Input label="Date" required value={date} error={dateError ?? undefined} onChange={(e) => setDate(e.target.value)} type="date" helperText="ISO date format (YYYY-MM-DD)" />
 
       <Input label="Awarded By" value={awardedBy} onChange={(e) => setAwardedBy(e.target.value)} placeholder="e.g. Ministry of Education" helperText="Optional — awarding body or organization." />
+
+      <Select label="Related News Article" options={articleOptions} value={relatedNewsArticleId} onChange={(e) => setRelatedNewsArticleId(e.target.value)} helperText="Optional — links to a published article about this achievement, if one exists. List is the 'en' locale's published articles only." />
 
       <Textarea label="Description" value={description} onChange={(e) => setDescription(e.target.value)} rows={4} helperText="Optional — detailed description of the achievement." />
 

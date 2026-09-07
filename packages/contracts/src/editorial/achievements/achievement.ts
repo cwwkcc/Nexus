@@ -54,6 +54,10 @@ export const AchievementSchema = z.object({
   category: AchievementCategory,
   date: z.string(), // ISO date
   awardedBy: z.string().optional(),
+  // Opaque cross-reference to a NewsArticle — never import NewsArticle's
+  // own schema here, per Contracts.md's tier-4 rule that editorial/domains
+  // concepts reference each other by plain id string, not by relation.
+  relatedNewsArticleId: z.string().optional(),
   image: ImageSchema.optional(),
 });
 
@@ -70,6 +74,7 @@ export const AchievementInputSchema = z.object({
   category: AchievementCategory,
   date: z.string(),
   awardedBy: z.string().optional(),
+  relatedNewsArticleId: z.string().optional(),
   image: ImageSchema.optional(),
 });
 
@@ -90,6 +95,7 @@ export const AchievementOutputSchema = z.object({
   category: AchievementCategory,
   date: z.string(),
   awardedBy: z.string().nullable(),
+  relatedNewsArticleId: z.string().nullable(),
   image: ImageSchema.nullable(),
   createdAt: z.string(),
   updatedAt: z.string(),

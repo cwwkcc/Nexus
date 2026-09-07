@@ -26,9 +26,12 @@ export default async function EditAchievementPage({ params }: EditAchievementPag
     notFound();
   }
 
+  const { items } = await caller.news.adminList({ locale: 'en', status: 'published', page: 1, pageSize: 100 });
+  const newsArticles = items.map((article) => ({ id: article.id, title: article.title }));
+
   return (
     <AdminShell title={`Edit: ${achievement.title}`}>
-      <AchievementForm mode="edit" initial={achievement} />
+      <AchievementForm mode="edit" initial={achievement} newsArticles={newsArticles} />
     </AdminShell>
   );
 }

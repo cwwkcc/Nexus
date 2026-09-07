@@ -22,6 +22,7 @@ export interface AchievementFormInput {
   category: string;
   date: string;
   awardedBy?: string | null;
+  relatedNewsArticleId?: string | null;
   imageUrl?: string | null;
   imageAlt?: string | null;
 }

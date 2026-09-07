@@ -892,6 +892,13 @@ model Achievement {
   /// Optional awarding body (e.g. "Ministry of Education").
   awardedBy String?
 
+  /// F-181's "optional link to a related News article" — opaque reference
+  /// to a NewsArticle.id, not a @relation: tier-4 concepts (editorial,
+  /// domains, blocks) reference each other by plain id string per
+  /// Contracts.md, never by importing one another's schema or adding a
+  /// foreign-key relation across them.
+  relatedNewsArticleId String?
+
   /// ImageSchema's shape ({ src, alt }) split into two columns and
   /// reassembled into the nested object at the service layer's serialize()
   /// — the same flattened-storage-then-nest pattern every other module
