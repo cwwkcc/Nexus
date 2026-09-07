@@ -93,6 +93,3 @@ infra/postgres/
 
 # Prisma generated client
 packages/database/src/generated/prisma/
-
-# Tamporary files
-Master Roadmap to World-Class.md
