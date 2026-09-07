@@ -88,7 +88,7 @@ export function ArchiveListClient({ archive, currentQuery, currentCategory, curr
             pushParams({ q: query });
           }}
         >
-          <Input label="Search" placeholder="Search by title…" value={query} onChange={(e) => setQuery(e.target.value)} type="search" />
+          <Input label="Search" placeholder="Search by title or description…" value={query} onChange={(e) => setQuery(e.target.value)} type="search" />
         </form>
         <Select label="Category" options={categoryOptions} value={currentCategory} onChange={(e) => pushParams({ category: e.target.value })} className="w-full md:w-48" />
         <Select label="Year" options={[{ value: '', label: 'All years' }, ...years.map((year) => ({ value: year, label: year }))]} value={currentYear} onChange={(e) => pushParams({ year: e.target.value })} className="w-full md:w-48" />

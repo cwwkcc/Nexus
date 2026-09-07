@@ -67,7 +67,14 @@ export async function listArchive(db: typeof Db, input: ArchiveListQuery) {
   }
 
   if (query) {
-    where.title = { contains: query, mode: 'insensitive' };
+    // F-155 claims the Digital Archive is "searchable by full-text" —
+    // title-only was a reasonable first cut, but description is the other
+    // real text field on an entry and was easy to fold in. This still
+    // isn't true full-text search (no ranking, no stemming, no searching
+    // inside the actual PDF/image files F-155 also mentions) — that would
+    // need Postgres tsvector/GIN infrastructure, a bigger, separate piece
+    // of work if it's actually wanted.
+    where.OR = [{ title: { contains: query, mode: 'insensitive' } }, { description: { contains: query, mode: 'insensitive' } }];
   }
 
   try {
