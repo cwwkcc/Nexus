@@ -11,8 +11,8 @@
 // apps/admin/src/app/auth/setup-totp, reached once signed in with the
 // password this script sets.
 
-import type { PrismaClient } from '../../src/generated/prisma/client.js';
-import { hashPassword } from '../../src/lib/password.js';
+import type { PrismaClient } from '../../../src/generated/prisma/client.js';
+import { hashPassword } from '../../../src/lib/password.js';
 
 export async function seedBreakGlassAdmin(db: PrismaClient): Promise<void> {
   const email = process.env.ADMIN_EMAIL?.trim().toLowerCase();
