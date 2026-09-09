@@ -32,7 +32,7 @@ export const authConfig = {
   providers: [],
   callbacks: {
     authorized({ auth: session, request }) {
-      const isLoggedIn = Boolean(session?.user?.id && session.user.isActive);
+      const isLoggedIn = Boolean(session?.user?.email && session.user.isActive !== false);
       const isLoginPage = request.nextUrl.pathname.startsWith('/login');
 
       if (isLoginPage) {

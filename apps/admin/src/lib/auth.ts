@@ -109,6 +109,7 @@ const authInstance: any = NextAuth({
     async jwt({ token, user }: { token: AuthToken; user?: { id?: string; role?: RoleEnumData } }) {
       if (user) {
         token.userId = user.id;
+        token.sub = user.id;
         token.role = user.role;
         token.isActive = true;
         return token;
