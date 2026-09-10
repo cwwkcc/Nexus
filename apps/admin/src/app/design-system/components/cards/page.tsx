@@ -28,12 +28,12 @@ export default function CardsDemoPage() {
 
         {/* AchievementCard */}
         <DemoSection title="AchievementCard – Archive Post & Ticker Item">
-          <AchievementCard variant="archive-post" title="Gold at SLIIT Codefest 2024" year="2024" category="Technology" context="KITS team won first place in the全校 competition." imageSrc="/assets/images/ironman.jpg" href="/achievements/codefest-2024" />
-          <AchievementCard variant="archive-post" title="214 University Entrances" year="2026" category="Academics" context="Highest in Kalutara District – 95% pass rate." />
+          <AchievementCard variant="archive-post" studentName="Yashoda Ranathunga" title="Gold at SLIIT Codefest 2024" year="2024" category="Technology" context="KITS team won first place in the全校 competition." imageSrc="/assets/images/ironman.jpg" href="/achievements/codefest-2024" />
+          <AchievementCard variant="archive-post" studentName="Nethmi Silva" title="214 University Entrances" year="2026" category="Academics" context="Highest in Kalutara District – 95% pass rate." />
           <div className="flex flex-col gap-space-4">
-            <AchievementCard variant="ticker-item" title="Gold Medal – Science Exhibition" year="2025" category="Science" />
-            <AchievementCard variant="ticker-item" title="President's Scout Award" year="2024" category="Scouts" />
-            <AchievementCard variant="ticker-item" title="District Cricket Champions" year="2026" category="Sports" />
+            <AchievementCard variant="ticker-item" studentName="Kasun Fernando" title="Gold Medal – Science Exhibition" year="2025" category="Science" />
+            <AchievementCard variant="ticker-item" studentName="Dulaj Perera" title="President's Scout Award" year="2024" category="Scouts" />
+            <AchievementCard variant="ticker-item" studentName="Bimali Karunaratne" title="District Cricket Champions" year="2026" category="Sports" />
           </div>
         </DemoSection>
 
