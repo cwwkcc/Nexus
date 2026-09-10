@@ -6,7 +6,7 @@
 // own the database.
 
 import { triggerRevalidation } from '@nexus/config';
-import { DEFAULT_LOCALE } from '@nexus/contracts';
+import { DEFAULT_LOCALE, getSectionDefinition } from '@nexus/contracts';
 import { Prisma, type db as Db } from '@nexus/db';
 import type { z } from 'zod';
 
@@ -74,7 +74,18 @@ export async function adminGetByScope(db: typeof Db, { scope, locale }: ScopeLoc
  */
 export async function updateEntry(db: typeof Db, config: ApiConfig, input: Update) {
   const { scope, sectionKey, contentType, locale, data, status } = input;
-  const jsonData = data as Prisma.InputJsonValue;
+  const section = getSectionDefinition(scope, sectionKey);
+
+  if (!section) {
+    throw contentErrors.invalidData(`Unknown content section "${scope}:${sectionKey}".`);
+  }
+
+  const parsedData = section.schema.safeParse(data);
+  if (!parsedData.success) {
+    throw contentErrors.invalidData(`Invalid data for content section "${scope}:${sectionKey}".`);
+  }
+
+  const jsonData = parsedData.data as Prisma.InputJsonValue;
 
   let entry;
   try {
