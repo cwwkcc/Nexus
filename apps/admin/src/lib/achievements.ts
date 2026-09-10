@@ -6,20 +6,20 @@
 // pattern as alumni: a list with pagination and filtering by category and year.
 
 import type { AppRouter } from '@nexus/api';
-import { ACHIEVEMENT_CATEGORY_LABELS, ACHIEVEMENT_LEVEL_LABELS, AchievementCategory, AchievementLevel } from '@nexus/contracts';
+import { ACHIEVEMENT_CATEGORY_LABELS, ACHIEVEMENT_LEVEL_LABELS, AchievementCategory } from '@nexus/contracts';
 import type { inferRouterOutputs } from '@trpc/server';
 
 type RouterOutputs = inferRouterOutputs<AppRouter>;
 
 export type AdminAchievement = RouterOutputs['achievements']['adminList']['items'][number];
-export type AchievementCategory = AdminAchievement['category'];
-export type AchievementLevel = AdminAchievement['level'];
+export type AdminAchievementCategory = AdminAchievement['category'];
+export type AdminAchievementLevel = AdminAchievement['level'];
 
 // Re-exported from @nexus/contracts (shared with the web app) rather than
 // declared locally — see achievement.ts's comment on why.
 export { ACHIEVEMENT_CATEGORY_LABELS, ACHIEVEMENT_LEVEL_LABELS };
 
-export const categoryOptions = [{ value: 'all', label: 'All categories' }, ...AchievementCategory.options.map((value) => ({ value, label: ACHIEVEMENT_CATEGORY_LABELS[value as AchievementCategory] }))];
+export const categoryOptions = [{ value: 'all', label: 'All categories' }, ...AchievementCategory.options.map((value) => ({ value, label: ACHIEVEMENT_CATEGORY_LABELS[value as AdminAchievementCategory] }))];
 
 /**
  * Extracts unique years from an achievement list for the filter dropdown.

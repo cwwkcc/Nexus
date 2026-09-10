@@ -10,7 +10,7 @@
 // No status field — achievements have no moderation workflow (F-181:
 // "no draft/review workflow").
 
-import { AchievementCategory, AchievementLevel } from '@nexus/contracts';
+import { AchievementCategory, AchievementLevel, type AchievementCategoryData, type AchievementLevelData } from '@nexus/contracts';
 import { Button, Input, Select, Textarea } from '@nexus/ui';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -20,8 +20,8 @@ import { MediaLibraryPicker } from '../../features/media/MediaLibraryPicker.js';
 import type { AdminMediaAsset } from '../../lib/media.js';
 import { ACHIEVEMENT_CATEGORY_LABELS, ACHIEVEMENT_LEVEL_LABELS, type AdminAchievement } from '../../lib/achievements.js';
 
-const categoryOptions = AchievementCategory.options.map((value) => ({ value, label: ACHIEVEMENT_CATEGORY_LABELS[value as AchievementCategory] }));
-const levelOptions = AchievementLevel.options.map((value) => ({ value, label: ACHIEVEMENT_LEVEL_LABELS[value as AchievementLevel] }));
+const categoryOptions: Array<{ value: AchievementCategoryData; label: string }> = (AchievementCategory.options as readonly AchievementCategoryData[]).map((value) => ({ value, label: ACHIEVEMENT_CATEGORY_LABELS[value] }));
+const levelOptions: Array<{ value: AchievementLevelData; label: string }> = (AchievementLevel.options as readonly AchievementLevelData[]).map((value) => ({ value, label: ACHIEVEMENT_LEVEL_LABELS[value] }));
 
 interface AchievementFormProps {
   mode: 'create' | 'edit';
@@ -42,8 +42,8 @@ export function AchievementForm({ mode, initial, newsArticles }: AchievementForm
   const [studentName, setStudentName] = useState(initial?.studentName ?? '');
   const [title, setTitle] = useState(initial?.title ?? '');
   const [description, setDescription] = useState(initial?.description ?? '');
-  const [level, setLevel] = useState<AchievementLevel>(initial?.level ?? 'school');
-  const [category, setCategory] = useState<AchievementCategory>(initial?.category ?? 'academic');
+  const [level, setLevel] = useState<AchievementLevelData>(initial?.level ?? 'school');
+  const [category, setCategory] = useState<AchievementCategoryData>(initial?.category ?? 'academic');
   const [date, setDate] = useState(initial?.date ?? '');
   const [awardedBy, setAwardedBy] = useState(initial?.awardedBy ?? '');
   const [relatedNewsArticleId, setRelatedNewsArticleId] = useState(initial?.relatedNewsArticleId ?? '');
@@ -124,8 +124,8 @@ export function AchievementForm({ mode, initial, newsArticles }: AchievementForm
       <Input label="Title" required value={title} error={titleError ?? undefined} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. National Science Olympiad Gold Medal" />
 
       <div className="grid grid-cols-1 gap-space-6 md:grid-cols-2">
-        <Select label="Category" required options={categoryOptions} value={category} onChange={(e) => setCategory(e.target.value as AchievementCategory)} />
-        <Select label="Level" required options={levelOptions} value={level} onChange={(e) => setLevel(e.target.value as AchievementLevel)} />
+        <Select label="Category" required options={categoryOptions} value={category} onChange={(e) => setCategory(e.target.value as AchievementCategoryData)} />
+        <Select label="Level" required options={levelOptions} value={level} onChange={(e) => setLevel(e.target.value as AchievementLevelData)} />
       </div>
 
       <Input label="Date" required value={date} error={dateError ?? undefined} onChange={(e) => setDate(e.target.value)} type="date" helperText="ISO date format (YYYY-MM-DD)" />
@@ -176,7 +176,7 @@ export function AchievementForm({ mode, initial, newsArticles }: AchievementForm
           setImageUrl(asset.url);
           setImagePickerOpen(false);
         }}
-        folder="achievements"
+        folder="images"
         title="Choose achievement image"
       />
 

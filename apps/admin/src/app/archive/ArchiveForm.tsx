@@ -10,7 +10,7 @@
 // No status field — archive entries have no moderation workflow (F-182:
 // simple create/edit/delete shape like Events).
 
-import { ArchiveCategory } from '@nexus/contracts';
+import { type ArchiveCategoryData } from '@nexus/contracts';
 import { Button, Input, Select, Textarea } from '@nexus/ui';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -18,7 +18,7 @@ import { useState } from 'react';
 import { createArchiveEntry, updateArchiveEntry, type ArchiveFormInput } from './actions.js';
 import { MediaLibraryPicker } from '../../features/media/MediaLibraryPicker.js';
 import type { AdminMediaAsset } from '../../lib/media.js';
-import { ARCHIVE_CATEGORY_LABELS, categoryOptions, type AdminArchive } from '../../lib/archive.js';
+import { categoryOptions, type AdminArchive } from '../../lib/archive.js';
 
 interface ArchiveFormProps {
   mode: 'create' | 'edit';
@@ -30,7 +30,7 @@ export function ArchiveForm({ mode, initial }: ArchiveFormProps) {
 
   const [title, setTitle] = useState(initial?.title ?? '');
   const [year, setYear] = useState(initial?.year ?? '');
-  const [category, setCategory] = useState<ArchiveCategory>(initial?.category ?? 'photograph');
+  const [category, setCategory] = useState<ArchiveCategoryData>(initial?.category ?? 'photograph');
   const [description, setDescription] = useState(initial?.description ?? '');
   const [fileUrl, setFileUrl] = useState(initial?.file.src ?? '');
   const [fileAlt, setFileAlt] = useState(initial?.file.alt ?? '');
@@ -103,7 +103,7 @@ export function ArchiveForm({ mode, initial }: ArchiveFormProps) {
       <Input label="Title" required value={title} error={titleError ?? undefined} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. 1987 Annual Magazine" />
 
       <div className="grid grid-cols-1 gap-space-6 md:grid-cols-2">
-        <Select label="Category" required options={categoryOptions} value={category} onChange={(e) => setCategory(e.target.value as ArchiveCategory)} />
+        <Select label="Category" required options={categoryOptions} value={category} onChange={(e) => setCategory(e.target.value as ArchiveCategoryData)} />
         <Input label="Year" required value={year} error={yearError ?? undefined} onChange={(e) => setYear(e.target.value)} placeholder="e.g. 1987" />
       </div>
 
@@ -150,7 +150,6 @@ export function ArchiveForm({ mode, initial }: ArchiveFormProps) {
           setFileUrl(asset.url);
           setFilePickerOpen(false);
         }}
-        folder="archive"
         title="Choose archive file"
       />
 
