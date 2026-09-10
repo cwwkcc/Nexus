@@ -69,7 +69,7 @@ function EligibilitySection({ data }: { data: EligibilityData }) {
     <VStack spacing={6}>
       <div className="flex items-center gap-space-4">
         <Heading level="h3">{label}</Heading>
-        {data.cutoffMark != null && <Badge variant="accent">Cutoff: {data.cutoffMark}%</Badge>}
+        {data.cutoffMark != null && <Badge variant="achievement" label={`Cutoff: ${data.cutoffMark}%`} />}
       </div>
 
       <div className="grid gap-space-6 md:grid-cols-2">

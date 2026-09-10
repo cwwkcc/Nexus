@@ -2,7 +2,7 @@
 // Wraps ProcessSteps visualization component. Content from PageContent.
 
 import type { AdmissionsProcessData } from '@nexus/contracts';
-import { ProcessSteps } from '@nexus/ui/visualization/ProcessSteps';
+import { ProcessSteps } from '@nexus/ui';
 
 export interface ProcessBlockProps {
   data: AdmissionsProcessData;
