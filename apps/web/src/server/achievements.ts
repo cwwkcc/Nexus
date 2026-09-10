@@ -4,7 +4,7 @@
 // mirroring server/alumni.ts's shape.
 
 import { createServerCaller } from '@nexus/api';
-import type { HeroData, LocaleEnumData } from '@nexus/contracts';
+import { AchievementCategory, type AchievementCategoryData, type HeroData, type LocaleEnumData } from '@nexus/contracts';
 import { cache } from 'react';
 
 export interface AchievementsPageChrome {
@@ -25,15 +25,20 @@ export const getAchievementsPageChrome = cache(async (locale: LocaleEnumData): P
 });
 
 export interface AchievementListParams {
-  category?: string;
+  category?: AchievementCategoryData | string;
   year?: string;
   page?: number;
   pageSize?: number;
 }
 
+function normalizeCategory(category: AchievementCategoryData | string | undefined): AchievementCategoryData | undefined {
+  if (!category) return undefined;
+  return AchievementCategory.options.includes(category as AchievementCategoryData) ? (category as AchievementCategoryData) : undefined;
+}
+
 export const getAchievementList = cache(async ({ category, year, page = 1, pageSize = 20 }: AchievementListParams) => {
   return createServerCaller().achievements.list({
-    category,
+    category: normalizeCategory(category),
     year,
     page,
     pageSize,

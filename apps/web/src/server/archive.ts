@@ -4,7 +4,7 @@
 // mirroring server/achievements.ts's shape.
 
 import { createServerCaller } from '@nexus/api';
-import type { HeroData, LocaleEnumData } from '@nexus/contracts';
+import { ArchiveCategory, type ArchiveCategoryData, type HeroData, type LocaleEnumData } from '@nexus/contracts';
 import { cache } from 'react';
 
 export interface ArchivePageChrome {
@@ -25,15 +25,20 @@ export const getArchivePageChrome = cache(async (locale: LocaleEnumData): Promis
 });
 
 export interface ArchiveListParams {
-  category?: string;
+  category?: ArchiveCategoryData | string;
   year?: string;
   page?: number;
   pageSize?: number;
 }
 
+function normalizeCategory(category: ArchiveCategoryData | string | undefined): ArchiveCategoryData | undefined {
+  if (!category) return undefined;
+  return ArchiveCategory.options.includes(category as ArchiveCategoryData) ? (category as ArchiveCategoryData) : undefined;
+}
+
 export const getArchiveList = cache(async ({ category, year, page = 1, pageSize = 20 }: ArchiveListParams) => {
   return createServerCaller().archive.list({
-    category,
+    category: normalizeCategory(category),
     year,
     page,
     pageSize,
