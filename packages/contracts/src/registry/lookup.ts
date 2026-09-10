@@ -6,10 +6,10 @@
 
 import type { z } from 'zod';
 
-import type { PageKeyEnumData } from './page-key.ts';
 import type { BlockTypeEnumData } from '../blocks/block-type.ts';
 import { AnnouncementSchema, AnthemSchema, ContactInfoSchema, CrestSchema, CtaSchema, DownloadsSchema, FaqSchema, GallerySchema, HeroSchema, KeyDatesSchema, MapSchema, MembersSchema, PhotoStripSchema, ProcessStepsSchema, QuoteSchema, ResultsDisplaySchema, RichTextBlockSchema, StatsSchema, TimelineSchema, ValuesSchema } from '../blocks/index.ts';
 import * as GlobalRegistry from './global-registry/index.ts';
+import type { PageKeyEnumData } from './page-key.ts';
 import * as PageRegistries from './page-registry/index.ts';
 import type { PageRegistry, PageSection } from './types.ts';
 
@@ -73,7 +73,7 @@ export function getPageDefinition(pageKey: PageKeyEnumData): PageRegistry | unde
 }
 
 export function getSectionDefinition(scope: string, sectionKey: string): PageSection | undefined {
-  if (scope === 'global') {
+  if (scope === 'global' || scope.startsWith('global:')) {
     return getGlobalSection(sectionKey);
   }
   const pageKey = scope.replace(/^page:/, '') as PageKeyEnumData;
