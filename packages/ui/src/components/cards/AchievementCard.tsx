@@ -10,6 +10,7 @@ import { Badge } from '../atoms/Badge';
 type AchievementCardVariant = 'ticker-item' | 'archive-post';
 
 interface AchievementCardProps extends Omit<AchievementCardData, 'id'> {
+  id?: string;
   variant?: AchievementCardVariant;
   className?: string;
 }
