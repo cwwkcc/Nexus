@@ -12,7 +12,7 @@
 //     router, not ContentEntry.
 
 import { createServerCaller } from '@nexus/api';
-import type { HeroData, LocaleEnumData } from '@nexus/contracts';
+import type { EventCategoryKey, HeroData, LocaleEnumData } from '@nexus/contracts';
 import { cache } from 'react';
 
 export interface EventsPageChrome {
@@ -35,7 +35,7 @@ export const getEventsPageChrome = cache(async (locale: LocaleEnumData): Promise
 export interface CalendarMonthParams {
   locale: LocaleEnumData;
   month: string;
-  category?: string;
+  category?: EventCategoryKey;
 }
 
 /** F-145's calendar grid + list view share this one fetch — every entry
@@ -45,7 +45,7 @@ export const getCalendarMonth = cache(async ({ locale, month, category }: Calend
   return createServerCaller().events.month({
     locale,
     month,
-    category: (category as never) ?? 'all',
+    category: category ?? 'all',
   });
 });
 

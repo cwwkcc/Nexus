@@ -6,7 +6,7 @@
 // with no default export at all before this milestone — every request to
 // this route would have failed to build.
 
-import { SUPPORTED_LOCALES, type LocaleEnumData } from '@nexus/contracts';
+import { EVENT_CATEGORIES, SUPPORTED_LOCALES, type EventCategoryKey, type LocaleEnumData } from '@nexus/contracts';
 import { Container, EventCard, Grid, Hero, Text } from '@nexus/ui';
 import type { Metadata } from 'next';
 
@@ -28,6 +28,10 @@ function firstValue(value: string | string[] | undefined): string | undefined {
 
 function resolveLocale(locale: string): LocaleEnumData {
   return (SUPPORTED_LOCALES as readonly string[]).includes(locale) ? (locale as LocaleEnumData) : 'en';
+}
+
+function resolveCategory(category: string | undefined): EventCategoryKey | undefined {
+  return category && Object.hasOwn(EVENT_CATEGORIES, category) ? (category as EventCategoryKey) : undefined;
 }
 
 export async function generateMetadata({ params }: EventsPageProps): Promise<Metadata> {
@@ -52,11 +56,12 @@ export default async function EventsPage({ params, searchParams }: EventsPagePro
   const strings = EVENTS_STRINGS[safeLocale];
 
   const query = await searchParams;
-  const category = firstValue(query.category) ?? 'all';
+  const requestedCategory = firstValue(query.category);
+  const category = resolveCategory(requestedCategory);
   const month = firstValue(query.month) ?? currentMonthParam();
   const view = firstValue(query.view) === 'list' ? 'list' : 'calendar';
 
-  const [{ hero }, entries] = await Promise.all([getEventsPageChrome(safeLocale), getCalendarMonth({ locale: safeLocale, month, category: category === 'all' ? undefined : category })]);
+  const [{ hero }, entries] = await Promise.all([getEventsPageChrome(safeLocale), getCalendarMonth({ locale: safeLocale, month, category })]);
 
   const cards = entries.map((entry) => toEventCard(entry, safeLocale));
   // F-145: the calendar grid renders every entry (calendar-only included);
@@ -69,7 +74,7 @@ export default async function EventsPage({ params, searchParams }: EventsPagePro
       <Hero variant="subpage" heading={hero.title} eyebrow={hero.eyebrow} subheading={hero.subtitle} breadcrumb={[{ label: 'Home', href: `/${safeLocale}` }, { label: strings.pageTitle }]} />
 
       <Container size="lg" padding="lg" as="section">
-        <EventsListingControls locale={safeLocale} strings={strings} currentCategory={category} currentMonth={month} currentView={view} />
+        <EventsListingControls locale={safeLocale} strings={strings} currentCategory={category ?? 'all'} currentMonth={month} currentView={view} />
 
         <div className="mt-space-8">
           {view === 'calendar' ? (
