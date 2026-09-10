@@ -31,7 +31,7 @@ import type { MetadataRoute } from 'next';
 // No more `?? 'https://cwwkcc.lk'` fallback — see the note in metadata.ts.
 const siteUrl = clientEnv.NEXT_PUBLIC_SITE_URL;
 
-const NEWS_SITEMAP_PAGE_SIZE = 200; // generous ceiling for a school's yearly article volume; revisit if this ever needs real cursor pagination.
+const NEWS_SITEMAP_PAGE_SIZE = 100; // keep within the server schema's valid maximum while still covering a full year of news entries.
 
 async function newsRoutes(): Promise<MetadataRoute.Sitemap> {
   const caller = createServerCaller();

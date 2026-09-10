@@ -5,7 +5,7 @@
 // and NewsArticle JSON-LD (F-104).
 
 import { NEWS_CATEGORIES, SUPPORTED_LOCALES, type LocaleEnumData } from '@nexus/contracts';
-import { Badge, Container, Grid, Heading, NewsCard, RichTextRenderer, Text } from '@nexus/ui';
+import { Badge, Container, Grid, Heading, NewsCard, RichTextRenderer } from '@nexus/ui';
 import { clientEnv } from '@nexus/env/client';
 import type { Metadata } from 'next';
 import Link from 'next/link';
@@ -36,7 +36,7 @@ export async function generateStaticParams(): Promise<Array<{ locale: string; sl
 
   const perLocale = await Promise.all(
     SUPPORTED_LOCALES.map(async (locale) => {
-      const { items } = await caller.news.list({ locale, status: 'published', page: 1, pageSize: 200 });
+      const { items } = await caller.news.list({ locale, status: 'published', page: 1, pageSize: 100 });
       return items.map((article) => ({ locale, slug: article.slug }));
     }),
   );
