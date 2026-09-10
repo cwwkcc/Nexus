@@ -17,6 +17,7 @@
     "@nexus/env": "workspace:*",
     "@nexus/tokens": "workspace:*",
     "@nexus/ui": "workspace:*",
+    "@tiptap/react": "^3.29.2",
     "clsx": "^2.1.1",
     "framer-motion": "^12.42.2",
     "next": "^16.2.11",
