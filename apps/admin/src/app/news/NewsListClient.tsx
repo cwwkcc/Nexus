@@ -17,7 +17,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useState, useTransition } from 'react';
 
 import { bulkSetNewsArticleStatus, setNewsArticleStatus } from './actions.js';
-import type { AdminNewsArticle, NewsCategory, NewsStatus } from '../../lib/news.js';
+import type { AdminNewsArticle, NewsCategory, NewsStatus } from '../../lib/entities/news.js';
 
 const localeOptions = SUPPORTED_LOCALES.map((value) => ({ value, label: LOCALE_LABELS[value] }));
 const categoryOptions = [{ value: 'all', label: 'All categories' }, ...Object.entries(NEWS_CATEGORIES).map(([value, label]) => ({ value, label }))];

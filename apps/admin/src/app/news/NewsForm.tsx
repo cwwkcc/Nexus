@@ -17,9 +17,9 @@ import { useState } from 'react';
 import { createNewsArticle, updateNewsArticle, type NewsArticleFormInput } from './actions.js';
 import { RichTextEditor } from '../../features/editor/RichTextEditor.js';
 import { MediaLibraryPicker } from '../../features/media/MediaLibraryPicker.js';
-import type { AdminMediaAsset } from '../../lib/media.js';
-import type { AdminNewsArticle, NewsCategory, NewsStatus } from '../../lib/news.js';
-import { slugify } from '../../lib/news.js';
+import type { AdminMediaAsset } from '../../lib/entities/media.js';
+import type { AdminNewsArticle, NewsCategory, NewsStatus } from '../../lib/entities/news.js';
+import { slugify } from '../../lib/entities/news.js';
 
 const categoryOptions = Object.entries(NEWS_CATEGORIES).map(([value, label]) => ({ value, label }));
 const localeOptions = SUPPORTED_LOCALES.map((value) => ({ value, label: LOCALE_LABELS[value] }));
