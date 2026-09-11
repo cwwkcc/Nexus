@@ -9,7 +9,7 @@ import { AchievementCard, Container, Grid, Hero, Text } from '@nexus/ui';
 import type { Metadata } from 'next';
 
 import { AchievementsPagination } from './AchievementsPagination';
-import { ACHIEVEMENTS_STRINGS } from '../../../lib/achievements-i18n';
+import { ACHIEVEMENTS_STRINGS } from '../../../lib/i18n/achievements';
 import { getAchievementList, getAchievementsPageChrome } from '../../../server/achievements';
 
 interface AchievementsPageProps {
