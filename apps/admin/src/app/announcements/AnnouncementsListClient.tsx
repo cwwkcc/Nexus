@@ -16,8 +16,8 @@ import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 
 import { deactivateAnnouncement, deleteAnnouncement } from './actions.js';
-import type { AdminAnnouncement } from '../../lib/announcements.js';
-import { statusLabel, variantLabel } from '../../lib/announcements.js';
+import type { AdminAnnouncement } from '../../lib/entities/announcements.js';
+import { statusLabel, variantLabel } from '../../lib/entities/announcements.js';
 
 interface AnnouncementsListClientProps {
   announcements: AdminAnnouncement[];

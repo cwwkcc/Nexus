@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { createAnnouncement, updateAnnouncement, type AnnouncementFormInput } from './actions.js';
-import { fromDateTimeLocalValue, toDateTimeLocalValue, type AdminAnnouncement } from '../../lib/announcements.js';
+import { fromDateTimeLocalValue, toDateTimeLocalValue, type AdminAnnouncement } from '../../lib/entities/announcements.js';
 
 const localeOptions = SUPPORTED_LOCALES.map((value) => ({ value, label: LOCALE_LABELS[value] }));
 const variantOptions = [
