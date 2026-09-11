@@ -17,8 +17,8 @@ import { useState } from 'react';
 
 import { createAchievement, updateAchievement, type AchievementFormInput } from './actions.js';
 import { MediaLibraryPicker } from '../../features/media/MediaLibraryPicker.js';
-import type { AdminMediaAsset } from '../../lib/media.js';
-import { ACHIEVEMENT_CATEGORY_LABELS, ACHIEVEMENT_LEVEL_LABELS, type AdminAchievement } from '../../lib/achievements.js';
+import type { AdminMediaAsset } from '../../lib/entities/media.js';
+import { ACHIEVEMENT_CATEGORY_LABELS, ACHIEVEMENT_LEVEL_LABELS, type AdminAchievement } from '../../lib/entities/achievements.js';
 
 const categoryOptions: Array<{ value: AchievementCategoryData; label: string }> = (AchievementCategory.options as readonly AchievementCategoryData[]).map((value) => ({ value, label: ACHIEVEMENT_CATEGORY_LABELS[value] }));
 const levelOptions: Array<{ value: AchievementLevelData; label: string }> = (AchievementLevel.options as readonly AchievementLevelData[]).map((value) => ({ value, label: ACHIEVEMENT_LEVEL_LABELS[value] }));

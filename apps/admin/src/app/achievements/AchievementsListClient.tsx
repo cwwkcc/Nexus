@@ -14,7 +14,7 @@ import { useSession } from 'next-auth/react';
 import { useState, useTransition } from 'react';
 
 import { deleteAchievement } from './actions.js';
-import { ACHIEVEMENT_CATEGORY_LABELS, ACHIEVEMENT_LEVEL_LABELS, categoryOptions, getYears, type AdminAchievement } from '../../lib/achievements.js';
+import { ACHIEVEMENT_CATEGORY_LABELS, ACHIEVEMENT_LEVEL_LABELS, categoryOptions, getYears, type AdminAchievement } from '../../lib/entities/achievements.js';
 
 interface AchievementsListClientProps {
   achievements: {
