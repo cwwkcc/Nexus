@@ -28,9 +28,9 @@ import { useState } from 'react';
 
 import { createAlbum, updateAlbum, type AlbumFormInput, type AlbumPhotoFormInput } from './actions.js';
 import { UploadZone } from '../../features/media/UploadZone.js';
-import type { AdminGalleryAlbumDetail } from '../../lib/gallery.js';
-import { slugify } from '../../lib/gallery.js';
-import type { AdminMediaAsset } from '../../lib/media.js';
+import type { AdminGalleryAlbumDetail } from '../../lib/entities/gallery.js';
+import { slugify } from '../../lib/entities/gallery.js';
+import type { AdminMediaAsset } from '../../lib/entities/media.js';
 
 const localeOptions = SUPPORTED_LOCALES.map((value) => ({ value, label: LOCALE_LABELS[value] }));
 

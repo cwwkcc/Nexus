@@ -16,8 +16,8 @@ import { useSession } from 'next-auth/react';
 import { useState, useTransition } from 'react';
 
 import { deleteAlbum, reorderAlbums } from './actions.js';
-import type { AdminGalleryAlbum } from '../../lib/gallery.js';
-import { moveAlbumId } from '../../lib/gallery.js';
+import type { AdminGalleryAlbum } from '../../lib/entities/gallery.js';
+import { moveAlbumId } from '../../lib/entities/gallery.js';
 
 interface GalleryListClientProps {
   albums: AdminGalleryAlbum[];
