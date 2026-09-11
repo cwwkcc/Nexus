@@ -13,7 +13,7 @@ import { Select } from '@nexus/ui';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useTransition } from 'react';
 
-import type { SocietiesStrings } from '../../../lib/societies-i18n';
+import type { SocietiesStrings } from '../../../lib/i18n/societies';
 
 interface SocietiesListingControlsProps {
   locale: string;

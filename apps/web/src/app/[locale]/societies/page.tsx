@@ -11,8 +11,8 @@ import { Container, Grid, Hero, SocietyCard, Text } from '@nexus/ui';
 import type { Metadata } from 'next';
 
 import { SocietiesListingControls } from './SocietiesListingControls';
-import { toSocietyCard } from '../../../lib/society-card';
-import { SOCIETIES_STRINGS } from '../../../lib/societies-i18n';
+import { toSocietyCard } from '../../../lib/cards/society';
+import { SOCIETIES_STRINGS } from '../../../lib/i18n/societies';
 import { getSocietiesPageChrome, getSocietyList } from '../../../server/societies';
 
 interface SocietiesPageProps {

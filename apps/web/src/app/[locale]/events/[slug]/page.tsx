@@ -18,7 +18,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 import { EventShareButton } from './EventShareButton';
-import { EVENTS_STRINGS } from '../../../../lib/events-i18n';
+import { EVENTS_STRINGS } from '../../../../lib/i18n/events';
 import { getEventBySlug } from '../../../../server/events';
 
 interface EventDetailPageProps {

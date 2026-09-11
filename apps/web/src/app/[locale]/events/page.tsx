@@ -12,8 +12,8 @@ import type { Metadata } from 'next';
 
 import { EventsCalendarView } from './EventsCalendarView';
 import { EventsListingControls } from './EventsListingControls';
-import { toEventCard } from '../../../lib/event-card';
-import { EVENTS_STRINGS } from '../../../lib/events-i18n';
+import { toEventCard } from '../../../lib/cards/event';
+import { EVENTS_STRINGS } from '../../../lib/i18n/events';
 import { currentMonthParam } from '../../../lib/events-month';
 import { getCalendarMonth, getEventsPageChrome } from '../../../server/events';
 

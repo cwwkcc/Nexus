@@ -23,7 +23,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-import { SOCIETIES_STRINGS } from '../../../../lib/societies-i18n';
+import { SOCIETIES_STRINGS } from '../../../../lib/i18n/societies';
 import { getAdvisor, getSocietyBySlug } from '../../../../server/societies';
 
 interface SocietyDetailPageProps {

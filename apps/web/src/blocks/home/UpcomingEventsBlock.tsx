@@ -13,8 +13,8 @@ import type { LocaleEnumData } from '@nexus/contracts';
 import { Container, EventCard, Grid, Heading } from '@nexus/ui';
 import Link from 'next/link';
 
-import { toEventCard } from '../../lib/event-card';
-import { EVENTS_STRINGS } from '../../lib/events-i18n';
+import { toEventCard } from '../../lib/cards/event';
+import { EVENTS_STRINGS } from '../../lib/i18n/events';
 import { getUpcomingEvents } from '../../server/events';
 
 interface UpcomingEventsBlockProps {
