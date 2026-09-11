@@ -17,8 +17,8 @@ import { useState } from 'react';
 
 import { createArchiveEntry, updateArchiveEntry, type ArchiveFormInput } from './actions.js';
 import { MediaLibraryPicker } from '../../features/media/MediaLibraryPicker.js';
-import type { AdminMediaAsset } from '../../lib/media.js';
-import { categoryOptions, type AdminArchive } from '../../lib/archive.js';
+import type { AdminMediaAsset } from '../../lib/entities/media.js';
+import { categoryOptions, type AdminArchive } from '../../lib/entities/archive.js';
 
 interface ArchiveFormProps {
   mode: 'create' | 'edit';

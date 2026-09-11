@@ -14,7 +14,7 @@ import { useSession } from 'next-auth/react';
 import { useState, useTransition } from 'react';
 
 import { deleteArchiveEntry } from './actions.js';
-import { ARCHIVE_CATEGORY_LABELS, categoryOptions, getYears, type AdminArchive } from '../../lib/archive.js';
+import { ARCHIVE_CATEGORY_LABELS, categoryOptions, getYears, type AdminArchive } from '../../lib/entities/archive.js';
 
 interface ArchiveListClientProps {
   archive: {
