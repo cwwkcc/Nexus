@@ -11,7 +11,7 @@
 
 import Image from 'next/image';
 
-import { formatFileSize, type AdminMediaAsset } from '../../lib/media.js';
+import { formatFileSize, type AdminMediaAsset } from '../../lib/entities/media.js';
 
 /** Short, all-caps kind label shown on non-image thumbnails — derived from mimeType since MediaAsset.folder ('documents'/'media') isn't granular enough (a video and an mp3 are both 'media'). */
 function kindLabel(mimeType: string): string {

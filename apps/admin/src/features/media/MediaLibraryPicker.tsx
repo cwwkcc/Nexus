@@ -27,7 +27,7 @@ import { createPortal } from 'react-dom';
 import { MediaAssetThumbnail } from './MediaAssetThumbnail.js';
 import { UploadZone } from './UploadZone.js';
 import { listMediaAssets } from '../../app/media/actions.js';
-import { MEDIA_FOLDER_LABELS, type AdminMediaAsset, type MediaFolder } from '../../lib/media.js';
+import { MEDIA_FOLDER_LABELS, type AdminMediaAsset, type MediaFolder } from '../../lib/entities/media.js';
 
 const FOCUSABLE_SELECTOR = 'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
 

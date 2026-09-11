@@ -24,7 +24,7 @@ import { useState, useTransition } from 'react';
 import { bulkDeleteMediaAssets, deleteMediaAsset, getMediaAssetUsage, updateMediaAsset } from './actions.js';
 import { MediaAssetThumbnail } from '../../features/media/MediaAssetThumbnail.js';
 import { UploadZone } from '../../features/media/UploadZone.js';
-import { MEDIA_FOLDER_LABELS, type AdminMediaAsset, type MediaFolder } from '../../lib/media.js';
+import { MEDIA_FOLDER_LABELS, type AdminMediaAsset, type MediaFolder } from '../../lib/entities/media.js';
 
 const folderOptions: Array<{ value: MediaFolder | 'all'; label: string }> = [{ value: 'all', label: 'All folders' }, ...(Object.entries(MEDIA_FOLDER_LABELS) as Array<[MediaFolder, string]>).map(([value, label]) => ({ value, label }))];
 

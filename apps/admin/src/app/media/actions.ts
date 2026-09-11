@@ -19,7 +19,7 @@
 
 import { TRPCError } from '@trpc/server';
 
-import type { MediaFolder } from '../../lib/media.js';
+import type { MediaFolder } from '../../lib/entities/media.js';
 import { getServerCaller } from '../../lib/server-caller.js';
 
 export type ActionResult<T = undefined> = { ok: true; data: T } | { ok: false; error: string };

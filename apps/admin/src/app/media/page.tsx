@@ -7,7 +7,7 @@
 
 import { MediaListClient } from './MediaListClient.js';
 import { AdminShell } from '../../features/shell/AdminShell.js';
-import type { MediaFolder } from '../../lib/media.js';
+import type { MediaFolder } from '../../lib/entities/media.js';
 import { getServerCaller } from '../../lib/server-caller.js';
 
 interface MediaPageProps {

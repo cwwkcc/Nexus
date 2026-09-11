@@ -28,7 +28,7 @@ import { Button, FileUploadZone, ProgressIndicator } from '@nexus/ui';
 import { useState } from 'react';
 
 import { confirmMediaUpload, requestMediaUpload } from '../../app/media/actions.js';
-import { folderForMimeType, type AdminMediaAsset, type MediaFolder } from '../../lib/media.js';
+import { folderForMimeType, type AdminMediaAsset, type MediaFolder } from '../../lib/entities/media.js';
 
 type UploadStatus = 'uploading' | 'processing' | 'done' | 'error';
 
