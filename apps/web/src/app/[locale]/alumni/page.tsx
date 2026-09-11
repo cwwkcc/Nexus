@@ -9,7 +9,7 @@ import { SUPPORTED_LOCALES, ALStreamEnum, type LocaleEnumData } from '@nexus/con
 import { AlumniCard, Container, Grid, Hero, Text } from '@nexus/ui';
 import type { Metadata } from 'next';
 
-import { ALUMNI_STRINGS } from '../../../lib/alumni-i18n';
+import { ALUMNI_STRINGS } from '../../../lib/i18n/alumni';
 import { getAlumniList, getAlumniPageChrome } from '../../../server/alumni';
 import { SubmitProfileBlock } from '../../../blocks/alumni/SubmitProfileBlock';
 

@@ -17,7 +17,7 @@ import { AlumniSubmitForm, type AlumniSubmitValues, Button } from '@nexus/ui';
 import { useState } from 'react';
 
 import { submitAlumniProfile } from '../../app/[locale]/alumni/actions';
-import type { AlumniStrings } from '../../lib/alumni-i18n';
+import type { AlumniStrings } from '../../lib/i18n/alumni';
 
 export interface SubmitProfileBlockProps {
   strings: AlumniStrings;
