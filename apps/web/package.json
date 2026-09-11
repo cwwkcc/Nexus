@@ -7,6 +7,7 @@
     "prebuild": "pnpm build:sw",
     "build:sw": "esbuild src/service-worker/sw.ts --outfile=public/sw.js --target=es2020 --minify",
     "dev": "next dev --webpack -p 3000",
+    "typecheck": "tsc --noEmit --pretty false",
     "build": "next build --webpack",
     "start": "next start"
   },
