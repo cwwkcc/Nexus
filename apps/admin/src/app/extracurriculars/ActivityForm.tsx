@@ -29,8 +29,8 @@ import { useState } from 'react';
 
 import { createActivity, updateActivity, type ActivityAchievementFormInput, type ActivityFormInput } from './actions.js';
 import { MediaLibraryPicker } from '../../features/media/MediaLibraryPicker.js';
-import { ACHIEVEMENT_LEVEL_OPTIONS, type AdminActivity } from '../../lib/extracurriculars.js';
-import type { AdminMediaAsset } from '../../lib/media.js';
+import { ACHIEVEMENT_LEVEL_OPTIONS, type AdminActivity } from '../../lib/entities/extracurriculars.js';
+import type { AdminMediaAsset } from '../../lib/entities/media.js';
 
 const categoryOptions = EXTRACURRICULAR_CATEGORY_META.map(({ key, label }) => ({ value: key, label }));
 const localeOptions = SUPPORTED_LOCALES.map((value) => ({ value, label: LOCALE_LABELS[value] }));

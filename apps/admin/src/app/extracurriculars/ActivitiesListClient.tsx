@@ -22,7 +22,7 @@ import { useSession } from 'next-auth/react';
 import { useState, useTransition } from 'react';
 
 import { deleteActivity } from './actions.js';
-import { categoryLabel, type AdminActivity } from '../../lib/extracurriculars.js';
+import { categoryLabel, type AdminActivity } from '../../lib/entities/extracurriculars.js';
 
 const categoryOptions = [{ value: 'all', label: 'All categories' }, ...EXTRACURRICULAR_CATEGORY_META.map(({ key, label }) => ({ value: key, label }))];
 
