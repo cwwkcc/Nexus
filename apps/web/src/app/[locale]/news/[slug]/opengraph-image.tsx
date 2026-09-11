@@ -7,7 +7,7 @@
 
 import { SUPPORTED_LOCALES, type LocaleEnumData } from '@nexus/contracts';
 
-import { createDefaultOgImage, ogImageContentType, ogImageSize } from '../../../../lib/default-og-image';
+import { createDefaultOgImage, ogImageContentType, ogImageSize } from '../../../../server/metadata/default-og';
 import { getNewsArticleBySlug } from '../../../../server/news';
 
 export const alt = 'C.W.W. Kannangara Central College — News';

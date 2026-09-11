@@ -1,4 +1,4 @@
-// apps/web/src/lib/default-og-image.tsx
+// apps/web/src/server/metadata/default-og.tsx
 //
 // Shared Open Graph image renderer, reused by:
 //   - apps/web/src/app/[locale]/opengraph-image.tsx             (site-wide default)

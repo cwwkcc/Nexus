@@ -10,7 +10,7 @@
 // available, this can read the resolved locale from params (same pattern
 // as news/[slug]/opengraph-image.tsx) and pass it into `title` below.
 
-import { createDefaultOgImage, ogImageContentType, ogImageSize } from '../../lib/default-og-image';
+import { createDefaultOgImage, ogImageContentType, ogImageSize } from '../../server/metadata/default-og';
 
 export const alt = 'C.W.W. Kannangara Central College';
 export const size = ogImageSize;
