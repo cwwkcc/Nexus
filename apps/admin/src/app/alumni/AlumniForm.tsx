@@ -18,8 +18,8 @@ import { useState } from 'react';
 
 import { createAlumniProfile, updateAlumniProfile, type AlumniFormInput } from './actions.js';
 import { MediaLibraryPicker } from '../../features/media/MediaLibraryPicker.js';
-import type { AdminMediaAsset } from '../../lib/media.js';
-import { ALUMNI_STATUS_LABELS, type AdminAlumni, type AlumniStatus } from '../../lib/alumni.js';
+import type { AdminMediaAsset } from '../../lib/entities/media.js';
+import { ALUMNI_STATUS_LABELS, type AdminAlumni, type AlumniStatus } from '../../lib/entities/alumni.js';
 
 const streamOptions = [{ value: '', label: '— Unknown —' }, ...ALStreamEnum.options.map((value) => ({ value, label: value }))];
 const statusOptions = (['PENDING', 'APPROVED', 'REJECTED'] as const satisfies readonly AlumniStatus[]).map((value) => ({ value, label: ALUMNI_STATUS_LABELS[value] }));

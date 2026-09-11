@@ -15,7 +15,7 @@ import { useSession } from 'next-auth/react';
 import { useState, useTransition } from 'react';
 
 import { bulkUpdateAlumniStatus, deleteAlumniProfile } from './actions.js';
-import { ALUMNI_STATUS_LABELS, getGraduationYears, statusOptions, type AdminAlumni } from '../../lib/alumni.js';
+import { ALUMNI_STATUS_LABELS, getGraduationYears, statusOptions, type AdminAlumni } from '../../lib/entities/alumni.js';
 
 interface AlumniListClientProps {
   alumni: {
