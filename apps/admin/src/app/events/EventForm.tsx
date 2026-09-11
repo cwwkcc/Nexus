@@ -24,9 +24,9 @@ import { useState } from 'react';
 
 import { createCalendarEntry, updateCalendarEntry, type EventFormInput } from './actions.js';
 import { MediaLibraryPicker } from '../../features/media/MediaLibraryPicker.js';
-import type { AdminCalendarEntry } from '../../lib/events.js';
-import { slugify } from '../../lib/events.js';
-import type { AdminMediaAsset } from '../../lib/media.js';
+import type { AdminCalendarEntry } from '../../lib/entities/events.js';
+import { slugify } from '../../lib/entities/events.js';
+import type { AdminMediaAsset } from '../../lib/entities/media.js';
 
 const categoryOptions = EVENT_CATEGORY_META.map(({ key, label }) => ({ value: key, label }));
 const localeOptions = SUPPORTED_LOCALES.map((value) => ({ value, label: LOCALE_LABELS[value] }));

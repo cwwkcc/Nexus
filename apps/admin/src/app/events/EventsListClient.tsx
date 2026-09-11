@@ -21,8 +21,8 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState, useTransition } from 'react';
 
-import type { AdminCalendarEntry } from '../../lib/events.js';
-import { categoryLabel, formatEventDate, monthLabel, shiftMonth } from '../../lib/events.js';
+import type { AdminCalendarEntry } from '../../lib/entities/events.js';
+import { categoryLabel, formatEventDate, monthLabel, shiftMonth } from '../../lib/entities/events.js';
 
 const localeOptions = SUPPORTED_LOCALES.map((value) => ({ value, label: LOCALE_LABELS[value] }));
 const categoryOptions = [{ value: 'all', label: 'All categories' }, ...EVENT_CATEGORY_META.map(({ key, label }) => ({ value: key, label }))];

@@ -8,7 +8,7 @@ import { SUPPORTED_LOCALES, type LocaleEnumData } from '@nexus/contracts';
 
 import { EventsListClient } from './EventsListClient.js';
 import { AdminShell } from '../../features/shell/AdminShell.js';
-import { currentMonthParam } from '../../lib/events.js';
+import { currentMonthParam } from '../../lib/entities/events.js';
 import { getServerCaller } from '../../lib/server-caller.js';
 
 interface EventsPageProps {
