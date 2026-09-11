@@ -13,8 +13,8 @@ import { notFound } from 'next/navigation';
 import type { JSONContent } from '@tiptap/react';
 
 import { ArticleShareButton } from './ArticleShareButton';
-import { toArticleCard } from '../../../../lib/news-card';
-import { NEWS_STRINGS } from '../../../../lib/news-i18n';
+import { toArticleCard } from '../../../../lib/cards/news';
+import { NEWS_STRINGS } from '../../../../lib/i18n/news';
 import { getNewsArticleBySlug, getRelatedNews } from '../../../../server/news';
 
 interface ArticlePageProps {

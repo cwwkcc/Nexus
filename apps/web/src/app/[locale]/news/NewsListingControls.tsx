@@ -12,7 +12,7 @@ import { Input, Pagination, Select } from '@nexus/ui';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState, useTransition } from 'react';
 
-import type { NewsStrings } from '../../../lib/news-i18n';
+import type { NewsStrings } from '../../../lib/i18n/news';
 
 interface NewsListingControlsProps {
   locale: LocaleEnumData;

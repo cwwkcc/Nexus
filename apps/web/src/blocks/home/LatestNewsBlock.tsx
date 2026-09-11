@@ -13,8 +13,8 @@ import { Container, Grid, Heading, NewsCard } from '@nexus/ui';
 import type { LocaleEnumData } from '@nexus/contracts';
 import Link from 'next/link';
 
-import { toArticleCard } from '../../lib/news-card';
-import { NEWS_STRINGS } from '../../lib/news-i18n';
+import { toArticleCard } from '../../lib/cards/news';
+import { NEWS_STRINGS } from '../../lib/i18n/news';
 import { getFeaturedNews } from '../../server/news';
 
 interface LatestNewsBlockProps {

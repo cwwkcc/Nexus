@@ -9,8 +9,8 @@ import { AnnouncementBanner } from '@nexus/ui';
 import { Hero } from '@nexus/ui';
 import type { Metadata } from 'next';
 
-import { toArticleCard } from '../../../lib/news-card';
-import { NEWS_STRINGS } from '../../../lib/news-i18n';
+import { toArticleCard } from '../../../lib/cards/news';
+import { NEWS_STRINGS } from '../../../lib/i18n/news';
 import { getNewsListing, getNewsPageChrome, getPinnedNews } from '../../../server/news';
 import { NewsListingControls } from './NewsListingControls';
 
