@@ -30,7 +30,7 @@ import { useSession } from 'next-auth/react';
 import { useState, useTransition } from 'react';
 
 import { deleteStaffMember, reorderStaffMembers } from './actions.js';
-import { groupStaffByRole, moveStaffId, titleCaseFromKey, type AdminStaff } from '../../lib/staff.js';
+import { groupStaffByRole, moveStaffId, titleCaseFromKey, type AdminStaff } from '../../lib/entities/staff.js';
 
 const roleOptions = [{ value: 'all', label: 'All roles' }, ...StaffRoleEnum.options.map((value) => ({ value, label: STAFF_ROLE_LABELS[value] }))];
 const departmentOptions = [{ value: 'all', label: 'All departments' }, ...DepartmentKeyEnum.options.map((value) => ({ value, label: titleCaseFromKey(value) }))];

@@ -19,8 +19,8 @@ import { useState } from 'react';
 
 import { createStaffMember, updateStaffMember, type StaffFormInput } from './actions.js';
 import { MediaLibraryPicker } from '../../features/media/MediaLibraryPicker.js';
-import type { AdminMediaAsset } from '../../lib/media.js';
-import { titleCaseFromKey, type AdminStaff } from '../../lib/staff.js';
+import type { AdminMediaAsset } from '../../lib/entities/media.js';
+import { titleCaseFromKey, type AdminStaff } from '../../lib/entities/staff.js';
 
 const roleOptions = StaffRoleEnum.options.map((value) => ({ value, label: STAFF_ROLE_LABELS[value] }));
 const departmentOptions = [{ value: '', label: '— None —' }, ...DepartmentKeyEnum.options.map((value) => ({ value, label: titleCaseFromKey(value) }))];
