@@ -18,7 +18,7 @@ import { useSession } from 'next-auth/react';
 import { useState, useTransition } from 'react';
 
 import { deleteSociety } from './actions.js';
-import { categoryLabel, type AdminSociety } from '../../lib/societies.js';
+import { categoryLabel, type AdminSociety } from '../../lib/entities/societies.js';
 
 const categoryOptions = [{ value: 'all', label: 'All categories' }, ...SOCIETY_CATEGORY_META.map(({ key, label }) => ({ value: key, label }))];
 

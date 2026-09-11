@@ -16,9 +16,9 @@ import { useState } from 'react';
 
 import { createSociety, updateSociety, type SocietyFormInput } from './actions.js';
 import { MediaLibraryPicker } from '../../features/media/MediaLibraryPicker.js';
-import type { AdminSociety } from '../../lib/societies.js';
-import { slugify } from '../../lib/societies.js';
-import type { AdminMediaAsset } from '../../lib/media.js';
+import type { AdminSociety } from '../../lib/entities/societies.js';
+import { slugify } from '../../lib/entities/societies.js';
+import type { AdminMediaAsset } from '../../lib/entities/media.js';
 
 const categoryOptions = SOCIETY_CATEGORY_META.map(({ key, label }) => ({ value: key, label }));
 const localeOptions = SUPPORTED_LOCALES.map((value) => ({ value, label: LOCALE_LABELS[value] }));
