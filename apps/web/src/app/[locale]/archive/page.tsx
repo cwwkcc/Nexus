@@ -5,12 +5,12 @@
 // with no default export at all — every request to this route would have failed to build.
 
 import { SUPPORTED_LOCALES, type LocaleEnumData } from '@nexus/contracts';
-import { ArchiveCard, Container, Grid, Hero, Text } from '@nexus/ui';
 import { toArchiveCardData } from '@nexus/contracts';
+import { ArchiveCard, Container, Grid, Hero, Text } from '@nexus/ui';
 import type { Metadata } from 'next';
 
 import { ArchivePagination } from './ArchivePagination';
-import { ARCHIVE_STRINGS } from '../../../lib/archive-i18n';
+import { ARCHIVE_STRINGS } from '../../../lib/i18n/archive';
 import { getArchiveList, getArchivePageChrome } from '../../../server/archive';
 
 interface ArchivePageProps {

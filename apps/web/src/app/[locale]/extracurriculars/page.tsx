@@ -28,8 +28,8 @@ import { SUPPORTED_LOCALES, type LocaleEnumData } from '@nexus/contracts';
 import { Container, ExtracurricularCard, Grid, Hero, Text } from '@nexus/ui';
 import type { Metadata } from 'next';
 
-import { cardVariantForCategory, toExtracurricularCard } from '../../../lib/extracurricular-card';
-import { EXTRACURRICULARS_STRINGS } from '../../../lib/extracurriculars-i18n';
+import { cardVariantForCategory, toExtracurricularCard } from '../../../lib/cards/extracurricular';
+import { EXTRACURRICULARS_STRINGS } from '../../../lib/i18n/extracurriculars';
 import { getActivityList, getCoachNames, getExtracurricularsPageChrome } from '../../../server/extracurriculars';
 
 interface ExtracurricularsPageProps {
