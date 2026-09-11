@@ -13,7 +13,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 import { PhotoGrid } from './PhotoGrid';
-import { GALLERY_STRINGS } from '../../../../lib/gallery-i18n';
+import { GALLERY_STRINGS } from '../../../../lib/i18n/gallery';
 import { getGalleryAlbumBySlug } from '../../../../server/gallery';
 
 interface AlbumDetailPageProps {

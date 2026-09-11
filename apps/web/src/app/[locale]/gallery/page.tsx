@@ -10,8 +10,8 @@ import { Container, GalleryAlbumCard, Grid, Hero, Text } from '@nexus/ui';
 import type { Metadata } from 'next';
 
 import { GalleryListingControls } from './GalleryListingControls';
-import { toGalleryAlbumCard } from '../../../lib/gallery-card';
-import { GALLERY_STRINGS } from '../../../lib/gallery-i18n';
+import { toGalleryAlbumCard } from '../../../lib/cards/gallery';
+import { GALLERY_STRINGS } from '../../../lib/i18n/gallery';
 import { getGalleryAlbumList, getGalleryPageChrome } from '../../../server/gallery';
 
 interface GalleryPageProps {

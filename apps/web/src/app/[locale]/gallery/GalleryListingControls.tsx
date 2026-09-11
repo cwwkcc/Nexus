@@ -13,7 +13,7 @@ import { Select } from '@nexus/ui';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useTransition } from 'react';
 
-import type { GalleryStrings } from '../../../lib/gallery-i18n';
+import type { GalleryStrings } from '../../../lib/i18n/gallery';
 
 interface GalleryListingControlsProps {
   locale: string;
