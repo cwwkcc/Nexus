@@ -24,7 +24,7 @@
       "@nexus/locales": ["../../packages/locales/src/index.ts"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx", "../../packages/ui/src/**/*.ts", "../../packages/ui/src/**/*.tsx", "../../apps/web/.next/types/**/*.ts", "../../dist/apps/web/.next/types/**/*.ts", "next-env.d.ts", "index.d.ts"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx", "../../apps/web/.next/types/**/*.ts", "../../dist/apps/web/.next/types/**/*.ts", "next-env.d.ts", "index.d.ts"],
   "exclude": ["out-tsc", "dist", "node_modules", "jest.config.ts", "jest.config.cts", "src/**/*.spec.ts", "src/**/*.test.ts", "src/service-worker/**/*", ".next", "eslint.config.js", "eslint.config.cjs", "eslint.config.mjs"],
   "references": [
     {
