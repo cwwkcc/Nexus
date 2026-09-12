@@ -18,8 +18,8 @@
 import { TRPCError } from '@trpc/server';
 import { revalidatePath } from 'next/cache';
 
-import { getServerCaller } from '../../lib/server-caller.js';
 import type { NewsStatus } from '../../lib/entities/news.js';
+import { getServerCaller } from '../../lib/server-caller.js';
 
 export type ActionResult<T = undefined> = { ok: true; data: T } | { ok: false; error: string };
 

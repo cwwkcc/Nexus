@@ -19,8 +19,8 @@
 // EventsListingControls' own month-nav row for the list view and leaves
 // calendar view to this component's, avoiding two redundant nav rows.
 
-import { Calendar } from '@nexus/ui';
 import type { EventCardData } from '@nexus/contracts';
+import { Calendar } from '@nexus/ui';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 interface EventsCalendarViewProps {

@@ -3,9 +3,8 @@
 // Input/output schemas for the alumni router (Task 7.18, F-154/F-180).
 // Mirrors the validators.ts pattern from modules/news/validators.ts.
 
-import { z } from 'zod';
-
 import { AlumniInputSchema, AlumniStatusEnum, AlumniUpdateSchema } from '@nexus/contracts';
+import { z } from 'zod';
 
 // ─── Input schemas ────────────────────────────────────────────────────────
 

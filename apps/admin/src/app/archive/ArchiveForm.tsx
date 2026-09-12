@@ -17,8 +17,8 @@ import { useState } from 'react';
 
 import { createArchiveEntry, updateArchiveEntry, type ArchiveFormInput } from './actions.js';
 import { MediaLibraryPicker } from '../../features/media/MediaLibraryPicker.js';
-import type { AdminMediaAsset } from '../../lib/entities/media.js';
 import { categoryOptions, type AdminArchive } from '../../lib/entities/archive.js';
+import type { AdminMediaAsset } from '../../lib/entities/media.js';
 
 interface ArchiveFormProps {
   mode: 'create' | 'edit';
@@ -114,7 +114,7 @@ export function ArchiveForm({ mode, initial }: ArchiveFormProps) {
         {fileUrl ? (
           <div className="flex items-center gap-space-4">
             <div className="relative h-space-16 w-space-16 shrink-0 overflow-hidden rounded-md border border-border-default">
-              {/* eslint-disable-next-line @next/next/no-img-element -- see AchievementForm.tsx's identical note: next/image would throw for a host outside next.config's remotePatterns. */}
+              {}
               <img src={fileUrl} alt="" className="h-full w-full object-cover" />
             </div>
             <div className="flex flex-col gap-space-2">

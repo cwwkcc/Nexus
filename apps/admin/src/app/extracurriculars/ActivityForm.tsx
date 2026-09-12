@@ -183,7 +183,7 @@ export function ActivityForm({ mode, initial, staffOptions }: ActivityFormProps)
         {photoUrl ? (
           <div className="flex items-center gap-space-4">
             <div className="relative h-space-16 w-space-24 shrink-0 overflow-hidden rounded-sm border border-border-default">
-              {/* eslint-disable-next-line @next/next/no-img-element -- admin-supplied absolute Media Library URL, same reasoning as SocietyForm.tsx's logo/banner previews. */}
+              {}
               <img src={photoUrl} alt="" className="h-full w-full object-cover" />
             </div>
             <div className="flex flex-col gap-space-2">

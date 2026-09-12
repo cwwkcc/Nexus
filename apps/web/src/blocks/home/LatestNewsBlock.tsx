@@ -9,8 +9,8 @@
 // placeholder "Welcome to Nexus" page). That's a separate, much larger
 // milestone than News — not composed in here.
 
-import { Container, Grid, Heading, NewsCard } from '@nexus/ui';
 import type { LocaleEnumData } from '@nexus/contracts';
+import { Container, Grid, Heading, NewsCard } from '@nexus/ui';
 import Link from 'next/link';
 
 import { toArticleCard } from '../../lib/cards/news';

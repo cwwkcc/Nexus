@@ -3,9 +3,8 @@
 // Input/output schemas for the archive router (Task 7.20, F-155/F-182).
 // Mirrors the validators.ts pattern from modules/achievements/validators.ts.
 
-import { z } from 'zod';
-
 import { ArchiveCategory, ArchiveInputSchema, ArchiveOutputSchema, ArchiveUpdateSchema } from '@nexus/contracts';
+import { z } from 'zod';
 
 // ─── Input schemas ────────────────────────────────────────────────────────
 

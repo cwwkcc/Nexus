@@ -17,8 +17,8 @@ import { useState } from 'react';
 
 import { createAchievement, updateAchievement, type AchievementFormInput } from './actions.js';
 import { MediaLibraryPicker } from '../../features/media/MediaLibraryPicker.js';
-import type { AdminMediaAsset } from '../../lib/entities/media.js';
 import { ACHIEVEMENT_CATEGORY_LABELS, ACHIEVEMENT_LEVEL_LABELS, type AdminAchievement } from '../../lib/entities/achievements.js';
+import type { AdminMediaAsset } from '../../lib/entities/media.js';
 
 const categoryOptions: Array<{ value: AchievementCategoryData; label: string }> = (AchievementCategory.options as readonly AchievementCategoryData[]).map((value) => ({ value, label: ACHIEVEMENT_CATEGORY_LABELS[value] }));
 const levelOptions: Array<{ value: AchievementLevelData; label: string }> = (AchievementLevel.options as readonly AchievementLevelData[]).map((value) => ({ value, label: ACHIEVEMENT_LEVEL_LABELS[value] }));
@@ -141,7 +141,7 @@ export function AchievementForm({ mode, initial, newsArticles }: AchievementForm
         {imageUrl ? (
           <div className="flex items-center gap-space-4">
             <div className="relative h-space-16 w-space-16 shrink-0 overflow-hidden rounded-md border border-border-default">
-              {/* eslint-disable-next-line @next/next/no-img-element -- see AlumniForm.tsx's identical note: next/image would throw for a host outside next.config's remotePatterns. */}
+              {}
               <img src={imageUrl} alt="" className="h-full w-full object-cover" />
             </div>
             <div className="flex flex-col gap-space-2">

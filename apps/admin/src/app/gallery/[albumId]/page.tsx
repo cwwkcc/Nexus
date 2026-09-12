@@ -6,9 +6,9 @@
 
 import { notFound } from 'next/navigation';
 
-import { AlbumForm } from '../AlbumForm.js';
 import { AdminShell } from '../../../features/shell/AdminShell.js';
 import { getServerCaller } from '../../../lib/server-caller.js';
+import { AlbumForm } from '../AlbumForm.js';
 
 interface EditAlbumPageProps {
   params: Promise<{ albumId: string }>;

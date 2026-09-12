@@ -9,10 +9,10 @@ import { AnnouncementBanner } from '@nexus/ui';
 import { Hero } from '@nexus/ui';
 import type { Metadata } from 'next';
 
+import { NewsListingControls } from './NewsListingControls';
 import { toArticleCard } from '../../../lib/cards/news';
 import { NEWS_STRINGS } from '../../../lib/i18n/news';
 import { getNewsListing, getNewsPageChrome, getPinnedNews } from '../../../server/news';
-import { NewsListingControls } from './NewsListingControls';
 
 interface NewsPageProps {
   params: Promise<{ locale: string }>;

@@ -210,7 +210,7 @@ export function AlbumForm({ mode, initial }: AlbumFormProps) {
             {photos.map((photo, index) => (
               <li key={photo.clientKey} className="flex gap-space-4 rounded-md border border-border-default p-space-4">
                 <div className="relative h-space-20 w-space-20 shrink-0 overflow-hidden rounded-sm border border-border-default">
-                  {/* eslint-disable-next-line @next/next/no-img-element -- admin-supplied absolute Media Library URL, same reasoning as every other admin-form image preview in this codebase. */}
+                  {}
                   <img src={photo.src} alt="" className="h-full w-full object-cover" />
                 </div>
                 <div className="flex flex-1 flex-col gap-space-3">

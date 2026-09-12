@@ -83,7 +83,7 @@ export function MediaListClient({ assets, pagination, currentQuery, currentFolde
 
   const runBulkDelete = async () => {
     if (selected.size === 0) return;
-    // eslint-disable-next-line no-alert -- a native confirm is a reasonable stopgap for a rare, low-stakes bulk action; a per-item usage check for every selected asset would mean one getUsage round trip per item, which doesn't scale the way the single-asset panel's real check does.
+
     const confirmed = window.confirm(`Permanently delete ${selected.size} asset${selected.size === 1 ? '' : 's'}? If any are used in published content, those images will break there. This cannot be undone.`);
     if (!confirmed) return;
 

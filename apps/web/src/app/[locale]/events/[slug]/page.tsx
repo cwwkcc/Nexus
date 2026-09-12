@@ -96,7 +96,7 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
 
   return (
     <Container size="md" padding="lg" as="article">
-      {/* eslint-disable-next-line react/no-danger -- static, server-generated JSON-LD from our own data, not user input. */}
+      {}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <Link href={`/${safeLocale}/events`} className="font-body text-caption uppercase tracking-caption text-gold-base hover:text-gold-hover">
@@ -128,7 +128,7 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
 
       {detail.coverImage && (
         <div className="relative mt-space-8 aspect-[16/7] overflow-hidden rounded-sm bg-green-base">
-          {/* eslint-disable-next-line @next/next/no-img-element -- coverImage.src is an admin-supplied absolute Media Library URL, same reasoning as EventForm.tsx's own preview image. */}
+          {}
           <img src={detail.coverImage.src} alt={detail.coverImage.alt} className="h-full w-full object-cover" />
         </div>
       )}

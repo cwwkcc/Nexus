@@ -16,9 +16,9 @@ import { useState } from 'react';
 
 import { createSociety, updateSociety, type SocietyFormInput } from './actions.js';
 import { MediaLibraryPicker } from '../../features/media/MediaLibraryPicker.js';
+import type { AdminMediaAsset } from '../../lib/entities/media.js';
 import type { AdminSociety } from '../../lib/entities/societies.js';
 import { slugify } from '../../lib/entities/societies.js';
-import type { AdminMediaAsset } from '../../lib/entities/media.js';
 
 const categoryOptions = SOCIETY_CATEGORY_META.map(({ key, label }) => ({ value: key, label }));
 const localeOptions = SUPPORTED_LOCALES.map((value) => ({ value, label: LOCALE_LABELS[value] }));
@@ -173,7 +173,7 @@ export function SocietyForm({ mode, initial, staffOptions }: SocietyFormProps) {
           {logoUrl ? (
             <div className="flex items-center gap-space-4">
               <div className="relative h-space-16 w-space-16 shrink-0 overflow-hidden rounded-sm border border-border-default">
-                {/* eslint-disable-next-line @next/next/no-img-element -- admin-supplied absolute Media Library URL, same reasoning as EventForm.tsx's cover image preview. */}
+                {}
                 <img src={logoUrl} alt="" className="h-full w-full object-cover" />
               </div>
               <div className="flex flex-col gap-space-2">
@@ -216,7 +216,7 @@ export function SocietyForm({ mode, initial, staffOptions }: SocietyFormProps) {
           {bannerUrl ? (
             <div className="flex items-center gap-space-4">
               <div className="relative h-space-16 w-space-24 shrink-0 overflow-hidden rounded-sm border border-border-default">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
+                {}
                 <img src={bannerUrl} alt="" className="h-full w-full object-cover" />
               </div>
               <div className="flex flex-col gap-space-2">

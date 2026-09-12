@@ -138,7 +138,7 @@ export function StaffForm({ mode, initial }: StaffFormProps) {
         {portraitUrl ? (
           <div className="flex items-center gap-space-4">
             <div className="relative h-space-16 w-space-16 shrink-0 overflow-hidden rounded-full border border-border-default">
-              {/* eslint-disable-next-line @next/next/no-img-el -- see NewsForm.tsx's identical note: next/image would throw for a host outside next.config's remotePatterns. */}
+              {/* eslint-disable-next-line @next/next/no-img-element -- see NewsForm.tsx's identical note: next/image would throw for a host outside next.config's remotePatterns. */}
               <img src={portraitUrl} alt="" className="h-full w-full object-cover" />
             </div>
             <div className="flex flex-col gap-space-2">

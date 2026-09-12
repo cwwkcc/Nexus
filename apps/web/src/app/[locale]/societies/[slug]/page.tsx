@@ -111,7 +111,7 @@ export default async function SocietyDetailPage({ params }: SocietyDetailPagePro
 
   return (
     <Container size="md" padding="lg" as="article">
-      {/* eslint-disable-next-line react/no-danger -- static, server-generated JSON-LD from our own data, not user input. */}
+      {}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <Link href={`/${safeLocale}/societies`} className="font-body text-caption uppercase tracking-caption text-gold-base hover:text-gold-hover">

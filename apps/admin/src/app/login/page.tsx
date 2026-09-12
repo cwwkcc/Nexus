@@ -8,8 +8,8 @@
 'use client';
 
 import { Button, Container, FormErrorMessage, FormFieldGroup, Heading, Input, Text } from '@nexus/ui';
-import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 import { useState, type FormEvent } from 'react';
 
 export default function LoginPage() {

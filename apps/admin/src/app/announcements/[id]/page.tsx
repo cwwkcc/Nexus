@@ -6,9 +6,9 @@
 
 import { notFound } from 'next/navigation';
 
-import { AnnouncementForm } from '../AnnouncementForm.js';
 import { AdminShell } from '../../../features/shell/AdminShell.js';
 import { getServerCaller } from '../../../lib/server-caller.js';
+import { AnnouncementForm } from '../AnnouncementForm.js';
 
 interface EditAnnouncementPageProps {
   params: Promise<{ id: string }>;

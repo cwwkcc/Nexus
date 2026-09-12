@@ -173,7 +173,7 @@ export function NewsForm({ mode, initial }: NewsFormProps) {
           {imageUrl ? (
             <div className="flex items-center gap-space-4">
               <div className="relative h-space-16 w-space-16 shrink-0 overflow-hidden rounded-md border border-border-default">
-                {/* eslint-disable-next-line @next/next/no-img-el -- imageUrl may still hold an arbitrary external URL saved before this field used the Media Library (it used to be a free-text URL input); next/image would throw for any host outside next.config's remotePatterns, which only covers R2. */}
+                {/* eslint-disable-next-line @next/next/no-img-element -- imageUrl may still hold an arbitrary external URL saved before this field used the Media Library (it used to be a free-text URL input); next/image would throw for any host outside next.config's remotePatterns, which only covers R2. */}
                 <img src={imageUrl} alt="" className="h-full w-full object-cover" />
               </div>
               <div className="flex flex-col gap-space-2">

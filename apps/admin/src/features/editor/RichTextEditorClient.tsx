@@ -49,7 +49,7 @@ function Toolbar({ editor }: { editor: Editor }) {
 
   const promptForLink = () => {
     const previousUrl = editor.getAttributes('link').href as string | undefined;
-    // eslint-disable-next-line no-alert -- a lightweight prompt is a reasonable stopgap for a single-field input; revisit if the editor grows a proper link dialog.
+
     const url = window.prompt('Link URL (leave blank to remove):', previousUrl ?? 'https://');
     if (url === null) return;
     if (url.trim() === '') {

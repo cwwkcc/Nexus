@@ -18,8 +18,8 @@ import { Button, Select } from '@nexus/ui';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useTransition } from 'react';
 
-import type { EventsStrings } from '../../../lib/i18n/events';
 import { monthLabel, shiftMonth } from '../../../lib/events-month';
+import type { EventsStrings } from '../../../lib/i18n/events';
 
 interface EventsListingControlsProps {
   locale: LocaleEnumData;

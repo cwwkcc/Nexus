@@ -18,8 +18,8 @@ import { useState } from 'react';
 
 import { createAlumniProfile, updateAlumniProfile, type AlumniFormInput } from './actions.js';
 import { MediaLibraryPicker } from '../../features/media/MediaLibraryPicker.js';
-import type { AdminMediaAsset } from '../../lib/entities/media.js';
 import { ALUMNI_STATUS_LABELS, type AdminAlumni, type AlumniStatus } from '../../lib/entities/alumni.js';
+import type { AdminMediaAsset } from '../../lib/entities/media.js';
 
 const streamOptions = [{ value: '', label: '— Unknown —' }, ...ALStreamEnum.options.map((value) => ({ value, label: value }))];
 const statusOptions = (['PENDING', 'APPROVED', 'REJECTED'] as const satisfies readonly AlumniStatus[]).map((value) => ({ value, label: ALUMNI_STATUS_LABELS[value] }));
@@ -138,7 +138,7 @@ export function AlumniForm({ mode, initial }: AlumniFormProps) {
         {portraitUrl ? (
           <div className="flex items-center gap-space-4">
             <div className="relative h-space-16 w-space-16 shrink-0 overflow-hidden rounded-full border border-border-default">
-              {/* eslint-disable-next-line @next/next/no-img-element -- see StaffForm.tsx's identical note: next/image would throw for a host outside next.config's remotePatterns. */}
+              {}
               <img src={portraitUrl} alt="" className="h-full w-full object-cover" />
             </div>
             <div className="flex flex-col gap-space-2">

@@ -5,12 +5,12 @@
 // and NewsArticle JSON-LD (F-104).
 
 import { NEWS_CATEGORIES, SUPPORTED_LOCALES, type LocaleEnumData } from '@nexus/contracts';
-import { Badge, Container, Grid, Heading, NewsCard, RichTextRenderer } from '@nexus/ui';
 import { clientEnv } from '@nexus/env/client';
+import { Badge, Container, Grid, Heading, NewsCard, RichTextRenderer } from '@nexus/ui';
+import type { JSONContent } from '@tiptap/react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import type { JSONContent } from '@tiptap/react';
 
 import { ArticleShareButton } from './ArticleShareButton';
 import { toArticleCard } from '../../../../lib/cards/news';
@@ -104,7 +104,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   return (
     <Container size="md" padding="lg" as="article">
-      {/* eslint-disable-next-line react/no-danger -- static, server-generated JSON-LD from our own data, not user input. */}
+      {}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <Link href={`/${safeLocale}/news`} className="font-body text-caption uppercase tracking-caption text-gold-base hover:text-gold-hover">

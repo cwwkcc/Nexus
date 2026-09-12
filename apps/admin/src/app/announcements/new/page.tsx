@@ -2,8 +2,8 @@
 //
 // F-172 create form.
 
-import { AnnouncementForm } from '../AnnouncementForm.js';
 import { AdminShell } from '../../../features/shell/AdminShell.js';
+import { AnnouncementForm } from '../AnnouncementForm.js';
 
 export default function NewAnnouncementPage() {
   return (

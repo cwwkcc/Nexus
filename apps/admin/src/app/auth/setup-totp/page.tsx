@@ -5,13 +5,13 @@
 // directly at /auth/setup-totp by whoever is provisioning the break-glass
 // account, immediately after the seed script creates it.
 
+import { db, totpKeyUri, totpQrCodeDataUrl, generateTotpSecret } from '@nexus/db';
 import { Container, Heading, Text } from '@nexus/ui';
 import { redirect } from 'next/navigation';
 
-import { auth } from '@/lib/auth';
-import { db, totpKeyUri, totpQrCodeDataUrl, generateTotpSecret } from '@nexus/db';
-
 import { TotpEnrollmentForm } from './TotpEnrollmentForm';
+
+import { auth } from '@/lib/auth';
 
 export const dynamic = 'force-dynamic';
 

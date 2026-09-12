@@ -123,7 +123,7 @@ export function ArchiveListClient({ archive, currentQuery, currentCategory, curr
                     <td className="px-space-4 py-space-3">
                       <div className="flex items-center gap-space-3">
                         <div className="relative h-space-10 w-space-10 shrink-0 overflow-hidden rounded border border-border-default">
-                          {/* eslint-disable-next-line @next/next/no-img-element -- see AchievementForm.tsx's identical note: next/image would throw for a host outside next.config's remotePatterns. */}
+                          {}
                           <img src={entry.file.src} alt="" className="h-full w-full object-cover" />
                         </div>
                         <div className="font-medium">{entry.title}</div>
