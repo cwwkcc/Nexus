@@ -30,6 +30,7 @@ type GalleryPhotoRow = Awaited<ReturnType<typeof Db.galleryPhoto.findFirstOrThro
 type GalleryAlbumRow = Awaited<ReturnType<typeof Db.galleryAlbum.findFirstOrThrow>> & {
   photos?: GalleryPhotoRow[];
 };
+type GalleryAlbumSummaryRow = Omit<GalleryAlbumRow, 'photos'> & { photos?: Array<{ id: string }> };
 
 function serializePhoto(photo: GalleryPhotoRow) {
   return {
@@ -44,7 +45,7 @@ function serializePhoto(photo: GalleryPhotoRow) {
   };
 }
 
-function serializeSummary(album: GalleryAlbumRow) {
+function serializeSummary(album: GalleryAlbumSummaryRow) {
   return {
     id: album.id,
     locale: album.locale,
@@ -90,7 +91,7 @@ export async function list(db: typeof Db, input: GalleryAlbumListQuery) {
 
   try {
     const albums = await db.galleryAlbum.findMany({ where, orderBy: [{ year: 'desc' }, { order: 'asc' }], include: { photos: { select: { id: true } } } });
-    return albums.map((album: any) => serializeSummary(album));
+    return albums.map((album: GalleryAlbumSummaryRow) => serializeSummary(album));
   } catch (err) {
     console.error('[galleryService.list] falling back to [] —', err);
     return emptyList();
@@ -134,7 +135,7 @@ export async function adminList(db: typeof Db, input: GalleryAlbumAdminListQuery
 
   try {
     const albums = await db.galleryAlbum.findMany({ where, orderBy: [{ order: 'asc' }, { year: 'desc' }], include: { photos: { select: { id: true } } } });
-    return albums.map((album: any) => serializeSummary(album));
+    return albums.map((album: GalleryAlbumSummaryRow) => serializeSummary(album));
   } catch (err) {
     console.error('[galleryService.adminList] falling back to [] —', err);
     return emptyList();
