@@ -1,10 +1,13 @@
 // packages/database/prisma.config.ts
 
+import { existsSync } from 'node:fs';
 import { loadEnvFile } from 'node:process';
 
 import { defineConfig } from 'prisma/config';
 
-loadEnvFile('../../.env');
+if (existsSync('../../.env')) {
+  loadEnvFile('../../.env');
+}
 
 export default defineConfig({
   schema: 'prisma/schema.prisma',
