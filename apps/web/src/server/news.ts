@@ -9,9 +9,10 @@
 //     articles, the home page's "Latest News") — the real NewsArticle
 //     domain model via the `news` tRPC router, not ContentEntry.
 
-import { createServerCaller } from '@nexus/api';
 import type { AnnouncementData, HeroData, LocaleEnumData } from '@nexus/contracts';
 import { cache } from 'react';
+
+import { getServerCaller } from './lib/server-caller';
 
 export interface NewsPageChrome {
   hero: HeroData;
@@ -21,7 +22,8 @@ export interface NewsPageChrome {
 const fallbackHero: HeroData = { blockType: 'hero', eyebrow: 'News', title: 'News & Announcements' };
 
 export const getNewsPageChrome = cache(async (locale: LocaleEnumData): Promise<NewsPageChrome> => {
-  const sections = await createServerCaller().contentEntry.getByScope({
+  const caller = await getServerCaller();
+  const sections = await caller.contentEntry.getByScope({
     scope: 'page:news',
     locale,
   });
@@ -40,7 +42,8 @@ export interface NewsListingParams {
 }
 
 export const getNewsListing = cache(async ({ locale, page = 1, category, query }: NewsListingParams) => {
-  return createServerCaller().news.list({
+  const caller = await getServerCaller();
+  return caller.news.list({
     locale,
     page,
     pageSize: 12,
@@ -51,17 +54,21 @@ export const getNewsListing = cache(async ({ locale, page = 1, category, query }
 });
 
 export const getNewsArticleBySlug = cache(async (locale: LocaleEnumData, slug: string) => {
-  return createServerCaller().news.bySlug({ locale, slug });
+  const caller = await getServerCaller();
+  return caller.news.bySlug({ locale, slug });
 });
 
 export const getFeaturedNews = cache(async (locale: LocaleEnumData, limit = 3) => {
-  return createServerCaller().news.getFeatured({ locale, limit });
+  const caller = await getServerCaller();
+  return caller.news.getFeatured({ locale, limit });
 });
 
 export const getPinnedNews = cache(async (locale: LocaleEnumData) => {
-  return createServerCaller().news.getPinned({ locale });
+  const caller = await getServerCaller();
+  return caller.news.getPinned({ locale });
 });
 
 export const getRelatedNews = cache(async (locale: LocaleEnumData, excludeId: string, category: string, limit = 3) => {
-  return createServerCaller().news.getRelated({ locale, excludeId, category: category as never, limit });
+  const caller = await getServerCaller();
+  return caller.news.getRelated({ locale, excludeId, category: category as never, limit });
 });

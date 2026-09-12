@@ -3,9 +3,10 @@
 // Server-side data fetchers for the Archive module (Task 7.20, F-155/F-182),
 // mirroring server/achievements.ts's shape.
 
-import { createServerCaller } from '@nexus/api';
 import { ArchiveCategory, type ArchiveCategoryData, type HeroData, type LocaleEnumData } from '@nexus/contracts';
 import { cache } from 'react';
+
+import { getServerCaller } from './lib/server-caller';
 
 export interface ArchivePageChrome {
   hero: HeroData;
@@ -14,7 +15,8 @@ export interface ArchivePageChrome {
 const fallbackHero: HeroData = { blockType: 'hero', eyebrow: 'Archive', title: 'Digital Archive' };
 
 export const getArchivePageChrome = cache(async (locale: LocaleEnumData): Promise<ArchivePageChrome> => {
-  const sections = await createServerCaller().contentEntry.getByScope({
+  const caller = await getServerCaller();
+  const sections = await caller.contentEntry.getByScope({
     scope: 'page:archive',
     locale,
   });
@@ -37,7 +39,8 @@ function normalizeCategory(category: ArchiveCategoryData | string | undefined): 
 }
 
 export const getArchiveList = cache(async ({ category, year, page = 1, pageSize = 20 }: ArchiveListParams) => {
-  return createServerCaller().archive.list({
+  const caller = await getServerCaller();
+  return caller.archive.list({
     category: normalizeCategory(category),
     year,
     page,

@@ -3,9 +3,10 @@
 // Server-side data fetchers for the Alumni module (Task 7.18, F-154/F-180),
 // mirroring server/societies.ts's shape.
 
-import { createServerCaller } from '@nexus/api';
 import type { HeroData, LocaleEnumData } from '@nexus/contracts';
 import { cache } from 'react';
+
+import { getServerCaller } from './lib/server-caller';
 
 export interface AlumniPageChrome {
   hero: HeroData;
@@ -14,7 +15,8 @@ export interface AlumniPageChrome {
 const fallbackHero: HeroData = { blockType: 'hero', eyebrow: 'Alumni', title: 'Alumni Directory' };
 
 export const getAlumniPageChrome = cache(async (locale: LocaleEnumData): Promise<AlumniPageChrome> => {
-  const sections = await createServerCaller().contentEntry.getByScope({
+  const caller = await getServerCaller();
+  const sections = await caller.contentEntry.getByScope({
     scope: 'page:alumni',
     locale,
   });
@@ -32,7 +34,8 @@ export interface AlumniListParams {
 }
 
 export const getAlumniList = cache(async ({ graduationYear, profession, page = 1, pageSize = 20 }: AlumniListParams) => {
-  return createServerCaller().alumni.list({
+  const caller = await getServerCaller();
+  return caller.alumni.list({
     graduationYear,
     profession,
     page,

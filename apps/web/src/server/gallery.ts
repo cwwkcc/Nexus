@@ -3,9 +3,10 @@
 // Server-side data fetchers for the Gallery module (Task 7.7, F-168),
 // mirroring server/societies.ts's shape.
 
-import { createServerCaller } from '@nexus/api';
 import type { HeroData, LocaleEnumData } from '@nexus/contracts';
 import { cache } from 'react';
+
+import { getServerCaller } from './lib/server-caller';
 
 export interface GalleryPageChrome {
   hero: HeroData;
@@ -14,7 +15,8 @@ export interface GalleryPageChrome {
 const fallbackHero: HeroData = { blockType: 'hero', eyebrow: 'Gallery', title: 'Photo Gallery' };
 
 export const getGalleryPageChrome = cache(async (locale: LocaleEnumData): Promise<GalleryPageChrome> => {
-  const sections = await createServerCaller().contentEntry.getByScope({
+  const caller = await getServerCaller();
+  const sections = await caller.contentEntry.getByScope({
     scope: 'page:gallery',
     locale,
   });
@@ -31,9 +33,11 @@ export interface GalleryAlbumListParams {
 }
 
 export const getGalleryAlbumList = cache(async ({ locale, year, category }: GalleryAlbumListParams) => {
-  return createServerCaller().gallery.list({ locale, year, category });
+  const caller = await getServerCaller();
+  return caller.gallery.list({ locale, year, category });
 });
 
 export const getGalleryAlbumBySlug = cache(async (locale: LocaleEnumData, slug: string) => {
-  return createServerCaller().gallery.bySlug({ locale, slug });
+  const caller = await getServerCaller();
+  return caller.gallery.bySlug({ locale, slug });
 });

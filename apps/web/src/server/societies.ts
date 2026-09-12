@@ -3,9 +3,10 @@
 // Server-side data fetchers for the Societies module (Task 7.6, F-167),
 // mirroring server/events.ts's shape.
 
-import { createServerCaller } from '@nexus/api';
 import type { HeroData, LocaleEnumData } from '@nexus/contracts';
 import { cache } from 'react';
+
+import { getServerCaller } from './lib/server-caller';
 
 export interface SocietiesPageChrome {
   hero: HeroData;
@@ -14,7 +15,8 @@ export interface SocietiesPageChrome {
 const fallbackHero: HeroData = { blockType: 'hero', eyebrow: 'Societies', title: 'Clubs & Societies' };
 
 export const getSocietiesPageChrome = cache(async (locale: LocaleEnumData): Promise<SocietiesPageChrome> => {
-  const sections = await createServerCaller().contentEntry.getByScope({
+  const caller = await getServerCaller();
+  const sections = await caller.contentEntry.getByScope({
     scope: 'page:societies',
     locale,
   });
@@ -30,16 +32,19 @@ export interface SocietyListParams {
 }
 
 export const getSocietyList = cache(async ({ locale, category }: SocietyListParams) => {
-  return createServerCaller().societies.list({ locale, category: (category as never) ?? 'all' });
+  const caller = await getServerCaller();
+  return caller.societies.list({ locale, category: (category as never) ?? 'all' });
 });
 
 export const getSocietyBySlug = cache(async (locale: LocaleEnumData, slug: string) => {
-  return createServerCaller().societies.bySlug({ locale, slug });
+  const caller = await getServerCaller();
+  return caller.societies.bySlug({ locale, slug });
 });
 
 /** The advisor StaffCard on a society's own page — see
  * packages/api/src/modules/staff/service.ts's own doc comment on why a
  * public `byId` lookup needed to be added for this. */
 export const getAdvisor = cache(async (advisorStaffId: string) => {
-  return createServerCaller().staff.byId({ id: advisorStaffId });
+  const caller = await getServerCaller();
+  return caller.staff.byId({ id: advisorStaffId });
 });

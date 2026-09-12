@@ -6,9 +6,10 @@
 // packages/api/src/modules/extracurriculars/validators.ts's own header
 // comment).
 
-import { createServerCaller } from '@nexus/api';
 import type { HeroData, LocaleEnumData } from '@nexus/contracts';
 import { cache } from 'react';
+
+import { getServerCaller } from './lib/server-caller';
 
 export interface ExtracurricularsPageChrome {
   hero: HeroData;
@@ -17,7 +18,8 @@ export interface ExtracurricularsPageChrome {
 const fallbackHero: HeroData = { blockType: 'hero', eyebrow: 'Extracurriculars', title: 'Beyond the Classroom' };
 
 export const getExtracurricularsPageChrome = cache(async (locale: LocaleEnumData): Promise<ExtracurricularsPageChrome> => {
-  const sections = await createServerCaller().contentEntry.getByScope({
+  const caller = await getServerCaller();
+  const sections = await caller.contentEntry.getByScope({
     scope: 'page:extracurriculars',
     locale,
   });
@@ -28,7 +30,8 @@ export const getExtracurricularsPageChrome = cache(async (locale: LocaleEnumData
 });
 
 export const getActivityList = cache(async (locale: LocaleEnumData) => {
-  return createServerCaller().extracurriculars.list({ locale, category: 'all' });
+  const caller = await getServerCaller();
+  return caller.extracurriculars.list({ locale, category: 'all' });
 });
 
 /** Resolves a set of coach `Staff` ids into `{ id: name }`, deduplicated
@@ -43,7 +46,7 @@ export const getCoachNames = cache(async (coachStaffIds: readonly (string | null
   const uniqueIds = [...new Set(coachStaffIds.filter((id): id is string => Boolean(id)))];
   if (uniqueIds.length === 0) return {};
 
-  const caller = createServerCaller();
+  const caller = await getServerCaller();
   const results = await Promise.all(uniqueIds.map((id) => caller.staff.byId({ id })));
 
   const names: Record<string, string> = {};

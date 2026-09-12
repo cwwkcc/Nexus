@@ -4,10 +4,12 @@
 // F-031/F-172) — the single site-wide banner slot every page reads (see
 // apps/web/src/app/[locale]/layout.tsx's own wiring).
 
-import { createServerCaller } from '@nexus/api';
 import type { LocaleEnumData } from '@nexus/contracts';
 import { cache } from 'react';
 
+import { getServerCaller } from './lib/server-caller';
+
 export const getActiveAnnouncement = cache(async (locale: LocaleEnumData) => {
-  return createServerCaller().announcements.getActive({ locale });
+  const caller = await getServerCaller();
+  return caller.announcements.getActive({ locale });
 });

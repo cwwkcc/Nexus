@@ -11,9 +11,10 @@
 //     CalendarEntry/EventDetail domain model via the `events` tRPC
 //     router, not ContentEntry.
 
-import { createServerCaller } from '@nexus/api';
 import type { EventCategoryKey, HeroData, LocaleEnumData } from '@nexus/contracts';
 import { cache } from 'react';
+
+import { getServerCaller } from './lib/server-caller';
 
 export interface EventsPageChrome {
   hero: HeroData;
@@ -22,7 +23,8 @@ export interface EventsPageChrome {
 const fallbackHero: HeroData = { blockType: 'hero', eyebrow: 'Events', title: 'School Calendar & Events' };
 
 export const getEventsPageChrome = cache(async (locale: LocaleEnumData): Promise<EventsPageChrome> => {
-  const sections = await createServerCaller().contentEntry.getByScope({
+  const caller = await getServerCaller();
+  const sections = await caller.contentEntry.getByScope({
     scope: 'page:events',
     locale,
   });
@@ -42,7 +44,8 @@ export interface CalendarMonthParams {
  * for the month, calendar-only and card-producing alike. The caller
  * filters to `detail !== null` for the list view specifically. */
 export const getCalendarMonth = cache(async ({ locale, month, category }: CalendarMonthParams) => {
-  return createServerCaller().events.month({
+  const caller = await getServerCaller();
+  return caller.events.month({
     locale,
     month,
     category: category ?? 'all',
@@ -50,9 +53,11 @@ export const getCalendarMonth = cache(async ({ locale, month, category }: Calend
 });
 
 export const getEventBySlug = cache(async (locale: LocaleEnumData, slug: string) => {
-  return createServerCaller().events.bySlug({ locale, slug });
+  const caller = await getServerCaller();
+  return caller.events.bySlug({ locale, slug });
 });
 
 export const getUpcomingEvents = cache(async (locale: LocaleEnumData, limit = 3) => {
-  return createServerCaller().events.upcoming({ locale, limit });
+  const caller = await getServerCaller();
+  return caller.events.upcoming({ locale, limit });
 });
