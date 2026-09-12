@@ -1,6 +1,7 @@
-import { createServerCaller } from '@nexus/api';
 import type { LocaleEnumData, AboutHeroData, AboutStatsData, AboutStoryData, AboutKannangaraData, AboutTimelineData, AboutEthosData, AboutValuesData, AboutCrestData, AboutAlumniData, AboutLegacyData, AboutAnthemData, AboutClosingData } from '@nexus/contracts';
 import { cache } from 'react';
+
+import { getServerCaller } from '../lib/server-caller';
 
 // ── About page ────────────────────────────────────────────────────────────────
 
@@ -20,7 +21,8 @@ export interface AboutPageContent {
 }
 
 export const getAboutPageContent = cache(async (locale: LocaleEnumData): Promise<AboutPageContent> => {
-  const sections = await createServerCaller().contentEntry.getByScope({
+  const caller = await getServerCaller();
+  const sections = await caller.contentEntry.getByScope({
     scope: 'page:about',
     locale,
   });

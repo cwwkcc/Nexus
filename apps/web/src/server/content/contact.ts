@@ -1,6 +1,7 @@
-import { createServerCaller } from '@nexus/api';
 import type { LocaleEnumData, HeroData, ContactInfoData, CtaData } from '@nexus/contracts';
 import { cache } from 'react';
+
+import { getServerCaller } from '../lib/server-caller';
 
 export interface ContactPageContent {
   hero: HeroData;
@@ -9,7 +10,8 @@ export interface ContactPageContent {
 }
 
 export const getContactPageContent = cache(async (locale: LocaleEnumData): Promise<ContactPageContent> => {
-  const sections = await createServerCaller().contentEntry.getByScope({
+  const caller = await getServerCaller();
+  const sections = await caller.contentEntry.getByScope({
     scope: 'page:contact',
     locale,
   });

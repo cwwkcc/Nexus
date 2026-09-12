@@ -1,11 +1,13 @@
-import { createServerCaller } from '@nexus/api';
 import type { FooterContentData, NavigationContentData, LocaleEnumData } from '@nexus/contracts';
 import { cache } from 'react';
+
+import { getServerCaller } from '../lib/server-caller';
 
 // ─── Footer ─────────────────────────────────────────────────────────────────
 
 export const getFooterContent = cache(async (locale: LocaleEnumData): Promise<FooterContentData | null> => {
-  const sections = await createServerCaller().contentEntry.getByScope({
+  const caller = await getServerCaller();
+  const sections = await caller.contentEntry.getByScope({
     scope: 'global:footer',
     locale,
   });
@@ -15,7 +17,8 @@ export const getFooterContent = cache(async (locale: LocaleEnumData): Promise<Fo
 // ─── Navigation ─────────────────────────────────────────────────────────────
 
 export const getNavigationContent = cache(async (locale: 'en' | 'si' | 'ta'): Promise<NavigationContentData | null> => {
-  const sections = await createServerCaller().contentEntry.getByScope({
+  const caller = await getServerCaller();
+  const sections = await caller.contentEntry.getByScope({
     scope: 'global:navigation',
     locale,
   });
