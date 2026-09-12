@@ -1,10 +1,9 @@
-import type { AppRouter } from '@nexus/api';
-import { createServerCaller } from '@nexus/api';
 import type { LocaleEnumData, HeroData, AdministrationPrincipalData, AdministrationStaffGridData, AdministrationSdsData, CtaData, StaffData } from '@nexus/contracts';
-import type { inferRouterOutputs } from '@trpc/server';
 import { cache } from 'react';
 
-type RouterOutputs = inferRouterOutputs<AppRouter>;
+import { getServerCaller, type ServerRouterOutputs } from '../lib/server-caller';
+
+type RouterOutputs = ServerRouterOutputs;
 type StaffOutputRow = RouterOutputs['staff']['byRole'][number];
 
 export interface AdministrationPageContent {
@@ -57,7 +56,7 @@ function toStaffData(row: StaffOutputRow): StaffData {
  * Module existed is harmless — those fields are simply never read below.
  */
 export const getAdministrationPageContent = cache(async (locale: LocaleEnumData): Promise<AdministrationPageContent> => {
-  const caller = createServerCaller();
+  const caller = await getServerCaller();
 
   const [sections, principalStaff, deputyStaff, assistantStaff, headPrefectStaff] = await Promise.all([caller.contentEntry.getByScope({ scope: 'page:administration', locale }), caller.staff.byRole({ role: 'principal' }), caller.staff.byRole({ role: 'deputy-principal' }), caller.staff.byRole({ role: 'assistant-principal' }), caller.staff.byRole({ role: 'head-prefect' })]);
 
