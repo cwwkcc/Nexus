@@ -49,7 +49,9 @@ type AuthToken = {
   isActive?: boolean;
 } & Record<string, unknown>;
 
-const authInstance: any = NextAuth({
+type AuthInstance = ReturnType<typeof NextAuth>;
+
+const authInstance: AuthInstance = NextAuth({
   ...authConfig,
   adapter: PrismaAdapter(db),
   providers: [
@@ -87,7 +89,6 @@ const authInstance: any = NextAuth({
 
             let matchedId: string | null = null;
             for (const candidate of unusedCodes) {
-              // eslint-disable-next-line no-await-in-loop -- sequential by design: stop at the first match instead of hashing every remaining code.
               if (await verifyBackupCode(totpCode, candidate.codeHash)) {
                 matchedId = candidate.id;
                 break;
@@ -106,42 +107,43 @@ const authInstance: any = NextAuth({
   ],
   callbacks: {
     ...authConfig.callbacks,
-    async jwt({ token, user }: { token: AuthToken; user?: { id?: string; role?: RoleEnumData } }) {
+    async jwt({ token, user }) {
+      const authToken = token as AuthToken;
       if (user) {
-        token.userId = user.id;
-        token.sub = user.id;
-        token.role = user.role;
-        token.isActive = true;
-        return token;
+        authToken.userId = user.id;
+        authToken.sub = user.id;
+        authToken.role = user.role;
+        authToken.isActive = true;
+        return authToken;
       }
 
-      if (!token.userId) return token;
+      if (!authToken.userId) return authToken;
 
       const current = await db.user.findUnique({
-        where: { id: token.userId },
+        where: { id: authToken.userId },
         select: { isActive: true, role: true },
       });
 
-      token.isActive = current?.isActive ?? false;
-      token.role = current?.role ?? token.role;
-      return token;
+      authToken.isActive = current?.isActive ?? false;
+      authToken.role = current?.role ?? authToken.role;
+      return authToken;
     },
-    async session({ session, token }: { session: any; token: AuthToken }) {
-      const typedSession = session as any;
-      if (typedSession?.user && token.userId && token.role) {
-        typedSession.user.id = token.userId;
-        typedSession.user.role = token.role;
-        typedSession.user.isActive = token.isActive ?? false;
+    async session({ session, token }) {
+      const authToken = token as AuthToken;
+      if (session.user && authToken.userId && authToken.role) {
+        session.user.id = authToken.userId;
+        session.user.role = authToken.role;
+        session.user.isActive = authToken.isActive ?? false;
       }
-      return typedSession;
+      return session;
     },
   },
 });
 
-export const handlers: any = authInstance.handlers;
-export const auth: any = authInstance.auth;
-export const signIn: any = authInstance.signIn;
-export const signOut: any = authInstance.signOut;
+export const handlers = authInstance.handlers;
+export const auth: AuthInstance['auth'] = authInstance.auth;
+export const signIn: AuthInstance['signIn'] = authInstance.signIn;
+export const signOut = authInstance.signOut;
 
 /**
  * Maps an Auth.js session down to the plain shape packages/api's context
