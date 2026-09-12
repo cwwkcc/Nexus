@@ -14,9 +14,10 @@
 // `createServerCaller()` already defaults to a null session, which is
 // exactly what `alumni.submit`'s `publicProcedure` expects.
 
-import { createServerCaller } from '@nexus/api';
 import type { ALStreamEnumData } from '@nexus/contracts';
 import { TRPCError } from '@trpc/server';
+
+import { getServerCaller } from '@/server/lib/server-caller';
 
 export interface AlumniSubmitPayload {
   name: string;
@@ -31,7 +32,8 @@ export type AlumniSubmitResult = { ok: true } | { ok: false; error: string };
 
 export async function submitAlumniProfile(payload: AlumniSubmitPayload): Promise<AlumniSubmitResult> {
   try {
-    const result = await createServerCaller().alumni.submit(payload);
+    const caller = await getServerCaller();
+    const result = await caller.alumni.submit(payload);
 
     if (!result.success) {
       return { ok: false, error: 'Something went wrong submitting your profile. Please try again.' };

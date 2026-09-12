@@ -23,10 +23,11 @@
 // pages above, which are still the new Date() placeholder noted above).
 
 import { PUBLIC_PAGE_KEYS, localizedPath } from '@nexus/config';
-import { createServerCaller } from '@nexus/api';
 import { SUPPORTED_LOCALES } from '@nexus/contracts';
 import { clientEnv } from '@nexus/env/client';
 import type { MetadataRoute } from 'next';
+
+import { getServerCaller } from '../server/lib/server-caller';
 
 // No more `?? 'https://cwwkcc.lk'` fallback — see the note in metadata.ts.
 const siteUrl = clientEnv.NEXT_PUBLIC_SITE_URL;
@@ -34,7 +35,7 @@ const siteUrl = clientEnv.NEXT_PUBLIC_SITE_URL;
 const NEWS_SITEMAP_PAGE_SIZE = 100; // keep within the server schema's valid maximum while still covering a full year of news entries.
 
 async function newsRoutes(): Promise<MetadataRoute.Sitemap> {
-  const caller = createServerCaller();
+  const caller = await getServerCaller();
   const perLocale = await Promise.all(
     SUPPORTED_LOCALES.map((locale) =>
       caller.news.list({ locale, status: 'published', page: 1, pageSize: NEWS_SITEMAP_PAGE_SIZE }).then((result) =>
